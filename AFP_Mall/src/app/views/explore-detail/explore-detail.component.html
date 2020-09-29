@@ -46,7 +46,7 @@
                   <div class="shopping-flex">
                       <div class="item three">
                           <div class="shopping-storebox d-flex flex-row d-inline-block">
-                              <div *ngIf="siteInfo?.ECStore_Type < 2000" class="img-box mr-2">
+                              <div *ngIf="siteInfo?.ECStore_Type < 2000 || siteInfo?.ECStore_Logo !== null" class="img-box mr-2">
                                   <div [style.background-image]="'url('+siteInfo?.ECStore_Logo+')'" class="rwdimg logo-img"></div>
                               </div>
                               <div class="store-title center-v">{{siteInfo?.ECStore_ShowName}}</div>
