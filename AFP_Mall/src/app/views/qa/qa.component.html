@@ -1,0 +1,261 @@
+<div class="wrap container">
+  <!--常見問題2-->
+  <div class="myfaq animated slideInRight">
+      <div class="headerbox container title-box border-b">
+          <div class="item icon-btn">
+              <button class="btn px-0" onclick="history.back()" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                  <i class="material-icons">&#xe314;</i>
+              </button>
+          </div>
+          <div class="item title-name">常見問題</div>
+          <div class="item icon-btn"></div>
+      </div>
+      <div class="my-list-box pb-5 mb-5">
+          <ul>
+              <li (click)="appService.callLayer('.Msafety');">
+                  <button class="btn px-0 w-100 text-left">會員中心與安全 <span class="auto-left"><i class="material-icons">&#xe315;</i></span></button>
+              </li>
+              <li (click)="appService.callLayer('.Mpay');">
+                  <button class="btn px-0 w-100 text-left">訂單與支付 <span class="auto-left"><i class="material-icons">&#xe315;</i></span></button>
+              </li>
+              <li (click)="appService.callLayer('.Mrefunds');">
+                  <button class="btn px-0 w-100 text-left">退貨退款 <span class="auto-left"><i class="material-icons">&#xe315;</i></span></button>
+              </li>
+              <li (click)="appService.callLayer('.Mlogistics');">
+                  <button class="btn px-0 w-100 text-left">寄件物流 <span class="auto-left"><i class="material-icons">&#xe315;</i></span></button>
+              </li>
+              <li (click)="appService.callLayer('.Mpoint');">
+                  <button class="btn px-0 w-100 text-left">點數M Points<span class="auto-left"><i class="material-icons">&#xe315;</i></span></button>
+              </li>
+              <li (click)="appService.callLayer('.Mcoupon');">
+                  <button class="btn px-0 w-100 text-left">優惠券 <span class="auto-left"><i class="material-icons">&#xe315;</i></span></button>
+              </li>
+              <li (click)="appService.callLayer('.Mcenter');">
+                  <button class="btn px-0 w-100 text-left">聯絡客服 <span class="auto-left"><i class="material-icons">&#xe315;</i></span></button>
+              </li>
+          </ul>
+      </div>
+  </div>
+
+
+  <!--次頁-->
+  <div class="multilayer">
+    <div class="Msafety">
+        <div class="headerbox container title-box border-b">
+            <div class="item icon-btn">
+                <button class="btn px-0" (click)="appService.backLayer()" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                    <i class="material-icons">&#xe314;</i>
+                </button>
+            </div>
+            <div class="item title-name">會員中心與安全</div>
+            <div class="item icon-btn"></div>
+        </div>
+        <div class="p-5 mt-5 faq-content">
+            <h6>如何註冊成為會員?</h6>
+            <p>您可以透過以下步驟註冊成為會員：</p><br>
+            <p>手機 / Email註冊</p>
+            <ul class="decimal pb-5">
+                <li>點選右上方「登入/註冊」</li>
+                <li>點選下方「馬上註冊」</li>
+                <li>進入到會員註冊頁面</li>
+                <li>選擇您要以手機號碼或Email註冊</li>
+                <li>勾選同意會員條款與隱私政策</li>
+                <li>點選傳送驗證碼</li>
+                <li>輸入您收到的驗證碼</li>
+                <li>設定您的密碼，點選「建立新帳號」</li>
+                <li>完成後即可註冊成功</li>
+            </ul>
+            <p>第三方帳號快速註冊</p>
+            <ul class="decimal pb-5">
+                <li>點選右上方「登入/註冊」</li>
+                <li>點選下方「馬上註冊」</li>
+                <li>選擇您要以FB或Google</li>
+                <li>即可以第三方帳號快速完成註冊</li>
+            </ul>
+            <h6>我的帳號無法登入?</h6>
+            <p class="pb-5">請確認您輸入的帳號密碼大小寫是否與設定時的相同，若還是無法登入，請盡速聯絡Mobii!真人客服人員，請點擊右上角客服 icon(若未出現請等待60秒)，即可轉接真人客服人員，或寄信至：mobiics@mobii.ai 並提供您的帳號密碼，我們將盡快為您處理。</p>
+            <h6>如何修改密碼?</h6>
+            <ul class="decimal pb-5">
+                <li>若您使用 Mobii! app版/手機網頁版，請點選下方選單「我的」；若您使用 Mobii! 電腦版，請點選右上角登入者的名稱進入會員中心</li>
+                <li>點選左上角齒輪圖案</li>
+                <li>選擇變更密碼</li>
+                <li>輸入您的舊密碼及新密碼，密碼字元至少8位，且需包含英文字母及數字</li>
+                <li>點選「保存」即可完成密碼變更</li>
+            </ul>
+            <h6>如何新增「我的地址」?</h6>
+            <ul class="decimal pb-5">
+                <li>若您使用 Mobii! app版/手機網頁版，請點選下方選單「我的」；若您使用 Mobii! 電腦版，請點選右上角登入者的名稱進入會員中心</li>
+                <li>點選左上角齒輪圖案</li>
+                <li>進入帳號設定頁，點選「我的檔案」</li>
+                <li>點選我的地址</li>
+                <li>輸入相關資訊後點選「確認」即可完成新增，若要將該地址設定為預設地址，則勾選「設定為預設地址」</li>
+            </ul>
+            <h6>忘記密碼怎麼辦?</h6>
+            <p>您可以透過以下方式重設密碼： </p>
+            <ul class="decimal pb-5">
+                <li>請點選「登入/註冊」進入登入頁 ( 網頁版請點選「登入」 ) ，並點選忘記密碼</li>
+                <li>輸入您註冊時使用的Email或手機</li>
+                <li>點選「發送驗證碼」</li>
+                <li>輸入驗證碼後即可重新設定您的密碼，密碼字元至少8位，且需包含英文字母及數字</li>
+            </ul>
+            <h6>為什麼要預設地址?</h6>
+            <p class="pb-5">若您選擇將地址勾選為預設地址，在訂購商品時，系統會自動帶入該地址，以節省您填寫訂單的時間。(若該地址不在商家運送範圍內，則不會自動帶入)</p>
+            <h6>我無法修改「我的檔案」?</h6>
+            <p class="pb-5">進入「我的檔案」頁面後，請先點選右上角的「編輯」，方可更改您的個人資訊。</p>
+            <h6>哪裡可以登出帳號?</h6>
+            <p class="pb-5">若您使用的是 Mobii! app版與手機網頁版，請點選下方選單「我的」進入會員中心，點選左上角齒輪圖示，滑至頁面最下方，即可找到登出按紐 ( 網頁版請直接點選右上角「登出」按鈕 )</p>
+            <h6>我的帳號密碼被冒用了怎麼辦?</h6>
+            <p class="pb-5">請盡速聯絡Mobii!真人客服人員，請點擊右上角客服 icon(若未出現請等待60秒)，即可轉接真人客服人員，或寄信至：mobiics@mobii.ai 並提供您的帳號密碼，我們將盡快為您處理。</p>
+            <h6>可以申請永久刪除帳號嗎?</h6>
+            <p class="pb-5">若要永久刪除您的帳號，請洽Mobii!真人客服人員，請點擊右上角客服 icon(若未出現請等待60秒)，即可轉接真人客服人員，或寄信至：mobiics@mobii.ai 註明您要永久刪除帳號並提供暱稱與帳號，我們將盡快為您處理。</p>
+            <h6>使用信用卡進行付費安全嗎?</h6>
+            <p class="pb-5">您於Mobii!所輸入之信用卡資訊，係透過加密機制傳輸至藍新金流平台進行驗證及保存，該信用卡資訊不會保留於本公司、Mobii! APP軟體或以任何形式儲存於使用者之智慧型行動終端裝置；使用者使用信用卡進行支付時，係以本服務後台系統與藍新金流平台所約定之代碼化卡號(token)取代真實信用卡資訊，相關流程係符合支付卡產業資料安全標準(Payment Card Industry Data Security Standard，PCIDSS)。</p>
+            <h6>我沒有收到驗證簡訊?</h6>
+            <p class="pb-5">若等待60秒以上依然沒有收到簡訊，請點選「重新發送」，系統會再次發送驗證碼給您。</p>
+            <h6>我沒有收到信箱驗證信怎麼辦?</h6>
+            <p class="pb-5">請先至垃圾信件確認，有時候您的電子信箱服務商可能會將 Mobii! 的訊息誤判為垃圾信，若仍未收到，請洽Mobii!真人客服人員，請點擊右上角客服 icon(若未出現請等待60秒)，即可轉接真人客服人員。</p>
+        </div>
+    </div>
+    <div class="Mpay">
+        <div class="headerbox container title-box border-b">
+            <div class="item icon-btn">
+                <button class="btn px-0" (click)="appService.backLayer()" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                    <i class="material-icons">&#xe314;</i>
+                </button>
+            </div>
+            <div class="item title-name">訂單與支付</div>
+            <div class="item icon-btn"></div>
+        </div>
+        <div class="p-5 mt-5 faq-content">
+            <h6>如何取消商品訂單?</h6>
+            <p>訂單出貨後（訂單於待收貨狀態），您可於商品猶豫期內任何狀態中（不包含處理中訂單）取消您的訂單：</p><br>
+            <ul class="decimal pb-5">
+                <li>請進入「我的訂單」，選擇您要取消的訂單</li>
+                <li>進入訂單詳情，點選退貨</li>
+                <li>勾選您本次退貨的理由</li>
+                <li>送出申請，待商店同意後即可完成取消</li>
+            </ul>
+            <h6>我要如何聯絡賣家?</h6>
+            <p class="pb-5">您可於訂單詳細頁或店家資訊頁，點選「聯絡商店」，即可與賣家進行對話。</p>
+            <h6>訂單進度可以在哪裡查看?</h6>
+            <p class="pb-5">您可點選下方「我的」 > 「我的訂單」或從首頁的「…」 > 「我的訂單」進入您的訂單列表，並依據您的訂單狀況分成處理中、待收貨、已完成與退貨四種狀態。</p>
+            <h6>現在有哪些付款方式?</h6>
+            <p class="pb-5">目前 Mobii! 僅提供信用卡交易，暫不提供其他付款方式。</p>
+        </div>
+    </div>
+    <div class="Mrefunds">
+        <div class="headerbox container title-box border-b">
+            <div class="item icon-btn">
+                <button class="btn px-0" (click)="appService.backLayer()" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                    <i class="material-icons">&#xe314;</i>
+                </button>
+            </div>
+            <div class="item title-name">退貨退款</div>
+            <div class="item icon-btn"></div>
+        </div>
+        <div class="p-5 mt-5 faq-content">
+            <h6>如何申請退貨?</h6>
+            <ul class="decimal pb-5">
+                <li>進入與申請退貨的訂單詳細頁</li>
+                <li>滑至頁面最下方，點選左側「退貨」按鈕，進入退貨頁面</li>
+                <li>輸入您退貨的原因及取件地址</li>
+                <li>點選完成即可送出該申請</li>
+            </ul>
+            <h6>申請退貨幾天後會收到退款?</h6>
+            <p class="pb-5">店家收到您的退貨並確認無誤後，Mobii!平台將為您申請信用卡退刷作業，預計需要3~5個工作天。請留意，各銀行實際退款時間不一，確切時間請洽您的發卡銀行。</p>
+            <h6>多久之內可以申請退貨?</h6>
+            <p class="pb-5">您的宅配訂單可於出貨後的20天內，自取訂單可於取貨後的7天內申請退貨。</p>
+            <h6>申請退貨後，款項會退回哪裡?</h6>
+            <p class="pb-5">您申請退貨的款項，將會退回原訂單所使用的信用卡內。</p>
+        </div>
+    </div>
+    <div class="Mlogistics">
+        <div class="headerbox container title-box border-b">
+            <div class="item icon-btn">
+                <button class="btn px-0" (click)="appService.backLayer()" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                    <i class="material-icons">&#xe314;</i>
+                </button>
+            </div>
+            <div class="item title-name">寄件物流 </div>
+            <div class="item icon-btn"></div>
+        </div>
+        <div class="p-5 mt-5 faq-content">
+            <h6>目前提供哪些寄送方式?</h6>
+            <p class="pb-5">目前 Mobii! 提供「宅配」與「自取」兩種寄送方式，宅配範圍依各店家提供的運送範圍為主，自取須由買家自行前往店家指定地址領取商品。</p>
+        </div>
+    </div>
+    <div class="Mpoint">
+        <div class="headerbox container title-box border-b">
+            <div class="item icon-btn">
+                <button class="btn px-0" (click)="appService.backLayer()" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                    <i class="material-icons">&#xe314;</i>
+                </button>
+            </div>
+            <div class="item title-name">點數M Points</div>
+            <div class="item icon-btn"></div>
+        </div>
+        <div class="p-5 mt-5 faq-content">
+            <h6>什麼是M Points?</h6>
+            <p class="pb-5">M Points係艾斯移動股份有限公司推出之回饋點數，消費者於Mobii!官方認可的商城賣場內交易，且透過Mobii!認可的付款方式交易成功後將能獲得M Points，M Points無法變現或是轉讓至其他帳戶。</p>
+            <h6>哪些地方可以使用M Points?</h6>
+            <p>您可以在以下地方使用M Points：</p>
+            <ul class="decimal pb-5">
+                <li>兌換優惠券</li>
+                <li>玩遊戲</li>
+            </ul>
+            <h6>M Points可以折抵現金嗎?</h6>
+            <p class="pb-5">目前M Points僅能在 Mobii! 上兌換優惠券或玩遊戲，不可以折抵或兌換現金。</p>
+            <h6>訂單完成後多久會收到點數?</h6>
+            <p>收到點數的時間，會根據您選擇取貨的方式而有所不同，以下為收到點數的工作日：</p>
+            <ul class="decimal pb-5">
+                <li>如選擇自取方式，點數會於取貨期限後7天入帳到您的帳號。</li>
+                <li>如選擇宅配方式，點數會於廠商出貨日後20天入帳到您的帳號。</li>
+            </ul>
+        </div>
+    </div>
+    <div class="Mcoupon">
+        <div class="headerbox container title-box border-b">
+            <div class="item icon-btn">
+                <button class="btn px-0" (click)="appService.backLayer()" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                    <i class="material-icons">&#xe314;</i>
+                </button>
+            </div>
+            <div class="item title-name">優惠券</div>
+            <div class="item icon-btn"></div>
+        </div>
+        <div class="p-5 mt-5 faq-content">
+            <h6>我可以從哪裡獲得優惠券?</h6>
+            <p>可以獲得優惠券的方式有二種：</p>
+            <ul class="decimal pb-5">
+                <li>領取<br>
+                您可於Mobii!平台上選擇您欲領取的優惠券，點選「領取」，如符合領取資格，即可成功領取優惠券。</li>
+                <li>輸入優惠代碼<br>
+                點選下方選單「我的」 > 「我的優惠券」，點選右上方「+」符號，輸入您的優惠代碼，如符合領取資格，即可將該張優惠券歸戶。</li>
+            </ul>
+            <h6>哪些地方可以使用優惠券?</h6>
+            <p class="pb-5">線上商城優惠券可在 Mobii! 的「線上商城」內購買商品時做使用；實體商店優惠券可在實體商店經由商家核銷後使用。</p>
+            <h6>結帳時使用優惠券，退貨後優惠券會還給我嗎?</h6>
+            <p class="pb-5">申請退貨完成後，系統會將優惠券返回您的帳戶，您依然可在優惠券逾期前使用該張優惠券。</p>
+            <h6>使用M Points兌換的優惠券可以取消嗎?</h6>
+            <p class="pb-5">Mobii!上優惠券一經兌換不可要求退回M Points，敬請見諒。</p>
+        </div>
+    </div>
+    <div class="Mcenter">
+        <div class="headerbox container title-box border-b">
+            <div class="item icon-btn">
+                <button class="btn px-0" (click)="appService.backLayer()" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                    <i class="material-icons">&#xe314;</i>
+                </button>
+            </div>
+            <div class="item title-name">聯絡客服     </div>
+            <div class="item icon-btn"></div>
+        </div>
+        <div class="p-5 mt-5 faq-content">
+            <h6>如何找到客服?</h6>
+            <p class="pb-5">登入 Mobii! 後，點選「通知」進入頁面，右上角icon即可找到客服機器人，若須找真人客服，請等待60秒後，畫面會出現「真人客服」的icon，點選後即可轉接。</p>
+            <h6>客服的服務時間?</h6>
+            <p class="pb-5">Justka是 Mobii! 24小時全天在線的客服機器人，真人客服的服務時間為：星期一至星期日 09：00~21：00</p>
+        </div>
+    </div>
+  </div>
+</div>

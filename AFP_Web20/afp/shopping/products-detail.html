@@ -1,0 +1,324 @@
+﻿<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=no">
+    <!-- Material Design for Bootstrap fonts and icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../js/vendor/bs4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../js/vendor/jquery-editable-select-master/dist/jquery-editable-select.min.css">
+    <!-- owl.carousel core CSS -->
+    <link rel="stylesheet" href="../js/vendor/owlcarousel/owlcarousel/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="../js/vendor/owlcarousel/owlcarousel/assets/owl.theme.default.min.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- vendor css -->
+    <link rel="stylesheet" href="../js/vendor/swiper/css/swiper.min.css">
+    <!-- fontawesome css -->
+    <link rel="stylesheet" href="../js/vendor/fontawesome/css/fontawesome.css">
+    <link rel="stylesheet" href="../js/vendor/fontawesome/css/brands.css">
+    <link rel="stylesheet" href="../js/vendor/fontawesome/css/solid.css">
+    <!-- custom css -->
+    <link rel="stylesheet" href="../dist/style/shopping-index.min.css">
+    <link rel="stylesheet" href="../dist/style/animate.min.css">
+    <title>eyemedia - afp</title>
+</head>
+
+<body class="hasBg">
+    <div class="wrap container">
+    <header class="fixed-top container">
+        <!-- header top -->
+        <div class="header-secondary">
+            <div class="flex-inline-between">
+                <div class="close-btn">
+                    <button onclick="location.href='products-list.html'" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                        <i class="material-icons">&#xE314;</i>
+                    </button>
+                </div>
+                <div class="title-name">產品資訊</div>
+                <div class="top-item climate"> 
+                    <img src="../img/shopping/icon_chat.svg"  data-toggle="tooltip" data-placement="bottom" title="客服">
+                    <img src="../img/shopping/icon_shoppingcart.svg"  data-toggle="tooltip" data-placement="bottom" title="購物車">
+                </div>
+            </div>
+            <div class="linebt-row"></div>
+        </div>
+    </header>
+    <main>        
+        <div class="header-42"></div>     
+        <!-- Swiper for productbigimg -->        
+        <div class="shopping-productsdetail">
+            <div class="shopping-productsdetailbox">
+                <div class="shopping-productsimgbox">
+                    <div class="shopping-productsimg swiper-container">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div class="rwdimg" style="background-image: url('../img/shopping/products/p00001.jpg');"></div>
+                            </div>
+                            <div class="swiper-slide">                
+                                <div class="rwdimg" style="background-image: url('../img/shopping/products/p00002.jpg');"></div>
+                            </div>   
+                            <div class="swiper-slide">         
+                                <div class="rwdimg" style="background-image: url('../img/shopping/products/p00003.jpg');"></div>
+                            </div>
+                        </div>
+                        <!-- Add Pagination -->
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>                
+                <div class="discount-price">
+                    8折
+                </div>
+                <div class="add-favorite">
+                    <button type="button" data-toggle="modal" data-target=".bd-example-modal-sm"><img src="../img/shopping/icon_favorite_gray.svg"></button>
+                </div>
+            </div>
+            <div class="linebt-row"></div>
+            <div class="products-info p-3">
+                <div class="item flex-inline-between">
+                    <div class="products-title">
+                        Apple iPhone XS 256GB                                
+                    </div>
+                    <div class="products-price d-block border-left">
+                        <div class="price-original">$37,000</div>
+                        <div class="price-asking">$30,320 <span>/ 組</span></div>
+                    </div>
+                </div>
+                <div class="item flex-inline-between">
+                    <div class="products-title">
+                        商品規格                                
+                    </div>
+                    <div class="products-norm">
+                        <button class="active open-uppage">A款 - 黑色<i class="material-icons">&#xE315;</i></button>
+                    </div>
+                </div>
+                <div class="item flex-inline-between">
+                    <div class="products-title">
+                        數量                                
+                    </div>
+                    <div class="products-quantity">
+                        <div class="flex-inline-between number-spinner">
+                            <div class="input-group-btn data-dwn">
+                                <button class="btn btn-default btn-outline-secondary" data-dir="dwn"><i class="fas fa-minus"></i></button>
+                            </div>
+                            <div><input type="text" class="form-control text-center" value="1" min="0" max="3"></div>
+                            <div class="input-group-btn data-up">
+                                <button class="btn btn-default btn-outline-info" data-dir="up"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="item flex-inline-between">
+                    <div class="products-btn-addcart w-50 pr-1">
+                        <button type="button" class="btn default-outline-btn">加入購物車</button>                           
+                    </div>
+                    <div class="products-btn-buynow w-50">                        
+                        <button type="button" class="btn default-btn">直接購買</button>      
+                    </div>
+                </div>
+            </div>            
+            <div class="products-store">
+                <div class="products-storebox flex-inline-between center-v">
+                    <div class="products-store-info d-flex d-inline center-v">
+                        <div class="img-box">
+                            <img src="../img/shopping/store/everrich.png" class="" alt="">
+                        </div>
+                        <div class="store-title">昇恆昌免稅購物網站</div>                         
+                    </div>
+                    <div class="products-store-btn">                        
+                        <button type="button" class="btn default-outline-btn">查看賣場</button>      
+                    </div>
+                </div>
+            </div>         
+            <div class="products-storecoupon">
+                <div class="products-storecouponbox flex-inline-between center-v">
+                    <div class="products-storecoupon-info d-flex d-inline">
+                        <div class="storecoupon-title">商場優惠券</div>                         
+                    </div>
+                    <div class="products-storecoupon-btn">                        
+                        <button type="button" class="btn default-outline-btn">現折$60</button><i class="material-icons">&#xE315;</i>      
+                    </div>
+                </div>
+            </div>
+            <div class="products-tag">
+                <div class="products-tagbox">
+                    <div class="afp-tab-box">
+                        <div class="afp-tab mb-5">
+                            <div class="tag-topbox">
+                                <div class="nav-tabs-box tablist-products border-bottom p-0 ">
+                                    <!-- Nav tabs -->
+                                    <ul id="nav-tab-featured" class="nav nav-tabs" role="tablist">
+                                            <li class="">
+                                                <a href="#tag01" class="tablist-link active" id="tab-tag01" onClick="javascript:ScrollTo('tag01')">關於商品</a>
+                                            </li>
+                                            <li class="">
+                                                <a href="#tag02" class="tablist-link" id="tab-tag02" onClick="javascript:ScrollTo('tag02')">付款交貨</a>
+                                            </li>
+                                            <li class="">
+                                                <a href="#tag03" class="tablist-link" id="tab-tag03" onClick="javascript:ScrollTo('tag03')">訂購須知</a>
+                                            </li>
+                                    </ul>        
+                                </div>
+                            </div>
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade active show w-100" id="tag01">
+                                    <h6>關於商品</h6>
+                                    <img src="../img/shopping/products/p00005.jpg">
+                                    <p class="tab-content-title">| 產品介紹 |</p>
+                                    <p>超 Retina 兩款大螢幕登場<br>
+                                        APPLE產品一經拆封使用後，保固日期即開始計算，若退貨則會收取30%
+                                        以上還原費，產品經拆封後若有瑕疵，APPLE原廠會判斷換單機或其它處
+                                        理，無法由平台直接更換新機給客戶。<br>
+                                        iPhone XS Max配備量身特製的 OLED 顯示器，色彩精準度堪稱業界之最
+                                        ，具備 HDR，並能呈現真實的黑色。同時，iPhone XS Max 更擁有 iPhone
+                                        歷來最大的顯示器。</p>
+                                    <p class="tab-content-title">| 產品特色 |</p>
+                                    <p>OLED 多點觸控顯示器<br>
+                                        1200 萬像素廣角與長焦雙鏡頭相機<br>
+                                        快速充電功能<br>
+                                        A12處理器<br>
+                                        IP68等級防水防塵</p>
+                                        <img src="../img/shopping/products/p00004.jpg">
+                                    <p class="tab-content-title">| 產品規格 |</p>
+                                    <p>品牌	Apple<br>
+                                        型號	iPhone Xs Max<br>
+                                        顏色	金色, 銀色, 太空灰<br>
+                                        螢幕尺寸	6.5吋<br>
+                                        處理器類型	六核心<br>
+                                        處理器型號	A12<br>
+                                        處理器時脈	-<br>
+                                        主相機畫素	1200萬<br>
+                                        前鏡頭畫素	700萬<br>
+                                        螢幕解析度	2688 x 1242 像素，458 ppi 解析度<br>
+                                        ROM/內建儲存空間	256GB<br>
+                                        記憶卡插槽	無<br>
+                                        作業系統	iso12<br>
+                                        機身長度(mm)	157.5 mm<br>
+                                        機身寬度(mm)	77.4mm<br>
+                                        機身厚度(mm)	7.7mm<br>
+                                        機身重量(g)	208 公克 (7.34 盎司)<br>
+                                        電池容量(mAh)	3174 mAh (固定式)<br>
+                                        視訊鏡頭	有視訊鏡頭<br>
+                                        上網方式	WiFi, 4G LTE<br>
+                                        藍牙	有藍牙<br>
+                                        待機時間(最大)	依實際使用狀況而定<br>
+                                        通話時間(最大)	依實際使用狀況而定<br>
+                                        手機類型	支援4G LTE<br>
+                                        頻率系統	UMTS/HSPA+/DC-HSDPA (850、900、1700/2100、1900、2100 MHz)GSM/EDGE (850、900、1800、1900 MHz)<br>
+                                        4G LTE頻段	FDD-LTE (頻段 1、2、3、4、5、7、8、12、13、14、17、18、19、20、25、26、28、29、30、32、66)TD-LTE (頻段 34、38、39、40、41、46)<br>
+                                        可支援4G電信系統	全頻<br>
+                                        SIM卡尺寸	nano sim<br>
+                                        NCC認證碼	CCAI184G0080T2<br>
+                                        標準配備	搭載 iOS 12 的 iPhone/EarPods 具備 Lightning 連接器/Lightning 對 USB 連接線/USB 電源轉接器/說明文件<br>
+                                        備註	實際規格及包裝等相關資訊請依原廠實際到貨為主，如有更動恕不另行通知。</p>
+                                    <p class="tab-content-title">| 備註 |</p>
+                                    <p>保固時間: 憑發票（收據）購買日期，經檢測非人為損壞保固一年。<br>
+                                        (台灣客戶注意）順豐速運要求台灣收件人提供身份統一字號，英文名字及英文地址才可發件，請客人下單時提供資料。<br>
+                                        (台灣客戶注意）入口稅款需由客人到付。</p>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade active show w-100" id="tag02">
+                                    <h6>付款交貨</h6>
+                                    <p class="tab-content-title">| 運送方式 |</p>
+                                    <p>宅配通120元<br>
+                                        黑貓宅配通120元<br>
+                                        郵局包裹80元
+                                    </p>
+                                    <p class="tab-content-title">| 付款方式 |</p>
+                                    <p>LINE PAY<br>
+                                        信用卡：Master Card、Visa、、JCB<br>
+                                        Fitbit Pay
+                                    </p>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade active show w-100" id="tag03">
+                                    <h6>訂購須知</h6>
+                                    <p>若對商品有疑問，請在購買前向設計師提出。購買前詳盡地溝通，可省下退款/換貨所耗費的心力、金錢與時間。<br>
+                                        退款申請須於收到商品後隔日起算 7 日內提出<br>
+                                        若申請逾時或不符合 Pinkoi 退貨政策條件範圍，設計師有權拒絕退貨，請在提交申請前與設計師溝通。<br>
+                                        以下商品類型設計師不接受客人因個人因素申請退款<br>
+                                        客製化商品<br>
+                                        個人衛生商品<br>
+                                        保存期限短的商品<br>
+                                        已拆封的影音商品<br>
+                                        退款流程<br>
+                                        設計師會在收到申請後的 3 個工作天內聯繫客人<br>
+                                        設計師同意寄回後，請在 4 個工作天內，將完整的商品寄出，並以站內信告知設計師（請將使用物流單位及寄件編號一併附上，避免增加來回溝通的時間）<br>
+                                        設計師在收到商品後的 3 個工作天內會確認商品狀態並完成退款程序<br>                                        
+                                        設計館不提供換貨服務<br>
+                                        如對商品或訂單有疑問，請以站內信詢問設計師。</p>
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>    
+                </div>
+            </div>
+        </div>
+        <div class="h-50 d-inline-block"></div>
+        <div id="loginhtml"></div>
+    </main>
+        
+    </div>
+
+    <div class="close-up" id="open-mask"></div>
+    <!-- shopping up-menu (open-pageupbox) -->
+    <div class="">
+        <div class="slideInUp animated d-none fixed-bottom" id="open-pageupbox">
+            <div class="open-page-title text-center">
+                選擇商品規格
+            </div>
+            <div class="open-page-body">
+                <h6>尺寸</h6>
+                <div class="row px-3">
+                    <button type="button" class="btn btn-gray col">A款</button>
+                    <button type="button" class="btn btn-gray col">B款</button>
+                    <button type="button" class="btn btn-gray col">C款</button>
+                    <button type="button" class="btn btn-gray col">D款</button>
+                </div>
+                <h6>顏色</h6>
+                <div class="row px-3">
+                    <button type="button" class="btn btn-gray col">黑色</button>
+                    <button type="button" class="btn btn-gray col">白色</button>
+                    <button type="button" class="btn btn-gray col">粉紅色</button>
+                    <button type="button" class="btn btn-gray col">藍色</button>
+                    <button type="button" class="btn btn-gray col">紫色</button>
+                    <button type="button" class="btn btn-gray col">桃色</button>
+                    <button type="button" class="btn btn-gray col">金色</button>
+                    <button type="button" class="btn btn-gray col">湖水綠</button>
+                </div>
+                <button class="btn default-btn close-up">
+                    全部重設
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="../js/vendor/bs4/js/jquery-3.2.1.slim.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->    
+    <script src="../js/vendor/bs4/js/bootstrap.min.js"></script>
+
+    <!-- owlcarousel JS -->
+    <script src="../js/vendor/owlcarousel/vendors/jquery.min.js"></script>
+    <script src="../js/vendor/owlcarousel/owlcarousel/owl.carousel.js"></script>
+    <script src="../js/vendor/owlcarousel/vendors/highlight.js"></script>
+    <script src="../js/vendor/owlcarousel/js/app.js"></script>   
+    <script src="../js/vendor/jquery-editable-select-master/dist/jquery-editable-select.js"></script>
+
+    <!-- vendor js -->
+    <script src="../js/vendor/swiper/js/swiper.min.js"></script>
+    <script src="../js/vendor/imgLiquid.js"></script>
+    <script src="../js/masonry.pkgd.min.js"></script>
+
+    <!-- custom js -->
+    <script src="../js/index.js"></script>
+</body>
+
+</html>

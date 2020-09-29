@@ -1,0 +1,32 @@
+<div class="wrap container">
+
+  <!--我的點餐-->
+  <div class="myfood">
+      <div class="headerbox container title-box">
+          <div class="item icon-btn">
+              <button class="btn px-0" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁" [hidden]="appService.isApp !== null && !showBackBtn">
+                  <i class="material-icons">&#xe314;</i>
+              </button>
+          </div>
+          <div class="item title-name">我的點餐</div>
+          <div class="item ctrl-btn"></div>
+      </div>
+      <div class="my-address-list">
+          <ul>
+              <li class="is-default" *ngFor="let order of foodList" (click)="goLink(order.DeliveryOrder_URL)">
+                  <div class="item">
+                      <p>{{ order.DeliveryOrder_ECStoreName }}</p>
+                      <p class="small">{{ order.DeliveryOrder_ExtID }}</p>
+                      <p class="small">{{ order.DeliveryOrder_ExtDate | date :'yyyy/MM/dd hh:mm:ss' }}</p>
+                  </div>
+                  <div class="item foodstatus auto-left"
+                  [ngClass]="{'active':order.DeliveryOrder_ExtState === '訂單已成立' || order.DeliveryOrder_ExtState === '訂單待付款' || order.DeliveryOrder_ExtState === '訂單處理中' || order.DeliveryOrder_ExtState === '訂單派送中' || order.DeliveryOrder_ExtState === '訂單待退款','error': order.DeliveryOrder_ExtState === '訂單異常'}">
+                      <p class="t-nowrap">{{ order.DeliveryOrder_ExtState }}<i class="material-icons">&#xe315;</i></p>
+                  </div>
+              </li>
+          </ul>
+      </div>
+  </div>
+
+
+</div>

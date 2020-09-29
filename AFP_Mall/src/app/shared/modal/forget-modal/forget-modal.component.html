@@ -1,0 +1,45 @@
+<div class="modal-header" data-dismiss="modal" aria-label="Close">
+</div>
+<div class="popup-banner for-mobile">
+  <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <!-- <img src="https://www.mobii.ai/img/index/login_banner.png" alt=""> -->
+</div>
+<div class="modal-body">
+  <!-- <div class="logo-box">
+    <img src="/img/share/mlogo.png" alt="">
+  </div> -->
+  <div class="index-flex">
+    <div class="item one d-flex justify-content-start">
+      <button type="button" class="btn close" (click)="modal.openModal('login', bsModalRef)">
+        <i class="material-icons">&#xe314;</i>
+      </button>
+    </div>
+    <div class="item two">
+      <h5>忘記密碼</h5>
+    </div>
+    <div class="item one"></div>
+  </div>
+  <div class="container px-3 pt-2">
+    <h6 class="text-left">
+      請輸入註冊時使用的手機：
+    </h6>
+    <p class="text-left">
+      我們會發送驗證碼以重設密碼
+    </p>
+    <form id="forget-form" #changePwdForm="ngForm" (ngSubmit)="changePwdForm.form.valid && onSubmit()">
+      <input type="text" placeholder="手機" id="vcode" name="AFPAccount" #AFPAccount="ngModel" [(ngModel)]="request.AFPAccount" required>
+      <div class="small-warning" *ngIf="AFPAccount.invalid && (AFPAccount.dirty || AFPAccount.touched)">
+        <span *ngIf="AFPAccount.errors.required">請輸入手機</span>
+      </div>
+      <div *ngIf="changePwdForm.submitted && state === false" class="small-warning">
+        查無此帳號，你可以
+        <button type="button" class="btn my-2 btn-login font-bold px-0" (click)="modal.openModal('register', bsModalRef)">
+          立即註冊
+        </button>
+      </div>
+      <button type="submit" class="btn my-2 index-btn w-100 btn-vcode" [disabled]="changePwdForm.invalid">發送驗證碼</button>
+    </form>
+  </div>
+</div>

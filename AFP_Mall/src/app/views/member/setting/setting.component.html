@@ -1,0 +1,87 @@
+<div class="mysetting">
+  <div class="headerbox container title-box">
+    <div class="item icon-btn">
+      <button type="button" class="btn px-0" onclick="history.back();" data-toggle="tooltip"
+        data-placement="bottom" title="回上一頁">
+        <i class="material-icons">&#xe314;</i>
+      </button>
+    </div>
+    <div class="item title-name">帳號設定</div>
+    <div class="item icon-btn"></div>
+  </div>
+  <div class="my-list-box">
+    <p class="text-index">我的帳號</p>
+    <ul>
+      <li [routerLink]="['../MyProfile']">
+        <button class="btn px-0 w-100 text-left p-0">我的檔案
+          <span class="auto-left"><i class="material-icons">&#xe315;</i></span>
+        </button>
+      </li>
+      <li [routerLink]="['../CellVerification']">
+        <button class="btn px-0 w-100 text-left p-0">手機驗證 <span
+            class="auto-left"><i class="material-icons">&#xe315;</i></span></button>
+      </li>
+      <li [routerLink]="['../MyAddress']">
+        <button class="btn px-0 w-100 text-left p-0">我的地址
+          <span class="auto-left"><i class="material-icons">&#xe315;</i></span>
+        </button>
+      </li>
+      <!-- 暫不顯示 -->
+      <li [routerLink]="['../MyPayment']" hidden>
+        <button class="btn px-0 w-100 text-left p-0">付款設定
+          <span class="auto-left"><i class="material-icons">&#xe315;</i></span>
+        </button>
+      </li>
+      <li [routerLink]="['../PasswordUpdate']">
+        <button class="btn px-0 w-100 text-left p-0">變更密碼
+          <span class="auto-left"><i class="material-icons">&#xe315;</i></span>
+        </button>
+      </li>
+      <!-- 目前無第三方登入，暫不顯示 -->
+      <li [routerLink]="['../ThirdBinding']" hidden>
+        <button class="btn px-0 w-100 text-left p-0">社群帳號綁定
+          <span class="auto-left"><i class="material-icons">&#xe315;</i></span>
+        </button>
+      </li>
+    </ul>
+    <p class="text-index">我的語言</p>
+    <ul class="my-language">
+      <li>
+        <div class="item">語言</div>
+        <div class="item">繁體中文</div>
+      </li>
+      <li>
+        <div class="item">幣別</div>
+        <div class="item">TWD</div>
+      </li>
+    </ul>
+    <p class="text-index">我的小幫手</p>
+    <ul>
+      <li [routerLink]="['/QA']">
+        <button class="btn px-0 w-100 text-left p-0">常見問題
+          <span class="auto-left"><i class="material-icons">&#xe315;</i></span>
+        </button>
+      </li>
+      <li onclick="window.open('/Terms')">
+        <button class="btn px-0 w-100 text-left p-0">使用者規範
+          <span class="auto-left"><i class="material-icons">&#xe315;</i></span>
+        </button>
+      </li>
+      <li onclick="window.open('/Privacy')">
+        <button class="btn px-0 w-100 text-left p-0">隱私權政策
+          <span class="auto-left"><i class="material-icons">&#xe315;</i></span>
+        </button>
+      </li>
+      <li (click)="goToAbout()">
+        <button class="btn px-0 w-100 text-left p-0">關於
+          <span class="auto-left"><i class="material-icons">&#xe315;</i></span>
+        </button>
+      </li>
+      <li (click)="logout()">
+        <button class="btn px-0 w-100 text-left p-0">登出
+          <div class="item auto-left"></div>
+        </button>
+      </li>
+    </ul>
+    <div class="addheight"></div>
+  </div>

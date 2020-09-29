@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Material Design for Bootstrap fonts and icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../js/vendor/bs4/css/bootstrap.min.css">    
+    <!-- custom css -->
+    <link rel="stylesheet" href="../dist/style/car_setting.min.css">
+    <link rel="stylesheet" href="../dist/style/car.min.css">
+    <link rel="stylesheet" href="../dist/style/global.min.css">
+    <link rel="stylesheet" href="../dist/style/index.min.css">
+    <title>艾斯移動 - 從地圖選擇地點</title>
+</head>
+
+<body">
+    <div class="wrap container">
+        <div class="call-car-box">
+            <div class="call-car-bg"></div>
+            <div class="title-box flex-inline-between">
+                <div class="item icon-btn">
+                    <button onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                        <i class="material-icons">&#xE314;</i>
+                    </button>
+				</div>
+                <div class="item title-name">選擇地點</div>
+                <div class="item icon-btn">
+                    <button onclick="location.href='car_page_04-2.html'" data-toggle="tooltip" data-placement="bottom" title="下一頁">
+                        <i class="material-icons">&#xE315;</i>
+                    </button>
+				</div>
+            </div>
+            <div class="call-car-input">
+                <div class="input-box">
+                    <div class="form-group boarding">
+                        <label for="car_01" class="col-form-label">上車</label>
+                        <div class="input">
+                            <input type="text" value="目前地點" class="form-control" id="car_01">
+                            <img src="../img/callcar/location_input.svg" alt="">
+                            <i class="material-icons">&#xE145;</i>
+                        </div>
+                    </div>
+                    <div class="form-group getoff">
+                        <label for="car_02" class="col-form-label">下車</label>
+                        <div class="input">
+                            <input type="text" value="台北市大安區敦化南路2段" class="form-control" id="car_02">
+                            <img src="../img/callcar/location_input.svg" alt="">
+                            <i class="material-icons">&#xE145;</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="choice-list-box">
+            <div class="call-car-map">
+                <div class="map-header">
+                </div>
+                <div id="map"></div>
+                <div class="map-footer">
+                    <div class="footer-inside">
+                         <div class="positioning-box">
+                            <img src="../img/callcar/map/positioning.svg" alt="">
+                        </div>
+                        <button class="btn default-btn">完成</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="../js/vendor/bs4/js/jquery-3.2.1.slim.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->    
+    <script src="../js/vendor/bs4/js/bootstrap.min.js"></script>
+
+    <script src="../js/popper.js"></script>
+
+    <script src="../js/map_page_04_1.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwDCH4Um16SCeHmfHaYhGa0vuqM6LNyVE&language=zh-TW&callback=initMap"></script>
+    
+
+    <script>
+        $(document).ready(function(){
+            $(".input input").focus(function(){
+                $(this).parent().removeClass("add-icon");
+                $(this).parent().addClass("add-icon");
+            }).blur(function(){
+                $(this).parent().removeClass("add-icon");
+            })
+        })
+    </script>
+
+</body>
+
+</html>

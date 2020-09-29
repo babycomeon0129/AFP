@@ -1,0 +1,185 @@
+<div class="wrap container">
+  <header class="container">
+    <!-- header top -->
+    <div class="header-secondary container linebt-row">
+      <div class="index-flex justify-content-between">
+        <div class="item two">
+          <div class="close-btn d-none" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+            <i class="material-icons">&#xe314;</i>
+          </div>
+        </div>
+        <div class="item three text-center">
+          <div class="title-name">付款方式</div>
+        </div>
+        <div class="item two text-right">
+          <div class="close-btn"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="order-step-box">
+      <ol class="step-list">
+        <li class="">1</li>
+        <li class="active">2</li>
+        <li class="">3</li>
+      </ol>
+      <ol class="step-txt">
+        <li>確認訂單</li>
+        <li>付款</li>
+        <li>訂購完成</li>
+      </ol>
+    </div>
+    <div class="choice-method-list">
+      <ul class="main-list">
+        <li [ngClass]="{'otherpay': payWay.CSPayment_PayType !== 1001}" *ngFor="let payWay of payWays.AFP_CSPayment">
+          <div class="item item-img" *ngIf="payWay.CSPayment_PayType !== 1001" (click)="choicePayment(payWay);">
+            <img [src]="payWay.CSPayment_Image" alt="">
+          </div>
+          <div class="item" *ngIf="payWay.CSPayment_PayType !== 1001" (click)="choicePayment(payWay);"> {{payWay.CSPayment_ShowName}} </div>
+          <a *ngIf="payWay.CSPayment_PayType === 1001" class="collapsed w-100 p-0 banksp" data-toggle="collapse"
+            href="#collapseCard" role="button" aria-expanded="false" aria-controls="collapseCard">
+            <div class="item item-img">
+              <img [src]="payWay.CSPayment_Image" alt="">
+            </div>
+            <div class="item">{{payWay.CSPayment_ShowName}}</div>
+            <div class="item auto-left">
+              <i class="material-icons">&#xE316;</i>
+            </div>
+          </a>
+          <div *ngIf="payWay.CSPayment_PayType === 1001" class="collapse w-100" id="collapseCard">
+            <!-- Slider main container -->
+            <div class="bank-swiper"></div>
+            <ul class="sub-list">
+              <li class="lidisplay" *ngFor="let card of payWays.List_BindCard" (click)="choicePayCard(payWay, card);">
+                <div class="item item-img">
+                  <img [src]="'/img/share/' + card.UserFavourite_Text1 + '.png'" alt="">
+                </div>
+                <div class="item card-type">{{card.UserFavourite_Text1}}</div>
+                <div class="item item-card-num">*{{card.UserFavourite_Text2}}</div>
+                <div class="item item-default auto-left"
+                  [ngClass]="{'active': reqData.UserFavourite_ID === card.UserFavourite_ID}">
+                  <i class="fas fa-check" [hidden]="!(reqData.UserFavourite_ID === card.UserFavourite_ID)"></i>
+                </div>
+              </li>
+              <li (click)="addNewCard(payWay);">
+                <div class="item item-icon">
+                  <i class="material-icons">&#xE145;</i>
+                </div>
+                <div class="item add-card">
+                  <button class="btn px-0 text-left">手動輸入卡號</button>
+                </div>
+              </li>
+              <div class="addheight mb-5"></div>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </main>
+
+  <footer class="success-mode container">
+    <form id="postPayment" action="{{apiUrl}}CheckPay" method="POST" (ngSubmit)="onSubmit(postPayment)" #postPayment="ngForm">
+      <input type="hidden" name="CSPayment_ID" [value]="reqData.CSPayment_ID" />
+      <input type="hidden" name="CSPaymentPart_ID" [value]="reqData.CSPaymentPart_ID" />
+      <input type="hidden" name="CreaditBind" [value]="reqData.CreaditBind" />
+      <input type="hidden" name="CardNo" [value]="reqData.CardNo" />
+      <input type="hidden" name="CardDate" [value]="reqData.CardDate" />
+      <input type="hidden" name="CVC" [value]="reqData.CVC" />
+      <input type="hidden" name="UserFavourite_ID" [value]="reqData.UserFavourite_ID" />
+      <input type="hidden" name="OrderNo" [value]="reqData.OrderNo" />
+      <input type="hidden" name="UserVoucher_ID" [value]="reqData.UserVoucher_ID" />
+      <input type="hidden" name="CarrierType" [value]="reqData.CarrierType" />
+      <input type="hidden" name="CarrierCode" [value]="reqData.CarrierCode" />
+      <input type="hidden" name="LoveCode" [value]="reqData.LoveCode" />
+      <input type="hidden" name="InvoiceMode" [value]="reqData.InvoiceMode" />
+      <input type="hidden" name="InvoiceTaxID" [value]="reqData.InvoiceTaxID" />
+      <input type="hidden" name="InvoiceTitle" [value]="reqData.InvoiceTitle" />
+      <input type="hidden" name="InvoiceAddress" [value]="reqData.InvoiceAddress" />
+      <input type="hidden" name="xEyes_CustomerInfo" [value]="reqData.xEyes_CustomerInfo" />
+      <input type="hidden" name="User_Code" [value]="reqData.User_Code" />
+      <button type="submit" [ngClass]="ablePayment ? 'btn-ok' : 'btn gray-btn'" [disabled]="!ablePayment">付款</button>
+    </form>
+  </footer>
+
+  <div class="multilayer">
+    <div class="shopping-cardnum">
+      <header class="container">
+        <!-- header top -->
+        <div class="header-secondary container linebt-row">
+          <div class="index-flex justify-content-between">
+            <div class="item two">
+              <div class="close-btn" (click)="ablePayment = false; appService.backLayer();" data-toggle="tooltip" data-placement="bottom"
+                title="回上一頁">
+                <i class="material-icons">&#xe314;</i>
+              </div>
+            </div>
+            <div class="item three text-center">
+              <div class="title-name">輸入卡號</div>
+            </div>
+            <div class="item two text-right">
+              <div class="close-btn"></div>
+            </div>
+          </div>
+        </div>
+      </header>
+      <form>
+        <div class="input-number-box">
+          <div class="container">
+            <div class="row">
+              <div class="col-12">
+                <div class="input-type">
+                  <p>信用卡/簽帳金融卡卡號 {{reqData.CardNo}}</p>
+                  <input type="text" name="CardNo" placeholder="0000 0000 0000 0000" class="form-control"
+                    [textMask]="maskCardNo" [(ngModel)]="reqData.CardNo" required>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="input-type">
+                  <p>有效年月{{reqData.CardDate}}</p>
+                  <input type="text" name="CardDate" placeholder="MM/YY" class="form-control" [textMask]="maskCardDate"
+                    [(ngModel)]="reqData.CardDate" required>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="input-type">
+                  <p>背面末三碼</p>
+                  <input type="text" name="CVC" placeholder="000" class="form-control" [textMask]="maskCardCSC"
+                    [(ngModel)]="reqData.CVC" required>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="default-setting">
+                  <div class="item item-checkbox small center-v">
+                    <div class="sitem-checkbox">
+                      <div class="icheck-material-blue" [hidden]="false">
+                        <input id="agreeFastCard" type="checkbox" class="checkedall" name="agreeFastCard"
+                          (change)="agreeFastCard($event)">
+                        <label for="agreeFastCard"></label>同意加入信用卡,下次結帳更快速
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <button type="button" (click)="addCardPayment()" class="btn index-btn w-100">付款</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="newebPay text-center">
+              <p>本安全服務由藍新金流服務平台提供</p>
+              <img src="../img/shopping/newebpay.png" alt="">
+              <small>Powered by Neweb Technologies Co., Ltd.</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,430 @@
+﻿<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=no">
+    <!-- Material Design for Bootstrap fonts and icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../js/vendor/bs4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../js/vendor/jquery-editable-select-master/dist/jquery-editable-select.min.css">
+    <!-- owl.carousel core CSS -->
+    <link rel="stylesheet" href="../js/vendor/owlcarousel/owlcarousel/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="../js/vendor/owlcarousel/owlcarousel/assets/owl.theme.default.min.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- vendor css -->
+    <link rel="stylesheet" href="../js/vendor/swiper/css/swiper.min.css">
+    <!-- fontawesome css -->
+    <link rel="stylesheet" href="../js/vendor/fontawesome/css/fontawesome.css">
+    <link rel="stylesheet" href="../js/vendor/fontawesome/css/brands.css">
+    <link rel="stylesheet" href="../js/vendor/fontawesome/css/solid.css">
+    <!-- custom css -->
+    <link rel="stylesheet" href="../dist/style/shopping-index.min.css">
+    <link rel="stylesheet" href="../dist/style/animate.min.css">
+    <title>eyemedia - afp</title>
+</head>
+
+<body class="">
+    <div class="wrap">
+        
+    <header>
+        <!-- header top -->
+        <div class="kv-box">
+            <div class="pc-top" id="pc-top">
+              <div class="pc-top-box">
+                <div class="for-pc">
+                    <div class="login-top">
+                        <div class="kv-small">
+                          <!-- login trigger modal -->
+                          <button type="button" id="kv-btn-log" class="btn btn-login btn-sm py-0" data-toggle="modal" data-target="#loginModalCenter">
+                              登入
+                          </button>
+                          <span>|</span>               
+                          <button type="button" id="kv-btn-reg" class="btn btn-login btn-sm py-0" data-toggle="modal" data-target="#registeredModalCenter">
+                              註冊
+                          </button> 
+                        </div>
+                    </div>          
+                </div>
+                <div class="kv-top">
+                    <div class="top-item logo">
+                        <a href="">
+                            <img src="../img/index/logo.svg" alt="">
+                        </a>
+                    </div>
+                    <div class="close-btn for-mobile">
+                        <i class="material-icons">&#xE314;</i>
+                    </div>
+                    <div class="top-item input-box">
+                        <button><i class="material-icons">&#xE8B6;</i></button>
+                        <input type="text" class="shopping-searchbar" placeholder="搜尋商品、關鍵字">
+                    </div>
+                    <div class="top-item more-horiz has-info">
+                        <img class="for-mobile" src="../img/shopping/icon_member.svg" alt="">
+                        <button class="drop_menu_toggle"></button>
+                        <div class="drop-menu">
+                            <ul class="drop-content">
+                                <li><a href="javascript:;"><img src="../img/index/icons/icon_qrcode.svg" alt="">掃碼</a></li>
+                                <li><a href="javascript:;"><img src="../img/index/icons/icon_taxicode.svg" alt="">乘車碼</a></li>
+                                <li><a class="open-login" href="javascript:;"><img src="../img/index/icons/icon_login.svg" alt="">登入/註冊</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="top-item climate">                        
+                        <img src="../img/shopping/icon_shoppingcart.svg" alt="">
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="kv-mask"></div> 
+        </div>
+    </header>
+    <main>        
+        <!-- shopping-bigbnbox use carousel-->
+        <div class="container mb-2" id="shopping-bigbnbox">
+            <div id="carousel-shopping-bigbn" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                  <li data-target="#carousel-shopping-bigbn" data-slide-to="0" class="active"></li>
+                  <li data-target="#carousel-shopping-bigbn" data-slide-to="1"></li>
+                  <li data-target="#carousel-shopping-bigbn" data-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img class="d-block w-100" src="../img/shopping/shopping-bigbn01.png" alt="First slide">
+                  </div>
+                  <div class="carousel-item">
+                    <img class="d-block w-100" src="../img/shopping/shopping-bigbn02.png" alt="Second slide">
+                  </div>
+                  <div class="carousel-item">
+                    <img class="d-block w-100" src="../img/shopping/shopping-bigbn03.png" alt="Third slide">
+                  </div>
+                </div>
+            </div>            
+        </div>
+                                      
+        <!-- shopping-icon use swiper -->
+        <div class="container mb-2" id="shopping-iconbox">    
+            <div class="shopping-icon swiper-container">     
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <a href>    
+                            <img src="../img/shopping/icon_food.svg" alt="">
+                            <div class="icon-txt">美食餐券</div>
+                        </a>
+                    </div>  
+                    <div class="swiper-slide">
+                        <a href>    
+                            <img src="../img/shopping/icon_cosmeit.svg" alt="">
+                            <div class="icon-txt">美妝保養</div>
+                        </a>
+                    </div>  
+                    <div class="swiper-slide">
+                        <a href>    
+                            <img src="../img/shopping/icon_homelife.svg" alt="">
+                            <div class="icon-txt">居家生活</div>
+                        </a>
+                    </div>  
+                    <div class="swiper-slide">
+                        <a href>    
+                            <img src="../img/shopping/icon_bag.svg" alt="">
+                            <div class="icon-txt">鞋包精品</div>
+                        </a>
+                    </div>  
+                    <div class="swiper-slide">
+                        <a href>    
+                            <img src="../img/shopping/icon_baby.svg" alt="">
+                            <div class="icon-txt">母嬰寶貝</div>
+                        </a>
+                    </div>  
+                    <div class="swiper-slide">
+                        <a href>    
+                            <img src="../img/shopping/icon_woman.svg" alt="">
+                            <div class="icon-txt">女裝服飾</div>
+                        </a>
+                    </div>  
+                    <div class="swiper-slide">
+                        <a href>    
+                            <img src="../img/shopping/icon_men.svg" alt="">
+                            <div class="icon-txt">男裝服飾</div>
+                        </a>
+                    </div>  
+                    <div class="swiper-slide">
+                        <a href="products-list.html">    
+                            <img src="../img/shopping/icon_3c.svg" alt="">
+                            <div class="icon-txt">3C家電</div>
+                        </a>
+                    </div>  
+                    <div class="swiper-slide">
+                        <a href>    
+                            <img src="../img/shopping/icon_health.svg" alt="">
+                            <div class="icon-txt">身心健康</div>
+                        </a>
+                    </div>  
+                    <div class="swiper-slide">
+                        <a href>    
+                            <img src="../img/shopping/icon_pet.svg" alt="">
+                            <div class="icon-txt">汪喵星人</div>
+                        </a>
+                    </div>  
+                </div>                    
+                <!-- Add Pagination -->
+                <div class="swiper-pagination"></div>                    
+            </div>    
+        </div>
+                                                
+        <!-- shopping-adbn use swiper-->
+        <div class="container" id="shopping-adbox">  
+            <div class="shopping-ad swiper-container">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide">
+                      <div class="shopping-adimgbox">
+                        <div class="rwdimg-h20" style="background-image: url('../img/shopping/shopping_adbn01.png');"></div>
+                      </div>
+                  </div>
+                  <div class="swiper-slide">
+                      <div class="shopping-adimgbox">
+                        <div class="rwdimg-h20" style="background-image: url('../img/shopping/shopping_adbn02.png');"></div>
+                      </div>
+                  </div>
+                </div>
+                <!-- Add Scrollbar -->
+                <div class="swiper-scrollbar"></div>
+            </div>
+        </div>
+        
+        <!-- discout -->
+        <div class="container mb-2 other-discount-list">
+            <h6>熱門優惠券</h6>
+            <div class="discount-more"><a href>更多優惠券</a></div>
+            <div class="discount-item">
+                <div class="item">
+                    <div class="img-box">
+                        <img src="../img/shopping/store/everrich.png" alt="">
+                    </div>
+                </div>
+                <div class="item discount-text">
+                    <p>昇恆昌</p>
+                    <p><i class="material-icons offer"></i> <span>9折</span> 折扣券</p>
+                </div>
+                <div class="item ">
+                    <div class="line-box"></div>
+                    <div class="circle circle-top"></div>
+                    <div class="circle circle-bottom"></div>
+                    <button class="default-btn">領取</button>
+                </div>
+            </div>
+            <div class="discount-item">
+                <div class="item">
+                    <div class="img-box">
+                        <img src="../img/shopping/store/everrich.png" alt="">
+                    </div>
+                </div>
+                <div class="item discount-text">
+                    <p>昇恆昌</p>
+                    <p><i class="material-icons offer"></i> <span>9折</span> 折扣券</p>
+                </div>
+                <div class="item ">
+                    <div class="line-box"></div>
+                    <div class="circle circle-top"></div>
+                    <div class="circle circle-bottom"></div>
+                    <button class="default-btn">領取</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hot products -->
+        <div class="container mb-2" id="shopping-hotproductsbox">
+            <h6>熱銷商品</h6>
+            <div class="shopping-products swiper-container">                
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="products-item">
+                            <div class="products-img">
+                                <div class="img-box">
+                                    <div class="rwdimg" style="background-image: url('../img/shopping/products/products001.jfif');"></div>
+                                </div> 
+                            </div>
+                            <div class="products-title">
+                                <p class="txt-line-clamp1">Apple iPhone XS 256GB</p>
+                            </div>
+                            <div class="products-price">
+                                <div class="price-asking">$30,320</div>
+                                <div class="price-original">$37,000</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- new products -->
+        <div class="container mb-2" id="shopping-newproductsbox">
+            <h6>火熱上架</h6>
+            <div class="shopping-products swiper-container">                
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="products-item">
+                            <div class="products-img">
+                                <div class="img-box">
+                                    <div class="rwdimg" style="background-image: url('../img/shopping/products/products002.jfif');"></div>
+                                </div> 
+                            </div>
+                            <div class="products-title">
+                                <p class="txt-line-clamp1">U-TA 車用藍牙播放/充電器</p>
+                            </div>
+                            <div class="products-price">
+                                <div class="price-asking">$369</div>
+                                <div class="price-original">$990</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="h-50 d-inline-block"></div>
+        <div id="loginhtml"></div>
+    </main>
+    
+    <footer class="for-pc"> 
+        <!--web service-->
+        <div class="scroll-top-wrapper">
+            <span class="scroll-top-inner">
+                <button type="button" id="webservice"><img src="../img/index/icons/for-pc/icon_service.png"></button>
+                <button type="button" id="webservice_close" class="d-none"><img src="../img/index/icons/for-pc/icon_close.png"></button>
+            </span>
+        </div>
+        <div class="popup-box chat-popup" id="qnimate">
+            <div class="popup-head">
+                <div class="popup-head-left pull-left"><img src="../img/index/icons/for-pc/icon_bear.png" alt="service"> 熊客服</div>
+            </div>
+            <div class="hr-100"></div>
+            <div class="popup-messages">          
+            <div class="direct-chat-messages">
+                <div class="chat-box-single-line">
+                        <abbr class="timestamp">Sun, Dec 11 1:20 PM</abbr>
+                </div>
+                
+                <!-- Message. Default to the left -->
+                <div class="direct-chat-msg">
+                    <!-- direct-chat-info -->
+                    <div class="direct-chat-text">
+                    Hey你好, 我是熊, 很高興為您服務
+                    </div>                  
+                    <ul class="direct-info">
+                        <span>來看看有什麼熱門問題吧!</span>
+                        <li><a href="">亞洲好玩卡網站是什麼?</a></li>
+                        <li><a href="">我想問如何快速取貨?</a></li>
+                        <li><a href="">想要退換貨怎麼辦?</a></li>
+                        <li><a href="">最近有什麼最新優惠?</a></li>
+                        <li><a href="">我該如何購買網路商品?</a></li>
+                    </ul>
+                </div>          
+                <!-- Message. Default to the right -->
+                <div class="guests-chat-msg">
+                    <!-- direct-chat-info -->
+                    <div class="guests-chat-text">
+                    請幫我轉真人服務
+                    </div> 
+                    <div class="guests-chat-name">
+                    guests
+                    </div> 
+                </div>          
+                        
+            </div>
+            </div>
+            <div class="hr-100"></div>
+            <div class="popup-messages-footer">
+                <input type="text" placeholder="請輸入問題">
+            </div>
+        </div>
+        <!--footer content-->
+        <div class="container">
+        <div class="row d-flex">
+            <div class="col-4 col-md-3">
+            <h6>關於亞洲好玩卡</h6>
+            <ul>
+                <li><a href="#">關於我們</a></li>
+            </ul>            
+            </div>
+            <div class="col-4 col-md-3">
+            <h6>追蹤我們</h6>
+            <ul>
+                <li><a href="#"><i class="fab fa-facebook-f fa-fw"></i> Facebook</a></li>
+                <li><a href="#"><i class="fab fa-line fa-fw"></i> Line</a></li>
+                <li><a href="#"><i class="fab fa-instagram fa-fw"></i> Instagram</a></li>
+            </ul>            
+            </div>  
+            <div class="w-100"></div>
+            <div class="col-12 border-t">
+            <div class="f-left">
+                <object data="../img/index/logo-s.svg" width="30px" type="image/svg+xml"></object><span> Designed by Asia Fun Pass</span>
+            </div>
+            <div class="f-right">
+                Ⓒ2020 Asia Fun Pass. All Right Reserved          
+            </div>
+            </div>
+        </div>  
+        </div>
+    </footer>
+    <footer class="mobile-footer for-mobile">
+        <div class="menu-bar">
+            <a href="javascript:;" class="bar-item active">
+                <img class="default-img" src="../img/index/icons/footer_1_1.svg" alt="">
+                <img class="active-img" src="../img/index/icons/footer_1_2.svg" alt="">
+                首頁
+            </a>
+            <a href="javascript:;" class="bar-item">
+                <img class="default-img" src="../img/index/icons/footer_2_1.svg" alt="">
+                <img class="active-img" src="../img/index/icons/footer_2_2.svg" alt="">
+                周邊
+            </a>
+            <a href="javascript:;" class="bar-item customer-item">
+                <img src="../img/index/icons/footer_3.png" alt="">
+                客服
+            </a>
+            <a href="javascript:;" class="bar-item">
+                <img class="default-img" src="../img/index/icons/footer_4_1.svg" alt="">
+                <img class="active-img" src="../img/index/icons/footer_4_2.svg" alt="">
+                任務
+            </a>
+            <a href="javascript:;" class="bar-item">
+                <img class="default-img" src="../img/index/icons/footer_5_1.svg" alt="">
+                <img class="active-img" src="../img/index/icons/footer_5_2.svg" alt="">
+                我的
+            </a>
+        </div>
+    </footer>
+    
+    </div>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="../js/vendor/bs4/js/jquery-3.2.1.slim.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->    
+    <script src="../js/vendor/bs4/js/bootstrap.min.js"></script>
+
+    <!-- owlcarousel JS -->
+    <script src="../js/vendor/owlcarousel/vendors/jquery.min.js"></script>
+    <script src="../js/vendor/owlcarousel/owlcarousel/owl.carousel.js"></script>
+    <script src="../js/vendor/owlcarousel/vendors/highlight.js"></script>
+    <script src="../js/vendor/owlcarousel/js/app.js"></script>   
+    <script src="../js/vendor/jquery-editable-select-master/dist/jquery-editable-select.js"></script>
+
+    <!-- vendor js -->
+    <script src="../js/vendor/swiper/js/swiper.min.js"></script>
+    <script src="../js/vendor/imgLiquid.js"></script>
+
+    <!-- custom js -->
+    <script src="../js/index.js"></script>
+</body>
+
+</html>

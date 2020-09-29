@@ -1,0 +1,17 @@
+<div class="modal-header" data-dismiss="modal" aria-label="Close">
+</div>
+<form #formAddCoupon="ngForm" (ngSubmit)="formAddCoupon.form.valid && btnOk(formAddCoupon)" id="msg-mydiscount">
+<div class="modal-body">
+  <h5 class="pt-0 text-index">新增優惠</h5>
+  <input type="text" class="input-index w-80 px-2 my-2" placeholder="請輸入您的優惠碼"
+  #couponCode="ngModel" [(ngModel)]="requestAddCoupon.Voucher_ActivityCode" name="Voucher_ActivityCode" pattern="^[a-zA-Z0-9_]*$" required><br>
+  <small *ngIf="couponCode.dirty && couponCode.invalid" class="text-danger">優惠碼格式有誤</small>
+</div>
+<div class="modal-footer justify-content-center border-top-0">
+  <button type="submit" class="btn w-75 index-btn msg-open" value="msg-mydiscount-add" data-dismiss="modal"
+    data-toggle="modal" data-target="#messageModal">
+    新增
+  </button>
+  <button type="button" class="btn close-modalbtn" data-dismiss="modal" (click)="closeModal()"><img src="../img/share/close.png"></button>
+</div>
+</form>

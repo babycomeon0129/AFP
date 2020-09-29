@@ -1,0 +1,409 @@
+<div class="wrap container">
+  <main>
+      <!-- Swiper for shopping-storeimg -->
+      <div class="shopping-storedetail">
+          <div class="shopping-storedetailbox">
+              <div class="shopping-storeimgbox">
+                  <swiper class="shopping-storeimg swiper-container" [config]="imgSwiper">
+                      <div class="swiper-wrapper">
+                        <div class="swiper-slide" *ngIf="siteInfo?.ECStore_Image1 !== null">
+                          <div [style.background-image]="'url('+siteInfo?.ECStore_Image1+')' | Safe: 'style'" class="img-fluid"></div>
+                        </div>
+                        <div class="swiper-slide" *ngIf="siteInfo?.ECStore_Image2 !== null">
+                          <div [style.background-image]="'url('+siteInfo?.ECStore_Image2+')' | Safe: 'style'" class="img-fluid"></div>
+                        </div>
+                        <div class="swiper-slide" *ngIf="siteInfo?.ECStore_Image3 !== null">
+                          <div [style.background-image]="'url('+siteInfo?.ECStore_Image3+')' | Safe: 'style'" class="img-fluid"></div>
+                        </div>
+                        <div class="swiper-slide" *ngIf="siteInfo?.ECStore_Image4 !== null">
+                          <div [style.background-image]="'url('+siteInfo?.ECStore_Image4+')' | Safe: 'style'" class="img-fluid"></div>
+                        </div>
+                        <div class="swiper-slide" *ngIf="siteInfo?.ECStore_Image5 !== null">
+                          <div [style.background-image]="'url('+siteInfo?.ECStore_Image5+')' | Safe: 'style'" class="img-fluid"></div>
+                        </div>
+                      </div>
+                      <!-- Add Pagination -->
+                      <div class="swiper-pagination"></div>
+                      <div class="shopping-storeup">
+                          <div class="back-go">
+                              <button type="button" onclick="history.back();" #clickbtn data-toggle="tooltip" data-placement="top" title="回上一頁" [hidden]="appService.isApp !== null && !showBackBtn"><img src="../img/share/icon_back.png" class="imgicon"></button>
+                          </div>
+                          <div class="ml-auto d-flex d-inline align-items-center">
+                            <button class="btn add-share" type="button" (click)="modal.show('msgShare', { initialState: {sharedText: textForShare} })"><img src="../img/share/icon_share.png" class="imgicon"></button>
+                            <div class="add-favorite">
+                              <button (click)="appService.favToggle((appService.userFavCodes.includes(siteCode)? 2 : 1), siteInfo?.ECStore_Type < 2000? 52 : 53, siteCode)"
+                                [ngClass]="{'active': appService.userFavCodes.includes(siteCode)}"
+                                data-toggle="modal" type="button" data-placement="top" title="加入/移除收藏"><img src="../img/share/icon_favorite.png" class="imgicon">
+                              </button>
+                            </div>
+                          </div>
+                      </div>
+                  </swiper>
+              </div>
+          </div>
+          <div class="store-container">
+              <div class="store-info-box">
+                  <div class="shopping-flex">
+                      <div class="item three">
+                          <div class="shopping-storebox d-flex flex-row d-inline-block">
+                              <div *ngIf="siteInfo?.ECStore_Type < 2000" class="img-box mr-2">
+                                  <div [style.background-image]="'url('+siteInfo?.ECStore_Logo+')'" class="rwdimg logo-img"></div>
+                              </div>
+                              <div class="store-title center-v">{{siteInfo?.ECStore_ShowName}}</div>
+                          </div>
+                          <div class="px-2">
+                            <div class="shopping-store-badge">
+                              <span class="badge badge-pill text-explore py-0">
+                                <img src="../../img/share/{{siteInfo?.ECStore_Type}}.png" alt="">{{siteInfo?.ECStore_TypeName}}</span>
+                            </div>
+                          </div>
+                      </div>
+                      <div *ngIf="siteInfo?.ECStore_Type < 2000 && this.JustKaUrl !== null" class="item one align-self-start mt-3">
+                          <div class="shopping-store-btn text-right">
+                              <button (click)="appService.showJustka(this.JustKaUrl)" type="button" class="btn btn-outline-dark border-radius30 py-1 mr-1">聯絡店家</button>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="flex-inline-between store-distance">
+                    <div>
+                      <!-- 距離（周邊顯示） -->
+                    </div>
+                    <div *ngIf="siteInfo?.ECStore_Type !== 1000" class="ml-auto">
+                      距離 <span>{{siteInfo?.ECStore_Distance | currency: '':'':'1.0-0'}}</span> m
+                    </div>
+                  </div>
+                  <div class="store-tab-box">
+                      <ul class="nav nav-tabs" id="storeTab" role="tablist">
+                          <li class="nav-item">
+                            <a [routerLink]="['/ExploreDetail', siteCode]" [queryParams]="{ navNo: 1 }" [ngClass]="{'active' : tabNo == 1}" class="nav-link active" id="store-tab" data-toggle="tab" href="#store" role="tab" aria-controls="store" aria-selected="true">{{siteInfo?.ECStore_Type < 2000? '店家' : '周邊'}}簡介</a>
+                          </li>
+                          <li *ngIf="siteInfo?.ECStore_Type < 2000 && siteInfo?.ECStore_Type !== 1100" class="nav-item">
+                              <a [routerLink]="['/ExploreDetail', siteCode]" [queryParams]="{ navNo: 3 }" [ngClass]="{'active' : tabNo == 3}" class="nav-link" id="shop-tab" data-toggle="tab" href="#shop" role="tab" aria-controls="shop" aria-selected="false">所有商品</a>
+                          </li>
+                          <li  *ngIf="siteInfo?.ECStore_Type < 2000" class="nav-item">
+                              <a [routerLink]="['/ExploreDetail', siteCode]" [queryParams]="{ navNo: 2 }" [ngClass]="{'active' : tabNo == 2}" class="nav-link" id="ticket-tab" data-toggle="tab" href="#ticket" role="tab" aria-controls="ticket" aria-selected="false">優惠券</a>
+                          </li>
+                      </ul>
+                      <div class="tab-content">
+                          <!-- 商家簡介 -->
+                          <div [ngClass]="{'show active' : tabNo == 1}" class="tab-pane fade show active" id="store" role="tabpanel" aria-labelledby="store-tab">
+                              <div class="store-group">
+                                  <!-- 簡介文字 -->
+                                  <div *ngIf="siteInfo?.ECStore_Features !== null" class="store-item store-itemopen">
+                                      <p [innerHTML]="siteInfo?.ECStore_Features"></p>
+                                      <!-- <div (click)="unfold(1)" class="open-btn ml-auto"><i class="material-icons"></i></div> -->
+                                  </div>
+                                  <!-- 地址 -->
+                                  <div *ngIf="siteInfo?.ECStore_Type !== 1000" class="store-item store-itemopen">
+                                    <div class="item-icon">
+                                        <img src="../../../img/share/store-location.png" class="h20">
+                                    </div>
+                                    <div class="item">
+                                      <a href="https://www.google.com.tw/maps/place/{{siteInfo?.ECStore_Address}}" target="_blank" rel="noopener noreferrer">{{siteInfo?.ECStore_Address}}</a>
+                                    </div>
+                                  </div>
+                                  <!-- 分店資訊 -->
+                                  <div *ngIf="siteInfo?.ECStore_Type < 2000" [ngClass]="{'is-open': this.unfolded.includes(2)}" class="store-item store-itemopen">
+                                      <div class="item-icon">
+                                          <img src="../../../img/share/store-branch.png" class="h20">
+                                      </div>
+                                      <div class="item">
+                                          <p>分店資訊</p>
+                                      </div>
+                                      <div (click)="unfold(2)" class="open-btn"><i class="material-icons"></i></div>
+                                      <ul class="itemopen-list">
+                                          <li *ngFor="let store of branchList" [routerLink]="['/ExploreDetail', store?.ECStore_Code]">
+                                            <span>{{store?.ECStore_ShowName}}</span>
+                                            <i class="fas fa-chevron-right text-right pr-2"></i>
+                                          </li>
+                                          <li *ngIf="branchList.length === 0">
+                                            <span>無分店資訊</span>
+                                          </li>
+                                      </ul>
+                                  </div>
+                                  <!-- 營業時間 -->
+                                  <div [ngClass]="{'is-open': this.unfolded.includes(3)}" class="store-item store-itemopen">
+                                      <div class="item-icon">
+                                        <img src="../../../img/share/store-time.png" class="h20">
+                                      </div>
+                                      <div class="item">
+                                          營業時間
+                                      </div>
+                                      <div (click)="unfold(3)" class="open-btn"><i class="material-icons"></i></div>
+                                      <ul class="itemopen-list" [innerHTML]="siteInfo?.ECStore_OpenTime"></ul>
+                                  </div>
+                                  <!-- 聯絡電話 -->
+                                  <div *ngIf="siteInfo?.ECStore_Tel !== null" class="store-item">
+                                      <div class="item-icon">
+                                        <img src="../../../img/share/store-phone.png" class="h20">
+                                      </div>
+                                      <div class="item">
+                                        <a href="tel:{{siteInfo?.ECStore_Tel}}">{{siteInfo?.ECStore_Tel}}</a>
+                                      </div>
+                                  </div>
+                                  <!-- 付款方式 (周邊與實體店不顯示)-->
+                                  <div *ngIf="siteInfo?.ECStore_Type === 1000" class="store-item">
+                                      <div class="item-icon">
+                                        <img src="../../../img/share/store-payment.png" class="h20">
+                                      </div>
+                                      <div class="item">
+                                          信用卡
+                                      </div>
+                                  </div>
+                                  <!-- 官網 -->
+                                  <div *ngIf="websitesArr.length > 0" class="store-item align-items-start">
+                                      <div class="item-icon">
+                                        <img src="../../../img/share/store-website.png" class="h20">
+                                      </div>
+                                      <ul>
+                                        <li *ngFor="let website of websitesArr; let Last = last;" class="item">
+                                            <a href="{{website?.siteUrl}}" target="_blank" rel="noopener noreferrer" class="text-bluedk">{{website?.siteName}}</a>
+                                        </li>
+                                      </ul>
+                                  </div>
+
+                              </div>
+                          </div>
+                          <!-- 所有商品 -->
+                          <div [ngClass]="{'show active' : tabNo == 3}" class="tab-pane fade" id="shop" role="tabpanel" aria-labelledby="shop-tab">
+                            <!-- 篩選與排序不顯示 -->
+                              <div class="flex-inline-between p-2 d-none">
+                                  <div class="sub-title">
+                                      <button class="btn">
+                                          篩選與排序
+                                      </button>
+                                  </div>
+                                  <div class="sub-img" onclick="callsortLayer('.productslistsort');">
+                                      <button class="btn px-0"><i class="material-icons">&#xE152;</i></button>
+                                  </div>
+                              </div>
+                              <div id="products-list">
+                                  <div class="products-listbox">
+                                    <div class="row">
+                                      <div *ngFor="let product of productList" class="col-6 col-md-4">
+                                        <div class="products-item">
+                                          <a [routerLink]="['/ProductDetail', product.Product_UserDefineCode, product.Product_Code]">
+                                              <div class="products-img">
+                                                  <div class="productimg-box">
+                                                      <div class="rwdimg" [lazyLoad]="product.Product_PrimeImage" [defaultImage] ="appService.defaultImage"></div>
+                                                  </div>
+                                              </div>
+                                              <div class="products-title">
+                                                  <p class="txt-line-clamp2">{{product?.Product_ExtName}}</p>
+                                              </div>
+                                              <div class="products-price">
+                                                  <div class="price-asking">{{product.Product_SpecialPrice > 0? (product.Product_SpecialPrice | currency: 'TWD':'$':'1.0-2') : (product.Product_SellPrice | currency: 'TWD':'$':'1.0-0')}}</div>
+                                                  <div class="price-original"  *ngIf="product.Product_SpecialPrice > 0">{{product.Product_SellPrice | currency: 'TWD':'$':'1.0-2' }}</div>
+                                              </div>
+                                          </a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <!-- 優惠券 -->
+                          <div [ngClass]="{'show active' : tabNo == 2}" class="tab-pane fade" id="ticket" role="tabpanel" aria-labelledby="ticket-tab">
+                              <!-- discout -->
+                              <div class="mycoin-couponbox card-columns px-3">
+                                <div *ngFor="let voucher of voucherList" class="card border-radius5">
+                                  <div class="card-body">
+                                  <div class="card-text">
+                                      <div class="member-flex">
+                                          <div [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/VoucherDetail', voucher.Voucher_Code] : ['/VoucherDetail', voucher.Voucher_UserVoucherCode]" class="item one">
+                                              <div [lazyLoad]="voucher.Voucher_Image" [defaultImage] = "appService.defaultImage" class="rwdimg logo-img"></div>
+                                          </div>
+                                          <div class="item three px-2">
+                                              <p>{{siteInfo?.ECStore_ShowName}}</p>
+                                              <p>{{voucher.Voucher_ExtName}}</p>
+                                              <p>{{voucher.Voucher_UsedOnDate | date: 'yyyy/MM/dd' }} ~ {{voucher.Voucher_UsedOffDate | date: 'yyyy/MM/dd' }}</p>
+                                          </div>
+                                          <div class="item one">
+                                              <button (click)="appService.onVoucher(voucher)"
+                                                [disabled]="appService.loginState === true && (voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3)"
+                                                [ngClass]="{'gray-obtn': voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3,
+                                                            'index-btn': voucher.Voucher_IsFreq === 1,
+                                                            'index-outline-btn': voucher.Voucher_IsFreq === 2 || voucher.Voucher_IsFreq === 5}"
+                                                class="btn px-2 small-80">
+                                                {{appService.loginState === false? '兌換' : voucher.Voucher_FreqName}}
+                                              </button>
+                                              <div *ngIf="voucher.Voucher_DedPoint > 0" class="m-quantity small pl-1">
+                                                <img src="../img/share/mobiicoin_red.png" class="coinimg-m">
+                                                {{voucher.Voucher_SpecialPoint > 0 ? voucher.Voucher_SpecialPoint : voucher.Voucher_DedPoint | currency: '':'':'1.0-2'}}
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  </div>
+                                  <div class="card-footer bg-cardfooter pt-2 pb-0">
+                                  <div class="member-flex small-80">
+                                      <div class="item one text-nowrap">
+                                          <img src="../../img/share/{{voucher.Voucher_ShowType}}_w.png" class="nearbyimg" alt="">
+                                          {{voucher.Voucher_ShowTypeName}}
+                                      </div>
+                                  </div>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="addheight"></div>
+      <div class="h-50 d-inline-block"></div>
+      <!--外送點餐按鈕-->
+      <footer class="success-mode container z-index301" *ngIf="ecStoreExtType !== null">
+        <button class="btn-ok" (click)="sendDelivery()">我要點餐</button>
+     </footer>
+
+  </main>
+
+  <!--篩選-->
+  <div class="sortlayer">
+      <div class="productslistsort">
+          <div id="open-pagebox">
+              <div class="open-page-title flex-inline-between">
+                  <div class="title-icon">
+                      <button class="btn" onclick="backsortLayer();">
+                          <i class="material-icons">&#xe314;</i>
+                      </button>
+                  </div>
+                  <div class="title-txt">
+                      篩選與排序
+                  </div>
+                  <div class="title-txt">
+                  </div>
+              </div>
+              <ul class="open-page-ul">
+                  <label>篩選</label>
+                  <li class="flex-inline-between active" onclick="callsortLayer('.productslistsort1');">
+                      <div class="">
+                          商品分類
+                      </div>
+                      <div class="">
+                          手機殼/手機套<i class="material-icons">&#xe315;</i>
+                      </div>
+                  </li>
+                  <li class="flex-inline-between">
+                      <div class="">
+                          免運費
+                      </div>
+                      <div class="">
+                          全部顯示<i class="material-icons">&#xe315;</i>
+                      </div>
+                  </li>
+                  <li class="flex-inline-between">
+                      <div class="">
+                          材質
+                      </div>
+                      <div class="">
+                          全部顯示<i class="material-icons">&#xe315;</i>
+                      </div>
+                  </li>
+              </ul>
+              <ul class="open-page-ul">
+                  <label>排序</label>
+                  <li class="flex-inline-between">
+                      <div class="">
+                          最新上架優先
+                      </div>
+                      <div class="">
+                      </div>
+                  </li>
+                  <li class="flex-inline-between active">
+                      <div class="">
+                          熱門程度優先
+                      </div>
+                      <div class="">
+                          <i class="fas fa-check"></i>
+                      </div>
+                  </li>
+                  <li class="flex-inline-between">
+                      <div class="">
+                          價格由低而高
+                      </div>
+                      <div class="">
+                      </div>
+                  </li>
+                  <li class="flex-inline-between">
+                      <div class="">
+                          價格由高而低
+                      </div>
+                      <div class="">
+                      </div>
+                  </li>
+              </ul>
+              <button class="btn all-reset">
+                  全部重設
+              </button>
+          </div>
+      </div>
+      <div class="productslistsort1">
+          <div id="open-pagebox1">
+              <div class="open-page-title flex-inline-between">
+                  <div class="close-btn">
+                      <button class="btn" onclick="backsortLayer();">
+                          <i class="material-icons">&#xe314;</i>
+                      </button>
+                  </div>
+                  <div class="title-txt">
+                      商品分類
+                  </div>
+                  <div class="title-txt">
+                  </div>
+              </div>
+              <ul class="open-page-ul">
+                  <li class="flex-inline-between active">
+                      <div class="">
+                          <i class="fas fa-check"></i> 全部顯示
+                      </div>
+                      <div class="">
+                      </div>
+                  </li>
+                  <li class="flex-inline-between">
+                      <div class="">
+                          手機殼/手機套
+                      </div>
+                      <div class="">
+                          13274
+                      </div>
+                  </li>
+                  <li class="flex-inline-between">
+                      <div class="">
+                          平板/電腦保護殼
+                      </div>
+                      <div class="">
+                          1231
+                      </div>
+                  </li>
+                  <li class="flex-inline-between">
+                      <div class="">
+                          耳機
+                      </div>
+                      <div class="">
+                          274
+                      </div>
+                  </li>
+                  <li class="flex-inline-between">
+                      <div class="">
+                          USB隨身碟
+                      </div>
+                      <div class="">
+                          1374
+                      </div>
+                  </li>
+                  <li class="flex-inline-between">
+                      <div class="">
+                          行動電源
+                      </div>
+                      <div class="">
+                          1327
+                      </div>
+                  </li>
+              </ul>
+          </div>
+      </div>
+  </div>
+</div>

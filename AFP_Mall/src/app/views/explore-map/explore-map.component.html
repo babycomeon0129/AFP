@@ -1,0 +1,44 @@
+<div class="wrap">
+  <div class="explore-top-box">
+    <div class="title-box">
+      <div class="item icon-btn"><i class="material-icons" onclick="history.back()">&#xe314;</i></div>
+      <div class="item title-name">週邊地圖</div>
+      <div class="item icon-btn"></div>
+    </div>
+  </div>
+  <agm-map id="map" [latitude]="lat" [longitude]="lng" [zoom]="zoomValue">
+    <agm-marker  [latitude]="lat" [longitude]="lng" [iconUrl]="userUrl"></agm-marker>
+    <agm-marker  *ngFor="let Area of AreaList;"
+    [latitude]="Area.ECStore_Lat" [longitude]="Area.ECStore_Lng" [iconUrl]="iconUrl"
+    (markerClick)="selectPoint(Area.ECStore_Code)"></agm-marker>
+    <agm-info-window *ngFor="let Area of AreaList;" [latitude]="Area?.ECStore_Lat+0.001" [longitude]="Area?.ECStore_Lng"
+      [isOpen]="openedWindow === Area?.ECStore_Code? true : false">
+      <h5>{{Area?.ECStore_ShowName}}</h5>
+      <p>目前所選</p>
+    </agm-info-window>
+  </agm-map>
+  <div class="explore-container mb-4" >
+    <a [routerLink]="['/ExploreDetail', AreaItem?.ECStore_Code]">
+      <div class="card-item">
+        <div class="img-box rwdimgbox-80">
+          <div class="rwdimg-cover" [style.background-image]="'url('+AreaItem?.ECStore_Image1+')'"></div>
+        </div>
+        <div class="info-box">
+          <ul class="info-list">
+            <li class="info-name">{{AreaItem?.ECStore_ShowName}}</li>
+            <li class="shopping-store-badge">
+              <div class="badge badge-pill text-explore">
+                <img src="../../img/share/{{AreaItem?.ECStore_Type}}.png" alt="">{{AreaItem?.ECStore_TypeName}}
+              </div>
+              <div class="badge badge-pill text-explore" style="display: none;">折價券</div>
+            </li>
+            <li class="info-near">
+              <div class="item" style="display: none;">近高雄巨蛋捷運站</div>
+              <div class="item auto-left">距離 <span>{{AreaItem?.ECStore_Distance}}</span> m</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>

@@ -1,0 +1,68 @@
+<div class="wrap container">
+  <!-- login Modal -->
+  <div class="" id="loginModalCenter">
+      <div class="modal-full modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+          </div>
+          <div class="popup-banner for-mobile">
+            <!--<img src="/img/index/login_banner.png" alt="">-->
+          </div>
+          <div class="modal-body">
+            <div class="logo-box">
+              <img src="/img/share/mlogo.png" alt="">
+            </div>
+            <h5>會員登入</h5>
+            <div class="container px-3">
+              <div class="login-method" [hidden]="true">
+                <div class="method-item">
+                  <img (click)="signInWithFB()" src="img/index/social/facebook.png" alt="">
+                </div>
+                <div class="method-item">
+                  <img (click)="signInWithGoogle()" src="img/index/social/google.png" alt="">
+                </div>
+              </div>
+              <div class="d-flex justify-content-center">
+                <div class="line-middle w-75 " [hidden]="true">
+                  <div class="line-middle-middle-line">
+                    <span class="line-middle-line-text">或</span>
+                  </div>
+                </div>
+              </div>
+              <form #formLogin="ngForm" (ngSubmit)="onSubmit(formLogin)">
+                <div class="form-group form-inline">
+                  <label for="loginInputEmailTel">帳號</label>
+                  <input type="text" class="form-control" name="AFPAccount" #AFPAccount="ngModel" [(ngModel)]="request.AFPAccount" required placeholder="請輸入手機"/>
+                  <div class="small-warning" *ngIf="AFPAccount.invalid && (AFPAccount.dirty || AFPAccount.touched)">
+                    <span *ngIf="AFPAccount.errors.required">帳號輸入錯誤</span>
+                  </div>
+                </div>
+                <div class="form-group form-inline">
+                  <label for="loginInputPassword">密碼</label>
+                  <input type="password" class="form-control" name="AFPPassword" #AFPPassword="ngModel" [(ngModel)]="request.AFPPassword" required placeholder="請輸入密碼"/>
+                  <div class="small-warning" *ngIf="AFPPassword.invalid && (AFPPassword.dirty || AFPPassword.touched)">
+                    <span *ngIf="AFPPassword.errors.required">密碼輸入錯誤</span>
+                  </div>
+                </div>
+
+                <button type="submit" class="btn index-btn w-100 msg-loginerror my-2" [disabled]="!formLogin.form.valid">登入</button>
+                <span class="text-left small-80 text-secondary">
+                  還不是會員嗎?
+                </span>
+                <button type="button" class="btn btn-login font-bold px-0 " (click)="modal.openModal('register')">
+                  馬上註冊
+                </button>
+                <div class="text-center p-3">
+                  <span>
+                    <a class="font-bold small-80" (click)="modal.openModal('forget', bsModalRef)">忘記密碼</a>
+                    | <a class="font-bold small-80" href="/QA">常見問題</a>
+                  </span>
+              </div>
+              </form>
+            </div>
+          </div>
+      </div>
+      </div>
+  </div>
+</div>
+

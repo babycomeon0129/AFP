@@ -1,0 +1,107 @@
+@charset "utf-8";
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,900&display=swap&subset=chinese-traditional');
+
+body, html{ 
+    height: 100%;
+    box-sizing: border-box;
+    background-color: $default-white;
+    // font-family: 'Noto Sans TC', sans-serif;
+}
+body{
+    overflow-x: hidden; 
+}
+
+a{
+    &:hover, &:focus, &:visited{
+        text-decoration: none;
+    }
+}
+// 電腦版顯示
+.for-pc{
+    @media screen and (max-width: 767px){
+        display: none;
+    }
+}
+// 手機版顯示
+.for-mobile{
+    display: none;
+    @media screen and (max-width: 767px){
+        display: block;
+    }
+}
+
+.overlay{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,.53);
+    z-index: 500;
+    display: none;
+}
+
+.popup-box{
+    width: 100%;
+    max-width: 70%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: $default-white;
+    padding: 20px 15px;
+    border-radius: 10px;
+    z-index: 700;
+    display: none;
+    small{
+        display: block;
+    }
+    .default-btn{
+        &.btn-sm{
+            width: 50%;
+        }
+    }
+}
+
+.wrap{
+    overflow-x: hidden;
+}
+.title-box{
+    display: flex;
+    padding: 15px;
+    .item{
+        min-width: 30px;
+        text-align: center;
+        &.icon-btn{
+            .material-icons{
+                font-size: 30px;
+            }
+        }
+    }
+    .title-name{
+        font-size: 18px;
+        font-weight: 700;
+        margin: auto;
+    }
+}
+
+.nav-tabs{
+    .nav-item{
+        margin-bottom: 0;
+    }
+    .nav-link{
+        border: none;
+        border-radius: 0;
+        color: $explore-default;
+        &.active{
+            border: none;
+            color: #4A90E2;
+        }
+    }
+}
+
+.offer{
+    transform: scaleX(-1);
+}

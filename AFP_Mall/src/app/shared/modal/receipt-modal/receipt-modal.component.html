@@ -1,0 +1,133 @@
+<div id="msg-nullreceipt">
+  <div class="mb-4">
+    <div class="receiptbox container">
+      <div id="rbox">
+        <img src="../../../img/shopping/store/receiptLogo.png" class="receiptLogo">
+        <div class="eyesmedia">
+            <h6>艾斯移動股份有限公司</h6>
+            <h6>收     據</h6>
+            <p>中華民國
+              <span class="1">{{insertYear}}</span> 年
+              <span class="2">{{orderData?.Order_InsertDate | date: 'LL'}}</span> 月
+              <span class="3">{{orderData?.Order_InsertDate | date: 'dd'}}</span> 日
+            </p>
+        </div>
+        <div class="px-1">
+            <div class="receipt-title">
+                <div class="item1">
+                  <p>買 受 人:<span class="4">{{orderData?.ReceiptMemberName}}</span></p>
+                  <p>統一編號:<span class="6">{{orderData?.InvoiceTaxID}}</span></p>
+                  <p>地    址:<span class="8"></span></p>
+                </div>
+                <div class="item2">
+                  <p>收據編號:<span class="5">{{orderData?.ReceiptNo}}</span></p>
+                  <p>訂單編號:<span class="7">{{orderData?.Order_TableNo}}</span></p>
+                </div>
+            </div>
+            <table class="table table-sm">
+                <thead class="bg-light">
+                  <tr>
+                    <th scope="col">品  名</th>
+                    <th scope="col">數  量</th>
+                    <th scope="col">單  價</th>
+                    <th scope="col">金  額</th>
+                    <th scope="col forsm">備  註</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let prod of prodList">
+                    <td><span class="9">{{prod?.ItemInfoPart_ReceiptText}}</span></td>
+                    <td><span class="10">{{prod?.ItemInfoPart_Quantity}}</span></td>
+                    <td><span class="11">{{prod?.ItemInfoPart_ReceiptPrice}}</span></td>
+                    <td><span class="12">{{prod?.ItemInfoPart_Quantity * prod?.ItemInfoPart_ReceiptPrice}}</span></td>
+                    <td rowspan="4" class="forsm"></td>
+                  </tr>
+                  <tr>
+                    <td><span class="13"></span></td>
+                    <td><span class="14"></span></td>
+                    <td><span class="15"></span></td>
+                    <td><span class="16"></span></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="forsm bg-light">營業人蓋用統一發票專用章</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td rowspan="4" class="text-center forsm">
+                        <p>艾斯移動股份有限公司</p>
+                        <p>統一編號:28010606</p>
+                        <p>負責人:曾敏滄</p>
+                        <p>電話:02-27078600</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr class="forxl bg-light">
+                    <td colspan="4">備註</td>
+                  </tr>
+                  <tr class="forxl">
+                    <td colspan="4"></td>
+                  </tr>
+                  <tr class="forxl bg-light">
+                    <td colspan="4">營業人蓋用統一發票專用章</td>
+                  </tr>
+                  <tr class="forxl">
+                    <td colspan="4" class="text-center">
+                        <p>艾斯移動股份有限公司</p>
+                        <p>統一編號:28010606</p>
+                        <p>負責人:曾敏滄</p>
+                        <p>電話:02-27078600</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="4" class="bg-light">總計新台幣 <span class="17 font-bold">{{orderData?.ReceiptChineseAmount}}</span> 元整</td>
+                  </tr>
+                </tbody>
+            </table>
+        </div>
+      </div>
+      <div class="px-2 pb-4 mb-4">收據如需更改請於次月5號前通知,逾期恕無法辦理。
+        <!-- 若是APP訪問則先隱藏下載鈕 -->
+        <button [hidden]="appService.isApp !== null" (click)="download()" type="button" class="btn bluedk-outline-btn">下載收據圖檔</button>
+      </div>
+      <fieldset>
+        <div>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center text-center bg-light border-t py-2">
+    <button (click)="bsModalRef.hide()" type="button" class="btn btn-login font-bold w-100" aria-label="Close">
+      關閉
+    </button>
+  </div>
+</div>

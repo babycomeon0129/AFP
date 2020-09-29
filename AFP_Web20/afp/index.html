@@ -1,0 +1,1742 @@
+﻿<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=no">
+    <!-- Material Design for Bootstrap fonts and icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="js/vendor/bs4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="js/vendor/jquery-editable-select-master/dist/jquery-editable-select.min.css">
+    <!-- owl.carousel core CSS -->
+    <link rel="stylesheet" href="js/vendor/owlcarousel/owlcarousel/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="js/vendor/owlcarousel/owlcarousel/assets/owl.theme.default.min.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- vendor css -->
+    <link rel="stylesheet" href="js/vendor/swiper/css/swiper.min.css">
+    <!-- fontawesome css -->
+    <link rel="stylesheet" href="js/vendor/fontawesome/css/fontawesome.css">
+    <link rel="stylesheet" href="js/vendor/fontawesome/css/brands.css">
+    <link rel="stylesheet" href="js/vendor/fontawesome/css/solid.css">
+    <!-- custom css -->
+    <link rel="stylesheet" href="dist/style/afp.min.css">
+    <link rel="stylesheet" href="dist/style/travel-index.min.css">
+    <title>eyemedia - afp</title>
+</head>
+
+<body class="">
+    <div class="wrap">
+        <header>
+            <!-- header top -->
+            <div class="kv-box">
+                <div class="container">
+                    <nav>
+                        <div class="pc-top" id="pc-top">
+                            <div class="pc-top-box">
+                                <div class="for-pc">
+                                    <div class="login-top">
+                                        <div class="kv-small">
+                                            <!-- login trigger modal -->
+                                            <button type="button" id="kv-btn-log" class="btn btn-login btn-sm py-0" data-toggle="modal"
+                                                    data-target="#loginModalCenter">
+                                                登入
+                                            </button>
+                                            <span>|</span>
+                                            <button type="button" id="kv-btn-reg" class="btn btn-login btn-sm py-0" data-toggle="modal"
+                                                    data-target="#registeredModalCenter">
+                                                註冊
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="kv-top">
+                                    <div class="top-item logo">
+                                        <a href="">
+                                            <img src="img/index/logo.svg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="top-item climate">
+                                        <p>台北<i class="material-icons">&#xE313;</i><small>32度C</small></p>
+                                    </div>
+                                    <div class="top-item input-box">
+                                        <button><i class="material-icons">&#xE8B6;</i></button>
+                                        <input type="text" placeholder="熱搜：台北故宮博物館門票">
+                                    </div>
+                                    <div class="top-item more-horiz has-info">
+                                        <i class="material-icons">&#xE5D3;</i>
+                                        <button class="drop_menu_toggle"></button>
+                                        <div class="drop-menu">
+                                            <ul class="drop-content">
+                                                <li><a href="javascript:;"><img src="img/index/icons/icon_qrcode.svg" alt="">掃碼</a></li>
+                                                <li><a href="javascript:;"><img src="img/index/icons/icon_taxicode.svg" alt="">乘車碼</a></li>
+                                                <li>
+                                                    <a class="open-login" href="javascript:;">
+                                                        <img src="img/index/icons/icon_login.svg"
+                                                             alt="">登入/註冊
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="kv-mask"></div>
+                    </nav>
+                    <!-- Swiper for kv banner-->
+                    <div class="swiper-container" [swiper]="boxKV">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img src="img/index/kv_01.png">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="img/index/kv_02.png">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="img/index/kv_03.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </header>
+        <main>
+            <div class="container">
+                <div class="row">
+                    <!-- 主要連結 -->
+                    <div class="col-12 for-pc">
+                        <!-- Swiper for icons -->
+                        <div class="index-iconbox">
+                            <div class="index-icon swiper-container" [swiper]="boxIcon">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide">
+                                        <div class="item">
+                                            <a href="">
+                                                <div class="img-box">
+                                                    <img src="img/index/icons/icon_taxicode_2.svg" alt="">
+                                                </div>乘車碼
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="item">
+                                            <a href="">
+                                                <div class="img-box">
+                                                    <img src="img/index/icons/icon_booking.svg" alt="">
+                                                </div>交通訂票
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="item">
+                                            <a href="">
+                                                <div class="img-box">
+                                                    <img src="img/index/icons/icon_taxi.svg" alt="">
+                                                </div>叫車
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="item">
+                                            <a href="">
+                                                <div class="img-box">
+                                                    <img src="img/index/icons/icon_info.svg" alt="">
+                                                </div>交通資訊
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="item">
+                                            <a href="">
+                                                <div class="img-box">
+                                                    <img src="img/index/icons/icon_router.svg" alt="">
+                                                </div>路線規劃
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="item">
+                                            <a href="">
+                                                <div class="img-box">
+                                                    <img src="img/index/icons/icon_food_2.svg" alt="">
+                                                </div>美食
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="item">
+                                            <a href="shopping/index.html">
+                                                <div class="img-box">
+                                                    <img src="img/index/icons/icon_shopping_2.svg" alt="">
+                                                </div>購物
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="item">
+                                            <a href="">
+                                                <div class="img-box">
+                                                    <img src="img/index/icons/icon_location_2.svg" alt="">
+                                                </div>景點/門票
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="item">
+                                            <a href="travel/index.html">
+                                                <div class="img-box">
+                                                    <img src="img/index/icons/icon_travel_2.svg" alt="">
+                                                </div>去旅行
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="item">
+                                            <a href="">
+                                                <div class="img-box">
+                                                    <img src="img/index/icons/icon_shop.svg" alt="">
+                                                </div>線上商城
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="item">
+                                            <a href="">
+                                                <div class="img-box">
+                                                    <img src="img/index/icons/icon_ticket_2.svg" alt="">
+                                                </div>優惠券
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="item">
+                                            <a href="">
+                                                <div class="img-box">
+                                                    <img src="img/index/icons/icon_pay.svg" alt="">
+                                                </div>繳費
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="item">
+                                            <a href="">
+                                                <div class="img-box">
+                                                    <img src="img/index/icons/icon_takeaway.svg" alt="">
+                                                </div>外賣
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-button-prev"></div>
+                            <div class="swiper-button-next"></div>
+                        </div>
+                    </div>
+                    <div class="for-mobile w-100">
+                        <div class="col-12">
+                            <div class="main-link default-link">
+                                <a href="" class="link-item">
+                                    <div class="img-box food">
+                                        <img src="img/index/icons/icon_food.svg" alt="">
+                                    </div>
+                                    <p>美食</p>
+                                </a>
+                                <a href="shopping/index.html" class="link-item">
+                                    <div class="img-box shopping">
+                                        <img src="img/index/icons/icon_shopping.svg" alt="">
+                                    </div>
+                                    <p>購物</p>
+                                </a>
+                                <a href="" class="link-item">
+                                    <div class="img-box location">
+                                        <img src="img/index/icons/icon_location.svg" alt="">
+                                    </div>
+                                    <p>景點/門票</p>
+                                </a>
+                                <a href="" class="link-item">
+                                    <div class="img-box ticket">
+                                        <img src="img/index/icons/icon_ticket.svg" alt="">
+                                    </div>
+                                    <p>優惠券</p>
+                                </a>
+                                <a href="travel/index.html" class="link-item">
+                                    <div class="img-box travel">
+                                        <img src="img/index/icons/icon_travel.svg" alt="">
+                                    </div>
+                                    <p>去旅行</p>
+                                </a>
+                            </div>
+                        </div>
+                        <!-- 自訂連結 -->
+                        <div class="col-12">
+                            <div class="main-link edit-link">
+                                <a href="" class="link-item">
+                                    <div class="img-box">
+                                        <img src="img/index/icons/icon_booking.svg" alt="">
+                                    </div>
+                                    <p>交通訂票</p>
+                                </a>
+                                <a href="" class="link-item">
+                                    <div class="img-box">
+                                        <img src="img/index/icons/icon_info.svg" alt="">
+                                    </div>
+                                    <p>交通資訊</p>
+                                </a>
+                                <a href="" class="link-item">
+                                    <div class="img-box">
+                                        <img src="img/index/icons/icon_taxi.svg" alt="">
+                                    </div>
+                                    <p>叫車</p>
+                                </a>
+                                <a href="" class="link-item">
+                                    <div class="img-box">
+                                        <img src="img/index/icons/icon_shop.svg" alt="">
+                                    </div>
+                                    <p>線上商城</p>
+                                </a>
+                                <a href="javascript:;" class="link-item more-btn">
+                                    <div class="img-box">
+                                        <img src="img/index/icons/icon_more.svg" alt="">
+                                    </div>
+                                    <p>更多</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 去哪玩連結 -->
+            <div class="go-where-link">
+                <div class="container">
+                    <div class="index-gowhere swiper-container" [swiper]="boxGoWhere">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div class="item">
+                                    <a href="" class="link-item">
+                                        <img src="img/index/gowhere/gowhere-01.svg" alt="">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="item">
+                                    <a href="" class="link-item">
+                                        <img src="img/index/gowhere/gowhere-02.svg" alt="">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="item">
+                                    <a href="" class="link-item">
+                                        <img src="img/index/gowhere/gowhere-03.svg" alt="">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="item">
+                                    <a href="" class="link-item">
+                                        <img src="img/index/gowhere/gowhere-04.svg" alt="">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ad banner -->
+            <div class="ad-box">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- Swiper -->
+                            <div class="swiper-container" [swiper]="boxAD">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide">
+                                        <img src="img/index/banner.png" alt="">
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <img src="img/index/banner.png" alt="">
+                                    </div>
+                                </div>
+                                <!-- Add Pagination -->
+                                <div class="swiper-pagination"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- travel featured -->
+            <div class="travel-featured px-3 py-4 mb-3">
+                <div class="container">
+                    <h6>本月主打</h6>
+                    <!-- tab content -->
+                    <div class="afp-tab-box">
+                        <div class="afp-tab mb-5">
+                            <div class="nav-tabs-box tablist-swiper swiper-container" [swiper]="boxTFeature">
+                                <!-- Nav tabs -->
+                                <div class="swiper-wrapper">
+                                    <ul id="nav-tab-featured" class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active swiper-slide">
+                                            <a href="#jp" class="tablist-link active" aria-controls="jp" role="tab" data-toggle="tab"
+                                               aria-selected="true">日本</a>
+                                        </li>
+                                        <li role="presentation" class="swiper-slide">
+                                            <a href="#kr" class="tablist-link" aria-controls="kr" role="tab" data-toggle="tab"
+                                               aria-selected="false">韓國</a>
+                                        </li>
+                                        <li role="presentation" class="swiper-slide">
+                                            <a href="#ch" class="tablist-link" aria-controls="ch" role="tab" data-toggle="tab"
+                                               aria-selected="false">中國</a>
+                                        </li>
+                                        <li role="presentation" class="swiper-slide">
+                                            <a href="#as" class="tablist-link" aria-controls="as" role="tab" data-toggle="tab"
+                                               aria-selected="false">東南亞</a>
+                                        </li>
+                                        <li role="presentation" class="swiper-slide">
+                                            <a href="#er" class="tablist-link" aria-controls="er" role="tab" data-toggle="tab"
+                                               aria-selected="false">歐洲</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Tab panes -->
+                            <div class="tablist-panes">
+                                <div role="tabpanel" class="tab-pane fade active show w-100" id="jp">
+                                    <div class="travel-featuredbox swiper-container" [swiper]="boxTFeature">
+                                        <div class="swiper-wrapper">
+                                            <div class="swiper-slide">
+                                                <div class="item-body">
+                                                    <a href="" class="">
+                                                        <div class="item-img rwdimg-h65"
+                                                             style="background-image: url('img/travel/travel-featured01.jpg');"></div>
+                                                        <div class="item-info">
+                                                            <div class="item-title txt-line-clamp2">
+                                                                【九州雙鐵道之旅】～升等希爾頓★螃蟹饗宴、(太宰府旅人號列車+酷MA萌熊電鐵+柳川搖船樂)、湯布院小鎮、溫泉之旅五日[含稅簽]
+                                                            </div>
+                                                            <div class="item-price text-right">
+                                                                5天 $38,800 元起
+                                                            </div>
+                                                            <div class="item-date">
+                                                                <span class="item-more">
+                                                                    <a href class="f-right">更多 > </a>
+                                                                </span>
+                                                                10/11 10/16 10/25
+                                                            </div>
+                                                            <div class="item-keyword">
+                                                                <i class="fas fa-map-marker-alt fa-fw"></i>日本 東北
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <div class="item-body">
+                                                    <a href="" class="">
+                                                        <div class="item-img rwdimg-h65"
+                                                             style="background-image: url('img/travel/travel-featured01.jpg');"></div>
+                                                        <div class="item-info">
+                                                            <div class="item-title txt-line-clamp2">
+                                                                【九州雙鐵道之旅】～升等希爾頓★螃蟹饗宴、(太宰府旅人號列車+酷MA萌熊電鐵+柳川搖船樂)、湯布院小鎮、溫泉之旅五日[含稅簽]
+                                                            </div>
+                                                            <div class="item-price text-right">
+                                                                5天 $38,800 元起
+                                                            </div>
+                                                            <div class="item-date">
+                                                                <span class="item-more">
+                                                                    <a href class="f-right">更多 > </a>
+                                                                </span>
+                                                                10/11 10/16 10/25
+                                                            </div>
+                                                            <div class="item-keyword">
+                                                                <i class="fas fa-map-marker-alt fa-fw"></i>日本 東北
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade w-100" id="kr">
+                                    <div class="travel-featuredbox swiper-container" [swiper]="boxTFeature">
+                                        <div class="swiper-wrapper">
+                                            <div class="swiper-slide">
+                                                <div class="item-body">
+                                                    <a href="" class="">
+                                                        <div class="item-img rwdimg-h65"
+                                                             style="background-image: url('img/travel/travel-featured02.jpg');"></div>
+                                                        <div class="item-info">
+                                                            <div class="item-title txt-line-clamp2">
+                                                                【九州雙鐵道之旅】～升等希爾頓★螃蟹饗宴、(太宰府旅人號列車+酷MA萌熊電鐵+柳川搖船樂)、湯布院小鎮、溫泉之旅五日[含稅簽]
+                                                            </div>
+                                                            <div class="item-price text-right">
+                                                                5天 $38,800 元起
+                                                            </div>
+                                                            <div class="item-date">
+                                                                <span class="item-more">
+                                                                    <a href class="f-right">更多 > </a>
+                                                                </span>
+                                                                10/11 10/16 10/25
+                                                            </div>
+                                                            <div class="item-keyword">
+                                                                <i class="fas fa-map-marker-alt fa-fw"></i>日本 東北
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <div class="item-body">
+                                                    <a href="" class="">
+                                                        <div class="item-img rwdimg-h65"
+                                                             style="background-image: url('img/travel/travel-featured02.jpg');"></div>
+                                                        <div class="item-info">
+                                                            <div class="item-title txt-line-clamp2">
+                                                                【九州雙鐵道之旅】～升等希爾頓★螃蟹饗宴、(太宰府旅人號列車+酷MA萌熊電鐵+柳川搖船樂)、湯布院小鎮、溫泉之旅五日[含稅簽]
+                                                            </div>
+                                                            <div class="item-price text-right">
+                                                                5天 $38,800 元起
+                                                            </div>
+                                                            <div class="item-date">
+                                                                <span class="item-more">
+                                                                    <a href class="f-right">更多 > </a>
+                                                                </span>
+                                                                10/11 10/16 10/25
+                                                            </div>
+                                                            <div class="item-keyword">
+                                                                <i class="fas fa-map-marker-alt fa-fw"></i>日本 東北
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade w-100" id="ch">
+                                    <div class="travel-featuredbox swiper-container" [swiper]="boxTFeature">
+                                        <div class="swiper-wrapper">
+                                            <div class="swiper-slide">
+                                                <div class="item-body">
+                                                    <a href="" class="">
+                                                        <div class="item-img rwdimg-h65"
+                                                             style="background-image: url('img/travel/travel-featured03.jpg');"></div>
+                                                        <div class="item-info">
+                                                            <div class="item-title txt-line-clamp2">
+                                                                【九州雙鐵道之旅】～升等希爾頓★螃蟹饗宴、(太宰府旅人號列車+酷MA萌熊電鐵+柳川搖船樂)、湯布院小鎮、溫泉之旅五日[含稅簽]
+                                                            </div>
+                                                            <div class="item-price text-right">
+                                                                5天 $38,800 元起
+                                                            </div>
+                                                            <div class="item-date">
+                                                                <span class="item-more">
+                                                                    <a href class="f-right">更多 > </a>
+                                                                </span>
+                                                                10/11 10/16 10/25
+                                                            </div>
+                                                            <div class="item-keyword">
+                                                                <i class="fas fa-map-marker-alt fa-fw"></i>日本 東北
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <div class="item-body">
+                                                    <a href="" class="">
+                                                        <div class="item-img rwdimg-h65"
+                                                             style="background-image: url('img/travel/travel-featured03.jpg');"></div>
+                                                        <div class="item-info">
+                                                            <div class="item-title txt-line-clamp2">
+                                                                【九州雙鐵道之旅】～升等希爾頓★螃蟹饗宴、(太宰府旅人號列車+酷MA萌熊電鐵+柳川搖船樂)、湯布院小鎮、溫泉之旅五日[含稅簽]
+                                                            </div>
+                                                            <div class="item-price text-right">
+                                                                5天 $38,800 元起
+                                                            </div>
+                                                            <div class="item-date">
+                                                                <span class="item-more">
+                                                                    <a href class="f-right">更多 > </a>
+                                                                </span>
+                                                                10/11 10/16 10/25
+                                                            </div>
+                                                            <div class="item-keyword">
+                                                                <i class="fas fa-map-marker-alt fa-fw"></i>日本 東北
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade w-100" id="as">
+                                    <div class="travel-featuredbox swiper-container" [swiper]="boxTFeature">
+                                        <div class="swiper-wrapper">
+                                            <div class="swiper-slide">
+                                                <div class="item-body">
+                                                    <a href="" class="">
+                                                        <div class="item-img rwdimg-h65"
+                                                             style="background-image: url('img/travel/travel-featured04.jpg');"></div>
+                                                        <div class="item-info">
+                                                            <div class="item-title txt-line-clamp2">
+                                                                【九州雙鐵道之旅】～升等希爾頓★螃蟹饗宴、(太宰府旅人號列車+酷MA萌熊電鐵+柳川搖船樂)、湯布院小鎮、溫泉之旅五日[含稅簽]
+                                                            </div>
+                                                            <div class="item-price text-right">
+                                                                5天 $38,800 元起
+                                                            </div>
+                                                            <div class="item-date">
+                                                                <span class="item-more">
+                                                                    <a href class="f-right">更多 > </a>
+                                                                </span>
+                                                                10/11 10/16 10/25
+                                                            </div>
+                                                            <div class="item-keyword">
+                                                                <i class="fas fa-map-marker-alt fa-fw"></i>日本 東北
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <div class="item-body">
+                                                    <a href="" class="">
+                                                        <div class="item-img rwdimg-h65"
+                                                             style="background-image: url('img/travel/travel-featured04.jpg');"></div>
+                                                        <div class="item-info">
+                                                            <div class="item-title txt-line-clamp2">
+                                                                【九州雙鐵道之旅】～升等希爾頓★螃蟹饗宴、(太宰府旅人號列車+酷MA萌熊電鐵+柳川搖船樂)、湯布院小鎮、溫泉之旅五日[含稅簽]
+                                                            </div>
+                                                            <div class="item-price text-right">
+                                                                5天 $38,800 元起
+                                                            </div>
+                                                            <div class="item-date">
+                                                                <span class="item-more">
+                                                                    <a href class="f-right">更多 > </a>
+                                                                </span>
+                                                                10/11 10/16 10/25
+                                                            </div>
+                                                            <div class="item-keyword">
+                                                                <i class="fas fa-map-marker-alt fa-fw"></i>日本 東北
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade w-100" id="er">
+                                    <div class="travel-featuredbox swiper-container" [swiper]="boxTFeature">
+                                        <div class="swiper-wrapper">
+                                            <div class="swiper-slide">
+                                                <div class="item-body">
+                                                    <a href="" class="">
+                                                        <div class="item-img rwdimg-h65"
+                                                             style="background-image: url('img/travel/travel-featured05.jpg');"></div>
+                                                        <div class="item-info">
+                                                            <div class="item-title txt-line-clamp2">
+                                                                【九州雙鐵道之旅】～升等希爾頓★螃蟹饗宴、(太宰府旅人號列車+酷MA萌熊電鐵+柳川搖船樂)、湯布院小鎮、溫泉之旅五日[含稅簽]
+                                                            </div>
+                                                            <div class="item-price text-right">
+                                                                5天 $38,800 元起
+                                                            </div>
+                                                            <div class="item-date">
+                                                                <span class="item-more">
+                                                                    <a href class="f-right">更多 > </a>
+                                                                </span>
+                                                                10/11 10/16 10/25
+                                                            </div>
+                                                            <div class="item-keyword">
+                                                                <i class="fas fa-map-marker-alt fa-fw"></i>日本 東北
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <div class="item-body">
+                                                    <a href="" class="">
+                                                        <div class="item-img rwdimg-h65"
+                                                             style="background-image: url('img/travel/travel-featured05.jpg');"></div>
+                                                        <div class="item-info">
+                                                            <div class="item-title txt-line-clamp2">
+                                                                【九州雙鐵道之旅】～升等希爾頓★螃蟹饗宴、(太宰府旅人號列車+酷MA萌熊電鐵+柳川搖船樂)、湯布院小鎮、溫泉之旅五日[含稅簽]
+                                                            </div>
+                                                            <div class="item-price text-right">
+                                                                5天 $38,800 元起
+                                                            </div>
+                                                            <div class="item-date">
+                                                                <span class="item-more">
+                                                                    <a href class="f-right">更多 > </a>
+                                                                </span>
+                                                                10/11 10/16 10/25
+                                                            </div>
+                                                            <div class="item-keyword">
+                                                                <i class="fas fa-map-marker-alt fa-fw"></i>日本 東北
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- tab content -->
+            <div class="afp-tab-box">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="afp-tab">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="nav-tabs-box">
+                                            <!-- Nav tabs -->
+                                            <ul id="nav-tab" class="nav nav-tabs" role="tablist">
+                                                <li role="presentation" class="active">
+                                                    <a href="#home" class="tablist-link active" aria-controls="home" role="tab" data-toggle="tab"
+                                                       aria-selected="true">週邊推薦</a>
+                                                </li>
+                                                <li role="presentation">
+                                                    <a href="#profile" class="tablist-link" aria-controls="profile" role="tab" data-toggle="tab"
+                                                       aria-selected="false">特別企劃</a>
+                                                </li>
+                                                <li role="presentation">
+                                                    <a href="#messages" class="tablist-link" aria-controls="messages" role="tab" data-toggle="tab"
+                                                       aria-selected="false">本月最新</a>
+                                                </li>
+                                                <li role="presentation">
+                                                    <a href="#settings" class="tablist-link" aria-controls="settings" role="tab" data-toggle="tab"
+                                                       aria-selected="false">推薦行程</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- Tab panes -->
+                                    <div class="tab-content w-100">
+                                        <div role="tabpanel" class="tab-pane active" id="home">
+                                            <div class="content-list">
+                                                <div class="col-6 col-sm-6 col-md-4 col-xl-4">
+                                                    <a href="" class="content-item">
+                                                        <div class="img-box imgLiquidFill imgLiquid">
+                                                            <img src="https://picsum.photos/500/500/?random=1">
+                                                        </div>
+                                                        <div class="item-title">
+                                                            台北 101 天際線雲端漫步體驗
+                                                        </div>
+                                                        <ul class="tag-list">
+                                                            <li>門票折扣</li>
+                                                            <li>店家優惠</li>
+                                                            <li>叫車服務</li>
+                                                        </ul>
+                                                    </a>
+                                                </div>
+                                                <div class="col-6 col-sm-6 col-md-4 col-xl-4">
+                                                    <a href="" class="content-item">
+                                                        <div class="img-box imgLiquidFill imgLiquid">
+                                                            <img src="https://picsum.photos/500/500/?random=1">
+                                                        </div>
+                                                        <div class="item-title">
+                                                            台北 101 天際線雲端漫步體驗
+                                                        </div>
+                                                        <ul class="tag-list">
+                                                            <li>門票折扣</li>
+                                                            <li>店家優惠</li>
+                                                            <li>叫車服務</li>
+                                                        </ul>
+                                                    </a>
+                                                </div>
+                                                <div class="col-6 col-sm-6 col-md-4 col-xl-4">
+                                                    <a href="" class="content-item">
+                                                        <div class="img-box imgLiquidFill imgLiquid">
+                                                            <img src="https://picsum.photos/500/500/?random=1">
+                                                        </div>
+                                                        <div class="item-title">
+                                                            台北 101 天際線雲端漫步體驗
+                                                        </div>
+                                                        <ul class="tag-list">
+                                                            <li>門票折扣</li>
+                                                            <li>店家優惠</li>
+                                                            <li>叫車服務</li>
+                                                        </ul>
+                                                    </a>
+                                                </div>
+                                                <div class="col-6 col-sm-6 col-md-4 col-xl-4">
+                                                    <a href="" class="content-item">
+                                                        <div class="img-box imgLiquidFill imgLiquid">
+                                                            <img src="https://picsum.photos/500/500/?random=1">
+                                                        </div>
+                                                        <div class="item-title">
+                                                            台北 101 天際線雲端漫步體驗
+                                                        </div>
+                                                        <ul class="tag-list">
+                                                            <li>門票折扣</li>
+                                                            <li>店家優惠</li>
+                                                            <li>叫車服務</li>
+                                                        </ul>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane" id="profile">
+                                            <div class="content-list">
+                                                <div class="col-6 col-sm-6 col-md-4 col-xl-4">
+                                                    <a href="" class="content-item">
+                                                        <div class="img-box imgLiquidFill imgLiquid">
+                                                            <img src="https://picsum.photos/500/500/?random=1">
+                                                        </div>
+                                                        <div class="item-title">
+                                                            台北 101 天際線雲端漫步體驗
+                                                        </div>
+                                                        <ul class="tag-list">
+                                                            <li>門票折扣</li>
+                                                            <li>店家優惠</li>
+                                                            <li>叫車服務</li>
+                                                        </ul>
+                                                    </a>
+                                                </div>
+                                                <div class="col-6 col-sm-6 col-md-4 col-xl-4">
+                                                    <a href="" class="content-item">
+                                                        <div class="img-box imgLiquidFill imgLiquid">
+                                                            <img src="https://picsum.photos/500/500/?random=1">
+                                                        </div>
+                                                        <div class="item-title">
+                                                            台北 101 天際線雲端漫步體驗
+                                                        </div>
+                                                        <ul class="tag-list">
+                                                            <li>門票折扣</li>
+                                                            <li>店家優惠</li>
+                                                            <li>叫車服務</li>
+                                                        </ul>
+                                                    </a>
+                                                </div>
+                                                <div class="col-6 col-sm-6 col-md-4 col-xl-4">
+                                                    <a href="" class="content-item">
+                                                        <div class="img-box imgLiquidFill imgLiquid">
+                                                            <img src="https://picsum.photos/500/500/?random=1">
+                                                        </div>
+                                                        <div class="item-title">
+                                                            台北 101 天際線雲端漫步體驗
+                                                        </div>
+                                                        <ul class="tag-list">
+                                                            <li>門票折扣</li>
+                                                            <li>店家優惠</li>
+                                                            <li>叫車服務</li>
+                                                        </ul>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane" id="messages">
+                                            <div class="content-list">
+                                                <div class="col-6 col-sm-6 col-md-4 col-xl-4">
+                                                    <a href="" class="content-item">
+                                                        <div class="img-box imgLiquidFill imgLiquid">
+                                                            <img src="https://picsum.photos/500/500/?random=1">
+                                                        </div>
+                                                        <div class="item-title">
+                                                            台北 101 天際線雲端漫步體驗
+                                                        </div>
+                                                        <ul class="tag-list">
+                                                            <li>門票折扣</li>
+                                                            <li>店家優惠</li>
+                                                            <li>叫車服務</li>
+                                                        </ul>
+                                                    </a>
+                                                </div>
+                                                <div class="col-6 col-sm-6 col-md-4 col-xl-4">
+                                                    <a href="" class="content-item">
+                                                        <div class="img-box imgLiquidFill imgLiquid">
+                                                            <img src="https://picsum.photos/500/500/?random=1">
+                                                        </div>
+                                                        <div class="item-title">
+                                                            台北 101 天際線雲端漫步體驗
+                                                        </div>
+                                                        <ul class="tag-list">
+                                                            <li>門票折扣</li>
+                                                            <li>店家優惠</li>
+                                                            <li>叫車服務</li>
+                                                        </ul>
+                                                    </a>
+                                                </div>
+                                                <div class="col-6 col-sm-6 col-md-4 col-xl-4">
+                                                    <a href="" class="content-item">
+                                                        <div class="img-box imgLiquidFill imgLiquid">
+                                                            <img src="https://picsum.photos/500/500/?random=1">
+                                                        </div>
+                                                        <div class="item-title">
+                                                            台北 101 天際線雲端漫步體驗
+                                                        </div>
+                                                        <ul class="tag-list">
+                                                            <li>門票折扣</li>
+                                                            <li>店家優惠</li>
+                                                            <li>叫車服務</li>
+                                                        </ul>
+                                                    </a>
+                                                </div>
+                                                <div class="col-6 col-sm-6 col-md-4 col-xl-4">
+                                                    <a href="" class="content-item">
+                                                        <div class="img-box imgLiquidFill imgLiquid">
+                                                            <img src="https://picsum.photos/500/500/?random=1">
+                                                        </div>
+                                                        <div class="item-title">
+                                                            台北 101 天際線雲端漫步體驗
+                                                        </div>
+                                                        <ul class="tag-list">
+                                                            <li>門票折扣</li>
+                                                            <li>店家優惠</li>
+                                                            <li>叫車服務</li>
+                                                        </ul>
+                                                    </a>
+                                                </div>
+                                                <div class="col-6 col-sm-6 col-md-4 col-xl-4">
+                                                    <a href="" class="content-item">
+                                                        <div class="img-box imgLiquidFill imgLiquid">
+                                                            <img src="https://picsum.photos/500/500/?random=1">
+                                                        </div>
+                                                        <div class="item-title">
+                                                            台北 101 天際線雲端漫步體驗
+                                                        </div>
+                                                        <ul class="tag-list">
+                                                            <li>門票折扣</li>
+                                                            <li>店家優惠</li>
+                                                            <li>叫車服務</li>
+                                                        </ul>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane" id="settings">
+                                            <div class="content-list">
+                                                <div class="col-6 col-sm-6 col-md-4 col-xl-4">
+                                                    <a href="" class="content-item">
+                                                        <div class="img-box imgLiquidFill imgLiquid">
+                                                            <img src="https://picsum.photos/500/500/?random=1">
+                                                        </div>
+                                                        <div class="item-title">
+                                                            台北 101 天際線雲端漫步體驗
+                                                        </div>
+                                                        <ul class="tag-list">
+                                                            <li>門票折扣</li>
+                                                            <li>店家優惠</li>
+                                                            <li>叫車服務</li>
+                                                        </ul>
+                                                    </a>
+                                                </div>
+                                                <div class="col-6 col-sm-6 col-md-4 col-xl-4">
+                                                    <a href="" class="content-item">
+                                                        <div class="img-box imgLiquidFill imgLiquid">
+                                                            <img src="https://picsum.photos/500/500/?random=1">
+                                                        </div>
+                                                        <div class="item-title">
+                                                            台北 101 天際線雲端漫步體驗
+                                                        </div>
+                                                        <ul class="tag-list">
+                                                            <li>門票折扣</li>
+                                                            <li>店家優惠</li>
+                                                            <li>叫車服務</li>
+                                                        </ul>
+                                                    </a>
+                                                </div>
+                                                <div class="col-6 col-sm-6 col-md-4 col-xl-4">
+                                                    <a href="" class="content-item">
+                                                        <div class="img-box imgLiquidFill imgLiquid">
+                                                            <img src="https://picsum.photos/500/500/?random=1">
+                                                        </div>
+                                                        <div class="item-title">
+                                                            台北 101 天際線雲端漫步體驗
+                                                        </div>
+                                                        <ul class="tag-list">
+                                                            <li>門票折扣</li>
+                                                            <li>店家優惠</li>
+                                                            <li>叫車服務</li>
+                                                        </ul>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 自訂功能側邊欄 -->
+            <aside>
+                <div class="more-link-aside">
+                    <div class="aside-header">
+                        <div class="close-btn">
+                            <i class="material-icons">&#xE314;</i>首頁
+                        </div>
+                        <div class="edit-title-box">
+                            <div class="edit-item edit-title-cancel">取消</div>
+                            <div class="edit-item edit-title">編輯我的服務</div>
+                            <div class="edit-item edit-title-save">保存</div>
+                        </div>
+                    </div>
+                    <div class="service-box my-service">
+                        <div class="service-title">
+                            <div class="title-item">我的服務</div>
+                            <!-- 未編輯模式 -->
+                            <div class="title-group no-edit">
+                                <div class="title-box">
+                                    <div class="title-item">
+                                        <img src="img/index/icons/icon_booking.svg" alt="">
+                                    </div>
+                                    <div class="title-item">
+                                        <img src="img/index/icons/icon_info.svg" alt="">
+                                    </div>
+                                    <div class="title-item">
+                                        <img src="img/index/icons/icon_taxi.svg" alt="">
+                                    </div>
+                                    <div class="title-item">
+                                        <img src="img/index/icons/icon_shop.svg" alt="">
+                                    </div>
+                                    <div class="title-item">
+                                        <i class="material-icons">&#xE5D3;</i>
+                                    </div>
+                                </div>
+                                <div class="title-item edit-btn">編輯</div>
+                            </div>
+                            <!-- 可編輯模式 -->
+                            <div class="title-group yes-edit">
+                                <p>長按可以拖動排序</p>
+                            </div>
+                            <div class="main-link edit-link">
+                                <a href="" class="link-item remove-item">
+                                    <div class="img-box">
+                                        <img src="img/index/icons/icon_booking.svg" alt="">
+                                    </div>
+                                    <p>交通訂票</p>
+                                </a>
+                                <a href="" class="link-item remove-item">
+                                    <div class="img-box">
+                                        <img src="img/index/icons/icon_info.svg" alt="">
+                                    </div>
+                                    <p>交通資訊</p>
+                                </a>
+                                <a href="" class="link-item remove-item">
+                                    <div class="img-box">
+                                        <img src="img/index/icons/icon_taxi.svg" alt="">
+                                    </div>
+                                    <p>叫車</p>
+                                </a>
+                                <a href="" class="link-item remove-item">
+                                    <div class="img-box">
+                                        <img src="img/index/icons/icon_shop.svg" alt="">
+                                    </div>
+                                    <p>線上商城</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-box default-service">
+                        <div class="service-title">
+                            亞洲好玩卡服務
+                        </div>
+                        <div class="main-link edit-link">
+                            <a href="javascript:;" data-num="0" data-item="乘車碼" class="link-item add-item">
+                                <div class="img-box">
+                                    <img src="img/index/icons/icon_taxicode_2.svg" alt="">
+                                </div>
+                                <p>乘車碼</p>
+                            </a>
+                            <a href="javascript:;" data-num="1" data-item="交通訂票" class="link-item remove-item">
+                                <div class="img-box">
+                                    <img src="img/index/icons/icon_booking.svg" alt="">
+                                </div>
+                                <p>交通訂票</p>
+                            </a>
+                            <a href="" data-num="2" data-item="叫車" class="link-item add-item">
+                                <div class="img-box">
+                                    <img src="img/index/icons/icon_taxi.svg" alt="">
+                                </div>
+                                <p>叫車</p>
+                            </a>
+                            <a href="" data-num="3" data-item="交通資訊" class="link-item add-item">
+                                <div class="img-box">
+                                    <img src="img/index/icons/icon_info.svg" alt="">
+                                </div>
+                                <p>交通資訊</p>
+                            </a>
+                            <a href="" data-num="4" data-item="路線規劃" class="link-item remove-item">
+                                <div class="img-box">
+                                    <img src="img/index/icons/icon_router.svg" alt="">
+                                </div>
+                                <p>路線規劃</p>
+                            </a>
+                            <a href="" data-num="5" data-item="美食" class="link-item add-item">
+                                <div class="img-box">
+                                    <img src="img/index/icons/icon_food_2.svg" alt="">
+                                </div>
+                                <p>美食</p>
+                            </a>
+                            <a href="shopping/index.html" data-num="6" data-item="購物" class="link-item remove-item">
+                                <div class="img-box">
+                                    <img src="img/index/icons/icon_shopping_2.svg" alt="">
+                                </div>
+                                <p>購物</p>
+                            </a>
+                            <a href="" data-num="7" data-item="景點/門票" class="link-item add-item">
+                                <div class="img-box">
+                                    <img src="img/index/icons/icon_location_2.svg" alt="">
+                                </div>
+                                <p>景點/門票</p>
+                            </a>
+                            <a href="travel/index.html" data-num="8" data-item="去旅行" class="link-item remove-item">
+                                <div class="img-box">
+                                    <img src="img/index/icons/icon_travel_2.svg" alt="">
+                                </div>
+                                <p>去旅行</p>
+                            </a>
+                            <a href="" data-num="9" data-item="線上商城" class="link-item add-item">
+                                <div class="img-box">
+                                    <img src="img/index/icons/icon_shop.svg" alt="">
+                                </div>
+                                <p>線上商城</p>
+                            </a>
+                            <a href="" data-num="10" data-item="優惠券" class="link-item add-item">
+                                <div class="img-box">
+                                    <img src="img/index/icons/icon_ticket_2.svg" alt="">
+                                </div>
+                                <p>優惠券</p>
+                            </a>
+                            <a href="" data-num="11" data-item="繳費" class="link-item remove-item">
+                                <div class="img-box">
+                                    <img src="img/index/icons/icon_pay.svg" alt="">
+                                </div>
+                                <p>繳費</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="service-box other-service">
+                        <div class="service-title">
+                            合作夥伴服務
+                        </div>
+                        <div class="main-link edit-link">
+                            <a href="" data-num="12" data-item="外賣" class="link-item add-item">
+                                <div class="img-box">
+                                    <img src="img/index/icons/icon_takeaway.svg" alt="">
+                                </div>
+                                <p>外賣</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- 登入 -->
+                <div class="popup-box login-box h-100">
+                    <div class="close-btn">
+                        <i class="material-icons">&#xE5CD;</i>
+                    </div>
+                    <div class="popup-banner">
+                        <img src="img/index/login_banner.png" alt="">
+                        <div class="logo-box">
+                            <img src="img/index/afp_logo_icon.svg" alt="">
+                        </div>
+                    </div>
+                    <div class="popup-content">
+                        <div class="popup-title">
+                            會員登入
+                        </div>
+                        <form action="" class="method-group">
+                            <div class="login-method">
+                                <div class="method-item">
+                                    <img src="img/index/social/facebook.svg" alt="">
+                                </div>
+                                <div class="method-item">
+                                    <img src="img/index/social/line.svg" alt="">
+                                </div>
+                                <div class="method-item">
+                                    <img src="img/index/social/google.svg" alt="">
+                                </div>
+                                <div class="method-item">
+                                    <img src="img/index/social/wechat.svg" alt="">
+                                </div>
+                            </div>
+                            <div class="or-box">
+                                或
+                            </div>
+                            <div class="login-form">
+                                <input type="text" placeholder="Email/手機">
+                                <input type="text" placeholder="密碼">
+                                <button class="default-btn">登入</button>
+                            </div>
+                            <div class="reg-info">
+                                <div class="reg-item">
+                                    還不是會員嗎？<span class="go-reg-box">馬上註冊</span>
+                                </div>
+                                <div class="reg-item">
+                                    <span class="forget-password">忘記密碼</span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- 註冊 -->
+                <div class="popup-box reg-box h-100">
+                    <div class="close-btn">
+                        <i class="material-icons">&#xE5CD;</i>
+                    </div>
+                    <div class="popup-banner">
+                        <img src="img/index/reg_banner.png" alt="">
+                        <div class="logo-box">
+                            <img src="img/index/afp_logo_icon.svg" alt="">
+                        </div>
+                    </div>
+                    <div class="popup-content">
+                        <div class="popup-title">
+                            會員註冊
+                        </div>
+                        <div class="method-group">
+                            <div class="login-method">
+                                <div class="method-item">
+                                    <img src="img/index/social/facebook.svg" alt="">
+                                </div>
+                                <div class="method-item">
+                                    <img src="img/index/social/line.svg" alt="">
+                                </div>
+                                <div class="method-item">
+                                    <img src="img/index/social/google.svg" alt="">
+                                </div>
+                                <div class="method-item">
+                                    <img src="img/index/social/wechat.svg" alt="">
+                                </div>
+                            </div>
+                            <div class="or-box">
+                                或
+                            </div>
+                            <div class="reg-tab">
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs justify-content-center" id="regTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="reg_1-tab" data-toggle="tab" href="#reg_1" role="tab" aria-controls="reg_1"
+                                           aria-selected="false">電子信箱</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="reg_2-tab" data-toggle="tab" href="#reg_2" role="tab"
+                                           aria-controls="reg_2" aria-selected="true">手機</a>
+                                    </li>
+                                </ul>
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane fade" id="reg_1">
+                                        <form action="">
+                                            <input type="text" placeholder="請輸入電子信箱">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                                <label class="form-check-label" for="defaultCheck1">
+                                                    我同意亞洲好玩卡的<a href="">會員條款</a>及<a href="">隱私權政策</a>
+                                                </label>
+                                            </div>
+                                        </form>
+                                        <div class="login-form">
+                                            <button class="default-btn send-veri-code">傳送驗證碼</button>
+                                        </div>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane fade show active" id="reg_2">
+                                        <form action="">
+                                            <div class="form-inline">
+                                                <input class="col-3 open-country" type="text" placeholder="+886">
+                                                <input class="col-9" type="text" placeholder="手機">
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+                                                <label class="form-check-label" for="defaultCheck2">
+                                                    我同意亞洲好玩卡的<a href="">會員條款</a>及<a href="">隱私權政策</a>
+                                                </label>
+                                            </div>
+                                        </form>
+                                        <div class="login-form">
+                                            <button class="default-btn send-veri-code">傳送簡訊驗證碼</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="reg-info">
+                                <div class="reg-item">
+                                    已經是會員了嗎？<span class="go-login-box">馬上登入</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 驗證碼 -->
+                <div class="popup-box verification-box h-100">
+                    <div class="popup-box-title">
+                        <div class="title-item close-left">
+                            <i class="material-icons">&#xE314;</i>
+                        </div>
+                        <div class="title-item title-box">
+                            輸入驗證碼
+                        </div>
+                    </div>
+                    <form action="" class="popup-content">
+                        <small>驗證碼已發送至 <span>+886</span><span>0972XXXXXX</span> </small>
+                        <div class="veri-input-group">
+                            <div class="veri-input">
+                                <input type="number">
+                            </div>
+                            <div class="veri-input">
+                                <input type="number">
+                            </div>
+                            <div class="veri-input">
+                                <input type="number">
+                            </div>
+                            <div class="veri-input">
+                                <input type="number">
+                            </div>
+                            <div class="veri-input">
+                                <input type="number">
+                            </div>
+                            <div class="veri-input">
+                                <input type="number">
+                            </div>
+                        </div>
+                        <button type="button" class="default-btn msg-loginok" data-toggle="modal" data-target="#messageModal"
+                                data-dismiss="modal" aria-label="Close">
+                            送出
+                        </button>
+                        <div class="re-box">
+                            <p>沒有收到驗證碼？<span>59</span><span>秒後重新傳送</span></p>
+                        </div>
+                    </form>
+                </div>
+                <!-- 密碼設定 -->
+                <div class="popup-box password-box h-100">
+                    <div class="popup-box-title">
+                        <div class="title-item close-left">
+                            <i class="material-icons">&#xE314;</i>
+                        </div>
+                        <div class="title-item title-box">
+                            密碼設定
+                        </div>
+                    </div>
+                    <form class="popup-content">
+                        <div class="password-item">
+                            <div class="form-group">
+                                <input id="password-field-1" type="password" class="form-control" name="password" placeholder="輸入密碼">
+                                <span toggle="#password-field-1" class="toggle-password">
+                                    <i class="material-icons visibility ">&#xE8F4;</i>
+                                    <i class="material-icons visibility-off">&#xE8F5;</i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="password-item">
+                            <div class="form-group">
+                                <input id="password-field-2" type="password" class="form-control" name="password" placeholder="再次輸入密碼">
+                                <span toggle="#password-field-2" class="toggle-password">
+                                    <i class="material-icons visibility ">&#xE8F4;</i>
+                                    <i class="material-icons visibility-off">&#xE8F5;</i>
+                                </span>
+                            </div>
+                        </div>
+                        <button type="button" class="default-btn msg-loginok" data-toggle="modal" data-target="#messageModal"
+                                data-dismiss="modal" aria-label="Close">
+                            建立新用戶
+                        </button>
+                    </form>
+                </div>
+                <!-- 選擇國家或地區 -->
+                <div class="popup-box country-box h-100">
+                    <div class="popup-box-title">
+                        <div class="title-item close-left">
+                            <i class="material-icons">&#xE314;</i>
+                        </div>
+                        <div class="title-item title-box">
+                            選擇國家或地區
+                        </div>
+                    </div>
+                    <form action="" class="popup-content">
+                        <div class="input-box-group">
+                            <div class="input-box">
+                                <button><i class="material-icons">&#xE8B6;</i></button>
+                                <input type="text" placeholder="搜尋 國碼/國家名稱">
+                            </div>
+                        </div>
+                        <ul class="country-code-list">
+                            熱門
+                            <li><span>台灣</span><span>886</span></li>
+                            <li><span>日本</span><span>886</span></li>
+                            <li><span>韓國</span><span>886</span></li>
+                            <li><span>中國</span><span>86</span></li>
+                        </ul>
+                        <ul class="country-code-list">
+                            A
+                            <li><span>澳洲</span><span>61</span></li>
+                            <li><span>台灣</span><span>886</span></li>
+                            <li><span>台灣</span><span>886</span></li>
+                            <li><span>台灣</span><span>886</span></li>
+                            <li><span>台灣</span><span>886</span></li>
+                            <li><span>台灣</span><span>886</span></li>
+                            <li><span>台灣</span><span>886</span></li>
+                            <li><span>台灣</span><span>886</span></li>
+                            <li><span>台灣</span><span>886</span></li>
+                            <li><span>台灣</span><span>886</span></li>
+                        </ul>
+                    </form>
+                </div>
+            </aside>
+
+            <!-- login Modal -->
+            <div class="modal fade" id="loginModalCenter" tabindex="-1" role="dialog" aria-labelledby="loginModalCenterTitle"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" data-dismiss="modal" aria-label="Close">
+                        </div>
+                        <div class="popup-banner for-mobile">
+                            <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <img src="img/index/login_banner.png" alt="">
+                            <div class="logo-box">
+                                <img src="img/index/afp_logo_icon.svg" alt="">
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            <h5>會員登入</h5>
+                            <div class="container px-3">
+                                <div class="login-method">
+                                    <div class="method-item">
+                                        <img src="img/index/social/facebook.svg" alt="">
+                                    </div>
+                                    <div class="method-item">
+                                        <img src="img/index/social/line.svg" alt="">
+                                    </div>
+                                    <div class="method-item">
+                                        <img src="img/index/social/google.svg" alt="">
+                                    </div>
+                                    <div class="method-item">
+                                        <img src="img/index/social/wechat.svg" alt="">
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-center">
+                                    <div class="line-middle w-75 ">
+                                        <div class="line-middle-middle-line">
+                                            <span class="line-middle-line-text">或</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <form id="login-form">
+                                    <div class="form-group form-inline linebt-row">
+                                        <label for="loginInputEmailTel">Email/手機</label>
+                                        <input type="text" class="form-control" id="loginInputEmailTel" placeholder="">
+                                    </div>
+                                    <div class="form-group form-inline linebt-row">
+                                        <label for="loginInputPassword">密碼</label>
+                                        <input type="password" class="form-control" id="loginInputPassword" placeholder="">
+                                    </div>
+                                    <div class="login-small">
+                                        <button type="button" class="btn forget-password-pc" data-dismiss="modal"
+                                                aria-label="Close">
+                                            忘記密碼
+                                        </button>
+                                    </div>
+                                    <button type="button" class="btn btn-primary login-btn msg-loginerror" data-toggle="modal"
+                                            data-target="#messageModal" data-dismiss="modal" aria-label="Close">
+                                        登入
+                                    </button>
+                                    <p class="text-left">
+                                        還不是會員嗎?
+                                        <button type="button" class="btn btn-login font-bold px-0" data-toggle="modal"
+                                                data-target="#registeredModalCenter" data-dismiss="modal">
+                                            馬上註冊
+                                        </button>
+                                    </p>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- registered Modal -->
+            <div class="modal fade" id="registeredModalCenter" tabindex="-1" role="dialog"
+                 aria-labelledby="registeredModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" data-dismiss="modal" aria-label="Close">
+                        </div>
+                        <div class="popup-banner for-mobile">
+                            <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <img src="img/index/login_banner.png" alt="">
+                            <div class="logo-box">
+                                <img src="img/index/afp_logo_icon.svg" alt="">
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            <h5>會員註冊</h5>
+                            <div class="container px-3">
+                                <div class="login-method">
+                                    <div class="method-item">
+                                        <img src="img/index/social/facebook.svg" alt="">
+                                    </div>
+                                    <div class="method-item">
+                                        <img src="img/index/social/line.svg" alt="">
+                                    </div>
+                                    <div class="method-item">
+                                        <img src="img/index/social/google.svg" alt="">
+                                    </div>
+                                    <div class="method-item">
+                                        <img src="img/index/social/wechat.svg" alt="">
+                                    </div>
+                                </div>
+                                <div class="line-middle">
+                                    <div class="line-middle-middle-line">
+                                        <span class="line-middle-line-text">或</span>
+                                    </div>
+                                </div>
+                                <form id="registered-form">
+                                    <ul class="nav nav-tabs justify-content-center" id="regTab" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="email-tab" data-toggle="tab" href="#email" role="tab" aria-controls="email"
+                                               aria-selected="false">電子信箱</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="phone-tab" data-toggle="tab" href="#phone" role="tab"
+                                               aria-controls="phone" aria-selected="true">手機</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content" id="regTabContent">
+                                        <div class="tab-pane fade pt-4" id="email" role="tabpanel" aria-labelledby="email-tab">
+                                            <div class="form-group linebt-row">
+                                                <input type="email" class="form-control w-100" id="registeredInputEmail" placeholder="電子信箱">
+                                            </div>
+                                            <div class="form-check form-inline">
+                                                <input type="checkbox" class="form-check-input" id="registeredCheck1">
+                                                <label class="form-check-label" for="registeredCheck1">
+                                                    我同意亞洲好玩卡的<span class="font-bold">會員條款</span>及<span class="font-bold">隱私政策</span>
+                                                </label>
+                                            </div>
+                                            <button type="button" class="default-btn send-veri-code py-0" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                傳送驗證碼
+                                            </button>
+                                            <p class="text-left">
+                                                己經是會員了嗎?
+                                                <button type="button" class="btn btn-login px-0 font-bold" data-toggle="modal"
+                                                        data-target="#loginModalCenter" data-dismiss="modal">
+                                                    馬上登入
+                                                </button>
+                                            </p>
+                                        </div>
+                                        <div class="tab-pane fade pt-4 show active" id="phone" role="tabpanel" aria-labelledby="phone-tab">
+                                            <table class="form-group">
+                                                <tbody>
+                                                    <tr>
+                                                        <td width="25%" class="linebt-td">
+                                                            <select id="registeredSelectState" class="form-control">
+                                                                <option value="+886" selected>台灣 +886</option>
+                                                                <option value="86">中國大陸 86</option>
+                                                                <option value="856">香港 856</option>
+                                                            </select>
+                                                        </td>
+                                                        <td width="5%"></td>
+                                                        <td width="70%" class="linebt-td">
+                                                            <input type="tel" class="form-control"
+                                                                   id="registeredInputPhone" placeholder="手機">
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="form-check form-inline">
+                                                <input type="checkbox" class="form-check-input" id="registeredCheck1">
+                                                <label class="form-check-label" for="registeredCheck1">
+                                                    我同意亞洲好玩卡的<span class="font-bold">會員條款</span>及<span class="font-bold">隱私政策</span>
+                                                </label>
+                                            </div>
+                                            <button type="button" class="default-btn send-veri-code py-0" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                傳送簡訊驗證碼
+                                            </button>
+                                            <p class="text-left">
+                                                己經是會員了嗎?
+                                                <button type="button" class="btn btn-login px-0 font-bold" data-toggle="modal"
+                                                        data-target="#loginModalCenter" data-dismiss="modal">
+                                                    馬上登入
+                                                </button>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- message Modal -->
+            <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" data-dismiss="modal" aria-label="Close">
+                        </div>
+                        <div class="modal-body">
+                            <div id="msg-loginok" class="d-none">註冊成功, 歡迎加入亞洲好玩卡!</div>
+                            <div id="msg-loginerror" class="d-none">登入失敗, 輸入的帳號密碼有誤, 請重新輸入!</div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn default-btn" data-dismiss="modal">關閉</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="h-50 d-inline-block"></div>
+        </main>
+        <footer class="for-pc">
+            <!--web service-->
+            <div class="scroll-top-wrapper">
+                <span class="scroll-top-inner">
+                    <button type="button" id="webservice"><img src="img/index/icons/for-pc/icon_service.png"></button>
+                    <button type="button" id="webservice_close" class="d-none">
+                        <img src="img/index/icons/for-pc/icon_close.png">
+                    </button>
+                </span>
+            </div>
+            <div class="popup-box chat-popup" id="qnimate">
+                <div class="popup-head">
+                    <div class="popup-head-left pull-left"><img src="img/index/icons/for-pc/icon_bear.png" alt="service"> 熊客服</div>
+                </div>
+                <div class="hr-100"></div>
+                <div class="popup-messages">
+                    <div class="direct-chat-messages">
+                        <div class="chat-box-single-line">
+                            <abbr class="timestamp">Sun, Dec 11 1:20 PM</abbr>
+                        </div>
+
+                        <!-- Message. Default to the left -->
+                        <div class="direct-chat-msg">
+                            <!-- direct-chat-info -->
+                            <div class="direct-chat-text">
+                                Hey你好, 我是熊, 很高興為您服務
+                            </div>
+                            <ul class="direct-info">
+                                來看看有什麼熱門問題吧!
+                                <li><a href="">亞洲好玩卡網站是什麼?</a></li>
+                                <li><a href="">我想問如何快速取貨?</a></li>
+                                <li><a href="">想要退換貨怎麼辦?</a></li>
+                                <li><a href="">最近有什麼最新優惠?</a></li>
+                                <li><a href="">我該如何購買網路商品?</a></li>
+                            </ul>
+                        </div>
+                        <!-- Message. Default to the right -->
+                        <div class="guests-chat-msg">
+                            <!-- direct-chat-info -->
+                            <div class="guests-chat-text">
+                                請幫我轉真人服務
+                            </div>
+                            <div class="guests-chat-name">
+                                guests
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="hr-100"></div>
+                <div class="popup-messages-footer">
+                    <input type="text" placeholder="請輸入問題">
+                </div>
+            </div>
+            <!--footer content-->
+            <div class="container">
+                <div class="row d-flex">
+                    <div class="col-4 col-md-3">
+                        <h6>關於亞洲好玩卡</h6>
+                        <ul>
+                            <li><a href="#">關於我們</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-4 col-md-3">
+                        <h6>追蹤我們</h6>
+                        <ul>
+                            <li><a href="#"><i class="fab fa-facebook-f fa-fw"></i> Facebook</a></li>
+                            <li><a href="#"><i class="fab fa-line fa-fw"></i> Line</a></li>
+                            <li><a href="#"><i class="fab fa-instagram fa-fw"></i> Instagram</a></li>
+                        </ul>
+                    </div>
+                    <div class="w-100"></div>
+                    <div class="col-12 border-t">
+                        <div class="f-left">
+                            <object data="img/index/logo-s.svg" width="30" type="image/svg+xml"></object><span>
+                                Designed by Asia Fun
+                                Pass
+                            </span>
+                        </div>
+                        <div class="f-right">
+                            Ⓒ2020 Asia Fun Pass. All Right Reserved
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <footer class="mobile-footer for-mobile">
+            <div class="menu-bar">
+                <a href="javascript:;" class="bar-item active">
+                    <img class="default-img" src="img/index/icons/footer_1_1.svg" alt="">
+                    <img class="active-img" src="img/index/icons/footer_1_2.svg" alt="">
+                    首頁
+                </a>
+                <a href="javascript:;" class="bar-item">
+                    <img class="default-img" src="img/index/icons/footer_2_1.svg" alt="">
+                    <img class="active-img" src="img/index/icons/footer_2_2.svg" alt="">
+                    路線規劃
+                </a>
+                <a href="javascript:;" class="bar-item customer-item">
+                    <img src="img/index/icons/footer_3.png" alt="">
+                    客服
+                </a>
+                <a href="javascript:;" class="bar-item">
+                    <img class="default-img" src="img/index/icons/footer_4_1.svg" alt="">
+                    <img class="active-img" src="img/index/icons/footer_4_2.svg" alt="">
+                    任務
+                </a>
+                <a href="javascript:;" class="bar-item">
+                    <img class="default-img" src="img/index/icons/footer_5_1.svg" alt="">
+                    <img class="active-img" src="img/index/icons/footer_5_2.svg" alt="">
+                    我的
+                </a>
+            </div>
+        </footer>
+    </div>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="js/vendor/bs4/js/jquery-3.2.1.slim.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->    
+    <script src="js/vendor/bs4/js/bootstrap.min.js"></script>
+
+    <!-- owlcarousel JS -->
+    <script src="js/vendor/owlcarousel/vendors/jquery.min.js"></script>
+    <script src="js/vendor/owlcarousel/owlcarousel/owl.carousel.js"></script>
+    <script src="js/vendor/owlcarousel/vendors/highlight.js"></script>
+    <script src="js/vendor/owlcarousel/js/app.js"></script>   
+    <script src="js/vendor/jquery-editable-select-master/dist/jquery-editable-select.js"></script>
+
+    <!-- vendor js -->
+    <script src="js/vendor/swiper/js/swiper.min.js"></script>
+    <script src="js/vendor/imgLiquid.js"></script>
+
+    <!-- custom js -->
+    <script src="js/index.js"></script>
+</body>
+
+</html>

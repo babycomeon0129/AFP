@@ -1,0 +1,44 @@
+<div class="wrap container">
+  <header>
+      <div class="header-secondary container">
+          <div class="index-flex justify-content-between">
+              <div class="item two">
+                  <div class="close-btn" [hidden]="appService.isApp !== null">
+                      <button class="btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                          <i class="material-icons">&#xe314;</i>
+                      </button>
+                  </div>
+              </div>
+              <div class="item three text-center">
+                  <div class="title-name">遊戲館</div>
+              </div>
+              <div class="item two">
+              </div>
+          </div>
+      </div>
+  </header>
+  <main>
+      <div *ngIf="imgTop?.ADImg_Img !== null" class="banner-box">
+          <div class="swiper-container">
+              <div class="swiper-wrapper">
+                  <div class="swiper-slide">
+                      <img src="{{imgTop?.ADImg_Img}}" alt="top-image">
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div *ngIf="gameList?.length >= 1; else elseBlock" class="game-list p-3">
+          <h6 class="py-2">遊戲列表</h6>
+          <div class="member-flex flex-gamebn">
+              <div *ngFor="let game of gameList" (click)="GoGame(game.Game_Code)" class="item">
+                  <img src="{{game?.Game_Image}}" alt="" class="img-fluid border-radius5">
+              </div>
+          </div>
+      </div>
+      <ng-template #elseBlock >
+          <div class="no-data">
+            <img src="../img/share/game-null.png" alt="no-game">
+            <p>Oops！下次再來玩...</p>
+          </div>
+      </ng-template>
+  </main>

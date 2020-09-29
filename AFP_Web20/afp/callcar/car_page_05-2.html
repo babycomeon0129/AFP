@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Material Design for Bootstrap fonts and icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../js/vendor/bs4/css/bootstrap.min.css">    
+    <!-- custom css -->
+    <link rel="stylesheet" href="../dist/style/car_setting.min.css">
+    <link rel="stylesheet" href="../dist/style/car.min.css">
+    <link rel="stylesheet" href="../dist/style/global.min.css">
+    <link rel="stylesheet" href="../dist/style/index.min.css">
+    <title>艾斯移動 - 叫車行程確認-備註</title>
+</head>
+
+<body id="index_04">
+    <div class="wrap container">
+        <div class="call-car-box">
+            <div class="call-car-bg"></div>
+            <div class="title-box flex-inline-between">
+                <div class="item icon-btn">
+                    <button onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                        <i class="material-icons">&#xE314;</i>
+                    </button>
+				</div>
+                <div class="item title-name">備註</div>
+                <div class="item icon-btn">
+                    <button onclick="location.href='car_page_07.html'" data-toggle="tooltip" data-placement="bottom" title="下一頁">
+                        <i class="material-icons">&#xE315;</i>
+                    </button>
+				</div>
+            </div>
+        </div>
+        <div class="note-box">
+            <div class="note-title">
+                <div class="item">選擇其他需求</div>
+                <div class="item clear-btn">重置</div>
+            </div>
+            <div class="note-list">
+                <div class="item">寵物友善</div>
+                <div class="item">女司機</div>
+                <div class="item">五年新車</div>
+                <div class="item">無煙車</div>
+                <div class="item">嬰兒座椅</div>
+                <div class="item">無香精</div>
+                <div class="item">無障礙車</div>
+                <div class="item">SHARP空氣淨化車</div>
+                <div class="item">多元化計程車</div>
+                <div class="item">WISH車款</div>
+            </div>
+            <div class="note-title">
+                <div class="item">寫下你的其餘備註</div>
+            </div>
+            <div class="note-desc">
+                <div class="form-group">
+                    <textarea class="form-control" placeholder="請填寫住址備註、行李數量，攜帶物品大小...等" id="your-note" rows="8"></textarea>
+                </div>
+            </div>
+            <div class="button-group">
+                <button class="btn default-btn">套用</button>
+                <button class="btn cancel-btn">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="../js/vendor/bs4/js/jquery-3.2.1.slim.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->    
+    <script src="../js/vendor/bs4/js/bootstrap.min.js"></script>
+
+    <script src="../js/popper.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $('.note-list .item').on('click', function(){
+                $(this).toggleClass('active');
+                if($('.note-list .active').length > 0){
+                    $('.button-group').addClass('apply')
+                }else{
+                    $('.button-group').removeClass('apply')
+                }
+            })
+            $('.clear-btn').on('click', function(){
+                $('.note-list .item').removeClass('active');
+                $('.button-group').removeClass('apply');
+            })
+        })
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+<div class="wrap container">
+  <main>
+      <div class="nDbox">
+          <div class="nDimgbox">
+              <img src='{{msgContent?.IMessage_BigImg}}' class="img-fluid">
+              <div class="onImgbar">
+                  <div class="back-go">
+                      <button (click)="conditionBack()" type="button" data-toggle="tooltip" data-placement="top" title="回上一頁"><img src="../img/share/icon_back.png" class="imgicon"></button>
+                  </div>
+                  <div class="shareBox">
+                      <button (click)="modal.show('msgShare', { initialState: {sharedText: textForShare} })" class="btn add-share" type="button" data-trigger="copy" data-toggle="modal" data-target=".share-modal-sm"><img src="../img/share/icon_share.png" class="imgicon"></button>
+                  </div>
+              </div>
+          </div>
+          <div class="nDcontent container p-4">
+              <div (click)="goCateList()" class="shopping-store-badge">
+                  <button class="badge brBlue badge-pill text-blue">{{msgContent?.IMessage_MsgCategoryName}}</button>
+              </div>
+              <div class="item-title">
+                  {{msgContent?.IMessage_Title}}
+              </div>
+              <p class="item-date">{{msgContent?.IMessage_ReleaseDate | date: 'yyyy/MM/dd aaa hh:mm'}}</p>
+              <div [innerHTML]="msgContent?.IMessage_Body | Safe: 'html'" class="item-content"></div>
+          </div>
+          <div class="addheight"></div>
+      </div>
+  </main>
+</div>

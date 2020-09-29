@@ -1,0 +1,1214 @@
+body.hasBg {
+  background-color: #F8F8F8;
+}
+
+body.hasBg .call-car-bg {
+  display: block;
+  background-color: #F8E71C;
+  border-bottom-left-radius: .5em;
+  border-bottom-right-radius: .5em;
+}
+
+body#index_04 .call-car-map {
+  height: calc(100vh - 57px);
+}
+
+body.open-popup .wrap {
+  -webkit-filter: blur(3px);
+}
+
+body.open-popup .popup-box, body.open-popup .overlay, body.open-popup .search-taxi-wave {
+  display: block;
+  overflow: initial;
+}
+
+.call-car-box {
+  width: 100%;
+  position: relative;
+  z-index: 100;
+}
+
+.call-car-box .call-car-bg {
+  width: 100%;
+  height: 150px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  display: none;
+}
+
+.call-car-box .call-car-bg:before, .call-car-box .call-car-bg:after {
+  content: '';
+  display: none;
+  width: 100px;
+  height: 35px;
+  position: absolute;
+  bottom: -2px;
+  background-size: 100% auto;
+  z-index: 100;
+}
+
+@media screen and (max-width: 767px) {
+  .call-car-box .call-car-bg:before, .call-car-box .call-car-bg:after {
+    display: block;
+  }
+}
+
+.call-car-box .call-car-bg:before {
+  left: -15px;
+  background: url("../img/callcar/kv_mask_left_car.svg") 0 0 no-repeat;
+}
+
+.call-car-box .call-car-bg:after {
+  right: -15px;
+  background: url("../img/callcar/kv_mask_right_car.svg") 0 0 no-repeat;
+}
+
+.call-car-box .call-car-input {
+  padding: 0 15px;
+  margin-bottom: 15px;
+}
+
+.call-car-box .call-car-input .input-box {
+  -webkit-box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
+          box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #fff;
+  padding: 15px 25px 15px 40px;
+  position: relative;
+}
+
+.call-car-box .call-car-input .input-box.single:before, .call-car-box .call-car-input .input-box.use-code:before {
+  display: none;
+}
+
+.call-car-box .call-car-input .input-box.use-code {
+  padding: 15px;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  border-radius: 0;
+}
+
+.call-car-box .call-car-input .input-box.use-code .input {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-left: 0;
+}
+
+.call-car-box .call-car-input .input-box.use-code .input input {
+  border-bottom: none;
+  background: rgba(142, 142, 147, 0.12);
+  border-radius: 10px;
+}
+
+.call-car-box .call-car-input .input-box.use-code .input .item:first-child {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  margin-right: 10px;
+}
+
+.call-car-box .call-car-input .input-box.use-code .input .item:last-child {
+  width: 70px;
+}
+
+.call-car-box .call-car-input .input-box.use-code .input .item:last-child button {
+  width: 100%;
+}
+
+.call-car-box .call-car-input .input-box.use-code button {
+  margin-top: 0;
+}
+
+.call-car-box .call-car-input .input-box:before {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 30px;
+  position: absolute;
+  top: 50%;
+  left: 26px;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  background-color: #35A88E;
+}
+
+.call-car-box .call-car-input .input-box .form-group:last-child {
+  margin-bottom: 0;
+}
+
+.call-car-map {
+  height: calc(100vh - 194px);
+  -webkit-box-shadow: 0px -1px 4px rgba(135, 135, 135, 0.3);
+          box-shadow: 0px -1px 4px rgba(135, 135, 135, 0.3);
+  position: relative;
+}
+
+#map {
+  height: 100%;
+}
+
+.choice-list-box {
+  background-color: #F8F8F8;
+}
+
+.choice-map-list {
+  background-color: #fff;
+  margin-bottom: 5px;
+}
+
+.choice-map-list.is-choice .icon-box {
+  background-color: #eee;
+}
+
+.choice-map-list.is-choice small {
+  display: block;
+  width: 100%;
+  color: #9B9B9B;
+}
+
+.choice-map-list ul {
+  padding-left: 0;
+}
+
+.choice-map-list li {
+  padding: 15px 25px;
+  border-top: 1px #ddd solid;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
+}
+
+.choice-map-list li:last-child {
+  border-bottom: 1px #ddd solid;
+}
+
+.choice-map-list .icon-box {
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  background-color: #4A90E2;
+  text-align: center;
+  margin-right: 10px;
+}
+
+.choice-map-list .icon-box .material-icons {
+  color: #fff;
+  font-size: 20px;
+  vertical-align: bottom;
+}
+
+.note-box {
+  height: calc(100vh - 57px);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 15px;
+  margin-top: auto;
+}
+
+.note-box .note-title {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.note-box .note-title .clear-btn {
+  color: #4A90E2;
+  font-size: 14px;
+}
+
+.note-box .note-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.note-box .note-list .item {
+  color: #4A4A4A;
+  padding: 10px 13px;
+  border: 1px #4A4A4A solid;
+  border-radius: 5px;
+  margin: 0 12px 12px 0;
+}
+
+.note-box .note-list .item.active {
+  color: #fff;
+  background: -webkit-gradient(linear, right top, left top, from(#568EE3), to(#36D1DB));
+  background: linear-gradient(270deg, #568EE3 0%, #36D1DB 100%);
+  border-color: #fff;
+}
+
+.note-box .note-desc textarea {
+  background: #E5E9F2;
+}
+
+.note-box .button-group {
+  margin-top: auto;
+}
+
+.note-box .button-group.apply .default-btn {
+  display: block;
+}
+
+.note-box .button-group.apply .cancel-btn {
+  display: none;
+}
+
+.note-box .button-group .default-btn {
+  display: none;
+}
+
+.popup-box {
+  text-align: center;
+}
+
+.popup-box .img-box {
+  position: absolute;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  top: -25px;
+}
+
+.popup-box .callcar-info {
+  position: relative;
+  padding-left: 25px;
+  text-align: left;
+  list-style-type: none;
+}
+
+.popup-box .callcar-info:before {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 30px;
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  background-color: #35A88E;
+  left: 15px;
+}
+
+.popup-box .callcar-info li {
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.popup-box .callcar-info li:before {
+  content: '';
+  display: block;
+  width: 11px;
+  height: 11px;
+  background-color: #fff;
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  left: -15px;
+}
+
+.popup-box .callcar-info li:first-child:before {
+  border: 3px solid #F55100;
+  border-radius: 100%;
+}
+
+.popup-box .callcar-info li:last-child {
+  margin-bottom: 0;
+}
+
+.popup-box .callcar-info li:last-child:before {
+  border: 3px solid #50E3C2;
+}
+
+.popup-box .callcar-info p span {
+  display: inline-block;
+  margin-right: 15px;
+}
+
+.popup-box .default-btn {
+  margin: auto;
+}
+
+.popup-box small {
+  margin-bottom: 5px;
+}
+
+.discount-tikcet-box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-items: center;
+  padding: 15px;
+  background-color: #FFF0B9;
+  border-left: 5px #F4BB19 solid;
+}
+
+.discount-tikcet-box .discount-item {
+  margin-right: 15px;
+}
+
+.discount-tikcet-box .discount-item:first-child {
+  text-align: center;
+}
+
+.discount-tikcet-box .discount-item:first-child .material-icons {
+  background: -webkit-linear-gradient(270deg, #568EE3 0%, #36D1DB 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.discount-tikcet-box .discount-item:first-child p {
+  color: #4A90E2;
+}
+
+.discount-tikcet-box .discount-item:last-child {
+  margin-right: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.discount-tikcet-box .discount-item:last-child button {
+  color: #fff;
+  background: -webkit-gradient(linear, right top, left top, from(#568EE3), to(#36D1DB));
+  background: linear-gradient(270deg, #568EE3 0%, #36D1DB 100%);
+  border-radius: 6px;
+  padding: 0 10px;
+  cursor: pointer;
+}
+
+.info-card-box {
+  background-color: #fff;
+  border-radius: 10px 10px 0px 0px;
+  overflow: hidden;
+}
+
+.info-card-box .info-title {
+  padding: 15px;
+  text-align: center;
+  background: #4A90E2;
+  color: #fff;
+}
+
+.info-card-box .info-title span {
+  font-weight: 700;
+}
+
+.info-card-box .info-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 15px;
+}
+
+.info-card-box .info-content .info-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 60%;
+}
+
+.info-card-box .info-content .info-list:last-child .item {
+  margin-bottom: 0;
+}
+
+.info-card-box .info-content .info-list.info-img p {
+  color: #333;
+}
+
+.info-card-box .info-content .info-list.info-license .license p {
+  font-size: 16px;
+  color: #333;
+}
+
+.info-card-box .info-content .info-list.info-btn .btn-box {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #9B9B9B;
+  border-radius: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 0 auto 5px;
+}
+
+.info-card-box .info-content .info-list.info-btn .btn-box .material-icons {
+  color: #333;
+}
+
+.info-card-box .info-content .info-list .item {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  text-align: center;
+  margin-bottom: 10px;
+  color: #9B9B9B;
+}
+
+.info-card-box .info-content .info-list p {
+  font-size: 13px;
+  text-align: center;
+}
+
+.info-card-box .info-content .img-box {
+  margin-bottom: 5px;
+}
+
+.info-card-box .info-content .user-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 100%;
+  overflow: hidden;
+  margin: 0 auto 5px;
+}
+
+.info-card-box .info-content .user-img img {
+  width: 100%;
+  height: 100%;
+}
+
+.info-card-box .taxi-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  padding: 15px;
+}
+
+.info-card-box .taxi-content .taxi-item {
+  margin: 0 10px;
+}
+
+.info-card-box .taxi-content .taxi-item .item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 13px;
+  color: #4A4A4A;
+}
+
+.info-card-box .taxi-content .taxi-item .material-icons {
+  font-size: 18px;
+  vertical-align: sub;
+  color: #4A4A4A;
+}
+
+.info-card-box .taxi-content .taxi-item .item-desc {
+  margin: 3px 15px 3px 0;
+}
+
+.info-card-box .taxi-content .taxi-item.open-note-box {
+  color: #4A90E2;
+}
+
+.info-card-box .taxi-content .taxi-item.open-note-box .material-icons {
+  color: #4A90E2;
+}
+
+.main-discount-box {
+  position: relative;
+  padding: 15px;
+}
+
+.main-discount-box .discount-top-bg {
+  height: 26px;
+  background: #D9A77A;
+  -webkit-box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  padding: 8px;
+  margin: 0 -10px;
+}
+
+.main-discount-box .discount-top-bg .line {
+  height: 10px;
+  background: #828282;
+  border-radius: 5px;
+}
+
+.main-discount-box .discount-content {
+  margin-top: -12px;
+  background-color: #fff;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  position: relative;
+}
+
+.main-discount-box .discount-content .discount-price {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  background: radial-gradient(50% 50% at 50% 50%, #E44D26 0%, #F06428 100%);
+  padding: 2px 5px;
+  color: #fff;
+}
+
+.main-discount-box .discount-content .discount-price:before, .main-discount-box .discount-content .discount-price:after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  right: -10px;
+}
+
+.main-discount-box .discount-content .discount-price:before {
+  border-width: 14px 10px 0 0;
+  border-color: #F06428 transparent transparent transparent;
+  top: 0;
+}
+
+.main-discount-box .discount-content .discount-price:after {
+  border-width: 14px 0 0 10px;
+  border-color: transparent transparent transparent #F06428;
+  bottom: 0;
+}
+
+.main-discount-box .discount-content .img-box {
+  text-align: center;
+}
+
+.main-discount-box .discount-content .discount-info-box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  color: #182B56;
+  margin: 10px 0 0;
+}
+
+.main-discount-box .discount-content .discount-info-box .item {
+  font-size: 13px;
+}
+
+.main-discount-box .discount-content .discount-info-box .item img {
+  width: 15px;
+  vertical-align: sub;
+  margin-right: 5px;
+}
+
+.main-discount-box .discount-content .discount-info-box p:first-child {
+  font-weight: 700;
+}
+
+.main-discount-box .discount-content .discount-info-box p:last-child {
+  font-size: 18px;
+  color: #333;
+}
+
+.main-discount-box .discount-content .discount-desc {
+  margin: 15px 0;
+  text-align: center;
+  color: #4A90E2;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.main-discount-box .discount-content .discount-desc .material-icons {
+  vertical-align: top;
+}
+
+.other-discount-list {
+  padding: 15px;
+}
+
+.other-discount-list .discount-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 15px;
+  -webkit-box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  padding: 15px 10px;
+}
+
+.other-discount-list .discount-item:last-child {
+  margin-bottom: 0;
+}
+
+.other-discount-list .discount-item.can-use .default-btn {
+  background-color: #fff;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: -webkit-gradient(linear, left top, right top, from(#568EE3), to(#36D1DB));
+  background-image: linear-gradient(to right, #568EE3 0%, #36D1DB 100%);
+  border: 1px #568EE3 solid;
+}
+
+.other-discount-list .discount-item .item {
+  -webkit-box-flex: 0;
+      -ms-flex: none;
+          flex: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.other-discount-list .discount-item .item:nth-of-type(2) {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  margin-left: 10px;
+}
+
+.other-discount-list .discount-item .item:last-child {
+  margin-left: auto;
+  position: relative;
+  padding: 10px;
+  padding-right: 0;
+}
+
+.other-discount-list .discount-item .item:last-child .line-box {
+  display: block;
+  width: 1px;
+  height: 70%;
+  background-color: #eee;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+.other-discount-list .discount-item .item:last-child .circle {
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  background-color: #fff;
+  left: -8px;
+}
+
+.other-discount-list .discount-item .item:last-child .circle.circle-top {
+  top: -24px;
+}
+
+.other-discount-list .discount-item .item:last-child .circle.circle-bottom {
+  bottom: -24px;
+}
+
+.other-discount-list .discount-item .item:last-child:before, .other-discount-list .discount-item .item:last-child:after {
+  content: "";
+  width: 17px;
+  height: 10px;
+  background: #fff;
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  position: absolute;
+  z-index: 50;
+  left: -8px;
+}
+
+.other-discount-list .discount-item .item:last-child:before {
+  top: -15px;
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+  -webkit-box-shadow: inset 0px 2px 2px rgba(0, 0, 0, 0.15);
+          box-shadow: inset 0px 2px 2px rgba(0, 0, 0, 0.15);
+}
+
+.other-discount-list .discount-item .item:last-child:after {
+  bottom: -15px;
+  -webkit-box-shadow: inset 0px 2px 2px rgba(0, 0, 0, 0.15);
+          box-shadow: inset 0px 2px 2px rgba(0, 0, 0, 0.15);
+}
+
+.other-discount-list .discount-item .item .img-box {
+  width: 80px;
+  border: 1px #eee solid;
+  padding: 10px 5px;
+  border-radius: 5px;
+}
+
+.other-discount-list .discount-item .item img {
+  width: 100%;
+}
+
+.other-discount-list .discount-item .item .default-btn {
+  margin-top: 0;
+  border-radius: 100px;
+  padding: 5px 20px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.other-discount-list .discount-item .discount-text {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.other-discount-list .discount-item .discount-text p:first-child {
+  color: #4A90E2;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.other-discount-list .discount-item .discount-text p:last-child {
+  width: 100%;
+  font-size: 13px;
+}
+
+.other-discount-list .discount-item .discount-text .material-icons {
+  vertical-align: bottom;
+}
+
+.call-car-info {
+  height: calc(100vh - 57px);
+  padding: 0 15px 15px;
+}
+
+.call-car-info .info-box {
+  -webkit-box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
+          box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #fff;
+  position: relative;
+  padding: 15px;
+}
+
+.call-car-info .info-box .info-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: #F2F2F2;
+  border-radius: 10px;
+  padding: 15px;
+  overflow: hidden;
+  margin-bottom: 15px;
+  font-size: 15px;
+  position: relative;
+}
+
+.call-car-info .info-box .info-content.desc-info {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 30px;
+}
+
+.call-car-info .info-box .info-content.desc-info .title-box {
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-direction: column;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  padding: 0;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.call-car-info .info-box .info-content.desc-info .title-box .material-icons {
+  margin-right: 0;
+}
+
+.call-car-info .info-box .info-content.desc-info .desc-info-list {
+  padding-left: 0;
+  border-bottom: 2px solid #4A90E2;
+}
+
+.call-car-info .info-box .info-content.desc-info .desc-info-list:last-child {
+  border-bottom: none;
+}
+
+.call-car-info .info-box .info-content.desc-info .desc-info-list:last-child li span:last-child {
+  font-size: 13px;
+}
+
+.call-car-info .info-box .info-content.desc-info .desc-info-list:before {
+  display: none;
+}
+
+.call-car-info .info-box .info-content.desc-info .desc-info-list li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #4A90E2;
+}
+
+.call-car-info .info-box .info-content.desc-info .desc-info-list li:last-child {
+  border-bottom: none;
+}
+
+.call-car-info .info-box .info-content.desc-info .desc-info-list li span:last-child {
+  color: #333;
+  font-size: 15px;
+  font-weight: normal;
+}
+
+.call-car-info .info-box .info-content:before, .call-car-info .info-box .info-content:after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 20px;
+  background-color: #fff;
+  border-radius: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
+
+.call-car-info .info-box .info-content:before {
+  top: -13px;
+}
+
+.call-car-info .info-box .info-content:after {
+  bottom: -13px;
+}
+
+.call-car-info .info-box .info-content:last-child {
+  margin-bottom: 0;
+}
+
+.call-car-info .info-box .info-content .item.status {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.call-car-info .info-box .info-content .material-icons {
+  font-size: 35px;
+  margin-right: 15px;
+}
+
+.call-car-info .info-box .info-content p:nth-of-type(1) {
+  color: #9B9B9B;
+}
+
+.call-car-info .info-box .info-content ul {
+  padding-left: 20px;
+  position: relative;
+}
+
+.call-car-info .info-box .info-content ul:before {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 5px;
+  background-color: #9B9B9B;
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  left: 6px;
+}
+
+.call-car-info .info-box .info-content ul li {
+  font-size: 13px;
+  color: #9B9B9B;
+  font-weight: 700;
+  position: relative;
+}
+
+.call-car-info .info-box .info-content .boarding:before, .call-car-info .info-box .info-content .getoff:before {
+  top: 4px;
+  border-color: #9B9B9B;
+}
+
+.call-car-info .pay-method-box {
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
+          box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #fff;
+  position: relative;
+  padding: 15px;
+}
+
+.call-car-info .pay-method-box .pay-taxi-money {
+  margin: 15px auto 30px;
+  text-align: center;
+}
+
+.call-car-info .pay-method-box .pay-taxi-money .money-title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.call-car-info .pay-method-box .pay-taxi-money .money-txt {
+  color: #4A90E2;
+  font-size: 25px;
+  margin: 5px 0;
+}
+
+.call-car-info .pay-method-box .pay-taxi-money .money-date {
+  font-size: 12px;
+  color: #273D52;
+  letter-spacing: 2px;
+}
+
+.call-car-info .pay-method-box .pay-title {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 20px;
+}
+
+.call-car-info .pay-method-box .pay-title img {
+  width: 48px;
+  margin-right: 15px;
+}
+
+.call-car-info .pay-method-box .pay-content {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.call-car-info .pay-method-box .pay-content .content-box {
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.call-car-info .pay-method-box .pay-slider {
+  margin: 0 -15px;
+}
+
+.call-car-info .pay-method-box .pay-slider.has-choice .pay-item {
+  -webkit-filter: grayscale(1);
+  opacity: .5;
+}
+
+.call-car-info .pay-method-box .pay-slider.has-choice .pay-item.is-choice {
+  -webkit-filter: grayscale(0);
+  opacity: 1;
+}
+
+.call-car-info .pay-method-box .pay-slider .pay-item {
+  padding: 10px;
+}
+
+.call-car-info .pay-method-box .pay-slider .pay-item .img-box {
+  width: 100%;
+  height: 100%;
+  border: 1px #eee solid;
+  border-radius: 100%;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.call-car-info .pay-method-box .pay-slider .pay-item img {
+  width: 100%;
+}
+
+.call-car-info .pay-method-box .pay-list-group {
+  padding-bottom: 15px;
+  margin-top: 20px;
+  border-bottom: 1px #182B56 solid;
+}
+
+.call-car-info .pay-method-box .pay-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 10px 0;
+}
+
+.call-car-info .pay-method-box .pay-list input {
+  padding: 3px 10px;
+  border: 1px #eee solid;
+  border-radius: 5px;
+  text-align: right;
+  color: #4A90E2;
+}
+
+.call-car-info .pay-method-box .pay-list .use-discount, .call-car-info .pay-method-box .pay-list .pay-method-txt, .call-car-info .pay-method-box .pay-list .pay-money-txt {
+  color: #4A90E2;
+}
+
+.call-car-info .pay-method-box .pay-list .use-discount .material-icons, .call-car-info .pay-method-box .pay-list .pay-method-txt .material-icons, .call-car-info .pay-method-box .pay-list .pay-money-txt .material-icons {
+  vertical-align: top;
+}
+
+.call-car-info .pay-method-box .button-box {
+  margin-top: auto;
+}
+
+.choice-discount-ticket {
+  padding: 15px;
+}
+
+.choice-discount-ticket .discount-ticket {
+  border-radius: 10px 10px 0 0;
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  margin-top: 15px;
+}
+
+.choice-discount-ticket .title {
+  text-align: center;
+  padding: 15px;
+  border-bottom: 1px #eee solid;
+}
+
+.choice-discount-ticket .ticket-list > li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 15px;
+  border-bottom: 1px #eee solid;
+  cursor: pointer;
+}
+
+.choice-discount-ticket .ticket-list > li:last-child {
+  border-bottom: none;
+}
+
+.choice-discount-ticket .ticket-list > li .item.img-box {
+  width: 70px;
+  margin-right: 10px;
+}
+
+.choice-discount-ticket .ticket-list > li .item.img-box img {
+  width: 100%;
+}
+
+.choice-discount-ticket .ticket-list > li .item.desc-box {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.choice-discount-ticket .ticket-list > li .item .team-name {
+  font-size: 14px;
+  color: #182B56;
+  font-weight: 700;
+}
+
+.choice-discount-ticket .ticket-list > li .item .team-discount {
+  font-size: 16px;
+  color: #4A90E2;
+}
+
+.choice-discount-ticket .ticket-list > li .item .date-limit {
+  font-size: 12px;
+  color: #182B56;
+}
+
+#pay-final .pay-title {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+/*# sourceMappingURL=car.css.map */

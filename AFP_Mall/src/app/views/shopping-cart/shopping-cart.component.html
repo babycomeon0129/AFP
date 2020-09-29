@@ -1,0 +1,132 @@
+<div class="wrap container">
+  <header>
+    <div class="header-secondary container linebt-row">
+        <div class="index-flex justify-content-between">
+            <div class="item two">
+                <div class="close-btn" [hidden]="appService.isApp !== null">
+                    <button type="button" (click)="conditionBack()" class="btn px-0" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                        <i class="material-icons">&#xe314;</i>
+                    </button>
+                </div>
+            </div>
+            <div class="item three text-center">
+                <div class="title-name">購物車</div>
+            </div>
+            <div class="item two" style="visibility: hidden">
+                <div class="top-item climate text-right">
+                    <img src="../img/share/notify.png" class="h38" data-toggle="tooltip" data-placement="bottom" title="客服">
+                </div>
+            </div>
+        </div>
+    </div>
+  </header>
+
+  <main>
+
+      <div class="shopping-cartlist">
+          <ul *ngIf="cartList.length > 0; else elseBlock" class="list-unstyled w-100">
+              <li class="flex-inline-between center-v">
+                <!-- 結帳先採單選商家, "選擇全部"暫不顯示 -->
+                  <div class="icheck-material-blue w-50 p-1" style="visibility: hidden">
+                      <input id="checkedall" type="checkbox" class="store-chk" disabled>
+                      <label for="checkedall">
+                          選擇全部
+                      </label>
+                  </div>
+                  <div class="w-50 text-right p-1">
+                       <button (click)="toggleEditAllMode()" type="button" class="btn modifybtn text-info store0">
+                          {{editAllMode === true? '完成' : '編輯全部'}}
+                      </button>
+                  </div>
+              </li>
+              <form>
+                <div *ngFor="let store of cartList">
+                  <ul class="store1ul">
+                    <li class="linebt-row10"></li>
+                    <li class="flex-inline-between">
+                        <div class="store-title center-v p-1">
+                            <div class="icheck-material-blue">
+                                <input id="{{store.StoreCode}}" [checked]="store.CheckedStatus === true" (change)="onToggleStore(store)" type="checkbox">
+                                <label for="{{store.StoreCode}}">
+                                    <i class="fas fa-store pr-2 pb-1"></i>{{store.StoreName}}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="text-right p-1">
+                             <button (click)="toggleEditMode(store)" type="button" class="btn text-info modifybtn" value="store1">
+                                {{store.EditMode === true? '完成' : '編輯'}}
+                            </button>
+                        </div>
+                    </li>
+                    <li *ngFor="let product of store.ProductList" attr.data-cartId="{{product.CartId}}">
+                        <div class="row">
+                            <div class="col-9 col-lg-11">
+                                <div class="products-sitem d-flex align-items-start bd-highlight">
+                                    <div class="sitem-checkbox">
+                                        <div class="icheck-material-blue">
+                                            <input id="{{product.CartId}}" [checked]="product.CheckedStatus === true" (change)="onToggleProduct(store, product)" type="checkbox">
+                                            <label for="{{product.CartId}}" class="p-0"></label>
+                                        </div>
+                                    </div>
+                                    <div [routerLink]="['/ProductDetail', product.DirCode, product.ProductCode]" class="sitem-img bd-highlight py-1 pr-2">
+                                        <div class="rwdimg" [style.background-image]="'url('+product?.ProductImg+')'"></div>
+                                    </div>
+                                    <div class="sitem-title bd-highlight py-1">
+                                        <p class="txt-line-clamp1">{{product.ProductName}}</p>
+                                        <small class="txt-line-clamp1">規格：{{product.ProductAttrValues}}</small>
+                                        <div class="products-quantity">
+                                            <div class="d-flex p-quantity products001">
+                                                <div class="input-group-btn data-dwn" (click)="onChangeAmount(0, product)">
+                                                      <button type="button" class="btn btn-default btn-outline-dark" data-dir="dwn"><i class="fas fa-minus"></i></button>
+                                                </div>
+                                                <div><input type="number" class="form-control text-center products001 bg-white" value="{{product.ProductQty}}" required readonly></div>
+                                                <div class="input-group-btn data-up" (click)="onChangeAmount(1, product)">
+                                                      <button type="button" class="btn btn-default btn-outline-dark" data-dir="up"><i class="fas fa-plus"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" col-3 col-lg-1 text-right">
+                                <button *ngIf="store.EditMode === true" (click)="onRemoveProduct(store, product)" type="button" class="btn products-delbtn">刪除</button>
+                                <div *ngIf="store.EditMode === false" class="price-asking">{{product.ProductPrice | currency: 'TWD':'$':'1.0-2'}}</div>
+                                <div class="products001 univalent"></div>
+                            </div>
+                        </div>
+                    </li>
+                  </ul>
+                </div>
+              </form>
+          </ul>
+          <ng-template #elseBlock>
+            <div class='d-flex flex-column justify-content-center align-items-center h-auto'>
+              <img src="../../img/shopping/nocart.png" class='nocart'>
+              <p class='p-2 w-100 text-center'>購物車內還沒有商品？<br>我OK! 你先買～</p>
+              <button type='button' class='btn index-btn m-2 w-75 cart-next' (click)="appService.AppRouter('/Shopping')">立馬去買</button>
+            </div>
+          </ng-template>
+      </div>
+      <div class="addheight container"></div>
+  </main>
+  <form [hidden]="cartList.length === 0">
+      <footer class="shopping-cartfooter">
+          <div class="shopping-coupon container">
+              <div class="flex-inline-between coupon-box">
+                  <div><i class="material-icons offer"></i>下一步使用優惠券、折扣碼</div>
+              </div>
+          </div>
+          <div class="fixed-bottom container">
+              <div class="row subtotal-info">
+                  <div class="col-8 col-lg-9 text-right">
+                      <small>小計</small><span class="price-subtotal">{{subtotal | currency: 'TWD':'$':'1.0-2'}}</span>
+                      <p class="small text-secondary">未含運費</p>
+                  </div>
+                  <div class="col-4 col-lg-3 pl-0">
+                      <button (click)="onGoToCheckout()" type="submit" class="btn index-btn mt-2 py-1 w-100 cart-next btnext">下一步</button>
+                  </div>
+              </div>
+          </div>
+      </footer>
+  </form>
+</div>

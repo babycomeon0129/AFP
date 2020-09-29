@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Material Design for Bootstrap fonts and icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../js/vendor/bs4/css/bootstrap.min.css">    
+    <!-- custom css -->
+    <link rel="stylesheet" href="../dist/style/car_setting.min.css">
+    <link rel="stylesheet" href="../dist/style/explore.min.css">
+    <link rel="stylesheet" href="../dist/style/global.css">
+    <link rel="stylesheet" href="../dist/style/index.min.css">
+    <title>艾斯移動 - 探索週邊</title>
+</head>
+
+<body class="hasBg">
+    <div class="wrap container">
+        <div class="explore-top-box">
+            <div class="title-box">
+                <div class="item icon-btn"><i class="material-icons">&#xE314;</i></div>
+                <div class="item title-name">探索週邊</div>
+                <div class="item icon-btn">
+                    <img src="../img/explore/icon/open-map.svg" alt="">
+                </div>
+            </div>
+            <div class="input-box">
+                <div class="form-group">
+                    <div class="input">
+                        <div class="item">
+                            <button><i class="material-icons">&#xE8B6;</i></button>
+                            <input type="text" placeholder="搜尋" class="form-control" id="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="filter-item-box">
+                <div class="filter-item" data-filter="area">地區<i class="material-icons">&#xE313;</i></div>
+                <div class="filter-item" data-filter="type">類別<i class="material-icons">&#xE313;</i></div>
+                <div class="filter-item" data-filter="discount">優惠<i class="material-icons">&#xE313;</i></div>
+            </div>
+        </div>
+        <div class="explore-container">
+            <div class="explore-card-list">
+                <a href="explore_page_02.html">
+                    <div class="card-item">
+                        <div class="img-box">
+                            <img src="https://picsum.photos/300/300/?random=1">
+                        </div>
+                        <div class="info-box">
+                            <ul class="info-list">
+                                <li class="info-name">瑞豐夜市</li>
+                                <li>
+                                    <div class="item item-ticket">折價券</div>
+                                    <div class="item item-tag auto-left">
+                                        <img src="../img/explore/icon/food.svg" alt="">美食
+                                    </div>
+                                </li>
+                                <li class="info-near">
+                                    <div class="item">近高雄巨蛋捷運站</div>
+                                    <div class="item auto-left">距離<span>33</span>km</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+                <a href>
+                    <div class="card-item">
+                        <div class="img-box">
+                            <img src="https://picsum.photos/300/300/?random=2">
+                        </div>
+                        <div class="info-box">
+                            <ul class="info-list">
+                                <li class="info-name">蓮池潭</li>
+                                <li>
+                                    <div class="item item-tag auto-left">
+                                        <img src="../img/explore/icon/attractions.svg" alt="">景點
+                                    </div>
+                                </li>
+                                <li class="info-near">
+                                    <div class="item">近左營捷運站</div>
+                                    <div class="item auto-left">距離<span>33</span>km</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+                <a href>
+                    <div class="card-item">
+                        <div class="img-box">
+                            <img src="https://picsum.photos/300/300/?random=3">
+                        </div>
+                        <div class="info-box">
+                            <ul class="info-list">
+                                <li class="info-name">左營新光三越彩虹市集</li>
+                                <li>
+                                    <div class="item item-ticket">折扣券</div>
+                                    <div class="item item-tag auto-left">
+                                        <img src="../img/explore/icon/shopping.svg" alt="">購物
+                                    </div>
+                                </li>
+                                <li class="info-near">
+                                    <div class="item">近左營捷運站</div>
+                                    <div class="item auto-left">距離<span>0.8</span>km</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+                <a href>
+                    <div class="card-item">
+                        <div class="img-box">
+                            <img src="https://picsum.photos/300/300/?random=1">
+                        </div>
+                        <div class="info-box">
+                            <ul class="info-list">
+                                <li class="info-name">瑞豐夜市</li>
+                                <li>
+                                    <div class="item item-ticket">折價券</div>
+                                    <div class="item item-tag auto-left">
+                                        <img src="../img/explore/icon/food.svg" alt="">美食
+                                    </div>
+                                </li>
+                                <li class="info-near">
+                                    <div class="item">近高雄巨蛋捷運站</div>
+                                    <div class="item auto-left">距離<span>33</span>km</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+                <a href>
+                    <div class="card-item">
+                        <div class="img-box">
+                            <img src="https://picsum.photos/300/300/?random=2">
+                        </div>
+                        <div class="info-box">
+                            <ul class="info-list">
+                                <li class="info-name">蓮池潭</li>
+                                <li>
+                                    <div class="item item-tag auto-left">
+                                        <img src="../img/explore/icon/attractions.svg" alt="">景點
+                                    </div>
+                                </li>
+                                <li class="info-near">
+                                    <div class="item">近左營捷運站</div>
+                                    <div class="item auto-left">距離<span>33</span>km</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+                <a href>
+                    <div class="card-item">
+                        <div class="img-box">
+                            <img src="https://picsum.photos/300/300/?random=3">
+                        </div>
+                        <div class="info-box">
+                            <ul class="info-list">
+                                <li class="info-name">左營新光三越彩虹市集</li>
+                                <li>
+                                    <div class="item item-ticket">折扣券</div>
+                                    <div class="item item-tag auto-left">
+                                        <img src="../img/explore/icon/shopping.svg" alt="">購物
+                                    </div>
+                                </li>
+                                <li class="info-near">
+                                    <div class="item">近左營捷運站</div>
+                                    <div class="item auto-left">距離<span>0.8</span>km</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <div id="area" class="explore-filter-content">
+                <div class="nav-container">
+                    <nav>
+                        <ul class="levelOne">
+                            <li>
+                                <a href='#'>附近(GPS)</a>
+                            </li>
+                            <li>
+                                <a href='#'>地區選單</a>
+                            </li>
+                            <li>
+                                <a href='#'>高雄</a>
+                                <ul class='levelTwo'>
+                                    <li>
+                                        <a href='#'>捷運紅線</a>
+                                    </li>
+                                    <li>
+                                        <a href='#'>捷運橘線</a>
+                                    </li>
+                                    <li>
+                                        <a href='#'>輕軌</a>
+                                        <!-- ----levelThree---- -->
+                                        <ul class='levelThree'>
+                                            <li class="filter-all">
+                                                <a href=''>
+                                                    <span><i class="material-icons">&#xE5CA;</i></span>
+                                                    <span>全部</span>
+                                                    <span class="auto-left">218</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>籬仔內C1</span>
+                                                    <span class="auto-left">78</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>凱旋瑞田C2</span>
+                                                    <span class="auto-left"></span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>前鎮之星C3</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>凱旋中華C4</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>前鎮之星C3</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>夢時代C5</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>經貿園區C7</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>高雄展覽館C8</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>旅運中心C9</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>光榮碼頭C10</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>高雄展覽館C8</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>旅運中心C9</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>光榮碼頭C10</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>高雄展覽館C8</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>旅運中心C9</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>光榮碼頭C10</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div id="type" class="explore-filter-content">
+                <div class="nav-container">
+                    <nav>
+                        <ul class="levelOne">
+                            <li>
+                                <a href='#'>附近(GPS)</a>
+                            </li>
+                            <li>
+                                <a href='#'>類別選單</a>
+                            </li>
+                            <li>
+                                <a href='#'>高雄</a>
+                                <ul class='levelTwo'>
+                                    <li>
+                                        <a href='#'>捷運紅線</a>
+                                    </li>
+                                    <li>
+                                        <a href='#'>捷運橘線</a>
+                                    </li>
+                                    <li>
+                                        <a href='#'>輕軌</a>
+                                        <!-- ----levelThree---- -->
+                                        <ul class='levelThree'>
+                                            <li class="filter-all">
+                                                <a href=''>
+                                                    <span><i class="material-icons">&#xE5CA;</i></span>
+                                                    <span>全部</span>
+                                                    <span class="auto-left">218</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>籬仔內C1</span>
+                                                    <span class="auto-left">78</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>凱旋瑞田C2</span>
+                                                    <span class="auto-left"></span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>前鎮之星C3</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>凱旋中華C4</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>前鎮之星C3</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>夢時代C5</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>經貿園區C7</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>高雄展覽館C8</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>旅運中心C9</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>光榮碼頭C10</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>高雄展覽館C8</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>旅運中心C9</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>光榮碼頭C10</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>高雄展覽館C8</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>旅運中心C9</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>光榮碼頭C10</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div id="discount" class="explore-filter-content">
+                <div class="nav-container">
+                    <nav>
+                        <ul class="levelOne">
+                            <li>
+                                <a href='#'>附近(GPS)</a>
+                            </li>
+                            <li>
+                                <a href='#'>優惠選單</a>
+                            </li>
+                            <li>
+                                <a href='#'>高雄</a>
+                                <ul class='levelTwo'>
+                                    <li>
+                                        <a href='#'>捷運紅線</a>
+                                    </li>
+                                    <li>
+                                        <a href='#'>捷運橘線</a>
+                                    </li>
+                                    <li>
+                                        <a href='#'>輕軌</a>
+                                        <!-- ----levelThree---- -->
+                                        <ul class='levelThree'>
+                                            <li class="filter-all">
+                                                <a href=''>
+                                                    <span><i class="material-icons">&#xE5CA;</i></span>
+                                                    <span>全部</span>
+                                                    <span class="auto-left">218</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>籬仔內C1</span>
+                                                    <span class="auto-left">78</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>凱旋瑞田C2</span>
+                                                    <span class="auto-left"></span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>前鎮之星C3</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>凱旋中華C4</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>前鎮之星C3</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>夢時代C5</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>經貿園區C7</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>高雄展覽館C8</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>旅運中心C9</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>光榮碼頭C10</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>高雄展覽館C8</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>旅運中心C9</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>光榮碼頭C10</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>高雄展覽館C8</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>旅運中心C9</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=''>
+                                                    <span>光榮碼頭C10</span>
+                                                    <span class="auto-left">100</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="../js/vendor/bs4/js/jquery-3.2.1.slim.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->    
+    <script src="../js/vendor/bs4/js/bootstrap.min.js"></script>
+
+    <script src="../js/popper.js"></script>
+    
+    <script>
+        $(document).ready(function(){
+            var topBox = $('.explore-top-box');
+            // console.log(topBox.height());
+            var mainBox = $('.explore-container');
+            // console.log(mainBox.height());
+            $(window).on('resize', function(){
+                mainBox.css({ 'height': 'calc(100vh - ' + topBox.height() + 'px)' });
+            }).trigger('resize');
+
+            // 開啟篩選清單
+            $('.filter-item-box .filter-item').on('click', function(){
+                $(this).toggleClass('active').siblings().removeClass('active');
+                var filter = $(this).data('filter');
+                $('#' + filter).toggleClass('is-open');
+                $('#' + filter).siblings().removeClass('is-open');
+            })
+            
+            // 篩選清單層級樣式
+            $('.nav-container .levelOne > li').on('click', function(){
+                $('.nav-container .levelOne > li').removeClass('active');
+                $(this).addClass('active');
+            })
+
+            $('.nav-container .levelTwo > li').on('click', function(){
+                console.log('here');
+                $('.nav-container .levelTwo > li').removeClass('active');
+                $(this).addClass('active');
+            })
+
+            // $('body').on('click', function(evt){
+            //     console.log(evt.target.className);
+            //     if($(evt.target).attr('class') != 'filter-item' && $(evt.target).attr('class') != 'nav-container'){
+            //         $('.explore-filter-content').removeClass('is-open');
+            //     }
+            // })
+
+        })
+    </script>
+</body>
+
+</html>

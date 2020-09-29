@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29411.108
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AFP_Web20", "AFP_Web20\AFP_Web20.csproj", "{BB74CFCF-EE79-4C10-9C53-107B74D27AE9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Html", "Html", "{CC8AF7FF-B6EA-4B8F-B25D-84E574A03F97}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UserWeb", "UserWeb", "{F3416856-E37D-4897-8A01-E3648551E788}"
+EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "AFP_Mall", "AFP_Mall\AFP_Mall.njsproj", "{A1B01A1D-30EA-4820-B9FF-0BAA3BEBE5A4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BB74CFCF-EE79-4C10-9C53-107B74D27AE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB74CFCF-EE79-4C10-9C53-107B74D27AE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB74CFCF-EE79-4C10-9C53-107B74D27AE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB74CFCF-EE79-4C10-9C53-107B74D27AE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B01A1D-30EA-4820-B9FF-0BAA3BEBE5A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B01A1D-30EA-4820-B9FF-0BAA3BEBE5A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B01A1D-30EA-4820-B9FF-0BAA3BEBE5A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B01A1D-30EA-4820-B9FF-0BAA3BEBE5A4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BB74CFCF-EE79-4C10-9C53-107B74D27AE9} = {CC8AF7FF-B6EA-4B8F-B25D-84E574A03F97}
+		{A1B01A1D-30EA-4820-B9FF-0BAA3BEBE5A4} = {F3416856-E37D-4897-8A01-E3648551E788}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {959D84F0-0E6D-4959-A588-A5B994D3BDB4}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,132 @@
+<div class="wrap container">
+    <header>
+        <div class="header-secondary container">
+            <div class="index-flex justify-content-between">
+                <div class="item two">
+                    <div class="close-btn" [hidden]="appService.isApp !== null && !showBackBtn">
+                         <button type="button" class="btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                            <i class="material-icons">&#xe314;</i>
+                        </button>
+                    </div>
+                </div>
+                <div class="item three text-center">
+                    <div class="title-name">優惠券</div>
+                </div>
+                <div class="item two">
+                </div>
+            </div>
+        </div>
+    </header>
+  <div class="ticketdetail">
+      <div class="main-ticket-box">
+          <div class="ticket-top-bg">
+              <div class="line"></div>
+          </div>
+          <div class="ticket-content">
+            <div class="add-sharebox">
+              <button (click)="modal.show('msgShare', { initialState: {sharedText: textForShare} })" class="btn add-share msg-open" type="button" value="msg-share"><img src="../img/share/icon_share.png" class="imgicon"></button>
+            </div>
+              <div class="img-box">
+                  <img src="{{voucherData?.Voucher_Image}}" alt="voucher-image">
+              </div>
+              <div class="index-flex p-3">
+                  <div class="item three font-bold text-bluedk">
+                      <h6>{{voucherData?.Voucher_Title}}</h6>
+                      <h6>{{voucherData?.Voucher_ExtName}}</h6>
+                  </div>
+                  <div class="item one text-right">
+                      <div class="shopping-store-badge">
+                          <span class="badge badge-pill text-explore">
+                            <img src="../../img/share/{{voucherData?.Voucher_ShowType}}.png" alt="">
+                            {{voucherData?.Voucher_ShowTypeName}}
+                          </span>
+                      </div>
+                  </div>
+              </div>
+              <div class="ticket-detailrow">
+                  <div class="p-3">
+                      <p class="font-bold">優惠內容:</p>
+                      <p [innerHTML]="voucherData?.Voucher_Content"></p>
+                  </div>
+              </div>
+              <div *ngIf="storeData?.length > 0" class="ticket-detailrow">
+                  <a [routerLink]="['/ExploreDetail', store.ECStore_Code]" *ngFor="let store of storeData" class="d-flex p-3">
+                      <div class="item item-icon">
+                          <i class="material-icons"></i>
+                      </div>
+                      <div class="item">
+                          {{store?.ECStore_ShowName}}
+                      </div>
+                      <div class="item auto-left">
+                        <i class="material-icons">&#xe315;</i>
+                      </div>
+                  </a>
+              </div>
+              <div class="ticket-detailrow">
+                  <div class="d-flex p-3">
+                      <div class="item item-icon">
+                          <i class="material-icons"></i>
+                      </div>
+                      <div class="item">
+                          {{(voucherData?.Voucher_UsedOnDate | date: 'yyyy/MM/dd')}}～{{(voucherData?.Voucher_UsedOffDate | date: 'yyyy/MM/dd')}}
+                      </div>
+                  </div>
+              </div>
+              <div class="ticket-detailrow">
+                  <div class="p-3">
+                      <p class="font-bold">注意事項：</p>
+                      <small [innerHTML]="voucherData?.Voucher_Note"></small>
+                  </div>
+              </div>
+              <div class="circle">.</div>
+          </div>
+          <div class="h100"></div>
+          <div class="fixed-btn container flex-inline-between">
+            <div *ngIf="voucherData?.Voucher_DedPoint > 0" class="align-self-center">扣除
+              <img src="../img/share/mobiicoin_red.png" class="coinimg-m mb-1">
+              <span>{{voucherData.Voucher_SpecialPoint > 0? voucherData.Voucher_SpecialPoint : voucherData.Voucher_DedPoint | currency: '':'':'1.0-2'}}</span>
+            </div>
+            <button
+              (click)="onVoucher(voucherData)"
+              [disabled]="appService.loginState === true && (voucherData?.Voucher_IsFreq === 0 || voucherData?.Voucher_IsFreq === 3 || voucherData?.Voucher_IsFreq === 6)"
+              [ngClass]="{'gray-obtn': voucherData?.Voucher_IsFreq === 0 || voucherData?.Voucher_IsFreq === 3 || voucherData?.Voucher_IsFreq === 6,
+                          'index-btn': voucherData?.Voucher_IsFreq === 1,
+                          'index-outline-btn': voucherData?.Voucher_IsFreq === 2 || voucherData?.Voucher_IsFreq === 5,
+                          'w-50': voucherData?.Voucher_DedPoint > 0,
+                          'w-100': voucherData?.Voucher_DedPoint <= 0}"
+              type="button" id="claimBtn" class="btn msg-open">
+              {{appService.loginState === true? voucherData?.Voucher_FreqName : '兌換'}}
+            </button>
+          </div>
+      </div>
+  </div>
+
+
+  <div class="multilayer">
+      <div class="useoffers">
+          <div class="title-box">
+              <div class="item icon-btn">
+                  <button [hidden]="appService.isApp !== null" type="button" (click)="closeQRCode()" class="btn px-0"  title="回上一頁">
+                      <i class="material-icons">&#xe314;</i>
+                  </button>
+              </div>
+              <div class="item title-name">使用優惠券</div>
+              <div class="item icon-btn">
+                  <button type="button" class="btn bluedk-outline-btn bt-small" (click)="closeQRCode()">優惠詳情</button>
+              </div>
+          </div>
+          <div class="text-bluedk text-center">
+              {{voucherData?.Voucher_Title}}
+              <h6>{{voucherData?.Voucher_ExtName}}</h6>
+              <small>使用期限：{{voucherData?.Voucher_UsedOnDate | date: 'yyyy/MM/dd'}} ~ {{voucherData?.Voucher_UsedOffDate | date: 'yyyy/MM/dd'}}</small>
+              <div class="border rounded p-3 m-3 d-flex justify-content-center">
+                <qrcode *ngIf="userVoucher?.UserVoucher_QRCode !== null" [qrdata]="userVoucher?.UserVoucher_QRCode" [width]="204" [errorCorrectionLevel]="'L'"></qrcode>　
+              </div>
+              <!-- <div *ngIf="appService.isApp !== null" class="d-flex justify-content-center">
+                <a href="{{'EyesMedia://ScanerOn|0|' + userVoucher?.UserVoucher_QRCode}}" class="btn index-btn for-mobile w-80">掃碼核銷</a>
+              </div> -->
+              <div class="bg-light p-2">已使用次數：{{voucherData?.VoucherUseCount + '/' + (voucherData?.Voucher_UsedLimit === -1? '不限' : voucherData?.Voucher_UsedLimit)}}次</div>
+          </div>
+      </div>
+  </div>
+</div>

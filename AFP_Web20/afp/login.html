@@ -1,0 +1,442 @@
+            <!-- 登入 -->
+            <div class="popup-box login-box h-100">
+                <a class="close-btn" href="javascript:;">
+                    <i class="material-icons">&#xE5CD;</i>
+                </a>
+                <div class="popup-banner">
+                    <img src="../img/index/login_banner.png" alt="">
+                    <div class="logo-box">
+                        <img src="../img/index/afp_logo_icon.svg" alt="">
+                    </div>
+                </div>
+                <div class="popup-content">
+                    <div class="popup-title">
+                        會員登入
+                    </div>
+                    <form action="" class="method-group">
+                        <div class="login-method">
+                            <div class="method-item">
+                                <img src="../img/index/social/facebook.svg" alt="">
+                            </div>
+                            <div class="method-item">
+                                <img src="../img/index/social/line.svg" alt="">
+                            </div>
+                            <div class="method-item">
+                                <img src="../img/index/social/google.svg" alt="">
+                            </div>
+                            <div class="method-item">
+                                <img src="../img/index/social/wechat.svg" alt="">
+                            </div>
+                        </div>
+                        <div class="or-box">
+                            或
+                        </div>
+                        <div class="login-form">
+                            <input type="text" placeholder="Email/手機">
+                            <input type="text" placeholder="密碼">
+                            <button class="default-btn">登入</button>
+                        </div>
+                        <div class="reg-info">
+                            <div class="reg-item">
+                                還不是會員嗎？<span class="go-reg-box">馬上註冊</span>
+                            </div> 
+                            <div class="reg-item">
+                                <span class="forget-password">忘記密碼</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- 註冊 -->
+            <div class="popup-box reg-box h-100">
+                <div class="close-btn">
+                    <i class="material-icons">&#xE5CD;</i>
+                </div>
+                <div class="popup-banner">
+                    <img src="../img/index/reg_banner.png" alt="">
+                    <div class="logo-box">
+                        <img src="../img/index/afp_logo_icon.svg" alt="">
+                    </div>
+                </div>
+                <div class="popup-content">
+                    <div class="popup-title">
+                        會員註冊
+                    </div>
+                    <div class="method-group">
+                        <div class="login-method">
+                            <div class="method-item">
+                                <img src="../img/index/social/facebook.svg" alt="">
+                            </div>
+                            <div class="method-item">
+                                <img src="../img/index/social/line.svg" alt="">
+                            </div>
+                            <div class="method-item">
+                                <img src="../img/index/social/google.svg" alt="">
+                            </div>
+                            <div class="method-item">
+                                <img src="../img/index/social/wechat.svg" alt="">
+                            </div>
+                        </div>
+                        <div class="or-box">
+                            或
+                        </div>
+                        <div class="reg-tab">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs justify-content-center" id="regTab" role="tablist">
+                                <li class="nav-item">
+                                <a class="nav-link" id="reg_1-tab" data-toggle="tab" href="#reg_1" role="tab" aria-controls="reg_1" aria-selected="false">電子信箱</a>
+                                </li>
+                                <li class="nav-item">
+                                <a class="nav-link active" id="reg_2-tab" data-toggle="tab" href="#reg_2" role="tab" aria-controls="reg_2" aria-selected="true">手機</a>
+                                </li>
+                            </ul>
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade" id="reg_1">
+                                    <form action="">
+                                        <input type="text" placeholder="請輸入電子信箱">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                            <label class="form-check-label" for="defaultCheck1">
+                                                我同意亞洲好玩卡的<a href="">會員條款</a>及<a href="">隱私權政策</a>
+                                            </label>
+                                        </div>
+                                    </form>
+                                    <div class="login-form">
+                                        <button class="default-btn send-veri-code">傳送驗證碼</button>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade show active" id="reg_2">
+                                    <form action="">
+                                        <div class="form-inline">
+                                                <input class="col-3 open-country" type="text" placeholder="+886">
+                                                <input class="col-9" type="text" placeholder="手機">
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+                                            <label class="form-check-label" for="defaultCheck2">
+                                                我同意亞洲好玩卡的<a href="">會員條款</a>及<a href="">隱私權政策</a>
+                                            </label>
+                                        </div>
+                                    </form>
+                                    <div class="login-form">
+                                        <button class="default-btn send-veri-code">傳送簡訊驗證碼</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="reg-info">
+                            <div class="reg-item">
+                                已經是會員了嗎？<span class="go-login-box">馬上登入</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 驗證碼 -->
+            <div class="popup-box verification-box h-100">
+                <div class="popup-box-title">
+                    <div class="title-item close-left">
+                        <i class="material-icons">&#xE314;</i>
+                    </div>
+                    <div class="title-item title-box">
+                        輸入驗證碼
+                    </div>
+                </div>
+                <form action="" class="popup-content">
+                    <small>驗證碼已發送至 <span>+886</span><span>0972XXXXXX</span> </small>
+                    <div class="veri-input-group">
+                        <div class="veri-input">
+                            <input type="number">
+                        </div>
+                        <div class="veri-input">
+                            <input type="number">
+                        </div>
+                        <div class="veri-input">
+                            <input type="number">
+                        </div>
+                        <div class="veri-input">
+                            <input type="number">
+                        </div>
+                        <div class="veri-input">
+                            <input type="number">
+                        </div>
+                        <div class="veri-input">
+                            <input type="number">
+                        </div>
+                    </div>
+                    <button type="button" class="default-btn msg-loginok" data-toggle="modal" data-target="#messageModal" data-dismiss="modal" aria-label="Close">送出</button>
+                    <div class="re-box">
+                        <p>沒有收到驗證碼？<span>59</span><span>秒後重新傳送</span></p>
+                    </div>
+                </form>
+            </div>
+            <!-- 密碼設定 -->
+            <div class="popup-box password-box h-100">
+                <div class="popup-box-title">
+                    <div class="title-item close-left">
+                        <i class="material-icons">&#xE314;</i>
+                    </div>
+                    <div class="title-item title-box">
+                        密碼設定
+                    </div>
+                </div>
+                <form class="popup-content">
+                    <div class="password-item">
+                        <div class="form-group">
+                            <input id="password-field-1" type="password" class="form-control" name="password" placeholder="輸入密碼">
+                            <span toggle="#password-field-1" class="toggle-password"> 
+                                <i class="material-icons visibility ">&#xE8F4;</i>
+                                <i class="material-icons visibility-off">&#xE8F5;</i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="password-item">
+                        <div class="form-group">
+                            <input id="password-field-2" type="password" class="form-control" name="password" placeholder="再次輸入密碼">
+                            <span toggle="#password-field-2" class="toggle-password"> 
+                                <i class="material-icons visibility ">&#xE8F4;</i>
+                                <i class="material-icons visibility-off">&#xE8F5;</i>
+                            </span>
+                        </div>
+                    </div>
+                    <button type="button" class="default-btn msg-loginok" data-toggle="modal" data-target="#messageModal" data-dismiss="modal" aria-label="Close">建立新用戶</button>
+                </form>
+            </div>
+            <!-- 選擇國家或地區 -->
+            <div class="popup-box country-box h-100">
+                <div class="popup-box-title">
+                    <div class="title-item close-left">
+                        <i class="material-icons">&#xE314;</i>
+                    </div>
+                    <div class="title-item title-box">
+                        選擇國家或地區
+                    </div>
+                </div>
+                <form action="" class="popup-content">
+                    <div class="input-box-group">
+                        <div class="input-box">
+                            <button><i class="material-icons">&#xE8B6;</i></button>
+                            <input type="text" placeholder="搜尋 國碼/國家名稱">
+                        </div>
+                    </div>
+                    <ul class="country-code-list">
+                        熱門
+                        <li><span>台灣</span><span>886</span></li>
+                        <li><span>日本</span><span>886</span></li>
+                        <li><span>韓國</span><span>886</span></li>
+                        <li><span>中國</span><span>86</span></li>
+                    </ul>
+                    <ul class="country-code-list">
+                        A
+                        <li><span>澳洲</span><span>61</span></li>
+                        <li><span>台灣</span><span>886</span></li>
+                        <li><span>台灣</span><span>886</span></li>
+                        <li><span>台灣</span><span>886</span></li>
+                        <li><span>台灣</span><span>886</span></li>
+                        <li><span>台灣</span><span>886</span></li>
+                        <li><span>台灣</span><span>886</span></li>
+                        <li><span>台灣</span><span>886</span></li>
+                        <li><span>台灣</span><span>886</span></li>
+                        <li><span>台灣</span><span>886</span></li>
+                    </ul>
+                </form>
+            </div>
+        </aside>
+
+        <!-- login Modal -->
+        <div class="modal fade" id="loginModalCenter" tabindex="-1" role="dialog" aria-labelledby="loginModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header" data-dismiss="modal" aria-label="Close">
+                </div>
+                <div class="popup-banner for-mobile">
+                    <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <img src="../img/index/login_banner.png" alt="">
+                    <div class="logo-box">
+                        <img src="../img/index/afp_logo_icon.svg" alt="">
+                    </div>
+                </div>
+                <div class="modal-body">              
+                <h5>會員登入</h5>       
+                <div class="container px-3">
+                    <div class="login-method">
+                        <div class="method-item">
+                            <img src="../img/index/social/facebook.svg" alt="">
+                        </div>
+                        <div class="method-item">
+                            <img src="../img/index/social/line.svg" alt="">
+                        </div>
+                        <div class="method-item">
+                            <img src="../img/index/social/google.svg" alt="">
+                        </div>
+                        <div class="method-item">
+                            <img src="../img/index/social/wechat.svg" alt="">
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="line-middle w-75 ">
+                            <div class="line-middle-middle-line">
+                                <span class="line-middle-line-text">或</span>
+                            </div>
+                        </div>
+                    </div>
+                    <form id="login-form">
+                        <div class="form-group form-inline linebt-row">
+                            <label for="loginInputEmailTel">Email/手機</label>
+                            <input type="text" class="form-control" id="loginInputEmailTel" placeholder="">
+                        </div>
+                        <div class="form-group form-inline linebt-row">
+                            <label for="loginInputPassword">密碼</label>
+                            <input type="password" class="form-control" id="loginInputPassword" placeholder="">
+                        </div>
+                        <div class="login-small">
+                            <button type="button" class="btn forget-password-pc" data-dismiss="modal" aria-label="Close">忘記密碼</button>
+                        </div>
+                        <button type="button" class="btn btn-primary login-btn msg-loginerror" data-toggle="modal" data-target="#messageModal" data-dismiss="modal" aria-label="Close">登入</button>
+                        <p class="text-left">
+                            還不是會員嗎?
+                            <button type="button" class="btn btn-login font-bold px-0" data-toggle="modal" data-target="#registeredModalCenter" data-dismiss="modal">
+                                馬上註冊
+                            </button>
+                        </p>
+                    </form>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>      
+        <!-- registered Modal -->
+        <div class="modal fade" id="registeredModalCenter" tabindex="-1" role="dialog" aria-labelledby="registeredModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header" data-dismiss="modal" aria-label="Close">
+                </div>
+                <div class="popup-banner for-mobile">
+                    <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <img src="../img/index/login_banner.png" alt="">
+                    <div class="logo-box">
+                        <img src="../img/index/afp_logo_icon.svg" alt="">
+                    </div>
+                </div>
+                <div class="modal-body">              
+                <h5>會員註冊</h5>       
+                <div class="container px-3">
+                    <div class="login-method">
+                        <div class="method-item">
+                            <img src="../img/index/social/facebook.svg" alt="">
+                        </div>
+                        <div class="method-item">
+                            <img src="../img/index/social/line.svg" alt="">
+                        </div>
+                        <div class="method-item">
+                            <img src="../img/index/social/google.svg" alt="">
+                        </div>
+                        <div class="method-item">
+                            <img src="../img/index/social/wechat.svg" alt="">
+                        </div>
+                    </div>
+                    <div class="line-middle">
+                        <div class="line-middle-middle-line">
+                            <span class="line-middle-line-text">或</span>
+                        </div>
+                    </div>
+                    <form id="registered-form">
+                        <ul class="nav nav-tabs justify-content-center" id="regTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link" id="email-tab" data-toggle="tab" href="#email" role="tab" aria-controls="email" aria-selected="false">電子信箱</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" id="phone-tab" data-toggle="tab" href="#phone" role="tab" aria-controls="phone" aria-selected="true">手機</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="regTabContent">
+                            <div class="tab-pane fade pt-4" id="email" role="tabpanel" aria-labelledby="email-tab">
+                                <div class="form-group linebt-row">
+                                    <input type="email" class="form-control w-100" id="registeredInputEmail" placeholder="電子信箱">
+                                </div>
+                                <div class="form-check form-inline">
+                                    <input type="checkbox" class="form-check-input" id="registeredCheck1">
+                                    <label class="form-check-label" for="registeredCheck1">我同意亞洲好玩卡的<span class="font-bold">會員條款</span>及<span class="font-bold">隱私政策</span></label>
+                                </div>
+                                <button type="button" class="default-btn send-veri-code py-0" data-dismiss="modal" aria-label="Close">
+                                    傳送驗證碼
+                                </button>
+                                <p class="text-left">
+                                    己經是會員了嗎?
+                                    <button type="button" class="btn btn-login px-0 font-bold" data-toggle="modal" data-target="#loginModalCenter" data-dismiss="modal">
+                                        馬上登入
+                                    </button>
+                                </p>
+                            </div>
+                            <div class="tab-pane fade pt-4 show active" id="phone" role="tabpanel" aria-labelledby="phone-tab">
+                                <table class="form-group">
+                                    <tbody>
+                                        <tr>
+                                            <td width="25%" class="linebt-td">
+                                                <select id="registeredSelectState" class="form-control">
+                                                    <option value="+886" selected>台灣 +886</option>
+                                                    <option value="86">中國大陸 86</option>
+                                                    <option value="856">香港 856</option>
+                                                </select>
+                                            </td>
+                                            <td width="5%"></td>
+                                            <td width="70%" class="linebt-td"><input type="tel" class="form-control" id="registeredInputPhone" placeholder="手機"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="form-check form-inline">
+                                    <input type="checkbox" class="form-check-input" id="registeredCheck1">
+                                    <label class="form-check-label" for="registeredCheck1">我同意亞洲好玩卡的<span class="font-bold">會員條款</span>及<span class="font-bold">隱私政策</span></label>
+                                </div>
+                                <button type="button" class="default-btn send-veri-code py-0" data-dismiss="modal" aria-label="Close">
+                                    傳送簡訊驗證碼
+                                </button>
+                                <p class="text-left">
+                                    己經是會員了嗎?
+                                    <button type="button" class="btn btn-login px-0 font-bold" data-toggle="modal" data-target="#loginModalCenter" data-dismiss="modal">
+                                        馬上登入
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>      
+        <!-- message Modal -->
+        <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" data-dismiss="modal" aria-label="Close">
+                </div>
+                <div class="modal-body">
+                    <div id="msg-loginok" class="d-none">註冊成功, 歡迎加入亞洲好玩卡!</div>
+                    <div id="msg-loginerror" class="d-none">登入失敗, 輸入的帳號密碼有誤, 請重新輸入!</div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn default-btn" data-dismiss="modal">關閉</button>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <!-- favorite modal -->
+        <div class="modal fade bd-example-modal-sm" id="favoriteModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header" data-dismiss="modal" aria-label="Close">
+                    </div>
+                        <button type="button" class="close text-right" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;&ensp;</span>
+                        </button>
+                    <p class="text-center p-3">♡ 已加入收藏!</p>
+                </div>
+            </div>
+        </div>

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../../js/vendor/swiper/src/components/effect-coverflow/effect-coverflow.scss"
+    ],
+    "names": [],
+    "file": "effect-coverflow.min.css"
+}

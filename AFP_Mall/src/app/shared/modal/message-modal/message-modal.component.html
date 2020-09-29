@@ -1,0 +1,27 @@
+<div class="modal-header" data-dismiss="modal" aria-label="Close">
+</div>
+<button type="button" class="close text-right" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+  <span aria-hidden="true">&times;&ensp;</span>
+</button>
+<div class="modal-body">
+  <div>
+    <p id="msg-loginok" *ngIf="success" [innerHTML]="message"></p>
+    <p id="msg-loginerror" *ngIf="!success">{{message}}</p>
+    <small id="reminder" *ngIf="note !== null">{{note}}</small>
+    <div *ngIf="showType == 999 && adImgList.length > 0" class="pt-4">
+      <a [href]="adImgList[0].ADImg_URL" [target]="adImgList[0].ADImg_URLTarget">
+        <img [src]="adImgList[0].ADImg_Img" class="img-fluid">
+      </a>
+    </div>
+  </div>
+  <div id="msg-noselected">
+    <div class="text-center border-bottom-radius5">
+      <button type="button" *ngIf="showType==1" class="btn btn-login font-bold px-0 w-50" (click)="closeModal()">
+        確定
+      </button>
+      <button type="button" *ngIf="showType==2" class="btn btn-login font-bold px-0 w-50" (click)="AppClose()">
+        重新登入
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,211 @@
+<div class="wrap container">
+    <header>
+        <div class="header-secondary container linebt-row">
+            <div class="index-flex justify-content-between">
+              <div class="item two">
+                  <div class="close-btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                      <i class="material-icons">&#xe314;</i>
+                  </div>
+              </div>
+              <div class="item three text-center">
+                  <div class="title-name">訂單詳情</div>
+              </div>
+              <div class="item two text-right">
+                  <div class="close-btn"></div>
+              </div>
+          </div>
+      </div>
+  </header>
+  <div class="order-status">
+      <div class="item"><i class="material-icons">&#xE85D;</i></div>
+      <div class="item">
+          <!-- 處理中 -->
+          <div *ngIf="orderInfo?.OrderState === 1">
+            <p class="processing">處理中</p>
+            <p class="processing small-80">店家正在處理您的訂單，請耐心等候。</p>
+          </div>
+          <!-- 待收貨-宅配 -->
+          <div *ngIf="orderInfo?.OrderState === 2 && orderInfo?.Order_DeliveryWays === 1">
+            <p class="send">待收貨</p>
+            <p *ngIf="orderInfo?.Order_DepartDate !== null" class="send small-80">店家已在 {{orderInfo?.Order_DepartDate | date: 'yyyy/MM/dd'}} 完成出貨囉！</p>
+            <p *ngIf="orderInfo?.Order_AppreciationDate !== null" class="send small-80">{{orderInfo?.Order_AppreciationDate | date: 'yyyy/MM/dd'}} 前可申請退貨！</p>
+          </div>
+          <!-- 待收貨-自取 -->
+          <div *ngIf="orderInfo?.OrderState === 2 && orderInfo?.Order_DeliveryWays === 2" >
+            <p class="pick">待收貨</p>
+            <p *ngIf="orderInfo?.Order_ArrivalDate !== null" class="pick small-80">商品已到店，請於 {{addDays(orderInfo?.Order_ArrivalDate, 7) | date: 'yyyy/MM/dd'}} 前完成取貨</p>
+            <p *ngIf="orderInfo?.Order_AppreciationDate !== null" class="pick small-80">{{orderInfo?.Order_AppreciationDate | date: 'yyyy/MM/dd'}} 前可申請退貨</p>
+          </div>
+          <!-- 已完成 -->
+          <div *ngIf="orderInfo?.OrderState === 3">
+            <p class="completed">訂單已完成，再去賣場逛逛吧。</p>
+            <p class="completed">{{orderInfo?.Order_AppreciationDate | date: 'yyyy/MM/dd'}} 前可申請退貨</p>
+          </div>
+      </div>
+  </div>
+  <div class="order-info">
+      <ul>
+          <li class="flex-inline-between">
+              <div class="item">訂單編號</div>
+              <div class="item">{{orderInfo?.Order_TableNo}}</div>
+          </li>
+          <li class="flex-inline-between">
+              <div class="item">訂單成立時間</div>
+              <div class="item">{{orderInfo?.Order_InsertDate | date: 'yyyy/MM/dd HH:mm'}}</div>
+          </li>
+      </ul>
+  </div>
+  <div class="order-box">
+      <div class="order-subtitle">
+          <i class="material-icons">&#xE8D1;</i><span class="store-name">{{storeInfo?.ECStore_ShowName}}</span>
+      </div>
+      <ul class="order-shop-list">
+          <li *ngFor="let product of productsData">
+              <div class="item rwdimgbox-80">
+                  <div [style.background-image]="'url('+product?.Product_ShowImg+')'" class="rwdimg-cover"></div>
+              </div>
+              <div class="item item-txt">
+                  <p>{{product?.ItemInfoPart_ItemName}}</p>
+                  <p>規格：{{product?.ItemInfoPart_AttributeValueName}}</p>
+                  <p class="order-price auto-top">{{product?.ItemInfoPart_PayAmount | currency: 'TWD':'$':'1.0-2'}}</p>
+              </div>
+              <div class="item item-num order-quantity">x{{product?.ItemInfoPart_Quantity}}</div>
+          </li>
+      </ul>
+      <div class="order-method-box">
+          <ul class="method-list">
+              <li class="index-flex">
+                  <div class="item"><i class="material-icons">&#xE558;</i>寄送方式</div>
+                  <div *ngIf="orderInfo?.Order_DeliveryWays === 2" class="item item-right pick">憑取貨碼至商店取貨</div>
+                  <div *ngIf="orderInfo?.Order_DeliveryWays === 1" class="item item-right send completed">宅配 {{orderInfo?.Order_ShippingAmount | currency: 'TWD':'$':'1.0-2'}}</div>
+                  <div class="item-group send completed">
+                      <div *ngIf="orderInfo?.Order_DeliveryWays === 1" class="item small">
+                        {{orderInfo?.Order_RecCityArea}}
+                        {{orderInfo?.Order_RecCity | convert:'UR':userReport:21}}{{orderInfo?.Order_RecCityArea | convert:'UR':userReport:22:21:orderInfo?.Order_RecCity}}{{orderInfo?.Order_RecAddress}}
+                      </div>
+                  </div>
+              </li>
+              <li class="index-flex">
+                  <div class="item one">留言</div>
+                  <div [ngClass]="{'text-secondary': orderInfo?.Order_ConsumerMsg === null}" class="item three item-right">
+                      {{orderInfo?.Order_ConsumerMsg === null? '(無)' : orderInfo?.Order_ConsumerMsg}}
+                  </div>
+              </li>
+          </ul>
+      </div>
+  </div>
+  <div class="border-t5 w-100"></div>
+  <div class="order-title">
+      付款詳情
+  </div>
+  <div class="order-box">
+      <div class="order-method-box">
+          <ul class="method-list">
+              <li class="index-flex">
+                  <div class="item one d-flex d-inline"><i class="material-icons">&#xE263;</i>付款方式</div>
+                  <div class="item two item-right">{{orderInfo?.PaymentShowName + ' ' + '*' + orderInfo?.Card4No}}</div>
+              </li>
+              <li class="index-flex">
+                  <div class="item one d-flex d-inline"><div class="invo-box"><i class="material-icons">&#xE8B0;</i></div>電子發票</div>
+                  <div class="item two item-right">{{orderInfo?.InvoiceNo}}</div>
+              </li>
+              <li class="index-flex">
+                  <div class="item one d-flex d-inline"><i class="material-icons reverse">&#xE54E;</i>使用優惠券、折扣碼</div>
+                  <div class="item one item-right">{{orderInfo?.Order_ChangeAmount | currency: 'TWD':'$':'1.0-2'}}</div>
+              </li>
+          </ul>
+      </div>
+      <div class="total-price-box">
+          <ul>
+              <li class="index-flex">
+                  <div class="item">商品總金額</div>
+                  <div class="item text-right order-subtotal">{{originalTotal | currency: 'TWD':'$':'1.0-2'}}</div>
+              </li>
+              <li class="index-flex">
+                  <div class="item">運費總金額</div>
+                  <div class="item text-right order-delivery">{{orderInfo?.Order_ShippingAmount | currency: 'TWD':'$':'1.0-2'}}</div>
+              </li>
+              <div>
+                <li class="index-flex">
+                  <div class="item">優惠折抵</div>
+                  <div class="item text-right order-discount">{{orderInfo?.Order_ChangeAmount | currency: 'TWD':'$':'1.0-2'}}</div>
+                </li>
+                <div>
+                  <li *ngFor="let voucher of voucherInfo" class="index-flex py-0">
+                    <div class="item two left-line">{{voucher?.Voucher_ExtName + ' ' + voucher?.Voucher_UserVoucherCode}}</div>
+                    <div class="item one text-right sub-discount">({{voucher?.Discount_Amount | currency: 'TWD':'$':'1.0-2'}})</div>
+                  </li>
+                </div>
+              </div>
+              <li class="total-pay index-flex">
+                  <div class="item">訂單金額</div>
+                  <div class="item text-right order-sumtotal">{{orderInfo?.PayOrder_PayAmount | currency: 'TWD':'$':'1.0-2'}}</div>
+              </li>
+          </ul>
+      </div>
+      <div class="border-t5 w-100"></div>
+      <div class="order-method-box">
+        <!-- 可賺到的點數暫不顯示 -->
+        <ul class="method-list d-none">
+            <li class="flex-inline-between">
+                <div class="item font-bold"><img src="../img/share/mobiicoin_red.png" alt="" class="coinimg-m m-0">可賺到的M Points <span class="small-expired">(猶豫期後入帳)</span></div>
+                <div class="item item-right mobii">3枚</div>
+            </li>
+        </ul>
+      </div>
+      <!-- 訂單完成 -->
+      <div class="flex-inline-between align-items-end pb-3 px-3 completed">
+          <div class="item w-100 p-2">
+              <p *ngIf="(trialEndDate !== null && today > trialEndDate) && orderInfo?.ServiceTableNo == null" class="small-expired">鑑賞期已過</p>
+              <p *ngIf="orderInfo?.OrderState < 2" class="small-expired">商品出貨後可申請</p>
+              <p *ngIf="orderInfo?.ServiceTableNo !== null" class="small-expired">已申請退貨</p>
+              <button
+                [ngClass]="{'unable': orderInfo?.OrderState < 2 || ((trialEndDate !== null && today > trialEndDate) && orderInfo?.ServiceTableNo == null)}"
+                [disabled]="orderInfo?.OrderState < 2 || ((trialEndDate !== null && today > trialEndDate) && orderInfo?.ServiceTableNo == null)"
+                [routerLink]="orderInfo?.ServiceTableNo === null? ['/Return', orderInfo?.Order_TableNo] : ['/ReturnDetail', orderInfo?.ServiceTableNo]"
+                type="button" class="btn bluedk-outline-btn w-100">
+                {{orderInfo?.ServiceTableNo === null? '退貨' : '退貨詳情'}}
+              </button>
+          </div>
+          <div class="item w-100 p-2">
+            <button (click)="appService.showJustka(storeInfo?.ECStore_Justka)" [disabled]="storeInfo?.ECStore_Justka === null"
+            type="button" class="btn bluedk-outline-btn w-100">聯絡店家</button>
+          </div>
+      </div>
+  </div>
+  <div class="addheight"></div>
+
+  <div class="multilayer">
+      <div class="useoffers">
+          <div class="title-box">
+              <div class="item icon-btn">
+                  <button class="btn px-0" (click)="stopClaim()" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                      <i class="material-icons">&#xe314;</i>
+                  </button>
+              </div>
+              <div class="item title-name">取貨</div>
+              <div class="item icon-btn">
+              </div>
+          </div>
+          <div class="text-bluedk text-center">
+              <h6>{{storeInfo?.ECStore_ShowName}}</h6>
+              <p>{{orderInfo?.Order_TableNo}}</p>
+              <small class="text-index">取貨期限：{{addDays(orderInfo?.Order_DepartDate, 7) | date: 'yyyy/MM/dd'}}</small>
+              <div class="border rounded p-3 m-3 d-flex justify-content-center">
+                <qrcode *ngIf="orderInfo?.Order_QRCode?.length > 0" [qrdata]="orderInfo?.Order_QRCode" [width]="204" [errorCorrectionLevel]="'L'"></qrcode>
+              </div>
+          </div>
+      </div>
+  </div>
+
+</div>
+
+<footer *ngIf="orderInfo?.OrderState === 2 && orderInfo?.Order_DeliveryWays === 2" class="shopping-cartfooter container fixed-bottom">
+  <ul>
+      <li>
+          <div class="item pick">
+              <button type="button" class="btn index-btn w-100" (click)="claimOrder(); appService.callLayer('.useoffers')">取貨</button>
+          </div>
+      </li>
+  </ul>
+</footer>

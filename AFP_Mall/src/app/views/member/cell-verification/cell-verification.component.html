@@ -1,0 +1,75 @@
+<!-- 已驗證通過（顯示驗證過的手機） -->
+<div [@layerTrigger] *ngIf="shownSection === 1" id="Verified" class="myphone">
+  <div class="headerbox container title-box">
+      <div class="item icon-btn">
+          <button class="btn px-0" onclick="history.back()" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+              <i class="material-icons">&#xe314;</i>
+          </button>
+      </div>
+      <div class="item title-name">手機驗證</div>
+      <div class="item ctrl-btn"></div>
+  </div>
+  <div class="my-phone-list">
+      <p class="text-left mt-2">您的手機號碼已完成驗證，如需變更手機號碼，請重新驗證。</p>
+      <p class="text-left mb-3">手機號碼：{{memberService.userProfile?.UserProfile_Mobile}}</p>
+      <button class="btn next-btn w-100" (click)="shownSection = 0">重新驗證</button>
+  </div>
+</div>
+<!-- 尚未驗證過（輸入手機） -->
+<div [@layerTrigger] *ngIf="shownSection === 0" id="NotVerified" class="myphone1">
+  <div class="headerbox container title-box">
+      <div class="item icon-btn">
+          <button class="btn px-0" (click)="memberService.userProfile?.UserProfile_Mobile === null? location.back() : shownSection = 1" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+              <i class="material-icons">&#xe314;</i>
+          </button>
+      </div>
+      <div class="item title-name">手機驗證</div>
+      <div class="item ctrl-btn"></div>
+  </div>
+  <form #formMobile="ngForm" (ngSubmit)="formMobile.form.valid && onSendMobile()" class="my-phone-list">
+      <table class="form-group mt-3 w-100">
+          <tbody>
+              <tr>
+                  <td width="25%" class="linebt-td">
+                      <button type="button" value="886" id="t2" class="telcode btn">台灣(+886)</button>
+                  </td>
+                  <td width="5%"></td>
+                  <td width="70%" class="linebt-td">
+                    <input name="MobileVerify" #MobileVerify="ngModel" [(ngModel)]="requestMobileVerify.Mobile"
+                    type="tel" class="form-control" id="myPhone" placeholder="手機" required pattern="^09\d{8}$" maxlength="10">
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+      <button type="submit" [disabled]="formMobile.invalid || formMobile.submitted" class="btn next-btn w-100">傳送簡訊驗證碼</button>
+  </form>
+</div>
+<!-- 輸入驗證碼 -->
+<form (submit)="verCodeComplete && onMobileVerify()" [@layerTrigger] *ngIf="shownSection === 2" id="VerifySuccess" class="myphone2">
+  <div class="headerbox container title-box">
+      <div class="item icon-btn">
+          <button class="btn px-0" (click)="cancelVerify()" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+              <i class="material-icons">&#xe314;</i>
+          </button>
+      </div>
+      <div class="item title-name">手機驗證</div>
+      <div class="item ctrl-btn"></div>
+  </div>
+  <div id="myphone6" class="my-phone-list d-flex flex-column justify-content-center">
+      <small>驗證碼已發送至 +886 {{requestMobileVerify.Mobile}}</small>
+      <div id="_verCodeGroup" class="d-flex d-inline">
+        <input type="tel" maxlength="1" pattern="^/d$" class="_verCodeInput" (input)="inputFocus(0, $event)" required>
+        <input type="tel" maxlength="1" pattern="^/d$" class="_verCodeInput" (input)="inputFocus(1, $event)" required>
+        <input type="tel" maxlength="1" pattern="^/d$" class="_verCodeInput" (input)="inputFocus(2, $event)" required>
+        <input type="tel" maxlength="1" pattern="^/d$" class="_verCodeInput" (input)="inputFocus(3, $event)" required>
+        <input type="tel" maxlength="1" pattern="^/d$" class="_verCodeInput" (input)="inputFocus(4, $event)" required>
+        <input type="tel" maxlength="1" pattern="^/d$" class="_verCodeInput" (input)="inputFocus(5, $event)" required>
+      </div>
+      <button type="submit" class="btn next-btn w-100 mt-3 msg-open" (click)="onMobileVerify()" [disabled]="!verCodeComplete">送出</button>
+      <small class="text-left">沒有收到驗證碼？
+        <button type="button" class="btn p-1 small-80 text-blue">
+          <span (click)="remainingSec > 0? null : onSendMobile()" id="remainingSec"></span>
+        </button>
+      </small>
+  </div>
+</form>

@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Material Design for Bootstrap fonts and icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../js/vendor/bs4/css/bootstrap.min.css">    
+    <!-- custom css -->
+    <link rel="stylesheet" href="../dist/style/car_setting.min.css">
+    <link rel="stylesheet" href="../dist/style/car.min.css">
+    <link rel="stylesheet" href="../dist/style/global.min.css">
+    <link rel="stylesheet" href="../dist/style/index.min.css">
+    <title>艾斯移動 - 等待車輛抵達</title>
+</head>
+
+<body id="index_04">
+    <div class="wrap container">
+        <div class="call-car-box">
+            <div class="call-car-bg"></div>
+            <div class="title-box flex-inline-between">
+                <div class="item icon-btn">
+				</div>
+                <div class="item title-name">行程確認</div>
+                <div class="item icon-btn">
+				</div>
+            </div>
+        </div>
+        <div class="choice-list-box">
+            <div class="call-car-map">
+                <div class="map-header">
+                    <a href="car_page_08-1.html">
+                        <div class="discount-tikcet-box">
+                            <div class="discount-item">
+                                <i class="material-icons offer">&#xE54E;</i>
+                                <p>週邊優惠</p>
+                            </div>
+                            <div class="discount-item">
+                                <h5>週年慶100元折價券</h5>
+                                <small>遠東SOGO台北</small>
+                            </div>
+                            <div class="discount-item">
+                                <button>馬上領取</button>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div id="map"></div>
+                <div class="map-footer">
+                    <div class="footer-inside">
+                        <div class="positioning-box">
+                            <img src="../img/callcar/map/positioning.svg" alt="">
+                        </div>
+                    </div>
+                    <div class="info-card-box">
+                        <div class="info-title">
+                            預計 <span>4分鐘</span> 抵達
+                        </div>
+                        <div class="info-content">
+                            <div class="info-list info-img">
+                                <div class="item">
+                                    <div class="img-box">
+                                        <img src="../img/callcar/taxi.svg" alt="">
+                                    </div>
+                                    <p>Toyota RAV4</p>
+                                </div>
+                                <div class="item">
+                                    <div class="img-box user-img">
+                                        <img src="../img/callcar/user.png" alt="">
+                                    </div>
+                                    <p>李XX</p>
+                                </div>
+                            </div>
+                            <div class="info-list info-license">
+                                <div class="item">
+                                    <p>車牌</p>
+                                </div>
+                                <div class="item license">
+                                    <p>OO-9375</p>
+                                </div>
+                            </div>
+                            <div class="info-list info-license">
+                                <div class="item">
+                                    <p>成立時間</p>
+                                </div>
+                                <div class="item license">
+                                    <p>2019/1/2</p>
+                                </div>
+                            </div>
+                            <div class="info-list info-btn">
+                                <div class="item">
+                                    <div class="btn-box">
+                                        <i class="material-icons">&#xE5CD;</i>
+                                    </div>
+                                    <p>取消叫車</p>
+                                </div>
+                                <div class="item">
+                                    <div class="btn-box">
+                                        <i class="material-icons">&#xE8D4;</i>
+                                    </div>
+                                    <p>更改目的地</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="../js/vendor/bs4/js/jquery-3.2.1.slim.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->    
+    <script src="../js/vendor/bs4/js/bootstrap.min.js"></script>
+
+    <script src="../js/popper.js"></script>
+    
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwDCH4Um16SCeHmfHaYhGa0vuqM6LNyVE&language=zh-TW&callback=initMap"></script>
+    <script src="../js/map.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            
+        })
+    </script>
+
+</body>
+
+</html>

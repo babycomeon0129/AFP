@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../../js/vendor/swiper/src/components/thumbs/thumbs.scss"
+    ],
+    "names": [],
+    "file": "thumbs.min.css"
+}

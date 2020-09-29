@@ -1,0 +1,218 @@
+<div class="wrap container">
+  <!--我的優惠-->
+  <header>
+    <div class="header-secondary container">
+      <div class="index-flex justify-content-between">
+        <div class="item two">
+          <div class="close-btn" [hidden]="appService.isApp !== null && !showBackBtn">
+            <button type="button" class="btn" onclick="history.back()" data-toggle="tooltip" data-placement="bottom"
+              title="回上一頁">
+              <i class="material-icons">&#xe314;</i>
+            </button>
+          </div>
+        </div>
+        <div class="item three text-center">
+          <div class="title-name">我的優惠</div>
+        </div>
+        <div class="item two">
+          <button class="btn index-btn small-80 fit" (click)="onAddCoupon()" value="msg-mydiscount" data-toggle="modal"
+            data-target="#messageModal" data-dismiss="modal" aria-label="add">
+            輸入優惠碼
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="iconpage">
+
+    <!-- tab content for record-->
+    <div class="afp-tab-box">
+      <div class="afp-tab">
+        <div class="nav-tabs-box">
+          <!-- Nav tabs -->
+          <ul class="nav-tab-list nav nav-tabs nav-line mb-2 d-flex justify-content-around" role="tablist">
+            <li role="presentation" class="active">
+              <a (click)="vSelectMode = 1; readVoucher();" class="tablist-link active" aria-controls="discounttag01"
+                role="tab" data-toggle="tab" aria-selected="true">可用優惠</a>
+            </li>
+            <li role="presentation">
+              <a (click)="vSelectMode = 2;readVoucher();" class="tablist-link" aria-controls="discounttag02" role="tab"
+                data-toggle="tab" aria-selected="false">歷史優惠</a>
+            </li>
+          </ul>
+          <div class="tab-line w-100"></div>
+        </div>
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane fade active show w-100">
+            <!-- 搜尋輸入框 -->
+            <div *ngIf="vSelectMode === 1">
+              <div class="choice-filter-box py-1">
+                <div class="s-bar pl-1" (click)="searchIsOpen = !searchIsOpen ; searchText = null;">
+                  <div class="input-box border border-radius5">
+                    <button class="btn"><i class="material-icons">&#xE8B6;</i></button>
+                    <input type="search" [(ngModel)]="searchText" placeholder="輸入關鍵字搜尋店家,優惠券" class="border-0" (click)="cancelIsOpen= true">
+                  </div>
+                </div>
+                <div class="s-btn div-switch" [ngClass]="{'d-none': !cancelIsOpen}">
+                  <button class="btn w-100" (click)="searchText = null; cancelIsOpen = false;">取消</button>
+                </div>
+                <div class="filter-box div-switch " (click)="appService.callsortLayer('.productsOpensort'); searchText = null;" [ngClass]="{'d-none': cancelIsOpen}">
+                  <button class="btn px-1"><i class="material-icons">&#xE152;</i></button>
+                </div>
+              </div>
+            </div>
+            <!-- 分類與篩選暫不顯示 -->
+            <div class="div-switch d-none">
+              <div class="choice-filter-box py-1">
+                <div class="flex-inline-between">
+                  <div class="item center-v">輸入關鍵字搜尋店家,優惠券</div>
+                  <div class="item pr-2">
+                    <button class="btn px-0 filter-item d-none" data-filter="type" (click)="listIsOpen = !listIsOpen"
+                      [ngClass]="{'active': listIsOpen}"><i class="material-icons">&#xE313;</i></button>
+                  </div>
+                </div>
+                <div class="filter-box">
+                  <button class="btn px-0 item-search" (click)="searchIsOpen = !searchIsOpen ; listIsOpen = false"><i
+                      class="material-icons">&#xe8b6;</i></button>
+                </div>
+                <div class="filter-box" (click)="appService.callsortLayer('.sortpage1');">
+                  <button class="btn px-0"><i class="material-icons">&#xE152;</i></button>
+                </div>
+              </div>
+            </div>
+            <div class="filter-outbox">
+              <div class="filter-main">
+                <div class="mask-container d-none w-100 h-100" [ngClass]="{'d-block': listIsOpen}"></div>
+                <div class="mycoin-couponbox card-columns px-3 pb-wrap">
+                  <!-- 優惠券 -->
+                  <div *ngFor="let voucher of voucherList | textFilter : searchText : 1" class="card border-radius5">
+                    <div class="card-body">
+                      <div class="card-text">
+                        <div class="member-flex">
+                          <div class="item one">
+                            <div [lazyLoad]="voucher.Voucher_Image" [defaultImage] ="appService.defaultImage"
+                              (click)="goVDetail(voucher)" class="rwdimg logo-img">
+                            </div>
+                          </div>
+                          <div class="item three px-2">
+                            <p>{{voucher.Voucher_Title}}</p>
+                            <p>{{voucher.Voucher_ExtName}}</p>
+                            <p>{{voucher.Voucher_UsedOnDate | date: 'yyyy/MM/dd'}} ~
+                              {{voucher.Voucher_UsedOffDate | date: 'yyyy/MM/dd'}}</p>
+                          </div>
+                          <div class="item one">
+                            <button
+                              [disabled]="appService.loginState === true && (voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3 || voucher.Voucher_IsFreq === 6 || voucher.Voucher_IsFreq === 8)"
+                              [ngClass]="{'unable': appService.loginState === true && (voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3 || voucher.Voucher_IsFreq === 6 || voucher.Voucher_IsFreq === 8)}"
+                              (click)="appService.onVoucher(voucher)"
+                              class="btn px-2 index-outline-btn small-80 text-nowrap">{{voucher?.Voucher_FreqName}}
+                            </button>
+                            <!-- <button *ngIf="vSelectMode === 2"  class="btn px-2 index-outline-btn unable small-80" disabled>{{voucher.voucher?.Voucher_FreqName}}</button> -->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-footer bg-cardfooter pt-2 pb-0">
+                      <div class="member-flex small-80">
+                        <div class="item one text-nowrap">
+                          <img [hidden]="voucher?.Voucher_ShowType == 1000 || voucher?.Voucher_ShowType == 1100"
+                            src="../img/share/{{voucher?.Voucher_ShowType}}_w.png" alt=""
+                            class="nearbyimg">{{voucher.Voucher_ShowTypeName}}
+                        </div>
+                        <div class="item two text-right">
+                          - {{voucher.Voucher_UsedTypeName}} -
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="type" class="filter-content pb-wrap is-open" [ngClass]="{'is-open': listIsOpen}">
+                <ul class="open-page-ul">
+                  <li class="flex-inline-between">
+                    <div class="">
+                     全部
+                    </div>
+                    <div class="">
+                      456
+                      <i class="fas fa-check"></i>
+                    </div>
+                  </li>
+                  <li class="flex-inline-between">
+                    <div class="">
+                      購物
+                    </div>
+                    <div class="">
+                     456
+                      <i class="fas fa-check"></i>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 規格篩選視窗 -->
+  <div class="sortlayer">
+    <div class="productsOpensort">
+      <div id="open-sortbox">
+        <div class="open-sort-cont">
+          <label>排序</label>
+          <div class="d-flex sortGroup flex-column">
+            <div class="item" (click)="voucherSort=1;filterSubmit();" [ngClass]="{'active defItem': voucherSort ===1}">即將到期優先</div>
+            <div class="item" (click)="voucherSort=2;filterSubmit();" [ngClass]="{'active defItem': voucherSort ===2}">依領取時間(由新到舊)</div>
+            <div class="item" (click)="voucherSort=3;filterSubmit();" [ngClass]="{'active defItem': voucherSort ===3}">依領取時間(由舊到新)</div>
+          </div>
+          <label>使用範圍</label>
+          <div class="d-flex sortGroup flex-row">
+            <div class="item defItem" *ngFor="let type of useType;"
+            (click)="utypeCheck(type);" [ngClass]="{'active defItem': type.isSelect}">{{ usetypeTxt(type.Key) }}</div>
+          </div>
+          <label>優惠券類型</label>
+          <ul class="open-sort-ul">
+            <li class="flex-inline-between defItem" *ngFor="let show of showType;"
+            (click)="seletType(show,'showType');" [ngClass]="{'active': show.isSelect}">
+              <div>{{ show.Value }}</div>
+              <i class="material-icons done">&#xe876;</i>
+            </li>
+          </ul>
+          <label>折扣類型使用</label>
+          <ul class="open-sort-ul">
+            <li class="flex-inline-between defItem" *ngFor="let vtype of voucherType;"
+            (click)="seletType(vtype, 'voucherType');" [ngClass]="{'active': vtype.isSelect}">
+              <div> {{vtypeTxt(vtype.Key)}}</div>
+              <i class="material-icons done">&#xe876;</i>
+            </li>
+          </ul>
+        </div>
+        <div class="open-sort-title">
+          <div class="flex-inline-between">
+            <div class="title-icon">
+              <button class="btn" (click)="appService.backsortLayer();">
+                <i class="material-icons">&#xe314;</i>
+              </button>
+            </div>
+            <div class="title-txt">
+              篩選與排序
+            </div>
+            <div></div>
+          </div>
+          <div class="open-sort-num">
+            符合項目的優惠券 共 {{voucherCount}} 張
+          </div>
+        </div>
+        <div class="open-sort-footer">
+          <button class="btn all-reset" (click)="resetSet()" [disabled]="!resetOpen">
+            <i class="material-icons loop">&#xe028;</i>全部重設
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

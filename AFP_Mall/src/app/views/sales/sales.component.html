@@ -1,0 +1,94 @@
+<div class="wrap container">
+
+  <header>
+    <div class="header-secondary container linebt-row">
+      <div class="index-flex justify-content-between">
+        <div class="item two">
+          <div class="close-btn">
+            <button class="btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+              <i class="material-icons">&#xe314;</i>
+            </button>
+          </div>
+        </div>
+        <div class="item three text-center">
+          <div class="title-name">限時搶購優惠</div>
+        </div>
+        <div class="item two">
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Swiper for kv banner-->
+    <div class="kvbn-box">
+      <swiper class="shoppingkv swiper-container" [config]="adTop">
+        <div class="swiper-wrapper">
+          <div *ngFor="let ad of adTopList" class="swiper-slide">
+            <a [href]="ad?.ADImg_URL === '/'? null : [ad?.ADImg_URL]" target={{ad?.ADImg_URLTarget}}>
+              <div [style.background-image]="'url('+ad?.ADImg_Img+')'" class="kvbn-img"></div>
+            </a>
+          </div>
+        </div>
+      </swiper>
+    </div>
+    <div class="div-switch" [ngClass]="{'d-none': distance <= 0 || activity == null, 'd-block': activity !== null || distance > 0}">
+      <div class="p-2">
+        <div class="item"><span class="p-2">{{activity?.VouFlashSale_ExtName}} </span>
+          <span id="clock">
+            <span id='time-hours'>{{hours}}</span>
+            <span id='time-minutes'>{{minutes | number: '2.0-0'}}</span>
+            <span id='time-seconds'>{{seconds | number: '2.0-0'}}</span>
+          </span>
+        </div>
+      </div>
+      <!-- discout -->
+      <div class="other-discount-list-w">
+        <div class="row p-2">
+          <div *ngFor="let voucher of saleVouchers" class="col-sm-12 col-md-6 discount-box">
+            <div class="discount-item">
+              <a [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/VoucherDetail', voucher?.Voucher_Code] : ['/VoucherDetail', voucher?.Voucher_UserVoucherCode]" class="item">
+                <div class="pr-2">
+                  <div class="img-box">
+                    <img src="{{voucher?.Voucher_Image}}" alt="">
+                  </div>
+                </div>
+                <div class="discount-text">
+                  <p>{{voucher?.Voucher_Title}}</p>
+                  <p><i class="material-icons offer"></i> <span>{{voucher?.Voucher_ExtName}}</span></p>
+                  <p>{{voucher?.Voucher_UsedOnDate | date: 'yyyy/MM/dd'}} ~
+                    {{voucher?.Voucher_UsedOffDate | date: 'yyyy/MM/dd'}}</p>
+                </div>
+              </a>
+              <div class="item ">
+                <div class="line-box"></div>
+                <div class="circle circle-top"></div>
+                <div class="circle circle-bottom"></div>
+                <div class="d-flex flex-column">
+                  <button
+                    (click)="appService.onVoucher(voucher)"
+                    [disabled]="appService.loginState === true && (voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3)"
+                    [ngClass]="{'gray-obtn': voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3,
+                                'index-btn': voucher?.Voucher_IsFreq === 1,
+                                'index-outline-btn': voucher.Voucher_IsFreq === 2 || voucher.Voucher_IsFreq === 5}"
+                    class="btn small-80 sendval">
+                    {{appService.loginState == false? '兌換' : voucher?.Voucher_FreqName}}
+                  </button>
+                  <div *ngIf="voucher?.Voucher_DedPoint > 0" class="m-quantity small">
+                    <img src="../img/share/mobiicoin_red.png" class="coinimg-m">
+                    {{voucher?.Voucher_SpecialPoint > 0? voucher?.Voucher_SpecialPoint : voucher?.Voucher_DedPoint | currency: '':'':'1.0-2'}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="addheight"></div>
+    </div>
+    <div class="div-switch no-data" [ngClass]="{'d-block': distance <= 0 || activity == null, 'd-none': activity !== null || distance > 0}">
+      <img src="../../../img/share/Overdue.png">
+      <p>Oops！可惜晚了一步...</p>
+    </div>
+  </main>
+</div>

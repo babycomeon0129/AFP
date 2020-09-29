@@ -1,0 +1,41 @@
+<div [@routeAnimations]="prepareRoute(outlet)">
+  <router-outlet id="routerView" #outlet="outlet"></router-outlet>
+</div>
+<block-ui>
+  <!-- Your app markup here -->
+</block-ui>
+
+
+<!-- 桌面版footer只在大首頁、商城首頁、旅遊首頁和維護頁顯示 -->
+<!-- 手機版footer除有置底按鈕的頁面不顯示外，其他皆顯示 -->
+<footer id="footmb" class="mobile-footer for-mobile container" *ngIf="appService.isApp === null && showMobileFooter">
+  <div class="menu-bar">
+    <a [routerLink]="['/']" class="bar-item" [ngClass]="{'active': headingPage=='/'}">
+      <img class="default-img" src="img/index/tabbar/home.png" alt="">
+      <img class="active-img" src="img/index/tabbar/home_choosen.png" alt="">
+      首頁
+    </a>
+    <a [routerLink]="['/ExploreList']" class="bar-item" [ngClass]="{'active': headingPage.indexOf('/ExploreList') != -1}">
+      <img class="default-img" src="img/index/tabbar/nearby.png" alt="">
+      <img class="active-img" src="img/index/tabbar/nearby_choosen.png" alt="">
+      周邊
+    </a>
+    <a [routerLink]="['/Mission']" class="bar-item" [ngClass]="{'active': headingPage.indexOf('/Mission') != -1}">
+      <div class="more-dot d-none"></div>
+      <img class="default-img" src="img/index/tabbar/mission.png" alt="">
+      <img class="active-img" src="img/index/tabbar/mission_choosen.png" alt="">
+      任務
+    </a>
+    <a (click)="goTo()" [ngClass]="{'active': headingPage.indexOf('/Notification') != -1}" id="BearIcon" class="bar-item">
+      <div class="more-dot d-none"></div>
+      <img class="default-img" src="img/index/tabbar/notification.png" alt="">
+      <img class="active-img" src="img/index/tabbar/notification_choosen.png" alt="">
+      通知
+    </a>
+    <a href="javascript:;" class="bar-item" [routerLink]="['/Member']" [ngClass]="{'active': headingPage.indexOf('/Member') != -1}">
+      <img class="default-img" src="img/index/tabbar/my.png" alt="">
+      <img class="active-img" src="img/index/tabbar/my_choosen.png" alt="">
+      我的
+    </a>
+  </div>
+</footer>

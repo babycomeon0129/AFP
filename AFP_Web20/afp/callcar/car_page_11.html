@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Material Design for Bootstrap fonts and icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../js/vendor/bs4/css/bootstrap.min.css">   
+    <!-- slick -->
+    <link rel="stylesheet" href="../js/vendor/slick/slick/slick.css">   
+    <!-- custom css -->
+    <link rel="stylesheet" href="../dist/style/car_setting.min.css">
+    <link rel="stylesheet" href="../dist/style/car.min.css">
+    <link rel="stylesheet" href="../dist/style/global.min.css">
+    <link rel="stylesheet" href="../dist/style/index.min.css">
+    <title>艾斯移動 - 付款方式-未輸入</title>
+</head>
+
+<body class="hasBg">
+    <div class="wrap container">
+        <div class="call-car-box">
+            <div class="call-car-bg"></div>
+            <div class="title-box flex-inline-between">
+                <div class="item icon-btn">
+                    <button onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                        <i class="material-icons">&#xE314;</i>
+                    </button>
+				</div>
+                <div class="item title-name">付款方式</div>
+                <div class="item icon-btn">
+                    <button onclick="location.href='car_page_13.html'" data-toggle="tooltip" data-placement="bottom" title="下一頁">
+                        <i class="material-icons">&#xE315;</i>
+                    </button>
+				</div>
+            </div>
+            <div class="call-car-info">
+                <div class="pay-method-box">
+                    <div class="pay-title">
+                        <div class="item">
+                            <img src="../img/callcar/pay-logo.png" alt="">
+                        </div>
+                        <div class="item">
+                            中華衛星 WZ-8888
+                        </div>
+                    </div>
+                    <div class="pay-content">
+                        <div class="content-box">
+                            <p class="sub-title">
+                                支付方式
+                            </p>
+                            <div class="pay-slider">
+                                <div class="pay-item">
+                                    <div class="img-box">
+                                        <img src="../img/callcar/pay-method-linepay.png" alt="">
+                                    </div>
+                                </div>
+                                <div class="pay-item">
+                                    <div class="img-box">
+                                        <img src="../img/callcar/pay-method-mastercard.png" alt="">
+                                    </div>
+                                </div>
+                                <div class="pay-item">
+                                    <div class="img-box">
+                                        <img src="../img/callcar/pay-method-fitbitpay.png" alt="">
+                                    </div>
+                                </div>
+                                <div class="pay-item">
+                                    <div class="img-box">
+                                        <img src="../img/callcar/pay-method-visa.png" alt="">
+                                    </div>
+                                </div>
+                                <div class="pay-item">
+                                    <div class="img-box">
+                                        <img src="../img/callcar/pay-method-jcb.png" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pay-list-group">
+                                <div class="pay-list">
+                                    <div class="item">
+                                        車資
+                                    </div>
+                                    <div class="item">
+                                        <input id="pay-price" type="tel" placeholder="輸入金額">
+                                    </div>
+                                </div>
+                                <div class="pay-list">
+                                    <div class="item">
+                                        優惠券
+                                    </div>
+                                    <div class="item use-discount">
+                                        使用優惠券<i class="material-icons">&#xE315;</i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pay-list">
+                                <div class="item">
+                                    付款金額
+                                </div>
+                                <div class="item pay-money">
+                                    0
+                                </div>
+                            </div>
+                            <div class="button-box">
+                                <button class="btn disabled-btn">確定支付</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="../js/vendor/bs4/js/jquery-3.2.1.slim.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->    
+    <script src="../js/vendor/bs4/js/bootstrap.min.js"></script>
+
+    <script src="../js/popper.js"></script>
+
+    <!-- slick -->
+    <script type="text/javascript" src="../js/vendor/slick/slick/slick.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.pay-slider').slick({
+                arrows: false,
+                infinite: false,
+                slidesToShow: 4.3,
+            });
+
+            $('.pay-slider .pay-item').on('click', function(){
+                $('.pay-slider .pay-item').removeClass('is-choice');
+                $(this).addClass('is-choice');
+                $(this).closest('.pay-slider').addClass('has-choice');
+            })
+
+            var price = 170;
+            $('#pay-price').on('keyup', function(){
+                var value = $(this).val();
+                if(value == ''){
+                    value = 0;
+                }
+                $('.pay-money').text(value);
+                if(value.length > 0 && value >= price ){
+                    $('.button-box').addClass('pay-ok');
+                    $('.disabled-btn').removeClass('disabled-btn').addClass('default-btn');
+                }else{
+                    $('.button-box').removeClass('pay-ok')
+                    $('.default-btn').removeClass('default-btn').addClass('disabled-btn');
+                }
+            })
+        });
+    </script>
+
+</body>
+
+</html>

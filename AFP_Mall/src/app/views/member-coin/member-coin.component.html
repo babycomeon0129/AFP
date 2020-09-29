@@ -1,0 +1,182 @@
+<div class="wrap container">
+  <!--我的魔幣1-->
+  <div class="mycard">
+    <div class="lineargradient-purple pb-3">
+      <div class="title-box">
+        <div class="item icon-btn">
+          <button [hidden]="appService.isApp !== null && !showBackBtn" class="btn px-0 text-white" onclick="history.back();" data-toggle="tooltip" data-placement="bottom"
+            title="回上一頁">
+            <i class="material-icons">&#xe314;</i>
+          </button>
+        </div>
+        <div class="item title-name text-white">M Points</div>
+        <div class="item">
+          <button class="btn btn-outline-white text-white small-80 py-0"
+            (click)="getHistory(); appService.callLayer('.mycoinrecord');">
+            歷史紀錄
+          </button>
+        </div>
+      </div>
+      <div class="coin-box">
+        <div class="text-center"><img src="../img/share/mobiicoin_red.png" class="coinimg-m">{{info.TotalPoint | currency:'TWD':'':'1.0-2'}}</div>
+        <div class="flex-inline-between">
+          <div class="item">即將到期</div>
+          <div class="item">{{info.DaylinePoint | currency:'TWD':'':'1.0-2'}}</div>
+        </div>
+        <div class="flex-inline-between">
+          <div class="item">即將到期時間</div>
+          <div class="item">{{info.Dayline | date:'yyyy/MM/dd'}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="p-3">
+      <h6 class="py-2">遊戲館</h6>
+      <div class="member-flex flex-coinbn">
+        <div *ngFor="let item of info.List_Game" [routerLink]="['/Game', item?.Game_Code]" class="item">
+          <img [src]="item.Game_Image" class="img-fluid border-radius5" alt="">
+        </div>
+      </div>
+    </div>
+    <!-- 分類找好券 -->
+    <div class="item note-box">
+      <h6 class="px-3 pt-4 pb-2">分類找好券</h6>
+    </div>
+    <!-- tab content -->
+    <div class="afp-tab-box">
+      <div class="afp-tab mb-5">
+        <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs">
+          <!-- Nav tabs -->
+          <ul id="nav-tab-member" class="swiper-wrapper nav nav-tabs nav-line mb-2" role="tablist">
+            <li *ngFor="let tab of info.List_Voucher; let First = first; let i = index" role="presentation" class="swiper-slide"
+              [ngClass]="{'active': First}">
+              <a href="#tag{{i}}" [ngClass]="{'active': First}" class="tablist-link" aria-controls="tag01" role="tab"
+                data-toggle="tab" aria-selected="true">{{tab?.UserDefine_Name}}</a>
+            </li>
+          </ul>
+        </swiper>
+        <!-- Tab panes -->
+        <div class="tab-content mb-5">
+          <div *ngFor="let item of info.List_Voucher; let First = first; let i = index" role="tabpanel"
+            class="tab-pane fade w-100" id="tag{{i}}" [ngClass]="{'active show': First}">
+            <div class="mycoin-couponbox card-columns px-3">
+              <div *ngFor="let voucher of item?.VoucherData" class="card border-radius5">
+                <div class="card-body">
+                  <div class="card-text">
+                    <div class="member-flex">
+                      <div class="item one">
+                        <div [style.background-image]="'url('+voucher.Voucher_Image+')' | Safe: 'style'"
+                          (click)="goDetail(voucher)" class="rwdimg logo-img">
+                        </div>
+                      </div>
+                      <div class="item three px-2">
+                        <p>{{voucher?.Voucher_Title}}</p>
+                        <p>{{voucher?.Voucher_ExtName}}</p>
+                        <p>{{voucher?.Voucher_UsedOnDate | date: 'yyyy/MM/dd'}} ~ {{voucher?.Voucher_UsedOffDate | date: 'yyyy/MM/dd'}}</p>
+                      </div>
+                      <div class="item one">
+                        <button
+                          (click)="appService.onVoucher(voucher)"
+                          [disabled]="voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3"
+                          [ngClass]="{'gray-obtn': voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3,
+                                      'index-btn': voucher?.Voucher_IsFreq === 1,
+                                      'index-outline-btn': voucher.Voucher_IsFreq === 2 || voucher.Voucher_IsFreq === 5}"
+                          class="btn px-2 small-80 sendval">
+                          {{appService.loginState == false? '兌換' : voucher?.Voucher_FreqName}}
+                        </button>
+                        <div [hidden]="voucher?.Voucher_DedPoint == 0" class="m-quantity small pl-1">
+                          <img src="../img/share/mobiicoin_red.png" class="coinimg-m">
+                          {{voucher?.Voucher_SpecialPoint > 0? voucher?.Voucher_SpecialPoint : voucher?.Voucher_DedPoint | currency: '':'':'1.0-2'}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer bg-cardfooter pt-2 pb-0">
+                  <div class="member-flex small-80">
+                    <div class="item one text-nowrap">
+                      <img src="../../img/share/{{voucher?.Voucher_ShowType}}_w.png" class="nearbyimg"
+                        alt="">{{voucher?.Voucher_ShowTypeName}}
+                    </div>
+                    <!-- <div class="item three txt-line-clamp1 text-center">
+                      近高雄巨蛋捷運站
+                    </div> -->
+                    <div class="item two text-right">
+                      - {{voucher?.Voucher_UsedTypeName}} -
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--次頁-->
+  <div class="multilayer">
+    <!--點數紀錄-->
+    <div class="mycoinrecord">
+      <div class="title-box">
+        <div class="item icon-btn">
+          <button class="btn px-0" (click)="appService.backLayer();" data-toggle="tooltip" data-placement="bottom"
+            title="回上一頁">
+            <i class="material-icons">&#xe314;</i>
+          </button>
+        </div>
+        <div class="item title-name">點數紀錄</div>
+        <div class="item icon-btn"></div>
+      </div>
+      <div class="lineargradient-purple">
+        <div class="text-white p-3 member-flex">
+          <div class="item three">
+            <h5><img src="../img/share/mobiicoin_red.png" class="coinimg-m">{{info.TotalPoint | currency:'TWD':'':'1.0-2'}}</h5>
+            <p class="small-80">即將到期：{{info.DaylinePoint | currency:'TWD':'':'1.0-2'}}點（{{info.Dayline | date:'yyyy/MM/dd'}}）</p>
+          </div>
+          <div class="item one text-right">
+            <!--前去Mission頁時將appService.tLayer清空，避免callLayer失效-->
+            <button class="btn-outline-white small-80" [routerLink]="['/Mission']" (click)="appService.tLayer=[]">
+              賺取點數
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- tab content for record-->
+      <div class="afp-tab-box">
+        <div class="afp-tab mb-5">
+          <div class="nav-tabs-box mt-3">
+            <!-- Nav tabs -->
+            <ul class="nav-tab-list nav nav-tabs nav-line mb-2 d-flex justify-content-around" role="tablist">
+              <li role="presentation" [ngClass]="{'active': pointType === 0}" (click)="pointType = 0; getHistory();">
+                <a class="tablist-link" [ngClass]="{'active': pointType === 0}" role="tab">待入帳</a>
+              </li>
+              <li role="presentation" [ngClass]="{'active': pointType === 1}" (click)="pointType = 1; getHistory();">
+                <a class="tablist-link" [ngClass]="{'active': pointType === 1}" role="tab">獲得紀錄</a>
+              </li>
+              <li role="presentation" [ngClass]="{'active': pointType === 11}" (click)="pointType = 11; getHistory();">
+                <a class="tablist-link" [ngClass]="{'active': pointType === 11}" role="tab">使用紀錄</a>
+              </li>
+            </ul>
+          </div>
+          <!-- Tab panes -->
+          <div class="tab-content border-t pt-2 mb-5">
+            <div role="tabpanel" class="tab-pane fade active show w-100">
+              <div *ngFor="let item of pointHistory" class="member-flex border-b p-3">
+                <div class="item three">
+                  <div class="d-grid">
+                    <h6>{{item.UserPoint_Text}}</h6>
+                    <p class="text-muted small-80">{{(pointType === 0? '訂單編號：' : '') + item.UserPoint_SubText}}</p>
+                    <p class="text-muted small-80">{{item.UserPoint_Date | date:'yyyy/MM/dd HH:mm:ss'}}</p>
+                  </div>
+                </div>
+                <div class="item one">
+                  <p class="text-index text-right font-bold">{{item.UserPoint_AddQuantity | currency:'TWD':'':'1.0-2'}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

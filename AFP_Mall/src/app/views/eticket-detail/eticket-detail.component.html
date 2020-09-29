@@ -1,0 +1,102 @@
+<div class="wrap container">
+  <header>
+      <div class="header-secondary container">
+          <div class="index-flex justify-content-between">
+              <div class="item two">
+                  <div class="close-btn">
+                       <button type="button" class="btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                          <i class="material-icons">&#xe314;</i>
+                      </button>
+                  </div>
+              </div>
+              <div class="item three text-center">
+                  <div class="title-name">票券詳情</div>
+              </div>
+              <div class="item two">
+              </div>
+          </div>
+      </div>
+  </header>
+  <div class="ticketdetail">
+      <div class="main-ticket-box">
+          <div class="ticket-top-bg">
+              <div class="line"></div>
+          </div>
+          <div class="ticket-content">
+              <div class="img-box">
+                  <img src="{{ticketProd?.Product_PrimeImage}}" alt="">
+              </div>
+              <div class="index-flex p-3 tk-main">
+                  <div class="item three text-bluedk">
+                      <h6>{{userTicket?.UserTicket_Title}}</h6>
+                      <h5 class="font-bold">{{userTicket?.UserTicket_ShowName}}</h5>
+                  </div>
+                  <div class="item one text-right align-self-start">
+                      <div class="shopping-store-badge">
+                        <!-- 商品無「交通」類型，icon 圖固定-->
+                          <span class="badge badge-pill text-explore"><img src="../img/share/2600.png" alt="">{{userTicket?.UserTicket_ShowType}}</span>
+                      </div>
+                  </div>
+              </div>
+              <div class="ticket-detailrow">
+                  <div class="p-3">
+                      <p class="font-bold">票券內容:</p>
+                      <p [innerHTML]="ticketProd?.Product_Depiction"></p>
+                  </div>
+              </div>
+              <div class="ticket-detailrow">
+                  <div class="d-flex p-3">
+                      <div class="item item-icon">
+                          <img src="../img/share/store-time.png" class="h24 pr-2">
+                      </div>
+                      <div class="item">
+                        <p *ngIf="userTicket?.UserTicket_Date === userTicket?.UserTicket_LimitDate">使用效期：{{userTicket?.UserTicket_LimitDate | date: 'yyyy/MM/dd'}}</p>
+                        <p *ngIf="userTicket?.UserTicket_Date !== userTicket?.UserTicket_LimitDate">使用效期：{{userTicket?.UserTicket_Date | date: 'yyyy/MM/dd'}} ~ {{userTicket?.UserTicket_LimitDate | date: 'yyyy/MM/dd'}}</p>
+                      </div>
+                  </div>
+              </div>
+              <!-- 使用方法(同票券產品的使用須知) & 退款規則 -->
+              <div class="ticket-detailrow">
+                  <div class="p-3" [innerHTML]="ticketProd?.Product_Shopping"></div>
+              </div>
+              <div class="circle">.</div>
+          </div>
+          <div class="h100"></div>
+          <div class="fixed-btn container">
+            <!-- 狀態未開通或已開通才可使用 -->
+              <button *ngIf="userTicket?.UserTicket_UsedState === 0 || userTicket?.UserTicket_UsedState === 1"
+              (click)="appService.callLayer('.useticket')"
+                type="button" class="btn index-btn w-100 msg-open" data-toggle="modal" data-target="#messageModal" data-dismiss="modal" aria-label="Close">
+                使用
+              </button>
+          </div>
+      </div>
+  </div>
+
+
+  <div class="multilayer">
+    <div class="useticket">
+      <div class="title-box">
+          <div class="item icon-btn">
+              <button class="btn px-0" (click)="appService.backLayer();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                  <i class="material-icons">&#xe314;</i>
+              </button>
+          </div>
+          <div class="item title-name">使用票券</div>
+          <div class="item icon-btn">
+              <button class="btn bluedk-outline-btn bt-small" (click)="appService.backLayer();">票券詳情</button>
+          </div>
+      </div>
+      <div class="text-bluedk text-center">
+        {{userTicket?.UserTicket_Title}}
+          <h6 class="ticket-desc">{{userTicket?.UserTicket_ShowName}}</h6>
+          <div class="border rounded p-3 m-3 d-flex justify-content-center">
+            <qrcode *ngIf="userTicket?.UserTicket_QRCode !== null" [qrdata]="userTicket?.UserTicket_QRCode" [width]="204" [errorCorrectionLevel]="'L'"></qrcode>
+          </div>
+          <div class="bg-F6F6E9 text-org p-2">狀態：<span class="tk-stat">{{userTicket?.UserTicket_UsedStateShowName}}</span></div>
+          <small *ngIf="userTicket?.UserTicket_Date === userTicket?.UserTicket_LimitDate">使用效期：{{userTicket?.UserTicket_LimitDate | date: 'yyyy/MM/dd'}}</small>
+          <small *ngIf="userTicket?.UserTicket_Date !== userTicket?.UserTicket_LimitDate">使用效期：{{userTicket?.UserTicket_Date | date: 'yyyy/MM/dd'}} ~ {{userTicket?.UserTicket_LimitDate | date: 'yyyy/MM/dd'}}</small>
+      </div>
+    </div>
+  </div>
+</div>

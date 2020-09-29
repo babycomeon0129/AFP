@@ -1,0 +1,156 @@
+<!-- 信用卡列表 -->
+<div [@layerTrigger] *ngIf="shownLayer === 0" class="mypay">
+  <div class="headerbox container title-box">
+    <div class="item icon-btn">
+      <button type="button" class="btn px-0" onclick="history.back()" data-toggle="tooltip"
+        data-placement="bottom" title="回上一頁">
+        <i class="material-icons">&#xe314;</i>
+      </button>
+    </div>
+    <div class="item title-name">付款設定</div>
+    <div class="item icon-btn"></div>
+  </div>
+  <div class="my-creditcard-list">
+    <ul class="main-list">
+      <li>
+        <a class="collapsed" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+          aria-controls="collapseExample">
+          <div class="item item-img">
+            <img src="../../img/share/creditcard.png" class="h38" alt="">
+          </div>
+          <div class="item">信用卡/VISA金融卡</div>
+          <div class="item auto-left">
+            <i class="material-icons">&#xE316;</i>
+          </div>
+        </a>
+        <div class="collapse" id="collapseExample">
+          <ul class="sub-list">
+            <li *ngFor="let card of paymentData" (click)="showPaymentDeatail(card); shownLayer = 2">
+              <div class="item item-img">
+                <img src="../../img/share/{{card?.UserFavourite_Text1}}.png" class="h38" alt="">
+              </div>
+              <div class="item card-type">{{card.UserFavourite_Text1}}</div>
+              <div class="item item-card-num">*{{card.UserFavourite_Text2}}</div>
+              <div *ngIf="card.UserFavourite_IsDefault === 1" class="item item-default auto-left">[預設]</div>
+            </li>
+            <!-- 暫無法在此新增信用卡 -->
+            <li class="d-none">
+              <div class="item item-icon">
+                <i class="material-icons">&#xE145;</i>
+              </div>
+              <div class="item add-card">
+                <button class="btn px-0 text-left p-0"
+                  (click)="shownLayer = 1">新增信用卡</button>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+<!-- 新增信用卡，暫無此功能 -->
+<div [@layerTrigger] *ngIf="shownLayer === 1" class="mypayaddcard">
+  <div class="headerbox container title-box">
+    <div class="item icon-btn">
+      <button type="button" class="btn px-0" (click)="shownLayer = 0" data-toggle="tooltip"
+        data-placement="bottom" title="回上一頁">
+        <i class="material-icons">&#xe314;</i>
+      </button>
+    </div>
+    <div class="item title-name">新增信用卡</div>
+    <div class="item icon-btn"></div>
+  </div>
+  <form action="">
+    <div class="my-creditcard-info">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <label for="card_01">信用卡 / 簽帳金融卡卡號</label>
+              <input type="text" class="form-control" id="card_01" aria-describedby=""
+                placeholder="0000 0000 0000 0000">
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <label for="card_02">有效年月</label>
+              <input type="text" class="form-control" id="card_02" aria-describedby="" placeholder="MM / YY">
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <label for="card_03">背面末三碼</label>
+              <input type="text" class="form-control" id="card_03" aria-describedby="" placeholder="000">
+            </div>
+          </div>
+        </div>
+        <div class="setting-default pl-3 note-box">
+          <div class="icheck-material-blue">
+            <input id="i4" type="checkbox" checked>
+            <label for="i4">設定為預設地址</label>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <button class="btn next-btn w-100">完成</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="neweb-pay">
+      <p>本安全服務由藍新金流服務平台提供</p>
+      <img src="../../img/member/logo_neweb.svg" alt="">
+      <small>Powered by Neweb Technologies Co., Ltd.</small>
+    </div>
+  </form>
+</div>
+<!-- 信用卡詳細資訊 -->
+<div [@layerTrigger] *ngIf="shownLayer === 2" class="mypaycardinfo">
+  <div class="headerbox container title-box">
+    <div class="item icon-btn">
+      <button type="button" class="btn px-0" (click)="shownLayer = 0" data-toggle="tooltip"
+        data-placement="bottom" title="回上一頁">
+        <i class="material-icons">&#xe314;</i>
+      </button>
+    </div>
+    <div class="item title-name">信用卡資訊</div>
+    <div class="item del-btn">
+      <button type="button" (click)="onDelCard(paymentDetail.UserFavourite_ID)"
+      class="btn msg-myaddressdelete" data-toggle="modal" data-target="#messageModal" data-dismiss="modal" aria-label="Close">刪除</button>
+    </div>
+  </div>
+  <div>
+    <div class="my-creditcard-list">
+      <ul class="main-list">
+        <li>
+          <div>
+            <ul class="sub-list pl-3">
+              <li>
+                <div class="item item-img">
+                  <img src="../../img/share/{{paymentDetail?.UserFavourite_Text1}}.png" alt="" class="h38">
+                </div>
+                <div class="item card-type">{{paymentDetail?.UserFavourite_Text1}}</div>
+                <div class="item">*{{paymentDetail?.UserFavourite_Text2}}</div>
+                <div class="item item-dates">
+                  <div class="item item-date">有效日期</div>
+                  <div class="item item-date-txt">{{paymentDetail?.UserFavourite_Text3.substr(2, 3)}}／20{{paymentDetail?.UserFavourite_Text3.substr(0, 2)}}</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+
+      <div class="flex-inline-between setting-default">
+        <div class="p-3">設定為預設信用卡</div>
+        <div class="icheck-material-blue center-v">
+          <input (click)="toggleDefaultCard()" id="i5" type="checkbox" [checked]="paymentDetail?.UserFavourite_IsDefault === 1">
+          <label for="i5"></label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

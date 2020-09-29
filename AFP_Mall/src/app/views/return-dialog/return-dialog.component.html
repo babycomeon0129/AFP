@@ -1,0 +1,63 @@
+<div class="wrap container" (resized)="onResized($event)">
+    <header class="fixed-top container">
+      <!-- header top -->
+      <div class="header-secondary">
+        <div class="flex-inline-between">
+          <div class="item one">
+            <div class="close-btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+              <i class="material-icons">&#xe314;</i>
+            </div>
+          </div>
+          <div class="item three text-center">
+            <div class="d-grid">
+              <div class="title-name txt-line-clamp1">{{ECStoreName}}</div>
+            </div>
+          </div>
+          <div class="item one text-right">
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="bearservice-lg">
+    <div class="service-msg">
+      客服單編號：{{ServiceTableNO}}
+    </div>
+    <div class="chat-box">
+      <div class="popup-messages">
+        <div class="direct-chat-messages">
+          <!-- <small class="timestamp-s">{{ListDealInfo[0].DealInfo_Date | date:'yyyy/MM/dd'}}</small> -->
+          <div class="direct-chat-sys">買方已提出 退貨 需求</div>
+          <span *ngFor="let item of ReturnDialog">
+            <small class="timestamp-s">{{item.date | date:'yyyy/MM/dd'}}</small>
+            <!-- Message. Default to the left -->
+            <span *ngFor="let dealInfo of item.content">
+              <div class="direct-chat-msg" *ngIf="dealInfo.DealInfo_DealerCode !== -1">
+                <div class="direct-chat-text">
+                  {{dealInfo.DealInfo_Content}}
+                </div>
+              </div>
+              <!-- Message. Default to the right -->
+              <div class="guests-chat-msg" *ngIf="dealInfo.DealInfo_DealerCode === -1">
+                <div class="guests-chat-text">
+                  {{dealInfo.DealInfo_Content}}
+                </div>
+              </div>
+            </span>
+          </span>
+        </div>
+      </div>
+      <div class="service-overbox text-center" [hidden]="HandleState == 5 || HandleState == 0">
+        <div class="service-over">
+          此客服單已經結單
+        </div>
+        <button class="btn index-outline-btn small-80 m-2" onclick="history.back();">回上一頁</button>
+      </div>
+    </div>
+    <form (submit)="sendMessage()" class="service-store-footer container" [hidden]="HandleState != 5 && HandleState != 0">
+      <input type="text" id="CostomerMsg" class="customer-msg" placeholder="請填寫問題內容（限填200字）" name="CostomerMsg" [(ngModel)]="CostomerMsg">
+      <i class="material-icons send m-2" (click)="sendMessage()">&#xe163;</i>
+    </form>
+  </div>
+</div>
+<app-footer></app-footer>

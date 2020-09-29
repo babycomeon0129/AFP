@@ -1,0 +1,524 @@
+<section [ngClass]="{'d-none': !appService.showAPPHint}" class="appNotifyBox">
+  <div class="appNotify container">
+    <div class="d-flex">
+      <img src="img/index/AppLogo.png" class="item AppLogo">
+      <div class="item">
+        <p>Mobii! 城市生活服務平台</p>
+        <small>立刻下載App,開始驚奇旅程</small>
+      </div>
+      <div class="item appNotifyBtn">
+        <button (click)="toDownloadAPP()" class="btn dwbtn">立即下載</button>
+        <button (click)="appService.showAPPHint = false" type="button" class="close appclose">&times;</button>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="wrap container">
+  <header>
+    <div class="mobii-topbox">
+      <div class="container">
+        <img src="img/share/mlogo.png" class="m-topbox-item mobiitoplogo">
+        <div class="m-topbox-item d-flex align-items-center">
+          <!-- 引導下載App QR Code -->
+          <div class="for-pc dwloadApp" data-toggle="tooltip">下載App
+            <div class="appQR">
+              <qrcode [qrdata]="'https://mobii.ai/AppDownload'" [width]="116" [errorCorrectionLevel]="'L'" id="qrcode">
+              </qrcode>
+              <strong>下載享優惠</strong>
+            </div>
+          </div>
+          <!-- 未登入 -->
+          <button (click)="appService.loginPage()" *ngIf="appService.loginState == false" type="button"
+            class="m-topbox-item btn bluedk-outline-btn btw-small">
+            登入/註冊
+          </button>
+          <!-- 電腦版 登入 -->
+          <div *ngIf="appService.loginState == true" class="userbox">
+            <div *ngIf="appService.loginState == true" class="txt-line-clamp1 user-hi"><a
+                [routerLink]="['/Member']">你好，{{userName}}</a> </div>
+          </div>
+          <ul *ngIf="appService.loginState == true" class="userdrop nav navbar-nav">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">&#xE5D3;</i></a>
+              <ul class="dropdown-menu dropdown-menu-right">
+                <li><a [routerLink]="['/MemberDiscount']"><img src="img/share/drop_discount.png" alt="">我的優惠</a></li>
+                <li><a [routerLink]="['/MemberFavorite']"><img src="img/share/drop_favorite.png" alt="">我的收藏</a></li>
+                <li><a [routerLink]="['/MemberOrder']"><img src="img/share/drop_order.png" alt="">我的訂單</a></li>
+                <li><a [routerLink]="['/MemberFood']"><img src="img/share/drop_food.png" alt="">我的點餐</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <img src="img/index/txt.png" class="m-topbox-item sloger">
+    </div>
+    <!-- 手機版 -->
+    <section class="mobii-bnbox">
+      <div class="userbox mr-auto">
+        <div *ngIf="appService.loginState == true" class="txt-line-clamp1 user-hi">你好，{{userName}}</div>
+        <ul class="m-bnbox-item">
+          <li class="txt-line-clamp1">
+            <img src="img/share/mobiicoin.png" alt="" class="mr-1 h20">
+            <span
+              class="user-mobii">{{appService.loginState == true? (userPoint | currency: '':'':'1.0-0') : '--'}}</span>點
+          </li>
+          <li class="txt-line-clamp1">
+            <img src="img/index/icons/mobiicoupon.png" alt="" class="mr-1 h20">
+            <span
+              class="user-ds">{{appService.loginState == true? (userVoucherCount | currency: '':'':'1.0-0') : '--'}}</span>張
+          </li>
+        </ul>
+      </div>
+      <div id="carouselBanner" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+          <a *ngFor="let ad of adTop; let First = first" href="{{ad?.ADImg_URL}}" target="{{ad?.ADImg_URLTarget}}"
+            rel="noopener noreferrer" [ngClass]="{'active': First}" class="carousel-item">
+            <img src="{{ad?.ADImg_Img}}" class="d-block w-100" alt="">
+          </a>
+        </div>
+      </div>
+    </section>
+  </header>
+  <main class="pt-0">
+    <div class="main-content container">
+      <div class="row pt-2">
+        <!-- 主要連結 -->
+        <div class="col-12 for-pc">
+          <!-- Swiper for icons -->
+          <div class="index-iconbox">
+            <swiper class="index-icon " [config]="boxIcon">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide" *ngFor="let item of ft">
+                  <div class="item">
+                    <a href="javascript:;" (click)="FunctionLink(item, false)"
+                      [ngClass]="{'disable' : item.Function_IsActive == 0}">
+                      <div class="img-box">
+                        <img [src]="item.Function_Icon" alt="">
+                      </div>{{item.Function_Name}}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </swiper>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+          </div>
+        </div>
+        <div class="for-mobile w-100">
+          <div class="col-12 center-v">
+            <div class="mainicon-link default-link">
+              <div *ngFor="let item of ftTop" class="link-item">
+                <a href="javascript:;" (click)="FunctionLink(item, false)">
+                  <div class="img-box">
+                    <img [src]="item.Function_Icon" alt="">
+                  </div>
+                  <p>{{item.Function_Name}}</p>
+                </a>
+              </div>
+            </div>
+          </div>
+          <!-- 自訂連結 -->
+          <div class="col-12 center-v">
+            <div class="mainicon-link edit-link">
+              <div *ngFor="let item of ftBottom" class="link-item">
+                <a href="javascript:;" (click)="FunctionLink(item, false)">
+                  <div class="img-box">
+                    <img [src]="item.Function_Icon" alt="">
+                  </div>
+                  <p>{{item.Function_Name}}</p>
+                </a>
+              </div>
+              <div class="link-item">
+                <a href="javascript:;" (click)="getMoreService();appService.callLayer('.setting');editFunction=false">
+                  <div class="img-box">
+                    <img src="img/index/icons/category3_more.png" alt="">
+                  </div>
+                  <p>更多</p>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 去哪玩連結/中間四格 -->
+    <div class="container">
+      <div class="go-where-link px-3 mb-3">
+        <swiper class="index-gowhere swiper-container" [config]="boxGoWhere">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide" *ngFor="let item of adMid4">
+              <div class="item">
+                <a class="link-item" (click)="adRoute(item?.ADImg_URL, item?.ADImg_URLTarget)">
+                  <img src="{{item.ADImg_Img}}" alt="">
+                </a>
+              </div>
+            </div>
+          </div>
+        </swiper>
+      </div>
+    </div>
+    <!-- 中間大廣告 ad banner -->
+    <div *ngIf="adMid?.length > 0" class="ad-box">
+      <div class="container px-3">
+        <!-- Swiper -->
+        <swiper class="swiper-container" [config]="boxAD">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide" *ngFor="let item of adMid">
+              <a [href]="item?.ADImg_URL == '/'? null : item?.ADImg_URL" [target]="item?.ADImg_URLTarget">
+                <div class="rwdimg-cover h37" [lazyLoad]="item.ADImg_Img" [defaultImage]="appService.defaultImage">
+                </div>
+              </a>
+            </div>
+          </div>
+          <!-- Add Pagination -->
+          <div class="swiper-pagination"></div>
+        </swiper>
+      </div>
+    </div>
+    <!-- 現領優惠券 -->
+    <div class="offers-list container my-2 px-3" *ngIf="nowVoucher?.length > 0">
+      <h6>現領優惠券</h6>
+      <div class="afp-tab-box">
+        <div class="afp-tab mb-3">
+          <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs">
+            <!-- Nav tabs -->
+            <ul id="nav-tab" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
+              <li role="presentation" class="swiper-slide" *ngFor="let item of nowVoucher; let blFirst=first;"
+                [ngClass]="{'active': blFirst}">
+                <a href="#Code{{item.UserDefine_Code}}" class="tablist-link show" [ngClass]="{'active': blFirst}"
+                  attr.aria-controls="Code{{item.UserDefine_Code}}" role="tab" data-toggle="tab"
+                  [attr.aria-selected]="blFirst">{{item.UserDefine_Name}}</a>
+              </li>
+            </ul>
+          </swiper>
+          <!-- Tab panes -->
+          <div class="tab-content w-100">
+            <div role="tabpanel" class="tab-pane active" *ngFor="let item of nowVoucher; let blFirst=first;"
+              id="Code{{item.UserDefine_Code}}" [ngClass]="{'show': blFirst, 'active': blFirst}">
+              <swiper class="onsale-products swiper-container" [config]="boxTFeature">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide" *ngFor="let inside of item.VoucherData">
+                    <div class="products-item bg-FFF6F1 border-radius5"
+                      [routerLink]="inside?.Voucher_UserVoucherCode === null? ['/VoucherDetail', inside?.Voucher_Code] : ['/VoucherDetail', inside?.Voucher_UserVoucherCode]">
+                      <div class="p-2" onclick="">
+                        <div class="products-img">
+                          <div class="img-box">
+                            <div class="rwdimg" [lazyLoad]="inside.Voucher_Image"
+                              [defaultImage]="appService.defaultImage"></div>
+                          </div>
+                        </div>
+                        <div class="products-title h24">
+                          <p class="txt-line-clamp1">{{inside.Voucher_Title}}</p>
+                        </div>
+                        <div class="products-sub">
+                          <p class="txt-line-clamp1">{{inside.Voucher_ExtName}}</p>
+                          <p class="hr-g"></p>
+                        </div>
+                        <div class="products-offers small-80">
+                          <div class="price-offersTxt h24"><span *ngIf="inside?.Voucher_DedPoint> 0">扣除<img
+                                src="img/share/mobiicoin_red.png"
+                                class="coinimg-m mb-1">{{inside?.Voucher_DedPoint}}</span></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </swiper>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 主打店家 -->
+    <div *ngIf="hitArea?.length > 0" class="explore-block container px-3 py-4 mb-2">
+      <h6>主打店家</h6>
+      <div class="afp-tab-box">
+        <div class="afp-tab">
+          <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs">
+            <!-- Nav tabs -->
+            <ul id="nav-tab" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
+              <li role="presentation" class="swiper-slide" *ngFor="let item of hitArea; let blFirst=first;"
+                [ngClass]="{'active': blFirst}">
+                <a href="#Code{{item.UserDefine_Code}}" class="tablist-link show" [ngClass]="{'active': blFirst}"
+                  attr.aria-controls="Code{{item.UserDefine_Code}}" role="tab" data-toggle="tab"
+                  [attr.aria-selected]="blFirst">{{item.UserDefine_Name}}</a>
+              </li>
+            </ul>
+          </swiper>
+          <div class="row mt-2">
+            <!-- Tab panes -->
+            <div class="tab-content w-100">
+              <div *ngFor="let item of hitArea; let blFirst=first;" role="tabpanel" class="tab-pane"
+                id="Code{{item.UserDefine_Code}}" [ngClass]="{'show': blFirst, 'active': blFirst}">
+                <swiper class="travel-featuredbox" [config]="boxTFeature">
+                  <div class="swiper-wrapper content-list">
+                    <div class="swiper-slide" *ngFor="let inside of item.ECStoreData">
+                      <div class="products-item">
+                        <a [routerLink]="['/ExploreDetail', inside.ECStore_Code]" class="content-item">
+                          <div class="img-box imgLiquidFill imgLiquid">
+                            <img [src]="inside.ECStore_Image1">
+                          </div>
+                          <div class="item-title">
+                            {{inside.ECStore_ShowName}}
+                          </div>
+                          <ul class="tag-list">
+                            <li *ngFor="let attrData of inside.AttrbuteData">{{attrData.AttributeValue_Name}}</li>
+                          </ul>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </swiper>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 本月外送主打 -->
+    <div *ngIf="deliveryArea?.length > 0" class="explore-block container px-3 py-4 mb-2">
+      <h6>本月外送主打</h6>
+      <div class="afp-tab-box">
+        <div class="afp-tab">
+          <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs">
+            <!-- Nav tabs -->
+            <ul id="nav-tab" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
+              <li role="presentation" class="swiper-slide" *ngFor="let item of deliveryArea;let blFirst=first;"
+                [hidden]="item?.ECStoreData.length == 0" [ngClass]="{'active': blFirst}">
+                <a href="#Code{{item.UserDefine_Code}}" class="tablist-link show" [ngClass]="{'active': blFirst}"
+                  attr.aria-controls="Code{{item.UserDefine_Code}}" role="tab" data-toggle="tab"
+                  [attr.aria-selected]="blFirst">{{item.UserDefine_Name}}</a>
+              </li>
+            </ul>
+          </swiper>
+          <div class="row mt-2">
+            <!-- Tab panes -->
+            <div class="tab-content w-100">
+              <div *ngFor="let item of deliveryArea; let blFirst=first;" role="tabpanel" class="tab-pane"
+                id="Code{{item.UserDefine_Code}}" [ngClass]="{'show': blFirst, 'active': blFirst}">
+                <swiper class="travel-featuredbox" [config]="boxTFeature" [hidden]="item?.ECStoreData.length == 0">
+                  <div class="swiper-wrapper content-list">
+                    <div class="swiper-slide" *ngFor="let inside of item.ECStoreData">
+                      <div class="products-item">
+                        <a [routerLink]="['/ExploreDetail', inside.ECStore_Code]" class="content-item">
+                          <div class="img-box imgLiquidFill imgLiquid">
+                            <img [src]="inside.ECStore_Image1">
+                          </div>
+                          <div class="item-title">
+                            {{inside.ECStore_ShowName}}
+                          </div>
+                          <ul class="tag-list">
+                            <li *ngFor="let attrData of inside.AttrbuteData">{{attrData.AttributeValue_Name}}</li>
+                          </ul>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </swiper>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 特賣商品 -->
+    <div *ngIf="popProducts?.length > 0" class="onsale-list container my-2 px-3">
+      <h6>特賣商品</h6>
+      <div class="afp-tab-box">
+        <div class="afp-tab mb-3">
+          <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="prodTabs">
+            <!-- Nav tabs -->
+            <ul id="nav-tab-member" class="swiper-wrapper nav nav-tabs nav-line mb-2" role="tablist">
+              <li *ngFor="let tab of popProducts; let i = index; let theFirst = first" role="presentation"
+                class="swiper-slide">
+                <a href="#onsale-tab-{{i}}" class="tablist-link show" [ngClass]="{'active': theFirst}"
+                  attr.aria-controls="onsale-tab-{{i}}" role="tab" data-toggle="tab"
+                  [attr.aria-selected]="theFirst">{{tab?.UserDefine_Name}}</a>
+              </li>
+            </ul>
+          </swiper>
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div *ngFor="let item of popProducts; let i = index; let theFirst = first" id="onsale-tab-{{i}}"
+              role="tabpanel" class="tab-pane" [ngClass]="{'active': theFirst, 'show': theFirst}">
+              <swiper class="onsale-products swiper-container" [config]="onsaleProd">
+                <div class="swiper-wrapper">
+                  <div *ngFor="let product of item?.ProductData" class="swiper-slide">
+                    <div class="products-item">
+                      <a [routerLink]="['/ProductDetail', item?.UserDefine_Code, product?.Product_Code]">
+                        <div class="products-img">
+                          <div class="img-box">
+                            <div class="rwdimg" [lazyLoad]="product.Product_PrimeImage"
+                              [defaultImage]="appService.defaultImage"></div>
+                          </div>
+                        </div>
+                        <div class="products-title">
+                          <p class="txt-line-clamp2">{{product?.Product_ExtName}}</p>
+                        </div>
+                        <div class="products-price">
+                          <div class="price-original">
+                            {{product.Product_SpecialPrice > 0? (product.Product_SellPrice | currency: 'TWD':'$':'1.0-2') : ' ' }}
+                          </div>
+                          <div class="price-asking">
+                            {{product.Product_SpecialPrice > 0? (product.Product_SpecialPrice | currency: 'TWD':'$':'1.0-2') : (product.Product_SellPrice | currency: 'TWD':'$':'1.0-0')}}
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </swiper>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 本月旅遊主打 -->
+    <div *ngIf="hitTravel?.length > 0" class="travel-featuredlist container px-3 py-4 mb-2">
+      <h6>本月旅遊主打</h6>
+      <!-- tab content -->
+      <div class="afp-tab-box">
+        <div class="afp-tab">
+          <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs">
+            <!-- Nav tabs -->
+            <ul id="nav-tab-featured" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
+              <li role="presentation" class="swiper-slide" *ngFor="let item of hitTravel; let blFirst=first;"
+                [ngClass]="{'active': blFirst}">
+                <a href="#Code{{item.UserDefine_Code}}" class="tablist-link show" [ngClass]="{'active': blFirst} "
+                  attr.aria-controls="Code{{item.UserDefine_Code}}" role="tab" data-toggle="tab"
+                  [attr.aria-selected]="blFirst">{{item.UserDefine_Name}}</a>
+              </li>
+            </ul>
+          </swiper>
+          <!-- Tab panes -->
+          <div class="tab-content w-100 mt-2">
+            <div *ngFor="let item of hitTravel;let blFirst=first;" id="Code{{item.UserDefine_Code}}" role="tabpanel"
+              class="tab-pane" [ngClass]="{'show': blFirst, 'active': blFirst}">
+              <div class="travel-featuredboxlist">
+                <div class="row">
+                  <div class="col-6" *ngFor="let inside of item.TravelData">
+                    <div class="item-body">
+                      <a class="item-img rwdimg-cover h65" [lazyLoad]="inside.Travel_Img"
+                        [defaultImage]="appService.defaultImage" [href]="inside.Travel_URL"
+                        [target]="inside.Travel_URLTarget"></a>
+                      <div class="item-favorite">
+                        <button [ngClass]="{'active' : appService.userFavCodes.includes(inside.Travel_Code) == true}"
+                          (click)="appService.favToggle(appService.userFavCodes.includes(inside.Travel_Code) ? 2 : 1, 54, inside.Travel_Code)">
+                          <img src="../img/share/icon_favorite.png" class="imgicon">
+                        </button>
+                      </div>
+                      <a [href]="inside.Travel_URL" target="_blank" rel="noopener noreferrer">
+                        <div class="item-info">
+                          <div class="item-title txt-line-clamp2">
+                            {{inside.Travel_Title}}
+                          </div>
+                          <div class="item-price">
+                            <span class="price-asking">{{inside.Travel_SubTitle}}</span>
+                          </div>
+                          <div class="item-location txt-line-clamp1">
+                            <i class="fas fa-map-marker-alt fa-fw"></i>
+                            {{inside.Travel_LocalTitle}}
+                          </div>
+                          <div class="item-keyword">
+                            <span *ngFor="let attrData of inside.AttrbuteData">{{attrData.AttributeValue_Name}}</span>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div class="multilayer">
+    <div class="setting" [ngClass]="{'edit-mode': editFunction}">
+      <div class="aside-header">
+        <div>
+          <button class="btn px-0 close-btn" (click)="appService.backLayer()" data-toggle="tooltip"
+            data-placement="bottom" title="回上一頁">
+            <i class="material-icons">&#xe314;</i>
+          </button>
+        </div>
+        <div class="edit-title-box">
+          <div class="edit-item edit-title-cancel" (click)="editFunction = false; myService = orgMyService">取消</div>
+          <div class="edit-item edit-title">編輯我的服務</div>
+          <div class="edit-item edit-title-save" (click)="updateUserService();">確定</div>
+        </div>
+      </div>
+      <div class="service-sysbox bb3-solid">
+        <!-- 系統服務 -->
+          <div class="title-item pt-3">
+            {{systemService?.CategaryName}}
+          </div>
+          <div class="title-group">
+            <div class="title-box">
+              <div class="sys-item" *ngFor="let icon of systemService?.Model_Function">
+                <img [lazyLoad]="icon.Function_Icon" [alt]="icon.Function_Name" (click)="FunctionLink(icon, false)">
+                <p>{{icon.Function_Name}}</p>
+              </div>
+            </div>
+          </div>
+      </div>
+      <div class="service-box bt1-solid" [hidden]="!appService.loginState">
+        <!-- 我的服務 -->
+          <div class="title-item pt-3">
+            我的服務
+            <div class="editbox">
+              <button (click)="editMode();"
+              class="btn title-item edit-btn fit small-80 border-radius5 py-0">編輯</button>
+            </div>
+          </div>
+          <div class="service-title">
+             <div class="main-link edit-link sort-block" id="myService">
+              <div class="link-item mysvc remove-item"  *ngFor="let icon of myService;"
+              (click)="serviceClick(icon.Function_Code, '我的服務', icon.Function_IsActive);"
+              [attr.data-code]="icon.Function_Code">
+                <a [href]="!editFunction ? icon.Function_URL : 'javascript:;' | Safe: 'url'">
+                  <img [src]="icon.Function_Icon" alt="">
+                  <p>{{icon.Function_Name}}</p>
+                </a>
+              </div>
+            </div>
+          </div>
+        <div class="w-100 text-right text-danger small-70 pb-3 editnote h24">
+            <ng-container *ngIf="noticeNine">
+              至多可選擇9種服務
+            </ng-container>
+            <ng-container *ngIf="noticeFour">
+              請至少選擇4種服務
+            </ng-container>
+        </div>
+      </div>
+      <div class="service-box bt1-solid" id="moreServiceList">
+        <!-- 更多服務 -->
+        <ng-container *ngFor="let item of serviceList">
+          <ng-container *ngIf="item?.Model_Function.length > 0">
+          <div class="title-item pt-3">{{item.CategaryName}}</div>
+          <div class="main-link edit-link items0">
+            <div class="link-item" *ngFor="let icon of item.Model_Function;"
+            (click)="serviceClick(icon.Function_Code, item.CategaryName, icon.Function_IsActive);"
+            [ngClass]="{'remove-item': !icon?.isAdd && icon.Function_IsActive, 'add-item':icon?.isAdd && icon.Function_IsActive,'disable' : icon.Function_IsActive === 0}"
+            [id]="'more-'+icon.Function_Code">
+              <a [href]="!editFunction && icon.Function_IsActive ? icon.Function_URL : 'javascript:;' | Safe: 'url'">
+                <div class="img-box">
+                  <img [lazyLoad]="icon.Function_Icon" [alt]="icon.Function_Name">
+                </div>
+                <p>{{icon.Function_Name}}</p>
+              </a>
+            </div>
+          </div>
+        </ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<app-footer></app-footer>

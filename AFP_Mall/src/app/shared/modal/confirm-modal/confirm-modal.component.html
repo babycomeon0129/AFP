@@ -1,0 +1,21 @@
+<div class="modal-header" data-dismiss="modal" aria-label="Close">
+</div>
+<button *ngIf="showCancel === true" type="button" class="close text-right" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+  <span aria-hidden="true">&times;&ensp;</span>
+</button>
+<div class="modal-body p-0">
+  <div id="msg-myaddressdelete">
+    <div class="p-2 mb-4">
+      <h5 *ngIf="title !== undefined">{{title}}</h5>
+      <p>{{message}}</p>
+    </div>
+    <div class="d-flex justify-content-center text-center bg-light border-t py-2 border-bottom-radius5">
+      <button *ngIf="showCancel === true" type="button" class="btn btn-login font-bold w-100" (click)="closeModal()">
+        取消
+      </button>
+      <button type="button" class="btn btn-login font-bold left-mline w-100" (click)="btnOk()">
+        確定
+      </button>
+    </div>
+  </div>
+</div>

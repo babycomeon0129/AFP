@@ -1,0 +1,236 @@
+<div class="wrap container">
+  <header>
+      <div class="header-secondary container linebt-row">
+          <div class="index-flex justify-content-between">
+            <div class="item two">
+                <div class="close-btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                    <i class="material-icons">&#xe314;</i>
+                </div>
+            </div>
+            <div class="item three text-center">
+                <div class="title-name">訂單詳情</div>
+            </div>
+            <div class="item two text-right">
+                <div class="close-btn"></div>
+            </div>
+        </div>
+    </div>
+  </header>
+  <div class="order-status">
+    <div class="item"><i class="material-icons">&#xE85D;</i></div>
+    <div class="item">
+        <!-- 處理中 -->
+        <div *ngIf="orderInfo?.OrderState > 0 && productsData[0]?.UserTicket_UsedState === null">
+          <p class="status1">處理中</p>
+          <p class="status2 small-80">店家正在處理您的訂單，請耐心等候。</p>
+        </div>
+        <!-- 已完成，票券未使用／使用中 -->
+        <div *ngIf="orderInfo?.OrderState === 3 && (productsData[0]?.UserTicket_UsedState === 0 || productsData[0]?.UserTicket_UsedState === 1)">
+          <p class="status1">電子票券已發送，請於期限內使用，逾期失效</p>
+          <p class="status2 small-80">{{orderInfo?.Order_AppreciationDate | date: 'yyyy/MM/dd'}} 前可申請退款</p>
+        </div>
+        <!-- 已完成，票券已使用完畢 -->
+        <div *ngIf="orderInfo?.OrderState === 3 && productsData[0]?.UserTicket_UsedState === 2">
+          <p class="status1">電子票券已使用</p>
+        </div>
+        <!-- 退款－退款處理中 -->
+        <div *ngIf="orderInfo?.OrderState === 3 && productsData[0]?.UserTicket_UsedState === 9">
+          <p class="status1">電子票券已退回，退款處理中</p>
+        </div>
+        <!-- 退款－退款完成 NOTE: 訂單及票券無退款完成(退票+退款)狀態，客服單才有 -->
+        <!-- <div *ngIf="orderInfo?.OrderState === 3">
+          <p class="status1">款項將退回原付款之信用卡</p>
+        </div> -->
+    </div>
+  </div>
+  <div class="order-info">
+      <ul>
+          <li class="flex-inline-between">
+              <div class="item">訂單編號</div>
+              <div class="item">{{orderInfo?.Order_TableNo}}</div>
+          </li>
+          <li class="flex-inline-between">
+              <div class="item">訂單成立時間</div>
+              <div class="item">{{orderInfo?.Order_InsertDate | date: 'yyyy/MM/dd HH:mm'}}</div>
+          </li>
+      </ul>
+  </div>
+  <div class="order-box">
+      <div class="order-subtitle">
+          <i class="material-icons">&#xE8D1;</i><span class="store-name">{{storeInfo?.ECStore_ShowName}}</span>
+      </div>
+      <ul class="order-shop-list">
+          <li *ngFor="let product of productsData">
+              <div class="item rwdimgbox-80">
+                  <div [style.background-image]="'url('+product?.Product_ShowImg+')'" class="rwdimg-cover"></div>
+              </div>
+              <div class="item item-txt">
+                  <p>{{product?.ItemInfoPart_ItemName}}</p>
+                  <p>規格：{{product?.ItemInfoPart_AttributeValueName}}</p>
+                  <p class="order-price auto-top">{{product?.ItemInfoPart_PayAmount | currency: 'TWD':'$':'1.0-2'}}</p>
+              </div>
+              <div class="item item-num order-quantity">x{{product?.ItemInfoPart_Quantity}}</div>
+          </li>
+          <li *ngIf="productsData[0]?.UserTicket_UsedState === 9" class="tk4">
+            <div class="small text-danger text-right w-100 status1">退款處理中</div>
+          </li>
+          <!-- NOTE: 票券無退款完成(退票+退款)狀態，客服單才有-->
+          <!-- <li *ngIf="productsData[0]?.UserTicket_UsedState === 9" class="tk4">
+            <div class="small text-danger text-right w-100 status1">退款完成</div>
+          </li> -->
+          <p *ngIf="productsData[0]?.UserTicket_UsedState === 0 || productsData[0]?.UserTicket_UsedState === 1" class="text-right">
+            <a [routerLink]="['/ETicketDetail', productsData[0]?.ItemInfoPart_OtherCode]"><small>前往使用</small></a>
+          </p>
+      </ul>
+  </div>
+  <div class="border-t5 w-100"></div>
+  <div class="order-title">
+      付款詳情
+  </div>
+  <div class="order-box">
+    <div class="order-method-box">
+      <!-- 票券處理中、未使用、使用中、使用完畢、已逾期顯示 -->
+        <ul *ngIf="productsData[0]?.UserTicket_UsedState < 9 || productsData[0]?.UserTicket_UsedState === 99" class="method-list">
+            <li class="index-flex">
+                <div class="item one d-flex d-inline"><i class="material-icons">&#xE263;</i>付款方式</div>
+                <div class="item two item-right">{{orderInfo?.PaymentShowName + ' ' + '*' + orderInfo?.Card4No}}</div>
+            </li>
+            <li class="index-flex">
+                <div class="item one d-flex d-inline"><div class="invo-box"><i class="material-icons">&#xE8B0;</i></div>收據</div>
+                <button (click)="modal.show('receipt', { initialState: { orderData: orderInfo, prodList: productsData } })"
+                  [disabled]="orderInfo?.InvoiceState !== 1"
+                  [ngClass]="{'text-secondary': orderInfo?.InvoiceState !== 1}"
+                  type='button' class='btn px-0 text-primary'>
+                  {{orderInfo?.InvoiceState === 1? '查看收據' : '收據開立中或已作廢或折讓'}}
+                </button>
+            </li>
+            <li class="index-flex">
+                <div class="item one d-flex d-inline"><i class="material-icons reverse">&#xE54E;</i>使用優惠券、折扣碼</div>
+                <div class="item one item-right">{{orderInfo?.Order_ChangeAmount | currency: 'TWD':'$':'1.0-2'}}</div>
+            </li>
+        </ul>
+        <!-- 票券退款處理中、退款完成顯示 -->
+        <!-- NOTE: 票券無退款完成(退票+退款)狀態，客服單才有-->
+        <ul *ngIf="productsData[0]?.UserTicket_UsedState === 9" class="method-list tk4">
+          <li class="index-flex">
+              <div class="item one d-flex d-inline"><span>訂單金額</span></div>
+              <div class="item two item-right text-danger">{{originalTotal | currency: 'TWD':'$':'1.0-2'}}</div>
+          </li>
+          <li class="index-flex">
+              <div class="item one d-flex d-inline"><span>退款金額</span></div>
+              <div class="item two item-right text-danger">{{originalTotal | currency: 'TWD':'$':'1.0-2'}}</div>
+          </li>
+          <li class="index-flex">
+              <div class="item one d-flex d-inline"><span>付款方式</span></div>
+              <div class="item two item-right">{{orderInfo?.PaymentShowName + ' ' + '*' + orderInfo?.Card4No}}</div>
+          </li>
+        </ul>
+    </div>
+    <!-- 票券處理中、未使用、使用中、使用完畢、已逾期顯示 -->
+    <div *ngIf="productsData[0]?.UserTicket_UsedState < 9 || productsData[0]?.UserTicket_UsedState === 99" class="total-price-box">
+        <ul>
+            <li class="index-flex">
+                <div class="item">商品總金額</div>
+                <div class="item text-right order-subtotal">{{originalTotal | currency: 'TWD':'$':'1.0-2'}}</div>
+            </li>
+            <div>
+              <li class="index-flex">
+                <div class="item">優惠折抵</div>
+                <div class="item text-right order-discount">{{orderInfo?.Order_ChangeAmount | currency: 'TWD':'$':'1.0-2'}}</div>
+              </li>
+              <div>
+                <li *ngFor="let voucher of voucherInfo" class="index-flex py-0">
+                  <div class="item two left-line">{{voucher?.Voucher_ExtName + ' ' + voucher?.Voucher_UserVoucherCode}}</div>
+                  <div class="item one text-right sub-discount">{{voucher?.Discount_Amount | currency: 'TWD':'$':'1.0-2'}}</div>
+                </li>
+              </div>
+            </div>
+            <li class="total-pay index-flex">
+                <div class="item">訂單金額</div>
+                <div class="item text-right order-sumtotal">{{orderInfo?.PayOrder_PayAmount | currency: 'TWD':'$':'1.0-2'}}</div>
+            </li>
+        </ul>
+    </div>
+    <div class="border-t5 w-100"></div>
+    <div class="order-method-box">
+      <!-- 可賺到的點數暫不顯示 -->
+      <ul class="method-list d-none">
+          <li class="flex-inline-between">
+              <div class="item font-bold"><img src="../img/share/mobiicoin_red.png" alt="" class="coinimg-m m-0">可賺到的M Points <span class="small-expired">(猶豫期後入帳)</span></div>
+              <div class="item item-right mobii">3枚</div>
+          </li>
+      </ul>
+    </div>
+    <!-- 訂單完成 -->
+    <div [hidden]="productsData[0]?.UserTicket_UsedState >= 2" class="flex-inline-between align-items-end pb-3 px-3 completed">
+      <div class="item w-100 p-2">
+          <p *ngIf="orderInfo?.OrderState < 2" class="small-expired">取票成功後可申請</p>
+          <p *ngIf="orderInfo?.ServiceTableNo !== null" class="small-expired">已申請退貨</p>
+          <!-- 未購票完成或已使用不可申請退款 -->
+          <button *ngIf="orderInfo?.ServiceTableNo === null" (click)="toRefund()"
+            [disabled]="productsData[0]?.UserTicket_UsedState === null || productsData[0]?.UserTicket_UsedState === 1"
+            type="button" class="btn bluedk-outline-btn w-100">
+            退款
+          </button>
+          <button *ngIf="orderInfo?.ServiceTableNo !== null" [routerLink]="['/ReturnDetail', this.orderInfo.ServiceTableNo]"
+            type="button" class="btn bluedk-outline-btn w-100">
+            退款詳情
+          </button>
+      </div>
+      <div class="item w-100 p-2">
+        <button (click)="appService.showJustka(storeInfo?.ECStore_Justka)" [disabled]="storeInfo?.ECStore_Justka === null"
+        type="button" class="btn bluedk-outline-btn w-100">聯絡店家</button>
+      </div>
+    </div>
+  <div class="addheight"></div>
+
+  <!--次頁-->
+  <div class="multilayer">
+    <!-- 退貨原因 -->
+    <div class="returnReason">
+        <div class="title-box">
+            <div class="item icon-btn">
+                <!-- 此頁無返回鍵 -->
+            </div>
+            <div class="item title-name tk">退貨的原因</div>
+            <div class="item icon-btn"></div>
+        </div>
+        <div class="return-box">
+            <ul class="reason-list tk">
+                <li (click)="ChooseReson(6)" [ngClass]="{'active': servicesModel.Services_Reason === 6}">
+                    想要的日期/時段不易預約
+                </li>
+                <li (click)="ChooseReson(7)" [ngClass]="{'active': servicesModel.Services_Reason === 7}">
+                    價格/條件劣於其他通路
+                </li>
+                <li (click)="ChooseReson(8)" [ngClass]="{'active': servicesModel.Services_Reason === 8}">
+                    原訂計畫取消
+                </li>
+                <li (click)="ChooseReson(9)" [ngClass]="{'active': servicesModel.Services_Reason === 9}">
+                    現場有更優惠促銷
+                </li>
+                <li (click)="ChooseReson(10)" [ngClass]="{'active': servicesModel.Services_Reason === 10}">
+                    店家要求現場直接付費
+                </li>
+                <li (click)="ChooseReson(255)" [ngClass]="{'active': servicesModel.Services_Reason === 255}">
+                    其他
+                </li>
+            </ul>
+            <div class="addheight"></div>
+            <footer class="shopping-cartfooter container fixed-bottom">
+                <ul>
+                    <li>
+                        <div class="item w-100 p-2">
+                          <button (click)="sendReason()"
+                          [disabled]="servicesModel.Services_Reason === 0"
+                          [ngClass]="{'unable': servicesModel.Services_Reason === 0}"
+                          type="submit" class="btn index-btn w-100">送出</button>
+                        </div>
+                    </li>
+                </ul>
+            </footer>
+        </div>
+    </div>
+  </div>
+
+</div>

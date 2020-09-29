@@ -1,0 +1,753 @@
+﻿<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=no">
+    <!-- Material Design for Bootstrap fonts and icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../js/vendor/bs4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../js/vendor/jquery-editable-select-master/dist/jquery-editable-select.min.css">
+    <!-- owl.carousel core CSS -->
+    <link rel="stylesheet" href="../js/vendor/owlcarousel/owlcarousel/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="../js/vendor/owlcarousel/owlcarousel/assets/owl.theme.default.min.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- vendor css -->
+    <link rel="stylesheet" href="../js/vendor/swiper/css/swiper.min.css">
+    <!-- fontawesome css -->
+    <link rel="stylesheet" href="../js/vendor/fontawesome/css/fontawesome.css">
+    <link rel="stylesheet" href="../js/vendor/fontawesome/css/brands.css">
+    <link rel="stylesheet" href="../js/vendor/fontawesome/css/solid.css">
+    <!-- custom css -->
+    <link rel="stylesheet" href="../dist/style/travel-index.min.css">
+    <title>eyemedia - afp</title>
+</head>
+
+<body class="">
+    <div class="wrap">
+    <header>
+        <!-- header top -->
+        <div class="kv-box">
+            <div class="pc-top" id="pc-top">
+                <div class="pc-top-box">
+                  <div class="for-pc">
+                    <div class="login-top">
+                        <div class="kv-small">
+                          <!-- login trigger modal -->
+                          <button type="button" id="kv-btn-log" class="btn btn-login btn-sm py-0" data-toggle="modal" data-target="#loginModalCenter">
+                              登入
+                          </button>
+                          <span>|</span>               
+                          <button type="button" id="kv-btn-reg" class="btn btn-login btn-sm py-0" data-toggle="modal" data-target="#registeredModalCenter">
+                              註冊
+                          </button> 
+                        </div>
+                    </div>          
+                </div>
+                <div class="kv-top for-sub">
+                    <div class="top-item logo">
+                        <a href="">
+                            <img src="../img/index/logo.svg" alt="">
+                        </a>
+                    </div>
+                    <div class="top-item climate">
+                        <p>台北<i class="material-icons">&#xE313;</i><small>32度C</small></p>
+                    </div>
+                    <div class="top-item input-box">
+                        <button><i class="material-icons">&#xE8B6;</i></button>
+                        <input type="text" placeholder="熱搜：台北故宮博物館門票">
+                    </div>
+                    <div class="top-item more-horiz has-info">
+                        <i class="material-icons">&#xE5D3;</i>
+                        <button class="drop_menu_toggle"></button>
+                        <div class="drop-menu">
+                            <ul class="drop-content">
+                                <li><a href="javascript:;"><img src="../img/index/icons/icon_qrcode.svg" alt="">掃碼</a></li>
+                                <li><a href="javascript:;"><img src="../img/index/icons/icon_taxicode.svg" alt="">乘車碼</a></li>
+                                <li><a class="open-login" href="javascript:;"><img src="../img/index/icons/icon_login.svg" alt="">登入/註冊</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="kv-mask"></div>          
+            <!-- Swiper -->
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="../img/travel/header_travel01.png" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="../img/travel/header_travel02.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="../img/travel/header_travel03.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <!-- travel main -->
+        <section class="travel">                               
+            <!-- travel-box swiper-->
+            <div class="travel-box swiper-container">     
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <a href>    
+                            <div class="travel-bgbox iconbg-organic">
+                                <img src="../img/travel/icon_group.svg" alt="">
+                            </div>
+                            <div class="travel-txt">團體旅遊</div>
+                        </a>
+                    </div>  
+                    <div class="swiper-slide">
+                        <a href>    
+                            <div class="travel-bgbox iconbg-blue">
+                                <img src="../img/travel/icon_freego.svg" alt="">
+                            </div>
+                            <div class="travel-txt">自由行</div>
+                        </a>
+                    </div>  
+                    <div class="swiper-slide">
+                        <a href>    
+                            <div class="travel-bgbox iconbg-green">
+                                <img src="../img/travel/icon_taiwan.svg" alt="">
+                            </div>
+                            <div class="travel-txt">旅行台灣</div>
+                        </a>
+                    </div>  
+                    <div class="swiper-slide">
+                        <a href>    
+                            <div class="travel-bgbox iconbg-yellow">
+                                <img src="../img/travel/icon_wifi.svg" alt="">
+                            </div>
+                            <div class="travel-txt">wifi</div>
+                        </a>
+                    </div>  
+                    <div class="swiper-slide">
+                        <a href>    
+                            <div class="travel-bgbox iconbg-tiffany">
+                                <img src="../img/travel/icon_airporttransfer.svg" alt="">
+                            </div>
+                            <div class="travel-txt">機場接送</div>
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a href>    
+                            <div class="travel-bgbox iconbg-blue">
+                                <img src="../img/travel/icon_ticket.svg" alt="">
+                            </div>
+                            <div class="travel-txt">票券</div>
+                        </a>
+                    </div>  
+                    <div class="swiper-slide">
+                        <a href>    
+                            <div class="travel-bgbox iconbg-tiffany">
+                                <img src="../img/travel/icon_airtickets.svg" alt="">
+                            </div>
+                            <div class="travel-txt">機票</div>
+                        </a>
+                    </div>  
+                    <div class="swiper-slide">
+                        <a href>    
+                            <div class="travel-bgbox iconbg-purple">
+                                <img src="../img/travel/icon_cruise.svg" alt="">
+                            </div>
+                            <div class="travel-txt">郵輪</div>
+                        </a>
+                    </div>  
+                    <div class="swiper-slide">
+                        <a href>    
+                            <div class="travel-bgbox iconbg-yellow">
+                                <img src="../img/travel/icon_order.svg" alt="">
+                            </div>
+                            <div class="travel-txt">訂房</div>
+                        </a>
+                    </div>  
+                    <div class="swiper-slide">
+                        <a href>    
+                            <div class="travel-bgbox iconbg-organic">
+                                <img src="../img/travel/icon_travelraiders.svg" alt="">
+                            </div>
+                            <div class="travel-txt">旅遊攻略</div>
+                        </a>
+                    </div>  
+                </div>                 
+            </div>    
+
+            <!-- travel-hot swiper-->
+            <div class="travel-hot px-3 pb-4">
+                <h6>熱門活動</h6>
+                <div class="travel-hotbox swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="row">
+                                <div class="hot-img-top col-12">
+                                    <div class="rwdimg" style="background-image: url('../img/travel/travel-hot02.jpg');"></div>
+                                </div>                  
+                                <div class="hot-body col-12">
+                                    <h6 class="txt-line-clamp2">Card title Card title Card title</h6>
+                                    <p class="txt-line-clamp3">This card has supporting text below as a natural lead-in to additional content.</p>                            
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="row">
+                                <div class="hot-img-top col-12">
+                                    <img src="../img/travel/travel-hot03.jpg">
+                                </div>                
+                                <div class="hot-body col-12">
+                                    <h6 class="txt-line-clamp2">Card title Card title Card title</h6>
+                                    <p class="txt-line-clamp3">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>                            
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="row">
+                                <div class="hot-img-top col-12">
+                                    <a href><img src="../img/travel/travel-hot04.jpg"></a>
+                                </div>                
+                                <div class="hot-body col-12">
+                                    <h6 class="txt-line-clamp2">Card title Card title Card title</h6>
+                                    <p class="txt-line-clamp3">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>                            
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="row">
+                                <div class="hot-img-top col-12">
+                                    <img src="../img/travel/travel-hot03.jpg">
+                                </div>                
+                                <div class="hot-body col-12">
+                                    <h6 class="txt-line-clamp2">Card title Card title Card title</h6>
+                                    <p class="txt-line-clamp3">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>                            
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="row">
+                                <div class="hot-img-top col-12">
+                                    <a href><img src="../img/travel/travel-hot04.jpg"></a>
+                                </div>                
+                                <div class="hot-body col-12">
+                                    <h6 class="txt-line-clamp2">Card title Card title Card title</h6>
+                                    <p class="txt-line-clamp3">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>    
+                </div>
+            </div>  
+            
+            <!-- travel topic -->
+            <div class="travel-topic px-3 py-4">
+                <h6>主題旅遊</h6>
+                <div class="travel-topicbox swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="row w-100">
+                                <div class="topic-img-top col-12">
+                                    <div class="rwdimg-h55" style="background-image: url('../img/travel/travel-topic01.png');"></div>
+                                    <label>本周最新</label>
+                                </div>                  
+                                <div class="topic-body col-12">
+                                    <p class="txt-line-clamp1">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>                            
+                                    <h6 class="txt-line-clamp1">Card title Card title Card title</h6>
+                                    <p class="txt-line-clamp1">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>                            
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="row w-100">
+                                <div class="topic-img-top col-12">
+                                    <div class="rwdimg-h55" style="background-image: url('../img/travel/travel-topic02.png');"></div>
+                                    <label>中國春遊</label>
+                                </div>                  
+                                <div class="topic-body col-12">
+                                    <p class="txt-line-clamp1">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>                            
+                                    <h6 class="txt-line-clamp1">Card title Card title Card title</h6>
+                                    <p class="txt-line-clamp1">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>                            
+                                </div>                                
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="row w-100">
+                                <div class="topic-img-top col-12">
+                                    <div class="rwdimg-h55" style="background-image: url('../img/travel/travel-topic03.png');"></div>
+                                    <label>跨年首選</label>
+                                </div>                  
+                                <div class="topic-body col-12">
+                                    <p class="txt-line-clamp1">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>                            
+                                    <h6 class="txt-line-clamp1">Card title Card title Card title</h6>
+                                    <p class="txt-line-clamp1">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>                            
+                                </div>                                
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+            </div>  
+
+            <!-- travel featured -->
+            <div class="travel-featured px-3 py-4 mb-3">
+                <h6>本月主打</h6>
+                    <!-- tab content -->
+                    <div class="afp-tab-box">
+                        <div class="afp-tab mb-5">
+                            <div class="nav-tabs-box tablist-swiper swiper-container">
+                                <!-- Nav tabs -->
+                                <div class="swiper-wrapper">
+                                <ul id="nav-tab-featured" class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active swiper-slide">
+                                            <a href="#jp" class="tablist-link active" aria-controls="jp" role="tab" data-toggle="tab" aria-selected="true">日本</a>
+                                        </li>
+                                        <li role="presentation" class="swiper-slide">
+                                            <a href="#kr" class="tablist-link" aria-controls="kr" role="tab" data-toggle="tab" aria-selected="false">韓國</a>
+                                        </li>
+                                        <li role="presentation" class="swiper-slide">
+                                            <a href="#ch" class="tablist-link" aria-controls="ch" role="tab" data-toggle="tab" aria-selected="false">中國</a>
+                                        </li>
+                                        <li role="presentation" class="swiper-slide">
+                                            <a href="#as" class="tablist-link" aria-controls="as" role="tab" data-toggle="tab" aria-selected="false">東南亞</a>
+                                        </li>
+                                        <li role="presentation" class="swiper-slide">
+                                            <a href="#er" class="tablist-link" aria-controls="er" role="tab" data-toggle="tab" aria-selected="false">歐洲</a>
+                                        </li>  
+                                </ul>                       
+                                </div>       
+                            </div>
+                            <!-- Tab panes -->
+                            <div class="tablist-panes">
+                                <div role="tabpanel" class="tab-pane fade active show w-100" id="jp">
+                                    <div class="travel-featuredbox swiper-container">
+                                        <div class="swiper-wrapper">
+                                            <div class="swiper-slide">
+                                                <div class="item-body">
+                                                    <div class="item-img rwdimg-h65" style="background-image: url('../img/travel/travel-featured01.jpg');"></div>
+                                                    <div class="item-favorite"><button class="p-0" data-toggle="modal" data-target=".bd-example-modal-sm"><img src="../img/travel/icon_favorite.svg"  data-toggle="tooltip" data-placement="top" title="加入收藏"></button></div>
+                                                    <a href>
+                                                        <div class="item-info">
+                                                            <div class="item-title txt-line-clamp2">
+                                                                【九州雙鐵道之旅】～升等希爾頓★螃蟹饗宴、(太宰府旅人號列車+酷MA萌熊電鐵+柳川搖船樂)、湯布院小鎮、溫泉之旅五日[含稅簽]
+                                                            </div>
+                                                            <div class="item-price text-right">
+                                                                5天 $38,800 元起
+                                                            </div>
+                                                            <div class="item-date">
+                                                                <span class="item-more">
+                                                                    <a href class="f-right">更多 > </a>                                                      
+                                                                </span>
+                                                                10/11 10/16 10/25
+                                                            </div>
+                                                            <div class="item-keyword">
+                                                                <i class="fas fa-map-marker-alt fa-fw"></i>日本 東北                                                                        
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <div class="item-body">
+                                                    <div class="item-img rwdimg-h65" style="background-image: url('../img/travel/travel-featured01.jpg');"></div>
+                                                    <div class="item-favorite"><button class="p-0" data-toggle="modal" data-target=".bd-example-modal-sm"><img src="../img/travel/icon_favorite.svg"  data-toggle="tooltip" data-placement="top" title="加入收藏"></button></div>
+                                                    <a href>
+                                                        <div class="item-info">
+                                                            <div class="item-title txt-line-clamp2">
+                                                                【九州雙鐵道之旅】～升等希爾頓★螃蟹饗宴、(太宰府旅人號列車+酷MA萌熊電鐵+柳川搖船樂)、湯布院小鎮、溫泉之旅五日[含稅簽]
+                                                            </div>
+                                                            <div class="item-price text-right">
+                                                                5天 $38,800 元起
+                                                            </div>
+                                                            <div class="item-date">
+                                                                <span class="item-more">
+                                                                    <a href class="f-right">更多 > </a>                                                      
+                                                                </span>
+                                                                10/11 10/16 10/25
+                                                            </div>
+                                                            <div class="item-keyword">
+                                                                <i class="fas fa-map-marker-alt fa-fw"></i>日本 東北                                                                        
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade w-100" id="kr">
+                                    <div class="travel-featuredbox swiper-container">
+                                        <div class="swiper-wrapper">
+                                            <div class="swiper-slide">
+                                                <div class="item-body">
+                                                    <div class="item-img rwdimg-h65" style="background-image: url('../img/travel/travel-featured02.jpg');"></div>
+                                                    <div class="item-favorite"><button class="p-0" data-toggle="modal" data-target=".bd-example-modal-sm"><img src="../img/travel/icon_favorite.svg"  data-toggle="tooltip" data-placement="top" title="加入收藏"></button></div>
+                                                    <a href>
+                                                        <div class="item-info">
+                                                            <div class="item-title txt-line-clamp2">
+                                                                【九州雙鐵道之旅】～升等希爾頓★螃蟹饗宴、(太宰府旅人號列車+酷MA萌熊電鐵+柳川搖船樂)、湯布院小鎮、溫泉之旅五日[含稅簽]
+                                                            </div>
+                                                            <div class="item-price text-right">
+                                                                5天 $38,800 元起
+                                                            </div>
+                                                            <div class="item-date">
+                                                                <span class="item-more">
+                                                                    <a href class="f-right">更多 > </a>                                                      
+                                                                </span>
+                                                                10/11 10/16 10/25
+                                                            </div>
+                                                            <div class="item-keyword">
+                                                                <i class="fas fa-map-marker-alt fa-fw"></i>日本 東北                                                                        
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <div class="item-body">
+                                                    <div class="item-img rwdimg-h65" style="background-image: url('../img/travel/travel-featured02.jpg');"></div>
+                                                    <div class="item-favorite"><button class="p-0" data-toggle="modal" data-target=".bd-example-modal-sm"><img src="../img/travel/icon_favorite.svg"  data-toggle="tooltip" data-placement="top" title="加入收藏"></button></div>
+                                                    <a href>
+                                                        <div class="item-info">
+                                                            <div class="item-title txt-line-clamp2">
+                                                                【九州雙鐵道之旅】～升等希爾頓★螃蟹饗宴、(太宰府旅人號列車+酷MA萌熊電鐵+柳川搖船樂)、湯布院小鎮、溫泉之旅五日[含稅簽]
+                                                            </div>
+                                                            <div class="item-price text-right">
+                                                                5天 $38,800 元起
+                                                            </div>
+                                                            <div class="item-date">
+                                                                <span class="item-more">
+                                                                    <a href class="f-right">更多 > </a>                                                      
+                                                                </span>
+                                                                10/11 10/16 10/25
+                                                            </div>
+                                                            <div class="item-keyword">
+                                                                <i class="fas fa-map-marker-alt fa-fw"></i>日本 東北                                                                        
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade w-100" id="ch">
+                                    <div class="travel-featuredbox swiper-container">
+                                        <div class="swiper-wrapper">
+                                            <div class="swiper-slide">
+                                                <div class="item-body">
+                                                    <div class="item-img rwdimg-h65" style="background-image: url('../img/travel/travel-featured03.jpg');"></div>
+                                                    <div class="item-favorite"><button class="p-0" data-toggle="modal" data-target=".bd-example-modal-sm"><img src="../img/travel/icon_favorite.svg"  data-toggle="tooltip" data-placement="top" title="加入收藏"></button></div>
+                                                    <a href>
+                                                        <div class="item-info">
+                                                            <div class="item-title txt-line-clamp2">
+                                                                【九州雙鐵道之旅】～升等希爾頓★螃蟹饗宴、(太宰府旅人號列車+酷MA萌熊電鐵+柳川搖船樂)、湯布院小鎮、溫泉之旅五日[含稅簽]
+                                                            </div>
+                                                            <div class="item-price text-right">
+                                                                5天 $38,800 元起
+                                                            </div>
+                                                            <div class="item-date">
+                                                                <span class="item-more">
+                                                                    <a href class="f-right">更多 > </a>                                                      
+                                                                </span>
+                                                                10/11 10/16 10/25
+                                                            </div>
+                                                            <div class="item-keyword">
+                                                                <i class="fas fa-map-marker-alt fa-fw"></i>日本 東北                                                                        
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <div class="item-body">
+                                                    <div class="item-img rwdimg-h65" style="background-image: url('../img/travel/travel-featured03.jpg');"></div>
+                                                    <div class="item-favorite"><button class="p-0" data-toggle="modal" data-target=".bd-example-modal-sm"><img src="../img/travel/icon_favorite.svg"  data-toggle="tooltip" data-placement="top" title="加入收藏"></button></div>
+                                                    <a href>
+                                                        <div class="item-info">
+                                                            <div class="item-title txt-line-clamp2">
+                                                                【九州雙鐵道之旅】～升等希爾頓★螃蟹饗宴、(太宰府旅人號列車+酷MA萌熊電鐵+柳川搖船樂)、湯布院小鎮、溫泉之旅五日[含稅簽]
+                                                            </div>
+                                                            <div class="item-price text-right">
+                                                                5天 $38,800 元起
+                                                            </div>
+                                                            <div class="item-date">
+                                                                <span class="item-more">
+                                                                    <a href class="f-right">更多 > </a>                                                      
+                                                                </span>
+                                                                10/11 10/16 10/25
+                                                            </div>
+                                                            <div class="item-keyword">
+                                                                <i class="fas fa-map-marker-alt fa-fw"></i>日本 東北                                                                        
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade w-100" id="as">
+                                    <div class="travel-featuredbox swiper-container">
+                                        <div class="swiper-wrapper">
+                                            <div class="swiper-slide">
+                                                <div class="item-body">
+                                                    <div class="item-img rwdimg-h65" style="background-image: url('../img/travel/travel-featured04.jpg');"></div>
+                                                    <div class="item-favorite"><button class="p-0" data-toggle="modal" data-target=".bd-example-modal-sm"><img src="../img/travel/icon_favorite.svg"  data-toggle="tooltip" data-placement="top" title="加入收藏"></button></div>
+                                                    <a href>
+                                                        <div class="item-info">
+                                                            <div class="item-title txt-line-clamp2">
+                                                                【九州雙鐵道之旅】～升等希爾頓★螃蟹饗宴、(太宰府旅人號列車+酷MA萌熊電鐵+柳川搖船樂)、湯布院小鎮、溫泉之旅五日[含稅簽]
+                                                            </div>
+                                                            <div class="item-price text-right">
+                                                                5天 $38,800 元起
+                                                            </div>
+                                                            <div class="item-date">
+                                                                <span class="item-more">
+                                                                    <a href class="f-right">更多 > </a>                                                      
+                                                                </span>
+                                                                10/11 10/16 10/25
+                                                            </div>
+                                                            <div class="item-keyword">
+                                                                <i class="fas fa-map-marker-alt fa-fw"></i>日本 東北                                                                        
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <div class="item-body">
+                                                    <div class="item-img rwdimg-h65" style="background-image: url('../img/travel/travel-featured04.jpg');"></div>
+                                                    <div class="item-favorite"><button class="p-0" data-toggle="modal" data-target=".bd-example-modal-sm"><img src="../img/travel/icon_favorite.svg"  data-toggle="tooltip" data-placement="top" title="加入收藏"></button></div>
+                                                    <a href>
+                                                        <div class="item-info">
+                                                            <div class="item-title txt-line-clamp2">
+                                                                【九州雙鐵道之旅】～升等希爾頓★螃蟹饗宴、(太宰府旅人號列車+酷MA萌熊電鐵+柳川搖船樂)、湯布院小鎮、溫泉之旅五日[含稅簽]
+                                                            </div>
+                                                            <div class="item-price text-right">
+                                                                5天 $38,800 元起
+                                                            </div>
+                                                            <div class="item-date">
+                                                                <span class="item-more">
+                                                                    <a href class="f-right">更多 > </a>                                                      
+                                                                </span>
+                                                                10/11 10/16 10/25
+                                                            </div>
+                                                            <div class="item-keyword">
+                                                                <i class="fas fa-map-marker-alt fa-fw"></i>日本 東北                                                                        
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade w-100" id="er">
+                                    <div class="travel-featuredbox swiper-container">
+                                        <div class="swiper-wrapper">
+                                            <div class="swiper-slide">
+                                                <div class="item-body">
+                                                    <div class="item-img rwdimg-h65" style="background-image: url('../img/travel/travel-featured05.jpg');"></div>
+                                                    <div class="item-favorite"><button class="p-0" data-toggle="modal" data-target=".bd-example-modal-sm"><img src="../img/travel/icon_favorite.svg"  data-toggle="tooltip" data-placement="top" title="加入收藏"></button></div>
+                                                    <a href>
+                                                        <div class="item-info">
+                                                            <div class="item-title txt-line-clamp2">
+                                                                【九州雙鐵道之旅】～升等希爾頓★螃蟹饗宴、(太宰府旅人號列車+酷MA萌熊電鐵+柳川搖船樂)、湯布院小鎮、溫泉之旅五日[含稅簽]
+                                                            </div>
+                                                            <div class="item-price text-right">
+                                                                5天 $38,800 元起
+                                                            </div>
+                                                            <div class="item-date">
+                                                                <span class="item-more">
+                                                                    <a href class="f-right">更多 > </a>                                                      
+                                                                </span>
+                                                                10/11 10/16 10/25
+                                                            </div>
+                                                            <div class="item-keyword">
+                                                                <i class="fas fa-map-marker-alt fa-fw"></i>日本 東北                                                                        
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <div class="item-body">
+                                                    <div class="item-img rwdimg-h65" style="background-image: url('../img/travel/travel-featured05.jpg');"></div>
+                                                    <div class="item-favorite"><button class="p-0" data-toggle="modal" data-target=".bd-example-modal-sm"><img src="../img/travel/icon_favorite.svg"  data-toggle="tooltip" data-placement="top" title="加入收藏"></button></div>
+                                                    <a href>
+                                                        <div class="item-info">
+                                                            <div class="item-title txt-line-clamp2">
+                                                                【九州雙鐵道之旅】～升等希爾頓★螃蟹饗宴、(太宰府旅人號列車+酷MA萌熊電鐵+柳川搖船樂)、湯布院小鎮、溫泉之旅五日[含稅簽]
+                                                            </div>
+                                                            <div class="item-price text-right">
+                                                                5天 $38,800 元起
+                                                            </div>
+                                                            <div class="item-date">
+                                                                <span class="item-more">
+                                                                    <a href class="f-right">更多 > </a>                                                      
+                                                                </span>
+                                                                10/11 10/16 10/25
+                                                            </div>
+                                                            <div class="item-keyword">
+                                                                <i class="fas fa-map-marker-alt fa-fw"></i>日本 東北                                                                        
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>                    
+            </div>
+        </section>
+
+        <div class="h-50 d-inline-block"></div>
+        <div id="loginhtml"></div>
+    </main>
+    
+    <footer class="for-pc"> 
+        <!--web service-->
+        <div class="scroll-top-wrapper">
+            <span class="scroll-top-inner">
+                <button type="button" id="webservice"><img src="../img/index/icons/for-pc/icon_service.png"></button>
+                <button type="button" id="webservice_close" class="d-none"><img src="../img/index/icons/for-pc/icon_close.png"></button>
+            </span>
+        </div>
+        <div class="popup-box chat-popup" id="qnimate">
+            <div class="popup-head">
+                <div class="popup-head-left pull-left"><img src="../img/index/icons/for-pc/icon_bear.png" alt="service"> 熊客服</div>
+            </div>
+            <div class="hr-100"></div>
+            <div class="popup-messages">          
+            <div class="direct-chat-messages">
+                <div class="chat-box-single-line">
+                        <abbr class="timestamp">Sun, Dec 11 1:20 PM</abbr>
+                </div>
+                
+                <!-- Message. Default to the left -->
+                <div class="direct-chat-msg">
+                    <!-- direct-chat-info -->
+                    <div class="direct-chat-text">
+                    Hey你好, 我是熊, 很高興為您服務
+                    </div>                  
+                    <ul class="direct-info">
+                        <span>來看看有什麼熱門問題吧!</span>
+                        <li><a href="">亞洲好玩卡網站是什麼?</a></li>
+                        <li><a href="">我想問如何快速取貨?</a></li>
+                        <li><a href="">想要退換貨怎麼辦?</a></li>
+                        <li><a href="">最近有什麼最新優惠?</a></li>
+                        <li><a href="">我該如何購買網路商品?</a></li>
+                    </ul>
+                </div>          
+                <!-- Message. Default to the right -->
+                <div class="guests-chat-msg">
+                    <!-- direct-chat-info -->
+                    <div class="guests-chat-text">
+                    請幫我轉真人服務
+                    </div> 
+                    <div class="guests-chat-name">
+                    guests
+                    </div> 
+                </div>          
+                        
+            </div>
+            </div>
+            <div class="hr-100"></div>
+            <div class="popup-messages-footer">
+                <input type="text" placeholder="請輸入問題">
+            </div>
+        </div>
+        <!--footer content-->
+        <div class="container">
+        <div class="row d-flex">
+            <div class="col-4 col-md-3">
+            <h6>關於亞洲好玩卡</h6>
+            <ul>
+                <li><a href="#">關於我們</a></li>
+            </ul>            
+            </div>
+            <div class="col-4 col-md-3">
+            <h6>追蹤我們</h6>
+            <ul>
+                <li><a href="#"><i class="fab fa-facebook-f fa-fw"></i> Facebook</a></li>
+                <li><a href="#"><i class="fab fa-line fa-fw"></i> Line</a></li>
+                <li><a href="#"><i class="fab fa-instagram fa-fw"></i> Instagram</a></li>
+            </ul>            
+            </div>  
+            <div class="w-100"></div>
+            <div class="col-12 border-t">
+            <div class="f-left">
+                <object data="../img/index/logo-s.svg" width="30px" type="image/svg+xml"></object><span> Designed by Asia Fun Pass</span>
+            </div>
+            <div class="f-right">
+                Ⓒ2020 Asia Fun Pass. All Right Reserved          
+            </div>
+            </div>
+        </div>  
+        </div>
+    </footer>
+    <footer class="mobile-footer for-mobile">
+        <div class="menu-bar">
+            <a href="javascript:;" class="bar-item active">
+                <img class="default-img" src="../img/index/icons/footer_1_1.svg" alt="">
+                <img class="active-img" src="../img/index/icons/footer_1_2.svg" alt="">
+                首頁
+            </a>
+            <a href="javascript:;" class="bar-item">
+                <img class="default-img" src="../img/index/icons/footer_2_1.svg" alt="">
+                <img class="active-img" src="../img/index/icons/footer_2_2.svg" alt="">
+                周邊
+            </a>
+            <a href="javascript:;" class="bar-item customer-item">
+                <img src="../img/index/icons/footer_3.png" alt="">
+                客服
+            </a>
+            <a href="javascript:;" class="bar-item">
+                <img class="default-img" src="../img/index/icons/footer_4_1.svg" alt="">
+                <img class="active-img" src="../img/index/icons/footer_4_2.svg" alt="">
+                任務
+            </a>
+            <a href="javascript:;" class="bar-item">
+                <img class="default-img" src="../img/index/icons/footer_5_1.svg" alt="">
+                <img class="active-img" src="../img/index/icons/footer_5_2.svg" alt="">
+                我的
+            </a>
+        </div>
+    </footer>
+    
+    </div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="../js/vendor/bs4/js/jquery-3.2.1.slim.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->    
+    <script src="../js/vendor/bs4/js/bootstrap.min.js"></script>
+
+    <!-- owlcarousel JS -->
+    <script src="../js/vendor/owlcarousel/vendors/jquery.min.js"></script>
+    <script src="../js/vendor/owlcarousel/owlcarousel/owl.carousel.js"></script>
+    <script src="../js/vendor/owlcarousel/vendors/highlight.js"></script>
+    <script src="../js/vendor/owlcarousel/js/app.js"></script>   
+    <script src="../js/vendor/jquery-editable-select-master/dist/jquery-editable-select.js"></script>
+
+    <!-- vendor js -->
+    <script src="../js/vendor/swiper/js/swiper.min.js"></script>
+    <script src="../js/vendor/imgLiquid.js"></script>
+
+    <!-- custom js -->
+    <script src="../js/index.js"></script>
+</body>
+
+</html>

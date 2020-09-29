@@ -1,0 +1,106 @@
+<div class="wrap container">
+<header>
+    <div class="header-secondary container linebt-row">
+        <div class="index-flex justify-content-between">
+            <div class="item two">
+                <div class="close-btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁" [hidden]="appService.isApp !== null">
+                    <i class="material-icons">&#xe314;</i>
+                </div>
+            </div>
+            <div class="item three text-center">
+                <div class="title-name">交通資訊</div>
+            </div>
+            <div class="item two text-right">
+                <div class="close-btn"></div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="traffic-box">
+    <div class="traffic-btn-box">
+        <ul>
+            <!-- 公車: 整合全台公車資訊的平台多為app，沒有好用的網頁版，所以暫時隱藏。腳踏車、渡輪也暫時隱藏 -->
+            <li class="d-none">
+                 <a href="" target="_blank" rel="noopener noreferrer">
+                    <div class="img-box">
+                        <img src="../img/traffic/traffic_bus.svg" alt="">
+                    </div>
+                    公車
+                </a>
+            </li>
+            <li>
+                <a href="https://tip.railway.gov.tw/tra-tip-web/tip/tip001/tip112/gobytime" target="_blank" rel="noopener noreferrer">
+                    <div class="img-box">
+                        <img src="../img/traffic/traffic_tram.svg" alt="台鐵網站">
+                    </div>
+                    台鐵
+                </a>
+            </li>
+            <li>
+                 <a href="https://m.thsrc.com.tw/tw/TimeTable/SearchResult" target="_blank" rel="noopener noreferrer">
+                    <div class="img-box">
+                        <img src="../img/traffic/traffic_railway.svg" alt="高鐵網站">
+                    </div>
+                    高鐵
+                </a>
+            </li>
+            <li class="d-none">
+                 <a href="" target="_blank" rel="noopener noreferrer">
+                    <div class="img-box">
+                        <img src="../img/traffic/traffic_boat.svg" alt="">
+                    </div>
+                    渡輪
+                </a>
+            </li>
+            <li>
+                <a data-toggle="collapse" href="#collapseMrt" role="button" aria-expanded="false" aria-controls="collapseMrt">
+                    <div class="img-box">
+                        <img src="../img/traffic/traffic_mrt.svg" alt="捷運網站">
+                    </div>
+                    捷運
+                </a>
+                <div class="collapse" id="collapseMrt">
+                    <div class="row mt-2 mb-4">
+                        <div class="col-4 p-1">
+                            <a href="https://www.metro.taipei/cp.aspx?n=91974F2B13D997F1" target="_blank" rel="noopener noreferrer" class="item-link">台北</a>
+                        </div>
+                        <div class="col-4 p-1">
+                            <a href="https://www.krtc.com.tw/Guide/guide_map" target="_blank" rel="noopener noreferrer" class="item-link">高雄</a>
+                        </div>
+                        <div class="col-4 p-1">
+                            <a href="https://www.tymetro.com.tw/tymetro-new/tw/index.php" target="_blank" rel="noopener noreferrer" class="item-link">桃園</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a data-toggle="collapse" href="#collapseTrain" role="button" aria-expanded="false" aria-controls="collapseTrain">
+                    <div class="img-box">
+                        <img src="../img/traffic/traffic_train.svg" alt="輕軌網站">
+                    </div>
+                    輕軌
+                </a>
+                <div class="collapse" id="collapseTrain">
+                    <div class="row mt-2 mb-4">
+                        <div class="col-6 p-1">
+                            <a href="https://www.ntmetro.com.tw/content/?parent_id=10425&type_id=10425" target="_blank" rel="noopener noreferrer" class="item-link">淡海</a>
+                        </div>
+                        <div class="col-6 p-1">
+                            <a href="https://www.krtc.com.tw/KLRT/guide_map" target="_blank" rel="noopener noreferrer" class="item-link">高雄</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="d-none">
+                 <a href="" target="_blank" rel="noopener noreferrer">
+                    <div class="img-box">
+                        <img src="../img/traffic/traffic_bike.svg" alt="">
+                    </div>
+                    腳踏車
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+</div>

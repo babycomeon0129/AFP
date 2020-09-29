@@ -1,0 +1,199 @@
+<div class="wrap">
+  <header>
+    <div class="mobii-topbox for-pc">
+        <div class="container">
+            <img [routerLink]="['/']" src="../img/share/mlogo.png" class="m-topbox-item mobiitoplogo">
+            <div class="m-topbox-item d-flex align-items-center">
+                <!-- 未登入 -->
+                <button *ngIf="appService.loginState == false" (click)="appService.loginPage()" type="button" class="m-topbox-item btn bluedk-outline-btn btw-small" data-toggle="modal" data-target="#loginModalCenter">
+                    登入/註冊
+                </button>
+                <!-- 電腦版 登入 -->
+                <div *ngIf="appService.loginState == true" class="userbox">
+                  <div *ngIf="appService.loginState == true" class="txt-line-clamp1 user-hi"><a [routerLink]="['/Member']">你好，{{userName}}</a> </div>
+                </div>
+                <ul  *ngIf="appService.loginState == true" class="userdrop nav navbar-nav">
+                    <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">&#xE5D3;</i></a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a [routerLink]="['/MemberDiscount']"><img src="../img/share/drop_discount.png" alt="">我的優惠</a></li>
+                        <li><a [routerLink]="['/MemberFavorite']"><img src="../img/share/drop_favorite.png" alt="">我的收藏</a></li>
+                        <li><a [routerLink]="['/MemberOrder']"><img src="../img/share/drop_order.png" alt="">我的訂單</a></li>
+                        <li><a [routerLink]="['/MemberFood']"><img src="../img/share/drop_food.png" alt="">我的點餐</a></li>
+                    </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <img src="../img/index/txt.png" class="m-topbox-item sloger">
+    </div>
+    <div class="kv-mask"></div>
+    <div class="for-mobile">
+        <div class="top-goback">
+            <div class="back-go">
+                <button type="button" onclick="history.back()" data-toggle="tooltip" data-placement="top" title="回上一頁"><i class="material-icons">&#xe314;</i></button>
+            </div>
+        </div>
+    </div>
+  </header>
+  <main class="container pt-0">
+    <!-- 置頂廣告 -->
+      <swiper class="swiper-container travel-ad" [config]="boxKV">
+        <div class="swiper-wrapper">
+            <div *ngFor="let item of ad20001" class="swiper-slide">
+              <a [href]="item.ADImg_URL" [target]="item.ADImg_URLTarget" *ngIf="item.ADImg_URL.indexOf('http') != -1">
+                <img [src]="item.ADImg_Img" />
+              </a>
+              <a [routerLink]="[item.ADImg_URL]" *ngIf="item.ADImg_URL.indexOf('http') == -1">
+                <img [src]="item.ADImg_Img" />
+              </a>
+            </div>
+        </div>
+      </swiper>
+    <!-- travel main -->
+    <section class="travel">
+      <!-- travel-box swiper-->
+      <div class="travel-boxoutsize">
+        <swiper class="swiper-container" [config]="boxIcon">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide" *ngFor="let item of ft">
+              <a [href]="item.Function_URL" [target]="item.Function_URLTarget"
+                *ngIf="item.Function_URL.indexOf('http') != -1">
+                <div class="travel-bgbox">
+                  <img [src]="item.Function_Icon" alt="">
+                </div>
+                <div class="travel-txt">{{item.Function_Name}}</div>
+              </a>
+              <a [routerLink]="[item.Function_URL]" *ngIf="item.Function_URL.indexOf('http') == -1">
+                <div class="travel-bgbox">
+                  <img [src]="item.Function_Icon" alt="">
+                </div>
+                <div class="travel-txt">{{item.Function_Name}}</div>
+              </a>
+            </div>
+          </div>
+        </swiper>
+      </div>
+      <!-- travel-hot swiper-->
+      <div *ngIf="ad20002.length > 0" class="travel-hot p-3">
+        <h6>熱門活動</h6>
+        <swiper class="travel-hotbox swiper-container" [config]="boxTFeatureHot">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide" *ngFor="let item of ad20002">
+              <div class="w-100">
+                <a [href]="item.ADImg_URL"
+                    [target]="item.ADImg_URLTarget">
+                  <div class="hot-img-top ">
+                    <!-- [target]="item.ADImg_URLTarget" -->
+                    <div class="rwdimg-cover" [style.background-image]="'url('+item.ADImg_Img+')' | Safe: 'style'" ></div>
+                  </div>
+                  <div class="hot-body">
+                    <h6 class="txt-line-clamp2">{{item.ADImg_Title}}</h6>
+                    <p class="txt-line-clamp3">{{item.ADImg_SubTitle}}</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </swiper>
+      </div>
+
+      <!-- travel topic -->
+      <div *ngIf="ad20003.length > 0" class="travel-topic px-3 py-4 border-t5">
+        <h6>主題旅遊</h6>
+        <swiper class="travel-topicbox swiper-container" [config]="boxTFeature">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide" *ngFor="let item of ad20003">
+              <div class="w-100">
+                <a class="txt-line-clamp1 d-block" [href]="item.ADImg_URL"
+                    [target]="item.ADImg_URLTarget">
+                  <div class="topic-img-top">
+                    <div class="rwdimg-cover h55" [style.background-image]="'url('+item.ADImg_Img+')' | Safe: 'style'"></div>
+                  </div>
+                  <div class="topic-body">
+                    <h6 class="txt-line-clamp1 d-block">{{item.ADImg_Title}}</h6>
+                    <p class="txt-line-clamp1 d-block">{{item.ADImg_SubTitle}}</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </swiper>
+      </div>
+
+      <!-- travel featured -->
+      <div *ngIf="travel.length > 0" class="travel-featured px-3 py-4 mb-3 border-t5">
+        <h6>本月主打</h6>
+        <!-- tab content -->
+        <div class="afp-tab-box">
+          <div class="afp-tab mb-5">
+            <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs">
+              <!-- Nav tabs -->
+              <ul id="nav-tab-featured" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
+                <li role="presentation" class="swiper-slide" *ngFor="let item of travel;let blFirst=first;"
+                  [ngClass]="{'active': blFirst}">
+                  <a href="#Code{{item.UserDefine_Code}}" class="tablist-link" [ngClass]="{'active': blFirst}"
+                    attr.aria-controls="Code{{item.UserDefine_Code}}" role="tab" data-toggle="tab"
+                    [attr.aria-selected]="blFirst">{{item.UserDefine_Name}}</a>
+                </li>
+              </ul>
+            </swiper>
+            <!-- Tab panes -->
+            <div class="tablist-panes pt-2">
+              <div role="tabpanel" class="tab-pane fade w-100" *ngFor="let item of travel;let blFirst=first;"
+                id="Code{{item.UserDefine_Code}}" [ngClass]="{'show': blFirst, 'active': blFirst}">
+                <swiper class="travel-featuredbox swiper-container" [config]="boxTFeature">
+                  <div class="swiper-wrapper">
+                    <div class="swiper-slide" *ngFor="let inside of item.TravelData">
+                      <div class="item-body">
+                        <a class="item-img rwdimg-cover h65"
+                           [style.background-image]="'url('+inside.Travel_Img+')' | Safe: 'style'"
+                           [href]="inside.Travel_URL" [target]="inside.Travel_URLTarget"></a>
+                        <div class="item-favorite">
+                          <button (click)="appService.favToggle(1, 54, inside.Travel_Code)" *ngIf="!appService.userFavCodes.includes(inside.Travel_Code)" data-toggle="modal" data-target=".bd-example-modal-sm" data-toggle="tooltip" data-placement="top"
+                                  title="加入收藏">
+                            <img src="../img/share/icon_favorite.png" class="imgicon">
+                          </button>
+                          <button class="active" (click)="appService.favToggle(2, 54, inside.Travel_Code)" *ngIf="appService.userFavCodes.includes(inside.Travel_Code)" data-toggle="modal" data-target=".bd-example-modal-sm" data-toggle="tooltip" data-placement="top"
+                                  title="移除收藏">
+                            <img src="../img/share/icon_favorite_red.png" class="imgicon">
+                          </button>
+                        </div>
+                        <a [href]="inside.Travel_URL" [target]="inside.Travel_URLTarget">
+                          <div class="item-info">
+                            <div class="item-title txt-line-clamp2">
+                              {{inside.Travel_Title}}
+                            </div>
+                            <div class="item-price">
+                              {{inside.Travel_SubTitle}}
+                            </div>
+                            <!-- 暫不使用,勿刪除 -->
+                            <!-- <div class="item-date flex-inline-between">
+                                  <div class="item-day"></div>
+                                  <div class="item-more">
+                                    <a [href]="inside.Travel_URL" class="text-right" [target]="inside.Travel_URLTarget">更多 > </a>
+                                  </div>
+                                </div> -->
+                            <div class="item-location txt-line-clamp1">
+                              <i class="fas fa-map-marker-alt fa-fw"></i>
+                              {{inside.Travel_LocalTitle}}
+                            </div>
+                            <div class="item-keyword">
+                              <span *ngFor="let attrData of inside.AttrbuteData">{{attrData.AttributeValue_Name}}&nbsp;</span>
+                            </div>
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </swiper>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<app-footer></app-footer>
