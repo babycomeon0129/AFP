@@ -1,3 +1,4 @@
+import { async } from '@angular/core/testing';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AppService } from 'src/app/app.service';
@@ -49,9 +50,22 @@ export class MyProfileComponent implements OnInit {
     this.memberService.readProfileData();
   }
 
+  /** 性別轉換  */
+  sexTSstring(sex: number) {
+    switch (sex) {
+      case null:
+        return null;
+      case 1:
+        return '男';
+      case 2:
+        return '女';
+      case 3:
+        return '不透露';
+    }
+  }
+
   /** 更新我的檔案 */
   onProfileSubmit(form: NgForm): void {
-    console.log(form);
     this.appService.openBlock();
     this.memberService.userProfile.SelectMode = 3;
     this.memberService.userProfile.User_Code = sessionStorage.getItem('userCode');
@@ -63,7 +77,6 @@ export class MyProfileComponent implements OnInit {
     }
     this.appService.toApi('Member', '1502', this.memberService.userProfile).subscribe((data: Response_MemberProfile) => {
       // 取得並顯示我的檔案資料
-      console.log(data);
       this.memberService.readProfileData();
       // 更新session中的userName讓其他頁面名稱同步
       sessionStorage.setItem('userName', this.memberService.userProfile.User_NickName);
@@ -71,6 +84,8 @@ export class MyProfileComponent implements OnInit {
       form.resetForm();
     });
   }
+
+
 
   /** 讀取證件
    * @param CertificateType 1 護照, 2 台胞證, 11 學生證 12 教職員證

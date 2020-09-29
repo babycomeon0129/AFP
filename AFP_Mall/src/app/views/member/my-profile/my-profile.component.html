@@ -71,13 +71,15 @@
           <li>
             <div class="item">性別</div>
             <div class="item input-box div-switch" [ngClass]="{'d-none': !editMode}">
-                <select class="form-control" id="sexSelect" name="UserSex" #UserSex="ngModel" [(ngModel)]="memberService.userProfile.UserProfile_Sex">
+                <select class="form-control" id="sexSelect" name="UserSex" #UserSex="ngModel"
+                 [(ngModel)]="memberService.userProfile.UserProfile_Sex">
+                   <option value="null" hidden>請選擇</option>
                     <option value="1">男</option>
                     <option value="2">女</option>
-                    <option value="3">其他</option>
+                    <option value="3">不透露</option>
                 </select>
             </div>
-            <div class="item auto-left div-switch" [ngClass]="{'d-none': editMode}">{{memberService.userProfile.UserProfile_Sex}}</div>
+            <div class="item auto-left div-switch" [ngClass]="{'d-none': editMode}">{{sexTSstring(memberService.userProfile.UserProfile_Sex)}}</div>
         </li>
           <li>
             <div class="item">手機號碼</div>
