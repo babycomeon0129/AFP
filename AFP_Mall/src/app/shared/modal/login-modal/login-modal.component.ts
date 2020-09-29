@@ -25,13 +25,13 @@ export class LoginModalComponent implements OnInit {
   public thirdRequest: Request_AFPThird = new Request_AFPThird();
   /** Mobii 會員登入 request */
   public request: Request_AFPLogin = new Request_AFPLogin();
-  /** 設備是否為iOS (是則不顯示Apple登入) */
-  public isiOS: boolean;
+  /** 設備是否為Apple (是則不顯示Apple登入) */
+  public isApple: boolean;
 
   constructor(
     public bsModalRef: BsModalRef, private authService: AuthService, private appService: AppService, public modal: ModalService,
     private cookieService: CookieService) {
-      this.telliOS();
+      this.detectApple();
   }
 
   ngOnInit() {
@@ -57,7 +57,7 @@ export class LoginModalComponent implements OnInit {
     AppleID.auth.init({
       clientId: 'com.eyesmedia.mobii',
       scope: 'email name',
-      redirectURI: 'https://www.mobii.ai', // 正式/測試站, 結尾無"/" + environment.sit的api url
+      redirectURI: 'https://www.mobii.ai/', // TODO: 正式/測試站, 結尾無"/" + environment.sit的api url
       state: 'Mobii Apple Login',
       usePopup : true
     });
@@ -65,24 +65,30 @@ export class LoginModalComponent implements OnInit {
     // Apple 登入授權成功，第三方登入取得資料
     document.addEventListener('AppleIDSignInOnSuccess', (authData: any) => {
       this.appleUser = authData.detail;
-      const appleToken = jwt_decode(this.appleUser.authorization.id_token).sub;
+      const idTokenModel = jwt_decode(this.appleUser.authorization.id_token);
+      const appleToken = idTokenModel.sub;
 
       // 只有首次使用Apple登入會得到user物件
-      if (this.appleUser.user === undefined) {
-        this.thirdRequest.Account = '';
-        this.thirdRequest.NickName = '';
-      } else {
-        this.thirdRequest.Account = this.appleUser.user.email;
-        this.thirdRequest.NickName = this.appleUser.user.name.firstName + ' ' + this.appleUser.user.name.lastName;
-      }
+      // if (this.appleUser.user === undefined) {
+      //   this.thirdRequest.Account = '';
+      //   this.thirdRequest.NickName = '';
+      // } else {
+      //   this.thirdRequest.Account = this.appleUser.user.email;
+      //   this.thirdRequest.NickName = this.appleUser.user.name.firstName + ' ' + this.appleUser.user.name.lastName;
+      // }
+      this.thirdRequest.Account = idTokenModel.email;
+      this.thirdRequest.NickName = idTokenModel.email;
       this.thirdRequest.Token = appleToken;
       this.thirdRequest.JsonData = JSON.stringify(this.appleUser);
       this.toThirdLogin();
+      // console.log('AppleIDSignInOnSuccess: ', authData); // TODO:
     });
+
     // Apple 登入授權失敗，顯示失敗原因
     document.addEventListener('AppleIDSignInOnFailure', (error: any) => {
       this.bsModalRef.hide(); // 關閉視窗
       this.modal.show('message', { initialState: { success: false, message: 'Apple登入失敗', note: error.detail.error, showType: 1 } });
+      // console.log('Failure: ', error); // TODO:
     });
   }
 
@@ -145,13 +151,13 @@ export class LoginModalComponent implements OnInit {
     });
   }
 
-  /** 判斷設備是否為iOS */
-  telliOS() {
+  /** 判斷是否為Apple設備 */
+  detectApple() {
     const iOSDevices = ['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'];
-    if (iOSDevices.includes(navigator.platform) || (navigator.userAgent.includes('Mac') && 'ontouchend' in document)) {
-      this.isiOS = true;
+    if (iOSDevices.includes(navigator.platform) || (navigator.userAgent.includes('Mac'))) {
+      this.isApple = true;
     } else {
-      this.isiOS = false;
+      this.isApple = false;
     }
   }
 }
@@ -161,7 +167,7 @@ export class Request_AFPLogin extends Model_ShareData {
   AFPPassword: string;
 }
 
-class Third_AppleUser {
+export class Third_AppleUser {
   authorization: {
     state: string;
     code: string;
