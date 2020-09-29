@@ -470,14 +470,14 @@
           <div class="title-item pt-3">
             我的服務
             <div class="editbox">
-              <button (click)="editMode();"
+              <button (click)="editFunction = true"
               class="btn title-item edit-btn fit small-80 border-radius5 py-0">編輯</button>
             </div>
           </div>
           <div class="service-title">
              <div class="main-link edit-link sort-block" id="myService">
               <div class="link-item mysvc remove-item"  *ngFor="let icon of myService;"
-              (click)="serviceClick(icon.Function_Code, '我的服務', icon.Function_IsActive);"
+              (click)="serviceClick(icon.Function_Code, icon.Function_CategaryCode, icon.Function_IsActive);"
               [attr.data-code]="icon.Function_Code">
                 <a [href]="!editFunction ? icon.Function_URL : 'javascript:;' | Safe: 'url'">
                   <img [src]="icon.Function_Icon" alt="">
@@ -502,7 +502,7 @@
           <div class="title-item pt-3">{{item.CategaryName}}</div>
           <div class="main-link edit-link items0">
             <div class="link-item" *ngFor="let icon of item.Model_Function;"
-            (click)="serviceClick(icon.Function_Code, item.CategaryName, icon.Function_IsActive);"
+            (click)="serviceClick(icon.Function_Code, item.CategaryCode, icon.Function_IsActive);"
             [ngClass]="{'remove-item': !icon?.isAdd && icon.Function_IsActive, 'add-item':icon?.isAdd && icon.Function_IsActive,'disable' : icon.Function_IsActive === 0}"
             [id]="'more-'+icon.Function_Code">
               <a [href]="!editFunction && icon.Function_IsActive ? icon.Function_URL : 'javascript:;' | Safe: 'url'">

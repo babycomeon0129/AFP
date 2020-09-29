@@ -69,6 +69,7 @@ export interface AFP_ADImg {
 }
 
 export interface AFP_Function {
+  Function_CategaryCode: number;
   Function_ID?: number;
   Function_Code?: number;
   Function_Name?: string;
