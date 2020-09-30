@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Response_AreaMap, AFP_ECStore, Request_AreaMap } from '../../_models';
+import { SwiperOptions } from 'swiper';
 
 @Component({
   // selector: 'app-explore-map',
@@ -30,6 +31,12 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
     SearchModel: {
       AreaMap_Distance: 5000
     }
+  };
+  /** 下方資訊卡 swiper */
+  public infoCard: SwiperOptions = {
+    // paginationClickable: true, // TODO:
+    slidesPerView: 1.1,
+    spaceBetween: 10
   };
 
   constructor(private appService: AppService) {

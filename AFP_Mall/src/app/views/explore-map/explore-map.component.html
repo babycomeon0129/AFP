@@ -1,44 +1,164 @@
-<div class="wrap">
-  <div class="explore-top-box">
-    <div class="title-box">
-      <div class="item icon-btn"><i class="material-icons" onclick="history.back()">&#xe314;</i></div>
-      <div class="item title-name">週邊地圖</div>
-      <div class="item icon-btn"></div>
-    </div>
-  </div>
-  <agm-map id="map" [latitude]="lat" [longitude]="lng" [zoom]="zoomValue">
-    <agm-marker  [latitude]="lat" [longitude]="lng" [iconUrl]="userUrl"></agm-marker>
-    <agm-marker  *ngFor="let Area of AreaList;"
-    [latitude]="Area.ECStore_Lat" [longitude]="Area.ECStore_Lng" [iconUrl]="iconUrl"
-    (markerClick)="selectPoint(Area.ECStore_Code)"></agm-marker>
-    <agm-info-window *ngFor="let Area of AreaList;" [latitude]="Area?.ECStore_Lat+0.001" [longitude]="Area?.ECStore_Lng"
-      [isOpen]="openedWindow === Area?.ECStore_Code? true : false">
-      <h5>{{Area?.ECStore_ShowName}}</h5>
-      <p>目前所選</p>
-    </agm-info-window>
-  </agm-map>
-  <div class="explore-container mb-4" >
-    <a [routerLink]="['/ExploreDetail', AreaItem?.ECStore_Code]">
-      <div class="card-item">
-        <div class="img-box rwdimgbox-80">
-          <div class="rwdimg-cover" [style.background-image]="'url('+AreaItem?.ECStore_Image1+')'"></div>
-        </div>
-        <div class="info-box">
-          <ul class="info-list">
-            <li class="info-name">{{AreaItem?.ECStore_ShowName}}</li>
-            <li class="shopping-store-badge">
-              <div class="badge badge-pill text-explore">
-                <img src="../../img/share/{{AreaItem?.ECStore_Type}}.png" alt="">{{AreaItem?.ECStore_TypeName}}
+<div class="wrap container">
+  <header>
+      <div class="header-secondary container">
+          <div class="index-flex justify-content-between">
+              <div class="item two">
+                  <div class="close-btn">
+                       <button type="button" class="btn" onclick="history.back()" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                          <i class="material-icons">&#xe314;</i>
+                      </button>
+                  </div>
               </div>
-              <div class="badge badge-pill text-explore" style="display: none;">折價券</div>
-            </li>
-            <li class="info-near">
-              <div class="item" style="display: none;">近高雄巨蛋捷運站</div>
-              <div class="item auto-left">距離 <span>{{AreaItem?.ECStore_Distance}}</span> m</div>
-            </li>
-          </ul>
-        </div>
+              <div class="item three text-center">
+                  <div class="title-name">週邊地圖</div>
+              </div>
+              <div class="item two">
+                <!-- TODO: 前往再回上一頁會出現footer的空白-->
+                  <button [routerLink]="['/ExploreList']" type="button" class="btn p-0 btnList"><i class="material-icons format_list_bulleted">&#xe241;</i></button>
+              </div>
+          </div>
       </div>
-    </a>
+  </header>
+  <div class="pb-0">
+      <div class="choice-filter-box h3em bt-line">
+          <div class="flex-inline-between">
+              <div class="item center-v">美食</div>
+          </div>
+          <div class="filter-box center-v">
+              <button class="btn px-0 filter-item1" data-filter="type"><i class="material-icons">&#xE152;</i></button>
+          </div>
+      </div>
+      <div class="filterWrap">
+          <div class="mask-container w-100 h-100"></div>
+          <div id="type" class="filter-content pb-wrap">
+              <ul class="open-page-ul bt-line">
+                  <li class="flex-inline-between active" onclick="">
+                      <div class="">
+                          全部
+                      </div>
+                      <div class="">
+                          <i class="material-icons check">&#xe5ca;</i>
+                      </div>
+                  </li>
+                  <li class="flex-inline-between">
+                      <div class="">
+                          美食
+                      </div>
+                      <div class="">
+                          <i class="material-icons check">&#xe5ca;</i>
+                      </div>
+                  </li>
+                  <li class="flex-inline-between" onclick="">
+                      <div class="">
+                          購物
+                      </div>
+                      <div class="">
+                          <i class="material-icons check">&#xe5ca;</i>
+                      </div>
+                  </li>
+                  <li class="flex-inline-between" onclick="">
+                      <div class="">
+                          景點
+                      </div>
+                      <div class="">
+                          <i class="material-icons check">&#xe5ca;</i>
+                      </div>
+                  </li>
+                  <li class="flex-inline-between" onclick="">
+                      <div class="">
+                          遊樂/體驗
+                      </div>
+                      <div class="">
+                          <i class="material-icons check">&#xe5ca;</i>
+                      </div>
+                  </li>
+                  <li class="flex-inline-between" onclick="">
+                      <div class="">
+                          住宿
+                      </div>
+                      <div class="">
+                          <i class="material-icons check">&#xe5ca;</i>
+                      </div>
+                  </li>
+                  <li class="flex-inline-between" onclick="">
+                      <div class="">
+                          醫療保健
+                      </div>
+                      <div class="">
+                          <i class="material-icons check">&#xe5ca;</i>
+                      </div>
+                  </li>
+                  <li class="flex-inline-between" onclick="">
+                      <div class="">
+                          Mobii! x 有無外送
+                      </div>
+                      <div class="">
+                          <i class="material-icons check">&#xe5ca;</i>
+                      </div>
+                  </li>
+              </ul>
+          </div>
+      </div>
+      <div class="explore-swiper">
+          <swiper class="explore-map swiper-container" [config]="infoCard">
+              <div class="swiper-wrapper">
+                  <div class="swiper-slide" onclick="location.href='../shopping/ExploreDetail.html#explore'">
+                      <div class="card-item sm">
+                          <div class="img-box rwdimgbox-60">
+                              <div style="background-image: url('https://picsum.photos/200/300/?random=1');" class="rwdimg"></div>
+                          </div>
+                          <div class="info-box">
+                              <ul class="info-list">
+                                  <li class="info-name">瑞豐夜市</li>
+                                  <li>
+                                      <div class="shopping-store-badge">
+                                          <span class="badge badge-pill text-explore"><img src="../img/share/2200.png" alt="">美食</span>
+                                          <span class="badge badge-pill text-explore">折價券</span>
+                                      </div>
+                                  </li>
+                                  <li class="info-near">
+                                      <div class="item auto-left">距離<span>33</span>km</div>
+                                  </li>
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="swiper-slide" onclick="location.href='../shopping/ExploreDetail.html#explore'">
+                      <div class="card-item sm">
+                          <div class="img-box rwdimgbox-60">
+                              <div style="background-image: url('https://picsum.photos/300/300/?random=2');" class="rwdimg"></div>
+                          </div>
+                          <div class="info-box">
+                              <ul class="info-list">
+                                  <li class="info-name">麥當勞 - 台北德行店</li>
+                                  <li>
+                                      <div class="shopping-store-badge">
+                                          <span class="badge badge-pill text-explore"><img src="../img/share/2200.png" alt="">美食</span>
+                                          <span class="badge badge-pill text-explore">折價券</span>
+                                      </div>
+                                  </li>
+                                  <li class="info-near">
+                                      <div class="item auto-left">距離<span>233</span>km</div>
+                                  </li>
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </swiper>
+      </div>
+      <!-- <div id="map"></div> -->
+      <agm-map id="map" [latitude]="lat" [longitude]="lng" [zoom]="zoomValue">
+        <agm-marker  [latitude]="lat" [longitude]="lng" [iconUrl]="userUrl"></agm-marker>
+        <agm-marker  *ngFor="let Area of AreaList;"
+        [latitude]="Area.ECStore_Lat" [longitude]="Area.ECStore_Lng" [iconUrl]="iconUrl"
+        (markerClick)="selectPoint(Area.ECStore_Code)"></agm-marker>
+        <agm-info-window *ngFor="let Area of AreaList;" [latitude]="Area?.ECStore_Lat+0.001" [longitude]="Area?.ECStore_Lng"
+          [isOpen]="openedWindow === Area?.ECStore_Code? true : false">
+          <h5>{{Area?.ECStore_ShowName}}</h5>
+          <p>目前所選</p>
+        </agm-info-window>
+      </agm-map>
   </div>
+
 </div>
