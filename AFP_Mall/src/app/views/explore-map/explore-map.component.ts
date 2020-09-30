@@ -6,7 +6,7 @@ import { SwiperOptions } from 'swiper';
 @Component({
   // selector: 'app-explore-map',
   templateUrl: './explore-map.component.html',
-  styleUrls: ['../../../dist/style/explore.min.css', '../../../dist/style/car_setting.min.css']
+  styleUrls: ['../../../dist/style/explore.min.css']
 })
 export class ExploreMapComponent implements OnInit, AfterViewInit {
   /** 緯度 */
@@ -36,10 +36,11 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
   public infoCard: SwiperOptions = {
     // paginationClickable: true, // TODO:
     slidesPerView: 1.1,
-    spaceBetween: 10
+    spaceBetween: 10,
+    // runCallbacksOnInit: true
   };
 
-  constructor(private appService: AppService) {
+  constructor(public appService: AppService) {
   }
 
   ngOnInit() {
@@ -49,14 +50,14 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
     this.GetLocation();
   }
 
-  /** 取得使用者定位 */
+  /** 取得使用者定位及範圍內資料 */
   GetLocation(): void {
-
+    // 先取得資料(原始順序)
     this.appService.toApi('Area', '1402', this.request, this.lat, this.lng).subscribe((data: Response_AreaMap) => {
       this.AreaList = data.List_Area;
       this.AreaItem = this.AreaList[0];
     });
-
+    // 若有開啟定位則重新排序(近>遠)
     if (navigator.geolocation !== undefined) {
       navigator.geolocation.getCurrentPosition((position) => {
         // console.log(position);
@@ -65,9 +66,13 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
         this.lng = position.coords.longitude;
 
         this.appService.toApi('Area', '1402', this.request, this.lat, this.lng).subscribe((data: Response_AreaMap) => {
-          this.AreaList = data.List_Area;
+          // this.AreaList = data.List_Area;
+          this.AreaList = data.List_Area.sort((a, b) => {
+            return a.ECStore_Distance - b.ECStore_Distance;
+          });
           this.AreaItem = this.AreaList[0];
           // this.openedWindow = this.AreaList[0].ECStore_Code;
+          console.log(data);
         });
       });
     } else {
@@ -77,12 +82,14 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
 
   /** 點選景點 */
   selectPoint(StoreCode: number): void {
-    this.AreaList.forEach(obj => {
+    this.AreaList.forEach((obj, index) => {
       if (obj.ECStore_Code === StoreCode) {
         this.AreaItem = obj;
         this.openedWindow = StoreCode;
+        // this.infoCard.initialSlide = index;
       }
     });
+    console.log(this.AreaItem);
   }
 
   // isInfoWindowOpen(id) {

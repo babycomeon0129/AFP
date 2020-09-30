@@ -102,43 +102,24 @@
       <div class="explore-swiper">
           <swiper class="explore-map swiper-container" [config]="infoCard">
               <div class="swiper-wrapper">
-                  <div class="swiper-slide" onclick="location.href='../shopping/ExploreDetail.html#explore'">
+                  <div *ngFor="let spot of AreaList" class="swiper-slide">
                       <div class="card-item sm">
                           <div class="img-box rwdimgbox-60">
-                              <div style="background-image: url('https://picsum.photos/200/300/?random=1');" class="rwdimg"></div>
+                            <!-- TODO:若無圖片要? -->
+                              <!-- <div [style.background-image]="'url('+spot?.ECStore_Image1+')'" class="rwdimg"></div> -->
+                              <div [lazyLoad]="spot?.ECStore_Image1" [defaultImage] ="appService.defaultImage" class="rwdimg"></div>
                           </div>
                           <div class="info-box">
                               <ul class="info-list">
-                                  <li class="info-name">瑞豐夜市</li>
+                                  <li class="info-name">{{spot?.ECStore_ShowName}}</li>
                                   <li>
                                       <div class="shopping-store-badge">
-                                          <span class="badge badge-pill text-explore"><img src="../img/share/2200.png" alt="">美食</span>
-                                          <span class="badge badge-pill text-explore">折價券</span>
+                                          <span class="badge badge-pill text-explore"><img src="../img/share/{{spot?.ECStore_Type}}.png" alt="">{{spot?.ECStore_TypeName}}</span>
+                                          <span class="badge badge-pill text-explore" style="display: none;">折價券</span>
                                       </div>
                                   </li>
                                   <li class="info-near">
-                                      <div class="item auto-left">距離<span>33</span>km</div>
-                                  </li>
-                              </ul>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="swiper-slide" onclick="location.href='../shopping/ExploreDetail.html#explore'">
-                      <div class="card-item sm">
-                          <div class="img-box rwdimgbox-60">
-                              <div style="background-image: url('https://picsum.photos/300/300/?random=2');" class="rwdimg"></div>
-                          </div>
-                          <div class="info-box">
-                              <ul class="info-list">
-                                  <li class="info-name">麥當勞 - 台北德行店</li>
-                                  <li>
-                                      <div class="shopping-store-badge">
-                                          <span class="badge badge-pill text-explore"><img src="../img/share/2200.png" alt="">美食</span>
-                                          <span class="badge badge-pill text-explore">折價券</span>
-                                      </div>
-                                  </li>
-                                  <li class="info-near">
-                                      <div class="item auto-left">距離<span>233</span>km</div>
+                                      <div class="item auto-left">距離<span>{{spot?.ECStore_Distance}}</span>m</div>
                                   </li>
                               </ul>
                           </div>

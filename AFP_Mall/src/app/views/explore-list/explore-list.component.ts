@@ -78,6 +78,7 @@ export class ExploreListComponent implements OnInit, AfterViewInit {
       this.meta.updateTag({ name: 'description', content: '' });
       this.meta.updateTag({ content: this.areaMenuName + '｜探索周邊 - Mobii!', property: 'og:title' });
       this.meta.updateTag({ content: '', property: 'og:description' });
+      console.log(data);
     });
   }
 
