@@ -15,7 +15,7 @@
             <h5>會員登入</h5>
             <div class="container px-3">
               <!-- 舊版 -->
-              <div class="login-method" [hidden]="true">
+              <div class="login-method" hidden>
                 <div class="method-item">
                   <img (click)="signInWithFB()" src="img/index/social/facebook.png" alt="">
                 </div>
@@ -24,7 +24,7 @@
                 </div>
               </div>
               <!-- 新版 -->
-              <div class="login-method" hidden>
+              <div class="login-method" [hidden]="true">
                 <!-- FB -->
                 <div class="method-item">
                   <div id="customBtnFB" class="customGPlusSignIn" (click)="signInWithFB()">
@@ -62,7 +62,7 @@
                 </div>
               </div>
               <div class="d-flex justify-content-center">
-                <div class="line-middle w-75 " [hidden]="true">
+                <div class="line-middle w-75 " hidden>
                   <div class="line-middle-middle-line">
                     <span class="line-middle-line-text">或</span>
                   </div>

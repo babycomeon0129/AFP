@@ -83,6 +83,7 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
       this.meta.updateTag({content: this.voucherData.Voucher_Content, property: 'og:description'});
       this.textForShare = `嘿！我有好康優會要跟你分享喔！趕快進來看看吧！這是「${this.voucherData.Voucher_ExtName}」，趕快去領不然被領光就沒得領囉！
       ${location.href}`;
+      console.log(data);
     });
   }
 

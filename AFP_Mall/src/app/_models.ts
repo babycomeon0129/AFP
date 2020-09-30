@@ -708,6 +708,7 @@ export class AFP_Voucher {
   List_VoucherLimit: AFP_VoucherLimit[];
   VoucherUseCount: number;
   Voucher_ReceiveDate: Date;
+  Voucher_IsScan: number;
 }
 
 
