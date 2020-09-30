@@ -275,7 +275,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   }
 
 
-  /** 取得更多服務(新) TODO: 等Function_CategaryCode好了要做優化 */
+  /** 取得更多服務 */
   getMoreService(): void {
     const request: Request_AFPUserService = {
       User_Code: sessionStorage.getItem('userCode'),
@@ -287,48 +287,19 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
       this.myService = this.orgMyService.concat();
       this.serviceList = data.List_NewFunction.filter((item, index) => index > 1);
       // 根據我的服務清單，修改下面更多服務的class狀態
-      const select = this.myService.map( item => item.Function_Code);
+      const select = this.myService.map(item => item.Function_Code);
       this.serviceList.forEach(item => {
-        item.Model_Function.forEach( icon => {
-          if ( select.findIndex( i => icon.Function_Code === i) === -1) {
-             icon.isAdd = true;
-           }
+        item.Model_Function.forEach(icon => {
+          if (select.findIndex(i => icon.Function_Code === i) === -1) {
+            icon.isAdd = true;
+          }
         });
       });
     });
   }
 
-  editMode(): void {
-    this.editFunction = true;
-  }
-
-  // /** 我的服務ICON包入sortable */
-  // sortable(): void {
-  //   let sortable: any;
-  //   sortable = new Sortable(document.getElementById('myService'), {
-  //     animation: 0,
-  //     handle: '.link-item',
-  //     items: '.link-item',
-  //   });
-  // }
-  // touchendIcon(event){
-  //   const mysvc = document.querySelectorAll('.mysvc');
-  //   const result = [];
-  //   mysvc.forEach((item: any) => {
-  //     // tslint:disable-next-line: radix
-  //     result.push(parseInt(item.dataset.code));
-  //   });
-  //   const list = [];
-  //   result.forEach( item => list.push(this.orgMyService.filter( data => data.Function_Code === item)[0]));
-  //   list.pop();
-  //   this.myService = list;
-  //   console.log(list);
-  // }
-
-
-
   /** 更多服務按鈕增減 */
-  serviceClick(code: number, name: string, action: boolean) {
+  serviceClick(code: number, cat: number, action: boolean) {
     if (this.editFunction && action) {
       this.noticeNine = this.myService.length === 9 ? true : false;
       this.noticeFour = this.myService.length === 4 ? true : false;
@@ -339,29 +310,25 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
         if (this.myService.length > 4) {
           this.myService.splice(result, 1);
           // 根據我的服務清單，修改下面更多服務的class狀態
-          this.serviceList.forEach(item => {
-            item.Model_Function.forEach( icon => {
-              if ( icon.Function_Code === code) {
-                 icon.isAdd = true;
-               }
-            });
+          this.serviceList.filter(item => item.CategaryCode === cat)[0].Model_Function.forEach( icon => {
+            if ( icon.Function_Code === code) {
+              icon.isAdd = true;
+            }
           });
           this.noticeNine = false;
         }
       } else {
         // 不在我的服務內，就在我的服務增加這個ICON
         if (this.myService.length < 9) {
-          const add = this.serviceList.filter(item => item.CategaryName === name)
+          const add = this.serviceList.filter(item => item.CategaryCode === cat)
             .map(item => item.Model_Function)[0]
             .filter(item => item.Function_Code === code)[0];
           this.myService.push(add);
           // 根據我的服務清單，修改下面更多服務的class狀態
-          this.serviceList.forEach(item => {
-            item.Model_Function.forEach( icon => {
-              if ( icon.Function_Code === code) {
-                 icon.isAdd = false;
-               }
-            });
+          this.serviceList.filter(item => item.CategaryCode === cat)[0].Model_Function.forEach( icon => {
+            if ( icon.Function_Code === code) {
+              icon.isAdd = false;
+            }
           });
           this.noticeFour = false;
         }
@@ -369,22 +336,11 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
     }
   }
 
-  /** 確認我的服務icon Class狀態 TODO: 效能問題不好(會一直偵測)，要優化 */
-  checkClass(code: number) {
-    const result = this.myService.findIndex(item => item.Function_Code === code);
-    return result > -1 ? true : false;
-  }
-
   /** 更新我的服務 */
   updateUserService(): void {
     this.editFunction = false;
-    const mysvc = document.querySelectorAll('.mysvc');
     // 將我的服務的function code 陣列result傳給後端
-    const result = [];
-    mysvc.forEach((item: any) => {
-      // tslint:disable-next-line: radix
-      result.push(parseInt(item.dataset.code));
-    });
+    const result = this.myService.map( item => item.Function_Code);
     const request: Request_AFPUpdateUserService = {
       User_Code: sessionStorage.getItem('userCode'),
       Model_UserFavourite: null,
@@ -392,11 +348,11 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
     };
     const oring = this.orgMyService.map((item: AFP_Function) => item.Function_Code);
     // 如果我的服務沒有修改，不送後端
-    if ( oring.join('') !== result.join('')) {
+    if (oring.join('') !== result.join('')) {
       this.appService.toApi('Home', '1108', request).subscribe((data: Response_AFPUpdateUserService) => {
         // 首頁我的服務按鈕更新
         const ftbottomNew = [];
-        result.forEach( code => {
+        result.forEach(code => {
           ftbottomNew.push(this.myService.filter(item => item.Function_Code === code)[0]);
         });
         this.ftBottom = ftbottomNew;
@@ -502,6 +458,7 @@ class Request_AFPUserService extends Model_ShareData {
 
 class AFP_NewFunction {
   CategaryName: string;
+  CategaryCode: number;
   Model_Function: AFP_Function[];
 }
 

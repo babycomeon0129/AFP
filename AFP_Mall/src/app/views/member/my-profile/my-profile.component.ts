@@ -1,3 +1,4 @@
+import { async } from '@angular/core/testing';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AppService } from 'src/app/app.service';
@@ -49,6 +50,20 @@ export class MyProfileComponent implements OnInit {
     this.memberService.readProfileData();
   }
 
+  /** 性別轉換  */
+  sexTSstring(sex: number) {
+    switch (sex) {
+      case null:
+        return null;
+      case 1:
+        return '男';
+      case 2:
+        return '女';
+      case 3:
+        return '不透露';
+    }
+  }
+
   /** 更新我的檔案 */
   onProfileSubmit(form: NgForm): void {
     this.appService.openBlock();
@@ -69,6 +84,8 @@ export class MyProfileComponent implements OnInit {
       form.resetForm();
     });
   }
+
+
 
   /** 讀取證件
    * @param CertificateType 1 護照, 2 台胞證, 11 學生證 12 教職員證

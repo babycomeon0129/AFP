@@ -69,6 +69,7 @@ export class Response_MemberProfile extends Model_ShareData {
   UserProfile_MTPs: boolean;
   UserProfile_StudentID: boolean;
   UserProfile_TeacherID: boolean;
+  UserProfile_Sex: number;
   UserPoint: number;
 }
 

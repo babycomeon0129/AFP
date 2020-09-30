@@ -78,7 +78,7 @@ export class MemberDiscountComponent implements OnInit, AfterViewInit {
 
     this.appService.toApi('Member', '1510', request).subscribe((data: Response_MemberUserVoucher) => {
       this.voucherListOrig = data.List_UserVoucher;
-      this.voucherList = data.List_UserVoucher;
+      this.voucherList = this.voucherListOrig.concat();
       this.useType = data.List_UsedType;
       this.showType = data.List_ShowType.filter(item => item.Key !== 1000 && item.Key !== 1100);
       this.voucherType = data.List_VoucherType;
@@ -193,7 +193,7 @@ export class MemberDiscountComponent implements OnInit, AfterViewInit {
     this.useType.forEach(item => item.Key !== 0 ? item.isSelect = false : item.isSelect = true);
     this.voucherSort = 1;
     this.voucherCount = this.voucherListOrig.length;
-    this.voucherList = this.voucherListOrig;
+    this.voucherList = this.voucherListOrig.concat();
     this.resetOpen = false;
   }
 
