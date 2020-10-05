@@ -22,77 +22,23 @@
   <div class="pb-0">
       <div class="choice-filter-box h3em bt-line">
           <div class="flex-inline-between">
-              <div class="item center-v">美食</div>
+              <div class="item center-v">全部</div>
           </div>
           <div class="filter-box center-v">
-              <button class="btn px-0 filter-item1" data-filter="type"><i class="material-icons">&#xE152;</i></button>
+              <button class="btn px-0 filter-item1" data-filter="type" (click)="toggleCategoryFilter()" [ngClass]="{'active': categoryOpenStatus}">
+                <i class="material-icons">&#xE152;</i>
+              </button>
           </div>
       </div>
       <div class="filterWrap">
-          <div class="mask-container w-100 h-100"></div>
-          <div id="type" class="filter-content pb-wrap">
-              <ul class="open-page-ul bt-line">
-                  <li class="flex-inline-between active" onclick="">
-                      <div class="">
+          <div class="mask-container w-100 h-100" [ngClass]="{'d-block': categoryOpenStatus}"></div>
+          <div id="type" [ngClass]="{'d-block': categoryOpenStatus}" class="filter-content pb-wrap">
+              <ul [ngClass]="{'is-open': categoryOpenStatus == true}" class="open-page-ul bt-line">
+                  <li class="flex-inline-between active">
+                      <div>
                           全部
                       </div>
-                      <div class="">
-                          <i class="material-icons check">&#xe5ca;</i>
-                      </div>
-                  </li>
-                  <li class="flex-inline-between">
-                      <div class="">
-                          美食
-                      </div>
-                      <div class="">
-                          <i class="material-icons check">&#xe5ca;</i>
-                      </div>
-                  </li>
-                  <li class="flex-inline-between" onclick="">
-                      <div class="">
-                          購物
-                      </div>
-                      <div class="">
-                          <i class="material-icons check">&#xe5ca;</i>
-                      </div>
-                  </li>
-                  <li class="flex-inline-between" onclick="">
-                      <div class="">
-                          景點
-                      </div>
-                      <div class="">
-                          <i class="material-icons check">&#xe5ca;</i>
-                      </div>
-                  </li>
-                  <li class="flex-inline-between" onclick="">
-                      <div class="">
-                          遊樂/體驗
-                      </div>
-                      <div class="">
-                          <i class="material-icons check">&#xe5ca;</i>
-                      </div>
-                  </li>
-                  <li class="flex-inline-between" onclick="">
-                      <div class="">
-                          住宿
-                      </div>
-                      <div class="">
-                          <i class="material-icons check">&#xe5ca;</i>
-                      </div>
-                  </li>
-                  <li class="flex-inline-between" onclick="">
-                      <div class="">
-                          醫療保健
-                      </div>
-                      <div class="">
-                          <i class="material-icons check">&#xe5ca;</i>
-                      </div>
-                  </li>
-                  <li class="flex-inline-between" onclick="">
-                      <div class="">
-                          Mobii! x 有無外送
-                      </div>
-                      <div class="">
+                      <div>
                           <i class="material-icons check">&#xe5ca;</i>
                       </div>
                   </li>
@@ -100,14 +46,14 @@
           </div>
       </div>
       <div class="explore-swiper">
-          <swiper class="explore-map swiper-container" [config]="infoCard">
-              <div class="swiper-wrapper">
+          <swiper class="explore-map swiper-container" [config]="infoCard" #usefulSwiper>
+              <div id="info-card" class="swiper-wrapper">
                   <div *ngFor="let spot of AreaList" class="swiper-slide">
                       <div class="card-item sm">
                           <div class="img-box rwdimgbox-60">
                             <!-- TODO:若無圖片要? -->
                               <!-- <div [style.background-image]="'url('+spot?.ECStore_Image1+')'" class="rwdimg"></div> -->
-                              <div [lazyLoad]="spot?.ECStore_Image1" [defaultImage] ="appService.defaultImage" class="rwdimg"></div>
+                              <div [lazyLoad]="spot?.ECStore_Image1" [defaultImage] ="appService.defaultImage" [routerLink]="['/ExploreDetail', spot?.ECStore_Code]" class="rwdimg"></div>
                           </div>
                           <div class="info-box">
                               <ul class="info-list">
@@ -133,7 +79,7 @@
         <agm-marker  [latitude]="lat" [longitude]="lng" [iconUrl]="userUrl"></agm-marker>
         <agm-marker  *ngFor="let Area of AreaList;"
         [latitude]="Area.ECStore_Lat" [longitude]="Area.ECStore_Lng" [iconUrl]="iconUrl"
-        (markerClick)="selectPoint(Area.ECStore_Code)"></agm-marker>
+        (markerClick)="selectSpot(Area.ECStore_Code)"></agm-marker>
         <agm-info-window *ngFor="let Area of AreaList;" [latitude]="Area?.ECStore_Lat+0.001" [longitude]="Area?.ECStore_Lng"
           [isOpen]="openedWindow === Area?.ECStore_Code? true : false">
           <h5>{{Area?.ECStore_ShowName}}</h5>

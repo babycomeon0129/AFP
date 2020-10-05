@@ -78,7 +78,6 @@ export class ExploreListComponent implements OnInit, AfterViewInit {
       this.meta.updateTag({ name: 'description', content: '' });
       this.meta.updateTag({ content: this.areaMenuName + '｜探索周邊 - Mobii!', property: 'og:title' });
       this.meta.updateTag({ content: '', property: 'og:description' });
-      console.log(data);
     });
   }
 
@@ -98,22 +97,17 @@ export class ExploreListComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
 
-    // 讓head跟列表總高=100vh
-    const topBox = $('.explore-top-box');
-    const mainBox = $('.explore-container');
-    $(window).on('resize', () => {
-      mainBox.css({ height: 'calc(100vh - ' + topBox.height() + 'px)' });
-    }).trigger('resize');
-
-    // 篩選清單層級樣式
-    $('.nav-container .levelOne > li').on('click', function() {
-      $('.nav-container .levelOne > li').removeClass('active');
-      $(this).addClass('active');
-    });
-    $('.nav-container .levelTwo > li').on('click', function() {
-      $('.nav-container .levelTwo > li').removeClass('active');
-      $(this).addClass('active');
-    });
+    // // 開啟篩選清單 (使用Angular寫法不然目錄篩選後篩選清單會維持開啟)
+    // $('.filter-item1').on('click', function() {
+    //   $(this).toggleClass('active').siblings().removeClass('active');
+    //   const filter = $(this).data('filter');
+    //   $('#' + filter).toggleClass('is-open');
+    //   $('#' + filter).siblings().removeClass('is-open');
+    //   $('.mask-container').removeClass('d-block');
+    //   if ($('#' + filter).hasClass('is-open')) {
+    //       $('.mask-container').addClass('d-block');
+    //   }
+    // });
 
   }
 }

@@ -1,7 +1,8 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Response_AreaMap, AFP_ECStore, Request_AreaMap } from '../../_models';
 import { SwiperOptions } from 'swiper';
+import { SwiperComponent } from 'ngx-useful-swiper';
 
 @Component({
   // selector: 'app-explore-map',
@@ -9,6 +10,7 @@ import { SwiperOptions } from 'swiper';
   styleUrls: ['../../../dist/style/explore.min.css']
 })
 export class ExploreMapComponent implements OnInit, AfterViewInit {
+  @ViewChild('usefulSwiper', {static: false}) usefulSwiper: SwiperComponent;
   /** 緯度 */
   lat: number;
   /** 經度 */
@@ -34,11 +36,23 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
   };
   /** 下方資訊卡 swiper */
   public infoCard: SwiperOptions = {
-    // paginationClickable: true, // TODO:
+    // paginationClickable: true, // TODO: not exist
     slidesPerView: 1.1,
     spaceBetween: 10,
-    // runCallbacksOnInit: true
+    on: {
+      slideChange: () => {
+        console.log('slideChange');
+        // get active AreaItem, get its code, and navigate on map
+        console.log(this.usefulSwiper.swiper.activeIndex);
+        this.AreaItem = this.AreaList[this.usefulSwiper.swiper.activeIndex];
+        this.openedWindow = this.AreaItem.ECStore_Code;
+        console.log(this.AreaItem);
+        // show its info window
+      }
+    }
   };
+  /** 篩選清單開啟狀態 */
+  public categoryOpenStatus = false;
 
   constructor(public appService: AppService) {
   }
@@ -57,22 +71,21 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
       this.AreaList = data.List_Area;
       this.AreaItem = this.AreaList[0];
     });
-    // 若有開啟定位則重新排序(近>遠)
+    // 若有開啟定位則重新排序(近 > 遠)
     if (navigator.geolocation !== undefined) {
       navigator.geolocation.getCurrentPosition((position) => {
         // console.log(position);
         /* 22.6117234 120.2979388 */
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
-
+        this.appService.openBlock();
         this.appService.toApi('Area', '1402', this.request, this.lat, this.lng).subscribe((data: Response_AreaMap) => {
-          // this.AreaList = data.List_Area;
+          // 近 > 遠
           this.AreaList = data.List_Area.sort((a, b) => {
             return a.ECStore_Distance - b.ECStore_Distance;
           });
           this.AreaItem = this.AreaList[0];
           // this.openedWindow = this.AreaList[0].ECStore_Code;
-          console.log(data);
         });
       });
     } else {
@@ -80,23 +93,38 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
     }
   }
 
-  /** 點選景點 */
-  selectPoint(StoreCode: number): void {
+  /** 選取景點
+   * @param storeCode 景點編碼
+   */
+  selectSpot(storeCode: number): void {
     this.AreaList.forEach((obj, index) => {
-      if (obj.ECStore_Code === StoreCode) {
+      if (obj.ECStore_Code === storeCode) {
         this.AreaItem = obj;
-        this.openedWindow = StoreCode;
-        // this.infoCard.initialSlide = index;
+        this.openedWindow = storeCode;
+        // make Swiper go to specific slide
+        this.usefulSwiper.swiper.slideTo(index);
       }
     });
-    console.log(this.AreaItem);
   }
 
-  // isInfoWindowOpen(id) {
-  //   return this.openedWindow === id; // alternative: check if id is in array
-  // }
+  /** 目錄篩選清單開關 */
+  toggleCategoryFilter() {
+    this.categoryOpenStatus = !this.categoryOpenStatus;
+  }
 
   ngAfterViewInit() {
     $('#map').css({ height: 'calc(100vh - ' + ($('.explore-top-box').outerHeight() + $('.card-item').outerHeight()) + 'px)' });
+
+    // // 開啟篩選清單 (使用Angular寫法不然目錄篩選後篩選清單會維持開啟)
+    // $('.filter-item1').on('click', function() {
+    //   $(this).toggleClass('active').siblings().removeClass('active');
+    //   const filter = $(this).data('filter');
+    //   $('#' + filter).toggleClass('is-open');
+    //   $('#' + filter).siblings().removeClass('is-open');
+    //   $('.mask-container').removeClass('d-block');
+    //   if ($('#' + filter).hasClass('is-open')) {
+    //       $('.mask-container').addClass('d-block');
+    //   }
+    // });
   }
 }

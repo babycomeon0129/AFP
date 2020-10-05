@@ -20,7 +20,7 @@
       </div>
     </div>
     <div>
-      <div class="choice-filter-box py-1 px-2 border-top">
+      <!-- <div class="choice-filter-box py-1 px-2 border-top">
         <div class="flex-inline-between">
           <div class="item center-v">{{areaMenuName}}</div>
           <div class="item">
@@ -28,17 +28,27 @@
               <i class="material-icons">&#xE313;</i>
             </button>
           </div>
-        </div>
+        </div> -->
         <!-- 規格篩選紐（暫不顯示） -->
-        <div class="filter-box auto-left masklayer d-none" (click)="appService.callsortLayer('.sortpage1');" [ngClass]="{'active': categoryOpenStatus == false}">
+        <!-- <div class="filter-box auto-left masklayer d-none" (click)="appService.callsortLayer('.sortpage1');" [ngClass]="{'active': categoryOpenStatus == false}">
           <button class="btn px-0"><i class="material-icons">&#xE152;</i></button>
+        </div>
+      </div> -->
+      <div class="choice-filter-box h3em bt-line">
+        <div class="flex-inline-between">
+            <div class="item center-v">{{areaMenuName}}</div>
+        </div>
+        <div class="filter-box center-v">
+            <button class="btn px-0 filter-item1" data-filter="type" (click)="toggleCategoryFilter()" [ngClass]="{'active': categoryOpenStatus}">
+              <i class="material-icons">&#xE152;</i>
+            </button>
         </div>
       </div>
     </div>
   </div>
   <div class="explore-container pb-wrap">
     <div class="explore-card-list">
-      <div class="mask-container w-100 h-100" [ngClass]="{'d-block': categoryOpenStatus == true}"></div>
+      <div class="mask-container w-100 h-100" [ngClass]="{'d-block': categoryOpenStatus}"></div>
       <ul [ngClass]="{'is-open': categoryOpenStatus == true}">
         <li *ngFor="let inside of exAreadata" [routerLink]="['/ExploreDetail', inside.ECStore_Code]">
             <div class="card-item" id="{{inside.ECStore_Code}}">
@@ -71,7 +81,7 @@
       </ul>
       <div class="addheight"></div>
     </div>
-    <div id="type" class="explore-filter-content pb-wrap" [ngClass]="{'is-open': categoryOpenStatus == true}">
+    <!-- <div id="type" class="explore-filter-content pb-wrap" [ngClass]="{'is-open': categoryOpenStatus == true}">
       <ul class="open-page-ul">
         <li *ngFor="let item of exUserdefine;" [routerLink]="['/ExploreList', item.UserDefine_Code]"
         [ngClass]="{'active': areaMenuCode == item.UserDefine_Code}" class="flex-inline-between">
@@ -83,116 +93,22 @@
           </div>
         </li>
       </ul>
-    </div>
-  </div>
-</div>
-
-<!-- 篩選（暫不顯示）-->
-<div class="sortlayer">
-  <div class="sortpage1">
-    <div id="open-pagebox">
-      <div class="open-page-title flex-inline-between">
-        <div class="title-icon">
-          <button class="btn masklayer-close" onclick="backsortLayer();">
-            <i class="material-icons">&#xe314;</i>
-          </button>
-        </div>
-        <div class="title-txt">
-          篩選與排序
-        </div>
-        <div class="title-txt active">
-        </div>
-      </div>
+    </div> -->
+    <div id="type" [ngClass]="{'is-open': categoryOpenStatus}" class="filter-content pb-wrap">
       <ul class="open-page-ul">
-        <label>篩選</label>
-        <li class="flex-inline-between">
-          <div class="">
-            捷運紅線
-          </div>
-          <div class="">
-            全部顯示<i class="fas fa-chevron-right fa-fw"></i>
-          </div>
-        </li>
-        <li class="flex-inline-between">
-          <div class="">
-            捷運橘線
-          </div>
-          <div class="">
-            全部顯示<i class="fas fa-chevron-right fa-fw"></i>
-          </div>
-        </li>
-      </ul>
-      <ul class="open-page-ul">
-        <label>排序</label>
-        <li class="flex-inline-between">
-          <div class="">
-            最新上架優先
-          </div>
-          <div class="">
-          </div>
-        </li>
-        <li class="flex-inline-between active">
-          <div class="">
-            熱門程度優先
-          </div>
-          <div class="">
-            <i class="fas fa-check"></i>
-          </div>
-        </li>
-        <li class="flex-inline-between">
-          <div class="">
-            距離由近而遠
-          </div>
-          <div class="">
-
-          </div>
-        </li>
-        <li class="flex-inline-between">
-          <div class="">
-            距離由遠而近
-          </div>
-          <div class="">
-
-          </div>
-        </li>
-      </ul>
-      <button class="btn all-reset">
-        全部重設
-      </button>
-    </div>
-  </div>
-  <!-- shopping right-menu (open-pagebox1) -->
-  <div class="sortpage2">
-    <div id="open-pagebox1">
-      <div class="open-page-title flex-inline-between">
-        <div class="close-btn">
-          <button class="btn px-0" onclick="backsortLayer();">
-            <i class="material-icons">&#xe314;</i>
-          </button>
-        </div>
-        <div class="title-txt">
-          周邊分類
-        </div>
-        <div class="title-txt">
-        </div>
-      </div>
-      <ul class="open-page-ul">
-        <li class="flex-inline-between">
-          <div class="">
-            全部顯示
-          </div>
-          <div class="">
-
-          </div>
-        </li>
-        <li class="flex-inline-between">
-          <div class="">
-            籬仔內C1
-          </div>
-          <div class="">
-            13274
-          </div>
-        </li>
+          <li *ngFor="let item of exUserdefine;"
+            [routerLink]="['/ExploreList', item.UserDefine_Code]"
+            [ngClass]="{'active': areaMenuCode == item.UserDefine_Code}"
+            [hidden]="item.UserDefine_ProdCount <= 0"
+            class="flex-inline-between">
+              <div>
+                {{item.UserDefine_Name}}
+              </div>
+              <div>
+                <!-- {{item.UserDefine_ProdCount}} -->
+                <i *ngIf="areaMenuCode == item.UserDefine_Code" class="material-icons check">&#xe5ca;</i>
+              </div>
+          </li>
       </ul>
     </div>
   </div>
