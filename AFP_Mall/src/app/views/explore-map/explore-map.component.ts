@@ -55,8 +55,6 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
     this.lat = 25.034306;
     this.lng = 121.564603;
 
-    // this.GetLocation(this.areaMenuCode);
-
     if (navigator.geolocation !== undefined) {
       navigator.geolocation.getCurrentPosition((position) => {
         // console.log(position);
