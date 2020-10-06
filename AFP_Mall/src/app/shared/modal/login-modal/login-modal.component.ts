@@ -95,14 +95,17 @@ export class LoginModalComponent implements OnInit {
     this.appService.openBlock();
     this.request.Cart_Count = Number(this.cookieService.get('cart_count'));
     this.appService.toApi('AFPAccount', '1104', this.request).subscribe((data: Response_AFPLogin) => {
+      console.log(data.Model_UserInfo);
       sessionStorage.setItem('userName', data.Model_UserInfo.Customer_Name);
       sessionStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
       sessionStorage.setItem('CustomerInfo', data.Model_UserInfo.CustomerInfo);
       sessionStorage.setItem('userFavorites', JSON.stringify(data.List_UserFavourite));
+      sessionStorage.setItem('UUID', data.Model_UserInfo.Customer_UUID);
 
       this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90);
       this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90);
       this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90);
+      this.cookieService.set('UUID', data.Model_UserInfo.Customer_UUID, 90);
       this.appService.loginState = true;
       this.bsModalRef.hide();
       this.appService.showFavorites();
@@ -137,10 +140,12 @@ export class LoginModalComponent implements OnInit {
       sessionStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
       sessionStorage.setItem('CustomerInfo', data.Model_UserInfo.CustomerInfo);
       sessionStorage.setItem('userFavorites', JSON.stringify(data.List_UserFavourite));
+      sessionStorage.setItem('UUID', data.Model_UserInfo.Customer_UUID);
 
       this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90);
       this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90);
       this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90);
+      this.cookieService.set('UUID', data.Model_UserInfo.Customer_UUID, 90);
       this.appService.loginState = true;
       // 關閉視窗
       this.bsModalRef.hide();

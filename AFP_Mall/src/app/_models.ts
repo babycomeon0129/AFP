@@ -249,6 +249,7 @@ export interface Model_CustomerInfo {
   Customer_Name?: string;
   Customer_Code?: string;
   CustomerInfo?: string;
+  Customer_UUID?: string;
 }
 
 export interface AFP_UserDefine {
@@ -324,6 +325,7 @@ export class Model_ShareData {
   JustKaUrl?: string;
   Model_BaseResponse?: Model_BaseResponse;
   Model_BasePage?: Model_BasePage;
+  UUID?: number;
 }
 
 // 暫用class (for會員: 地址、卡片)
