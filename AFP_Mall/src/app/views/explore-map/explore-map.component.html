@@ -13,13 +13,13 @@
                   <div class="title-name">週邊地圖</div>
               </div>
               <div class="item two">
-                <!-- TODO: 前往再回上一頁會出現footer的空白-->
                   <button [routerLink]="['/ExploreList']" type="button" class="btn p-0 btnList"><i class="material-icons format_list_bulleted">&#xe241;</i></button>
               </div>
           </div>
       </div>
   </header>
   <div class="pb-0">
+    <!-- TODO: -->
       <div class="choice-filter-box h3em bt-line">
           <div class="flex-inline-between">
               <div class="item center-v">全部</div>
@@ -51,7 +51,6 @@
                   <div *ngFor="let spot of AreaList" class="swiper-slide">
                       <div class="card-item sm">
                           <div class="img-box rwdimgbox-60">
-                            <!-- TODO:若無圖片要? -->
                               <!-- <div [style.background-image]="'url('+spot?.ECStore_Image1+')'" class="rwdimg"></div> -->
                               <div [lazyLoad]="spot?.ECStore_Image1" [defaultImage] ="appService.defaultImage" [routerLink]="['/ExploreDetail', spot?.ECStore_Code]" class="rwdimg"></div>
                           </div>
@@ -65,7 +64,7 @@
                                       </div>
                                   </li>
                                   <li class="info-near">
-                                      <div class="item auto-left">距離<span>{{spot?.ECStore_Distance}}</span>m</div>
+                                      <div class="item auto-left">距離<span>{{spot?.ECStore_Distance | currency: '':'':'1.0-0'}}</span>m</div>
                                   </li>
                               </ul>
                           </div>
@@ -77,9 +76,9 @@
       <!-- <div id="map"></div> -->
       <agm-map id="map" [latitude]="lat" [longitude]="lng" [zoom]="zoomValue">
         <agm-marker  [latitude]="lat" [longitude]="lng" [iconUrl]="userUrl"></agm-marker>
-        <agm-marker  *ngFor="let Area of AreaList;"
+        <agm-marker  *ngFor="let Area of AreaList; let i = index"
         [latitude]="Area.ECStore_Lat" [longitude]="Area.ECStore_Lng" [iconUrl]="iconUrl"
-        (markerClick)="selectSpot(Area.ECStore_Code)"></agm-marker>
+        (markerClick)="selectSpot(i)"></agm-marker>
         <agm-info-window *ngFor="let Area of AreaList;" [latitude]="Area?.ECStore_Lat+0.001" [longitude]="Area?.ECStore_Lng"
           [isOpen]="openedWindow === Area?.ECStore_Code? true : false">
           <h5>{{Area?.ECStore_ShowName}}</h5>

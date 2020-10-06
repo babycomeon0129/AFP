@@ -41,13 +41,9 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
     spaceBetween: 10,
     on: {
       slideChange: () => {
-        console.log('slideChange');
         // get active AreaItem, get its code, and navigate on map
-        console.log(this.usefulSwiper.swiper.activeIndex);
         this.AreaItem = this.AreaList[this.usefulSwiper.swiper.activeIndex];
         this.openedWindow = this.AreaItem.ECStore_Code;
-        console.log(this.AreaItem);
-        // show its info window
       }
     }
   };
@@ -67,6 +63,7 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
   /** 取得使用者定位及範圍內資料 */
   GetLocation(): void {
     // 先取得資料(原始順序)
+    this.appService.openBlock();
     this.appService.toApi('Area', '1402', this.request, this.lat, this.lng).subscribe((data: Response_AreaMap) => {
       this.AreaList = data.List_Area;
       this.AreaItem = this.AreaList[0];
@@ -81,9 +78,11 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
         this.appService.openBlock();
         this.appService.toApi('Area', '1402', this.request, this.lat, this.lng).subscribe((data: Response_AreaMap) => {
           // 近 > 遠
+          this.appService.openBlock();
           this.AreaList = data.List_Area.sort((a, b) => {
             return a.ECStore_Distance - b.ECStore_Distance;
           });
+          this.appService.blockUI.stop();
           this.AreaItem = this.AreaList[0];
           // this.openedWindow = this.AreaList[0].ECStore_Code;
         });
@@ -94,17 +93,10 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
   }
 
   /** 選取景點
-   * @param storeCode 景點編碼
+   * @param index 景點索引 (AreaList 近 > 遠排序)
    */
-  selectSpot(storeCode: number): void {
-    this.AreaList.forEach((obj, index) => {
-      if (obj.ECStore_Code === storeCode) {
-        this.AreaItem = obj;
-        this.openedWindow = storeCode;
-        // make Swiper go to specific slide
-        this.usefulSwiper.swiper.slideTo(index);
-      }
-    });
+  selectSpot(index: number): void {
+    this.usefulSwiper.swiper.slideTo(index);
   }
 
   /** 目錄篩選清單開關 */

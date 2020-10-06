@@ -164,7 +164,7 @@
         <swiper class="swiper-container" [config]="boxAD">
           <div class="swiper-wrapper">
             <div class="swiper-slide" *ngFor="let item of adMid">
-              <a [href]="item?.ADImg_URL == '/'? null : item?.ADImg_URL" [target]="item?.ADImg_URLTarget">
+              <a [href]="item?.ADImg_URL == '/'? null : item?.ADImg_URL" [target]="item?.ADImg_URLTarget" rel="noopener noreferrer">
                 <div class="rwdimg-cover h37" [lazyLoad]="item.ADImg_Img" [defaultImage]="appService.defaultImage">
                 </div>
               </a>
@@ -401,7 +401,7 @@
                     <div class="item-body">
                       <a class="item-img rwdimg-cover h65" [lazyLoad]="inside.Travel_Img"
                         [defaultImage]="appService.defaultImage" [href]="inside.Travel_URL"
-                        [target]="inside.Travel_URLTarget"></a>
+                        [target]="inside.Travel_URLTarget" rel="noopener noreferrer"></a>
                       <div class="item-favorite">
                         <button [ngClass]="{'active' : appService.userFavCodes.includes(inside.Travel_Code) == true}"
                           (click)="appService.favToggle(appService.userFavCodes.includes(inside.Travel_Code) ? 2 : 1, 54, inside.Travel_Code)">
@@ -479,7 +479,7 @@
               <div class="link-item mysvc remove-item"  *ngFor="let icon of myService;"
               (click)="serviceClick(icon.Function_Code, icon.Function_CategaryCode, icon.Function_IsActive);"
               [attr.data-code]="icon.Function_Code">
-                <a [href]="!editFunction ? icon.Function_URL : 'javascript:;' | Safe: 'url'">
+                <a [href]="!editFunction ? icon.Function_URL : 'javascript:;' | Safe: 'url'" rel="noopener noreferrer">
                   <img [src]="icon.Function_Icon" alt="">
                   <p>{{icon.Function_Name}}</p>
                 </a>
@@ -505,7 +505,7 @@
             (click)="serviceClick(icon.Function_Code, item.CategaryCode, icon.Function_IsActive);"
             [ngClass]="{'remove-item': !icon?.isAdd && icon.Function_IsActive, 'add-item':icon?.isAdd && icon.Function_IsActive,'disable' : icon.Function_IsActive === 0}"
             [id]="'more-'+icon.Function_Code">
-              <a [href]="!editFunction && icon.Function_IsActive ? icon.Function_URL : 'javascript:;' | Safe: 'url'">
+              <a [href]="!editFunction && icon.Function_IsActive ? icon.Function_URL : 'javascript:;' | Safe: 'url'" rel="noopener noreferrer">
                 <div class="img-box">
                   <img [lazyLoad]="icon.Function_Icon" [alt]="icon.Function_Name">
                 </div>
