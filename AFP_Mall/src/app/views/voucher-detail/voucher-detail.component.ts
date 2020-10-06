@@ -13,6 +13,8 @@ import { Meta, Title } from '@angular/platform-browser';
   styleUrls: ['../../../dist/style/offers.min.css']
 })
 export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
+  /** UUID */
+  public UUid: string;
   /** 優惠券編號（從會員中心進來: 會員優惠券編碼 (UserVoucher_Code)，從其他地方: 優惠券編碼 ） */
   public voucherCode: number;
   /** 搜尋模式（優惠券編號開頭 46(優惠券): 4，47(使用者優惠券): 5） */
@@ -53,6 +55,7 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngOnInit() {
+    this.UUid = sessionStorage.getItem('UUID');
     this.readVoucherData();
   }
 

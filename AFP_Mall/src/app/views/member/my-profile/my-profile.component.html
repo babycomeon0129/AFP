@@ -24,12 +24,18 @@
         </div>
       </div>
       <div class="info-box info-email">
-        {{ memberService.userProfile?.UserAccount }}
+        UUID：{{UUid}}
       </div>
     </div>
     <div class="my-list-box">
       <ul>
         <form #formProfile="ngForm" (ngSubmit)="formProfile.form.valid && onProfileSubmit(formProfile)">
+          <li>
+            <div class="item">帳號</div>
+            <div class="item input-box">
+              {{memberService.userProfile.UserAccount}}
+            </div>
+          </li>
           <li>
             <div class="item">姓名</div>
             <div class="item input-box">

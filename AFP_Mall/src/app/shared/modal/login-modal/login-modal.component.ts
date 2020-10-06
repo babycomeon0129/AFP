@@ -81,14 +81,12 @@ export class LoginModalComponent implements OnInit {
       this.thirdRequest.Token = appleToken;
       this.thirdRequest.JsonData = JSON.stringify(this.appleUser);
       this.toThirdLogin();
-      // console.log('AppleIDSignInOnSuccess: ', authData); // TODO:
     });
 
     // Apple 登入授權失敗，顯示失敗原因
     document.addEventListener('AppleIDSignInOnFailure', (error: any) => {
       this.bsModalRef.hide(); // 關閉視窗
       this.modal.show('message', { initialState: { success: false, message: 'Apple登入失敗', note: error.detail.error, showType: 1 } });
-      // console.log('Failure: ', error); // TODO:
     });
   }
 
@@ -101,10 +99,12 @@ export class LoginModalComponent implements OnInit {
       sessionStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
       sessionStorage.setItem('CustomerInfo', data.Model_UserInfo.CustomerInfo);
       sessionStorage.setItem('userFavorites', JSON.stringify(data.List_UserFavourite));
+      sessionStorage.setItem('UUID', data.Model_UserInfo.Customer_UUID);
 
       this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90);
       this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90);
       this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90);
+      this.cookieService.set('UUID', data.Model_UserInfo.Customer_UUID, 90);
       this.appService.loginState = true;
       this.bsModalRef.hide();
       this.appService.showFavorites();
@@ -139,10 +139,12 @@ export class LoginModalComponent implements OnInit {
       sessionStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
       sessionStorage.setItem('CustomerInfo', data.Model_UserInfo.CustomerInfo);
       sessionStorage.setItem('userFavorites', JSON.stringify(data.List_UserFavourite));
+      sessionStorage.setItem('UUID', data.Model_UserInfo.Customer_UUID);
 
       this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90);
       this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90);
       this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90);
+      this.cookieService.set('UUID', data.Model_UserInfo.Customer_UUID, 90);
       this.appService.loginState = true;
       // 關閉視窗
       this.bsModalRef.hide();

@@ -18,6 +18,8 @@ import { BsLocaleService } from 'ngx-bootstrap/datepicker';
   animations: [layerAnimation]
 })
 export class MyProfileComponent implements OnInit {
+  /** UUID */
+  public UUid: string;
   /** 我的檔案編輯模式 */
   public editMode = false;
   /** 我的檔案 ngForm request */
@@ -48,6 +50,7 @@ export class MyProfileComponent implements OnInit {
 
   ngOnInit() {
     this.memberService.readProfileData();
+    this.UUid = sessionStorage.getItem('UUID');
   }
 
   /** 性別轉換  */
