@@ -95,7 +95,6 @@ export class LoginModalComponent implements OnInit {
     this.appService.openBlock();
     this.request.Cart_Count = Number(this.cookieService.get('cart_count'));
     this.appService.toApi('AFPAccount', '1104', this.request).subscribe((data: Response_AFPLogin) => {
-      console.log(data.Model_UserInfo);
       sessionStorage.setItem('userName', data.Model_UserInfo.Customer_Name);
       sessionStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
       sessionStorage.setItem('CustomerInfo', data.Model_UserInfo.CustomerInfo);
