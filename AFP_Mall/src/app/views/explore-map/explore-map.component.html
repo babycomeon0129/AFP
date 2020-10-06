@@ -77,7 +77,7 @@
       <agm-map id="map" [latitude]="lat" [longitude]="lng" [zoom]="zoomValue">
         <agm-marker  [latitude]="lat" [longitude]="lng" [iconUrl]="userUrl"></agm-marker>
         <agm-marker  *ngFor="let Area of AreaList; let i = index"
-        [latitude]="Area.ECStore_Lat" [longitude]="Area.ECStore_Lng" [iconUrl]="iconUrl"
+        [latitude]="Area.ECStore_Lat" [longitude]="Area.ECStore_Lng" [iconUrl]="'../../../img/callcar/map/' + Area.ECStore_Type + '.svg'"
         (markerClick)="selectSpot(i)"></agm-marker>
         <agm-info-window *ngFor="let Area of AreaList;" [latitude]="Area?.ECStore_Lat+0.001" [longitude]="Area?.ECStore_Lng"
           [isOpen]="openedWindow === Area?.ECStore_Code? true : false">
