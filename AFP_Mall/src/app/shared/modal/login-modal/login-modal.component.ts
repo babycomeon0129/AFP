@@ -81,14 +81,12 @@ export class LoginModalComponent implements OnInit {
       this.thirdRequest.Token = appleToken;
       this.thirdRequest.JsonData = JSON.stringify(this.appleUser);
       this.toThirdLogin();
-      // console.log('AppleIDSignInOnSuccess: ', authData); // TODO:
     });
 
     // Apple 登入授權失敗，顯示失敗原因
     document.addEventListener('AppleIDSignInOnFailure', (error: any) => {
       this.bsModalRef.hide(); // 關閉視窗
       this.modal.show('message', { initialState: { success: false, message: 'Apple登入失敗', note: error.detail.error, showType: 1 } });
-      // console.log('Failure: ', error); // TODO:
     });
   }
 
