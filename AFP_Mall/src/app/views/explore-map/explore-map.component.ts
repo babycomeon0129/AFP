@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { Response_AreaMap, AFP_ECStore, Request_AreaMap } from '../../_models';
+import { Request_AreaIndex, Response_AreaIndex, AreaJsonFile_ECStore, AFP_UserDefine } from '../../_models';
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'ngx-useful-swiper';
 
@@ -12,31 +12,31 @@ import { SwiperComponent } from 'ngx-useful-swiper';
 export class ExploreMapComponent implements OnInit, AfterViewInit {
   @ViewChild('usefulSwiper', {static: false}) usefulSwiper: SwiperComponent;
   /** 緯度 */
-  lat: number;
+  public lat: number;
   /** 經度 */
-  lng: number;
+  public lng: number;
   /** 視圖倍率 */
-  zoomValue = 15;
+  public zoomValue = 15;
   /** 使用者所在地 icon */
-  userUrl = '../../../img/callcar/map/user.svg';
+  public userUrl = '../../../img/callcar/map/user.svg';
   /** 景點 icon */
-  iconUrl = '../../../img/callcar/map/location.svg';
+  public iconUrl = '../../../img/callcar/map/location.svg';
   /** 目前所顯示資訊小窗編碼 */
-  openedWindow = 0; // alternative: array of numbers
+  public openedWindow = 0; // alternative: array of numbers
   /** 範圍內景點列表 */
-  AreaList: AFP_ECStore[] = [];
+  public AreaList: AreaJsonFile_ECStore[] = [];
   /** 目前所選景點 */
-  AreaItem: AFP_ECStore;
-  /** 取得景點列表 request */
-  request: Request_AreaMap = {
-    User_Code: sessionStorage.getItem('userCode'),
-    SearchModel: {
-      AreaMap_Distance: 5000
-    }
-  };
+  public AreaItem: AreaJsonFile_ECStore;
+  /** 篩選清單開啟狀態 */
+  public dirFilterOpen = false;
+  /** 目錄編碼 */
+  public areaMenuCode = 0;
+  /** 目錄編碼 */
+  public areaMenuName: string;
+  /** 篩選目錄列表 */
+  public menuList: AFP_UserDefine[] = [];
   /** 下方資訊卡 swiper */
   public infoCard: SwiperOptions = {
-    // paginationClickable: true, // TODO: not exist
     slidesPerView: 1.1,
     spaceBetween: 10,
     on: {
@@ -47,8 +47,6 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
       }
     }
   };
-  /** 篩選清單開啟狀態 */
-  public categoryOpenStatus = false;
 
   constructor(public appService: AppService) {
   }
@@ -57,39 +55,59 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
     this.lat = 25.034306;
     this.lng = 121.564603;
 
-    this.GetLocation();
-  }
+    // this.GetLocation(this.areaMenuCode);
 
-  /** 取得使用者定位及範圍內資料 */
-  GetLocation(): void {
-    // 先取得資料(原始順序)
-    this.appService.openBlock();
-    this.appService.toApi('Area', '1402', this.request, this.lat, this.lng).subscribe((data: Response_AreaMap) => {
-      this.AreaList = data.List_Area;
-      this.AreaItem = this.AreaList[0];
-    });
-    // 若有開啟定位則重新排序(近 > 遠)
     if (navigator.geolocation !== undefined) {
       navigator.geolocation.getCurrentPosition((position) => {
         // console.log(position);
         /* 22.6117234 120.2979388 */
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
-        this.appService.openBlock();
-        this.appService.toApi('Area', '1402', this.request, this.lat, this.lng).subscribe((data: Response_AreaMap) => {
-          // 近 > 遠
-          this.appService.openBlock();
-          this.AreaList = data.List_Area.sort((a, b) => {
-            return a.ECStore_Distance - b.ECStore_Distance;
-          });
-          this.appService.blockUI.stop();
-          this.AreaItem = this.AreaList[0];
-          // this.openedWindow = this.AreaList[0].ECStore_Code;
-        });
+        this.readAreaData(this.areaMenuCode);
       });
     } else {
       alert('該瀏覽器不支援定位功能');
+      this.readAreaData(this.areaMenuCode);
     }
+  }
+
+  /** 取得使用者定位範圍內資料 (排序由近至遠並放入對應容器)
+   * @param dirCode 目錄編碼
+   */
+  readAreaData(dirCode: number) {
+    this.areaMenuCode = dirCode;
+    const request: Request_AreaIndex = {
+      User_Code: sessionStorage.getItem('userCode'),
+      SearchModel: {
+        IndexArea_Code: 400001,
+        AreaMenu_Code: this.areaMenuCode,
+        IndexArea_Distance: 5000
+      }
+    };
+
+    this.appService.openBlock();
+    this.appService.toApi('Area', '1401', request, this.lat, this.lng).subscribe((data: Response_AreaIndex) => {
+      this.appService.openBlock();
+      // 近 > 遠
+      this.AreaList = data.List_AreaData[0].ECStoreData.sort((a, b) => {
+        return a.ECStore_Distance - b.ECStore_Distance;
+      });
+      this.appService.blockUI.stop();
+      // 更新目前所選景點列表、目錄列表
+      this.AreaItem = this.AreaList[0];
+      this.menuList = data.List_UserDefine;
+      // 若目錄編碼為0則更新為目錄列表第一個（全部）
+      if (this.areaMenuCode === 0) {
+        this.areaMenuCode = this.menuList[0].UserDefine_Code;
+      }
+      // 更新目錄名稱
+      for (const area of this.menuList) {
+        if (area.UserDefine_Code === this.areaMenuCode) {
+          this.areaMenuName = area.UserDefine_Name;
+        }
+      }
+      this.dirFilterOpen = false; // 關閉篩選清單
+    });
   }
 
   /** 選取景點
@@ -101,11 +119,11 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
 
   /** 目錄篩選清單開關 */
   toggleCategoryFilter() {
-    this.categoryOpenStatus = !this.categoryOpenStatus;
+    this.dirFilterOpen = !this.dirFilterOpen;
   }
 
   ngAfterViewInit() {
-    $('#map').css({ height: 'calc(100vh - ' + ($('.explore-top-box').outerHeight() + $('.card-item').outerHeight()) + 'px)' });
+    // $('#map').css({ height: 'calc(100vh - ' + ($('.explore-top-box').outerHeight() + $('.card-item').outerHeight()) + 'px)' });
 
     // // 開啟篩選清單 (使用Angular寫法不然目錄篩選後篩選清單會維持開啟)
     // $('.filter-item1').on('click', function() {

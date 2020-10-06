@@ -65,7 +65,7 @@
         <input type="tel" maxlength="1" pattern="^/d$" class="_verCodeInput" (input)="inputFocus(4, $event)" required>
         <input type="tel" maxlength="1" pattern="^/d$" class="_verCodeInput" (input)="inputFocus(5, $event)" required>
       </div>
-      <button type="submit" class="btn next-btn w-100 mt-3 msg-open" (click)="onMobileVerify()" [disabled]="!verCodeComplete">送出</button>
+      <button type="submit" class="btn next-btn w-100 mt-3 msg-open" [disabled]="!verCodeComplete">送出</button>
       <small class="text-left">沒有收到驗證碼？
         <button type="button" class="btn p-1 small-80 text-blue">
           <span (click)="remainingSec > 0? null : onSendMobile()" id="remainingSec"></span>

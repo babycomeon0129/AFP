@@ -57,7 +57,7 @@ import { Error503Component } from './views/error503/error503.component';
 const routes: Routes = [
   { path: '', canActivate: [SessionAliveGuard], component: EntranceComponent, data: {animation: 'Entrance'} },
   { path: 'Travel', canActivate: [SessionAliveGuard], component: TravelComponent },
-  { path: 'Explore/Map', canActivate: [SessionAliveGuard], component: ExploreMapComponent },
+  { path: 'ExploreMap', canActivate: [SessionAliveGuard], component: ExploreMapComponent },
   { path: 'Shopping', canActivate: [SessionAliveGuard], component: ShoppingComponent },
   { path: 'ExploreList/:AreaMenu_Code', canActivate: [SessionAliveGuard], component: ExploreListComponent },
   { path: 'ExploreList', canActivate: [SessionAliveGuard], component: ExploreListComponent },

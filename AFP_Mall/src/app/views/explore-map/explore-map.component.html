@@ -19,24 +19,24 @@
       </div>
   </header>
   <div class="pb-0">
-    <!-- TODO: -->
       <div class="choice-filter-box h3em bt-line">
           <div class="flex-inline-between">
-              <div class="item center-v">全部</div>
+              <div class="item center-v">{{areaMenuName}}</div>
           </div>
           <div class="filter-box center-v">
-              <button class="btn px-0 filter-item1" data-filter="type" (click)="toggleCategoryFilter()" [ngClass]="{'active': categoryOpenStatus}">
+              <button class="btn px-0 filter-item1" data-filter="type" (click)="toggleCategoryFilter()" [ngClass]="{'active': dirFilterOpen}">
                 <i class="material-icons">&#xE152;</i>
               </button>
           </div>
       </div>
       <div class="filterWrap">
-          <div class="mask-container w-100 h-100" [ngClass]="{'d-block': categoryOpenStatus}"></div>
-          <div id="type" [ngClass]="{'d-block': categoryOpenStatus}" class="filter-content pb-wrap">
-              <ul [ngClass]="{'is-open': categoryOpenStatus == true}" class="open-page-ul bt-line">
-                  <li class="flex-inline-between active">
+          <div class="mask-container w-100 h-100" [ngClass]="{'d-block': dirFilterOpen}"></div>
+          <div id="type" [ngClass]="{'d-block': dirFilterOpen}" class="filter-content pb-wrap">
+              <ul [ngClass]="{'is-open': dirFilterOpen == true}" class="open-page-ul bt-line">
+                  <li *ngFor="let dir of menuList" (click)="readAreaData(dir?.UserDefine_Code)" [ngClass]="{'active': areaMenuCode === dir?.UserDefine_Code}"
+                    [hidden]="dir?.UserDefine_ProdCount <= 0"  class="flex-inline-between">
                       <div>
-                          全部
+                          {{dir?.UserDefine_Name}}
                       </div>
                       <div>
                           <i class="material-icons check">&#xe5ca;</i>

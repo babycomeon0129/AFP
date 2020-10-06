@@ -4,7 +4,7 @@
       <div class="item icon-btn" *ngIf="hideGoBack == null"><i class="material-icons" onclick="history.back()">&#xe314;</i></div>
       <div class="item title-name">探索周邊</div>
       <div class="item icon-btn">
-        <button [routerLink]="['/Explore/Map']" data-toggle="tooltip" data-placement="bottom" title="查看地圖">
+        <button [routerLink]="['/ExploreMap']" data-toggle="tooltip" data-placement="bottom" title="查看地圖">
           <img src="../../img/explore/icon/open-map.svg">
         </button>
       </div>
@@ -20,20 +20,6 @@
       </div>
     </div>
     <div>
-      <!-- <div class="choice-filter-box py-1 px-2 border-top">
-        <div class="flex-inline-between">
-          <div class="item center-v">{{areaMenuName}}</div>
-          <div class="item">
-            <button class="btn px-2 filter-item" data-filter="type" (click)="toggleCategoryFilter()">
-              <i class="material-icons">&#xE313;</i>
-            </button>
-          </div>
-        </div> -->
-        <!-- 規格篩選紐（暫不顯示） -->
-        <!-- <div class="filter-box auto-left masklayer d-none" (click)="appService.callsortLayer('.sortpage1');" [ngClass]="{'active': categoryOpenStatus == false}">
-          <button class="btn px-0"><i class="material-icons">&#xE152;</i></button>
-        </div>
-      </div> -->
       <div class="choice-filter-box h3em bt-line">
         <div class="flex-inline-between">
             <div class="item center-v">{{areaMenuName}}</div>
@@ -81,19 +67,6 @@
       </ul>
       <div class="addheight"></div>
     </div>
-    <!-- <div id="type" class="explore-filter-content pb-wrap" [ngClass]="{'is-open': categoryOpenStatus == true}">
-      <ul class="open-page-ul">
-        <li *ngFor="let item of exUserdefine;" [routerLink]="['/ExploreList', item.UserDefine_Code]"
-        [ngClass]="{'active': areaMenuCode == item.UserDefine_Code}" class="flex-inline-between">
-          <div>
-            {{item.UserDefine_Name}}
-          </div>
-          <div>
-            {{item.UserDefine_ProdCount}} <i *ngIf="areaMenuCode == item.UserDefine_Code" class="fas fa-check"></i>
-          </div>
-        </li>
-      </ul>
-    </div> -->
     <div id="type" [ngClass]="{'is-open': categoryOpenStatus}" class="filter-content pb-wrap">
       <ul class="open-page-ul">
           <li *ngFor="let item of exUserdefine;"

@@ -28,7 +28,7 @@ export class ExploreListComponent implements OnInit, AfterViewInit {
       this.areaMenuCode = Number(this.route.snapshot.params.AreaMenu_Code);
     }
 
-    this.readData();
+    // this.readData();
   }
 
   ngOnInit(): void {
@@ -40,9 +40,10 @@ export class ExploreListComponent implements OnInit, AfterViewInit {
     this.route.params.subscribe(routeParams => {
       if (this.areaMenuCode !== 0 && this.areaMenuCode !== Number(routeParams.AreaMenu_Code)) {
         this.areaMenuCode = Number(routeParams.AreaMenu_Code);
-        this.readData();
+        // this.readData();
         this.categoryOpenStatus = false;
       }
+      this.readData();
     });
   }
 
