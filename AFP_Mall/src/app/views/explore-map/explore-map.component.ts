@@ -54,6 +54,7 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.lat = 25.034306;
     this.lng = 121.564603;
+    this.readAreaData(this.areaMenuCode);
 
     if (navigator.geolocation !== undefined) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -65,7 +66,6 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
       });
     } else {
       alert('該瀏覽器不支援定位功能');
-      this.readAreaData(this.areaMenuCode);
     }
   }
 

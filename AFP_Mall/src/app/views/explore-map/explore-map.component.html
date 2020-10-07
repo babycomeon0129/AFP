@@ -38,7 +38,7 @@
                       <div>
                           {{dir?.UserDefine_Name}}
                       </div>
-                      <div>
+                      <div *ngIf="areaMenuCode === dir?.UserDefine_Code">
                           <i class="material-icons check">&#xe5ca;</i>
                       </div>
                   </li>
