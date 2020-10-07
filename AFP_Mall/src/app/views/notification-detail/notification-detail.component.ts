@@ -60,7 +60,7 @@ export class NotificationDetailComponent implements OnInit, AfterViewChecked {
     if (this.appService.prevUrl === '/' || this.appService.prevUrl === '') {
       this.router.navigate(['/']);
     } else {
-      history.back();
+      this.goCateList();
     }
   }
 
