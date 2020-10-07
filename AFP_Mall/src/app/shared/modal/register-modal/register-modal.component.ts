@@ -1,11 +1,10 @@
+import { environment } from './../../../../environments/environment';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { BsModalRef } from 'ngx-bootstrap';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from 'src/app/service/modal.service';
-import {
-  Request_AFPThird, Request_AFPAccount, Response_AFPAccount, Response_AFPLogin
-} from 'src/app/_models';
+import { Request_AFPThird, Request_AFPAccount, Response_AFPAccount, Response_AFPLogin } from 'src/app/_models';
 import { AuthService, SocialUser, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 import { CookieService } from 'ngx-cookie-service';
 declare var $: any;
@@ -96,10 +95,10 @@ export class RegisterModalComponent implements OnInit, AfterViewInit {
           sessionStorage.setItem('userName', data.Model_UserInfo.Customer_Name);
           sessionStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
           sessionStorage.setItem('CustomerInfo', data.Model_UserInfo.CustomerInfo);
-
-          this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90);
-          this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90);
-          this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90);
+          // tslint:disable: max-line-length
+          this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90, '/', environment.cookieDomain, environment.cookieSecure);
+          this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90, '/', environment.cookieDomain, environment.cookieSecure);
+          this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure);
           this.appService.loginState = true;
           // 關閉視窗
           this.bsModalRef.hide();

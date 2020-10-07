@@ -1,3 +1,4 @@
+import { environment } from './../environments/environment';
 import { Component, OnInit, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { AppService } from 'src/app/app.service';
@@ -43,10 +44,10 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
             sessionStorage.setItem('CustomerInfo', encodeURIComponent(params.customerInfo));
             sessionStorage.setItem('userCode', encodeURIComponent(params.userCode));
             sessionStorage.setItem('userName', params.userName);
-
-            this.cookieService.set('userName', params.userName, 90);
-            this.cookieService.set('userCode', encodeURIComponent(params.userCode), 90);
-            this.cookieService.set('CustomerInfo', encodeURIComponent(params.customerInfo), 90);
+            // tslint:disable: max-line-length
+            this.cookieService.set('userName', params.userName, 90, '/', environment.cookieDomain, environment.cookieSecure);
+            this.cookieService.set('userCode', encodeURIComponent(params.userCode), 90, '/', environment.cookieDomain, environment.cookieSecure);
+            this.cookieService.set('CustomerInfo', encodeURIComponent(params.customerInfo), 90, '/', environment.cookieDomain, environment.cookieSecure);
             this.appService.loginState = true;
           }
           // tslint:disable-next-line: triple-equals
@@ -64,14 +65,14 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
         sessionStorage.setItem('userCode', params.Order_UserCode);
         sessionStorage.setItem('userName', params.Order_UserName);
 
-        this.cookieService.set('userName', params.Order_UserName, 90);
-        this.cookieService.set('userCode', params.Order_UserCode, 90);
-        this.cookieService.set('CustomerInfo', params.Order_CInfo, 90);
+        this.cookieService.set('userName', params.Order_UserName, 90, '/', environment.cookieDomain, environment.cookieSecure);
+        this.cookieService.set('userCode', params.Order_UserCode, 90, '/', environment.cookieDomain, environment.cookieSecure);
+        this.cookieService.set('CustomerInfo', params.Order_CInfo, 90, '/', environment.cookieDomain, environment.cookieSecure);
         this.appService.loginState = true;
       }
       //  購物車編碼 APP用
       if (typeof params.cartCode !== 'undefined') {
-        this.cookieService.set('cart_code', params.cartCode, 90);
+        this.cookieService.set('cart_code', params.cartCode, 90, '/', environment.cookieDomain, environment.cookieSecure);
       }
     });
   }
@@ -105,9 +106,9 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
     //         sessionStorage.setItem('userCode', encodeURIComponent(params.userCode));
     //         sessionStorage.setItem('userName', params.userName);
 
-    //         this.cookieService.set('userName', params.userName, 90);
-    //         this.cookieService.set('userCode', encodeURIComponent(params.userCode), 90);
-    //         this.cookieService.set('CustomerInfo', encodeURIComponent(params.customerInfo), 90);
+    //         this.cookieService.set('userName', params.userName, 90, '/', environment.cookieDomain, environment.cookieSecure);
+    //         this.cookieService.set('userCode', encodeURIComponent(params.userCode), 90, '/', environment.cookieDomain, environment.cookieSecure);
+    //         this.cookieService.set('CustomerInfo', encodeURIComponent(params.customerInfo), 90, '/', environment.cookieDomain, environment.cookieSecure);
     //         this.appService.loginState = true;
     //         console.log('set2:' + this.appService.loginState);
     //       }
@@ -125,14 +126,14 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
     //         sessionStorage.setItem('userCode', params.Order_UserCode);
     //         sessionStorage.setItem('userName', params.Order_UserName);
 
-    //         this.cookieService.set('userName', params.Order_UserName, 90);
-    //         this.cookieService.set('userCode', params.Order_UserCode, 90);
-    //         this.cookieService.set('CustomerInfo', params.Order_CInfo, 90);
+    //         this.cookieService.set('userName', params.Order_UserName, 90, '/', environment.cookieDomain, environment.cookieSecure);
+    //         this.cookieService.set('userCode', params.Order_UserCode, 90, '/', environment.cookieDomain, environment.cookieSecure);
+    //         this.cookieService.set('CustomerInfo', params.Order_CInfo, 90, '/', environment.cookieDomain, environment.cookieSecure);
     //         this.appService.loginState = true;
     //       }
     //   //  購物車編碼 APP用
     //   if (typeof params.cartCode !== 'undefined') {
-    //     this.cookieService.set('cart_code', params.cartCode, 90);
+    //     this.cookieService.set('cart_code', params.cartCode, 90, '/', environment.cookieDomain, environment.cookieSecure);
     //   }
     // });
   }

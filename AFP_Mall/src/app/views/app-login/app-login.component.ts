@@ -1,3 +1,4 @@
+import { environment } from './../../../environments/environment';
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { AppService } from 'src/app/app.service';
@@ -122,9 +123,9 @@ export class AppLoginComponent implements OnInit {
       localStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
       localStorage.setItem('CustomerInfo', data.Model_UserInfo.CustomerInfo);
 
-      this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90);
-      this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90);
-      this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90);
+      this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90, '/', environment.cookieDomain, environment.cookieSecure);
+      this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90, '/', environment.cookieDomain, environment.cookieSecure);
+      this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure);
       this.appService.loginState = true;
       this.GoSuccess();
     });
