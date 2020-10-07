@@ -128,6 +128,7 @@ export class AppLoginComponent implements OnInit {
       this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90, '/', environment.cookieDomain, environment.cookieSecure);
       this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90, '/', environment.cookieDomain, environment.cookieSecure);
       this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure);
+      this.cookieService.set('UUID', data.Model_UserInfo.Customer_UUID, 90, '/', environment.cookieDomain, environment.cookieSecure);
       this.appService.loginState = true;
       this.GoSuccess();
     });
@@ -166,6 +167,7 @@ export class AppLoginComponent implements OnInit {
       sessionStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
       sessionStorage.setItem('CustomerInfo', data.Model_UserInfo.CustomerInfo);
       sessionStorage.setItem('userFavorites', JSON.stringify(data.List_UserFavourite));
+      sessionStorage.setItem('UUID', data.Model_UserInfo.Customer_UUID);
       this.appService.loginState = true;
       this.GoSuccess();
     });
