@@ -125,16 +125,9 @@ export class AppLoginComponent implements OnInit {
       localStorage.setItem('CustomerInfo', data.Model_UserInfo.CustomerInfo);
       localStorage.setItem('UUID', data.Model_UserInfo.Customer_UUID);
 
-<<<<<<< HEAD
       this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90, '/', environment.cookieDomain, environment.cookieSecure);
       this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90, '/', environment.cookieDomain, environment.cookieSecure);
       this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure);
-=======
-      this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90);
-      this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90);
-      this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90);
-      this.cookieService.set('UUID', data.Model_UserInfo.Customer_UUID, 90);
->>>>>>> developer
       this.appService.loginState = true;
       this.GoSuccess();
     });

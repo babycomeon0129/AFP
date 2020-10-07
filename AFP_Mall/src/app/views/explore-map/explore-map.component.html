@@ -73,8 +73,7 @@
               </div>
           </swiper>
       </div>
-      <!-- <div id="map"></div> -->
-      <agm-map id="map" [latitude]="lat" [longitude]="lng" [zoom]="zoomValue">
+      <agm-map #AgmMap id="map" [latitude]="lat" [longitude]="lng" [zoom]="zoomValue" (mapReady)="onMapReady($event)">
         <agm-marker  [latitude]="lat" [longitude]="lng" [iconUrl]="userUrl"></agm-marker>
         <agm-marker  *ngFor="let Area of AreaList; let i = index"
         [latitude]="Area.ECStore_Lat" [longitude]="Area.ECStore_Lng" [iconUrl]="'../../../img/callcar/map/' + Area.ECStore_Type + '.svg'"

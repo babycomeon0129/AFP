@@ -1,8 +1,10 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Request_AreaIndex, Response_AreaIndex, AreaJsonFile_ECStore, AFP_UserDefine } from '../../_models';
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'ngx-useful-swiper';
+import { AgmMap } from '@agm/core';
 
 @Component({
   // selector: 'app-explore-map',
@@ -11,6 +13,7 @@ import { SwiperComponent } from 'ngx-useful-swiper';
 })
 export class ExploreMapComponent implements OnInit, AfterViewInit {
   @ViewChild('usefulSwiper', {static: false}) usefulSwiper: SwiperComponent;
+  @ViewChild('AgmMap', {static: false}) agmMap: AgmMap;
   /** 緯度 */
   public lat: number;
   /** 經度 */
@@ -39,6 +42,7 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
   public infoCard: SwiperOptions = {
     slidesPerView: 1.1,
     spaceBetween: 10,
+    centeredSlides: true,
     on: {
       slideChange: () => {
         // get active AreaItem, get its code, and navigate on map
@@ -48,7 +52,7 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
     }
   };
 
-  constructor(public appService: AppService) {
+  constructor(public appService: AppService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -91,9 +95,15 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
         return a.ECStore_Distance - b.ECStore_Distance;
       });
       this.appService.blockUI.stop();
-      // 更新目前所選景點列表、目錄列表
-      this.AreaItem = this.AreaList[0];
-      this.menuList = data.List_UserDefine;
+      // 更新目前所選景點、景點列表、目錄列表
+      if (this.AreaItem === undefined) {
+        this.AreaItem = this.AreaList[0];
+      } else {
+        this.usefulSwiper.swiper.slideTo(0);
+      }
+      if (this.menuList.length <= 0) {
+        this.menuList = data.List_UserDefine;
+      }
       // 若目錄編碼為0則更新為目錄列表第一個（全部）
       if (this.areaMenuCode === 0) {
         this.areaMenuCode = this.menuList[0].UserDefine_Code;
@@ -118,6 +128,23 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
   /** 目錄篩選清單開關 */
   toggleCategoryFilter() {
     this.dirFilterOpen = !this.dirFilterOpen;
+  }
+
+  /** Google Map 地標不顯示 icon */
+  onMapReady(map?) {
+    if (map) {
+      map.setOptions({
+        mapTypeControl: false,
+        styles : [
+           {
+             featureType: 'poi',
+             stylers: [
+              { visibility: 'off' }
+             ]
+           }
+        ]
+      });
+    }
   }
 
   ngAfterViewInit() {
