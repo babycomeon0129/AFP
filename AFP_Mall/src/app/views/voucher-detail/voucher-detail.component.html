@@ -126,7 +126,7 @@
                 <a href="{{'EyesMedia://ScanerOn|0|' + userVoucher?.UserVoucher_QRCode}}" class="btn index-btn for-mobile w-80">點我掃描 QR Code</a>
               </div>
               <div class="bg-light p-2">已使用次數：{{voucherData?.VoucherUseCount + '/' + (voucherData?.Voucher_UsedLimit === -1? '不限' : voucherData?.Voucher_UsedLimit)}}次</div>
-              <div class="bg-light p-2">UUID：{{this.voucherData}}</div>
+              <div class="bg-light p-2">UUID：{{UUid}}</div>
           </div>
       </div>
   </div>

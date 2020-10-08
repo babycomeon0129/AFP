@@ -95,12 +95,10 @@ export class RegisterModalComponent implements OnInit, AfterViewInit {
           sessionStorage.setItem('userName', data.Model_UserInfo.Customer_Name);
           sessionStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
           sessionStorage.setItem('CustomerInfo', data.Model_UserInfo.CustomerInfo);
-          sessionStorage.setItem('UUID', data.Model_UserInfo.Customer_UUID);
           // tslint:disable: max-line-length
           this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90, '/', environment.cookieDomain, environment.cookieSecure);
           this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90, '/', environment.cookieDomain, environment.cookieSecure);
           this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure);
-          this.cookieService.set('UUID', data.Model_UserInfo.Customer_UUID, 90, '/', environment.cookieDomain, environment.cookieSecure);
           this.appService.loginState = true;
           // 關閉視窗
           this.bsModalRef.hide();
