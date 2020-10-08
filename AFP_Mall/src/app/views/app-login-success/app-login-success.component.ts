@@ -18,6 +18,7 @@ export class AppLoginSuccessComponent implements OnInit {
       localStorage.setItem('userName', sessionStorage.getItem('userName'));
       localStorage.setItem('userCode', sessionStorage.getItem('userCode'));
       localStorage.setItem('CustomerInfo', sessionStorage.getItem('CustomerInfo'));
+      localStorage.setItem('UUID', sessionStorage.getItem('UUID'));
     }
   }
 
