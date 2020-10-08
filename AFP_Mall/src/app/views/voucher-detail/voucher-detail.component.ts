@@ -55,7 +55,7 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngOnInit() {
-    this.UUid = localStorage.getItem('UUID');
+    this.UUid = sessionStorage.getItem('UUID');
     this.readVoucherData();
   }
 
