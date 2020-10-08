@@ -14,7 +14,7 @@ import { slideInAnimation } from './animations';
   animations: [slideInAnimation]
 })
 export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
-  /** 前往頁面url (手機版footer icon變色判別) */
+  /** 前往頁面url (手機版footer icon變色判別 ) */
   public headingPage = '';
   /** 不顯示手機版footer的頁面 */
   public mobileNoFooter = ['Map', 'ShoppingCart', 'ShoppingOrder', 'ShoppingPayment', 'Game/', 'Member/', 'QA',
