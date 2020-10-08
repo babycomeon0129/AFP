@@ -14,7 +14,7 @@ import { SessionAliveGuard } from '../../auth/session-alive.guard';
 const routes: Routes = [
   {
     path: 'Member', component: MemberComponent, children: [
-      { path: '', component: HomeComponent, data: {animation: 'MemberHome'}  },
+      { path: '', component: HomeComponent, canActivate: [SessionAliveGuard], data: {animation: 'MemberHome'}  },
       { path: 'Setting', component: SettingComponent, data: {animation: 'Setting'} },
       { path: 'MyProfile', canActivate: [SessionAliveGuard], component: MyProfileComponent, data: {animation: 'MyProfile'} },
       { path: 'CellVerification', component: CellVerificationComponent,
