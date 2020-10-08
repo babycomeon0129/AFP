@@ -44,12 +44,12 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
             sessionStorage.setItem('CustomerInfo', encodeURIComponent(params.customerInfo));
             sessionStorage.setItem('userCode', encodeURIComponent(params.userCode));
             sessionStorage.setItem('userName', params.userName);
-            sessionStorage.setItem('UUID', params.UUID);
+            sessionStorage.setItem('UUID', params.uuid);
             // tslint:disable: max-line-length
             this.cookieService.set('userName', params.userName, 90, '/', environment.cookieDomain, environment.cookieSecure);
             this.cookieService.set('userCode', encodeURIComponent(params.userCode), 90, '/', environment.cookieDomain, environment.cookieSecure);
             this.cookieService.set('CustomerInfo', encodeURIComponent(params.customerInfo), 90, '/', environment.cookieDomain, environment.cookieSecure);
-            this.cookieService.set('UUID', encodeURIComponent(params.UUID), 90, '/', environment.cookieDomain, environment.cookieSecure);
+            this.cookieService.set('UUID', encodeURIComponent(params.uuid), 90, '/', environment.cookieDomain, environment.cookieSecure);
             this.appService.loginState = true;
           }
           // tslint:disable-next-line: triple-equals
