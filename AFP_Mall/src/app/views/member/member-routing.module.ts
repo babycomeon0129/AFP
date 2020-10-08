@@ -9,12 +9,11 @@ import { MyAddressComponent } from '../../views/member/my-address/my-address.com
 import { PasswordUpdateComponent } from '../../views/member/password-update/password-update.component';
 import { MyPaymentComponent } from '../../views/member/my-payment/my-payment.component';
 import { ThirdBindingComponent } from '../../views/member/third-binding/third-binding.component';
-import { SessionAliveGuard } from '../../auth/session-alive.guard';
 
 const routes: Routes = [
   {
     path: 'Member', component: MemberComponent, children: [
-      { path: '', component: HomeComponent, canActivate: [SessionAliveGuard], data: {animation: 'MemberHome'}  },
+      { path: '', component: HomeComponent, data: {animation: 'MemberHome'}  },
       { path: 'Setting', component: SettingComponent, data: {animation: 'Setting'} },
       { path: 'MyProfile', component: MyProfileComponent, data: {animation: 'MyProfile'} },
       { path: 'CellVerification', component: CellVerificationComponent,
