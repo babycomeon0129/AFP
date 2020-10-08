@@ -49,7 +49,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
             this.cookieService.set('userName', params.userName, 90, '/', environment.cookieDomain, environment.cookieSecure);
             this.cookieService.set('userCode', encodeURIComponent(params.userCode), 90, '/', environment.cookieDomain, environment.cookieSecure);
             this.cookieService.set('CustomerInfo', encodeURIComponent(params.customerInfo), 90, '/', environment.cookieDomain, environment.cookieSecure);
-            this.cookieService.set('UUID', encodeURIComponent(params.customerInfo), 90, '/', environment.cookieDomain, environment.cookieSecure);
+            this.cookieService.set('UUID', encodeURIComponent(params.UUID), 90, '/', environment.cookieDomain, environment.cookieSecure);
             this.appService.loginState = true;
           }
           // tslint:disable-next-line: triple-equals
