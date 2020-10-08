@@ -50,7 +50,7 @@ export class MyProfileComponent implements OnInit {
 
   ngOnInit() {
     this.memberService.readProfileData();
-    this.UUid = this.appService.isApp === 1 ? localStorage.getItem('UUID') : sessionStorage.getItem('UUID');
+    this.UUid = this.appService.isApp !== null ? localStorage.getItem('UUID') : sessionStorage.getItem('UUID');
   }
 
   /** 性別轉換  */
