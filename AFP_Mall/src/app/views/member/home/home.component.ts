@@ -2,13 +2,11 @@ import { Component, OnInit, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@an
 import { AppService } from 'src/app/app.service';
 import { Model_ShareData, AFP_ADImg } from '../../../_models';
 import { Request_MemberThird, Response_MemberThird } from '../member.component';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { ModalService } from 'src/app/service/modal.service';
 import { SwiperOptions } from 'swiper';
 import { MemberService } from '../member.service';
 import { AuthService, SocialUser } from 'angularx-social-login';
-import { CookieService } from 'ngx-cookie-service';
-import { environment } from './../../../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -33,18 +31,8 @@ export class HomeComponent implements OnInit, DoCheck {
   private serviceDiffer: KeyValueDiffer<string, any>;
 
   constructor(public appService: AppService, private router: Router, public modal: ModalService,
-              private differs: KeyValueDiffers, public memberService: MemberService, private authService: AuthService,
-              private activatedRoute: ActivatedRoute, private cookieService: CookieService) {
+              private differs: KeyValueDiffers, public memberService: MemberService, private authService: AuthService) {
     this.serviceDiffer = this.differs.find({}).create();
-    this.activatedRoute.queryParams.subscribe( params => {
-      if (typeof params.loginType !== 'undefined') {
-        if (params.loginType === 1) {
-          sessionStorage.setItem('UUID', params.uuId);
-          localStorage.setItem('UUID', params.uuId);
-          this.cookieService.set('UUID', params.uuId, 90, '/', environment.cookieDomain, environment.cookieSecure);
-        }
-      }
-    });
   }
 
   ngOnInit() {

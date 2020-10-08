@@ -120,13 +120,13 @@
               <h6>{{voucherData?.Voucher_ExtName}}</h6>
               <small>使用期限：{{voucherData?.Voucher_UsedOnDate | date: 'yyyy/MM/dd'}} ~ {{voucherData?.Voucher_UsedOffDate | date: 'yyyy/MM/dd'}}</small>
               <div class="border rounded p-3 m-3 d-flex justify-content-center">
-                <qrcode *ngIf="userVoucher?.UserVoucher_QRCode !== null" [qrdata]="userVoucher?.UserVoucher_QRCode" [width]="204" [errorCorrectionLevel]="'L'"></qrcode>　
+                <qrcode *ngIf="userVoucher?.UserVoucher_QRCode !== null" [qrdata]="userVoucher?.UserVoucher_QRCode" [width]="204" [errorCorrectionLevel]="'L'"></qrcode>
               </div>
               <div *ngIf="appService.isApp !== null && voucherData?.Voucher_IsScan === 1" class="d-flex justify-content-center">
                 <a href="{{'EyesMedia://ScanerOn|0|' + userVoucher?.UserVoucher_QRCode}}" class="btn index-btn for-mobile w-80">點我掃描 QR Code</a>
               </div>
               <div class="bg-light p-2">已使用次數：{{voucherData?.VoucherUseCount + '/' + (voucherData?.Voucher_UsedLimit === -1? '不限' : voucherData?.Voucher_UsedLimit)}}次</div>
-              <div class="bg-light p-2">UUID：{{UUid}}</div>
+              <div class="bg-light p-2">UUID：{{this.voucherData}}</div>
           </div>
       </div>
   </div>

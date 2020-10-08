@@ -14,7 +14,7 @@ import { Meta, Title } from '@angular/platform-browser';
 })
 export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
   /** UUID */
-  public UUid: string;
+  public UUid: number;
   /** 優惠券編號（從會員中心進來: 會員優惠券編碼 (UserVoucher_Code)，從其他地方: 優惠券編碼 ） */
   public voucherCode: number;
   /** 搜尋模式（優惠券編號開頭 46(優惠券): 4，47(使用者優惠券): 5） */
@@ -55,7 +55,6 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngOnInit() {
-    this.UUid = sessionStorage.getItem('UUID');
     this.readVoucherData();
   }
 
@@ -71,6 +70,7 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
     };
     this.appService.toApi('EC', '1206', request).subscribe((data: Response_ECVoucherDetail) => {
       this.voucherData = data.AFP_Voucher;
+      this.UUid = data.UUID;
       // 若使用者已使用次數為null則改為0（在此頁兌換且隨即使用時會顯示，且在成功使用後會 +1）
       if (this.voucherData.VoucherUseCount == null) {
         this.voucherData.VoucherUseCount = 0;
