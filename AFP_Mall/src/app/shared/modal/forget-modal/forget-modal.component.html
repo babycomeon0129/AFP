@@ -29,19 +29,21 @@
                 帳號
             </div>
             <div class="col-12 pb-3">
-                <input type="text" placeholder="請輸入註冊時使用的手機號碼" id="vphone" name="AFPAccount" #AFPAccount="ngModel" [(ngModel)]="request.AFPAccount">
-                <div class="small-warning pl-0 warningNote invisible"><span>請輸入帳號</span></div>
+                <input type="text" placeholder="請輸入註冊時使用的手機號碼" id="vphone" name="AFPAccount" #AFPAccount="ngModel"
+                 [(ngModel)]="request.AFPAccount" [ngClass]="{'bb-org': changePwdForm.submitted && AFPAccount.invalid}" required>
+                <div class="small-warning pl-0 warningNote visible"><span *ngIf="changePwdForm.submitted && AFPAccount.invalid">請輸入帳號</span></div>
             </div>
             <div class="col-12 text-left">
                 驗證碼
             </div>
             <div class="col-7 pb-3 pr-0">
-                <input type="text" placeholder="請輸入收到的驗證碼" id="vcode" name="AFPVerify" required [(ngModel)]="verify.AFPVerify" #AFPVerify="ngModel">
-                <div class="small-warning t-gray pl-0 stepV1"><p>驗證碼已發送至 {{request.AFPAccount}}<br>沒有收到驗證碼？<span class="text-blue">59秒後重新傳送</span></p></div>
-                <div class="small-warning pl-0 warningNote invisible"><span>請輸入驗證碼</span></div>
+                <input type="text" placeholder="請輸入收到的驗證碼" id="vcode" name="AFPVerify"
+                 [(ngModel)]="verify.AFPVerify" #AFPVerify="ngModel" [ngClass]="{'bb-org': changePwdForm.submitted && AFPVerify.invalid}" required>
+                <div class="small-warning t-gray pl-0 stepV1" [ngClass]="{'invisible': vcodeSeconds===0}"><p>驗證碼已發送至 {{request.AFPAccount}}<br>沒有收到驗證碼？<span class="text-blue">{{vcodeSeconds}}秒後重新傳送</span></p></div>
+                <div class="small-warning pl-0 warningNote visible"><span *ngIf="changePwdForm.submitted && AFPVerify.invalid">請輸入驗證碼</span></div>
             </div>
             <div class="col-5 pl-1">
-                <button type="button" class="btn index-btn border-radius5 w-100 px-1 small-70" id="getPhone" (click)="setVcode();">取得手機驗證碼</button>
+                <button type="button" class="btn index-btn border-radius5 w-100 px-1 small-70" id="getPhone" (click)="setVcode();" [disabled]="vcodeSeconds !== 0">取得手機驗證碼</button>
             </div>
             <div class="col-12 py-3">
                 <button type="submit" class="btn index-btn w-90 footerBtn msg-open" value="msg-vphone" data-toggle="modal" data-target="#messageModal" data-dismiss="modal" aria-label="Close">立即驗證</button>
