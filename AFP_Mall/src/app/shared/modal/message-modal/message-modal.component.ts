@@ -16,8 +16,6 @@ export class MessageModalComponent implements OnInit {
   target: string;
   note: string;
   adImgList: AFP_ADImg[];
-  UserInfoCode: number;
-  verifyCode: string;
 
   constructor(public bsModalRef: BsModalRef, public modal: ModalService, private router: Router, public appService: AppService) { }
 
@@ -37,19 +35,6 @@ export class MessageModalComponent implements OnInit {
     this.bsModalRef.hide();
     if (this.target != null && this.target.replace(/(^s*)|(s*$)/g, '').length !== 0) {
       this.router.navigate([this.target]);
-    }
-  }
-
-  /** 重設密碼 */
-  goReset() {
-    if (this.appService.isApp != null) {
-      this.bsModalRef.hide();
-    } else {
-      const initialState = {
-        UserInfoCode: this.UserInfoCode,
-        verifyCode: this.verifyCode
-      };
-      this.modal.show('password', { initialState }, this.bsModalRef);
     }
   }
 }

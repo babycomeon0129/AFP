@@ -18,7 +18,7 @@
             </button>
         </div>
         <div class="item two">
-            <h5 (click)="modal.openModal('password',bsModalRef)">忘記密碼</h5>
+            <h5>忘記密碼</h5>
         </div>
         <div class="item one"></div>
     </div>
@@ -33,7 +33,7 @@
                 </div>
                 <div class="col-12 pb-3">
                     <input type="text" placeholder="請輸入註冊時使用的手機號碼" id="vphone" name="AFPAccount" #AFPAccount="ngModel"
-                        [(ngModel)]="request.AFPAccount" pattern="^[0-9\*]{0,10}$"
+                        [(ngModel)]="request.AFPAccount"
                         [ngClass]="{'bb-org': changePwdForm.submitted && AFPAccount.invalid}" required>
                     <div class="small-warning pl-0 warningNote visible">
                         <span *ngIf="changePwdForm.submitted && AFPAccount.invalid">請輸入帳號</span></div>
