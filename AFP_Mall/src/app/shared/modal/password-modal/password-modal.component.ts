@@ -14,17 +14,21 @@ export class PasswordModalComponent implements OnInit {
   verifyCode: string;
   checkPwd = true;
 
-  // 設定密碼用
+  /** 設定密碼用 */
   public pwdModel: Request_AFPPassword = {
     UserInfo_Code: 0,
     AFPPassword: '',
     AFPPasswordRe: '',
     AFPVerify: ''
   };
+  /** 密碼可見用 */
+  public pwdEyes = false;
+  /** 二次密碼可見用 */
+  public repwdEyes = false;
 
   constructor(public bsModalRef: BsModalRef, private appService: AppService, private modal: ModalService) { }
 
-  // 註冊送出
+  /** 註冊送出 */
   onSubmit() {
     if (this.pwdModel.AFPPassword === this.pwdModel.AFPPasswordRe) {
       this.appService.openBlock();
@@ -40,17 +44,6 @@ export class PasswordModalComponent implements OnInit {
   ngOnInit() {
     this.pwdModel.UserInfo_Code = this.UserInfoCode;
     this.pwdModel.AFPVerify = this.verifyCode;
-    // Toggle password visibility
-    $('.toggle-password').on('click', (e) => {
-      const target = $('.toggle-password').index(e.currentTarget);
-      $('.toggle-password').eq(target).find('i.visibility').toggleClass('d-inline-block');
-      $('.toggle-password').eq(target).find('i.visibility-off').toggleClass('d-none');
-      if ($('.toggle-password').eq(target).siblings('input').attr('type') === 'password') {
-        $('.toggle-password').eq(target).siblings('input').attr('type', 'text');
-      } else {
-        $('.toggle-password').eq(target).siblings('input').attr('type', 'password');
-      }
-    });
   }
 
 }
