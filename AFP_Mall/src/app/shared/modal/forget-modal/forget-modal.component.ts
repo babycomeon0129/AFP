@@ -32,6 +32,7 @@ export class ForgetModalComponent implements OnInit {
   /** 取得驗證碼 */
   setVcode() {
     this.appService.toApi('AFPAccount', '1106', this.request).subscribe((data: Response_AFPChangePwd) => {
+      this.appService.openBlock();
       this.verify.UserInfo_Code = data.UserInfo_Code;
       this.vcodeSeconds = 60;
       this.vcodeCount = setInterval(() => {
@@ -47,6 +48,7 @@ export class ForgetModalComponent implements OnInit {
   /** 忘記密碼驗證 TODO: 待解決驗證成功後要關閉整個視窗 */
   onSubmit() {
     this.appService.toApi('AFPAccount', '1102', this.verify).subscribe((data: Response_AFPVerify) => {
+      this.appService.openBlock();
       const initialState = {
         UserInfoCode: data.UserInfo_Code,
         verifyCode: data.NoticeLog_CheckCode
