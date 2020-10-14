@@ -26,7 +26,7 @@ export class PasswordModalComponent implements OnInit {
   /** 二次密碼可見用 */
   public repwdEyes = false;
 
-  constructor(public bsModalRef: BsModalRef, private appService: AppService, private modal: ModalService) { }
+  constructor(public bsModalRef: BsModalRef, private appService: AppService, private modalService: ModalService) { }
 
   /** 註冊送出 */
   onSubmit() {
@@ -34,7 +34,7 @@ export class PasswordModalComponent implements OnInit {
       this.appService.openBlock();
       this.checkPwd = true;
       this.appService.toApi('AFPAccount', '1103', this.pwdModel).subscribe((data: any) => {
-        this.modal.show('message', { initialState: { success: true, message: '密碼已設定完成，請重新登入', showType: 2}}, this.bsModalRef);
+        this.modalService.show('message', { initialState: { success: true, message: '密碼已設定完成，請重新登入', showType: 2}}, this.bsModalRef);
       });
     } else {
       this.checkPwd = false;

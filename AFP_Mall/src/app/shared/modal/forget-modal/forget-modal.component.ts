@@ -18,8 +18,8 @@ export class ForgetModalComponent implements OnInit {
     UserInfo_Code: 0,
     AFPVerify: ''
   };
-  /** 發送驗證碼按鈕狀態 */
-  public vcodeBtn = false;
+  /** 發送驗證碼狀態 */
+  public vcodeSet = false;
   /** 發送驗證碼後的倒數計時器 */
   public vcodeCount: any;
   /** 倒數秒數 */
@@ -35,6 +35,7 @@ export class ForgetModalComponent implements OnInit {
     this.appService.toApi('AFPAccount', '1106', this.request).subscribe((data: Response_AFPChangePwd) => {
       this.verify.UserInfo_Code = data.UserInfo_Code;
       this.vcodeSeconds = 59;
+      this.vcodeSet = true;
       this.vcodeCount = setInterval(() => {
         if ( this.vcodeSeconds > 0 ) {
           this.vcodeSeconds--;
@@ -45,9 +46,10 @@ export class ForgetModalComponent implements OnInit {
     });
   }
 
-  /** 忘記密碼驗證 TODO: 待解決驗證成功後要關閉整個視窗 */
+  /** 立即驗證  */
   onSubmit() {
     this.appService.openBlock();
+    this.vcodeSet = false;
     this.appService.toApi('AFPAccount', '1102', this.verify).subscribe((data: Response_AFPVerify) => {
       const initialState = {
         UserInfoCode: data.UserInfo_Code,
