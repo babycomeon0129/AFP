@@ -1,7 +1,7 @@
 <div class="modal-header" data-dismiss="modal" aria-label="Close">
 </div>
 <div class="popup-banner for-mobile">
-    <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close">
+    <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close" (click)="this.bsModalRef.hide()">
         <span aria-hidden="true">&times;</span>
     </button>
     <!-- <img src="https://wu-medoc.github.io/eyesmedia_afp/img/index/login_banner.png" alt=""> -->
@@ -45,9 +45,9 @@
                     <input type="text" placeholder="請輸入收到的驗證碼" id="vcode" name="AFPVerify"
                         [(ngModel)]="verify.AFPVerify" #AFPVerify="ngModel"
                         [ngClass]="{'bb-org': changePwdForm.submitted && AFPVerify.invalid}" required>
-                    <div class="small-warning t-gray pl-0 stepV1" [ngClass]="{'invisible': vcodeSeconds===0}">
-                        <p>驗證碼已發送至 {{request.AFPAccount}}<br>沒有收到驗證碼？<span
-                                class="text-blue">{{vcodeSeconds}}秒後重新傳送</span></p>
+                    <div class="small-warning t-gray pl-0 stepV1 visible" [ngClass]="{'invisible': vcodeSeconds===0}">
+                        <p>驗證碼已發送至 {{request.AFPAccount}}<br>
+                          沒有收到驗證碼？<span class="text-blue">{{vcodeSeconds}}秒後可重新點選「取得驗證碼」</span></p>
                     </div>
                     <div class="small-warning pl-0 warningNote visible">
                         <span *ngIf="changePwdForm.submitted && AFPVerify.invalid">請輸入驗證碼</span></div>
