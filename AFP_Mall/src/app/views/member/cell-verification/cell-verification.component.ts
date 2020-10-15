@@ -71,11 +71,9 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
     });
   }
 
-  /** 手機輸入完畢自動focus到驗證碼 */
-  inputFocus() {
-    if (this.requestMobileVerify.Mobile.length === 10) {
-      document.getElementById('vcode').focus();
-    }
+  /** 自動focus到驗證碼輸入欄位 */
+  focusOnInput() {
+    document.getElementById('vcode').focus();
   }
 
   /** 立即驗證-驗證驗證碼 */
