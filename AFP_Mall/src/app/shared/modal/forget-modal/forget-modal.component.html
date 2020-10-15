@@ -18,7 +18,7 @@
             </button>
         </div>
         <div class="item two">
-            <h5>忘記密碼</h5>
+            <h5 (click)="modal.openModal('password',bsModalRef)">忘記密碼</h5>
         </div>
         <div class="item one"></div>
     </div>
@@ -33,9 +33,10 @@
                 </div>
                 <div class="col-12 pb-3">
                     <input type="text" placeholder="請輸入註冊時使用的手機號碼" id="vphone" name="AFPAccount" #AFPAccount="ngModel"
+                        [ngClass]="{'bb-org': (AFPAccount.touched || AFPAccount.dirty) && AFPAccount.invalid}"
                         [(ngModel)]="request.AFPAccount" pattern="^[0-9\*]{0,10}$" required>
-                    <div class="small-warning pl-0 warningNote invisible">
-                        <span>請輸入帳號</span></div>
+                    <div class="small-warning pl-0 warningNote visible">
+                        <span *ngIf="(AFPAccount.touched || AFPAccount.dirty) && AFPAccount.invalid">格式錯誤，請重新輸入</span></div>
                 </div>
                 <div class="col-12 text-left">
                     驗證碼
@@ -64,8 +65,8 @@
                 <div class="col-12 py-3">
                     <button type="submit" class="btn index-btn footerBtn msg-open" value="msg-vphone"
                         data-toggle="modal" data-target="#messageModal" data-dismiss="modal"
-                        [ngClass]="{'gray-btn': this.verify.UserInfo_Code === 0 && AFPVerify.invalid && AFPAccount.invalid}"
-                        [disabled]="this.verify.UserInfo_Code === 0 && AFPVerify.invalid && AFPAccount.invalid"
+                        [ngClass]="{'gray-btn': this.verify.UserInfo_Code === 0}"
+                        [disabled]="this.verify.UserInfo_Code === 0"
                         aria-label="Close">立即驗證</button>
                 </div>
             </div>

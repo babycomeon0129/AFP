@@ -26,7 +26,7 @@ export class PasswordModalComponent implements OnInit {
   /** 二次密碼可見用 */
   public repwdEyes = false;
 
-  constructor(public bsModalRef: BsModalRef, private appService: AppService, private modalService: ModalService) { }
+  constructor(public bsModalRef: BsModalRef, private appService: AppService, public modalService: ModalService) { }
 
   /** 註冊送出 */
   onSubmit() {
