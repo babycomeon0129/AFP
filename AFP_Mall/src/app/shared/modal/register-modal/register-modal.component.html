@@ -113,7 +113,7 @@
                     (click)="GoLogin()">
               馬上登入
             </button>
-            <a href="/QA" class="font-bold small-80 float-right px-2">常見問題</a>
+            <a (click)="bsModalRef.hide();" [routerLink]="['/QA']" class="font-bold small-80 float-right px-2">常見問題</a>
           </p>
         </div>
       </div>
