@@ -16,6 +16,7 @@ import { MissionModalComponent } from './mission-modal/mission-modal.component';
 import { ReceiptModalComponent } from './receipt-modal/receipt-modal.component';
 import { MsgShareModalComponent } from './msg-share-modal/msg-share-modal.component';
 import { AppRoutingModule } from '../../app-routing.module';
+import { LoginRegisterModalComponent } from './login-register-modal/login-register-modal.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { AppRoutingModule } from '../../app-routing.module';
     JustkaModalComponent,
     MissionModalComponent,
     ReceiptModalComponent,
-    MsgShareModalComponent
+    MsgShareModalComponent,
+    LoginRegisterModalComponent
   ],
   entryComponents: [
     LoginModalComponent,
@@ -46,7 +48,8 @@ import { AppRoutingModule } from '../../app-routing.module';
     JustkaModalComponent,
     MissionModalComponent,
     ReceiptModalComponent,
-    MsgShareModalComponent
+    MsgShareModalComponent,
+    LoginRegisterModalComponent
   ],
   imports: [
     CommonModule,

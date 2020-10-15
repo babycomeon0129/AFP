@@ -390,7 +390,8 @@ export class AppService {
   /** 判斷跳出網頁或APP的登入頁 */
   loginPage() {
     if (this.isApp == null) {
-      this.modal.openModal('login');
+      // this.modal.openModal('login');
+      this.modal.openModal('loginRegister');
     } else {
       if (navigator.userAgent.match(/android/i)) {
         //  Android
