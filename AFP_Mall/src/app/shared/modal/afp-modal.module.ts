@@ -15,6 +15,7 @@ import { SharedPipeModule } from '../../pipe/shared-pipe.module';
 import { MissionModalComponent } from './mission-modal/mission-modal.component';
 import { ReceiptModalComponent } from './receipt-modal/receipt-modal.component';
 import { MsgShareModalComponent } from './msg-share-modal/msg-share-modal.component';
+import { AppRoutingModule } from '../../app-routing.module';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { MsgShareModalComponent } from './msg-share-modal/msg-share-modal.compon
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedPipeModule
+    SharedPipeModule,
+    AppRoutingModule
   ]
 })
 export class AfpModalModule { }
