@@ -52,15 +52,19 @@ export class ForgetModalComponent implements OnInit {
     this.vcodeSet = false;
     this.appService.toApi('AFPAccount', '1102', this.verify).subscribe((data: Response_AFPVerify) => {
       const initialState = {
+        success: true,
+        message: '手機驗證成功！立即重設密碼',
+        showType: 3,
         UserInfoCode: data.UserInfo_Code,
         verifyCode: data.NoticeLog_CheckCode
       };
-      this.modalService.confirm({ initialState: { message: '手機驗證成功！立即重設密碼' } }).subscribe( (res: boolean) => {
-        if (res) {
-          this.modalService.show('password', { initialState });
-        }
-        clearInterval(this.vcodeCount);
-      });
+      this.modalService.show('message', { initialState}, this.bsModalRef);
+      // this.modalService.confirm({ initialState: { message: '手機驗證成功！立即重設密碼' } }).subscribe( (res: boolean) => {
+      //   if (res) {
+      //     this.modalService.show('password', { initialState });
+      //   }
+      //   clearInterval(this.vcodeCount);
+      // });
     });
   }
 

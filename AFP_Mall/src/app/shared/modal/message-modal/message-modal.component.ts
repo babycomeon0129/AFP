@@ -10,12 +10,15 @@ import { AFP_ADImg } from '../../../_models';
   templateUrl: './message-modal.component.html'
 })
 export class MessageModalComponent implements OnInit {
-  showType = 1; // 1-預設; 999-核銷優惠券成功時(顯示一張廣告圖)
+  showType = 1; // 1-預設;2-前往登入; 3-前往重設密碼 999-核銷優惠券成功時(顯示一張廣告圖)
   success: boolean;
   message: string;
   target: string;
   note: string;
   adImgList: AFP_ADImg[];
+  /** 重設密碼用 */
+  UserInfoCode: number;
+  verifyCode: string;
 
   constructor(public bsModalRef: BsModalRef, public modal: ModalService, private router: Router, public appService: AppService) { }
 
@@ -35,6 +38,18 @@ export class MessageModalComponent implements OnInit {
     this.bsModalRef.hide();
     if (this.target != null && this.target.replace(/(^s*)|(s*$)/g, '').length !== 0) {
       this.router.navigate([this.target]);
+    }
+  }
+
+  doReset(): void {
+    if (this.appService.isApp != null) {
+      this.bsModalRef.hide();
+    } else {
+      const initialState = {
+        UserInfoCode: this.UserInfoCode,
+        verifyCode: this.verifyCode
+      };
+      this.modal.show('password', { initialState }, this.bsModalRef);
     }
   }
 }
