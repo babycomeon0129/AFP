@@ -15,6 +15,7 @@ import { SharedPipeModule } from '../../pipe/shared-pipe.module';
 import { MissionModalComponent } from './mission-modal/mission-modal.component';
 import { ReceiptModalComponent } from './receipt-modal/receipt-modal.component';
 import { MsgShareModalComponent } from './msg-share-modal/msg-share-modal.component';
+import { AppleModalComponent } from './apple-modal/apple-modal.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { MsgShareModalComponent } from './msg-share-modal/msg-share-modal.compon
     JustkaModalComponent,
     MissionModalComponent,
     ReceiptModalComponent,
-    MsgShareModalComponent
+    MsgShareModalComponent,
+    AppleModalComponent
   ],
   entryComponents: [
     LoginModalComponent,
@@ -45,7 +47,8 @@ import { MsgShareModalComponent } from './msg-share-modal/msg-share-modal.compon
     JustkaModalComponent,
     MissionModalComponent,
     ReceiptModalComponent,
-    MsgShareModalComponent
+    MsgShareModalComponent,
+    AppleModalComponent
   ],
   imports: [
     CommonModule,

@@ -82,6 +82,7 @@ export class Request_MemberThird extends Model_ShareData {
 
 export class Response_MemberThird extends Model_ShareData {
   List_UserThird: AFP_UserThird[];
+  Done: boolean;
 }
 
 // for MemberService & ThirdBinding

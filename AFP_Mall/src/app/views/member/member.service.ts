@@ -44,6 +44,7 @@ export class MemberService {
       Store_Note: ''
     };
     this.appService.toApi('Member', '1506', request).subscribe((data: Response_MemberThird) => {
+      console.log(data);
       if (data.List_UserThird.length > 0) {
         data.List_UserThird.forEach((value) => {
           switch (value.UserThird_Mode) {

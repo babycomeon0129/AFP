@@ -14,6 +14,7 @@ import { JustkaModalComponent } from '../shared/modal/justka-modal/justka-modal.
 import { MissionModalComponent } from '../shared/modal/mission-modal/mission-modal.component';
 import { ReceiptModalComponent } from '../shared/modal/receipt-modal/receipt-modal.component';
 import { MsgShareModalComponent } from '../shared/modal/msg-share-modal/msg-share-modal.component';
+import { AppleModalComponent } from '../shared/modal/apple-modal/apple-modal.component';
 
 @Injectable({
   providedIn: 'root'
@@ -125,4 +126,10 @@ export class ModalService {
     const ModalRef =  this.bsModalService.show(CouponModalComponent, options);
     return ModalRef.content.couponResult;
   }
+
+  public appleLogin(options: ModalOptions): Observable<any> {
+    const ModalRef =  this.bsModalService.show(AppleModalComponent, options);
+    return ModalRef.content.appleUser;
+  }
+
 }

@@ -1328,3 +1328,18 @@ export class Response_AFPLogin extends Model_ShareData {
   Model_UserInfo?: Model_CustomerInfo;
   List_UserFavourite?: AFP_UserFavourite;
 }
+
+export class Third_AppleUser {
+  authorization: {
+    state: string;
+    code: string;
+    id_token: string;
+  };
+  user?: {
+    email: string;
+    name: {
+      firstName: string;
+      lastName: string;
+    };
+  };
+}

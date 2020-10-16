@@ -4,6 +4,7 @@ import { AuthService, SocialUser, FacebookLoginProvider, GoogleLoginProvider } f
 import { AppService } from 'src/app/app.service';
 import { ModalService } from 'src/app/service/modal.service';
 import { MemberService } from '../member.service';
+import { Request_AFPThird } from 'src/app/_models';
 
 @Component({
   selector: 'app-third-binding',
@@ -12,10 +13,11 @@ import { MemberService } from '../member.service';
 })
 export class ThirdBindingComponent implements OnInit {
   // 第三方登入 User容器
-  thirdUser: SocialUser;
-  thirdClick = false;
+  public thirdUser: SocialUser;
+  public thirdClick = false;
   /** 第三方資訊類型 1 FB, 3 Google */
   public bindMode = 0;
+  /** 第三方登入 request */
 
   constructor(public appService: AppService, private authService: AuthService, public modal: ModalService,
               public memberService: MemberService) {
@@ -54,15 +56,36 @@ export class ThirdBindingComponent implements OnInit {
   /** FB登入按鈕 */
   public signInWithFB(): void {
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
-    this.bindMode = 1;
     this.thirdClick = true;
+    this.thirdbind(1);
   }
 
   /** Google登入按鈕 */
   public signInWithGoogle(): void {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
-    this.bindMode = 3;
     this.thirdClick = true;
+    this.thirdbind(3);
+  }
+
+  /** 社群帳號綁定
+   * @param mode 1:FB 3:Google 5:Apple
+   */
+  thirdbind(mode: number) {
+    this.authService.authState.subscribe( (user: SocialUser) => {
+      console.log(user);
+      const request: Request_MemberThird = {
+        SelectMode: 1,
+        User_Code: sessionStorage.getItem('userCode'),
+        Store_Note: '',
+        Mode: mode,
+        Token: user.id,
+        JsonData: JSON.stringify(user)
+      };
+      // SelectMode = 1 時沒有丟 List_UserThird
+      this.appService.toApi('Member', '1506', request).subscribe( (data: Response_MemberThird) => {
+        console.log(data);
+      });
+    });
   }
 
   /** 社群帳號解除 */
@@ -75,7 +98,7 @@ export class ThirdBindingComponent implements OnInit {
           User_Code: sessionStorage.getItem('userCode'),
           Mode: mode
         };
-
+        // SelectMode = 2 時沒有丟 List_UserThird
         this.appService.toApi('Member', '1506', request).subscribe((data: Response_MemberThird) => {
           this.memberService.readThirdData();
         });

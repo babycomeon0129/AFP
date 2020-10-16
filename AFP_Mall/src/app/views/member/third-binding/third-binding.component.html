@@ -32,6 +32,15 @@
           <button type="button" class="btn msg-open" [hidden]="memberService.FBThird == null" (click)="onDelThird(memberService.FBThird.UserThird_Mode)">解除綁定</button>
         </div>
       </li>
+      <li>
+        <div class="item item-img">
+            <img src="../img/index/social/apply.svg" alt="">
+        </div>
+        <div class="item">Apple ID</div>
+        <div class="item auto-left">
+          <button type="button" class="btn msg-open"  (click)="modal.appleLogin();">綁定</button>
+        </div>
+    </li>
       <li style="display: none;">
         <div class="item item-img">
           <img src="../../img/index/social/line.svg" alt="">
