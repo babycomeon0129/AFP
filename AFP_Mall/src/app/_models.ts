@@ -1,3 +1,4 @@
+import { slideInAnimation } from './animations';
 export interface Search_ConsHome {
   IndexArea_Code?: number;
   IndexTravel_Code?: number;
@@ -1341,5 +1342,19 @@ export class Third_AppleUser {
       firstName: string;
       lastName: string;
     };
-  };
+  }
+}
+export class Response_AFPVerifyCode extends Model_ShareData {
+  VerifiedInfo?: AFP_VerifiedInfo;
+}
+
+export class Request_AFPVerifyCode extends Model_ShareData {
+  VerifiedAction: number;
+  VerifiedInfo?: AFP_VerifiedInfo;
+}
+
+export interface AFP_VerifiedInfo {
+  VerifiedPhone?: string;
+  CheckValue?: string;
+  VerifiedCode?: string;
 }

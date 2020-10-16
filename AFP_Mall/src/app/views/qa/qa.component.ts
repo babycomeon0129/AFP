@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation } from '../../animations';
+declare var AppJSInterface: any;
 
 @Component({
   selector: 'app-qa',
@@ -10,8 +11,8 @@ import { layerAnimation } from '../../animations';
   animations: [layerAnimation]
 })
 export class QAComponent implements OnInit {
-  /** 顯示區塊 */
-  public shownSection: number;
+  /** 是否從APP登入頁進入 */
+  public fromAppLogin: boolean;
 
   constructor(public appService: AppService, private meta: Meta, private title: Title) {
     // tslint:disable: max-line-length
@@ -22,6 +23,26 @@ export class QAComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.appService.isApp !== null && (this.appService.prevUrl === '/' || this.appService.prevUrl === '')) {
+      this.fromAppLogin = true;
+    } else {
+      this.fromAppLogin = false;
+    }
+  }
+
+  /** 若從APP登入頁進入則按回上一頁時APP把此頁關掉 */
+  backIf() {
+    if (this.fromAppLogin) {
+      if (navigator.userAgent.match(/android/i)) {
+        //  Android
+        AppJSInterface.back();
+      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+        //  IOS
+        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'back' });
+      }
+    } else {
+      history.back();
+    }
   }
 
 }
