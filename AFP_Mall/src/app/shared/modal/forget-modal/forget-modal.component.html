@@ -34,7 +34,7 @@
                 <div class="col-12 pb-3">
                     <input type="text" placeholder="請輸入註冊時使用的手機號碼" id="vphone" name="AFPAccount" #AFPAccount="ngModel"
                         [ngClass]="{'bb-org': (AFPAccount.touched || AFPAccount.dirty) && AFPAccount.invalid}"
-                        [(ngModel)]="request.AFPAccount" pattern="^[0-9\*]{0,10}$" required>
+                        [(ngModel)]="request.VerifiedInfo.VerifiedPhone" pattern="^[0-9\*]{0,10}$" required>
                     <div class="small-warning pl-0 warningNote visible">
                         <span *ngIf="(AFPAccount.touched || AFPAccount.dirty) && AFPAccount.invalid">格式錯誤，請重新輸入</span></div>
                 </div>
@@ -47,7 +47,7 @@
                     <div class="small-warning t-gray pl-0 stepV1 visible">
                         <p>
                           <ng-container *ngIf="vcodeSet">
-                            驗證碼已發送至 {{request.AFPAccount}}
+                            驗證碼已發送至 {{request.VerifiedInfo.VerifiedPhone}}
                           </ng-container>
                           <ng-container *ngIf="vcodeSeconds > 0">
                             <br>沒有收到驗證碼？<span class="text-blue">{{vcodeSeconds}}秒後可重新點選「取得驗證碼」</span>
