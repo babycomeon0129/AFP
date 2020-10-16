@@ -46,11 +46,8 @@
                         [(ngModel)]="verify.AFPVerify" #AFPVerify="ngModel" required>
                     <div class="small-warning t-gray pl-0 stepV1 visible">
                         <p>
-                          <ng-container *ngIf="vcodeSet">
-                            驗證碼已發送至 {{request.VerifiedInfo.VerifiedPhone}}
-                          </ng-container>
                           <ng-container *ngIf="vcodeSeconds > 0">
-                            <br>沒有收到驗證碼？<span class="text-blue">{{vcodeSeconds}}秒後可重新點選「取得驗證碼」</span>
+                            <br>沒有收到驗證碼？<span class="text-blue">可重新點選「取得驗證碼」</span>
                           </ng-container>
                         </p>
                     </div>
@@ -59,14 +56,14 @@
                 </div>
                 <div class="col-5 pl-1">
                     <button type="button" class="btn index-btn border-radius5 w-100 px-1 small-70 " id="getPhone"
-                    [ngClass]="{'gray-btn': vcodeSeconds !== 0}"
-                    (click)="setVcode();" [disabled]="vcodeSeconds !== 0 || AFPAccount.invalid">取得手機驗證碼</button>
+                    [ngClass]="{'gray-btn': vcodeSeconds !== 0 || AFPAccount.invalid}"
+                    (click)="setVcode();" [disabled]="vcodeSeconds !== 0 || AFPAccount.invalid">{{vcodeSeconds > 0 ? '剩餘'+ vcodeSeconds + '秒': '取得手機驗證碼'}}</button>
                 </div>
                 <div class="col-12 py-3">
                     <button type="submit" class="btn index-btn footerBtn msg-open" value="msg-vphone"
                         data-toggle="modal" data-target="#messageModal" data-dismiss="modal"
-                        [ngClass]="{'gray-btn': this.verify.UserInfo_Code === 0}"
-                        [disabled]="this.verify.UserInfo_Code === 0"
+                        [ngClass]="{'gray-btn': request.VerifiedInfo.CheckValue === null}"
+                        [disabled]="request.VerifiedInfo.CheckValue === null"
                         aria-label="Close">立即驗證</button>
                 </div>
             </div>
