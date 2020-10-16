@@ -24,7 +24,11 @@ export class ThirdBindingComponent implements OnInit {
   }
 
   ngOnInit() {
+  //  this.authService.signOut();
     this.memberService.readThirdData();
+    this.authService.authState.subscribe((data: SocialUser) => {
+     // console.log(data);
+    });
   }
 
   /** 讀取社群帳號 */
@@ -57,14 +61,15 @@ export class ThirdBindingComponent implements OnInit {
   public signInWithFB(): void {
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
     this.thirdClick = true;
-    this.thirdbind(1);
+  //  this.thirdbind(1);
   }
 
   /** Google登入按鈕 */
   public signInWithGoogle(): void {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
+    this.bindMode = 3;
     this.thirdClick = true;
-    this.thirdbind(3);
+  //  this.thirdbind(3);
   }
 
   /** 社群帳號綁定
