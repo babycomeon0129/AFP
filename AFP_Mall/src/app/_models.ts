@@ -1,3 +1,4 @@
+import { slideInAnimation } from './animations';
 export interface Search_ConsHome {
   IndexArea_Code?: number;
   IndexTravel_Code?: number;
@@ -312,9 +313,7 @@ export interface Response_AFPVerify {
 
 export interface Request_AFPPassword {
   AFPPassword: string;
-  AFPPasswordRe: string;
-  UserInfo_Code: number;
-  AFPVerify: string;
+  VerifiedInfo?: AFP_VerifiedInfo;
 }
 
 export class Model_ShareData {
@@ -1327,4 +1326,19 @@ export class AFP_IMessage {
 export class Response_AFPLogin extends Model_ShareData {
   Model_UserInfo?: Model_CustomerInfo;
   List_UserFavourite?: AFP_UserFavourite;
+}
+
+export class Response_AFPVerifyCode extends Model_ShareData {
+  VerifiedInfo?: AFP_VerifiedInfo;
+}
+
+export class Request_AFPVerifyCode extends Model_ShareData {
+  VerifiedAction: number;
+  VerifiedInfo?: AFP_VerifiedInfo;
+}
+
+export interface AFP_VerifiedInfo {
+  VerifiedPhone?: string;
+  CheckValue?: string;
+  VerifiedCode?: string;
 }
