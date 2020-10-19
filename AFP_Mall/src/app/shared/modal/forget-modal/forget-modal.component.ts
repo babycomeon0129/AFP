@@ -1,10 +1,11 @@
-import { async } from '@angular/core/testing';
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { ModalService } from 'src/app/service/modal.service';
 import { AppService } from 'src/app/app.service';
-import { Model_ShareData, Request_AFPVerify, Response_AFPVerify } from 'src/app/_models';
-import { promise } from 'protractor';
+import {
+  Model_ShareData, Request_AFPVerify, Response_AFPVerifyCode,
+  Request_AFPVerifyCode
+} from 'src/app/_models';
 
 @Component({
   selector: 'app-forget-modal',
@@ -12,7 +13,14 @@ import { promise } from 'protractor';
 })
 export class ForgetModalComponent implements OnInit {
   /** 取得驗證碼用的request */
-  public request: Request_AFPChangePwd = new Request_AFPChangePwd();
+  public request: Request_AFPVerifyCode = {
+    VerifiedAction: 2,
+    SelectMode: 12,
+    VerifiedInfo: {
+      VerifiedPhone: null,
+      CheckValue: null
+    }
+  };
   /** 驗證碼用 */
   public verify: Request_AFPVerify = {
     UserInfo_Code: 0,
@@ -27,17 +35,18 @@ export class ForgetModalComponent implements OnInit {
 
 
   constructor(public bsModalRef: BsModalRef, public modal: ModalService, private appService: AppService,
-              private modalService: ModalService ) { }
+              private modalService: ModalService) { }
 
   /** 取得驗證碼 */
   setVcode() {
     this.appService.openBlock();
-    this.appService.toApi('AFPAccount', '1106', this.request).subscribe((data: Response_AFPChangePwd) => {
-      this.verify.UserInfo_Code = data.UserInfo_Code;
+    this.appService.toApi('AFPAccount', '1112', this.request).subscribe((data: Response_AFPVerifyCode) => {
+      this.request.VerifiedInfo.CheckValue = data.VerifiedInfo.CheckValue;
+      this.request.VerifiedInfo.VerifiedCode = data.VerifiedInfo.VerifiedCode;
       this.vcodeSeconds = 59;
       this.vcodeSet = true;
       this.vcodeCount = setInterval(() => {
-        if ( this.vcodeSeconds > 0 ) {
+        if (this.vcodeSeconds > 0) {
           this.vcodeSeconds--;
         } else {
           clearInterval(this.vcodeCount);
@@ -50,21 +59,17 @@ export class ForgetModalComponent implements OnInit {
   onSubmit() {
     this.appService.openBlock();
     this.vcodeSet = false;
-    this.appService.toApi('AFPAccount', '1102', this.verify).subscribe((data: Response_AFPVerify) => {
-      const initialState = {
-        success: true,
-        message: '手機驗證成功！立即重設密碼',
-        showType: 3,
-        UserInfoCode: data.UserInfo_Code,
-        verifyCode: data.NoticeLog_CheckCode
-      };
-      this.modalService.show('message', { initialState}, this.bsModalRef);
-      // this.modalService.confirm({ initialState: { message: '手機驗證成功！立即重設密碼' } }).subscribe( (res: boolean) => {
-      //   if (res) {
-      //     this.modalService.show('password', { initialState });
-      //   }
-      //   clearInterval(this.vcodeCount);
-      // });
+    this.request.SelectMode = 21;
+    this.appService.toApi('Home', '1112', this.request).subscribe((data: Response_AFPVerifyCode) => {
+      if (data !== null) {
+        const initialState = {
+          success: true,
+          message: '手機驗證成功！立即重設密碼',
+          showType: 3,
+          VerifiedInfo: data.VerifiedInfo
+        };
+        this.modalService.show('message', { initialState }, this.bsModalRef);
+      }
     });
   }
 

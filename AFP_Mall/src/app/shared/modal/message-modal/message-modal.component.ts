@@ -3,7 +3,7 @@ import { BsModalRef } from 'ngx-bootstrap';
 import { ModalService } from 'src/app/service/modal.service';
 import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
-import { AFP_ADImg } from '../../../_models';
+import { AFP_ADImg, Request_AFPVerifyCode, AFP_VerifiedInfo } from '../../../_models';
 
 @Component({
   selector: 'app-message-modal',
@@ -17,8 +17,7 @@ export class MessageModalComponent implements OnInit {
   note: string;
   adImgList: AFP_ADImg[];
   /** 重設密碼用 */
-  UserInfoCode: number;
-  verifyCode: string;
+  VerifiedInfo: AFP_VerifiedInfo;
 
   constructor(public bsModalRef: BsModalRef, public modal: ModalService, private router: Router, public appService: AppService) { }
 
@@ -46,8 +45,7 @@ export class MessageModalComponent implements OnInit {
       this.bsModalRef.hide();
     } else {
       const initialState = {
-        UserInfoCode: this.UserInfoCode,
-        verifyCode: this.verifyCode
+        VerifiedInfo: this.VerifiedInfo
       };
       this.modal.show('password', { initialState }, this.bsModalRef);
     }

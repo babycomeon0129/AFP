@@ -313,9 +313,7 @@ export interface Response_AFPVerify {
 
 export interface Request_AFPPassword {
   AFPPassword: string;
-  AFPPasswordRe: string;
-  UserInfo_Code: number;
-  AFPVerify: string;
+  VerifiedInfo?: AFP_VerifiedInfo;
 }
 
 export class Model_ShareData {
