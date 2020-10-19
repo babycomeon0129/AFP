@@ -29,6 +29,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.readThirdData();
+    this.authService.signOut();
     this.authService.authState.subscribe((user: SocialUser) => {
       if (user !== null) {
         this.thirdUser = user;
@@ -44,12 +45,17 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
         // tslint:disable-next-line: no-shadowed-variable
         this.appService.toApi('Member', '1506', this.thirdReques).subscribe(( data: Response_MemberThird) => {
           console.log(data);
+          
           switch (this.bindMode) {
             case 1:
               this.thirdName.fb = this.thirdUser.name;
               break;
             case 3 :
               this.thirdName.google = this.thirdUser.name;
+              break;
+            case 5 :
+              this.thirdName.apple = this.thirdUser.name;
+              break;
           }
           this.authService.signOut();
         });
@@ -95,6 +101,8 @@ readThirdData() {
             break;
         }
       });
+    } else {
+      console.log('data == null');
     }
   });
 }
@@ -102,6 +110,7 @@ readThirdData() {
   /** FB登入按鈕 */
   public signInWithFB(): void {
   this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+  this.bindMode = 3;
   this.thirdClick = true;
   //  this.thirdbind(1);
 }
