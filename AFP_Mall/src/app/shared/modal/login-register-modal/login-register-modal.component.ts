@@ -1,11 +1,12 @@
 import { environment } from '../../../../environments/environment';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from 'src/app/service/modal.service';
 import { AuthService, SocialUser, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 import { NgForm } from '@angular/forms';
-import { Request_AFPThird, Model_ShareData, Response_AFPLogin, Request_AFPAccount, Response_AFPAccount } from 'src/app/_models';
+import { Request_AFPThird, Model_ShareData, Response_AFPLogin, Request_AFPAccount, Response_AFPAccount,
+  Request_AFPVerifyCode, Response_AFPVerifyCode } from 'src/app/_models';
 import { CookieService } from 'ngx-cookie-service';
 import jwt_decode from 'jwt-decode';
 declare var AppleID: any;
@@ -15,7 +16,7 @@ declare var AppleID: any;
   selector: 'app-login-register-modal',
   templateUrl: './login-register-modal.component.html',
 })
-export class LoginRegisterModalComponent implements OnInit {
+export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   /** FB、Google 第三方登入 User容器 */
   private thirdUser: SocialUser;
   /** Apple 第三方登入 User容器 */
@@ -28,13 +29,30 @@ export class LoginRegisterModalComponent implements OnInit {
   public loginRequest: Request_AFPLogin = new Request_AFPLogin();
   /** 設備是否為Apple (是則不顯示Apple登入) */
   public isApple: boolean;
-  /** 註冊 request */
+  /** 註冊 request TODO: */
   public registerRequest: Request_AFPAccount = {
     AFPType: 1,
     AFPAccountCTY: 886,
-    AFPAccount: '',
+    AFPAccount: null,
+    AFPPassword: null,
     Agree: false,
+    VerifiedInfo: {
+      VerifiedPhone: null,
+      CheckValue: null,
+      VerifiedCode: null
+    }
   };
+  // public registerRequest: Request_AFPAccount = new Request_AFPAccount();
+  /** 登入頁密碼是否可見 */
+  public loginPswVisible = false;
+  /** 註冊頁密碼1是否可見 */
+  public regPsw1Visible = false;
+  /** 註冊頁密碼2是否可見 */
+  public regPsw2Visible = false;
+  /** 註冊-重新發送驗證碼剩餘秒數 */
+  public remainingSec = 0;
+  /** 註冊-重新發送驗證碼倒數 timer */
+  public vCodeTimer;
 
   constructor(
     public bsModalRef: BsModalRef, private authService: AuthService, private appService: AppService, public modal: ModalService,
@@ -157,22 +175,68 @@ export class LoginRegisterModalComponent implements OnInit {
     });
   }
 
+  /** 註冊-發送手機驗證碼 */
+  sendRegVCode() {
+    this.remainingSec = 60;
+    const request: Request_AFPVerifyCode = {
+      SelectMode: 11,
+      VerifiedAction: 1,
+      VerifiedInfo: {
+        VerifiedPhone: this.registerRequest.AFPAccount,
+        CheckValue: null,
+        VerifiedCode: null
+      }
+    };
+    console.log('request:', request);
+
+    this.appService.toApi('AFPAccount', '1112', request).subscribe((data: Response_AFPVerifyCode) => {
+      console.log('data:', data);
+      // 開始倒數
+      this.vCodeTimer = setInterval(() => {
+        this.remainingSec -= 1;
+        if (this.remainingSec <= 0) {
+          clearInterval(this.vCodeTimer);
+        }
+      }, 1000);
+      // 接使用者編碼
+      this.registerRequest.VerifiedInfo.CheckValue = data.VerifiedInfo.CheckValue;
+      document.getElementById('registeredCheck1').focus();
+    });
+  }
+
   /** 註冊送出 */
   onRegSubmit() {
+    this.registerRequest.VerifiedInfo.VerifiedPhone = this.registerRequest.AFPAccount;
+    console.log(this.registerRequest);
     this.appService.openBlock();
     this.appService.toApi('AFPAccount', '1101', this.registerRequest).subscribe((data: Response_AFPAccount) => {
-      this.registerRequest.AFPAccountCTY = 886;
-      const initialState = {
-        UserInfoCode: data.UserInfo_Code,
-        Account: this.registerRequest.AFPAccount,
-        Type: 1101
+      console.log(data);
+      const firstLogin: Request_AFPLogin = {
+        AFPAccount: this.registerRequest.AFPAccount,
+        AFPPassword: this.registerRequest.AFPPassword
       };
-      // this.modal.show('vcode', { initialState }, this.bsModalRef);
-      // this.modal.confirm({ initialState: { message: '註冊成功！歡迎加入Mobii！小技巧：綁定您的社群帳號，未來就可快速登入囉！' } }).subscribe(res => {
-      //   if (res) {
+      // 自動登入
+      this.appService.openBlock();
+      this.appService.toApi('AFPAccount', '1104', firstLogin).subscribe((loginData: Response_AFPLogin) => {
+        sessionStorage.setItem('userName', loginData.Model_UserInfo.Customer_Name);
+        sessionStorage.setItem('userCode', loginData.Model_UserInfo.Customer_Code);
+        sessionStorage.setItem('CustomerInfo', loginData.Model_UserInfo.CustomerInfo);
+        sessionStorage.setItem('userFavorites', JSON.stringify(loginData.List_UserFavourite));
 
-      //   }
-      // });
+        this.cookieService.set('userName', loginData.Model_UserInfo.Customer_Name, 90, '/',
+          environment.cookieDomain, environment.cookieSecure);
+        this.cookieService.set('userCode', loginData.Model_UserInfo.Customer_Code, 90, '/',
+          environment.cookieDomain, environment.cookieSecure);
+        this.cookieService.set('CustomerInfo', loginData.Model_UserInfo.CustomerInfo, 90, '/',
+          environment.cookieDomain, environment.cookieSecure);
+        this.appService.loginState = true;
+        this.bsModalRef.hide(); // TODO: asl Lisa
+        this.appService.showFavorites();
+        this.appService.readCart();
+      });
+      // 提示社群綁
+      const msg = `註冊成功！歡迎加入Mobii!\n小技巧：綁定您的社群帳號，未來就可快速登入囉！`;
+      this.modal.show('message', { initialState: { success: true, message: msg, showType: 4 } });
     });
   }
 
@@ -184,6 +248,19 @@ export class LoginRegisterModalComponent implements OnInit {
     } else {
       this.isApple = false;
     }
+  }
+
+  stopTimer() {
+    clearInterval(this.vCodeTimer);
+  }
+
+  closeModal() {
+    this.bsModalRef.hide();
+    clearInterval(this.vCodeTimer);
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.vCodeTimer);
   }
 }
 

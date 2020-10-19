@@ -1,7 +1,7 @@
 <div class="modal-header" data-dismiss="modal" aria-label="Close">
 </div>
 <div class="popup-banner for-mobile">
-    <button type="button" (click)="bsModalRef.hide()" class="close close-btn" data-dismiss="modal" aria-label="Close">
+    <button type="button" (click)="closeModal()" class="close close-btn" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
@@ -15,7 +15,7 @@
                 <!-- Nav tabs -->
                 <ul class="nav-tab-list nav nav-tabs nav-line mb-2 d-flex justify-content-around" role="tablist" id="mainTab">
                         <li role="presentation" class="active">
-                            <a href="#logintag01" class="tablist-link active" aria-controls="logintag01" role="tab" data-toggle="tab" aria-selected="true">登入</a>
+                            <a href="#logintag01" (click)="stopTimer()" class="tablist-link active" aria-controls="logintag01" role="tab" data-toggle="tab" aria-selected="true">登入</a>
                         </li>
                         <li role="presentation">
                             <a href="#logintag02" class="tablist-link" aria-controls="logintag02" role="tab" data-toggle="tab" aria-selected="false">註冊</a>
@@ -70,21 +70,22 @@
                                             pattern="^09\d{8}$" minlength="10" maxlength="10" required placeholder="請輸入手機號碼，例：0912345678" id="loginEmailTel">
                                             <div *ngIf="AFPAccount.touched && AFPAccount.invalid"
                                               class="small-warning pl-0 warningNote">
-                                              <span>請輸入手機號碼</span>
+                                              <span>格式錯誤，請輸入完整手機號碼</span>
                                             </div>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="password-tit">密碼</div>
                                         <div class="password-item">
-                                            <input id="loginPassword" type="password" name="AFPPassword" #AFPPassword="ngModel" [(ngModel)]="loginRequest.AFPPassword"
-                                              required placeholder="請輸入6～12位英數混合">
-                                            <span toggle="#loginPassword" class="toggle-password">
-                                                <i class="material-icons visibility d-none">&#xE8F4;</i>
-                                                <i class="material-icons visibility-off">&#xE8F5;</i>
+                                            <input id="loginPassword" [type]="[loginPswVisible === false? 'password' : 'text']"
+                                              name="AFPPassword" #AFPPassword="ngModel" [(ngModel)]="loginRequest.AFPPassword"
+                                              minlength="6" maxlength="12" required placeholder="請輸入6～12位英數混合">
+                                            <span (click)="loginPswVisible = !loginPswVisible" toggle="#loginPassword" class="toggle-password">
+                                                <i *ngIf="loginPswVisible" class="material-icons visibility">&#xE8F4;</i>
+                                                <i *ngIf="!loginPswVisible" class="material-icons visibility-off">&#xE8F5;</i>
                                             </span>
                                             <div *ngIf="AFPPassword.invalid && (AFPPassword.dirty || AFPPassword.touched)" class="small-warning pl-0 warningNote">
-                                              <span>密碼錯誤</span>
+                                              <span>格式錯誤，請輸入6到12位英數混和字元</span>
                                             </div>
                                         </div>
                                     </li>
@@ -120,54 +121,56 @@
                                     <li>
                                         <div class="account-tit">帳號</div>
                                         <div class="account-item">
-                                            <input id="regEmailTel" type="tel" name="regAccount" #regAccount="ngModel" [(ngModel)]="registerRequest.AFPAccount"
+                                            <input id="regEmailTel" appDigitOnly type="tel" name="regAccount" #regAccount="ngModel" [(ngModel)]="registerRequest.AFPAccount"
                                               pattern="^09\d{8}$" required [ngClass]="{'bb-org': regAccount.touched && regAccount.invalid}"
                                               placeholder="請輸入手機號碼，例：0912345678">
-                                              <!-- TODO: check if the account exists -->
-                                            <div class="small-warning pl-0 warningNote"><span>帳號已存在，請重新輸入</span></div>
+                                            <div *ngIf="regAccount.touched && regAccount.invalid" class="small-warning pl-0 warningNote"><span>請輸入手機號碼</span></div>
+                                            <!-- <div class="small-warning pl-0 warningNote"><span>帳號已存在，請重新輸入</span></div> -->
                                         </div>
                                     </li>
                                     <li>
                                         <div class="password-tit">密碼</div>
                                         <div class="password-item">
-                                          <!-- TODO: [(ngModel)] psw in register model; 不分大小寫-->
-                                            <input id="regPassword" type="password" name="regPsw" #regPsw="ngModel" [(ngModel)]="registerRequest.AFPAccount"
-                                            pattern="[a-zA-Z0-9]" minlength="6" maxlength="12" required [ngClass]="{'bb-org': regPsw.touched && regPsw.invalid}"
+                                            <input id="regPassword" [type]="[regPsw1Visible? 'text' : 'password']" name="regPsw" #regPsw="ngModel" [(ngModel)]="registerRequest.AFPPassword"
+                                            pattern="^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$" minlength="6" maxlength="12" required [ngClass]="{'bb-org': regPsw.touched && regPsw.invalid}"
                                             placeholder="請輸入6～12位英數混合">
-                                            <span toggle="#regPassword" class="toggle-password">
-                                                <i class="material-icons visibility d-none">&#xE8F4;</i>
-                                                <i class="material-icons visibility-off">&#xE8F5;</i>
+                                            <span (click)="regPsw1Visible = !regPsw1Visible" toggle="#regPassword" class="toggle-password">
+                                                <i *ngIf="regPsw1Visible" class="material-icons visibility">&#xE8F4;</i>
+                                                <i *ngIf="!regPsw1Visible" class="material-icons visibility-off">&#xE8F5;</i>
                                             </span>
-                                            <div *ngIf="regPsw.touched && regPsw.invalid" class="small-warning pl-0 warningNote"><span>請輸入密碼</span></div>
+                                            <div *ngIf="regPsw.touched && regPsw.invalid" class="small-warning pl-0 warningNote"><span>格式錯誤，請重新輸入</span></div>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="password2-tit">確認密碼</div>
                                         <div class="password2-item">
-                                          <!-- TODO: [(ngModel)] psw2-->
-                                            <input id="regPasswordCk" type="password" name="regPsw2" #regPsw2="ngModel" [(ngModel)]="registerRequest.AFPAccount"
-                                            pattern="[a-zA-Z0-9]" minlength="6" maxlength="12" required [ngClass]="{'bb-org': regPsw2.touched && regPsw2.invalid}"
+                                            <input id="regPasswordCk" [type]="[regPsw2Visible? 'text' : 'password']" name="regPsw2" #regPsw2="ngModel" [(ngModel)]="registerRequest.AFPPassword2"
+                                            pattern="^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$" minlength="6" maxlength="12" required [ngClass]="{'bb-org': regPsw2.touched && regPsw2.invalid}"
                                             placeholder="請再次輸入密碼">
-                                            <span toggle="#regPasswordCk" class="toggle-password">
-                                                <i class="material-icons visibility d-none">&#xE8F4;</i>
-                                                <i class="material-icons visibility-off">&#xE8F5;</i>
+                                            <span (click)="regPsw2Visible = !regPsw2Visible" toggle="#regPasswordCk" class="toggle-password">
+                                                <i *ngIf="regPsw2Visible" class="material-icons visibility">&#xE8F4;</i>
+                                                <i *ngIf="!regPsw2Visible" class="material-icons visibility-off">&#xE8F5;</i>
                                             </span>
-                                            <div *ngIf="regPsw2.touched && regPsw2.invalid" class="small-warning pl-0 warningNote"><span>請再次輸入密碼</span></div>
+                                            <div *ngIf="regPsw2.touched && regPsw2.value !== regPsw.value" class="small-warning pl-0 warningNote"><span>密碼不相符，請再次輸入</span></div>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="vcode-tit">驗證碼</div>
                                         <div class="vcode-item row">
                                             <div class="col-7 pb-3 px-0">
-                                              <!-- TODO: [(ngModel)] VCode & secs-->
-                                                <input id="regEmailTel" type="tel" appDigitOnly name="VCode" #VCode="ngModel" [(ngModel)]="registerRequest.AFPAccount"
+                                              <!-- TODO: [(ngModel)] secs -->
+                                                <input id="regEmailTel" type="tel" appDigitOnly name="VCode" #VCode="ngModel" [(ngModel)]="registerRequest.VerifiedInfo.VerifiedCode"
                                                   pattern="\d{6}$" minlength="6" maxlength="6" required [ngClass]="{'bb-org': VCode.touched && VCode.invalid}"
                                                   placeholder="請輸入收到的驗證碼">
-                                                <div class="small-warning t-gray pl-0 stepV1 d-none"><p>驗證碼已發送至 0912345678<br>沒有收到驗證碼？<span class="text-blue">59秒後重新傳送</span></p></div>
-                                                <div *ngIf="VCode.touched && VCode.invalid" class="small-warning pl-0 warningNote"><span>請輸入驗證碼</span></div>
+                                                <div *ngIf="remainingSec > 0" class="small-warning t-gray pl-0 stepV1"><p>沒有收到驗證碼？<span class="text-blue">可重新點選「取得驗證碼」</span></p></div>
+                                                <div *ngIf="remainingSec === 0 && (VCode.touched && VCode.invalid)" class="small-warning pl-0 warningNote"><span>請輸入手機驗證碼</span></div>
                                             </div>
                                             <div class="col-5 px-1">
-                                                <button type="button" class="btn index-btn border-radius5 w-100 px-1 small-70" id="getPhone">取得手機驗證碼</button>
+                                                <button (click)="sendRegVCode()" [disabled]="regAccount.invalid || remainingSec > 0"
+                                                [ngClass]="{'unable': regAccount.invalid || remainingSec > 0}" type="button"
+                                                class="btn index-btn border-radius5 w-100 px-1 small-70" id="getPhone">
+                                                  {{remainingSec > 0? '剩餘' + remainingSec + '秒':'取得手機驗證碼'}}
+                                                </button>
                                             </div>
                                         </div>
                                     </li>
@@ -182,7 +185,9 @@
                                         </div>
                                     </li>
                                 </ul>
-                                <button type="button" class="btn index-btn w-100 login-ok mt-0 mb-2" data-dismiss="modal">立即註冊</button>
+                                <button type="submit" [disabled]="regForm.form.invalid || regPsw2.value !== regPsw.value"
+                                  [ngClass]="{'unable': regForm.form.invalid || regPsw2.value !== regPsw.value}"
+                                  class="btn index-btn w-100 login-ok mt-0 mb-2" data-dismiss="modal">立即註冊</button>
                             </div>
                         </form>
                     </div>

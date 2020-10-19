@@ -17,6 +17,7 @@ import { ReceiptModalComponent } from './receipt-modal/receipt-modal.component';
 import { MsgShareModalComponent } from './msg-share-modal/msg-share-modal.component';
 import { AppRoutingModule } from '../../app-routing.module';
 import { LoginRegisterModalComponent } from './login-register-modal/login-register-modal.component';
+import { VerifyMobileModalComponent } from './verify-mobile-modal/verify-mobile-modal.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { LoginRegisterModalComponent } from './login-register-modal/login-regist
     MissionModalComponent,
     ReceiptModalComponent,
     MsgShareModalComponent,
-    LoginRegisterModalComponent
+    LoginRegisterModalComponent,
+    VerifyMobileModalComponent
   ],
   entryComponents: [
     LoginModalComponent,
@@ -49,7 +51,8 @@ import { LoginRegisterModalComponent } from './login-register-modal/login-regist
     MissionModalComponent,
     ReceiptModalComponent,
     MsgShareModalComponent,
-    LoginRegisterModalComponent
+    LoginRegisterModalComponent,
+    VerifyMobileModalComponent
   ],
   imports: [
     CommonModule,

@@ -20,12 +20,18 @@ export class RegisterModalComponent implements OnInit, AfterViewInit {
   regClick = false;
   public thirdRequest: Request_AFPThird = new Request_AFPThird();
 
-  // 註冊用
+  // 註冊用 TODO:
+  // public register: Request_AFPAccount = {
+  //   AFPType: 1,
+  //   AFPAccountCTY: 886,
+  //   AFPAccount: '',
+  //   Agree: false,
+  // };
   public register: Request_AFPAccount = {
     AFPType: 1,
     AFPAccountCTY: 886,
     AFPAccount: '',
-    Agree: false,
+    AFPPassword: ''
   };
   registerForm: FormGroup;
 

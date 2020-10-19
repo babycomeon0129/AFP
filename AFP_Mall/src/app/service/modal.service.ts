@@ -15,6 +15,7 @@ import { MissionModalComponent } from '../shared/modal/mission-modal/mission-mod
 import { ReceiptModalComponent } from '../shared/modal/receipt-modal/receipt-modal.component';
 import { MsgShareModalComponent } from '../shared/modal/msg-share-modal/msg-share-modal.component';
 import { LoginRegisterModalComponent } from '../shared/modal/login-register-modal/login-register-modal.component';
+import { VerifyMobileModalComponent } from '../shared/modal/verify-mobile-modal/verify-mobile-modal.component';
 
 @Injectable({
   providedIn: 'root'
@@ -64,6 +65,10 @@ export class ModalService {
       case 'loginRegister':
         this.bsModalService.show(LoginRegisterModalComponent, config);
         break;
+      case 'verifyMobile':
+        const ignoreBackdropClick: ModalOptions = { ignoreBackdropClick: true }; // 點擊黑幕不消失
+        this.bsModalService.show(VerifyMobileModalComponent, ignoreBackdropClick);
+        break;
     }
   }
 
@@ -105,6 +110,9 @@ export class ModalService {
         break;
       case 'loginRegister':
         this.bsModalService.show(LoginRegisterModalComponent, options);
+        break;
+      case 'verifyMobile':
+        this.bsModalService.show(VerifyMobileModalComponent, options);
         break;
     }
   }

@@ -14,8 +14,20 @@ export interface Search_AreaDetail {
 
 export interface Response_APIModel {
   Base?: Model_BaseWebAPIResponse;
+  /** 任務相關資訊 */
   MissionInfo?: Model_MissionInfo;
   Data?: string;
+  /** 認證資訊 */
+  Verification?: Model_Verification;
+}
+
+export interface Model_Verification {
+  /** 手機是否驗證 0: 強制登出 1: 未驗證 並強制驗證 2: 未驗證 無需強驗證 3: 已驗證 */
+  MobileVerified: number;
+  /** 消費者包（MobileVerified = 3 會回傳,其餘狀態為空） */
+  CustomerInfo: string;
+  /** 使用者編碼（MobileVerified = 3 會回傳,其餘狀態為空） */
+  UserCode: string;
 }
 
 export interface Model_BaseWebAPIResponse {
@@ -162,12 +174,32 @@ export interface TravelJsonFile_Attrbute {
   AttributeValue_Name?: string;
 }
 
+// TODO:
+// export interface Request_AFPAccount {
+//   AFPType: number;
+//   AFPNickName?: string;
+//   AFPAccountCTY: number;
+//   AFPAccount: string;
+//   Agree: boolean;
+// }
+
 export interface Request_AFPAccount {
+  /** 註冊類型 1:手機 2:信箱 */
   AFPType: number;
-  AFPNickName?: string;
+  /** 國碼 - 手機用 */
   AFPAccountCTY: number;
+  /** 帳號 - 手機或信箱 */
   AFPAccount: string;
-  Agree: boolean;
+  /** 帳號 - 密碼 */
+  AFPPassword: string;
+  /** 帳號 - 二次密碼 (前端為驗證加上) */
+  AFPPassword2?: string;
+  /** 帳號 - 暱稱 */
+  AFPNickName?: string;
+  /** 驗證資訊 */
+  VerifiedInfo?: AFP_VerifiedInfo;
+  /** 是否同意條款 (前端為驗證加上) */
+  Agree?: boolean;
 }
 
 export interface Response_TravelHome {

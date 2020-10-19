@@ -73,6 +73,8 @@ export class AppService {
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
       .pipe(map((data: Response_APIModel) => {
+        console.log(data);
+        console.log(this.currentUrl);
         if (data.Base.Rtn_State !== 1) {
           this.bsModal.show(MessageModalComponent
             , {
@@ -83,6 +85,19 @@ export class AppService {
             });
           this.blockUI.stop();
           throw new Error('bad request');
+        }
+        // 手機是否驗證
+        switch (data.Verification.MobileVerified) {
+          case 1:
+            this.modal.openModal('verifyMobile');
+            break;
+          case 2:
+            break;
+          case 3:
+            break;
+          default:
+            this.onLogout();
+            this.router.navigate(['/']);
         }
         // 任務完成訊息
         const MissionList = data.MissionInfo.List_MissionDetail.filter(x => (x.Mission_Info !== null && x.Mission_Info.trim() !== ''));

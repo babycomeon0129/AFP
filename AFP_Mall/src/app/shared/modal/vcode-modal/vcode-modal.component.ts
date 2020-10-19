@@ -24,12 +24,18 @@ export class VcodeModalComponent implements OnInit {
     AFPVerify: ''
   };
 
-  // 註冊用（發送驗證碼）
+  // 註冊用（發送驗證碼）TODO:
+  // public registerData: Request_AFPAccount = {
+  //   AFPType: 1,
+  //   AFPAccountCTY: 886,
+  //   AFPAccount: '',
+  //   Agree: false
+  // };
   public registerData: Request_AFPAccount = {
     AFPType: 1,
     AFPAccountCTY: 886,
     AFPAccount: '',
-    Agree: false
+    AFPPassword: ''
   };
 
   constructor(public bsModalRef: BsModalRef, private modalService: ModalService, private appService: AppService) {
