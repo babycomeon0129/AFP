@@ -40,13 +40,14 @@ export class MemberService {
     // 初始化
     this.FBThird = null;
     this.GoogleThird = null;
+    this.AppleThird = null;
     const request: Request_MemberThird = {
       SelectMode: 3,
       User_Code: sessionStorage.getItem('userCode'),
       Store_Note: ''
     };
     this.appService.toApi('Member', '1506', request).subscribe((data: Response_MemberThird) => {
-      if (data.List_UserThird.length > 0) {
+      if (data !== null) {
         data.List_UserThird.forEach((value) => {
           switch (value.UserThird_Mode) {
             case 1: //  FB

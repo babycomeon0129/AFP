@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { BsModalRef } from 'ngx-bootstrap';
 declare var AppleID: any;
 
 @Component({
@@ -11,7 +12,7 @@ export class AppleModalComponent implements OnInit {
   /** Apple 第三方登入 User容器 */
   @Output() appleUser = new EventEmitter();
 
-  constructor() { }
+  constructor(public bsModalRef: BsModalRef) { }
 
   ngOnInit() {
     // Apple 登入初始化 (會將按鈕樣式改為Apple設定的)

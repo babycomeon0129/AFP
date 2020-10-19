@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Request_MemberThird, Response_MemberThird } from '../member.component';
+import { Request_MemberThird, Response_MemberThird, AFP_UserThird } from '../member.component';
 import { AuthService, SocialUser, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from 'src/app/service/modal.service';
 import { MemberService } from '../member.service';
-import { Request_AFPThird } from 'src/app/_models';
+import jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-third-binding',
@@ -16,11 +16,10 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
   public thirdUser: SocialUser;
   // 第三方登入Request
   public thirdReques: Request_MemberThird = new Request_MemberThird();
-  public thirdClick = false;
   /** 第三方資訊類型 1 FB, 3 Google 5 Apple */
   public bindMode = 0;
   /** 第三方姓名 */
-  public thirdName: thirdName = new thirdName();
+  public bindState: bindState = new bindState();
 
 
   constructor(public appService: AppService, private authService: AuthService, public modal: ModalService,
@@ -29,9 +28,10 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.readThirdData();
-    this.authService.signOut();
+    //  this.authService.signOut();
     this.authService.authState.subscribe((user: SocialUser) => {
-      if (user !== null) {
+      // 為了FB登入特例處理，多判斷 this.bindMode > 0 才呼叫API
+      if (user !== null && this.bindMode > 0) {
         this.thirdUser = user;
         this.thirdReques = {
           SelectMode: 1,
@@ -41,131 +41,145 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
           Token: this.thirdUser.id,
           JsonData: JSON.stringify(this.thirdUser)
         };
-        console.log(this.thirdReques);
-        // tslint:disable-next-line: no-shadowed-variable
-        this.appService.toApi('Member', '1506', this.thirdReques).subscribe(( data: Response_MemberThird) => {
-          console.log(data);
-          
-          switch (this.bindMode) {
-            case 1:
-              this.thirdName.fb = this.thirdUser.name;
+        //   console.log(this.thirdReques);
+        this.thirdbind(this.thirdReques, this.bindMode);
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.bindMode = 0;
+  }
+
+  /** 讀取社群帳號 */
+  readThirdData() {
+    // 初始化
+    this.memberService.FBThird = null;
+    this.memberService.GoogleThird = null;
+    const request: Request_MemberThird = {
+      SelectMode: 3,
+      User_Code: sessionStorage.getItem('userCode'),
+      Store_Note: ''
+    };
+    this.appService.toApi('Member', '1506', request).subscribe((data: Response_MemberThird) => {
+      if (data !== null) {
+        data.List_UserThird.forEach((value) => {
+          switch (value.UserThird_Mode) {
+            case 1: //  FB
+              this.bindState.fb = true;
               break;
-            case 3 :
-              this.thirdName.google = this.thirdUser.name;
+            case 3: //  Google
+              this.bindState.google = true;
               break;
-            case 5 :
-              this.thirdName.apple = this.thirdUser.name;
+            case 5: // Apple
+              this.bindState.apple = true;
               break;
           }
-          this.authService.signOut();
         });
-
-      } else {
-        console.log('data = null');
       }
-  });
-}
+    });
 
-ngOnDestroy() {
-
-}
-
-/** 讀取社群帳號 */
-readThirdData() {
-  // 初始化
-  this.memberService.FBThird = null;
-  this.memberService.GoogleThird = null;
-  const request: Request_MemberThird = {
-    SelectMode: 3,
-    User_Code: sessionStorage.getItem('userCode'),
-    Store_Note: ''
-  };
-  this.appService.toApi('Member', '1506', request).subscribe((data: Response_MemberThird) => {
-    if (data !== null) {
-      data.List_UserThird.forEach((value) => {
-        switch (value.UserThird_Mode) {
-          case 1: //  FB
-            this.memberService.FBThird = value;
-            const fbData = JSON.parse( value.UserThird_JsonData);
-            this.thirdName.fb = fbData.name;
-            break;
-          case 3: //  Google
-            this.memberService.GoogleThird = value;
-            const googleData = JSON.parse( value.UserThird_JsonData);
-            this.thirdName.google = googleData.name;
-            break;
-          case 5: // Apple
-            this.memberService.AppleThird = value;
-            const appleData = JSON.parse( value.UserThird_JsonData);
-            this.thirdName.apple = appleData.name;
-            break;
-        }
-      });
-    } else {
-      console.log('data == null');
-    }
-  });
-}
+  }
 
   /** FB登入按鈕 */
-  public signInWithFB(): void {
-  this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
-  this.bindMode = 3;
-  this.thirdClick = true;
-  //  this.thirdbind(1);
-}
+  signInWithFB(): void {
+    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+    this.bindMode = 1;
+  }
 
   /** Google登入按鈕 */
-  public signInWithGoogle(): void {
-  this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
-  this.bindMode = 3;
-  this.thirdClick = true;
-  //  this.thirdbind(3);
+  signInWithGoogle(): void {
+    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
+    this.bindMode = 3;
+  }
+
+  /** Apple登入按鈕 */
+  signInWithApple(): void {
+    this.bindMode = 5;
+    this.modal.appleLogin({}).subscribe(appleUser => {
+      console.log(appleUser);
+      if (appleUser !== null) {
+        const idTokenModel = jwt_decode(appleUser.authorization.id_token);
+        this.thirdReques = {
+          SelectMode: 1,
+          User_Code: sessionStorage.getItem('userCode'),
+          Store_Note: '',
+          Mode: this.bindMode,
+          Token: idTokenModel.sub,
+          JsonData: JSON.stringify(appleUser)
+        };
+        this.thirdbind(this.thirdReques, this.bindMode);
+      }
+
+
+    });
+  }
+
+
+
+
+  /** 社群帳號綁定
+   * @param mode 1:FB 3:Google 5:Apple
+   */
+  thirdbind(request, mode: number): void {
+    this.appService.toApi('Member', '1506', request).subscribe((data: Response_MemberThird) => {
+      if (data !== null) {
+        switch (mode) {
+          case 1:
+            this.bindState.fb = true;
+            break;
+          case 3:
+            this.bindState.google = true;
+            break;
+          case 5:
+            this.bindState.apple = true;
+            break;
+        }
+        // data.List_UserThird.forEach((value) => {
+        //   switch (value.UserThird_Mode) {
+        //     case 1: //  FB
+        //      // this.bindState.fb = value;
+        //       // const fbData = JSON.parse(value.UserThird_JsonData);
+        //       // this.bindState.fb = fbData.name;
+        //       break;
+        //     case 3: //  Google
+        //      // this.bindState.google = value;
+        //       // const googleData = JSON.parse(value.UserThird_JsonData);
+        //       // this.bindState.google = googleData.name;
+        //       break;
+        //     case 5: // Apple
+        //      // this.bindState.apple = value;
+        //       // const appleData = JSON.parse(value.UserThird_JsonData);
+        //       // this.bindState.apple = appleData.name;
+        //       break;
+        //   }
+        // });
+      }
+    });
+  }
+
+  /** 社群帳號解除 */
+  onDelThird(mode: number) {
+    this.modal.confirm({ initialState: { message: '是否確定要解除綁定?' } }).subscribe(res => {
+      if (res) {
+        this.appService.openBlock();
+        const request: Request_MemberThird = {
+          SelectMode: 2,
+          User_Code: sessionStorage.getItem('userCode'),
+          Mode: mode
+        };
+
+        this.appService.toApi('Member', '1506', request).subscribe((data: Response_MemberThird) => {
+          this.memberService.readThirdData();
+        });
+      }
+    });
+  }
+
 }
 
-/** 社群帳號綁定
- * @param mode 1:FB 3:Google 5:Apple
- */
-// thirdbind(mode: number) {
-
-//     console.log(user);
-//     const request: Request_MemberThird = {
-//       SelectMode: 1,
-//       User_Code: sessionStorage.getItem('userCode'),
-//       Store_Note: '',
-//       Mode: mode,
-//       Token: user.id,
-//       JsonData: JSON.stringify(user)
-//     };
-//     // SelectMode = 1 時沒有丟 List_UserThird
-//     this.appService.toApi('Member', '1506', request).subscribe( (data: Response_MemberThird) => {
-//       console.log(data);
-//     });
-//   });
-// }
-
-/** 社群帳號解除 */
-onDelThird(mode: number) {
-  this.modal.confirm({ initialState: { message: '是否確定要解除綁定?' } }).subscribe(res => {
-    if (res) {
-      this.appService.openBlock();
-      const request: Request_MemberThird = {
-        SelectMode: 2,
-        User_Code: sessionStorage.getItem('userCode'),
-        Mode: mode
-      };
-      // SelectMode = 2 時沒有丟 List_UserThird
-      this.appService.toApi('Member', '1506', request).subscribe((data: Response_MemberThird) => {
-        this.memberService.readThirdData();
-      });
-    }
-  });
-}
-
-}
-
-class thirdName {
-  fb?: string;
-  google?: string;
-  apple?: string;
+class bindState {
+  fb?: boolean;
+  google?: boolean;
+  apple?: boolean;
 }
