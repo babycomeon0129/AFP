@@ -17,15 +17,18 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
   // 第三方登入Request
   public thirdReques: Request_MemberThird = new Request_MemberThird();
   public thirdClick = false;
-  /** 第三方資訊類型 1 FB, 3 Google */
+  /** 第三方資訊類型 1 FB, 3 Google 5 Apple */
   public bindMode = 0;
+  /** 第三方姓名 */
+  public thirdName: thirdName = new thirdName();
+
 
   constructor(public appService: AppService, private authService: AuthService, public modal: ModalService,
               public memberService: MemberService) {
   }
 
   ngOnInit() {
-    this.memberService.readThirdData();
+    this.readThirdData();
     this.authService.authState.subscribe((user: SocialUser) => {
       if (user !== null) {
         this.thirdUser = user;
@@ -41,6 +44,14 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
         // tslint:disable-next-line: no-shadowed-variable
         this.appService.toApi('Member', '1506', this.thirdReques).subscribe(( data: Response_MemberThird) => {
           console.log(data);
+          switch (this.bindMode) {
+            case 1:
+              this.thirdName.fb = this.thirdUser.name;
+              break;
+            case 3 :
+              this.thirdName.google = this.thirdUser.name;
+          }
+          this.authService.signOut();
         });
 
       } else {
@@ -50,7 +61,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
 }
 
 ngOnDestroy() {
-  this.authService.signOut();
+
 }
 
 /** 讀取社群帳號 */
@@ -64,14 +75,23 @@ readThirdData() {
     Store_Note: ''
   };
   this.appService.toApi('Member', '1506', request).subscribe((data: Response_MemberThird) => {
-    if (data.List_UserThird.length > 0) {
+    if (data !== null) {
       data.List_UserThird.forEach((value) => {
         switch (value.UserThird_Mode) {
           case 1: //  FB
             this.memberService.FBThird = value;
+            const fbData = JSON.parse( value.UserThird_JsonData);
+            this.thirdName.fb = fbData.name;
             break;
           case 3: //  Google
             this.memberService.GoogleThird = value;
+            const googleData = JSON.parse( value.UserThird_JsonData);
+            this.thirdName.google = googleData.name;
+            break;
+          case 5: // Apple
+            this.memberService.AppleThird = value;
+            const appleData = JSON.parse( value.UserThird_JsonData);
+            this.thirdName.apple = appleData.name;
             break;
         }
       });
@@ -133,4 +153,10 @@ onDelThird(mode: number) {
   });
 }
 
+}
+
+class thirdName {
+  fb?: string;
+  google?: string;
+  apple?: string;
 }

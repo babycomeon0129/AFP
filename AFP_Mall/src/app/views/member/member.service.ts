@@ -11,6 +11,8 @@ export class MemberService {
   public FBThird: AFP_UserThird;
   /** Google第三方資訊 */
   public GoogleThird: AFP_UserThird;
+  /** Apple 第三方資訊 */
+  public AppleThird: AFP_UserThird;
   /** 第三方資訊類型：1 FB, 3 Google */
   public bindMode = 0;
 
@@ -52,6 +54,9 @@ export class MemberService {
               break;
             case 3: //  Google
               this.GoogleThird = value;
+              break;
+            case 5: // Apple
+              this.AppleThird = value;
               break;
           }
         });
