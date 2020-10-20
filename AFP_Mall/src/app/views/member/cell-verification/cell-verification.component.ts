@@ -1,7 +1,7 @@
 import { NgForm } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { Model_ShareData, Request_AFPVerifyCode } from '../../../_models';
+import { Model_ShareData, Request_AFPVerifyCode, Response_AFPVerifyCode } from '../../../_models';
 import { ModalService } from 'src/app/service/modal.service';
 import { MemberService } from '../member.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -19,9 +19,17 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
   /** 手機驗證 ngForm request */
   // public requestMobileVerify: Request_MemberBindMobile = new Request_MemberBindMobile();
   /** 手機驗證 ngForm request */
-  public requestMobileVerify: Request_AFPVerifyCode = new Request_AFPVerifyCode();
+  // public requestMobileVerify: Request_AFPVerifyCode = new Request_AFPVerifyCode();
+  public requestMobileVerify: Request_AFPVerifyCode = {
+    VerifiedAction: null,
+    VerifiedInfo: {
+      VerifiedPhone: null,
+      CheckValue: null,
+      VerifiedCode: null
+    }
+  };
   /** 重新發送驗證碼剩餘秒數 */
-  public remainingSec = 60;
+  public remainingSec = 0;
   /** 重新發送驗證碼倒數 */
   public vcodeTimer;
   /** 顯示區塊：0 進行驗證、1 已驗證 */
@@ -37,17 +45,9 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // console.log(this.route.snapshot.queryParams.toVerifyMobile);
-    // if (this.route.snapshot.queryParams.toVerifyMobile === undefined) {
-    //   this.readCellNumber();
-    //   this.shownSection = 1;
-    // } else {
-    //   if (this.route.snapshot.queryParams.toVerifyMobile === 'true') {
-    //     // 登入後因強制驗證手機號碼且尚未驗證被導至此
-    //     this.toVerifyCell = true;
-    //     this.shownSection = 0;
-    //   }
-    // }
+    if (this.route.snapshot.queryParams.toVerifyMobile !== undefined && this.route.snapshot.queryParams.toVerifyMobile === 'true') {
+      this.toVerifyCell = true; // 第三方登入後因強制驗證被導至此
+    }
     this.readCellNumber();
   }
 
@@ -65,32 +65,15 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
     }
   }
 
-  /** 讀取會員手機號碼 */
-  // readCellNumber() {
-  //   const request: Request_AFPVerifyCode = {
-  //     User_Code: sessionStorage.getItem('userCode'),
-  //     SelectMode: 4,
-  //     VerifiedAction: this.toVerifyCell === true ? 90 : 3,
-  //     VerifiedInfo: {
-  //       VerifiedPhone: this.requestMobileVerify.VerifiedInfo.VerifiedPhone,
-  //       CheckValue: null,
-  //       VerifiedCode: null
-  //     }
-  //   };
-
-  //   this.appService.toApi('Member', '1110', this.requestMobileVerify).subscribe((data: Response_MemberBindMobile) => {
-  //     console.log(data);
-  //   });
-  // }
-
   /** 送出驗證碼至手機 */
   sendVCode() {
     this.remainingSec = 60; // 開始倒數60秒
     this.requestMobileVerify.User_Code = sessionStorage.getItem('userCode'),
-    this.requestMobileVerify.SelectMode = 1;
-    // this.requestMobileVerify.CountryCode = 886; // TODO: replace with new model
+    this.requestMobileVerify.SelectMode = 11;
+    this.requestMobileVerify.VerifiedAction = this.toVerifyCell ? 11 : 3;
 
-    this.appService.toApi('Member', '1514', this.requestMobileVerify).subscribe((data: Response_MemberBindMobile) => {
+    this.appService.toApi('Member', '1112', this.requestMobileVerify).subscribe((data: Response_AFPVerifyCode) => {
+      this.requestMobileVerify.VerifiedInfo.CheckValue = data.VerifiedInfo.CheckValue;
       // 每秒更新剩餘秒數
       this.vcodeTimer = setInterval(() => {
         // 計算剩餘秒數
@@ -108,24 +91,22 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
     document.getElementById('vcode').focus();
   }
 
-  /** 立即驗證-驗證驗證碼 // TODO: replace with new model */
+  /** 立即驗證-驗證驗證碼 */
   verifyMobile(form: NgForm) {
-    // const request: Request_MemberBindMobile = {
-    //   User_Code: sessionStorage.getItem('userCode'),
-    //   SelectMode: 2,
-    //   CountryCode: 886,
-    //   // Mobile: this.requestMobileVerify.Mobile, // TODO: replace with new model
-    //   // CertificationCode: this.requestMobileVerify.CertificationCode // TODO: replace with new model
-    // };
+    this.requestMobileVerify.User_Code = sessionStorage.getItem('userCode'),
+    this.requestMobileVerify.SelectMode = 21;
+    this.requestMobileVerify.VerifiedAction = this.toVerifyCell ? 11 : 3;
 
-    // this.appService.toApi('Member', '1514', request).subscribe((data: Response_MemberBindMobile) => {
-    //   this.modal.show('message', { initialState: { success: true, message: '手機認證成功!', showType: 1 } });
-    //   this.readCellNumber();
-    //   // 清除重新傳送驗證碼倒數
-    //   clearInterval(this.vcodeTimer);
-    //   // 清空form
-    //   form.resetForm();
-    // });
+    this.appService.toApi('Member', '1112', this.requestMobileVerify).subscribe((data: Response_AFPVerifyCode) => {
+      const msg = `手機認證成功！
+      歡迎您盡情享受 Mobii! 獨家優惠`;
+      this.modal.show('message', { initialState: { success: true, message: msg, showType: 5 } });
+      this.readCellNumber();
+      // 清除重新傳送驗證碼倒數
+      clearInterval(this.vcodeTimer);
+      // 清空form
+      form.resetForm();
+    });
   }
 
   /** 離開輸入驗證碼頁面 */

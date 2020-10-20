@@ -12,7 +12,7 @@
   <div class="my-phone-list">
       <p class="text-left mt-2">您的手機號碼已完成驗證，如需變更手機號碼，請重新驗證。</p>
       <p class="text-left mb-3">手機號碼：{{memberService.userProfile?.UserProfile_Mobile}}</p>
-      <button class="btn next-btn w-100" (click)="shownSection = 0; remainingSec = 60">重新驗證</button>
+      <button class="btn next-btn w-100" (click)="shownSection = 0; remainingSec = 0">重新驗證</button>
   </div>
 </div>
 <!-- 尚未/欲重新驗證 -->
@@ -34,11 +34,8 @@
               手機號碼
           </div>
           <div class="col-12 pb-3">
-              <!-- <input type="tel" appDigitOnly name="MobileVerify" #MobileVerify="ngModel" [(ngModel)]="requestMobileVerify.Mobile"
-              [readOnly]="remainingSec >= 1 && remainingSec < 60" [ngClass]="{'bb-org': MobileVerify.touched && MobileVerify.invalid}"
-              placeholder="例：0912345678" pattern="^09\d{8}$" minlength="10" maxlength="10" required id="vphone"> -->
               <input type="tel" appDigitOnly name="MobileVerify" #MobileVerify="ngModel" [(ngModel)]="requestMobileVerify.VerifiedInfo.VerifiedPhone"
-              [readOnly]="remainingSec >= 1 && remainingSec < 60" [ngClass]="{'bb-org': MobileVerify.touched && MobileVerify.invalid}"
+              [readOnly]="remainingSec > 0" [ngClass]="{'bb-org': MobileVerify.touched && MobileVerify.invalid}"
               placeholder="例：0912345678" pattern="^09\d{8}$" minlength="10" maxlength="10" required id="vphone">
               <div *ngIf="MobileVerify.touched && MobileVerify.invalid" class="small-warning pl-0 warningNote"><span>格式錯誤，請重新輸入</span></div>
           </div>
@@ -46,29 +43,25 @@
               驗證碼
           </div>
           <div class="col-7 pb-3 pr-0">
-              <!-- <input type="tel" appDigitOnly name="VCode" #VCode="ngModel" [(ngModel)]="requestMobileVerify.CertificationCode"
-              pattern="\d{6}$" minlength="6" maxlength="6" required placeholder="請輸入收到的驗證碼" id="vcode">
-              <div *ngIf="remainingSec < 60" class="small-warning t-gray pl-0 stepV1">
-                <p>驗證碼已發送至 {{requestMobileVerify.Mobile}}
-                  <br>沒有收到驗證碼？<span (click)="remainingSec > 0? null : sendVCode()" class="text-blue">{{remainingSec > 0? (remainingSec +'秒後重新傳送') : '重新傳送'}}</span>
-                </p>
-              </div> -->
               <input type="tel" appDigitOnly name="VCode" #VCode="ngModel" [(ngModel)]="requestMobileVerify.VerifiedInfo.VerifiedCode"
               pattern="\d{6}$" minlength="6" maxlength="6" required placeholder="請輸入收到的驗證碼" id="vcode">
-              <div *ngIf="remainingSec < 60" class="small-warning t-gray pl-0 stepV1">
+              <div *ngIf="remainingSec > 0" class="small-warning t-gray pl-0 stepV1">
                 <p>驗證碼已發送至 {{requestMobileVerify.VerifiedInfo.VerifiedPhone}}
-                  <br>沒有收到驗證碼？<span (click)="remainingSec > 0? null : sendVCode()" class="text-blue">{{remainingSec > 0? (remainingSec +'秒後重新傳送') : '重新傳送'}}</span>
+                  <br>沒有收到驗證碼？<span class="text-blue">可重新點選「取得驗證碼」</span>
                 </p>
               </div>
           </div>
           <div class="col-5 pl-1">
-            <button type="button" (click)="sendVCode(); focusOnInput()" [disabled]="remainingSec < 60 || MobileVerify.invalid"
-              [ngClass]="{'unable': remainingSec < 60 || MobileVerify.invalid}"
-              class="btn index-btn border-radius5 w-100 px-1 small-70" id="getPhone">取得手機驗證碼</button>
+            <button type="button" (click)="sendVCode(); focusOnInput()" [disabled]="remainingSec > 0 || MobileVerify.invalid"
+              [ngClass]="{'unable': remainingSec > 0 || MobileVerify.invalid}"
+              class="btn index-btn border-radius5 w-100 px-1 small-70" id="getPhone">
+              {{remainingSec > 0 ? ('剩餘' + remainingSec + '秒') : '取得手機驗證碼'}}
+            </button>
           </div>
       </div>
       <div class="fixed-btn container">
-          <button type="submit" [disabled]="formVerifyMobile.invalid || remainingSec >= 60" [ngClass]="{'unable': VCode.invalid || remainingSec >= 60}"
+          <button type="submit" [disabled]="formVerifyMobile.invalid || requestMobileVerify.VerifiedInfo.CheckValue === null"
+          [ngClass]="{'unable': formVerifyMobile.invalid || requestMobileVerify.VerifiedInfo.CheckValue === null}"
             class="btn next-btn w-100" data-dismiss="modal" aria-label="Close">
             立即驗證
           </button>

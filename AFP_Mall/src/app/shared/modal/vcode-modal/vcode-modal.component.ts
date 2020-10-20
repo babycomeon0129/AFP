@@ -24,13 +24,7 @@ export class VcodeModalComponent implements OnInit {
     AFPVerify: ''
   };
 
-  // 註冊用（發送驗證碼）TODO:
-  // public registerData: Request_AFPAccount = {
-  //   AFPType: 1,
-  //   AFPAccountCTY: 886,
-  //   AFPAccount: '',
-  //   Agree: false
-  // };
+  // 註冊用（發送驗證碼）
   public registerData: Request_AFPAccount = {
     AFPType: 1,
     AFPAccountCTY: 886,

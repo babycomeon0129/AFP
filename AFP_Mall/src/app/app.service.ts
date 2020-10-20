@@ -13,6 +13,7 @@ import { environment } from './../environments/environment';
 import { ModalService } from './service/modal.service';
 import { Router, NavigationExtras, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { AuthService } from 'angularx-social-login';
 
 declare var $: any;
 declare var AppJSInterface: any;
@@ -48,7 +49,7 @@ export class AppService {
 
   @BlockUI() blockUI: NgBlockUI;
   constructor(private http: HttpClient, private bsModal: BsModalService, public modal: ModalService, private router: Router,
-              private cookieService: CookieService, private route: ActivatedRoute) {
+              private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService) {
     if (sessionStorage.getItem('CustomerInfo')) {
       this.loginState = true;
     }
@@ -73,8 +74,6 @@ export class AppService {
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
       .pipe(map((data: Response_APIModel) => {
-        console.log(data);
-        console.log(this.currentUrl);
         if (data.Base.Rtn_State !== 1) {
           this.bsModal.show(MessageModalComponent
             , {
@@ -94,6 +93,13 @@ export class AppService {
           case 2:
             break;
           case 3:
+            break;
+          case 4:
+            // tslint:disable: max-line-length
+            sessionStorage.setItem('userCode', data.Verification.UserCode);
+            sessionStorage.setItem('CustomerInfo', data.Verification.CustomerInfo);
+            this.cookieService.set('userCode', data.Verification.UserCode, 90, '/', environment.cookieDomain, environment.cookieSecure);
+            this.cookieService.set('CustomerInfo', data.Verification.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure);
             break;
           default:
             this.onLogout();
@@ -161,6 +167,8 @@ export class AppService {
     if (this.isApp !== null) {
       window.location.href = '/AppLogout';
     }
+    // 第三方登入套件登出
+    this.authService.signOut();
   }
 
   /**
@@ -405,7 +413,7 @@ export class AppService {
   /** 判斷跳出網頁或APP的登入頁 */
   loginPage() {
     if (this.isApp == null) {
-      // this.modal.openModal('login');
+      // this.modal.openModal('login'); // TODO: 待測試完畢移除
       this.modal.openModal('loginRegister');
     } else {
       if (navigator.userAgent.match(/android/i)) {

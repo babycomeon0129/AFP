@@ -174,15 +174,6 @@ export interface TravelJsonFile_Attrbute {
   AttributeValue_Name?: string;
 }
 
-// TODO:
-// export interface Request_AFPAccount {
-//   AFPType: number;
-//   AFPNickName?: string;
-//   AFPAccountCTY: number;
-//   AFPAccount: string;
-//   Agree: boolean;
-// }
-
 export interface Request_AFPAccount {
   /** 註冊類型 1:手機 2:信箱 */
   AFPType: number;

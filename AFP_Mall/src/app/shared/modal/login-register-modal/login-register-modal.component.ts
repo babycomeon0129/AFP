@@ -29,7 +29,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   public loginRequest: Request_AFPLogin = new Request_AFPLogin();
   /** 設備是否為Apple (是則不顯示Apple登入) */
   public isApple: boolean;
-  /** 註冊 request TODO: */
+  /** 註冊 request */
   public registerRequest: Request_AFPAccount = {
     AFPType: 1,
     AFPAccountCTY: 886,
@@ -77,14 +77,13 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
         this.toThirdLogin();
       }
       this.regClick = false;
-      console.log(user);
     });
 
     // Apple 登入初始化 (會將按鈕樣式改為Apple設定的)
     AppleID.auth.init({
       clientId: 'com.eyesmedia.mobii',
       scope: 'email name',
-      redirectURI: 'https://www.mobii.ai', // TODO: 正式/測試站, 結尾無"/" + environment.sit的api url
+      redirectURI: 'https://www.mobii.ai', // 正式/測試站, 結尾無"/" + environment.sit的api url
       state: 'Mobii Apple Login',
       usePopup : true
     });
@@ -187,10 +186,8 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
         VerifiedCode: null
       }
     };
-    console.log('request:', request);
 
     this.appService.toApi('AFPAccount', '1112', request).subscribe((data: Response_AFPVerifyCode) => {
-      console.log('data:', data);
       // 開始倒數
       this.vCodeTimer = setInterval(() => {
         this.remainingSec -= 1;
@@ -207,33 +204,21 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   /** 註冊送出 */
   onRegSubmit() {
     this.registerRequest.VerifiedInfo.VerifiedPhone = this.registerRequest.AFPAccount;
-    console.log(this.registerRequest);
     this.appService.openBlock();
-    this.appService.toApi('AFPAccount', '1101', this.registerRequest).subscribe((data: Response_AFPAccount) => {
-      console.log(data);
-      const firstLogin: Request_AFPLogin = {
-        AFPAccount: this.registerRequest.AFPAccount,
-        AFPPassword: this.registerRequest.AFPPassword
-      };
-      // 自動登入
-      this.appService.openBlock();
-      this.appService.toApi('AFPAccount', '1104', firstLogin).subscribe((loginData: Response_AFPLogin) => {
-        sessionStorage.setItem('userName', loginData.Model_UserInfo.Customer_Name);
-        sessionStorage.setItem('userCode', loginData.Model_UserInfo.Customer_Code);
-        sessionStorage.setItem('CustomerInfo', loginData.Model_UserInfo.CustomerInfo);
-        sessionStorage.setItem('userFavorites', JSON.stringify(loginData.List_UserFavourite));
+    this.appService.toApi('AFPAccount', '1101', this.registerRequest).subscribe((data: Response_AFPLogin) => {
+      // 後端自動登入，前端直接接login response
+      sessionStorage.setItem('userName', data.Model_UserInfo.Customer_Name);
+      sessionStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
+      sessionStorage.setItem('CustomerInfo', data.Model_UserInfo.CustomerInfo);
 
-        this.cookieService.set('userName', loginData.Model_UserInfo.Customer_Name, 90, '/',
-          environment.cookieDomain, environment.cookieSecure);
-        this.cookieService.set('userCode', loginData.Model_UserInfo.Customer_Code, 90, '/',
-          environment.cookieDomain, environment.cookieSecure);
-        this.cookieService.set('CustomerInfo', loginData.Model_UserInfo.CustomerInfo, 90, '/',
-          environment.cookieDomain, environment.cookieSecure);
-        this.appService.loginState = true;
-        this.bsModalRef.hide(); // TODO: asl Lisa
-        this.appService.showFavorites();
-        this.appService.readCart();
-      });
+      this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90, '/',
+        environment.cookieDomain, environment.cookieSecure);
+      this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90, '/',
+        environment.cookieDomain, environment.cookieSecure);
+      this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90, '/',
+        environment.cookieDomain, environment.cookieSecure);
+      this.appService.loginState = true;
+      this.bsModalRef.hide();
       // 提示社群綁
       const msg = `註冊成功！歡迎加入Mobii!\n小技巧：綁定您的社群帳號，未來就可快速登入囉！`;
       this.modal.show('message', { initialState: { success: true, message: msg, showType: 4 } });
