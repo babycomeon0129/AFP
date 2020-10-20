@@ -110,8 +110,6 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
         };
         this.thirdbind(this.thirdReques, this.bindMode);
       }
-
-
     });
   }
 
