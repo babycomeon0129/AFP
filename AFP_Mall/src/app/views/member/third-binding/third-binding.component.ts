@@ -1,9 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Request_MemberThird, Response_MemberThird, AFP_UserThird } from '../member.component';
+import { Request_MemberThird, Response_MemberThird } from '../member.component';
 import { AuthService, SocialUser, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from 'src/app/service/modal.service';
-import { MemberService } from '../member.service';
 import jwt_decode from 'jwt-decode';
 
 @Component({
@@ -24,13 +23,11 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
    public isApple: boolean;
 
 
-  constructor(public appService: AppService, private authService: AuthService, public modal: ModalService,
-              public memberService: MemberService) {
+  constructor(public appService: AppService, private authService: AuthService, public modal: ModalService) {
   }
 
   ngOnInit() {
     this.readThirdData();
-    //  this.authService.signOut();
     this.authService.authState.subscribe((user: SocialUser) => {
       // 為了FB登入特例處理，多判斷 this.bindMode > 0 才呼叫API
       if (user !== null && this.bindMode > 0) {
@@ -43,7 +40,6 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
           Token: this.thirdUser.id,
           JsonData: JSON.stringify(this.thirdUser)
         };
-        //   console.log(this.thirdReques);
         this.thirdbind(this.thirdReques, this.bindMode);
       }
     });
@@ -55,9 +51,6 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
 
   /** 讀取社群帳號 */
   readThirdData() {
-    // 初始化
-    this.memberService.FBThird = null;
-    this.memberService.GoogleThird = null;
     const request: Request_MemberThird = {
       SelectMode: 3,
       User_Code: sessionStorage.getItem('userCode'),
@@ -78,7 +71,6 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
               break;
           }
         });
-        this.authService.signOut();
       }
     });
 
@@ -136,35 +128,17 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
     this.appService.toApi('Member', '1506', request).subscribe((data: Response_MemberThird) => {
       if (data !== null) {
         switch (mode) {
-          case 1:
+          case 1: //  FB
             this.bindState.fb = true;
             break;
-          case 3:
+          case 3: // Google
             this.bindState.google = true;
             break;
-          case 5:
+          case 5: // Apple
             this.bindState.apple = true;
             break;
         }
-        // data.List_UserThird.forEach((value) => {
-        //   switch (value.UserThird_Mode) {
-        //     case 1: //  FB
-        //      // this.bindState.fb = value;
-        //       // const fbData = JSON.parse(value.UserThird_JsonData);
-        //       // this.bindState.fb = fbData.name;
-        //       break;
-        //     case 3: //  Google
-        //      // this.bindState.google = value;
-        //       // const googleData = JSON.parse(value.UserThird_JsonData);
-        //       // this.bindState.google = googleData.name;
-        //       break;
-        //     case 5: // Apple
-        //      // this.bindState.apple = value;
-        //       // const appleData = JSON.parse(value.UserThird_JsonData);
-        //       // this.bindState.apple = appleData.name;
-        //       break;
-        //   }
-        // });
+        this.authService.signOut();
       }
     });
   }
@@ -181,7 +155,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
         };
 
         this.appService.toApi('Member', '1506', request).subscribe((data: Response_MemberThird) => {
-          this.memberService.readThirdData();
+      //    this.memberService.readThirdData();
         });
       }
     });
