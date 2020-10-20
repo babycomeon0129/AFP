@@ -100,12 +100,13 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
       console.log(appleUser);
       if (appleUser !== null) {
         const idTokenModel = jwt_decode(appleUser.authorization.id_token);
+        const appleToken = idTokenModel.sub;
         this.thirdReques = {
           SelectMode: 1,
           User_Code: sessionStorage.getItem('userCode'),
           Store_Note: '',
           Mode: this.bindMode,
-          Token: idTokenModel.sub,
+          Token: appleToken,
           JsonData: JSON.stringify(appleUser)
         };
         this.thirdbind(this.thirdReques, this.bindMode);
