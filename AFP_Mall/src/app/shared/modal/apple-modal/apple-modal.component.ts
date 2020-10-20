@@ -26,7 +26,6 @@ export class AppleModalComponent implements OnInit {
 
     // Apple 登入授權成功，第三方登入取得資料
     document.addEventListener('AppleIDSignInOnSuccess', (authData: any) => {
-      console.log(authData);
       this.appleUser.emit(authData.detail);
       this.bsModalRef.hide();
       // const idTokenModel = jwt_decode(this.appleUser.authorization.id_token);

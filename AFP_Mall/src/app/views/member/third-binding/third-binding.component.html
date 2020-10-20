@@ -33,7 +33,7 @@
           <!-- button type="button" class="btn msg-open" [hidden]="memberService.FBThird == null" (click)="onDelThird(memberService.FBThird.UserThird_Mode)">解除綁定</!-->
         </div>
       </li>
-      <li>
+      <li [hidden]="!isApple">
         <div class="item item-img">
             <img src="../img/index/social/apply.svg" alt="">
         </div>

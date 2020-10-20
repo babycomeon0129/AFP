@@ -20,6 +20,8 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
   public bindMode = 0;
   /** 第三方姓名 */
   public bindState: bindState = new bindState();
+   /** 設備是否為Apple (是則不顯示Apple綁定) */
+   public isApple: boolean;
 
 
   constructor(public appService: AppService, private authService: AuthService, public modal: ModalService,
@@ -76,6 +78,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
               break;
           }
         });
+        this.authService.signOut();
       }
     });
 
@@ -97,7 +100,6 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
   signInWithApple(): void {
     this.bindMode = 5;
     this.modal.appleLogin({}).subscribe(appleUser => {
-      console.log(appleUser);
       if (appleUser !== null) {
         const idTokenModel = jwt_decode(appleUser.authorization.id_token);
         const appleToken = idTokenModel.sub;
@@ -112,6 +114,16 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
         this.thirdbind(this.thirdReques, this.bindMode);
       }
     });
+  }
+
+  /** 判斷是否為Apple設備 */
+  detectApple() {
+    const iOSDevices = ['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'];
+    if (iOSDevices.includes(navigator.platform) || (navigator.userAgent.includes('Mac'))) {
+      this.isApple = true;
+    } else {
+      this.isApple = false;
+    }
   }
 
 
