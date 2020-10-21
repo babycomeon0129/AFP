@@ -121,7 +121,7 @@
                                     <li>
                                         <div class="account-tit">帳號</div>
                                         <div class="account-item">
-                                            <input id="regEmailTel" appDigitOnly type="tel" name="regAccount" #regAccount="ngModel" [(ngModel)]="registerRequest.AFPAccount"
+                                            <input id="regAccount" appDigitOnly type="tel" name="regAccount" #regAccount="ngModel" [(ngModel)]="registerRequest.AFPAccount"
                                               pattern="^09\d{8}$" required [ngClass]="{'bb-org': regAccount.touched && regAccount.invalid}"
                                               placeholder="請輸入手機號碼，例：0912345678">
                                             <div *ngIf="regAccount.touched && regAccount.invalid" class="small-warning pl-0 warningNote"><span>請輸入手機號碼</span></div>
@@ -158,7 +158,7 @@
                                         <div class="vcode-tit">驗證碼</div>
                                         <div class="vcode-item row">
                                             <div class="col-7 pb-3 px-0">
-                                                <input id="regEmailTel" type="tel" appDigitOnly name="VCode" #VCode="ngModel" [(ngModel)]="registerRequest.VerifiedInfo.VerifiedCode"
+                                                <input id="regVCode" type="tel" appDigitOnly name="VCode" #VCode="ngModel" [(ngModel)]="registerRequest.VerifiedInfo.VerifiedCode"
                                                   pattern="\d{6}$" minlength="6" maxlength="6" required [ngClass]="{'bb-org': VCode.touched && VCode.invalid}"
                                                   placeholder="請輸入收到的驗證碼">
                                                 <div *ngIf="remainingSec > 0" class="small-warning t-gray pl-0 stepV1"><p>沒有收到驗證碼？<span class="text-blue">可重新點選「取得驗證碼」</span></p></div>
