@@ -14,15 +14,9 @@ import { JustkaModalComponent } from '../shared/modal/justka-modal/justka-modal.
 import { MissionModalComponent } from '../shared/modal/mission-modal/mission-modal.component';
 import { ReceiptModalComponent } from '../shared/modal/receipt-modal/receipt-modal.component';
 import { MsgShareModalComponent } from '../shared/modal/msg-share-modal/msg-share-modal.component';
-<<<<<<< HEAD
-import { AppleModalComponent } from '../shared/modal/apple-modal/apple-modal.component';
-import { LoginRegisterModalComponent } from '../shared/modal/login-register-modal/login-register-modal.component';
-import { VerifyMobileModalComponent } from '../shared/modal/verify-mobile-modal/verify-mobile-modal.component';
-=======
 import { LoginRegisterModalComponent } from '../shared/modal/login-register-modal/login-register-modal.component';
 import { VerifyMobileModalComponent } from '../shared/modal/verify-mobile-modal/verify-mobile-modal.component';
 import { AppleModalComponent } from '../shared/modal/apple-modal/apple-modal.component';
->>>>>>> developer
 
 @Injectable({
   providedIn: 'root'
