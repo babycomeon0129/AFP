@@ -18,7 +18,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
   /** 第三方資訊類型 1 FB, 3 Google 5 Apple */
   public bindMode = 0;
   /** 第三方姓名 */
-  public bindState: bindState = new bindState();
+  public bindStatus: bindStatus = new bindStatus();
   /** 設備是否為Apple (是則不顯示Apple綁定) */
   public isApple: boolean;
 
@@ -62,13 +62,13 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
         data.List_UserThird.forEach((value) => {
           switch (value.UserThird_Mode) {
             case 1: //  FB
-              this.bindState.fb = true;
+              this.bindStatus.fb = true;
               break;
             case 3: //  Google
-              this.bindState.google = true;
+              this.bindStatus.google = true;
               break;
             case 5: // Apple
-              this.bindState.apple = true;
+              this.bindStatus.apple = true;
               break;
           }
         });
@@ -130,13 +130,13 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
       if (data !== null) {
         switch (mode) {
           case 1: //  FB
-            this.bindState.fb = true;
+            this.bindStatus.fb = true;
             break;
           case 3: // Google
-            this.bindState.google = true;
+            this.bindStatus.google = true;
             break;
           case 5: // Apple
-            this.bindState.apple = true;
+            this.bindStatus.apple = true;
             break;
         }
         this.authService.signOut();
@@ -164,7 +164,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
 
 }
 
-class bindState {
+class bindStatus {
   fb?: boolean;
   google?: boolean;
   apple?: boolean;
