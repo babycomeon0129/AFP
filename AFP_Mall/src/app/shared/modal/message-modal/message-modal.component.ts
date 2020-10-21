@@ -10,7 +10,8 @@ import { AFP_ADImg, Request_AFPVerifyCode, AFP_VerifiedInfo } from '../../../_mo
   templateUrl: './message-modal.component.html'
 })
 export class MessageModalComponent implements OnInit {
-  showType = 1; // 1-預設;2-前往登入; 3-前往重設密碼 999-核銷優惠券成功時(顯示一張廣告圖)
+  /** 1: 預設 2: 前往登入 3: 前往重設密碼 4: 提示前往社群綁定 5: 手機驗證成功前往首頁 999: 核銷優惠券成功時(顯示一張廣告圖) */
+  showType = 1;
   success: boolean;
   message: string;
   target: string;

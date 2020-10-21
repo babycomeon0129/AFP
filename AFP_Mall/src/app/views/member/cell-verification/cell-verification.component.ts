@@ -1,10 +1,10 @@
 import { NgForm } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { Model_ShareData } from '../../../_models';
+import { Model_ShareData, Request_AFPVerifyCode, Response_AFPVerifyCode } from '../../../_models';
 import { ModalService } from 'src/app/service/modal.service';
 import { MemberService } from '../member.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { layerAnimation } from '../../../animations';
 import { Location } from '@angular/common';
 import { Meta, Title } from '@angular/platform-browser';
@@ -17,15 +17,26 @@ import { Meta, Title } from '@angular/platform-browser';
 })
 export class CellVerificationComponent implements OnInit, OnDestroy {
   /** 手機驗證 ngForm request */
-  public requestMobileVerify: Request_MemberBindMobile = new Request_MemberBindMobile();
+  // public requestMobileVerify: Request_MemberBindMobile = new Request_MemberBindMobile();
+  /** 手機驗證 ngForm request */
+  // public requestMobileVerify: Request_AFPVerifyCode = new Request_AFPVerifyCode();
+  public requestMobileVerify: Request_AFPVerifyCode = {
+    VerifiedAction: null,
+    VerifiedInfo: {
+      VerifiedPhone: null,
+      CheckValue: null,
+      VerifiedCode: null
+    }
+  };
   /** 重新發送驗證碼剩餘秒數 */
-  public remainingSec = 60;
+  public remainingSec = 0;
   /** 重新發送驗證碼倒數 */
   public vcodeTimer;
   /** 顯示區塊：0 進行驗證、1 已驗證 */
   public shownSection: number;
+  public toVerifyCell = false;
 
-  constructor(public appService: AppService, public modal: ModalService, public memberService: MemberService,
+  constructor(public appService: AppService, public modal: ModalService, public memberService: MemberService, private route: ActivatedRoute,
               public router: Router, public location: Location, private meta: Meta, private title: Title) {
     this.title.setTitle('手機驗證 - Mobii!');
     this.meta.updateTag({name : 'description', content: ''});
@@ -34,6 +45,9 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    if (this.route.snapshot.queryParams.toVerifyMobile !== undefined && this.route.snapshot.queryParams.toVerifyMobile === 'true') {
+      this.toVerifyCell = true; // 第三方登入後因強制驗證被導至此
+    }
     this.readCellNumber();
   }
 
@@ -55,10 +69,11 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
   sendVCode() {
     this.remainingSec = 60; // 開始倒數60秒
     this.requestMobileVerify.User_Code = sessionStorage.getItem('userCode'),
-    this.requestMobileVerify.SelectMode = 1;
-    this.requestMobileVerify.CountryCode = 886;
+    this.requestMobileVerify.SelectMode = 11;
+    this.requestMobileVerify.VerifiedAction = this.toVerifyCell ? 11 : 3;
 
-    this.appService.toApi('Member', '1514', this.requestMobileVerify).subscribe((data: Response_MemberBindMobile) => {
+    this.appService.toApi('Member', '1112', this.requestMobileVerify).subscribe((data: Response_AFPVerifyCode) => {
+      this.requestMobileVerify.VerifiedInfo.CheckValue = data.VerifiedInfo.CheckValue;
       // 每秒更新剩餘秒數
       this.vcodeTimer = setInterval(() => {
         // 計算剩餘秒數
@@ -78,16 +93,14 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
 
   /** 立即驗證-驗證驗證碼 */
   verifyMobile(form: NgForm) {
-    const request: Request_MemberBindMobile = {
-      User_Code: sessionStorage.getItem('userCode'),
-      SelectMode: 2,
-      CountryCode: 886,
-      Mobile: this.requestMobileVerify.Mobile,
-      CertificationCode: this.requestMobileVerify.CertificationCode
-    };
+    this.requestMobileVerify.User_Code = sessionStorage.getItem('userCode'),
+    this.requestMobileVerify.SelectMode = 21;
+    this.requestMobileVerify.VerifiedAction = this.toVerifyCell ? 11 : 3;
 
-    this.appService.toApi('Member', '1514', request).subscribe((data: Response_MemberBindMobile) => {
-      this.modal.show('message', { initialState: { success: true, message: '手機認證成功!', showType: 1 } });
+    this.appService.toApi('Member', '1112', this.requestMobileVerify).subscribe((data: Response_AFPVerifyCode) => {
+      const msg = `手機認證成功！
+      歡迎您盡情享受 Mobii! 獨家優惠`;
+      this.modal.show('message', { initialState: { success: true, message: msg, showType: 5 } });
       this.readCellNumber();
       // 清除重新傳送驗證碼倒數
       clearInterval(this.vcodeTimer);

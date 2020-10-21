@@ -29,7 +29,7 @@ export class VcodeModalComponent implements OnInit {
     AFPType: 1,
     AFPAccountCTY: 886,
     AFPAccount: '',
-    Agree: false
+    AFPPassword: ''
   };
 
   constructor(public bsModalRef: BsModalRef, private modalService: ModalService, private appService: AppService) {
