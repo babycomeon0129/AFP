@@ -156,7 +156,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
         };
 
         this.appService.toApi('Member', '1506', request).subscribe((data: Response_MemberThird) => {
-      //    this.memberService.readThirdData();
+          //    this.memberService.readThirdData();
         });
       }
     });
