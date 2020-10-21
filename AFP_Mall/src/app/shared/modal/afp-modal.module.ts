@@ -15,6 +15,7 @@ import { SharedPipeModule } from '../../pipe/shared-pipe.module';
 import { MissionModalComponent } from './mission-modal/mission-modal.component';
 import { ReceiptModalComponent } from './receipt-modal/receipt-modal.component';
 import { MsgShareModalComponent } from './msg-share-modal/msg-share-modal.component';
+import { AppleModalComponent } from './apple-modal/apple-modal.component';
 import { AppRoutingModule } from '../../app-routing.module';
 import { LoginRegisterModalComponent } from './login-register-modal/login-register-modal.component';
 import { VerifyMobileModalComponent } from './verify-mobile-modal/verify-mobile-modal.component';
@@ -35,7 +36,8 @@ import { VerifyMobileModalComponent } from './verify-mobile-modal/verify-mobile-
     ReceiptModalComponent,
     MsgShareModalComponent,
     LoginRegisterModalComponent,
-    VerifyMobileModalComponent
+    VerifyMobileModalComponent,
+    AppleModalComponent
   ],
   entryComponents: [
     LoginModalComponent,
@@ -52,7 +54,8 @@ import { VerifyMobileModalComponent } from './verify-mobile-modal/verify-mobile-
     ReceiptModalComponent,
     MsgShareModalComponent,
     LoginRegisterModalComponent,
-    VerifyMobileModalComponent
+    VerifyMobileModalComponent,
+    AppleModalComponent
   ],
   imports: [
     CommonModule,

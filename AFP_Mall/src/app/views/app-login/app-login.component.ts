@@ -5,11 +5,10 @@ import { AppService } from 'src/app/app.service';
 import { ModalService } from 'src/app/service/modal.service';
 import { AuthService, SocialUser, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 import { NgForm } from '@angular/forms';
-import { Request_AFPThird, Model_ShareData, Model_CustomerInfo, AFP_UserFavourite } from 'src/app/_models';
+import { Request_AFPThird, Model_ShareData, Model_CustomerInfo, AFP_UserFavourite, Third_AppleUser } from 'src/app/_models';
 import { ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { Meta, Title } from '@angular/platform-browser';
-import { Third_AppleUser } from '../../shared/modal/login-modal/login-modal.component';
 import jwt_decode from 'jwt-decode';
 declare var AppleID: any;
 

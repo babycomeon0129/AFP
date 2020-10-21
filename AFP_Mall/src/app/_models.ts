@@ -1351,6 +1351,20 @@ export class Response_AFPLogin extends Model_ShareData {
   List_UserFavourite?: AFP_UserFavourite;
 }
 
+export class Third_AppleUser {
+  authorization: {
+    state: string;
+    code: string;
+    id_token: string;
+  };
+  user?: {
+    email: string;
+    name: {
+      firstName: string;
+      lastName: string;
+    };
+  }
+}
 export class Response_AFPVerifyCode extends Model_ShareData {
   VerifiedInfo?: AFP_VerifiedInfo;
 }
