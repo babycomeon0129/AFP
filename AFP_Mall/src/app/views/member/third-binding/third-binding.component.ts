@@ -19,11 +19,12 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
   public bindMode = 0;
   /** 第三方姓名 */
   public bindState: bindState = new bindState();
-   /** 設備是否為Apple (是則不顯示Apple綁定) */
-   public isApple: boolean;
+  /** 設備是否為Apple (是則不顯示Apple綁定) */
+  public isApple: boolean;
 
 
   constructor(public appService: AppService, private authService: AuthService, public modal: ModalService) {
+    this.detectApple();
   }
 
   ngOnInit() {
@@ -155,7 +156,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
         };
 
         this.appService.toApi('Member', '1506', request).subscribe((data: Response_MemberThird) => {
-      //    this.memberService.readThirdData();
+          //    this.memberService.readThirdData();
         });
       }
     });
