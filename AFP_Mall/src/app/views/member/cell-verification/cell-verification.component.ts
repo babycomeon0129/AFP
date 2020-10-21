@@ -34,6 +34,7 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
   public vcodeTimer;
   /** 顯示區塊：0 進行驗證、1 已驗證 */
   public shownSection: number;
+  /** 是否因強制驗證被導至此 */
   public toVerifyCell = false;
 
   constructor(public appService: AppService, public modal: ModalService, public memberService: MemberService, private route: ActivatedRoute,
@@ -98,8 +99,7 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
     this.requestMobileVerify.VerifiedAction = this.toVerifyCell ? 11 : 3;
 
     this.appService.toApi('Member', '1112', this.requestMobileVerify).subscribe((data: Response_AFPVerifyCode) => {
-      const msg = `手機認證成功！
-      歡迎您盡情享受 Mobii! 獨家優惠`;
+      const msg = `手機認證成功！歡迎您盡情享受 Mobii! 獨家優惠`;
       this.modal.show('message', { initialState: { success: true, message: msg, showType: 5 } });
       this.readCellNumber();
       // 清除重新傳送驗證碼倒數

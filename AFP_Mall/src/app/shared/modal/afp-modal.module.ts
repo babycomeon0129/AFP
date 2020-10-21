@@ -35,9 +35,15 @@ import { VerifyMobileModalComponent } from './verify-mobile-modal/verify-mobile-
     MissionModalComponent,
     ReceiptModalComponent,
     MsgShareModalComponent,
+<<<<<<< HEAD
     AppleModalComponent,
     LoginRegisterModalComponent,
     VerifyMobileModalComponent
+=======
+    LoginRegisterModalComponent,
+    VerifyMobileModalComponent,
+    AppleModalComponent
+>>>>>>> developer
   ],
   entryComponents: [
     LoginModalComponent,
@@ -53,9 +59,15 @@ import { VerifyMobileModalComponent } from './verify-mobile-modal/verify-mobile-
     MissionModalComponent,
     ReceiptModalComponent,
     MsgShareModalComponent,
+<<<<<<< HEAD
     AppleModalComponent,
     LoginRegisterModalComponent,
     VerifyMobileModalComponent
+=======
+    LoginRegisterModalComponent,
+    VerifyMobileModalComponent,
+    AppleModalComponent
+>>>>>>> developer
   ],
   imports: [
     CommonModule,
