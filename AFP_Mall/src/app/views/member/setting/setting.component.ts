@@ -46,7 +46,7 @@ export class SettingComponent implements OnInit {
         BindingSocialJSInterface.goAppBindingSocialPage();
       } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
         //  IOS
-        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'goAppBindingSocialPage' });
+        (window as any).webkit.messageHandlers.BindingSocialJSInterface.postMessage({ action: 'goAppBindingSocialPage' });
       }
     }
   }
