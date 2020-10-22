@@ -207,7 +207,6 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   checkAccount(): void {
     if (this.registerRequest.AFPAccount.length < 10) {
       this.existingAccount = false;
-      console.log('exists?:', this.existingAccount);
     } else {
       const request: Request_AFPReadMobile = {
         User_Code: sessionStorage.getItem('userCode'),
