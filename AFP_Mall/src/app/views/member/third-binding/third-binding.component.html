@@ -28,8 +28,8 @@
         </div>
         <div class="item">Facebook</div>
         <div class="item auto-left">
-          <button type="button" class="btn msg-open" [hidden]="bindStatus.fb" (click)="signInWithFB()">綁定</button>
-          <button type="button" class="btn msg-open bind" [hidden]="!bindStatus.fb">已綁定</button>
+          <button type="button" class="btn msg-open bind" [hidden]="bindStatus.fb" (click)="signInWithFB()">綁定</button>
+          <button type="button" class="btn msg-open bind unable" [hidden]="!bindStatus.fb">已綁定</button>
           <!-- button type="button" class="btn msg-open" [hidden]="memberService.FBThird == null" (click)="onDelThird(memberService.FBThird.UserThird_Mode)">解除綁定</!-->
         </div>
       </li>
@@ -39,8 +39,8 @@
         </div>
         <div class="item">Apple ID</div>
         <div class="item auto-left">
-          <button type="button" class="btn msg-open" [hidden]="bindStatus.apple" (click)="signInWithApple()">綁定</button>
-          <button type="button" class="btn msg-open bind" [hidden]="!bindStatus.apple">已綁定</button>
+          <button type="button" class="btn msg-open bind" [hidden]="bindStatus.apple" (click)="signInWithApple()">綁定</button>
+          <button type="button" class="btn msg-open bind unable" [hidden]="!bindStatus.apple">已綁定</button>
         </div>
     </li>
       <li style="display: none;">
@@ -59,8 +59,8 @@
         </div>
         <div class="item">Google</div>
         <div class="item auto-left">
-          <button type="button" class="btn msg-open" [hidden]="bindStatus.google" (click)="signInWithGoogle()">綁定</button>
-          <button type="button" class="btn msg-open bind" [hidden]="!bindStatus.google">已綁定</button>
+          <button type="button" class="btn msg-open bind" [hidden]="bindStatus.google" (click)="signInWithGoogle()">綁定</button>
+          <button type="button" class="btn msg-open bind unable" [hidden]="!bindStatus.google">已綁定</button>
           <!-- button type="button" class="btn msg-open" [hidden]="memberService.GoogleThird == null" (click)="onDelThird(memberService.GoogleThird.UserThird_Mode)">解除綁定</!-- -->
         </div>
       </li>
