@@ -14,6 +14,9 @@ import { JustkaModalComponent } from '../shared/modal/justka-modal/justka-modal.
 import { MissionModalComponent } from '../shared/modal/mission-modal/mission-modal.component';
 import { ReceiptModalComponent } from '../shared/modal/receipt-modal/receipt-modal.component';
 import { MsgShareModalComponent } from '../shared/modal/msg-share-modal/msg-share-modal.component';
+import { LoginRegisterModalComponent } from '../shared/modal/login-register-modal/login-register-modal.component';
+import { VerifyMobileModalComponent } from '../shared/modal/verify-mobile-modal/verify-mobile-modal.component';
+import { AppleModalComponent } from '../shared/modal/apple-modal/apple-modal.component';
 
 @Injectable({
   providedIn: 'root'
@@ -60,6 +63,13 @@ export class ModalService {
       case 'msgShare':
         this.bsModalService.show(MsgShareModalComponent, config);
         break;
+      case 'loginRegister':
+        this.bsModalService.show(LoginRegisterModalComponent, config);
+        break;
+      case 'verifyMobile':
+        const ignoreBackdropClick: ModalOptions = { ignoreBackdropClick: true }; // 點擊黑幕不消失
+        this.bsModalService.show(VerifyMobileModalComponent, ignoreBackdropClick);
+        break;
     }
   }
 
@@ -99,6 +109,12 @@ export class ModalService {
       case 'msgShare':
         this.bsModalService.show(MsgShareModalComponent, options);
         break;
+      case 'loginRegister':
+        this.bsModalService.show(LoginRegisterModalComponent, options);
+        break;
+      case 'verifyMobile':
+        this.bsModalService.show(VerifyMobileModalComponent, options);
+        break;
     }
   }
 
@@ -125,4 +141,10 @@ export class ModalService {
     const ModalRef =  this.bsModalService.show(CouponModalComponent, options);
     return ModalRef.content.couponResult;
   }
+
+  public appleLogin(options: ModalOptions): Observable<any> {
+    const ModalRef =  this.bsModalService.show(AppleModalComponent, options);
+    return ModalRef.content.appleUser;
+  }
+
 }

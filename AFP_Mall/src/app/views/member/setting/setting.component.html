@@ -37,8 +37,7 @@
           <span class="auto-left"><i class="material-icons">&#xe315;</i></span>
         </button>
       </li>
-      <!-- 目前無第三方登入，暫不顯示 -->
-      <li [routerLink]="['../ThirdBinding']" hidden>
+      <li (click)="goIf();">
         <button class="btn px-0 w-100 text-left p-0">社群帳號綁定
           <span class="auto-left"><i class="material-icons">&#xe315;</i></span>
         </button>

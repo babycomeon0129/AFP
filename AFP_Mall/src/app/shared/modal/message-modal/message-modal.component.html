@@ -25,6 +25,15 @@
       <button type="button" *ngIf="showType === 3" class="btn btn-login font-bold px-0 w-50" (click)="doReset()">
         確認
       </button>
+      <button type="button" *ngIf="showType === 4" class="btn btn-login font-bold px-0 w-50" [routerLink]="['/']" (click)="closeModal()">
+        下次再說
+      </button>
+      <button type="button" *ngIf="showType === 4" class="btn btn-login font-bold px-0 w-50" [routerLink]="['/Member/ThirdBinding']" (click)="closeModal()">
+        立即綁定
+      </button>
+      <button type="button" *ngIf="showType === 5" class="btn btn-login font-bold px-0 w-50" [routerLink]="['/']" (click)="closeModal()">
+        確認
+      </button>
     </div>
   </div>
 </div>

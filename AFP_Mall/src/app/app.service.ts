@@ -13,6 +13,7 @@ import { environment } from './../environments/environment';
 import { ModalService } from './service/modal.service';
 import { Router, NavigationExtras, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { AuthService } from 'angularx-social-login';
 
 declare var $: any;
 declare var AppJSInterface: any;
@@ -48,7 +49,7 @@ export class AppService {
 
   @BlockUI() blockUI: NgBlockUI;
   constructor(private http: HttpClient, private bsModal: BsModalService, public modal: ModalService, private router: Router,
-              private cookieService: CookieService, private route: ActivatedRoute) {
+              private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService) {
     if (sessionStorage.getItem('CustomerInfo')) {
       this.loginState = true;
     }
@@ -83,6 +84,28 @@ export class AppService {
             });
           this.blockUI.stop();
           throw new Error('bad request');
+        }
+        // 手機是否驗證
+        switch (data.Verification.MobileVerified) {
+          case 1:
+            // 「一般登入」、「第三方登入」、「登入後讀購物車數量」不引導驗證手機
+            if (command !== '1104' && command !== '1105' && command !== '1204') {
+              this.modal.openModal('verifyMobile');
+            }
+            break;
+          case 2:
+          case 3:
+            break;
+          case 4:
+            // tslint:disable: max-line-length
+            sessionStorage.setItem('userCode', data.Verification.UserCode);
+            sessionStorage.setItem('CustomerInfo', data.Verification.CustomerInfo);
+            this.cookieService.set('userCode', data.Verification.UserCode, 90, '/', environment.cookieDomain, environment.cookieSecure);
+            this.cookieService.set('CustomerInfo', data.Verification.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure);
+            break;
+          default:
+            this.onLogout();
+            this.router.navigate(['/']);
         }
         // 任務完成訊息
         const MissionList = data.MissionInfo.List_MissionDetail.filter(x => (x.Mission_Info !== null && x.Mission_Info.trim() !== ''));
@@ -146,6 +169,8 @@ export class AppService {
     if (this.isApp !== null) {
       window.location.href = '/AppLogout';
     }
+    // 第三方登入套件登出
+    this.authService.signOut();
   }
 
   /**
@@ -390,7 +415,7 @@ export class AppService {
   /** 判斷跳出網頁或APP的登入頁 */
   loginPage() {
     if (this.isApp == null) {
-      this.modal.openModal('login');
+      this.modal.openModal('loginRegister');
     } else {
       if (navigator.userAgent.match(/android/i)) {
         //  Android

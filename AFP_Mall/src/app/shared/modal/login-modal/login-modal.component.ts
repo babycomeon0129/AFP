@@ -5,7 +5,7 @@ import { AppService } from 'src/app/app.service';
 import { ModalService } from 'src/app/service/modal.service';
 import { AuthService, SocialUser, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 import { NgForm } from '@angular/forms';
-import { Request_AFPThird, Model_ShareData, Response_AFPLogin } from 'src/app/_models';
+import { Request_AFPThird, Model_ShareData, Response_AFPLogin, Third_AppleUser } from 'src/app/_models';
 import { CookieService } from 'ngx-cookie-service';
 import jwt_decode from 'jwt-decode';
 declare var AppleID: any;
@@ -58,7 +58,7 @@ export class LoginModalComponent implements OnInit {
     AppleID.auth.init({
       clientId: 'com.eyesmedia.mobii',
       scope: 'email name',
-      redirectURI: 'https://www.mobii.ai', // TODO: 正式/測試站, 結尾無"/" + environment.sit的api url
+      redirectURI: 'https://www.mobii.ai', // 正式/測試站, 結尾無"/" + environment.sit的api url
       state: 'Mobii Apple Login',
       usePopup : true
     });
@@ -165,17 +165,3 @@ export class Request_AFPLogin extends Model_ShareData {
   AFPPassword: string;
 }
 
-export class Third_AppleUser {
-  authorization: {
-    state: string;
-    code: string;
-    id_token: string;
-  };
-  user?: {
-    email: string;
-    name: {
-      firstName: string;
-      lastName: string;
-    };
-  };
-}

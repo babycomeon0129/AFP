@@ -25,7 +25,7 @@ export class RegisterModalComponent implements OnInit, AfterViewInit {
     AFPType: 1,
     AFPAccountCTY: 886,
     AFPAccount: '',
-    Agree: false,
+    AFPPassword: ''
   };
   registerForm: FormGroup;
 
