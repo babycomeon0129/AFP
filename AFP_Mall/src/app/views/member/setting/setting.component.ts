@@ -38,7 +38,6 @@ export class SettingComponent implements OnInit {
 
   /** 判斷是否為App，如果是則跳到App原生  */
   goIf() {
-    console.log(this.appService.isApp);
     if (this.appService.isApp === null) {
       this.router.navigate(['/Member/ThirdBinding']);
     } else {
