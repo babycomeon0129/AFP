@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Meta, Title } from '@angular/platform-browser';
+declare var BindingSocialJSInterface: any;
 
 @Component({
   selector: 'app-setting',
@@ -11,13 +12,13 @@ import { Meta, Title } from '@angular/platform-browser';
 })
 export class SettingComponent implements OnInit {
 
-  constructor(public appService: AppService, public route: ActivatedRoute, public location: Location,
+  constructor(public appService: AppService, public route: ActivatedRoute, public location: Location, private router: Router,
               private meta: Meta, private title: Title) {
     // tslint:disable: max-line-length
     this.title.setTitle('帳號設定 - Mobii!');
-    this.meta.updateTag({name : 'description', content: ''});
-    this.meta.updateTag({content: '帳號設定 - Mobii!', property: 'og:title'});
-    this.meta.updateTag({content: '', property: 'og:description'});
+    this.meta.updateTag({ name: 'description', content: '' });
+    this.meta.updateTag({ content: '帳號設定 - Mobii!', property: 'og:title' });
+    this.meta.updateTag({ content: '', property: 'og:description' });
   }
 
   ngOnInit() {
@@ -32,6 +33,21 @@ export class SettingComponent implements OnInit {
     this.appService.onLogout();
     if (this.appService.isApp === null) {
       this.location.back();
+    }
+  }
+
+  /** 判斷是否為App，如果是則跳到App原生  */
+  goIf() {
+    if (this.appService.isApp === null) {
+      this.router.navigate(['/Member/ThirdBinding']);
+    } else {
+      if (navigator.userAgent.match(/android/i)) {
+        //  Android
+        BindingSocialJSInterface.goAppBindingSocialPage();
+      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+        //  IOS
+        (window as any).webkit.messageHandlers.BindingSocialJSInterface.postMessage({ action: 'goAppBindingSocialPage' });
+      }
     }
   }
 
