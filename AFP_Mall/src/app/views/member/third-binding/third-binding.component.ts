@@ -4,6 +4,7 @@ import { AuthService, SocialUser, FacebookLoginProvider, GoogleLoginProvider } f
 import { AppService } from 'src/app/app.service';
 import { ModalService } from 'src/app/service/modal.service';
 import jwt_decode from 'jwt-decode';
+declare var AppJSInterface: any;
 
 @Component({
   selector: 'app-third-binding',
@@ -18,9 +19,11 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
   /** 第三方資訊類型 1 FB, 3 Google 5 Apple */
   public bindMode = 0;
   /** 第三方姓名 */
-  public bindState: bindState = new bindState();
+  public bindStatus: bindStatus = new bindStatus();
   /** 設備是否為Apple (是則不顯示Apple綁定) */
   public isApple: boolean;
+  /** 是否從APP登入頁進入 */
+  public fromAppLogin: boolean;
 
 
   constructor(public appService: AppService, private authService: AuthService, public modal: ModalService) {
@@ -28,6 +31,12 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    // 先判斷是否從APP登入頁進入
+    if (this.appService.isApp !== null && (this.appService.prevUrl === '/' || this.appService.prevUrl === '')) {
+      this.fromAppLogin = true;
+    } else {
+      this.fromAppLogin = false;
+    }
     this.readThirdData();
     this.authService.authState.subscribe((user: SocialUser) => {
       // 為了FB登入特例處理，多判斷 this.bindMode > 0 才呼叫API
@@ -46,8 +55,19 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
-    this.bindMode = 0;
+  /** 若從APP登入頁進入則按回上一頁時APP把此頁關掉 */
+  backIf() {
+    if (this.fromAppLogin) {
+      if (navigator.userAgent.match(/android/i)) {
+        //  Android
+        AppJSInterface.back();
+      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+        //  IOS
+        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'back' });
+      }
+    } else {
+      history.back();
+    }
   }
 
   /** 讀取社群帳號 */
@@ -62,13 +82,13 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
         data.List_UserThird.forEach((value) => {
           switch (value.UserThird_Mode) {
             case 1: //  FB
-              this.bindState.fb = true;
+              this.bindStatus.fb = true;
               break;
             case 3: //  Google
-              this.bindState.google = true;
+              this.bindStatus.google = true;
               break;
             case 5: // Apple
-              this.bindState.apple = true;
+              this.bindStatus.apple = true;
               break;
           }
         });
@@ -130,13 +150,13 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
       if (data !== null) {
         switch (mode) {
           case 1: //  FB
-            this.bindState.fb = true;
+            this.bindStatus.fb = true;
             break;
           case 3: // Google
-            this.bindState.google = true;
+            this.bindStatus.google = true;
             break;
           case 5: // Apple
-            this.bindState.apple = true;
+            this.bindStatus.apple = true;
             break;
         }
         this.authService.signOut();
@@ -162,9 +182,13 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngOnDestroy() {
+    this.bindMode = 0;
+  }
+
 }
 
-class bindState {
+class bindStatus {
   fb?: boolean;
   google?: boolean;
   apple?: boolean;

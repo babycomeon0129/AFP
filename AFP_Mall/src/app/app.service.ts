@@ -88,10 +88,12 @@ export class AppService {
         // 手機是否驗證
         switch (data.Verification.MobileVerified) {
           case 1:
-            this.modal.openModal('verifyMobile');
+            // 「一般登入」、「第三方登入」、「登入後讀購物車數量」不引導驗證手機
+            if (command !== '1104' && command !== '1105' && command !== '1204') {
+              this.modal.openModal('verifyMobile');
+            }
             break;
           case 2:
-            break;
           case 3:
             break;
           case 4:
@@ -413,7 +415,6 @@ export class AppService {
   /** 判斷跳出網頁或APP的登入頁 */
   loginPage() {
     if (this.isApp == null) {
-      // this.modal.openModal('login'); // TODO: 待測試完畢移除
       this.modal.openModal('loginRegister');
     } else {
       if (navigator.userAgent.match(/android/i)) {
