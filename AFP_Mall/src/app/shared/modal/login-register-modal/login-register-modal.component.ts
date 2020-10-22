@@ -4,9 +4,9 @@ import { BsModalRef } from 'ngx-bootstrap';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from 'src/app/service/modal.service';
 import { AuthService, SocialUser, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
-import { NgForm } from '@angular/forms';
-import { Request_AFPThird, Model_ShareData, Response_AFPLogin, Request_AFPAccount, Response_AFPAccount,
-  Request_AFPVerifyCode, Response_AFPVerifyCode } from 'src/app/_models';
+import { NgForm, Validators } from '@angular/forms';
+import { Request_AFPThird, Model_ShareData, Response_AFPLogin, Request_AFPAccount, Request_AFPVerifyCode,
+  Response_AFPVerifyCode, Request_AFPReadMobile, Response_AFPReadMobile } from 'src/app/_models';
 import { CookieService } from 'ngx-cookie-service';
 import jwt_decode from 'jwt-decode';
 declare var AppleID: any;
@@ -53,6 +53,8 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   public remainingSec = 0;
   /** 註冊-重新發送驗證碼倒數 timer */
   public vCodeTimer;
+  /** 註冊-輸入帳號是否已存在 */
+  public existingAccount = false;
 
   constructor(
     public bsModalRef: BsModalRef, private authService: AuthService, private appService: AppService, public modal: ModalService,
@@ -199,6 +201,23 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       this.registerRequest.VerifiedInfo.CheckValue = data.VerifiedInfo.CheckValue;
       document.getElementById('registeredCheck1').focus();
     });
+  }
+
+  /** 檢查帳號是否已存在 */
+  checkAccount(): void {
+    if (this.registerRequest.AFPAccount.length < 10) {
+      this.existingAccount = false;
+      console.log('exists?:', this.existingAccount);
+    } else {
+      const request: Request_AFPReadMobile = {
+        User_Code: sessionStorage.getItem('userCode'),
+        SelectMode: 2,
+        UserAccount: this.registerRequest.AFPAccount
+      };
+      this.appService.toApi('Member', '1111', request).subscribe((data: Response_AFPReadMobile) => {
+        this.existingAccount = data.IsExist;
+      });
+    }
   }
 
   /** 註冊送出 */

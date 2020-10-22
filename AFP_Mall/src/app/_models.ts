@@ -1363,8 +1363,9 @@ export class Third_AppleUser {
       firstName: string;
       lastName: string;
     };
-  }
+  };
 }
+
 export class Response_AFPVerifyCode extends Model_ShareData {
   VerifiedInfo?: AFP_VerifiedInfo;
 }
@@ -1378,4 +1379,30 @@ export interface AFP_VerifiedInfo {
   VerifiedPhone?: string;
   CheckValue?: string;
   VerifiedCode?: string;
+}
+
+export interface Request_AFPReadMobile extends Model_ShareData {
+  CustomerDetail?: Model_CustomerDetail;
+  UserAccount?: string;
+}
+
+export interface Model_CustomerDetail {
+  UserInfo_ID: number;
+  UserInfo_Code: number;
+  UserInfo_UUID: number;
+  UserInfo_ExtCode: string;
+  UserInfo_Account: string;
+  UserInfo_Name: string;
+  UserInfo_Type: number;
+  UserInfo_GroupNo: number;
+  UserLoginState_ID: number;
+  UserDevice_Code: number;
+  UserDevice_DeviceCode: string;
+  UserProfile_Mobile: string;
+}
+
+export interface Response_AFPReadMobile {
+  /** 新消費者包資訊(加密後),如有錯誤則回傳空值 */
+  CustomerDetail: string;
+  IsExist: boolean;
 }
