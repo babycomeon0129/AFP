@@ -44,12 +44,12 @@ export class ForgetModalComponent implements OnInit {
       this.request.VerifiedInfo.CheckValue = data.VerifiedInfo.CheckValue;
       this.request.VerifiedInfo.VerifiedCode = data.VerifiedInfo.VerifiedCode;
       this.vcodeSeconds = 59;
-      this.vcodeSet = true;
       this.vcodeCount = setInterval(() => {
         if (this.vcodeSeconds > 0) {
           this.vcodeSeconds--;
         } else {
           clearInterval(this.vcodeCount);
+          this.vcodeSet = true;
         }
       }, 1000);
     });
@@ -58,7 +58,6 @@ export class ForgetModalComponent implements OnInit {
   /** 立即驗證  */
   onSubmit() {
     this.appService.openBlock();
-    this.vcodeSet = false;
     this.request.SelectMode = 21;
     this.appService.toApi('Home', '1112', this.request).subscribe((data: Response_AFPVerifyCode) => {
       if (data !== null) {
@@ -69,6 +68,7 @@ export class ForgetModalComponent implements OnInit {
           VerifiedInfo: data.VerifiedInfo
         };
         this.modalService.show('message', { initialState }, this.bsModalRef);
+        this.vcodeSet = false;
       }
     });
   }

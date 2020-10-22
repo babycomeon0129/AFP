@@ -46,8 +46,8 @@
                         [(ngModel)]="verify.AFPVerify" #AFPVerify="ngModel" required>
                     <div class="small-warning t-gray pl-0 stepV1 visible">
                         <p>
-                          <ng-container *ngIf="vcodeSeconds > 0">
-                            <br>沒有收到驗證碼？<span class="text-blue">可重新點選「取得驗證碼」</span>
+                          <ng-container *ngIf="vcodeSet">
+                            沒有收到驗證碼？可重新點選「取得驗證碼」
                           </ng-container>
                         </p>
                     </div>
