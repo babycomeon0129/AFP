@@ -4,7 +4,6 @@ import { AuthService, SocialUser, FacebookLoginProvider, GoogleLoginProvider } f
 import { AppService } from 'src/app/app.service';
 import { ModalService } from 'src/app/service/modal.service';
 import jwt_decode from 'jwt-decode';
-declare var AppJSInterface: any;
 
 @Component({
   selector: 'app-third-binding',
@@ -55,20 +54,6 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
     });
   }
 
-  /** 若從APP登入頁進入則按回上一頁時APP把此頁關掉 */
-  backIf() {
-    if (this.fromAppLogin) {
-      if (navigator.userAgent.match(/android/i)) {
-        //  Android
-        AppJSInterface.back();
-      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-        //  IOS
-        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'back' });
-      }
-    } else {
-      history.back();
-    }
-  }
 
   /** 讀取社群帳號 */
   readThirdData() {
