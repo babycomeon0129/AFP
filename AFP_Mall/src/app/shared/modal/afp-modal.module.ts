@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoginModalComponent } from './login-modal/login-modal.component';
+// import { LoginModalComponent } from './login-modal/login-modal.component';
 import { ForgetModalComponent } from './forget-modal/forget-modal.component';
-import { RegisterModalComponent } from './register-modal/register-modal.component';
+// import { RegisterModalComponent } from './register-modal/register-modal.component';
 import { VcodeModalComponent } from './vcode-modal/vcode-modal.component';
 import { PasswordModalComponent } from './password-modal/password-modal.component';
 import { MessageModalComponent } from './message-modal/message-modal.component';
@@ -22,8 +22,8 @@ import { VerifyMobileModalComponent } from './verify-mobile-modal/verify-mobile-
 
 @NgModule({
   declarations: [
-    LoginModalComponent,
-    RegisterModalComponent,
+    // LoginModalComponent,
+    // RegisterModalComponent,
     ForgetModalComponent,
     VcodeModalComponent,
     PasswordModalComponent,
@@ -40,8 +40,8 @@ import { VerifyMobileModalComponent } from './verify-mobile-modal/verify-mobile-
     AppleModalComponent
   ],
   entryComponents: [
-    LoginModalComponent,
-    RegisterModalComponent,
+    // LoginModalComponent,
+    // RegisterModalComponent,
     ForgetModalComponent,
     VcodeModalComponent,
     PasswordModalComponent,

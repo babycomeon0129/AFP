@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap';
-import { LoginModalComponent } from '../shared/modal/login-modal/login-modal.component';
-import { RegisterModalComponent } from '../shared/modal/register-modal/register-modal.component';
+// import { LoginModalComponent } from '../shared/modal/login-modal/login-modal.component';
+// import { RegisterModalComponent } from '../shared/modal/register-modal/register-modal.component';
 import { ForgetModalComponent } from '../shared/modal/forget-modal/forget-modal.component';
 import { VcodeModalComponent } from '../shared/modal/vcode-modal/vcode-modal.component';
 import { FavoriteModalComponent } from '../shared/modal/favorite-modal/favorite-modal.component';
@@ -29,12 +29,12 @@ export class ModalService {
     if (bsModalRef != null) { bsModalRef.hide(); }
     const config: ModalOptions = { class: 'modal-full' };
     switch (show) {
-      case 'login':
-        this.bsModalService.show(LoginModalComponent, config);
-        break;
-      case 'register':
-        this.bsModalService.show(RegisterModalComponent, config);
-        break;
+      // case 'login':
+      //   this.bsModalService.show(LoginModalComponent, config);
+      //   break;
+      // case 'register':
+      //   this.bsModalService.show(RegisterModalComponent, config);
+      //   break;
       case 'forget':
         this.bsModalService.show(ForgetModalComponent, config);
         break;
@@ -76,12 +76,12 @@ export class ModalService {
   public show(template: string, options: ModalOptions, hideTemplate?: BsModalRef): void {
     if (hideTemplate != null) { hideTemplate.hide(); }
     switch (template) {
-      case 'login':
-        this.bsModalService.show(LoginModalComponent, options);
-        break;
-      case 'register':
-        this.bsModalService.show(RegisterModalComponent, options);
-        break;
+      // case 'login':
+      //   this.bsModalService.show(LoginModalComponent, options);
+      //   break;
+      // case 'register':
+      //   this.bsModalService.show(RegisterModalComponent, options);
+      //   break;
       case 'forget':
         this.bsModalService.show(ForgetModalComponent, options);
         break;
