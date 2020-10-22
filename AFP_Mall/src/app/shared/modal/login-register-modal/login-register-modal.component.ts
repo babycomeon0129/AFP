@@ -55,6 +55,8 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   public vCodeTimer;
   /** 註冊-輸入帳號是否已存在 */
   public existingAccount = false;
+  /** 「可重新點選」文字顯示 */
+  public showGetVCode = false;
 
   constructor(
     public bsModalRef: BsModalRef, private authService: AuthService, private appService: AppService, public modal: ModalService,
@@ -194,6 +196,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       this.vCodeTimer = setInterval(() => {
         this.remainingSec -= 1;
         if (this.remainingSec <= 0) {
+          this.showGetVCode = true;
           clearInterval(this.vCodeTimer);
         }
       }, 1000);

@@ -36,6 +36,8 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
   public shownSection: number;
   /** 是否因強制驗證被導至此 */
   public toVerifyCell = false;
+  /** 「可重新點選」文字顯示 */
+  public showGetVCode = false;
 
   constructor(public appService: AppService, public modal: ModalService, public memberService: MemberService, private route: ActivatedRoute,
               public router: Router, public location: Location, private meta: Meta, private title: Title) {
@@ -47,9 +49,12 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     if (this.route.snapshot.queryParams.toVerifyMobile !== undefined && this.route.snapshot.queryParams.toVerifyMobile === 'true') {
-      this.toVerifyCell = true; // 第三方登入後因強制驗證被導至此
+      // 第三方登入後因強制驗證被導至此
+      this.toVerifyCell = true;
+      this.shownSection = 0;
+    } else {
+      this.readCellNumber();
     }
-    this.readCellNumber();
   }
 
   /** 讀取會員手機號碼
@@ -81,6 +86,7 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
         this.remainingSec -= 1;
         // 剩餘0秒時結束倒數、顯示重新傳送、按下可再次發送
         if (this.remainingSec <= 0) {
+          this.showGetVCode = true;
           clearInterval(this.vcodeTimer);
         }
       }, 1000);
