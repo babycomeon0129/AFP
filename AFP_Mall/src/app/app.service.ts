@@ -100,8 +100,8 @@ export class AppService {
             // tslint:disable: max-line-length
             sessionStorage.setItem('userCode', data.Verification.UserCode);
             sessionStorage.setItem('CustomerInfo', data.Verification.CustomerInfo);
-            this.cookieService.set('userCode', data.Verification.UserCode, 90, '/', environment.cookieDomain, environment.cookieSecure);
-            this.cookieService.set('CustomerInfo', data.Verification.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure);
+            this.cookieService.set('userCode', data.Verification.UserCode, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+            this.cookieService.set('CustomerInfo', data.Verification.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
             break;
           default:
             this.onLogout();
@@ -261,7 +261,7 @@ export class AppService {
     };
 
     this.toApi('EC', '1204', request).subscribe((data: Response_ECCart) => {
-      this.cookieService.set('cart_count_Mobii', data.Cart_Count.toString(), 90, '/', environment.cookieDomain, environment.cookieSecure);
+      this.cookieService.set('cart_count_Mobii', data.Cart_Count.toString(), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
     });
   }
 

@@ -158,9 +158,12 @@ export class AppLoginComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
       sessionStorage.setItem('CustomerInfo', data.Model_UserInfo.CustomerInfo);
 
-      this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90, '/', environment.cookieDomain, environment.cookieSecure);
-      this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90, '/', environment.cookieDomain, environment.cookieSecure);
-      this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure);
+      this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90, '/', environment.cookieDomain,
+        environment.cookieSecure, 'Lax');
+      this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90, '/', environment.cookieDomain,
+        environment.cookieSecure, 'Lax');
+      this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90, '/', environment.cookieDomain,
+        environment.cookieSecure, 'Lax');
       this.appService.loginState = true;
       this.bsModalRef.hide();
       // 提示社群綁定
@@ -183,9 +186,12 @@ export class AppLoginComponent implements OnInit, OnDestroy {
       localStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
       localStorage.setItem('CustomerInfo', data.Model_UserInfo.CustomerInfo);
 
-      this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90, '/', environment.cookieDomain, environment.cookieSecure);
-      this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90, '/', environment.cookieDomain, environment.cookieSecure);
-      this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure);
+      this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90, '/', environment.cookieDomain,
+        environment.cookieSecure, 'Lax');
+      this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90, '/', environment.cookieDomain,
+        environment.cookieSecure, 'Lax');
+      this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90, '/', environment.cookieDomain,
+        environment.cookieSecure, 'Lax');
       this.appService.loginState = true;
       this.GoSuccess();
     });

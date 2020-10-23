@@ -116,7 +116,7 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit, DoCheck {
         });
       }
       this.cartCount = data.List_Cart.length;
-      this.cookieService.set('cart_count_Mobii', this.cartCount.toString(), 90, '/', environment.cookieDomain, environment.cookieSecure);
+      this.cookieService.set('cart_count_Mobii', this.cartCount.toString(), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
     });
   }
 
@@ -298,7 +298,7 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit, DoCheck {
       }
       // 更新購物車商品數
       this.cartCount = data.Cart_Count;
-      this.cookieService.set('cart_count_Mobii', data.Cart_Count.toString(), 90, '/', environment.cookieDomain, environment.cookieSecure);
+      this.cookieService.set('cart_count_Mobii', data.Cart_Count.toString(), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
 
       this.calcSubtotal();
     });

@@ -5,15 +5,19 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
 })
 export class DigitOnlyDirective {
   // Delete, Backspace, Tab, Escape, Enter, arrow left, arrow right NOTE: keycodes seem the same in Mac and Windows
-  private navigationKeys = [46, 8, 9, 27, 13, 37, 39];
+  // private navigationKeys = [46, 8, 9, 27, 13, 37, 39];
+  private navigationKeys = ['Delete', 'Backspace', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight'];
+  public inputElement: HTMLElement;
 
-  constructor(private el: ElementRef) { }
+  constructor(private el: ElementRef) {
+    this.inputElement = el.nativeElement;
+  }
 
   @HostListener('keydown', ['$event'])
   onKeyDown(e: KeyboardEvent) {
     if (
       // Allow: Delete, Backspace, Tab, Escape, Enter, etc
-      this.navigationKeys.indexOf(e.keyCode) > -1 ||
+      this.navigationKeys.indexOf(e.key) > -1 ||
       (e.key === 'a' && e.ctrlKey === true) || // Allow: Ctrl+A
       (e.key === 'c' && e.ctrlKey === true) || // Allow: Ctrl+C
       (e.key === 'v' && e.ctrlKey === true) || // Allow: Ctrl+V

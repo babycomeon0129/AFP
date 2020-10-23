@@ -84,7 +84,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, AfterViewC
 
       // 更新購物車數量
       this.cartCount = data.Cart_Count;
-      this.cookieService.set('cart_count_Mobii', data.Cart_Count.toString(), 90, '/', environment.cookieDomain, environment.cookieSecure);
+      this.cookieService.set('cart_count_Mobii', data.Cart_Count.toString(), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
 
       // 預設選擇所有規格的第一個規格值
       for (const attr of this.attrList) {
@@ -180,11 +180,11 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, AfterViewC
         // 若沒有購物車碼，則取得後端產生的並設在cookie裡
         if (this.cartCode === 0) {
           this.cookieService.set('cart_code', data.AFP_Cart.Cart_Code.toString(), 90, '/', environment.cookieDomain,
-          environment.cookieSecure);
+          environment.cookieSecure, 'Lax');
           this.cartCode = Number(this.cookieService.get('cart_code'));
         }
         // 把購物車商品數設到 cookie
-        this.cookieService.set('cart_count_Mobii', data.Cart_Count.toString(), 90, '/', environment.cookieDomain, environment.cookieSecure);
+        this.cookieService.set('cart_count_Mobii', data.Cart_Count.toString(), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
         this.cartCount = data.Cart_Count;
         this.modal.show('message', { initialState: { success: true, message: '加入購物車成功!', showType: 1 } });
       } else {
