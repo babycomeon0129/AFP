@@ -18,8 +18,7 @@ export class MsgShareModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.pageUrl = decodeURI(location.href);
-    this.pageUrl = decodeURI('http://54.150.124.230:48082/'); // 開發時測試使用測試站網址
+    this.pageUrl = decodeURI(location.href);
   }
 
   closeModal(): void {
