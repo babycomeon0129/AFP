@@ -1,107 +1,209 @@
-<div class="wrap container">
-  <!-- login Modal -->
-  <div class="" id="loginModalCenter">
-      <div class="modal-full modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-          <div class="modal-header">
-          </div>
-          <div class="popup-banner for-mobile">
-            <!--<img src="/img/index/login_banner.png" alt="">-->
-          </div>
-          <div class="modal-body">
-            <div class="logo-box">
-              <img src="/img/share/mlogo.png" alt="">
-            </div>
-            <h5>會員登入</h5>
-            <div class="container px-3">
-              <!-- 舊版 -->
-              <div class="login-method" hidden>
-                <div class="method-item">
-                  <img (click)="signInWithFB()" src="img/index/social/facebook.png" alt="">
-                </div>
-                <div class="method-item">
-                  <img (click)="signInWithGoogle()" src="img/index/social/google.png" alt="">
-                </div>
-              </div>
-              <!-- 新版 -->
-              <div class="login-method" hidden>
-                <!-- FB -->
-                <div class="method-item">
-                  <div id="customBtnFB" class="customGPlusSignIn" (click)="signInWithFB()">
-                    <span class="icon"></span>
-                    <span class="buttonText">使用 Facebook 登入</span>
-                  </div>
-                  <!-- <img (click)="signInWithFB()" src="img/index/social/facebook.png" alt=""> -->
-                </div>
-                <!-- LINE (未開放)-->
-                <div class="method-item" style="display: none;">
-                  <img src="img/index/social/line.png" alt="">
-                </div>
-                <!-- WeChat (未開放) -->
-                <div class="method-item" style="display: none;">
-                  <img src="img/index/social/wechat.png" alt="">
-                </div>
-                <!-- Apple -->
-                <div id="appleid-signin"
-                    data-mode="center-align"
-                    data-type="sign-in"
-                    data-color="black"
-                    data-border="false"
-                    data-border-radius="50"
-                    data-width="280"
-                    data-height="32"
-                    class="method-item" (click)="signInWithApple()" [hidden]="!isApple">
-                </div>
-                <!-- Google -->
-                <div class="method-item">
-                    <div id="customBtn" class="customGPlusSignIn" (click)="signInWithGoogle()">
-                      <span class="icon"></span>
-                      <span class="buttonText">使用 Google 登入</span>
-                    </div>
-                  <!-- <img (click)="signInWithGoogle()" src="img/index/social/google.png" alt=""> -->
-                </div>
-              </div>
-              <div class="d-flex justify-content-center">
-                <div class="line-middle w-75 " hidden>
-                  <div class="line-middle-middle-line">
-                    <span class="line-middle-line-text">或</span>
-                  </div>
-                </div>
-              </div>
-              <form #formLogin="ngForm" (ngSubmit)="onSubmit(formLogin)">
-                <div class="form-group form-inline">
-                  <label for="loginInputEmailTel">帳號</label>
-                  <input type="text" class="form-control" name="AFPAccount" #AFPAccount="ngModel" [(ngModel)]="request.AFPAccount" required placeholder="請輸入手機"/>
-                  <div class="small-warning" *ngIf="AFPAccount.invalid && (AFPAccount.dirty || AFPAccount.touched)">
-                    <span *ngIf="AFPAccount.errors.required">帳號輸入錯誤</span>
-                  </div>
-                </div>
-                <div class="form-group form-inline">
-                  <label for="loginInputPassword">密碼</label>
-                  <input type="password" class="form-control" name="AFPPassword" #AFPPassword="ngModel" [(ngModel)]="request.AFPPassword" required placeholder="請輸入密碼"/>
-                  <div class="small-warning" *ngIf="AFPPassword.invalid && (AFPPassword.dirty || AFPPassword.touched)">
-                    <span *ngIf="AFPPassword.errors.required">密碼輸入錯誤</span>
-                  </div>
-                </div>
-
-                <button type="submit" class="btn index-btn w-100 msg-loginerror my-2" [disabled]="!formLogin.form.valid">登入</button>
-                <span class="text-left small-80 text-secondary">
-                  還不是會員嗎?
-                </span>
-                <button type="button" class="btn btn-login font-bold px-0 " (click)="modal.openModal('register')">
-                  馬上註冊
-                </button>
-                <div class="text-center p-3">
-                  <span>
-                    <a class="font-bold small-80" (click)="modal.openModal('forget', bsModalRef)">忘記密碼</a>
-                    | <a class="font-bold small-80" href="/QA">常見問題</a>
-                  </span>
-              </div>
-              </form>
-            </div>
-          </div>
-      </div>
-      </div>
-  </div>
+<div class="modal-header" data-dismiss="modal" aria-label="Close">
 </div>
-
+<div class="popup-banner for-mobile">
+    <!-- APP不需關閉鍵 -->
+</div>
+<div class="modal-body">
+    <div class="logo-box">
+        <img src="/img/share/mlogo.png" alt="logo">
+    </div>
+    <div class="afp-tab-box">
+        <div class="afp-tab">
+            <div class="nav-tabs-box">
+                <!-- Nav tabs -->
+                <ul class="nav-tab-list nav nav-tabs nav-line mb-2 d-flex justify-content-around" role="tablist" id="mainTab">
+                        <li role="presentation" class="active">
+                            <a href="#logintag01" (click)="stopTimer()" class="tablist-link active" aria-controls="logintag01" role="tab" data-toggle="tab" aria-selected="true">登入</a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#logintag02" class="tablist-link" aria-controls="logintag02" role="tab" data-toggle="tab" aria-selected="false">註冊</a>
+                        </li>
+                </ul>
+                <div class="tab-line w-100"></div>
+            </div>
+            <!-- Tab panes -->
+            <div class="tab-content tab-line p-3">
+                <!-- 會員登入 -->
+                <div role="tabpanel" class="tab-pane fade active show w-100" id="logintag01">
+                    <div class="container px-3">
+                      <!-- APP暫不開方第三方登入 -->
+                        <div class="login-method" hidden>
+                            <div class="method-item">
+                                <div id="customBtnFB" class="customGPlusSignIn" (click)="signInWithFB()">
+                                    <span class="icon"></span>
+                                    <span class="buttonText">使用 Facebook 登入</span>
+                                </div>
+                            </div>
+                            <div class="method-item">
+                                <div id="customBtn" class="customGPlusSignIn" (click)="signInWithGoogle()">
+                                  <span class="icon"></span>
+                                  <span class="buttonText">使用 Google 登入</span>
+                                </div>
+                            </div>
+                            <!-- Apple -->
+                            <div id="appleid-signin"
+                                data-mode="center-align"
+                                data-type="sign-in"
+                                data-color="white"
+                                data-border="true"
+                                data-border-radius="50"
+                                data-width="280"
+                                data-height="32"
+                                class="method-item" (click)="signInWithApple()" [hidden]="!isApple">
+                            </div>
+                        </div>
+                        <!-- <div class="d-flex justify-content-center">
+                            <div class="line-middle">
+                                <div class="line-middle-middle-line">
+                                    <span class="line-middle-line-text">或</span>
+                                </div>
+                            </div>
+                        </div> -->
+                        <form #formLogin="ngForm" (ngSubmit)="onSubmit(formLogin)" id="login-form">
+                            <div class="change-password-list pt-4 px-0 border-top-0">
+                                <ul class="px-0">
+                                    <li>
+                                        <div class="password-tit">帳號</div>
+                                        <div class="password-item">
+                                            <input type="tel" appDigitOnly name="AFPAccount" #AFPAccount="ngModel" [(ngModel)]="loginRequest.AFPAccount"
+                                            [ngClass]="{'bb-org': AFPAccount.touched && AFPAccount.invalid}"
+                                            pattern="^09\d{8}$" maxlength="10" required placeholder="請輸入手機號碼，例：0912345678" id="loginEmailTel">
+                                            <div *ngIf="AFPAccount.touched && AFPAccount.value === ''" class="small-warning pl-0 warningNote">
+                                              <span>請勿空白，請輸入完整手機號碼</span>
+                                            </div>
+                                            <div *ngIf="AFPAccount.touched && (AFPAccount.invalid && AFPAccount.value !== '')" class="small-warning pl-0 warningNote">
+                                              <span>格式錯誤，請輸入完整手機號碼</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="password-tit">密碼</div>
+                                        <div class="password-item">
+                                            <input id="loginPassword" [type]="[loginPswVisible === false? 'password' : 'text']"
+                                              name="AFPPassword" #AFPPassword="ngModel" [(ngModel)]="loginRequest.AFPPassword"
+                                              [ngClass]="{'bb-org': AFPPassword.touched && AFPPassword.invalid}"
+                                              pattern="^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$" minlength="6" maxlength="12"
+                                              required placeholder="請輸入6～12位英數混合">
+                                            <span (click)="loginPswVisible = !loginPswVisible" toggle="#loginPassword" class="toggle-password">
+                                                <i *ngIf="loginPswVisible" class="material-icons visibility">&#xE8F4;</i>
+                                                <i *ngIf="!loginPswVisible" class="material-icons visibility-off">&#xE8F5;</i>
+                                            </span>
+                                            <div *ngIf="AFPPassword.touched && AFPPassword.value === ''" class="small-warning pl-0 warningNote">
+                                              <span>請勿空白，請輸入6到12位英數混和字元</span>
+                                            </div>
+                                            <div *ngIf="AFPPassword.touched && (AFPPassword.invalid && AFPPassword.value !== '')" class="small-warning pl-0 warningNote">
+                                              <span>格式錯誤，請輸入6到12位英數混和字元</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <button type="submit" [disabled]="formLogin.form.invalid" [ngClass]="{'unable': formLogin.form.invalid}"
+                                  class="btn index-btn w-100 login-ok mt-0 mb-2" data-dismiss="modal">
+                                  登入
+                                </button>
+                                <div class="text-center p-3">
+                                  <!-- APP連結使用href -->
+                                    <span>
+                                        <a class="font-bold small-80" (click)="modal.openModal('forget', bsModalRef)">忘記密碼?</a>
+                                        | <a class="font-bold small-80" href="/QA">常見問題</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- 會員註冊 -->
+                <div role="tabpanel" class="tab-pane fade w-100" id="logintag02">
+                    <div class="container px-3">
+                        <form #regForm="ngForm" (ngSubmit)="regForm.form.valid && onRegSubmit()" id="registered-form">
+                            <div class="change-password-list pt-2 px-0 border-top-0">
+                                <ul class="p-0 m-0">
+                                    <li>
+                                        <div class="nickname-tit">暱稱</div>
+                                        <div class="nickname-item">
+                                            <input id="regName" type="text" name="regNickname" #regNickname="ngModel" [(ngModel)]="registerRequest.AFPNickName"
+                                              [ngClass]="{'bb-org': regNickname.touched && regNickname.invalid}" minlength="1" maxlength="10" required
+                                              placeholder="請輸入1～10個字元">
+                                            <div *ngIf="regNickname.touched && regNickname.invalid" class="small-warning pl-0 warningNote"><span>請輸入暱稱</span></div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="account-tit">帳號</div>
+                                        <div class="account-item">
+                                            <input id="regAccount" appDigitOnly type="tel" name="regAccount" #regAccount="ngModel" [(ngModel)]="registerRequest.AFPAccount"
+                                              pattern="^09\d{8}$" required [ngClass]="{'bb-org': regAccount.touched && regAccount.invalid}" maxlength="10"
+                                              (input)="checkAccount()" placeholder="請輸入手機號碼，例：0912345678">
+                                            <div *ngIf="regAccount.touched && regAccount.invalid" class="small-warning pl-0 warningNote"><span>請輸入手機號碼</span></div>
+                                            <div *ngIf="regAccount.valid && existingAccount" class="small-warning pl-0 warningNote"><span>帳號已存在，請重新輸入</span></div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="password-tit">密碼</div>
+                                        <div class="password-item">
+                                            <input [type]="[regPsw1Visible? 'text' : 'password']" name="regPsw" #regPsw="ngModel" [(ngModel)]="registerRequest.AFPPassword"
+                                            pattern="^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$" minlength="6" maxlength="12" required
+                                            [ngClass]="{'bb-org': regPsw.touched && regPsw.invalid}" placeholder="請輸入6～12位英數混合" id="regPassword">
+                                            <span (click)="regPsw1Visible = !regPsw1Visible" toggle="#regPassword" class="toggle-password">
+                                                <i *ngIf="regPsw1Visible" class="material-icons visibility">&#xE8F4;</i>
+                                                <i *ngIf="!regPsw1Visible" class="material-icons visibility-off">&#xE8F5;</i>
+                                            </span>
+                                            <div *ngIf="regPsw.touched && regPsw.invalid" class="small-warning pl-0 warningNote"><span>格式錯誤，請重新輸入</span></div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="password2-tit">確認密碼</div>
+                                        <div class="password2-item">
+                                            <input [type]="[regPsw2Visible? 'text' : 'password']" name="regPsw2" #regPsw2="ngModel" [(ngModel)]="registerRequest.AFPPassword2"
+                                            pattern="^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$" minlength="6" maxlength="12" required
+                                            [ngClass]="{'bb-org': regPsw2.touched && regPsw2.invalid}" placeholder="請再次輸入密碼" id="regPasswordCk">
+                                            <span (click)="regPsw2Visible = !regPsw2Visible" toggle="#regPasswordCk" class="toggle-password">
+                                                <i *ngIf="regPsw2Visible" class="material-icons visibility">&#xE8F4;</i>
+                                                <i *ngIf="!regPsw2Visible" class="material-icons visibility-off">&#xE8F5;</i>
+                                            </span>
+                                            <div *ngIf="regPsw2.touched && regPsw2.value !== regPsw.value" class="small-warning pl-0 warningNote"><span>密碼不相符，請再次輸入</span></div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="vcode-tit">驗證碼</div>
+                                        <div class="vcode-item row">
+                                            <div class="col-7 pb-3 px-0">
+                                                <input id="regVCode" type="tel" appDigitOnly name="VCode" #VCode="ngModel" [(ngModel)]="registerRequest.VerifiedInfo.VerifiedCode"
+                                                  pattern="\d{6}$" minlength="6" maxlength="6" required [ngClass]="{'bb-org': VCode.touched && VCode.invalid}"
+                                                  placeholder="請輸入收到的驗證碼">
+                                                <div *ngIf="showGetVCode" class="small-warning t-gray pl-0 stepV1">
+                                                  <p>沒有收到驗證碼？<span>可重新點選「取得驗證碼」</span></p>
+                                                </div>
+                                                <div *ngIf="remainingSec === 0 && (VCode.touched && VCode.invalid)" class="small-warning pl-0 warningNote"><span>請輸入手機驗證碼</span></div>
+                                            </div>
+                                            <div class="col-5 px-1">
+                                                <button (click)="sendRegVCode()" [disabled]="regAccount.invalid || existingAccount || remainingSec > 0"
+                                                [ngClass]="{'unable': regAccount.invalid || existingAccount || remainingSec > 0}" type="button"
+                                                class="btn index-btn border-radius5 w-100 px-1 small-70" id="getPhone">
+                                                  {{remainingSec > 0? '剩餘' + remainingSec + '秒':'取得手機驗證碼'}}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-inline agree">
+                                            <input type="checkbox" name="Agree" [(ngModel)]="registerRequest.Agree" #Agree="ngModel" required
+                                              class="form-check-input icheckBgOrg" id="registeredCheck1">
+                                            <label class="form-check-label" for="registeredCheck1">我同意 Mobii! 的</label>
+                                            <!-- APP連結使用href -->
+                                            <a href='/Terms' target="_blank" class="font-bold">&ensp;會員條款&ensp;</a>及
+                                            <a href='/Privacy' target="_blank" class="font-bold">&ensp;隱私政策&ensp;</a>
+                                            <div *ngIf="Agree.dirty && Agree.invalid" class="small-warning pl-0 warningNote"><span>未同意條款與隱私</span></div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <button type="submit" [disabled]="regForm.form.invalid || regPsw2.value !== regPsw.value"
+                                  [ngClass]="{'unable': regForm.form.invalid || regPsw2.value !== regPsw.value}"
+                                  class="btn index-btn w-100 login-ok mt-0 mb-2" data-dismiss="modal">立即註冊</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

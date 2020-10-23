@@ -1,11 +1,12 @@
 import { environment } from './../../../environments/environment';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from 'src/app/service/modal.service';
 import { AuthService, SocialUser, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 import { NgForm } from '@angular/forms';
-import { Request_AFPThird, Model_ShareData, Model_CustomerInfo, AFP_UserFavourite, Third_AppleUser } from 'src/app/_models';
+import { Request_AFPThird, Model_ShareData, Model_CustomerInfo, AFP_UserFavourite, Third_AppleUser,
+  Request_AFPAccount, Request_AFPReadMobile, Response_AFPReadMobile, Request_AFPVerifyCode, Response_AFPVerifyCode } from 'src/app/_models';
 import { ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { Meta, Title } from '@angular/platform-browser';
@@ -16,21 +17,47 @@ declare var AppleID: any;
   selector: 'app-app-login',
   templateUrl: './app-login.component.html',
 })
-export class AppLoginComponent implements OnInit {
+export class AppLoginComponent implements OnInit, OnDestroy {
   /** FB、Google 第三方登入 User容器 */
-  thirdUser: SocialUser;
+  private thirdUser: SocialUser;
   /** Apple 第三方登入 User容器 */
   private appleUser: Third_AppleUser;
   /** 是否正在使用FB或Google第三方登入(擋套件執行) */
-  regClick = false;
+  private regClick = false;
   /** 第三方登入 request */
   public thirdRequest: Request_AFPThird = new Request_AFPThird();
   /** Mobii 會員登入 request */
-  public request: Request_AFPLogin = new Request_AFPLogin();
+  public loginRequest: Request_AFPLogin = new Request_AFPLogin();
   /** 設備是否為Apple (是則不顯示Apple登入) */
   public isApple: boolean;
-  /** 隱藏第三方登入 */
-  // public hideThird = false;
+  /** 註冊 request */
+  public registerRequest: Request_AFPAccount = {
+    AFPType: 1,
+    AFPAccountCTY: 886,
+    AFPAccount: null,
+    AFPPassword: null,
+    Agree: false,
+    VerifiedInfo: {
+      VerifiedPhone: null,
+      CheckValue: null,
+      VerifiedCode: null
+    }
+  };
+  // public registerRequest: Request_AFPAccount = new Request_AFPAccount();
+  /** 登入頁密碼是否可見 */
+  public loginPswVisible = false;
+  /** 註冊頁密碼1是否可見 */
+  public regPsw1Visible = false;
+  /** 註冊頁密碼2是否可見 */
+  public regPsw2Visible = false;
+  /** 註冊-重新發送驗證碼剩餘秒數 */
+  public remainingSec = 0;
+  /** 註冊-重新發送驗證碼倒數 timer */
+  public vCodeTimer;
+  /** 註冊-輸入帳號是否已存在 */
+  public existingAccount = false;
+  /** 「可重新點選」文字顯示 */
+  public showGetVCode = false;
 
   constructor(
     public bsModalRef: BsModalRef, private authService: AuthService, private appService: AppService, public modal: ModalService,
@@ -103,16 +130,50 @@ export class AppLoginComponent implements OnInit {
     document.addEventListener('AppleIDSignInOnFailure', (error: any) => {
       this.modal.show('message', { initialState: { success: false, message: 'Apple登入失敗', note: error.detail.error, showType: 1 } });
     });
+  }
 
-    // if (this.isApple) {
-    //   this.hideThird = false;
-    // }
+  /** 檢查帳號是否已存在 */
+  checkAccount(): void {
+    if (this.registerRequest.AFPAccount.length < 10) {
+      this.existingAccount = false;
+    } else {
+      const request: Request_AFPReadMobile = {
+        User_Code: sessionStorage.getItem('userCode'),
+        SelectMode: 2,
+        UserAccount: this.registerRequest.AFPAccount
+      };
+      this.appService.toApi('Member', '1111', request).subscribe((data: Response_AFPReadMobile) => {
+        this.existingAccount = data.IsExist;
+      });
+    }
+  }
+
+  /** 註冊送出 */
+  onRegSubmit() {
+    this.registerRequest.VerifiedInfo.VerifiedPhone = this.registerRequest.AFPAccount;
+    this.appService.openBlock();
+    this.appService.toApi('AFPAccount', '1101', this.registerRequest).subscribe((data: Response_AFPLogin) => {
+      // 後端自動登入，前端直接接login response
+      sessionStorage.setItem('userName', data.Model_UserInfo.Customer_Name);
+      sessionStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
+      sessionStorage.setItem('CustomerInfo', data.Model_UserInfo.CustomerInfo);
+
+      this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90, '/', environment.cookieDomain, environment.cookieSecure);
+      this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90, '/', environment.cookieDomain, environment.cookieSecure);
+      this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure);
+      this.appService.loginState = true;
+      this.bsModalRef.hide();
+      // 提示社群綁定
+      const msg = `註冊成功！歡迎加入Mobii!\n小技巧：綁定您的社群帳號，未來就可快速登入囉！`;
+      this.modal.show('message', { initialState: { success: true, message: msg, showType: 4 } });
+      this.GoSuccess();
+    });
   }
 
   /** 登入表單送出 */
   onSubmit(form: NgForm): void {
     this.appService.openBlock();
-    this.appService.toApi('AFPAccount', '1104', this.request).subscribe((data: Response_AFPLogin) => {
+    this.appService.toApi('AFPAccount', '1104', this.loginRequest).subscribe((data: Response_AFPLogin) => {
       sessionStorage.setItem('userName', data.Model_UserInfo.Customer_Name);
       sessionStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
       sessionStorage.setItem('CustomerInfo', data.Model_UserInfo.CustomerInfo);
@@ -152,7 +213,6 @@ export class AppLoginComponent implements OnInit {
   /** 前往/AppLoginSuccess (APP接資料) */
   GoSuccess(): void {
     window.location.href = '/AppLoginSuccess';
-    // this.router.navigate(['/AppLoginSuccess']);
   }
 
   /** 由APP進行本站第三方登入 */
@@ -168,6 +228,34 @@ export class AppLoginComponent implements OnInit {
     });
   }
 
+  /** 註冊-發送手機驗證碼 */
+  sendRegVCode() {
+    this.remainingSec = 60;
+    const request: Request_AFPVerifyCode = {
+      SelectMode: 11,
+      VerifiedAction: 1,
+      VerifiedInfo: {
+        VerifiedPhone: this.registerRequest.AFPAccount,
+        CheckValue: null,
+        VerifiedCode: null
+      }
+    };
+
+    this.appService.toApi('AFPAccount', '1112', request).subscribe((data: Response_AFPVerifyCode) => {
+      // 開始倒數
+      this.vCodeTimer = setInterval(() => {
+        this.remainingSec -= 1;
+        if (this.remainingSec <= 0) {
+          this.showGetVCode = true;
+          clearInterval(this.vCodeTimer);
+        }
+      }, 1000);
+      // 接使用者編碼
+      this.registerRequest.VerifiedInfo.CheckValue = data.VerifiedInfo.CheckValue;
+      document.getElementById('registeredCheck1').focus();
+    });
+  }
+
   /** 判斷是否為Apple設備 */
   detectApple() {
     const iOSDevices = ['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'];
@@ -176,6 +264,19 @@ export class AppLoginComponent implements OnInit {
     } else {
       this.isApple = false;
     }
+  }
+
+  stopTimer() {
+    clearInterval(this.vCodeTimer);
+  }
+
+  closeModal() {
+    this.bsModalRef.hide();
+    clearInterval(this.vCodeTimer);
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.vCodeTimer);
   }
 }
 
