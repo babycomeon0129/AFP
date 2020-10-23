@@ -295,7 +295,6 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
           }
         });
       });
-      console.log(this.serviceList);
     });
   }
 
