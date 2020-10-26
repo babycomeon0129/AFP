@@ -20,15 +20,6 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   public userProfile: Model_MemberProfile = new Model_MemberProfile();
   @ViewChild('kvSwiper', { static: false }) kvSwiper: SwiperComponent;
 
-  /** 大廣告 swiper */
-  // public boxKV: SwiperOptions = {
-  //   effect: 'fade',
-  //   autoplay: {
-  //     delay: 3000,
-  //     disableOnInteraction: false
-  //   }
-  // };
-
   /** 個人捷徑 swiper */
   public boxIcon: SwiperOptions = {
     slidesPerView: 5,
@@ -170,11 +161,6 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   public ftTop: AFP_Function[] = [];
   /** 使用者服務-手機版下排 */
   public ftBottom: AFP_Function[] = [];
-  /** 左上廣告（(登入前)10002 / (登入後)10003） */
-  // public adLeftTop: AFP_ADImg[];
-  /** 右上廣告(小)（(登入前)10007 / (登入後)10008） */
-  // public adRightTop: AFP_ADImg[];
-  // public ftShowBottom: AFP_Function[] = [];
   /** 我的服務 */
   public ftUserBottom: AFP_Function[] = [];
   /** 我的服務編輯狀態 */
@@ -434,7 +420,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   }
 
   /** 立即下載APP
-   * TODO: 嘗試用universal link
+   * TODO: 用universal link
    */
   toDownloadAPP() {
     window.location.href = 'mobii://';
