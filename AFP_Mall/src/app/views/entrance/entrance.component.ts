@@ -240,7 +240,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
       this.deliveryArea = data.List_DeliveryData;
       this.nowVoucher = data.List_Voucher;
       this.getHomeservice();
-      this.getMoreService();
+
     });
 
     // 若有登入則顯示名字、M Points及優惠券資訊（手機版）、我的收藏
