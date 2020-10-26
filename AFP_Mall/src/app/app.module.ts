@@ -96,6 +96,7 @@ import { NotificationDetailComponent } from './views/notification-detail/notific
 import { Error404Component } from './views/error404/error404.component';
 import { Error500Component } from './views/error500/error500.component';
 import { Error503Component } from './views/error503/error503.component';
+import { TargetControllerDirective } from './directive/target-controller.directive';
 
 export function provideConfig() {
   const config = new AuthServiceConfig([
@@ -181,7 +182,8 @@ defineLocale('zh-cn', zhCnLocale);
     NotificationDetailComponent,
     Error404Component,
     Error500Component,
-    Error503Component
+    Error503Component,
+    TargetControllerDirective
   ],
   entryComponents: [
     ExploreMapComponent

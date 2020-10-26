@@ -168,6 +168,8 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   public ft: AFP_Function[] = [];
   /** 使用者服務-手機版上排 */
   public ftTop: AFP_Function[] = [];
+  /** 使用者服務-手機版下排(原始) */
+  public ftBottom_org: AFP_Function[] = [];
   /** 使用者服務-手機版下排 */
   public ftBottom: AFP_Function[] = [];
   /** 左上廣告（(登入前)10002 / (登入後)10003） */
@@ -179,12 +181,6 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   public ftUserBottom: AFP_Function[] = [];
   /** 我的服務編輯狀態 */
   public editFunction = false;
-  /** 更多-系統服務 */
-  public systemService: AFP_NewFunction;
-  /** 更多-我的服務(初始清單) */
-  public orgMyService: AFP_Function[] = [];
-  /** 更多-我的服務 */
-  public myService: AFP_Function[] = [];
   /** 更多-我的服務清單 */
   public serviceList: AFP_NewFunction[] = [];
   /** 我的服務-數量提醒最少4個 */
@@ -259,8 +255,20 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
 
     this.appService.toApi('Home', '1110', request).subscribe((data: Response_AFPUserService) => {
       this.ftTop = data.List_NewFunction[0].Model_Function;
-      this.ftBottom = data.List_NewFunction[1].Model_Function;
+      this.ftBottom_org = data.List_NewFunction[1].Model_Function;
+      this.ftBottom = this.ftBottom_org.concat();
       this.ft = this.ftTop.concat(this.ftBottom);
+      this.serviceList = data.List_NewFunction.filter((item, index) => index > 1);
+      // 根據我的服務清單，修改下面更多服務的class狀態
+      const select = this.ftBottom.map(item => item.Function_Code);
+      this.serviceList.forEach(item => {
+        item.Model_Function.forEach(icon => {
+          if (select.findIndex(i => icon.Function_Code === i) === -1) {
+            icon.isAdd = true;
+          }
+        });
+      });
+
       //  網頁不顯示app呼叫
       if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
         this.ft.every((value, index) => {
@@ -276,39 +284,43 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
 
 
   /** 取得更多服務 */
-  getMoreService(): void {
-    const request: Request_AFPUserService = {
-      User_Code: sessionStorage.getItem('userCode'),
-      SelectMode: 10
-    };
-    this.appService.toApi('Home', '1110', request).subscribe((data: Response_AFPUserService) => {
-      this.systemService = data.List_NewFunction[0];
-      this.orgMyService = data.List_NewFunction[1].Model_Function;
-      this.myService = this.orgMyService.concat();
-      this.serviceList = data.List_NewFunction.filter((item, index) => index > 1);
-      // 根據我的服務清單，修改下面更多服務的class狀態
-      const select = this.myService.map(item => item.Function_Code);
-      this.serviceList.forEach(item => {
-        item.Model_Function.forEach(icon => {
-          if (select.findIndex(i => icon.Function_Code === i) === -1) {
-            icon.isAdd = true;
-          }
-        });
-      });
-    });
-  }
+  // getMoreService(): void {
+  //   const request: Request_AFPUserService = {
+  //     User_Code: sessionStorage.getItem('userCode'),
+  //     SelectMode: 10
+  //   };
+  //   this.appService.toApi('Home', '1110', request).subscribe((data: Response_AFPUserService) => {
+  //     this.systemService = data.List_NewFunction[0];
+  //     this.orgMyService = data.List_NewFunction[1].Model_Function;
+  //     this.myService = this.orgMyService.concat();
+  //     this.serviceList = data.List_NewFunction.filter((item, index) => index > 1);
+  //     // 根據我的服務清單，修改下面更多服務的class狀態
+  //     const select = this.myService.map(item => item.Function_Code);
+  //     this.serviceList.forEach(item => {
+  //       item.Model_Function.forEach(icon => {
+  //         if (select.findIndex(i => icon.Function_Code === i) === -1) {
+  //           icon.isAdd = true;
+  //         }
+  //       });
+  //     });
+  //   });
+  // }
 
-  /** 更多服務按鈕增減 */
+  /** 更多服務按鈕增減
+   * @param code function code
+   * @param cat  分類編碼
+   * @param action icon是否有效(如果純上架但無效，action = 0)
+   */
   serviceClick(code: number, cat: number, action: boolean) {
     if (this.editFunction && action) {
-      this.noticeNine = this.myService.length === 9 ? true : false;
-      this.noticeFour = this.myService.length === 4 ? true : false;
+      this.noticeNine = this.ftBottom.length === 9 ? true : false;
+      this.noticeFour = this.ftBottom.length === 4 ? true : false;
       // 判斷被點擊的ICON是否已經在我的服務內
-      const result = this.myService.findIndex(item => item.Function_Code === code);
+      const result = this.ftBottom.findIndex(item => item.Function_Code === code);
       if (result > -1) {
         // 已經在我的服務內，就將這個ICON移出我的服務
-        if (this.myService.length > 4) {
-          this.myService.splice(result, 1);
+        if (this.ftBottom.length > 4) {
+          this.ftBottom.splice(result, 1);
           // 根據我的服務清單，修改下面更多服務的class狀態
           this.serviceList.filter(item => item.CategaryCode === cat)[0].Model_Function.forEach( icon => {
             if ( icon.Function_Code === code) {
@@ -319,11 +331,11 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
         }
       } else {
         // 不在我的服務內，就在我的服務增加這個ICON
-        if (this.myService.length < 9) {
+        if (this.ftBottom.length < 9) {
           const add = this.serviceList.filter(item => item.CategaryCode === cat)
             .map(item => item.Model_Function)[0]
             .filter(item => item.Function_Code === code)[0];
-          this.myService.push(add);
+          this.ftBottom.push(add);
           // 根據我的服務清單，修改下面更多服務的class狀態
           this.serviceList.filter(item => item.CategaryCode === cat)[0].Model_Function.forEach( icon => {
             if ( icon.Function_Code === code) {
@@ -340,20 +352,20 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   updateUserService(): void {
     this.editFunction = false;
     // 將我的服務的function code 陣列result傳給後端
-    const result = this.myService.map( item => item.Function_Code);
+    const result = this.ftBottom.map( item => item.Function_Code);
     const request: Request_AFPUpdateUserService = {
       User_Code: sessionStorage.getItem('userCode'),
       Model_UserFavourite: null,
       Model_UserFunction: result
     };
-    const oring = this.orgMyService.map((item: AFP_Function) => item.Function_Code);
+    const oring = this.ftBottom_org.map((item: AFP_Function) => item.Function_Code);
     // 如果我的服務沒有修改，不送後端
     if (oring.join('') !== result.join('')) {
       this.appService.toApi('Home', '1108', request).subscribe((data: Response_AFPUpdateUserService) => {
         // 首頁我的服務按鈕更新
         const ftbottomNew = [];
         result.forEach(code => {
-          ftbottomNew.push(this.myService.filter(item => item.Function_Code === code)[0]);
+          ftbottomNew.push(this.ftBottom.filter(item => item.Function_Code === code)[0]);
         });
         this.ftBottom = ftbottomNew;
       });
