@@ -9,7 +9,7 @@ export class DigitOnlyDirective {
   private navigationKeys = ['Delete', 'Backspace', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight'];
   public inputElement: HTMLElement;
 
-  constructor(private el: ElementRef) {
+  constructor(public el: ElementRef) {
     this.inputElement = el.nativeElement;
   }
 
@@ -33,6 +33,7 @@ export class DigitOnlyDirective {
     if (e.key === ' ' || isNaN(Number(e.key))) {
       e.preventDefault();
     }
+    console.log(e.key);
   }
 
   @HostListener('paste', ['$event'])

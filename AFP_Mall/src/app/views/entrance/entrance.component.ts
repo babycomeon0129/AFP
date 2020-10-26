@@ -2,9 +2,9 @@ import { Component, OnInit, AfterViewInit, ViewChild, DoCheck, KeyValueDiffer, K
 import { AppService } from 'src/app/app.service';
 import { ModalService } from '../../service/modal.service';
 import {
-  Response_Home, AFP_ADImg, Model_AreaJsonFile, AFP_Function, Model_TravelJsonFile
-  , Model_ShareData, Model_MemberProfile, AFP_UserFavourite, Request_Home, AFP_ChannelProduct, AFP_ChannelVoucher
-} from '../../_models';
+  Response_Home, AFP_ADImg, Model_AreaJsonFile, AFP_Function, Model_TravelJsonFile,
+  Model_ShareData, Model_MemberProfile, AFP_UserFavourite, Request_Home, AFP_ChannelProduct, AFP_ChannelVoucher,
+  Request_OtherInfo } from '../../_models';
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'ngx-useful-swiper';
 import { Router } from '@angular/router';
@@ -225,7 +225,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
       }
     };
     this.appService.openBlock();
-    this.appService.toApi('Home', '1001', request).subscribe((data: Response_Home) => {
+    this.appService.toApi('Home', '1011', request).subscribe((data: Response_Home) => {
 
       this.adTop = data.ADImg_Top;
       this.adMid4 = data.ADImg_Activity;
@@ -241,6 +241,8 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
       this.nowVoucher = data.List_Voucher;
       this.getHomeservice();
       this.getMoreService();
+      console.log('popProducts:', this.popProducts);
+      console.log('nowVoucher:', this.nowVoucher);
     });
 
     // 若有登入則顯示名字、M Points及優惠券資訊（手機版）、我的收藏
@@ -358,6 +360,43 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
         this.ftBottom = ftbottomNew;
       });
 
+    }
+  }
+
+  /** 取得「現領優惠券」、「特賣商品」頁籤資訊（點擊時）
+   * @param mode SelectMode: 1 商品 2 優惠券
+   * @param index 索引
+   * @param menuCode 目錄編碼
+   * @param prodChannelCode 商品頻道編號
+   */
+  getMoreData(mode: number, index: number, menuCode: number, prodChannelCode?: number) {
+    const request: Request_OtherInfo = {
+      User_Code: sessionStorage.getItem('userCode'),
+      SelectMode: mode,
+      SearchModel: {
+        UserDefineCode: menuCode,
+        IndexChannel_Code: prodChannelCode
+      }
+    };
+
+    // 若該目錄下資料length為0才去call API
+    switch (mode) {
+      case 1:
+        if (this.popProducts[index].ProductData.length === 0) {
+          this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
+            this.popProducts[index].ProductData = data.List_ProductData[0].ProductData;
+            console.log('new popProducts:', this.popProducts);
+          });
+        }
+        break;
+      case 2:
+        if (this.nowVoucher[index].VoucherData.length === 0) {
+          this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
+            this.nowVoucher[index].VoucherData = data.List_Voucher[0].VoucherData;
+            console.log('new nowVoucher:', this.nowVoucher);
+          });
+        }
+        break;
     }
   }
 
