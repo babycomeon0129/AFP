@@ -240,9 +240,6 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
       this.deliveryArea = data.List_DeliveryData;
       this.nowVoucher = data.List_Voucher;
       this.getHomeservice();
-      this.getMoreService();
-      console.log('popProducts:', this.popProducts);
-      console.log('nowVoucher:', this.nowVoucher);
     });
 
     // 若有登入則顯示名字、M Points及優惠券資訊（手機版）、我的收藏
@@ -385,7 +382,6 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
         if (this.popProducts[index].ProductData.length === 0) {
           this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
             this.popProducts[index].ProductData = data.List_ProductData[0].ProductData;
-            console.log('new popProducts:', this.popProducts);
           });
         }
         break;
@@ -393,7 +389,6 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
         if (this.nowVoucher[index].VoucherData.length === 0) {
           this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
             this.nowVoucher[index].VoucherData = data.List_Voucher[0].VoucherData;
-            console.log('new nowVoucher:', this.nowVoucher);
           });
         }
         break;
