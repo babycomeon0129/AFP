@@ -1,30 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { ModalService } from 'src/app/service/modal.service';
 import { AppService } from 'src/app/app.service';
-import {
-  Model_ShareData, Request_AFPVerify, Response_AFPVerifyCode,
-  Request_AFPVerifyCode
-} from 'src/app/_models';
+import { Response_AFPVerifyCode, Request_AFPVerifyCode } from 'src/app/_models';
 
 @Component({
   selector: 'app-forget-modal',
   templateUrl: './forget-modal.component.html'
 })
-export class ForgetModalComponent implements OnInit {
+export class ForgetModalComponent  {
   /** 取得驗證碼用的request */
   public request: Request_AFPVerifyCode = {
     VerifiedAction: 2,
     SelectMode: 12,
     VerifiedInfo: {
       VerifiedPhone: null,
-      CheckValue: null
+      CheckValue: null,
+      VerifiedCode: null
     }
-  };
-  /** 驗證碼用 */
-  public verify: Request_AFPVerify = {
-    UserInfo_Code: 0,
-    AFPVerify: ''
   };
   /** 發送驗證碼狀態 */
   public vcodeSet = false;
@@ -74,18 +67,5 @@ export class ForgetModalComponent implements OnInit {
   }
 
 
-  ngOnInit() {
-  }
 
-}
-
-// tslint:disable-next-line: class-name
-export class Request_AFPChangePwd extends Model_ShareData {
-  AFPAccount: string;
-}
-
-// tslint:disable-next-line: class-name
-export class Response_AFPChangePwd extends Model_ShareData {
-  // tslint:disable-next-line: variable-name
-  UserInfo_Code: number;
 }

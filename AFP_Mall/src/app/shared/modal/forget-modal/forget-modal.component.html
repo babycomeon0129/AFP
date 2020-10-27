@@ -42,8 +42,8 @@
                     驗證碼
                 </div>
                 <div class="col-7 pb-3 pr-0">
-                    <input type="text" placeholder="請輸入收到的驗證碼" id="vcode" name="AFPVerify"
-                        [(ngModel)]="verify.AFPVerify" #AFPVerify="ngModel" required>
+                    <input type="text" placeholder="請輸入收到的驗證碼" id="vcode" name="AFPVerify" pattern="\d{6}$"
+                        [(ngModel)]="request.VerifiedInfo.VerifiedCode" #AFPVerify="ngModel" required>
                     <div class="small-warning t-gray pl-0 stepV1 visible">
                         <p>
                           <ng-container *ngIf="vcodeSet">
