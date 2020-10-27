@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DigitOnlyDirective } from './digit-only.directive';
-import { TargetControllerDirective } from './target-controller.directive';
+import { DigitOnlyDirective } from './digitonly-directive/digit-only.directive';
+import { KeyControllerDirective } from './keycontroller-directive/key-controller.directive';
 
 @NgModule({
   declarations: [
     DigitOnlyDirective,
-    TargetControllerDirective
+    KeyControllerDirective
   ],
   exports: [
     DigitOnlyDirective,
-    TargetControllerDirective
+    KeyControllerDirective
   ],
   imports: [
     CommonModule

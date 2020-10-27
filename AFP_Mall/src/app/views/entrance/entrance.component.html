@@ -482,7 +482,7 @@
               (click)="serviceClick(icon.Function_Code, icon.Function_CategaryCode, icon.Function_IsActive);"
               [attr.data-code]="icon.Function_Code">
                 <a [href]="!editFunction ? icon.Function_URL : 'javascript:;' | Safe: 'url'"
-                [appTargetController]="editFunction" [openWay]="icon?.Function_URLTarget"
+                  [appKeyController]="editFunction" [keyControl]="'target'" [keyValue]="icon?.Function_URLTarget"
                  rel="noopener noreferrer">
                   <img [src]="icon.Function_Icon" alt="">
                   <p>{{icon.Function_Name}}</p>
@@ -510,7 +510,7 @@
             [ngClass]="{'remove-item': !icon?.isAdd && icon.Function_IsActive, 'add-item':icon?.isAdd && icon.Function_IsActive,'disable' : icon.Function_IsActive === 0}"
             [id]="'more-'+icon.Function_Code">
               <a [href]="!editFunction && icon.Function_IsActive ? icon.Function_URL : 'javascript:;' | Safe: 'url'"
-              [appTargetController]="editFunction" [openWay]="icon?.Function_URLTarget" rel="noopener noreferrer">
+              [appKeyController]="editFunction" [keyControl]="'target'" [keyValue]="icon?.Function_URLTarget" rel="noopener noreferrer">
                 <div class="img-box">
                   <img [lazyLoad]="icon.Function_Icon" [alt]="icon.Function_Name">
                 </div>
