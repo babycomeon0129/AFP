@@ -267,30 +267,6 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
     });
   }
 
-
-  /** 取得更多服務 */
-  // getMoreService(): void {
-  //   const request: Request_AFPUserService = {
-  //     User_Code: sessionStorage.getItem('userCode'),
-  //     SelectMode: 10
-  //   };
-  //   this.appService.toApi('Home', '1110', request).subscribe((data: Response_AFPUserService) => {
-  //     this.systemService = data.List_NewFunction[0];
-  //     this.orgMyService = data.List_NewFunction[1].Model_Function;
-  //     this.myService = this.orgMyService.concat();
-  //     this.serviceList = data.List_NewFunction.filter((item, index) => index > 1);
-  //     // 根據我的服務清單，修改下面更多服務的class狀態
-  //     const select = this.myService.map(item => item.Function_Code);
-  //     this.serviceList.forEach(item => {
-  //       item.Model_Function.forEach(icon => {
-  //         if (select.findIndex(i => icon.Function_Code === i) === -1) {
-  //           icon.isAdd = true;
-  //         }
-  //       });
-  //     });
-  //   });
-  // }
-
   /** 更多服務按鈕增減
    * @param code function code
    * @param cat  分類編碼
@@ -347,12 +323,9 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
     // 如果我的服務沒有修改，不送後端
     if (oring.join('') !== result.join('')) {
       this.appService.toApi('Home', '1108', request).subscribe((data: Response_AFPUpdateUserService) => {
-        // 首頁我的服務按鈕更新
-        const ftbottomNew = [];
-        result.forEach(code => {
-          ftbottomNew.push(this.ftBottom.filter(item => item.Function_Code === code)[0]);
-        });
-        this.ftBottom = ftbottomNew;
+        if ( data !== null ) {
+          this.ftBottom_org = this.ftUserBottom;
+        }
       });
 
     }
