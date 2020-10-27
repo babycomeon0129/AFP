@@ -4,7 +4,9 @@ import { Directive, ElementRef, Input, OnChanges, SimpleChanges } from '@angular
   selector: 'a[appTargetController]'
 })
 export class TargetControllerDirective implements OnChanges {
+  /** 是否要移除target */
   @Input() appTargetController = false;
+  /** target開啟方式 */
   @Input() openWay = '_blank';
 
   constructor(private el: ElementRef) { }
