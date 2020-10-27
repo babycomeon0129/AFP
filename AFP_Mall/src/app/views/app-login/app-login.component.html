@@ -67,7 +67,7 @@
                                         <div class="password-item">
                                             <input type="tel" appDigitOnly name="AFPAccount" #AFPAccount="ngModel" [(ngModel)]="loginRequest.AFPAccount"
                                             [ngClass]="{'bb-org': AFPAccount.touched && AFPAccount.invalid}" pattern="^09\d{8}$" maxlength="10" required
-                                            placeholder="請輸入手機號碼，例：0912345678" id="loginEmailTel" inputmode="numeric">
+                                            placeholder="請輸入手機號碼，例：0912345678" id="loginEmailTel" inputmode="tel">
                                             <div *ngIf="AFPAccount.touched && AFPAccount.value === ''" class="small-warning pl-0 warningNote">
                                               <span>請勿空白，請輸入完整手機號碼</span>
                                             </div>
@@ -132,7 +132,7 @@
                                         <div class="account-item">
                                             <input id="regAccount" appDigitOnly type="tel" name="regAccount" #regAccount="ngModel" [(ngModel)]="registerRequest.AFPAccount"
                                               pattern="^09\d{8}$" required [ngClass]="{'bb-org': regAccount.touched && regAccount.invalid}" maxlength="10"
-                                              (input)="checkAccount()" inputmode="numeric" placeholder="請輸入手機號碼，例：0912345678">
+                                              (input)="checkAccount()" inputmode="tel" placeholder="請輸入手機號碼，例：0912345678">
                                             <div *ngIf="regAccount.touched && regAccount.invalid" class="small-warning pl-0 warningNote"><span>請輸入手機號碼</span></div>
                                             <div *ngIf="regAccount.valid && existingAccount" class="small-warning pl-0 warningNote"><span>帳號已存在，請重新輸入</span></div>
                                         </div>
