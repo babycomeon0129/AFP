@@ -51,7 +51,6 @@ export class ForgetModalComponent  {
   onSubmit() {
     this.appService.openBlock();
     this.request.SelectMode = 21;
-    console.log(this.request);
     this.appService.toApi('Home', '1112', this.request).subscribe((data: Response_AFPVerifyCode) => {
       if (data !== null) {
         const initialState = {
