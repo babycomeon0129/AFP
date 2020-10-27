@@ -35,7 +35,6 @@ export class ForgetModalComponent  {
     this.appService.openBlock();
     this.appService.toApi('AFPAccount', '1112', this.request).subscribe((data: Response_AFPVerifyCode) => {
       this.request.VerifiedInfo.CheckValue = data.VerifiedInfo.CheckValue;
-      this.request.VerifiedInfo.VerifiedCode = data.VerifiedInfo.VerifiedCode;
       this.vcodeSeconds = 59;
       this.vcodeCount = setInterval(() => {
         if (this.vcodeSeconds > 0) {
@@ -52,6 +51,7 @@ export class ForgetModalComponent  {
   onSubmit() {
     this.appService.openBlock();
     this.request.SelectMode = 21;
+    console.log(this.request);
     this.appService.toApi('Home', '1112', this.request).subscribe((data: Response_AFPVerifyCode) => {
       if (data !== null) {
         const initialState = {
