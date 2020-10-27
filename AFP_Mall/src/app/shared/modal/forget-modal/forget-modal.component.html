@@ -32,8 +32,8 @@
                     帳號
                 </div>
                 <div class="col-12 pb-3">
-                    <input type="text" placeholder="請輸入註冊時使用的手機號碼" id="vphone" name="AFPAccount" #AFPAccount="ngModel"
-                        [ngClass]="{'bb-org': (AFPAccount.touched || AFPAccount.dirty) && AFPAccount.invalid}"
+                    <input type="tel" placeholder="請輸入註冊時使用的手機號碼" id="vphone" name="AFPAccount" #AFPAccount="ngModel"
+                        [ngClass]="{'bb-org': (AFPAccount.touched || AFPAccount.dirty) && AFPAccount.invalid}" appDigitOnly
                         [(ngModel)]="request.VerifiedInfo.VerifiedPhone" pattern="^[0-9\*]{0,10}$" required>
                     <div class="small-warning pl-0 warningNote visible">
                         <span *ngIf="(AFPAccount.touched || AFPAccount.dirty) && AFPAccount.invalid">格式錯誤，請重新輸入</span></div>
