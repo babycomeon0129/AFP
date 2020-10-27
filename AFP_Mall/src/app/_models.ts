@@ -1406,3 +1406,14 @@ export interface Response_AFPReadMobile {
   CustomerDetail: string;
   IsExist: boolean;
 }
+
+export interface Request_OtherInfo extends Model_ShareData {
+  SearchModel: Search_OtherInfo;
+}
+
+export interface Search_OtherInfo {
+  /** 目錄編碼 */
+  UserDefineCode: number;
+  /** 商品頻道編號 */
+  IndexChannel_Code?: number;
+}

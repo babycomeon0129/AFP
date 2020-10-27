@@ -2,9 +2,9 @@ import { Component, OnInit, AfterViewInit, ViewChild, DoCheck, KeyValueDiffer, K
 import { AppService } from 'src/app/app.service';
 import { ModalService } from '../../service/modal.service';
 import {
-  Response_Home, AFP_ADImg, Model_AreaJsonFile, AFP_Function, Model_TravelJsonFile
-  , Model_ShareData, Model_MemberProfile, AFP_UserFavourite, Request_Home, AFP_ChannelProduct, AFP_ChannelVoucher
-} from '../../_models';
+  Response_Home, AFP_ADImg, Model_AreaJsonFile, AFP_Function, Model_TravelJsonFile,
+  Model_ShareData, Model_MemberProfile, AFP_UserFavourite, Request_Home, AFP_ChannelProduct, AFP_ChannelVoucher,
+  Request_OtherInfo } from '../../_models';
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'ngx-useful-swiper';
 import { Router } from '@angular/router';
@@ -19,15 +19,6 @@ declare var $: any;
 export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   public userProfile: Model_MemberProfile = new Model_MemberProfile();
   @ViewChild('kvSwiper', { static: false }) kvSwiper: SwiperComponent;
-
-  /** 大廣告 swiper */
-  // public boxKV: SwiperOptions = {
-  //   effect: 'fade',
-  //   autoplay: {
-  //     delay: 3000,
-  //     disableOnInteraction: false
-  //   }
-  // };
 
   /** 個人捷徑 swiper */
   public boxIcon: SwiperOptions = {
@@ -172,11 +163,6 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   public ftBottom_org: AFP_Function[] = [];
   /** 使用者服務-手機版下排 */
   public ftBottom: AFP_Function[] = [];
-  /** 左上廣告（(登入前)10002 / (登入後)10003） */
-  // public adLeftTop: AFP_ADImg[];
-  /** 右上廣告(小)（(登入前)10007 / (登入後)10008） */
-  // public adRightTop: AFP_ADImg[];
-  // public ftShowBottom: AFP_Function[] = [];
   /** 我的服務 */
   public ftUserBottom: AFP_Function[] = [];
   /** 我的服務編輯狀態 */
@@ -221,7 +207,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
       }
     };
     this.appService.openBlock();
-    this.appService.toApi('Home', '1001', request).subscribe((data: Response_Home) => {
+    this.appService.toApi('Home', '1011', request).subscribe((data: Response_Home) => {
 
       this.adTop = data.ADImg_Top;
       this.adMid4 = data.ADImg_Activity;
@@ -236,7 +222,6 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
       this.deliveryArea = data.List_DeliveryData;
       this.nowVoucher = data.List_Voucher;
       this.getHomeservice();
-
     });
 
     // 若有登入則顯示名字、M Points及優惠券資訊（手機版）、我的收藏
@@ -373,6 +358,41 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
     }
   }
 
+  /** 取得「現領優惠券」、「特賣商品」頁籤資訊（點擊時）
+   * @param mode SelectMode: 1 商品 2 優惠券
+   * @param index 索引
+   * @param menuCode 目錄編碼
+   * @param prodChannelCode 商品頻道編號
+   */
+  getMoreData(mode: number, index: number, menuCode: number, prodChannelCode?: number) {
+    const request: Request_OtherInfo = {
+      User_Code: sessionStorage.getItem('userCode'),
+      SelectMode: mode,
+      SearchModel: {
+        UserDefineCode: menuCode,
+        IndexChannel_Code: prodChannelCode
+      }
+    };
+
+    // 若該目錄下資料length為0才去call API
+    switch (mode) {
+      case 1:
+        if (this.popProducts[index].ProductData.length === 0) {
+          this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
+            this.popProducts[index].ProductData = data.List_ProductData[0].ProductData;
+          });
+        }
+        break;
+      case 2:
+        if (this.nowVoucher[index].VoucherData.length === 0) {
+          this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
+            this.nowVoucher[index].VoucherData = data.List_Voucher[0].VoucherData;
+          });
+        }
+        break;
+    }
+  }
+
 
   /** 開啟服務連結 */
   FunctionLink(Link: AFP_Function, editFunction: boolean): void {
@@ -412,7 +432,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   }
 
   /** 立即下載APP
-   * TODO: 嘗試用universal link
+   * TODO: 用universal link
    */
   toDownloadAPP() {
     window.location.href = 'mobii://';
