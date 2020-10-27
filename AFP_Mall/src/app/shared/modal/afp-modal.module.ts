@@ -19,6 +19,7 @@ import { AppleModalComponent } from './apple-modal/apple-modal.component';
 import { AppRoutingModule } from '../../app-routing.module';
 import { LoginRegisterModalComponent } from './login-register-modal/login-register-modal.component';
 import { VerifyMobileModalComponent } from './verify-mobile-modal/verify-mobile-modal.component';
+import { DirectiveModuleModule } from '../../directive/directive-module.module';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { VerifyMobileModalComponent } from './verify-mobile-modal/verify-mobile-
     FormsModule,
     ReactiveFormsModule,
     SharedPipeModule,
-    AppRoutingModule
+    AppRoutingModule,
+    DirectiveModuleModule
   ]
 })
 export class AfpModalModule { }
