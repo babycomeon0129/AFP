@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, DoCheck, KeyValueDiffer, KeyValueDiffers, Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from '../../service/modal.service';
 import {
@@ -16,7 +16,7 @@ declare var $: any;
   templateUrl: './entrance.component.html',
   styleUrls: ['../../../dist/style/home.min.css', '../../../dist/style/travel-index.min.css']
 })
-export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
+export class EntranceComponent implements OnInit, AfterViewInit {
   public userProfile: Model_MemberProfile = new Model_MemberProfile();
   @ViewChild('kvSwiper', { static: false }) kvSwiper: SwiperComponent;
 
@@ -143,7 +143,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
 
   /** 置頂廣告列表 */
   public adTop: AFP_ADImg[] = [];
-  /** 中間四格廣告(去哪玩連結)（(登入前)10004 / (登入後)10005） */
+  /** 中間四格廣告(去哪玩連結) */
   public adMid4: AFP_ADImg[] = [];
   /** 中間大廣告 */
   public adMid: AFP_ADImg[] = [];
@@ -182,12 +182,8 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   /** 使用者擁有優惠券數量 */
   public userVoucherCount: number;
 
-
-
-  private serviceDiffer: KeyValueDiffer<string, any>;
-  constructor(public appService: AppService, public modal: ModalService, private differs: KeyValueDiffers, private router: Router,
+  constructor(public appService: AppService, public modal: ModalService, private router: Router,
               private meta: Meta, private title: Title) {
-    this.serviceDiffer = this.differs.find({}).create();
     // tslint:disable: max-line-length
     this.title.setTitle('Mobii!｜城市生活服務平台');
     this.meta.updateTag({ name: 'description', content: '使用 Mobii! APP，讓你的移動總是驚喜。乘車、購物、美食、景點、旅行資訊全都包，使用就享點數回饋，每日登入再領 M Points，會員再享獨家彩蛋大禮包。先下載 Mobii APP 看看裡面有什麼好玩的吧？' });
@@ -214,8 +210,6 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
       this.adMid = data.ADImg_Theme;
       this.hitArea = data.List_AreaData;
       this.hitTravel = data.List_TravelData;
-      // this.adLeftTop = data.ADImg_Top2;
-      // this.adRightTop = data.ADImg_Top3;
       this.popProducts = data.List_ProductData;
       this.userPoint = data.TotalPoint;
       this.userVoucherCount = data.VoucherCount;
@@ -415,32 +409,6 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
         this.router.navigate(['/AppDownload']);
       }
     }, 25);
-  }
-
-  ngDoCheck(): void {
-    const change = this.serviceDiffer.diff(this.appService);
-    if (change) {
-      change.forEachChangedItem(item => {
-        if (item.key === 'loginState' && item.currentValue === true) {
-          this.userName = sessionStorage.getItem('userName');
-          // 讀取使用者資訊&更換中間廣告圖片為登入後
-          const requestEntrance: Request_Home = {
-            User_Code: sessionStorage.getItem('userCode'),
-            SearchModel: {
-              IndexArea_Code: 100001,
-              IndexTravel_Code: 21001,
-              UserInfo_Code: null,
-              IndexChannel_Code: 10000001
-            }
-          };
-          this.appService.toApi('Home', '1001', requestEntrance).subscribe((data: Response_Home) => {
-            this.userPoint = data.TotalPoint;
-            this.userVoucherCount = data.VoucherCount;
-            this.adMid4 = data.ADImg_Activity;
-          });
-        }
-      });
-    }
   }
 
   ngAfterViewInit(): void {
