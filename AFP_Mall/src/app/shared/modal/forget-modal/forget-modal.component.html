@@ -24,7 +24,7 @@
     </div>
     <div class="container px-3 py-2">
         <h6 class="text-left">
-            為了保障您的個人資料安全，在重新設定密碼之前，請先再度進行手機驗證
+          為保障您的個人資料安全，請先進行手機驗證，才能重新設定密碼。
         </h6>
         <form id="forget-form" #changePwdForm="ngForm" (ngSubmit)="changePwdForm.form.valid && onSubmit()">
             <div class="row">
@@ -33,10 +33,10 @@
                 </div>
                 <div class="col-12 pb-3">
                     <input type="tel" placeholder="請輸入註冊時使用的手機號碼" id="vphone" name="AFPAccount" #AFPAccount="ngModel"
-                        [ngClass]="{'bb-org': (AFPAccount.touched || AFPAccount.dirty) && AFPAccount.invalid}" appDigitOnly
+                        [ngClass]="{'bb-org': AFPAccount.touched && AFPAccount.invalid}" appDigitOnly
                         [(ngModel)]="request.VerifiedInfo.VerifiedPhone" pattern="^09\d{8}$" required>
                     <div class="small-warning pl-0 warningNote visible">
-                        <span *ngIf="(AFPAccount.touched || AFPAccount.dirty) && AFPAccount.invalid">格式錯誤，請重新輸入</span></div>
+                        <span *ngIf="AFPAccount.touched && AFPAccount.invalid">格式錯誤，請重新輸入</span></div>
                 </div>
                 <div class="col-12 text-left">
                     驗證碼
