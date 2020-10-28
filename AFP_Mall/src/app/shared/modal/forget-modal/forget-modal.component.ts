@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { ModalService } from 'src/app/service/modal.service';
 import { AppService } from 'src/app/app.service';
@@ -8,7 +8,7 @@ import { Response_AFPVerifyCode, Request_AFPVerifyCode } from 'src/app/_models';
   selector: 'app-forget-modal',
   templateUrl: './forget-modal.component.html'
 })
-export class ForgetModalComponent  {
+export class ForgetModalComponent implements OnDestroy {
   /** 取得驗證碼用的request */
   public request: Request_AFPVerifyCode = {
     VerifiedAction: 2,
@@ -31,7 +31,7 @@ export class ForgetModalComponent  {
               private modalService: ModalService) { }
 
   /** 取得驗證碼 */
-  setVcode() {
+  setVcode(): void {
     this.appService.openBlock();
     this.appService.toApi('AFPAccount', '1112', this.request).subscribe((data: Response_AFPVerifyCode) => {
       this.request.VerifiedInfo.CheckValue = data.VerifiedInfo.CheckValue;
@@ -48,7 +48,7 @@ export class ForgetModalComponent  {
   }
 
   /** 立即驗證  */
-  onSubmit() {
+  onSubmit(): void {
     this.appService.openBlock();
     this.request.SelectMode = 21;
     this.appService.toApi('Home', '1112', this.request).subscribe((data: Response_AFPVerifyCode) => {
@@ -61,10 +61,22 @@ export class ForgetModalComponent  {
         };
         this.modalService.show('message', { initialState }, this.bsModalRef);
         this.vcodeSet = false;
+        clearInterval(this.vcodeCount);
       }
     });
   }
 
+  closeModal(): void {
+    this.bsModalRef.hide();
+    clearInterval(this.vcodeCount);
+  }
 
+  stopVcodeCount(): void {
+    clearInterval(this.vcodeCount);
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.vcodeCount);
+  }
 
 }

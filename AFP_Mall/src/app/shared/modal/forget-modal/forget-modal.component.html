@@ -1,7 +1,7 @@
 <div class="modal-header" data-dismiss="modal" aria-label="Close">
 </div>
 <div class="popup-banner for-mobile">
-    <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close" (click)="this.bsModalRef.hide()">
+    <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close" (click)="closeModal();">
         <span aria-hidden="true">&times;</span>
     </button>
     <!-- <img src="https://wu-medoc.github.io/eyesmedia_afp/img/index/login_banner.png" alt=""> -->
@@ -13,7 +13,7 @@
     <div class="index-flex pt-0">
         <div class="item one d-flex justify-content-start">
             <button type="button" class="btn px-2 close" data-toggle="modal" data-target="#loginModalCenter"
-            (click)="modal.openModal('loginRegister', bsModalRef)"  data-dismiss="modal" aria-label="Close">
+            (click)="modal.openModal('loginRegister', bsModalRef);stopVcodeCount();"  data-dismiss="modal" aria-label="Close">
                 <i class="material-icons">&#xe314;</i>
             </button>
         </div>
