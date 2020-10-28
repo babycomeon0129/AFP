@@ -41,6 +41,7 @@ export class ForgetModalComponent implements OnDestroy {
           this.vcodeSeconds--;
         } else {
           clearInterval(this.vcodeCount);
+          this.vcodeSet = true;
         }
       }, 1000);
     });
