@@ -54,7 +54,7 @@
                           <div class="px-2">
                             <div class="shopping-store-badge">
                               <span class="badge badge-pill text-explore py-0">
-                                <img src="../../img/share/{{siteInfo?.ECStore_Type}}.png" alt="">{{siteInfo?.ECStore_TypeName}}</span>
+                                <img *ngIf="siteInfo?.ECStore_Type !== null" src="../../img/share/{{siteInfo?.ECStore_Type}}.png" alt="">{{siteInfo?.ECStore_TypeName}}</span>
                             </div>
                           </div>
                       </div>
@@ -90,7 +90,7 @@
                               <div class="store-group">
                                   <!-- 簡介文字 -->
                                   <div *ngIf="siteInfo?.ECStore_Features !== null" class="store-item store-itemopen">
-                                      <p [innerHTML]="siteInfo?.ECStore_Features"></p>
+                                      <div [innerHTML]="siteInfo?.ECStore_Features | Safe: 'html'"></div>
                                       <!-- <div (click)="unfold(1)" class="open-btn ml-auto"><i class="material-icons"></i></div> -->
                                   </div>
                                   <!-- 地址 -->
