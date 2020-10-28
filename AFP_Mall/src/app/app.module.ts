@@ -90,12 +90,12 @@ import { ETicketDetailComponent } from './views/eticket-detail/eticket-detail.co
 import { ETicketOrderDetailComponent } from './views/eticket-order-detail/eticket-order-detail.component';
 import { DeliveryInfoComponent } from './views/delivery-info/delivery-info.component';
 import { FooterComponent } from './views/footer/footer.component';
-import { DigitOnlyDirective } from './directive/digit-only.directive';
 import { MemberFoodComponent } from './views/member-food/member-food.component';
 import { NotificationDetailComponent } from './views/notification-detail/notification-detail.component';
 import { Error404Component } from './views/error404/error404.component';
 import { Error500Component } from './views/error500/error500.component';
 import { Error503Component } from './views/error503/error503.component';
+import { DirectiveModuleModule } from './directive/directive-module.module';
 
 export function provideConfig() {
   const config = new AuthServiceConfig([
@@ -176,7 +176,6 @@ defineLocale('zh-cn', zhCnLocale);
     ETicketOrderDetailComponent,
     DeliveryInfoComponent,
     FooterComponent,
-    DigitOnlyDirective,
     MemberFoodComponent,
     NotificationDetailComponent,
     Error404Component,
@@ -232,6 +231,7 @@ defineLocale('zh-cn', zhCnLocale);
     BsDatepickerModule.forRoot(),
     LazyLoadImageModule,
     AngularResizedEventModule,
+    DirectiveModuleModule
   ],
   exports: [
     AppComponent

@@ -1,7 +1,7 @@
 <div class="modal-header" data-dismiss="modal" aria-label="Close">
 </div>
 <div class="popup-banner for-mobile">
-    <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close" (click)="this.bsModalRef.hide()">
+    <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close" (click)="closeModal();">
         <span aria-hidden="true">&times;</span>
     </button>
     <!-- <img src="https://wu-medoc.github.io/eyesmedia_afp/img/index/login_banner.png" alt=""> -->
@@ -13,7 +13,7 @@
     <div class="index-flex pt-0">
         <div class="item one d-flex justify-content-start">
             <button type="button" class="btn px-2 close" data-toggle="modal" data-target="#loginModalCenter"
-            (click)="modal.openModal('login', bsModalRef)"  data-dismiss="modal" aria-label="Close">
+            (click)="modal.openModal('loginRegister', bsModalRef);stopVcodeCount();"  data-dismiss="modal" aria-label="Close">
                 <i class="material-icons">&#xe314;</i>
             </button>
         </div>
@@ -33,7 +33,7 @@
                 </div>
                 <div class="col-12 pb-3">
                     <input type="text" placeholder="請輸入註冊時使用的手機號碼" id="vphone" name="AFPAccount" #AFPAccount="ngModel"
-                        [ngClass]="{'bb-org': AFPAccount.touched && AFPAccount.invalid}"
+                        [ngClass]="{'bb-org': AFPAccount.touched && AFPAccount.invalid}" appDigitOnly
                         [(ngModel)]="request.VerifiedInfo.VerifiedPhone" pattern="^09\d{8}$" maxlength="10" required>
                     <div class="small-warning pl-0 warningNote visible">
                         <span *ngIf="AFPAccount.touched && AFPAccount.invalid">格式錯誤，請重新輸入</span></div>
@@ -42,8 +42,8 @@
                     驗證碼
                 </div>
                 <div class="col-7 pb-3 pr-0">
-                    <input type="text" placeholder="請輸入收到的驗證碼" id="vcode" name="AFPVerify"
-                        [(ngModel)]="verify.AFPVerify" #AFPVerify="ngModel" required>
+                    <input type="tel" placeholder="請輸入收到的驗證碼" id="vcode" name="AFPVerify"
+                        [(ngModel)]="request.VerifiedInfo.VerifiedCode" #AFPVerify="ngModel" required>
                     <div *ngIf="AFPVerify.touched && AFPVerify.invalid" class="small-warning pl-0 warningNote">
                         <span>格式錯誤，請重新輸入</span>
                     </div>
@@ -56,8 +56,8 @@
                 <div class="col-12 py-3">
                     <button type="submit" class="btn index-btn footerBtn msg-open" value="msg-vphone"
                         data-toggle="modal" data-target="#messageModal" data-dismiss="modal"
-                        [ngClass]="{'gray-btn': request.VerifiedInfo.CheckValue === null}"
-                        [disabled]="request.VerifiedInfo.CheckValue === null"
+                        [ngClass]="{'gray-btn': request.VerifiedInfo.CheckValue === null || changePwdForm.form.invalid}"
+                        [disabled]="request.VerifiedInfo.CheckValue === null || changePwdForm.form.invalid"
                         aria-label="Close">立即驗證</button>
                 </div>
             </div>

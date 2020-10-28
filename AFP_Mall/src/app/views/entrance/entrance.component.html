@@ -129,7 +129,7 @@
                 </a>
               </div>
               <div class="link-item">
-                <a href="javascript:;" (click)="getMoreService();appService.callLayer('.setting');editFunction=false">
+                <a href="javascript:;" (click)="appService.callLayer('.setting');editFunction=false">
                   <div class="img-box">
                     <img src="img/index/icons/category3_more.png" alt="">
                   </div>
@@ -448,7 +448,7 @@
           </button>
         </div>
         <div class="edit-title-box">
-          <div class="edit-item edit-title-cancel" (click)="editFunction = false; myService = orgMyService">取消</div>
+          <div class="edit-item edit-title-cancel" (click)="editFunction = false; ftBottom = ftBottom_org">取消</div>
           <div class="edit-item edit-title">編輯我的服務</div>
           <div class="edit-item edit-title-save" (click)="updateUserService();">確定</div>
         </div>
@@ -456,11 +456,11 @@
       <div class="service-sysbox bb3-solid">
         <!-- 系統服務 -->
           <div class="title-item pt-3">
-            {{systemService?.CategaryName}}
+            系統服務
           </div>
           <div class="title-group">
             <div class="title-box">
-              <div class="sys-item" *ngFor="let icon of systemService?.Model_Function">
+              <div class="sys-item" *ngFor="let icon of ftTop">
                 <img [lazyLoad]="icon.Function_Icon" [alt]="icon.Function_Name" (click)="FunctionLink(icon, false)">
                 <p>{{icon.Function_Name}}</p>
               </div>
@@ -478,10 +478,12 @@
           </div>
           <div class="service-title">
              <div class="main-link edit-link sort-block" id="myService">
-              <div class="link-item mysvc remove-item"  *ngFor="let icon of myService;"
+              <div class="link-item mysvc remove-item"  *ngFor="let icon of ftBottom;"
               (click)="serviceClick(icon.Function_Code, icon.Function_CategaryCode, icon.Function_IsActive);"
               [attr.data-code]="icon.Function_Code">
-                <a [href]="!editFunction ? icon.Function_URL : 'javascript:;' | Safe: 'url'" [target]="icon?.Function_URLTarget" rel="noopener noreferrer">
+                <a [href]="!editFunction ? icon.Function_URL : 'javascript:;' | Safe: 'url'"
+                  [appKeyController]="editFunction" [keyControl]="'target'" [keyValue]="icon?.Function_URLTarget"
+                 rel="noopener noreferrer">
                   <img [src]="icon.Function_Icon" alt="">
                   <p>{{icon.Function_Name}}</p>
                 </a>
@@ -507,7 +509,8 @@
             (click)="serviceClick(icon.Function_Code, item.CategaryCode, icon.Function_IsActive);"
             [ngClass]="{'remove-item': !icon?.isAdd && icon.Function_IsActive, 'add-item':icon?.isAdd && icon.Function_IsActive,'disable' : icon.Function_IsActive === 0}"
             [id]="'more-'+icon.Function_Code">
-              <a [href]="!editFunction && icon.Function_IsActive ? icon.Function_URL : 'javascript:;' | Safe: 'url'" [target]="icon?.Function_URLTarget" rel="noopener noreferrer">
+              <a [href]="!editFunction && icon.Function_IsActive ? icon.Function_URL : 'javascript:;' | Safe: 'url'"
+              [appKeyController]="editFunction" [keyControl]="'target'" [keyValue]="icon?.Function_URLTarget" rel="noopener noreferrer">
                 <div class="img-box">
                   <img [lazyLoad]="icon.Function_Icon" [alt]="icon.Function_Name">
                 </div>

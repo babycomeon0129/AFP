@@ -17,9 +17,6 @@ import { Meta, Title } from '@angular/platform-browser';
 })
 export class CellVerificationComponent implements OnInit, OnDestroy {
   /** 手機驗證 ngForm request */
-  // public requestMobileVerify: Request_MemberBindMobile = new Request_MemberBindMobile();
-  /** 手機驗證 ngForm request */
-  // public requestMobileVerify: Request_AFPVerifyCode = new Request_AFPVerifyCode();
   public requestMobileVerify: Request_AFPVerifyCode = {
     VerifiedAction: null,
     VerifiedInfo: {
