@@ -226,7 +226,6 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
     };
     this.appService.openBlock();
     this.appService.toApi('Home', '1011', request).subscribe((data: Response_Home) => {
-
       this.adTop = data.ADImg_Top;
       this.adMid4 = data.ADImg_Activity;
       this.adMid = data.ADImg_Theme;

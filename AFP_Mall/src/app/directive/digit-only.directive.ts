@@ -33,7 +33,6 @@ export class DigitOnlyDirective {
     if (e.key === ' ' || isNaN(Number(e.key))) {
       e.preventDefault();
     }
-    console.log(e.key);
   }
 
   @HostListener('paste', ['$event'])

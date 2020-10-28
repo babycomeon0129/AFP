@@ -26,8 +26,6 @@ export class ForgetModalComponent implements OnInit {
     UserInfo_Code: 0,
     AFPVerify: ''
   };
-  /** 發送驗證碼狀態 */
-  public vcodeSet = false;
   /** 發送驗證碼後的倒數計時器 */
   public vcodeCount: any;
   /** 倒數秒數 */
@@ -49,7 +47,6 @@ export class ForgetModalComponent implements OnInit {
           this.vcodeSeconds--;
         } else {
           clearInterval(this.vcodeCount);
-          this.vcodeSet = true;
         }
       }, 1000);
     });
@@ -68,7 +65,6 @@ export class ForgetModalComponent implements OnInit {
           VerifiedInfo: data.VerifiedInfo
         };
         this.modalService.show('message', { initialState }, this.bsModalRef);
-        this.vcodeSet = false;
       }
     });
   }

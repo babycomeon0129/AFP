@@ -47,8 +47,8 @@
               pattern="\d{6}$" minlength="6" maxlength="6" required placeholder="請輸入收到的驗證碼" id="vcode">
               <div class="small-warning t-gray pl-0 stepV1">
                 <p *ngIf="remainingSec > 0">驗證碼已發送至 {{requestMobileVerify.VerifiedInfo.VerifiedPhone}}</p>
-                <p *ngIf="showGetVCode">沒有收到驗證碼？可重新點選「取得驗證碼」</p>
               </div>
+              <div *ngIf="VCode.touched && VCode.invalid" class="small-warning pl-0 warningNote"><span>格式錯誤，請重新輸入</span></div>
           </div>
           <div class="col-5 pl-1">
             <button type="button" (click)="sendVCode(); focusOnInput()" [disabled]="remainingSec > 0 || MobileVerify.invalid"
