@@ -9,6 +9,8 @@ import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'ngx-useful-swiper';
 import { Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
+import { SortablejsOptions } from 'ngx-sortablejs';
+import { isNgTemplate } from '@angular/compiler';
 
 declare var $: any;
 
@@ -181,6 +183,39 @@ export class EntranceComponent implements OnInit, AfterViewInit {
   public userPoint: number;
   /** 使用者擁有優惠券數量 */
   public userVoucherCount: number;
+  /** 我的服務: 判斷是否被拖曳 */
+  public isMove = false;
+  /** 我的服務:拖曳功能options */
+  // tslint:disable-next-line: deprecation
+  public options: SortablejsOptions = {
+    disabled: true,
+    handle: '#myService',
+    draggable: '.mysvc',
+    group: '.mysvc',
+    onStart: (evt) => {
+      evt.preventDefault();
+      evt.stopPropagation();
+      // console.log('S', evt.item.id, evt.target);
+    },
+    onMove: (evt) => {
+      evt.preventDefault();
+      evt.stopPropagation();
+      this.isMove = true;
+      // console.log('M', this.isMove, evt, this.moreMy);
+    },
+    onEnd: (evt) => {
+      evt.preventDefault();
+      evt.stopPropagation();
+      const code: number = parseInt(evt.item.dataset.code, 10);
+      const cat: number = parseInt(typeof evt.item.dataset.cat, 10);
+      const act: boolean = evt.item.dataset.cat === '1' ? true : false;
+      this.serviceClick(code, cat, act);
+      this.isMove = false;
+    }
+  };
+
+
+
 
   constructor(public appService: AppService, public modal: ModalService, private router: Router,
               private meta: Meta, private title: Title) {
@@ -224,6 +259,19 @@ export class EntranceComponent implements OnInit, AfterViewInit {
       this.appService.showFavorites();
     }
   }
+
+  /** 我的服務編輯模式開啟 */
+  editOpen(): void {
+    this.editFunction = true;
+    this.options = {disabled: false};
+  }
+
+   /** 我的服務編輯模式關閉 */
+   editClose(): void {
+    this.editFunction = false;
+    this.options = {disabled: true};
+    this.ftBottom = this.ftBottom_org;
+   }
 
   /** 首頁我的服務 */
   getHomeservice(): void {
@@ -274,7 +322,7 @@ export class EntranceComponent implements OnInit, AfterViewInit {
       const result = this.ftBottom.findIndex(item => item.Function_Code === code);
       if (result > -1) {
         // 已經在我的服務內，就將這個ICON移出我的服務
-        if (this.ftBottom.length > 4) {
+        if (this.ftBottom.length > 4 && !this.isMove) {
           this.ftBottom.splice(result, 1);
           // 根據我的服務清單，修改下面更多服務的class狀態
           this.serviceList.filter(item => item.CategaryCode === cat)[0].Model_Function.forEach( icon => {
@@ -306,8 +354,12 @@ export class EntranceComponent implements OnInit, AfterViewInit {
   /** 更新我的服務 */
   updateUserService(): void {
     this.editFunction = false;
+
+    const arr = document.querySelectorAll('.mysvc');
     // 將我的服務的function code 陣列result傳給後端
-    const result = this.ftBottom.map( item => item.Function_Code);
+   // const result = this.ftBottom.map( item => item.Function_Code);
+    const result = [];
+    arr.forEach((code: HTMLElement) => result.push(parseInt(code.dataset.code, 10)));
     const request: Request_AFPUpdateUserService = {
       User_Code: sessionStorage.getItem('userCode'),
       Model_UserFavourite: null,

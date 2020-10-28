@@ -25,6 +25,9 @@ import { defineLocale } from 'ngx-bootstrap/chronos';
 import { zhCnLocale } from 'ngx-bootstrap/locale';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 
+// SortablejsModule
+import { SortablejsModule } from 'ngx-sortablejs';
+
 // Component
 import { AppComponent } from './app.component';
 import { EntranceComponent } from './views/entrance/entrance.component';
@@ -231,7 +234,8 @@ defineLocale('zh-cn', zhCnLocale);
     BsDatepickerModule.forRoot(),
     LazyLoadImageModule,
     AngularResizedEventModule,
-    DirectiveModuleModule
+    DirectiveModuleModule,
+    SortablejsModule
   ],
   exports: [
     AppComponent
