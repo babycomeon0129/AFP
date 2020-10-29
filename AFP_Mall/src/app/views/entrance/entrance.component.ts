@@ -195,13 +195,11 @@ export class EntranceComponent implements OnInit, AfterViewInit {
     onStart: (evt) => {
       evt.preventDefault();
       evt.stopPropagation();
-      // console.log('S', evt.item.id, evt.target);
     },
     onMove: (evt) => {
       evt.preventDefault();
       evt.stopPropagation();
       this.isMove = true;
-      // console.log('M', this.isMove, evt, this.moreMy);
     },
     onEnd: (evt) => {
       evt.preventDefault();
