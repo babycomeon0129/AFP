@@ -2,7 +2,7 @@ import { Component, OnInit, Input, AfterViewInit, OnDestroy } from '@angular/cor
 import { AppService } from 'src/app/app.service';
 import { Response_Games, Request_Games, AFP_GamePart } from '../../../_models';
 import { ModalService } from 'src/app/service/modal.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-luckyspin',
@@ -24,9 +24,11 @@ export class LuckyspinComponent implements OnInit, AfterViewInit, OnDestroy {
   public prizeData: AFP_GamePart;
   /** 是否正在遊玩（遊玩期間play鈕為disabled） */
   public playingStatus: boolean;
+  /** 本頁url */
   private currentUrl: string;
+  public hideBackBtn = false; // APP特例處理
 
-  constructor(public appService: AppService, public modal: ModalService, private router: Router) {
+  constructor(public appService: AppService, public modal: ModalService, private router: Router, private route: ActivatedRoute) {
     this.currentUrl = this.router.url;
   }
 
@@ -37,6 +39,12 @@ export class LuckyspinComponent implements OnInit, AfterViewInit, OnDestroy {
     // 若可玩次數 === 0或是所剩點數不夠遊完一次則阻擋遊玩
     if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
       this.modal.show('message', { initialState: { success: false, message: '您的點數已不足或是遊玩次數已達上限!', showType: 1}});
+    }
+    // APP從M Points或進來則顯示返回鍵
+    if (this.route.snapshot.queryParams.hideBackBtn === 'false') {
+      this.hideBackBtn = false;
+    } else {
+      this.hideBackBtn = true;
     }
   }
 
