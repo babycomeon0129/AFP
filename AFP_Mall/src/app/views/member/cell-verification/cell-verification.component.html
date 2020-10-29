@@ -35,7 +35,7 @@
           </div>
           <div class="col-12 pb-3">
               <input type="tel" appDigitOnly name="MobileVerify" #MobileVerify="ngModel" [(ngModel)]="requestMobileVerify.VerifiedInfo.VerifiedPhone"
-              [readOnly]="remainingSec > 0" [ngClass]="{'bb-org': MobileVerify.touched && MobileVerify.invalid}"
+              [ngClass]="{'bb-org': MobileVerify.touched && MobileVerify.invalid}"
               placeholder="例：0912345678" pattern="^09\d{8}$" maxlength="10" required id="vphone">
               <div *ngIf="MobileVerify.touched && MobileVerify.invalid" class="small-warning pl-0 warningNote"><span>格式錯誤，請重新輸入</span></div>
           </div>
@@ -46,7 +46,6 @@
               <input type="tel" appDigitOnly name="VCode" #VCode="ngModel" [(ngModel)]="requestMobileVerify.VerifiedInfo.VerifiedCode"
               pattern="\d{6}$" minlength="6" maxlength="6" required placeholder="請輸入收到的驗證碼" id="vcode">
               <div class="small-warning t-gray pl-0 stepV1">
-                <p *ngIf="remainingSec > 0">驗證碼已發送至 {{requestMobileVerify.VerifiedInfo.VerifiedPhone}}</p>
               </div>
               <div *ngIf="VCode.touched && VCode.invalid" class="small-warning pl-0 warningNote"><span>格式錯誤，請重新輸入</span></div>
           </div>
