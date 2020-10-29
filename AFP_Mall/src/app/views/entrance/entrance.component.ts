@@ -267,7 +267,7 @@ export class EntranceComponent implements OnInit, AfterViewInit {
    editClose(): void {
     this.editFunction = false;
     this.options = {disabled: true};
-    this.ftBottom = this.ftBottom_org;
+    this.ftBottom = this.ftBottom_org.concat();
    }
 
   /** 首頁我的服務 */
