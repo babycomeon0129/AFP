@@ -9,9 +9,8 @@ import { ModalService } from 'src/app/service/modal.service';
   templateUrl: './password-modal.component.html'
 })
 export class PasswordModalComponent implements OnInit {
-  checkPwd = true;
+  /** 由外部Modal傳入的VerifiedInfo(詳忘記密碼流程)，API的resetpwd必須有(如無外部傳入請另外設置) */
   VerifiedInfo: AFP_VerifiedInfo;
-
   /** 設定密碼用 */
   public pwdModel = {
     UserInfo_Code: 0,
@@ -30,7 +29,6 @@ export class PasswordModalComponent implements OnInit {
   onSubmit() {
     if (this.pwdModel.AFPPassword === this.pwdModel.AFPPasswordRe) {
       this.appService.openBlock();
-      this.checkPwd = true;
       const resetpwd: Request_AFPPassword = {
         AFPPassword: this.pwdModel.AFPPassword,
         VerifiedInfo: this.VerifiedInfo
@@ -40,8 +38,6 @@ export class PasswordModalComponent implements OnInit {
           this.modalService.show('message', { initialState: { success: true, message: '密碼已設定完成，請重新登入', showType: 2}}, this.bsModalRef);
         }
       });
-    } else {
-      this.checkPwd = false;
     }
   }
 
