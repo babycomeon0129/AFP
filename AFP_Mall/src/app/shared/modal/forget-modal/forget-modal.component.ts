@@ -19,8 +19,6 @@ export class ForgetModalComponent implements OnDestroy {
       VerifiedCode: null
     }
   };
-  /** 發送驗證碼狀態 */
-  public vcodeSet = false;
   /** 發送驗證碼後的倒數計時器 */
   public vcodeCount: any;
   /** 倒數秒數 */
@@ -41,7 +39,6 @@ export class ForgetModalComponent implements OnDestroy {
           this.vcodeSeconds--;
         } else {
           clearInterval(this.vcodeCount);
-          this.vcodeSet = true;
         }
       }, 1000);
     });
@@ -60,7 +57,6 @@ export class ForgetModalComponent implements OnDestroy {
           VerifiedInfo: data.VerifiedInfo
         };
         this.modalService.show('message', { initialState }, this.bsModalRef);
-        this.vcodeSet = false;
         clearInterval(this.vcodeCount);
       }
     });

@@ -23,9 +23,9 @@
         <div class="item one"></div>
     </div>
     <div class="container px-3 py-2">
-        <p class="text-left p-3">
+        <h6 class="text-left">
           為保障您的個人資料安全，請先進行手機驗證，才能重新設定密碼。
-        </p>
+        </h6>
         <form id="forget-form" #changePwdForm="ngForm" (ngSubmit)="changePwdForm.form.valid && onSubmit()">
             <div class="row">
                 <div class="col-12 text-left pt-4">
@@ -33,10 +33,10 @@
                 </div>
                 <div class="col-12 pb-3">
                     <input type="tel" placeholder="請輸入註冊時使用的手機號碼" id="vphone" name="AFPAccount" #AFPAccount="ngModel"
-                        [ngClass]="{'bb-org': (AFPAccount.touched || AFPAccount.dirty) && AFPAccount.invalid}" appDigitOnly
+                        [ngClass]="{'bb-org': AFPAccount.touched && AFPAccount.invalid}" appDigitOnly
                         [(ngModel)]="request.VerifiedInfo.VerifiedPhone" pattern="^09\d{8}$" required>
                     <div class="small-warning pl-0 warningNote visible">
-                        <span *ngIf="(AFPAccount.touched || AFPAccount.dirty) && AFPAccount.invalid">格式錯誤，請重新輸入</span></div>
+                        <span *ngIf="AFPAccount.touched && AFPAccount.invalid">格式錯誤，請重新輸入</span></div>
                 </div>
                 <div class="col-12 text-left">
                     驗證碼
@@ -44,15 +44,9 @@
                 <div class="col-7 pb-3 pr-0">
                     <input type="text" placeholder="請輸入收到的驗證碼" id="vcode" name="AFPVerify" pattern="\d{6}$"
                         [(ngModel)]="request.VerifiedInfo.VerifiedCode" #AFPVerify="ngModel" required>
-                    <div class="small-warning t-gray pl-0 stepV1 visible">
-                        <p>
-                          <ng-container *ngIf="vcodeSet">
-                            沒有收到驗證碼？可重新點選「取得驗證碼」
-                          </ng-container>
-                        </p>
+                    <div *ngIf="AFPVerify.touched && AFPVerify.invalid" class="small-warning pl-0 warningNote">
+                      <span>格式錯誤，請重新輸入</span>
                     </div>
-                    <div class="small-warning pl-0 warningNote invisible">
-                        <span>請輸入驗證碼</span></div>
                 </div>
                 <div class="col-5 pl-1">
                     <button type="button" class="btn index-btn border-radius5 w-100 px-1 small-70 " id="getPhone"
