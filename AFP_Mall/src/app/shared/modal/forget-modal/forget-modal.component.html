@@ -18,7 +18,7 @@
             </button>
         </div>
         <div class="item two">
-            <h5>忘記密碼</h5>
+            <h5 (click)="modal.openModal('password',bsModalRef)">忘記密碼</h5>
         </div>
         <div class="item one"></div>
     </div>
@@ -33,7 +33,7 @@
                 </div>
                 <div class="col-12 pb-3">
                     <input type="tel" placeholder="請輸入註冊時使用的手機號碼" id="vphone" name="AFPAccount" #AFPAccount="ngModel"
-                        [ngClass]="{'bb-org': AFPAccount.touched && AFPAccount.invalid}" appDigitOnly
+                        [ngClass]="{'bb-org': AFPAccount.touched && AFPAccount.invalid}" appDigitOnly maxlength="10"
                         [(ngModel)]="request.VerifiedInfo.VerifiedPhone" pattern="^09\d{8}$" required>
                     <div class="small-warning pl-0 warningNote visible">
                         <span *ngIf="AFPAccount.touched && AFPAccount.invalid">格式錯誤，請重新輸入</span></div>
@@ -42,10 +42,10 @@
                     驗證碼
                 </div>
                 <div class="col-7 pb-3 pr-0">
-                    <input type="text" placeholder="請輸入收到的驗證碼" id="vcode" name="AFPVerify" pattern="\d{6}$"
+                    <input type="text" placeholder="請輸入收到的驗證碼" id="vcode" name="AFPVerify" pattern="\d{6}$" minlength="6" maxlength="6"
                         [(ngModel)]="request.VerifiedInfo.VerifiedCode" #AFPVerify="ngModel" required>
-                    <div *ngIf="AFPVerify.touched && AFPVerify.invalid" class="small-warning pl-0 warningNote">
-                      <span>格式錯誤，請重新輸入</span>
+                    <div class="small-warning pl-0 warningNote">
+                      <span *ngIf="AFPVerify.touched && AFPVerify.invalid">格式錯誤，請重新輸入</span>
                     </div>
                 </div>
                 <div class="col-5 pl-1">
