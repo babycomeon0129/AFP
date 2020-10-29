@@ -25,7 +25,7 @@ export class MessageModalComponent implements OnInit {
   ngOnInit() {
   }
 
-  //  App關閉
+  /** App關閉  */
   AppClose(): void {
     if (this.appService.isApp != null) {
       this.bsModalRef.hide();
@@ -34,6 +34,7 @@ export class MessageModalComponent implements OnInit {
     }
   }
 
+  /** 關閉視窗 */
   closeModal(): void {
     this.bsModalRef.hide();
     if (this.target != null && this.target.replace(/(^s*)|(s*$)/g, '').length !== 0) {
@@ -41,10 +42,12 @@ export class MessageModalComponent implements OnInit {
     }
   }
 
+  /** 跳轉至忘記密碼 */
   doReset(): void {
     if (this.appService.isApp != null) {
       this.bsModalRef.hide();
     } else {
+      // 將VerifiedInfot傳到password modal那裏
       const initialState = {
         VerifiedInfo: this.VerifiedInfo
       };
