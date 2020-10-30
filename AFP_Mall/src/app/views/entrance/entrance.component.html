@@ -93,7 +93,7 @@
                     <a href="javascript:;" (click)="FunctionLink(item, false)"
                       [ngClass]="{'disable' : item.Function_IsActive == 0}">
                       <div class="img-box">
-                        <img [src]="item.Function_Icon" alt="">
+                        <img [lazyLoad]="item.Function_Icon" [defaultImage]="appService.defaultImage" alt="">
                       </div>{{item.Function_Name}}
                     </a>
                   </div>
@@ -110,7 +110,7 @@
               <div *ngFor="let item of ftTop" class="link-item">
                 <a href="javascript:;" (click)="FunctionLink(item, false)">
                   <div class="img-box">
-                    <img [src]="item.Function_Icon" alt="">
+                    <img [lazyLoad]="item.Function_Icon" [defaultImage]="appService.defaultImage" alt="">
                   </div>
                   <p>{{item.Function_Name}}</p>
                 </a>
@@ -123,7 +123,7 @@
               <div *ngFor="let item of ftBottom" class="link-item">
                 <a href="javascript:;" (click)="FunctionLink(item, false)">
                   <div class="img-box">
-                    <img [src]="item.Function_Icon" alt="">
+                    <img [lazyLoad]="item.Function_Icon" [defaultImage]="appService.defaultImage" alt="">
                   </div>
                   <p>{{item.Function_Name}}</p>
                 </a>
@@ -461,7 +461,7 @@
           <div class="title-group">
             <div class="title-box">
               <div class="sys-item" *ngFor="let icon of ftTop">
-                <img [lazyLoad]="icon.Function_Icon" [alt]="icon.Function_Name" (click)="FunctionLink(icon, false)">
+                <img [lazyLoad]="icon.Function_Icon" [defaultImage]="appService.defaultImage" [alt]="icon.Function_Name" (click)="FunctionLink(icon, false)">
                 <p>{{icon.Function_Name}}</p>
               </div>
             </div>
@@ -484,7 +484,7 @@
                 <a [href]="!editFunction ? icon.Function_URL : 'javascript:;' | Safe: 'url'"
                   [appKeyController]="editFunction" [keyControl]="'target'" [keyValue]="icon?.Function_URLTarget"
                  rel="noopener noreferrer">
-                  <img [src]="icon.Function_Icon" alt="">
+                  <img [lazyLoad]="icon.Function_Icon" [defaultImage]="appService.defaultImage" alt="">
                   <p>{{icon.Function_Name}}</p>
                 </a>
               </div>
@@ -512,7 +512,7 @@
               <a [href]="!editFunction && icon.Function_IsActive ? icon.Function_URL : 'javascript:;' | Safe: 'url'"
               [appKeyController]="editFunction" [keyControl]="'target'" [keyValue]="icon?.Function_URLTarget" rel="noopener noreferrer">
                 <div class="img-box">
-                  <img [lazyLoad]="icon.Function_Icon" [alt]="icon.Function_Name">
+                  <img [lazyLoad]="icon.Function_Icon" [defaultImage]="appService.defaultImage" [alt]="icon.Function_Name">
                 </div>
                 <p>{{icon.Function_Name}}</p>
               </a>
