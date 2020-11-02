@@ -57,7 +57,7 @@ export class ProductDetailComponent implements OnInit, AfterViewChecked {
   @ViewChild('tag01', {static: false}) tag01: ElementRef;
   @ViewChild('tag02', {static: false}) tag02: ElementRef;
   @ViewChild('tag03', {static: false}) tag03: ElementRef;
-  /** 目前所在區塊 */
+  /** 目前所在區塊 0 不在詳細內容 1 關於商品 2 訂購須知 3運送須知 */
   currentSec = 0;
 
   constructor(public appService: AppService, private router: Router, private route: ActivatedRoute, public modal: ModalService,
@@ -125,7 +125,7 @@ export class ProductDetailComponent implements OnInit, AfterViewChecked {
   }
 
   /** 滑動至指定區域 */
-  scrollTo(sectionId: number, sectionName: string): void {
+  scrollTo(sectionId: number): void {
     this.currentSec = sectionId;
     $('html,body').animate({ scrollTop: $('#tag0' + sectionId).offset().top - 50 }, 1000);
     // iOS doesn't support ScrollToOptions
