@@ -104,7 +104,7 @@
                     </div>
                   </div>
               </div>
-              <div class="item shopping-flex onbuy">
+              <div class="item shopping-flex onbuy" [ngClass]="{'fixed-bottom container shopping-cartfooter py-3 px-3': currentSec > 0}">
                   <div class="item products-btn-buynow pt-0">
                       <button (click)="onAddToCart()" type="button" class="btn index-btn w-100">{{productInfo?.Product_Type === 21? '直接購買' : '加入購物車'}}</button>
                   </div>
@@ -137,34 +137,34 @@
               <div class="products-tagbox">
                   <div class="afp-tab-box">
                       <div class="afp-tab mb-5">
-                          <div class="tag-topbox">
-                              <div id="tabsBar" class="nav-tabs-box tablist-products">
+                          <div class="tag-topbox" [ngClass]="{'fixed-top container': currentSec > 0 }">
+                              <div id="tabsBar" class="nav-tabs-box tablist-products" [ngClass]="{'tag-top': currentSec > 0 }">
                                   <!-- Nav tabs -->
                                   <ul id="nav-tab-storedetail" class="nav nav-tabs pt-2" role="tablist">
                                     <li>
-                                        <a class="tablist-link link-orange active" id="tab-tag01" (click)="ScrollTo('tag01')">關於商品</a>
+                                        <a class="tablist-link link-orange" [ngClass]="{'active show': currentSec === 1 }" id="tab-tag01" (click)="scrollTo(1, 'tag01')">關於商品</a>
                                     </li>
                                     <li>
-                                        <a class="tablist-link link-orange" id="tab-tag03" (click)="ScrollTo('tag03')">訂購須知</a>
+                                        <a class="tablist-link link-orange" [ngClass]="{'active show': currentSec === 2 }" id="tab-tag02" (click)="scrollTo(2, 'tag02')">訂購須知</a>
                                     </li>
                                     <li>
-                                      <a class="tablist-link link-orange" id="tab-tag02" (click)="ScrollTo('tag02')">{{productInfo?.Product_Type === 21? '使用':'運送'}}須知</a>
+                                      <a class="tablist-link link-orange" [ngClass]="{'active show': currentSec === 3 }" id="tab-tag03" (click)="scrollTo(3, 'tag03')">{{productInfo?.Product_Type === 21? '使用':'運送'}}須知</a>
                                     </li>
                                   </ul>
                               </div>
                           </div>
                           <!-- Tab panes -->
                           <div id="tabContent" class="tab-content">
-                              <div role="tabpanel" class="tab-pane fade active show w-100" id="tag01">
+                              <div role="tabpanel" class="tab-pane fade active show w-100" #tag01 id="tag01">
                                   <h6>關於商品</h6>
                                   <img src="{{productInfo?.Product_PrimeImage}}">
                                   <div id="depictionContent" [innerHTML]="productInfo?.Product_Depiction"></div>
                               </div>
-                              <div role="tabpanel" class="tab-pane fade active show w-100" id="tag03">
+                              <div role="tabpanel" class="tab-pane fade active show w-100" #tag02 id="tag02">
                                   <h6>訂購須知</h6>
                                   <div id="noticeContent" [innerHTML]="productInfo?.Product_OrderNotice"></div>
                               </div>
-                              <div role="tabpanel" class="tab-pane fade active show w-100" id="tag02">
+                              <div role="tabpanel" class="tab-pane fade active show w-100" #tag03 id="tag03">
                                 <h6>{{productInfo?.Product_Type === 21 ? '使用' : '運送'}}須知</h6>
                                 <div id="logisticsContent" [innerHTML]="productInfo?.Product_Shopping"></div>
                               </div>

@@ -1,5 +1,5 @@
 import { environment } from 'src/environments/environment';
-import { Component, OnInit, AfterViewInit, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import {
   Request_ECProductDetail, Response_ECProductDetail, AFP_Product, AFP_ECStore, AFP_Attribute, Request_ECCart,
@@ -15,7 +15,7 @@ import { Meta, Title } from '@angular/platform-browser';
   templateUrl: './product-detail.component.html',
   styleUrls: ['../../../dist/style/shopping-index.min.css']
 })
-export class ProductDetailComponent implements OnInit, AfterViewInit, AfterViewChecked {
+export class ProductDetailComponent implements OnInit, AfterViewChecked {
   /** 購物車編碼 */
   public cartCode: number;
   /** 購物車商品數 */
@@ -53,6 +53,12 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, AfterViewC
       prevEl: '.shopping-productsimgbox .swiper-button-prev',
     }
   };
+  // 關於商品3個標籤
+  @ViewChild('tag01', {static: false}) tag01: ElementRef;
+  @ViewChild('tag02', {static: false}) tag02: ElementRef;
+  @ViewChild('tag03', {static: false}) tag03: ElementRef;
+  /** 目前所在區塊 */
+  currentSec = 0;
 
   constructor(public appService: AppService, private router: Router, private route: ActivatedRoute, public modal: ModalService,
               private cookieService: CookieService, private meta: Meta, private title: Title) {
@@ -84,7 +90,8 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, AfterViewC
 
       // 更新購物車數量
       this.cartCount = data.Cart_Count;
-      this.cookieService.set('cart_count_Mobii', data.Cart_Count.toString(), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+      this.cookieService.set('cart_count_Mobii', data.Cart_Count.toString(), 90, '/', environment.cookieDomain,
+        environment.cookieSecure, 'Lax');
 
       // 預設選擇所有規格的第一個規格值
       for (const attr of this.attrList) {
@@ -109,6 +116,39 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, AfterViewC
     // 若有登入則顯示我的收藏
     if (this.appService.loginState === true) {
       this.appService.showFavorites();
+    }
+  }
+
+  ngAfterViewChecked(): void {
+    // 商品詳細、運送須知、訂購須知內的圖片responsive
+    $('figure').find('img').addClass('img-fluid');
+  }
+
+  /** 滑動至指定區域 */
+  scrollTo(sectionId: number, sectionName: string): void {
+    this.currentSec = sectionId;
+    $('html,body').animate({ scrollTop: $('#tag0' + sectionId).offset().top - 50 }, 1000);
+    // iOS doesn't support ScrollToOptions
+    // window.scrollTo({
+    //   top: this[sectionName].nativeElement.offsetTop - 50,
+    //   behavior: 'smooth'
+    // });
+  }
+
+  /** 滑動時對應區塊標籤 */
+  @HostListener('window:scroll', ['$event'])
+  onScroll(event: Event) {
+    const topSec1 = this.tag01.nativeElement.offsetTop;
+    const topSec2 = this.tag02.nativeElement.offsetTop;
+    const topSec3 = this.tag03.nativeElement.offsetTop;
+    if (window.pageYOffset + 100 > topSec3 || (window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+      this.currentSec = 3;
+    } else if (window.pageYOffset + 100 > topSec2) {
+      this.currentSec = 2;
+    } else if (window.pageYOffset + 100 > topSec1) {
+      this.currentSec = 1;
+    } else {
+      this.currentSec = 0;
     }
   }
 
@@ -184,7 +224,8 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, AfterViewC
           this.cartCode = Number(this.cookieService.get('cart_code'));
         }
         // 把購物車商品數設到 cookie
-        this.cookieService.set('cart_count_Mobii', data.Cart_Count.toString(), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+        this.cookieService.set('cart_count_Mobii', data.Cart_Count.toString(), 90, '/', environment.cookieDomain,
+          environment.cookieSecure, 'Lax');
         this.cartCount = data.Cart_Count;
         this.modal.show('message', { initialState: { success: true, message: '加入購物車成功!', showType: 1 } });
       } else {
@@ -232,69 +273,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, AfterViewC
       queryParams: { navNo: fragment }
     };
     this.router.navigate(['/ExploreDetail/' + this.productInfo.Product_ECStoreCode], navigationExtras);
-  }
-
-  /** 滑動至指定區塊
-   * @param section 指定區塊id
-   */
-  ScrollTo(section) {
-    $('.tag-topbox').addClass('fixed-top container');
-    $('.nav-tabs-box').addClass('tag-top');
-    $('html,body').animate({ scrollTop: $('#' + section).offset().top - 50 }, 1000);
-    $('.tablist-link').removeClass('active show');
-    $('#tab-' + section).addClass('active show');
-  }
-
-  ngAfterViewInit() {
-    // 關於商品標頭置頂 || 加入購物車置尾
-    $(document).on('scroll', () => {
-      if ($(window).scrollTop() < 700) {
-        $('.tag-topbox').removeClass('fixed-top container');
-        $('.nav-tabs-box').removeClass('tag-top');
-        $('.onbuy').removeClass('fixed-bottom container shopping-cartfooter py-3 px-3');
-      } else {
-        $('.tag-topbox').addClass('fixed-top container');
-        $('.nav-tabs-box').addClass('tag-top');
-        $('.onbuy').addClass('fixed-bottom container shopping-cartfooter py-3 px-3');
-      }
-    });
-
-    // scroll focus tablist-link
-    const sectionIds = {};
-    $('.tab-pane').each(function() {
-      const $this = $(this);
-      sectionIds[$this.attr('id')] = $this.offset().top;
-    });
-
-    let scrollt = 0;
-    $(window).scroll(function(event) {
-      if (scrollt === 0) {
-        scrollt = 1;
-        $('.tab-pane').each(function() {
-          const $this = $(this);
-          if (sectionIds[$this.attr('id')] !== $this.offset().top) {
-            sectionIds[$this.attr('id')] = $this.offset().top - ($this.height() / 2);
-          }
-        });
-
-        const scrolled = $(this).scrollTop();
-        for (const key in sectionIds) {
-          if (scrolled + 100 > sectionIds[key]) {
-            $('#tab-' + key).addClass('active show');
-            if (scrollt > 0) {
-              $('.tablist-link').removeClass('active show');
-              $('#tab-' + key).addClass('active show');
-            }
-          }
-        }
-        scrollt = 0;
-      }
-    });
-  }
-
-  ngAfterViewChecked() {
-    // 商品詳細、運送須知、訂購須知內的圖片responsive
-    $('figure').find('img').addClass('img-fluid');
   }
 
 }
