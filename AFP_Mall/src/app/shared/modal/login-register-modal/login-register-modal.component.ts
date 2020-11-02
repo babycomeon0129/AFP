@@ -265,6 +265,8 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     clearInterval(this.vCodeTimer);
+    document.removeEventListener('AppleIDSignInOnSuccess', (authData: any) => {});
+    document.removeEventListener('AppleIDSignInOnFailure', (error: any) => {});
   }
 }
 

@@ -1,5 +1,5 @@
 import { environment } from '../../../../environments/environment';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from 'src/app/service/modal.service';
@@ -15,7 +15,7 @@ declare var AppleID: any;
   selector: 'modal-content',
   templateUrl: './login-modal.component.html',
 })
-export class LoginModalComponent implements OnInit {
+export class LoginModalComponent implements OnInit, OnDestroy {
   /** FB、Google 第三方登入 User容器 */
   private thirdUser: SocialUser;
   /** Apple 第三方登入 User容器 */
@@ -163,6 +163,11 @@ export class LoginModalComponent implements OnInit {
     } else {
       this.isApple = false;
     }
+  }
+
+  ngOnDestroy() {
+    document.removeEventListener('AppleIDSignInOnSuccess', (authData: any) => {});
+    document.removeEventListener('AppleIDSignInOnFailure', (error: any) => {});
   }
 }
 
