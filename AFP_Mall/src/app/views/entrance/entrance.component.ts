@@ -370,12 +370,8 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   /** 更新我的服務 */
   updateUserService(): void {
     this.editFunction = false;
-
-    const arr = document.querySelectorAll('.mysvc');
     // 將我的服務的function code 陣列result傳給後端
-   // const result = this.ftBottom.map( item => item.Function_Code);
-    const result = [];
-    arr.forEach((code: HTMLElement) => result.push(parseInt(code.dataset.code, 10)));
+    const result = this.ftBottom.map( (item: AFP_Function) => item.Function_Code);
     const request: Request_AFPUpdateUserService = {
       User_Code: sessionStorage.getItem('userCode'),
       Model_UserFavourite: null,
