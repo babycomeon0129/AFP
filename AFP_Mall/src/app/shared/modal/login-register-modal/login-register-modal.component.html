@@ -175,7 +175,7 @@
                                             <div class="col-5 px-1">
                                                 <button (click)="sendRegVCode()" [disabled]="regAccount.invalid || existingAccount || remainingSec > 0"
                                                 [ngClass]="{'unable': regAccount.invalid || existingAccount || remainingSec > 0}" type="button"
-                                                class="btn index-btn border-radius5 w-100 px-1 small-70" id="getPhone">
+                                                class="btn index-btn border-radius5 w-100 px-1 small-70 getPhone">
                                                   {{remainingSec > 0? '剩餘' + remainingSec + '秒':'取得手機驗證碼'}}
                                                 </button>
                                             </div>

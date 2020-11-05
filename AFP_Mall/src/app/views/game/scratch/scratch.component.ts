@@ -233,5 +233,11 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.appService.tLayerUp.includes('.winmsg')) {
       this.appService.backLayerUp();
     }
+    this.topCanvas.removeEventListener('touchstart', (e) => { });
+    this.topCanvas.removeEventListener('touchend', (e) => { });
+    this.topCanvas.removeEventListener('touchmove', (e) => { });
+    this.topCanvas.removeEventListener('mousedown', (e) => { });
+    document.removeEventListener('mouseup', (e) => { });
+    this.topCanvas.removeEventListener('mousemove', (e) => { });
   }
 }
