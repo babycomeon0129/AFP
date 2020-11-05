@@ -65,6 +65,7 @@ export class LoginModalComponent implements OnInit, OnDestroy {
 
     // Apple 登入授權成功，第三方登入取得資料
     document.addEventListener('AppleIDSignInOnSuccess', (authData: any) => {
+      this.stopListeningApple();
       this.appleUser = authData.detail;
       const idTokenModel = jwt_decode(this.appleUser.authorization.id_token);
       const appleToken = idTokenModel.sub;
@@ -86,6 +87,7 @@ export class LoginModalComponent implements OnInit, OnDestroy {
 
     // Apple 登入授權失敗，顯示失敗原因
     document.addEventListener('AppleIDSignInOnFailure', (error: any) => {
+      this.stopListeningApple();
       this.bsModalRef.hide(); // 關閉視窗
       this.modal.show('message', { initialState: { success: false, message: 'Apple登入失敗', note: error.detail.error, showType: 1 } });
     });
@@ -165,9 +167,14 @@ export class LoginModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
+  /** 停止聽取Apple登入的DOM event */
+  stopListeningApple() {
     document.removeEventListener('AppleIDSignInOnSuccess', (authData: any) => {});
     document.removeEventListener('AppleIDSignInOnFailure', (error: any) => {});
+  }
+
+  ngOnDestroy() {
+    this.stopListeningApple();
   }
 }
 
