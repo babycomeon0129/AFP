@@ -85,7 +85,7 @@
                   </ul>
               </swiper>
               <!-- Tab panes -->
-              <div class="tab-content border-t pt-2 mb-5">
+              <div class="tab-content pt-2 mb-5">
                   <div *ngFor="let item of offers; let First = first; let i = index" role="tabpanel" class="tab-pane fade w-100" id="tag{{i}}" [ngClass]="{'active show': TabCode > 0 ? TabCode == item?.UserDefine_Code : First}">
                       <div class="mycoin-couponbox card-columns px-3">
                           <div *ngFor="let voucher of item?.VoucherData" class="card border-radius5">

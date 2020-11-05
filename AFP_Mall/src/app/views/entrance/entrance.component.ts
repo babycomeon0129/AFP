@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from '../../service/modal.service';
 import {
@@ -16,7 +16,7 @@ declare var $: any;
   templateUrl: './entrance.component.html',
   styleUrls: ['../../../dist/style/home.min.css', '../../../dist/style/travel-index.min.css']
 })
-export class EntranceComponent implements OnInit, AfterViewInit {
+export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   public userProfile: Model_MemberProfile = new Model_MemberProfile();
   @ViewChild('kvSwiper', { static: false }) kvSwiper: SwiperComponent;
 
@@ -181,9 +181,12 @@ export class EntranceComponent implements OnInit, AfterViewInit {
   public userPoint: number;
   /** 使用者擁有優惠券數量 */
   public userVoucherCount: number;
+  /** 變化追蹤（登入狀態） */
+  private serviceDiffer: KeyValueDiffer<string, any>;
 
-  constructor(public appService: AppService, public modal: ModalService, private router: Router,
+  constructor(public appService: AppService, public modal: ModalService, private router: Router, private differs: KeyValueDiffers,
               private meta: Meta, private title: Title) {
+    this.serviceDiffer = this.differs.find({}).create();
     // tslint:disable: max-line-length
     this.title.setTitle('Mobii!｜城市生活服務平台');
     this.meta.updateTag({ name: 'description', content: '使用 Mobii! APP，讓你的移動總是驚喜。乘車、購物、美食、景點、旅行資訊全都包，使用就享點數回饋，每日登入再領 M Points，會員再享獨家彩蛋大禮包。先下載 Mobii APP 看看裡面有什麼好玩的吧？' });
@@ -192,6 +195,19 @@ export class EntranceComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.readHome(1);
+
+    // 若有登入則顯示名字、M Points及優惠券資訊（手機版）、我的收藏
+    if (this.appService.loginState) {
+      this.userName = sessionStorage.getItem('userName');
+      this.appService.showFavorites();
+    }
+  }
+
+  /** 讀取首頁資料
+   * @param mode 讀取時機 1: 進入此頁 2: 在此頁登入時
+   */
+  readHome(mode: number) {
     const request: Request_Home = {
       User_Code: sessionStorage.getItem('userCode'),
       SearchModel: {
@@ -204,25 +220,27 @@ export class EntranceComponent implements OnInit, AfterViewInit {
     };
     this.appService.openBlock();
     this.appService.toApi('Home', '1011', request).subscribe((data: Response_Home) => {
-
-      this.adTop = data.ADImg_Top;
-      this.adMid4 = data.ADImg_Activity;
-      this.adMid = data.ADImg_Theme;
-      this.hitArea = data.List_AreaData;
-      this.hitTravel = data.List_TravelData;
-      this.popProducts = data.List_ProductData;
-      this.userPoint = data.TotalPoint;
-      this.userVoucherCount = data.VoucherCount;
-      this.deliveryArea = data.List_DeliveryData;
-      this.nowVoucher = data.List_Voucher;
+      switch (mode) {
+        case 1:
+          this.adTop = data.ADImg_Top;
+          this.adMid4 = data.ADImg_Activity;
+          this.adMid = data.ADImg_Theme;
+          this.hitArea = data.List_AreaData;
+          this.hitTravel = data.List_TravelData;
+          this.popProducts = data.List_ProductData;
+          this.userPoint = data.TotalPoint;
+          this.userVoucherCount = data.VoucherCount;
+          this.deliveryArea = data.List_DeliveryData;
+          this.nowVoucher = data.List_Voucher;
+          break;
+        case 2:
+          this.userName = sessionStorage.getItem('userName');
+          this.userPoint = data.TotalPoint;
+          this.userVoucherCount = data.VoucherCount;
+          break;
+      }
       this.getHomeservice();
     });
-
-    // 若有登入則顯示名字、M Points及優惠券資訊（手機版）、我的收藏
-    if (this.appService.loginState) {
-      this.userName = sessionStorage.getItem('userName');
-      this.appService.showFavorites();
-    }
   }
 
   /** 首頁我的服務 */
@@ -415,6 +433,18 @@ export class EntranceComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       $('.imgLiquidFill').imgLiquid();
     }, 600);
+  }
+
+  ngDoCheck(): void {
+    const change = this.serviceDiffer.diff(this.appService);
+    if (change) {
+      change.forEachChangedItem(item => {
+        if (item.key === 'loginState' && item.currentValue === true) {
+          // 在此頁登入則更新使用者暱稱、點數、優惠券、我的服務
+          this.readHome(2);
+        }
+      });
+    }
   }
 }
 

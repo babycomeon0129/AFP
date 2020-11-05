@@ -170,15 +170,12 @@
                                                 <input id="regVCode" type="tel" appDigitOnly name="VCode" #VCode="ngModel" [(ngModel)]="registerRequest.VerifiedInfo.VerifiedCode"
                                                   pattern="\d{6}$" minlength="6" maxlength="6" required [ngClass]="{'bb-org': VCode.touched && VCode.invalid}"
                                                   placeholder="請輸入收到的驗證碼">
-                                                <div *ngIf="showGetVCode" class="small-warning t-gray pl-0 stepV1">
-                                                  <p>沒有收到驗證碼？<span>可重新點選「取得驗證碼」</span></p>
-                                                </div>
-                                                <div *ngIf="remainingSec === 0 && (VCode.touched && VCode.invalid)" class="small-warning pl-0 warningNote"><span>請輸入手機驗證碼</span></div>
+                                                <div *ngIf="VCode.touched && VCode.invalid" class="small-warning pl-0 warningNote"><span>格式錯誤，請重新輸入</span></div>
                                             </div>
                                             <div class="col-5 px-1">
                                                 <button (click)="sendRegVCode()" [disabled]="regAccount.invalid || existingAccount || remainingSec > 0"
                                                 [ngClass]="{'unable': regAccount.invalid || existingAccount || remainingSec > 0}" type="button"
-                                                class="btn index-btn border-radius5 w-100 px-1 small-70" id="getPhone">
+                                                class="btn index-btn border-radius5 w-100 px-1 small-70 getPhone">
                                                   {{remainingSec > 0? '剩餘' + remainingSec + '秒':'取得手機驗證碼'}}
                                                 </button>
                                             </div>

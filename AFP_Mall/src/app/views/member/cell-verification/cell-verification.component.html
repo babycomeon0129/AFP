@@ -19,7 +19,7 @@
 <div [@layerTrigger] *ngIf="shownSection === 0" class="myphone">
   <div class="headerbox container title-box">
     <div class="item icon-btn">
-        <button class="btn px-0"(click)="cancelVerify()" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+        <button class="btn px-0" (click)="cancelVerify()" [hidden]="toVerifyCell" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
             <i class="material-icons">&#xe314;</i>
         </button>
     </div>
@@ -35,7 +35,7 @@
           </div>
           <div class="col-12 pb-3">
               <input type="tel" appDigitOnly name="MobileVerify" #MobileVerify="ngModel" [(ngModel)]="requestMobileVerify.VerifiedInfo.VerifiedPhone"
-              [readOnly]="remainingSec > 0" [ngClass]="{'bb-org': MobileVerify.touched && MobileVerify.invalid}"
+              [ngClass]="{'bb-org': MobileVerify.touched && MobileVerify.invalid}"
               placeholder="例：0912345678" pattern="^09\d{8}$" maxlength="10" required id="vphone">
               <div *ngIf="MobileVerify.touched && MobileVerify.invalid" class="small-warning pl-0 warningNote"><span>格式錯誤，請重新輸入</span></div>
           </div>
@@ -46,14 +46,13 @@
               <input type="tel" appDigitOnly name="VCode" #VCode="ngModel" [(ngModel)]="requestMobileVerify.VerifiedInfo.VerifiedCode"
               pattern="\d{6}$" minlength="6" maxlength="6" required placeholder="請輸入收到的驗證碼" id="vcode">
               <div class="small-warning t-gray pl-0 stepV1">
-                <p *ngIf="remainingSec > 0">驗證碼已發送至 {{requestMobileVerify.VerifiedInfo.VerifiedPhone}}</p>
-                <p *ngIf="showGetVCode">沒有收到驗證碼？可重新點選「取得驗證碼」</p>
               </div>
+              <div *ngIf="VCode.touched && VCode.invalid" class="small-warning pl-0 warningNote"><span>格式錯誤，請重新輸入</span></div>
           </div>
           <div class="col-5 pl-1">
             <button type="button" (click)="sendVCode(); focusOnInput()" [disabled]="remainingSec > 0 || MobileVerify.invalid"
               [ngClass]="{'unable': remainingSec > 0 || MobileVerify.invalid}"
-              class="btn index-btn border-radius5 w-100 px-1 small-70" id="getPhone">
+              class="btn index-btn border-radius5 w-100 px-1 small-70 getPhone">
               {{remainingSec > 0 ? ('剩餘' + remainingSec + '秒') : '取得手機驗證碼'}}
             </button>
           </div>

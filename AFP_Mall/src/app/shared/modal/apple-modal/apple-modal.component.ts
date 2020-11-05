@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 declare var AppleID: any;
 
@@ -7,7 +7,7 @@ declare var AppleID: any;
   templateUrl: './apple-modal.component.html',
   styleUrls: ['./apple-modal.component.css']
 })
-export class AppleModalComponent implements OnInit {
+export class AppleModalComponent implements OnInit, OnDestroy {
 
   /** Apple 第三方登入 User容器 */
   @Output() appleUser = new EventEmitter();
@@ -32,6 +32,10 @@ export class AppleModalComponent implements OnInit {
       // const appleToken = idTokenModel.sub;
     });
 
+  }
+
+  ngOnDestroy() {
+    document.removeEventListener('AppleIDSignInOnSuccess', (authData: any) => {});
   }
 
 }

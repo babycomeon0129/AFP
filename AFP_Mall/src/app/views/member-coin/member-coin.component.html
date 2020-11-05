@@ -32,7 +32,7 @@
     <div class="p-3">
       <h6 class="py-2">遊戲館</h6>
       <div class="member-flex flex-coinbn">
-        <div *ngFor="let item of info.List_Game" [routerLink]="['/Game', item?.Game_Code]" class="item">
+        <div *ngFor="let item of info.List_Game" [routerLink]="['/Game', item?.Game_Code]" [queryParams]="{hideBackBtn: false}" class="item">
           <img [src]="item.Game_Image" class="img-fluid border-radius5" alt="">
         </div>
       </div>
@@ -146,7 +146,7 @@
         <div class="afp-tab mb-5">
           <div class="nav-tabs-box mt-3">
             <!-- Nav tabs -->
-            <ul class="nav-tab-list nav nav-tabs nav-line mb-2 d-flex justify-content-around" role="tablist">
+            <ul class="nav-tab-list nav nav-tabs nav-line d-flex justify-content-around" role="tablist">
               <li role="presentation" [ngClass]="{'active': pointType === 0}" (click)="pointType = 0; getHistory();">
                 <a class="tablist-link" [ngClass]="{'active': pointType === 0}" role="tab">待入帳</a>
               </li>

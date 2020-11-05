@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, Input, AfterViewInit, OnDestroy } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Response_Games, Request_Games, AFP_GamePart } from '../../../_models';
@@ -15,6 +16,7 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
   public totalPoints: number;
   /** 會員所剩可玩次數（每玩完一次即更新；須注意為"-1"/不限次數的情況） */
   public playTimes: number;
+  public hideBackBtn = false; // APP特例處理
 
   // 刮刮樂繪製所需變數
   /** mousedown event，為true時使用者才可進行繪製 */
@@ -39,7 +41,7 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
   public prizeData: AFP_GamePart;
 
 
-  constructor(public appService: AppService, public modal: ModalService) {
+  constructor(public appService: AppService, public modal: ModalService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -69,6 +71,13 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     this.imgBot.onload = () => {
         this.drawBot();
     };
+
+    // APP從M Points或進來則顯示返回鍵
+    if (this.route.snapshot.queryParams.hideBackBtn === 'false') {
+      this.hideBackBtn = false;
+    } else {
+      this.hideBackBtn = true;
+    }
   }
 
   /** 刮刮樂底部畫面繪製 */
@@ -224,5 +233,11 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.appService.tLayerUp.includes('.winmsg')) {
       this.appService.backLayerUp();
     }
+    this.topCanvas.removeEventListener('touchstart', (e) => { });
+    this.topCanvas.removeEventListener('touchend', (e) => { });
+    this.topCanvas.removeEventListener('touchmove', (e) => { });
+    this.topCanvas.removeEventListener('mousedown', (e) => { });
+    document.removeEventListener('mouseup', (e) => { });
+    this.topCanvas.removeEventListener('mousemove', (e) => { });
   }
 }

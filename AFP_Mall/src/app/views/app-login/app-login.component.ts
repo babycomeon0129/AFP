@@ -56,8 +56,6 @@ export class AppLoginComponent implements OnInit, OnDestroy {
   public vCodeTimer;
   /** 註冊-輸入帳號是否已存在 */
   public existingAccount = false;
-  /** 「可重新點選」文字顯示 */
-  public showGetVCode = false;
 
   constructor(
     public bsModalRef: BsModalRef, private authService: AuthService, private appService: AppService, public modal: ModalService,
@@ -107,6 +105,7 @@ export class AppLoginComponent implements OnInit, OnDestroy {
 
     // Apple 登入授權成功，第三方登入取得資料
     document.addEventListener('AppleIDSignInOnSuccess', (authData: any) => {
+      this.stopListeningApple();
       this.appleUser = authData.detail;
       const idTokenModel = jwt_decode(this.appleUser.authorization.id_token);
       const appleToken = idTokenModel.sub;
@@ -128,6 +127,7 @@ export class AppLoginComponent implements OnInit, OnDestroy {
 
     // Apple 登入授權失敗，顯示失敗原因
     document.addEventListener('AppleIDSignInOnFailure', (error: any) => {
+      this.stopListeningApple();
       this.modal.show('message', { initialState: { success: false, message: 'Apple登入失敗', note: error.detail.error, showType: 1 } });
     });
   }
@@ -252,7 +252,6 @@ export class AppLoginComponent implements OnInit, OnDestroy {
       this.vCodeTimer = setInterval(() => {
         this.remainingSec -= 1;
         if (this.remainingSec <= 0) {
-          this.showGetVCode = true;
           clearInterval(this.vCodeTimer);
         }
       }, 1000);
@@ -281,8 +280,15 @@ export class AppLoginComponent implements OnInit, OnDestroy {
     clearInterval(this.vCodeTimer);
   }
 
+  /** 停止聽取Apple登入的DOM event */
+  stopListeningApple() {
+    document.removeEventListener('AppleIDSignInOnSuccess', (authData: any) => {});
+    document.removeEventListener('AppleIDSignInOnFailure', (error: any) => {});
+  }
+
   ngOnDestroy() {
     clearInterval(this.vCodeTimer);
+    this.stopListeningApple();
   }
 }
 

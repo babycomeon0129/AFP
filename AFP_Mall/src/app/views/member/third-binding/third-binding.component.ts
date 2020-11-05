@@ -17,7 +17,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
   public thirdReques: Request_MemberThird = new Request_MemberThird();
   /** 第三方資訊類型 1 FB, 3 Google 5 Apple */
   public bindMode = 0;
-  /** 第三方姓名 */
+  /** 第三方綁定狀態 */
   public bindStatus: bindStatus = new bindStatus();
   /** 設備是否為Apple (是則不顯示Apple綁定) */
   public isApple: boolean;
