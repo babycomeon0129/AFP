@@ -65,7 +65,7 @@ export class MemberDiscountComponent implements OnInit, AfterViewInit {
   }
 
   /** 讀取優惠券 */
-  readVoucher() {
+  readVoucher(): void {
     const request: Request_MemberUserVoucher = {
       User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 4, // 查詢
@@ -90,7 +90,7 @@ export class MemberDiscountComponent implements OnInit, AfterViewInit {
 
 
   /** 優惠券折扣類型使用文字顯示轉換 */
-  vtypeTxt(vtype: number) {
+  vtypeTxt(vtype: number): string {
     switch (vtype) {
       case 0:
         return '全部';
@@ -106,7 +106,7 @@ export class MemberDiscountComponent implements OnInit, AfterViewInit {
   }
 
   /** 使用範圍文字顯示轉換 */
-  usetypeTxt(usetype: number) {
+  usetypeTxt(usetype: number): string {
     switch (usetype) {
       case 0:
         return '全部';
@@ -120,7 +120,7 @@ export class MemberDiscountComponent implements OnInit, AfterViewInit {
   }
 
   /** 使用範圍點選確認 */
-  utypeCheck(type: { isSelect: boolean; }) {
+  utypeCheck(type: { isSelect: boolean; }): void {
     this.useType.forEach( item => {
       item.isSelect = false;
     });
@@ -134,7 +134,7 @@ export class MemberDiscountComponent implements OnInit, AfterViewInit {
    * @param type 優惠券類型
    * @param typeArr 該優惠券類型的所有資料
    */
-  seletType(type: any, typeArr: string) {
+  seletType(type: any, typeArr: string): void {
     // 如果選了"全部"，其他選項自動取消勾選
     if (type.Key === 0) {
       this[typeArr].forEach((item: { Key: number; isSelect: boolean; }) => {
@@ -158,7 +158,7 @@ export class MemberDiscountComponent implements OnInit, AfterViewInit {
   }
 
   /** 篩選 */
-  filterSubmit() {
+  filterSubmit(): void {
     // 先把已選取的(isSelect = ture)的key篩選出來
     const showresult = this.showType.filter(item => item.isSelect).map(item => item.Key);
     const vtyperesult = this.voucherType.filter(item => item.isSelect).map(item => item.Key);
@@ -187,7 +187,7 @@ export class MemberDiscountComponent implements OnInit, AfterViewInit {
   }
 
   /** 全部重設(按鈕) */
-  resetSet() {
+  resetSet(): void {
     this.showType.forEach(item => item.Key !== 0 ? item.isSelect = false : item.isSelect = true);
     this.voucherType.forEach(item => item.Key !== 0 ? item.isSelect = false : item.isSelect = true);
     this.useType.forEach(item => item.Key !== 0 ? item.isSelect = false : item.isSelect = true);
@@ -198,14 +198,14 @@ export class MemberDiscountComponent implements OnInit, AfterViewInit {
   }
 
   /** 確認重設按鈕是否啟用 */
-  resetStatus() {
+  resetStatus(): void {
     if (this.showType[0].isSelect && this.voucherType[0].isSelect && this.useType[0].isSelect) {
       this.resetOpen = false;
     }
   }
 
   /** 新增優惠券 */
-  onAddCoupon() {
+  onAddCoupon(): void {
     this.vSelectMode = 1;
     const options: ModalOptions = { class: 'modal-dialog modal-dialog-centered modal-sm' };
     this.modal.addCoupon(options).subscribe(res => {
@@ -219,7 +219,7 @@ export class MemberDiscountComponent implements OnInit, AfterViewInit {
   /** 點擊圖片前往優惠券詳細
    * APP特例處理: 若是從會員過去優惠券詳細頁則要顯示返回鍵
    */
-  goVDetail(voucher: AFP_Voucher) {
+  goVDetail(voucher: AFP_Voucher): void {
     if (this.vSelectMode === 1) {
       if (this.route.snapshot.queryParams.showBack === undefined) {
         this.router.navigate(['/VoucherDetail', voucher.Voucher_UserVoucherCode]);
@@ -234,12 +234,6 @@ export class MemberDiscountComponent implements OnInit, AfterViewInit {
     }
   }
 
-  // Leave Forwarding
-  countdown() {
-    // setTimeout(() => { window.location = e ; }, 500);
-    setTimeout(() => { history.back(); }, 200);
-    $('.mycard').removeClass('slideInRight').addClass('slideOutRight');
-  }
 
   ngAfterViewInit() {
     // tslint:disable-next-line: max-line-length
