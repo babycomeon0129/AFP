@@ -2,7 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { ModalService } from 'src/app/service/modal.service';
 import { AppService } from 'src/app/app.service';
-import { Response_AFPVerifyCode, Request_AFPVerifyCode } from 'src/app/_models';
+import { Response_AFPVerifyCode, Request_AFPVerifyCode, Request_AFPReadMobile, Response_AFPReadMobile } from 'src/app/_models';
 
 @Component({
   selector: 'app-forget-modal',
@@ -23,10 +23,28 @@ export class ForgetModalComponent implements OnDestroy {
   public vcodeCount: any;
   /** 倒數秒數 */
   public vcodeSeconds = 0;
+  /** 檢查輸入帳號是否已存在 */
+  public existingAccount = true;
 
 
   constructor(public bsModalRef: BsModalRef, public modal: ModalService, private appService: AppService,
               private modalService: ModalService) { }
+
+  /** 檢查帳號是否已存在 */
+  checkAccount(): void {
+    if (this.request.VerifiedInfo.VerifiedPhone.length < 10) {
+      this.existingAccount = true;
+    } else {
+      const request: Request_AFPReadMobile = {
+        User_Code: sessionStorage.getItem('userCode'),
+        SelectMode: 2,
+        UserAccount: this.request.VerifiedInfo.VerifiedPhone
+      };
+      this.appService.toApi('Member', '1111', request).subscribe((data: Response_AFPReadMobile) => {
+        this.existingAccount = data.IsExist;
+      });
+    }
+  }
 
   /** 取得驗證碼 */
   setVcode(): void {
