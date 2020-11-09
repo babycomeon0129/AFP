@@ -153,7 +153,7 @@ export class AppService {
       }, catchError(() => null)));
   }
 
-  // 登出
+  /** 登出 */
   onLogout(): void {
     const request = {
       User_Code: sessionStorage.getItem('userCode')
@@ -161,7 +161,7 @@ export class AppService {
     this.toApi_Logout('Home', '1109', request).subscribe((Data: any) => { });
     sessionStorage.clear();
     localStorage.clear();
-    this.cookieService.deleteAll();
+    this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
     this.loginState = false;
     this.userFavCodes = [];
 
