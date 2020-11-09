@@ -49,7 +49,7 @@ export class ForgetModalComponent implements OnDestroy {
   /** 取得驗證碼 */
   setVcode(): void {
     this.appService.openBlock();
-    this.appService.toApi('AFPAccount', '1112', this.request).subscribe((data: Response_AFPVerifyCode) => {
+    this.appService.toApi('Home', '1112', this.request).subscribe((data: Response_AFPVerifyCode) => {
       this.request.VerifiedInfo.CheckValue = data.VerifiedInfo.CheckValue;
       this.vcodeSeconds = 59;
       this.vcodeCount = setInterval(() => {
