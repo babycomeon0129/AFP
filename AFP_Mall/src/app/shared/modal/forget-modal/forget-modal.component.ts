@@ -20,7 +20,7 @@ export class ForgetModalComponent implements OnDestroy {
     }
   };
   /** 發送驗證碼後的倒數計時器 */
-  public vcodeCount: any;
+  public vcodeCount: number | undefined;
   /** 倒數秒數 */
   public vcodeSeconds = 0;
   /** 檢查輸入帳號是否已存在 */
@@ -52,7 +52,7 @@ export class ForgetModalComponent implements OnDestroy {
     this.appService.toApi('Home', '1112', this.request).subscribe((data: Response_AFPVerifyCode) => {
       this.request.VerifiedInfo.CheckValue = data.VerifiedInfo.CheckValue;
       this.vcodeSeconds = 59;
-      this.vcodeCount = setInterval(() => {
+      this.vcodeCount = window.setInterval(() => {
         if (this.vcodeSeconds > 0) {
           this.vcodeSeconds--;
         } else {
