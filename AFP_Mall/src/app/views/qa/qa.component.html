@@ -11,113 +11,36 @@
           <div class="item icon-btn"></div>
       </div>
       <div class="faqbox pb-5 mb-5">
-          <div class="input-box border border-radius5 my-2 bg-eee mx-2">
-              <button class="btn"><i class="material-icons">&#xE8B6;</i></button>
-              <input type="search" placeholder="搜尋" class="border-0 bg-eee">
-          </div>
-          <ul>
-            <!-- 問題類別 1 -->
-              <li>
-                  <button class="btn px-0 w-100 text-left" type="button" data-toggle="collapse" data-target="#c1" aria-controls="c1" aria-expanded="false">
-                    會員中心與安全 <span class="float-right"><i class="material-icons expand_more">&#xe5cf;</i></span>
-                  </button>
-              </li>
-              <li class="collapse row" id="c1">
+        <div class="input-box border border-radius5 my-2 bg-eee mx-2">
+          <button class="btn d-flex w-100"><i class="material-icons">&#xE8B6;</i>
+            <input [(ngModel)]="searchTarget" type="search" placeholder="搜尋" class="border-0 bg-eee">
+          </button>
+        </div>
+        <!-- 問題類別總列表 -->
+        <ul>
+          <!-- 類別 -->
+          <ul *ngFor="let cate of qaData">
+            <li [hidden]="cate?.List_QuestionContent.length <= 0">
+              <button class="btn px-0 w-100 text-left" type="button" data-toggle="collapse" attr.data-target="{{'#c' + cate?.QuestionCategory_Code}}"  attr.aria-controls="{{'#c' + cate?.QuestionCategory_Code}}" aria-expanded="false">
+                  {{cate?.QuestionCategory_Name}} <span class="float-right"><i class="material-icons expand_more">&#xe5cf;</i></span></button>
+            </li>
+            <!-- 問題列表 -->
+            <ul>
+              <!-- 問題 -->
+              <li *ngFor="let q of cate?.List_QuestionContent" [hidden]="!q?.QuestionContent_Title.includes(searchTarget) && !q?.QuestionContent_Body.includes(searchTarget)" id="{{'c' + cate?.QuestionCategory_Code}}" class="collapse row">
                   <div class="col-12">
-                    <!-- 問題 -->
-                      <button class="btn px-0 w-100 text-left" type="button" data-toggle="collapse" href="#c11" aria-controls="c11" aria-expanded="false">
-                          如何註冊成為會員?
+                      <button class="btn px-0 w-100 text-left" type="button" data-toggle="collapse" attr.data-target="{{'#q' + q?.QuestionContent_Code}}" attr.aria-controls="{{'#' + q?.QuestionContent_Code}}" aria-expanded="false">
+                          {{q?.QuestionContent_Title}}
                       </button>
                   </div>
-                  <!-- 問題內容 -->
-                  <div class="collapse col-12" id="c11">
-                      <div class="abox">
-                          <p>您可以透過以下步驟註冊成為會員：</p><br>
-                          <p>手機 / Email註冊</p>
-                          <ul class="decimal pb-5">
-                              <li>點選右上方「登入/註冊」</li>
-                              <li>點選下方「馬上註冊」</li>
-                              <li>進入到會員註冊頁面</li>
-                              <li>選擇您要以手機號碼或Email註冊</li>
-                              <li>勾選同意會員條款與隱私政策</li>
-                              <li>點選傳送驗證碼</li>
-                              <li>輸入您收到的驗證碼</li>
-                              <li>設定您的密碼，點選「建立新帳號」</li>
-                              <li>完成後即可註冊成功</li>
-                          </ul>
-                          <p>第三方帳號快速註冊</p>
-                          <ul class="decimal">
-                              <li>點選右上方「登入/註冊」</li>
-                              <li>點選下方「馬上註冊」</li>
-                              <li>選擇您要以FB或Google</li>
-                              <li>即可以第三方帳號快速完成註冊</li>
-                          </ul>
-                      </div>
-                  </div>
-                  <div class="col-12">
-                      <button class="btn px-0 w-100 text-left" type="button" data-toggle="collapse" href="#c12" aria-controls="c12" aria-expanded="false">
-                          我的帳號無法登入?
-                      </button>
-                  </div>
-                  <div class="collapse col-12" id="c12">
-                      <div class="abox">
-                          請確認您輸入的帳號密碼大小寫是否與設定時的相同，若還是無法登入，請盡速聯絡Mobii!真人客服人員，請點擊右上角客服 icon(若未出現請等待60秒)，即可轉接真人客服人員，或寄信至：mobiics@mobii.ai 並提供您的帳號密碼，我們將盡快為您處理。
-                      </div>
+                  <!-- 答案 -->
+                  <div [hidden]="!q?.QuestionContent_Body.includes(searchTarget)" id="{{'q' + q?.QuestionContent_Code}}" class="collapse col-12">
+                    <div class="abox" [innerHTML]="q?.QuestionContent_Body"></div>
                   </div>
               </li>
-            <!-- 問題類別 2 -->
-              <li>
-                  <button class="btn px-0 w-100 text-left" type="button" data-toggle="collapse" data-target="#c2" aria-controls="c2" aria-expanded="false">
-                      訂單與支付 <span class="float-right"><i class="material-icons expand_more">&#xe5cf;</i></span></button>
-              </li>
-              <li class="collapse row" id="c2">
-                  <div class="col-12">
-                      <button class="btn px-0 w-100 text-left" type="button" data-toggle="collapse" href="#c21" aria-controls="c21" aria-expanded="false">
-                          如何取消商品訂單?
-                      </button>
-                  </div>
-                  <div class="collapse col-12" id="c21">
-                      <div class="abox">
-                          測試
-                      </div>
-                  </div>
-                  <div class="col-12">
-                      <button class="btn px-0 w-100 text-left" type="button" data-toggle="collapse" href="#c22" aria-controls="c22" aria-expanded="false">
-                          我要如何聯絡賣家?
-                      </button>
-                  </div>
-                  <div class="collapse col-12" id="c22">
-                      <div class="abox">
-                          測試
-                      </div>
-                  </div>
-                  <div class="col-12">
-                      <button class="btn px-0 w-100 text-left" type="button" data-toggle="collapse" href="#c23" aria-controls="c23" aria-expanded="false">
-                          訂單進度可以在哪裡查看?
-                      </button>
-                  </div>
-                  <div class="collapse col-12" id="c23">
-                      <div class="abox">
-                          測試
-                      </div>
-                  </div>
-              </li>
-              <li>
-                  <button class="btn px-0 w-100 text-left" type="button" data-toggle="collapse" data-target="#c3" aria-controls="c3" aria-expanded="false" disabled>退貨退款 <span class="float-right"><i class="material-icons expand_more">&#xe5cf;</i></span></button>
-              </li>
-              <li>
-                  <button class="btn px-0 w-100 text-left" type="button" data-toggle="collapse" data-target="#c4" aria-controls="c4" aria-expanded="false" disabled>寄件物流 <span class="float-right"><i class="material-icons expand_more">&#xe5cf;</i></span></button>
-              </li>
-              <li>
-                  <button class="btn px-0 w-100 text-left" type="button" data-toggle="collapse" data-target="#c5" aria-controls="c5" aria-expanded="false" disabled>點數M Point<span class="float-right"><i class="material-icons expand_more">&#xe5cf;</i></span></button>
-              </li>
-              <li>
-                  <button class="btn px-0 w-100 text-left" type="button" data-toggle="collapse" data-target="#c6" aria-controls="c6" aria-expanded="false" disabled>優惠券 <span class="float-right"><i class="material-icons expand_more">&#xe5cf;</i></span></button>
-              </li>
-              <li>
-                  <button class="btn px-0 w-100 text-left" type="button" data-toggle="collapse" data-target="#c7" aria-controls="c7" aria-expanded="false" disabled>聯絡客服 <span class="float-right"><i class="material-icons expand_more">&#xe5cf;</i></span></button>
-              </li>
+            </ul>
           </ul>
+        </ul>
       </div>
   </div>
 </div>
