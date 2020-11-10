@@ -3,7 +3,7 @@ import { BsModalRef } from 'ngx-bootstrap';
 import { ModalService } from 'src/app/service/modal.service';
 import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
-import { AFP_ADImg, Request_AFPVerifyCode, AFP_VerifiedInfo } from '../../../_models';
+import { AFP_ADImg, AFP_VerifiedInfo } from '../../../_models';
 
 @Component({
   selector: 'app-message-modal',

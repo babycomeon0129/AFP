@@ -167,35 +167,9 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
       }
     });
 
-    // 開啟 dropMenu
-    $('body').on('click', (evt) => {
-      if ($(evt.target).attr('class') !== 'drop-content' && $(evt.target).attr('class') !== 'drop_menu_toggle') {
-        $('.more-horiz').removeClass('is-open');
-      }
-    });
-    // tslint:disable-next-line:space-before-function-paren
-    $('body').on('click', '.drop_menu_toggle', function () {
-      const dropwrap = $(this).parent('.more-horiz');
-      dropwrap.toggleClass('is-open');
-    });
-
-    $('#webservice').on('click', () => {
-      $('#qnimate').addClass('popup-box-on');
-      $('#webservice').addClass('d-none');
-      $('#webservice_close').removeClass();
-    });
-    $('#webservice_close').on('click', () => {
-      $('#qnimate').removeClass('popup-box-on');
-      $('#webservice_close').addClass('d-none');
-      $('#webservice').removeClass();
-    });
   }
 
   ngAfterViewChecked() {
-    // footer.pc
-    // tslint:disable-next-line: max-line-length
-    // (($('.wrap').height()) < ($(window).height())) ? ($('footer.for-pc').css('position', 'absolute')) : ($('footer.for-pc').css('position', 'relative'));
-
     // 隱藏抓不到src的圖片(例: 類型為線上商店的優惠券icon)
     $('img').on('stalled', function() {
       $(this).hide();

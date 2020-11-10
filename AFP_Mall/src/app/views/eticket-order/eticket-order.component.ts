@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Model_ShareData, AFP_Cart, AFP_ECStore, AFP_Product, AFP_Voucher, AFP_Order,
+import {
+  Model_ShareData, AFP_Cart, AFP_ECStore, AFP_Product, AFP_Voucher, AFP_Order,
   Request_GetUserVoucher, Response_GetUserVoucher, Request_CheckUserVoucher, Response_CheckUserVoucher,
-  AFP_UserVoucher, AFP_VoucherLimit, OrderVoucher, OrderInvoice, OrderStore, OrderPlatform } from '../../_models';
+  AFP_UserVoucher, AFP_VoucherLimit, OrderVoucher, OrderInvoice, OrderStore, OrderPlatform
+} from '../../_models';
 import { ModalService } from 'src/app/service/modal.service';
 import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
@@ -525,7 +527,7 @@ export class ETicketOrderComponent implements OnInit {
 
   ngOnInit() {
     /** 避免輸入鍵盤擋到輸入框 */
-    $('input').focus((e) => {
+    $('input').on('focus', (e) => {
       const target = $('input').index(e.currentTarget);
       document.body.scrollTop = ($('input').eq(target)[0].scrollHeight - 50);
     });
