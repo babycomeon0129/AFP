@@ -182,7 +182,7 @@
         <div class="afp-tab mb-3">
           <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs">
             <!-- Nav tabs -->
-            <ul id="nav-tab" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
+            <ul id="nav-tab-member" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
               <li role="presentation" class="swiper-slide" *ngFor="let item of nowVoucher; let blFirst=first; let i = index"
               (click)="getMoreData(2, i, item?.UserDefine_Code, item?.UserDefine_ChannelID)"
                 [ngClass]="{'active': blFirst}">
@@ -238,7 +238,7 @@
         <div class="afp-tab">
           <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs">
             <!-- Nav tabs -->
-            <ul id="nav-tab" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
+            <ul id="nav-tab-hitArea" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
               <li role="presentation" class="swiper-slide" *ngFor="let item of hitArea; let blFirst=first;"
                 [ngClass]="{'active': blFirst}">
                 <a href="#Code{{item.UserDefine_Code}}" class="tablist-link show" [ngClass]="{'active': blFirst}"
@@ -284,7 +284,7 @@
         <div class="afp-tab">
           <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs">
             <!-- Nav tabs -->
-            <ul id="nav-tab" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
+            <ul id="nav-tab-deliveryArea" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
               <li role="presentation" class="swiper-slide" *ngFor="let item of deliveryArea;let blFirst=first;"
                 [hidden]="item?.ECStoreData.length == 0" [ngClass]="{'active': blFirst}">
                 <a href="#Code{{item.UserDefine_Code}}" class="tablist-link show" [ngClass]="{'active': blFirst}"
