@@ -2,7 +2,7 @@ import { NgForm } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Meta, Title } from '@angular/platform-browser';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AFP_UserReport, Model_ShareData } from '../../_models';
 
 @Component({
@@ -37,8 +37,7 @@ export class DeliveryInfoComponent implements OnInit {
   public deliveryClick: boolean;
 
 
-  // tslint:disable-next-line: max-line-length
-  constructor(public appService: AppService, private router: Router, private route: ActivatedRoute, private meta: Meta, private title: Title) {
+  constructor(public appService: AppService, private route: ActivatedRoute, private meta: Meta, private title: Title) {
     this.title.setTitle('填寫外送資訊 - Mobii!');
     this.meta.updateTag({ name: 'description', content: '' });
     this.meta.updateTag({ content: '填寫外送資訊 - Mobii!', property: 'og:title' });
