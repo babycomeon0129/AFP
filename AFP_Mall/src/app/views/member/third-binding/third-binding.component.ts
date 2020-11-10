@@ -21,8 +21,6 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
   public bindStatus: bindStatus = new bindStatus();
   /** 設備是否為Apple (是則不顯示Apple綁定) */
   public isApple: boolean;
-  /** 是否從APP登入頁進入 */
-  public fromAppLogin: boolean;
 
 
   constructor(public appService: AppService, private authService: AuthService, public modal: ModalService) {
@@ -30,12 +28,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // 先判斷是否從APP登入頁進入
-    if (this.appService.isApp !== null && (this.appService.prevUrl === '/' || this.appService.prevUrl === '')) {
-      this.fromAppLogin = true;
-    } else {
-      this.fromAppLogin = false;
-    }
+
     this.readThirdData();
     this.authService.authState.subscribe((user: SocialUser) => {
       // 為了FB登入特例處理，多判斷 this.bindMode > 0 才呼叫API
@@ -56,7 +49,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
 
 
   /** 讀取社群帳號 */
-  readThirdData() {
+  readThirdData(): void {
     const request: Request_MemberThird = {
       SelectMode: 3,
       User_Code: sessionStorage.getItem('userCode'),
@@ -115,7 +108,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
   }
 
   /** 判斷是否為Apple設備 */
-  detectApple() {
+  detectApple(): void {
     const iOSDevices = ['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'];
     if (iOSDevices.includes(navigator.platform) || (navigator.userAgent.includes('Mac'))) {
       this.isApple = true;
@@ -130,7 +123,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
   /** 社群帳號綁定
    * @param mode 1:FB 3:Google 5:Apple
    */
-  thirdbind(request, mode: number): void {
+  thirdbind(request:　Request_MemberThird, mode: number): void {
     this.appService.toApi('Member', '1506', request).subscribe((data: Response_MemberThird) => {
       if (data !== null) {
         switch (mode) {
@@ -150,7 +143,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
   }
 
   /** 社群帳號解除 */
-  onDelThird(mode: number) {
+  onDelThird(mode: number): void {
     this.modal.confirm({ initialState: { message: '是否確定要解除綁定?' } }).subscribe(res => {
       if (res) {
         this.appService.openBlock();

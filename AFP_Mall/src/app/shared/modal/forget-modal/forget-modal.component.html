@@ -1,70 +1,70 @@
 <div class="modal-header" data-dismiss="modal" aria-label="Close">
 </div>
 <div class="popup-banner for-mobile">
-    <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close" (click)="closeModal();">
-        <span aria-hidden="true">&times;</span>
-    </button>
-    <!-- <img src="https://wu-medoc.github.io/eyesmedia_afp/img/index/login_banner.png" alt=""> -->
+  <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close" (click)="closeModal();">
+    <span aria-hidden="true">&times;</span>
+  </button>
 </div>
 <div class="modal-body">
-    <!-- <div class="logo-box">
-        <img src="https://wu-medoc.github.io/eyesmedia_afp/img/share/mlogo.png" alt="">
-    </div>        -->
-    <div class="index-flex pt-0">
-        <div class="item one d-flex justify-content-start">
-            <button type="button" class="btn px-2 close" data-toggle="modal" data-target="#loginModalCenter"
-            (click)="modal.openModal('loginRegister', bsModalRef);stopVcodeCount();"  data-dismiss="modal" aria-label="Close">
-                <i class="material-icons">&#xe314;</i>
-            </button>
-        </div>
-        <div class="item two">
-            <h5>忘記密碼</h5>
-        </div>
-        <div class="item one"></div>
+  <div class="index-flex pt-0">
+    <div class="item one d-flex justify-content-start">
+      <button type="button" class="btn px-2 close" data-toggle="modal" data-target="#loginModalCenter"
+        (click)="modal.openModal('loginRegister', bsModalRef);stopVcodeCount();" data-dismiss="modal"
+        aria-label="Close">
+        <i class="material-icons">&#xe314;</i>
+      </button>
     </div>
-    <div class="container px-3 py-2">
-        <h6 class="text-left">
-          為保障您的個人資料安全，請先進行手機驗證，才能重新設定密碼。
-        </h6>
-        <form id="forget-form" #changePwdForm="ngForm" (ngSubmit)="changePwdForm.form.valid && onSubmit()">
-            <div class="row">
-                <div class="col-12 text-left pt-4">
-                    帳號
-                </div>
-                <div class="col-12 pb-3">
-                    <input type="tel" placeholder="請輸入註冊時使用的手機號碼" id="vphone" name="AFPAccount" #AFPAccount="ngModel"
-                        [ngClass]="{'bb-org': AFPAccount.touched && AFPAccount.invalid}" appDigitOnly maxlength="10"
-                        [(ngModel)]="request.VerifiedInfo.VerifiedPhone" pattern="^09\d{8}$" required>
-                    <div class="small-warning pl-0 warningNote visible">
-                        <span *ngIf="AFPAccount.touched && AFPAccount.invalid">格式錯誤，請重新輸入</span></div>
-                </div>
-                <div class="col-12 text-left">
-                    驗證碼
-                </div>
-                <div class="col-7 pb-3 pr-0">
-                    <input type="text" placeholder="請輸入收到的驗證碼" id="vcode" name="AFPVerify" pattern="\d{6}$" minlength="6" maxlength="6"
-                        [(ngModel)]="request.VerifiedInfo.VerifiedCode" #AFPVerify="ngModel" required>
-                    <div class="small-warning pl-0 warningNote">
-                      <span *ngIf="AFPVerify.touched && AFPVerify.invalid">格式錯誤，請重新輸入</span>
-                    </div>
-                </div>
-                <div class="col-5 pl-1">
-                    <button type="button" class="btn index-btn border-radius5 w-100 px-1 small-70 getPhone"
-                    [ngClass]="{'gray-btn': vcodeSeconds > 0 || AFPAccount.invalid}"
-                    (click)="setVcode();" [disabled]="vcodeSeconds > 0 || AFPAccount.invalid">{{vcodeSeconds > 0 ? '剩餘'+ vcodeSeconds + '秒': '取得手機驗證碼'}}</button>
-                </div>
-                <div class="col-12 py-3">
-                    <button type="submit" class="btn index-btn footerBtn msg-open" value="msg-vphone"
-                        data-toggle="modal" data-target="#messageModal" data-dismiss="modal"
-                        [ngClass]="{'gray-btn': request.VerifiedInfo.CheckValue === null || changePwdForm.form.invalid}"
-                        [disabled]="request.VerifiedInfo.CheckValue === null || changePwdForm.form.invalid"
-                        aria-label="Close">立即驗證</button>
-                </div>
-            </div>
-        </form>
-        <!-- <form id="forget-form">
+    <div class="item two">
+      <h5>忘記密碼</h5>
+    </div>
+    <div class="item one"></div>
+  </div>
+  <div class="container px-3 py-2">
+    <h6 class="text-left">
+      為保障您的個人資料安全，請先進行手機驗證，才能重新設定密碼。
+    </h6>
+    <form id="forget-form" #changePwdForm="ngForm" (ngSubmit)="changePwdForm.form.valid && onSubmit()">
+      <div class="row">
+        <div class="col-12 text-left pt-4">
+          帳號
+        </div>
+        <div class="col-12 pb-3">
+          <input type="tel" placeholder="請輸入註冊時使用的手機號碼" id="vphone" name="AFPAccount" #AFPAccount="ngModel"
+            (input)="checkAccount()" [ngClass]="{'bb-org': AFPAccount.touched && AFPAccount.invalid}" appDigitOnly maxlength="10"
+            [(ngModel)]="request.VerifiedInfo.VerifiedPhone" pattern="^09\d{8}$" required>
+          <div class="small-warning pl-0 warningNote visible">
+            <span *ngIf="AFPAccount.touched && AFPAccount.invalid">格式錯誤，請重新輸入</span></div>
+          <div class="small-warning pl-0 warningNote visible">
+            <span *ngIf="AFPAccount.valid && !existingAccount">帳號不存在，請重新輸入</span></div>
+
+        </div>
+        <div class="col-12 text-left">
+          驗證碼
+        </div>
+        <div class="col-7 pb-3 pr-0">
+          <input type="text" placeholder="請輸入收到的驗證碼" id="vcode" name="AFPVerify" pattern="\d{6}$" minlength="6"
+            maxlength="6" [(ngModel)]="request.VerifiedInfo.VerifiedCode" #AFPVerify="ngModel" required>
+          <div class="small-warning pl-0 warningNote">
+            <span *ngIf="AFPVerify.touched && AFPVerify.invalid">格式錯誤，請重新輸入</span>
+          </div>
+        </div>
+        <div class="col-5 pl-1">
+          <button type="button" class="btn index-btn border-radius5 w-100 px-1 small-70 getPhone"
+            [ngClass]="{'gray-btn': vcodeSeconds > 0 || AFPAccount.invalid || !existingAccount}" (click)="setVcode();"
+            [disabled]="vcodeSeconds > 0 || AFPAccount.invalid || !existingAccount">{{vcodeSeconds > 0 ? '剩餘'+ vcodeSeconds + '秒': '取得手機驗證碼'}}</button>
+        </div>
+        <div class="col-12 py-3">
+          <button type="submit" class="btn index-btn footerBtn msg-open" value="msg-vphone" data-toggle="modal"
+            data-target="#messageModal" data-dismiss="modal"
+            [ngClass]="{'gray-btn': request.VerifiedInfo.CheckValue === null || changePwdForm.form.invalid}"
+            [disabled]="request.VerifiedInfo.CheckValue === null || changePwdForm.form.invalid"
+            aria-label="Close">立即驗證</button>
+        </div>
+      </div>
+    </form>
+    <!-- <form id="forget-form">
             <input type="text" placeholder="Email/手機" id="vcode">
             <button type="button" class="btn index-btn w-100 btn-vcode" data-toggle="modal" data-target="#VcodeModalCenter" data-dismiss="modal" aria-label="Close">發送驗證碼</button>
         </form> -->
-    </div>
+  </div>
 </div>
