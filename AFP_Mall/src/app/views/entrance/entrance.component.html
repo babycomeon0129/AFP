@@ -448,7 +448,7 @@
           </button>
         </div>
         <div class="edit-title-box">
-          <div class="edit-item edit-title-cancel" (click)="editFunction = false; ftBottom = ftBottom_org.concat()">取消</div>
+          <div class="edit-item edit-title-cancel" (click)="editClose();">取消</div>
           <div class="edit-item edit-title">編輯我的服務</div>
           <div class="edit-item edit-title-save" (click)="updateUserService();">確定</div>
         </div>
@@ -470,17 +470,17 @@
       <div class="service-box bt1-solid" [hidden]="!appService.loginState">
         <!-- 我的服務 -->
           <div class="title-item pt-3">
-            我的服務
+            我的服務<span class="pl-2 small text-muted editnote1">長按可以拖動排序</span>
             <div class="editbox">
-              <button (click)="editFunction = true"
+              <button (click)="editOpen()"
               class="btn title-item edit-btn fit small-80 border-radius5 py-0">編輯</button>
             </div>
           </div>
           <div class="service-title">
-             <div class="main-link edit-link sort-block" id="myService">
+             <div class="main-link edit-link sort-block" id="myService" [sortablejs]="ftBottom" [sortablejsOptions]="options">
               <div class="link-item mysvc remove-item"  *ngFor="let icon of ftBottom;"
-              (click)="serviceClick(icon.Function_Code, icon.Function_CategaryCode, icon.Function_IsActive);"
-              [attr.data-code]="icon.Function_Code">
+              [attr.data-cat]="icon.Function_CategaryCode" [attr.data-act]="icon.Function_IsActive" [attr.data-code]="icon.Function_Code"
+              (click)="serviceClick(icon.Function_Code, icon.Function_CategaryCode, icon.Function_IsActive);">
                 <a [href]="!editFunction ? icon.Function_URL : 'javascript:;' | Safe: 'url'"
                   [appKeyController]="editFunction" [keyControl]="'target'" [keyValue]="icon?.Function_URLTarget"
                  rel="noopener noreferrer">
@@ -507,8 +507,7 @@
           <div class="main-link edit-link items0">
             <div class="link-item" *ngFor="let icon of item.Model_Function;"
             (click)="serviceClick(icon.Function_Code, item.CategaryCode, icon.Function_IsActive);"
-            [ngClass]="{'remove-item': !icon?.isAdd && icon.Function_IsActive, 'add-item':icon?.isAdd && icon.Function_IsActive,'disable' : icon.Function_IsActive === 0}"
-            [id]="'more-'+icon.Function_Code">
+            [ngClass]="{'remove-item': !icon?.isAdd && icon.Function_IsActive, 'add-item':icon?.isAdd && icon.Function_IsActive,'disable' : icon.Function_IsActive === 0}">
               <a [href]="!editFunction && icon.Function_IsActive ? icon.Function_URL : 'javascript:;' | Safe: 'url'"
               [appKeyController]="editFunction" [keyControl]="'target'" [keyValue]="icon?.Function_URLTarget" rel="noopener noreferrer">
                 <div class="img-box">
