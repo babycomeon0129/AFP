@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
+import { Request_MemberQuestion, Response_MemberQuestion, AFP_QuestionCategory } from '../../../app/_models';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation } from '../../animations';
 declare var AppJSInterface: any;
@@ -11,8 +12,12 @@ declare var AppJSInterface: any;
   animations: [layerAnimation]
 })
 export class QAComponent implements OnInit {
-  /** 是否從APP登入頁進入 */
+  /** 是否從APP登入頁進入（若從APP登入頁進入則按回上一頁時APP把此頁關掉） */
   public fromAppLogin: boolean;
+  /** 常見問題資料集（類別包問題） */
+  public qaData: AFP_QuestionCategory[];
+  /** 搜尋目標字串 */
+  public searchTarget = '';
 
   constructor(public appService: AppService, private meta: Meta, private title: Title) {
     // tslint:disable: max-line-length
@@ -28,6 +33,19 @@ export class QAComponent implements OnInit {
     } else {
       this.fromAppLogin = false;
     }
+
+    this.appService.openBlock();
+    const request: Request_MemberQuestion = {
+      SelectMode: 4,
+      User_Code: sessionStorage.getItem('userCode'),
+      SearchModel: {
+        QuestionContent_Mode: 1
+      }
+    };
+
+    this.appService.toApi('Member', '1522', request).subscribe((data: Response_MemberQuestion) => {
+      this.qaData = data.List_QuestionCategory;
+    });
   }
 
   /** 若從APP登入頁進入則按回上一頁時APP把此頁關掉 */

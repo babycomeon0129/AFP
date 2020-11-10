@@ -1417,3 +1417,41 @@ export interface Search_OtherInfo {
   /** 商品頻道編號 */
   IndexChannel_Code?: number;
 }
+
+export interface Request_MemberQuestion extends Model_ShareData {
+  SearchModel: Search_MemberQuestion;
+}
+
+export interface Search_MemberQuestion extends Model_ShareData {
+  QuestionContent_Mode?: number;
+  /** 分類Code: 1 隱私權政策 2 使用者規範 3 關於我 */
+  QuestionContent_CategoryCode?: number;
+  QuestionContent_Code?: number;
+}
+
+export interface Response_MemberQuestion {
+  AFP_QuestionCategory: AFP_QuestionCategory;
+  List_QuestionCategory: AFP_QuestionCategory[];
+  AFP_QuestionContent: AFP_QuestionContent;
+}
+
+export interface AFP_QuestionCategory {
+  QuestionCategory_Name: string;
+  QuestionCategory_Code: number;
+  QuestionCategory_Sort: number;
+  QuestionCategory_StartDate: Date;
+  QuestionCategory_EndDate: Date;
+  List_QuestionContent: AFP_QuestionContent[];
+}
+
+export interface AFP_QuestionContent {
+  QuestionContent_Mode: number;
+  QuestionContent_CategoryCode: number;
+  QuestionContent_Code: number;
+  QuestionContent_Title: string;
+  QuestionContent_Body: string;
+  QuestionContent_ReleaseDate: Date;
+  QuestionContent_EndDate: Date;
+  QuestionContent_Sort: number;
+  QuestionContent_State: number;
+}
