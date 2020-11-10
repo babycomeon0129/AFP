@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { Component } from '@angular/core';
+import { BsModalRef } from 'ngx-bootstrap';
 import { AppService } from 'src/app/app.service';
 import { Request_AFPPassword, AFP_VerifiedInfo } from 'src/app/_models';
 import { ModalService } from 'src/app/service/modal.service';
@@ -8,7 +8,7 @@ import { ModalService } from 'src/app/service/modal.service';
   selector: 'app-password-modal',
   templateUrl: './password-modal.component.html'
 })
-export class PasswordModalComponent implements OnInit {
+export class PasswordModalComponent {
   /** 由外部Modal傳入的VerifiedInfo(詳忘記密碼流程)，API的resetpwd必須有(如無外部傳入請另外設置) */
   VerifiedInfo: AFP_VerifiedInfo;
   /** 設定密碼用 */
@@ -26,7 +26,7 @@ export class PasswordModalComponent implements OnInit {
   constructor(public bsModalRef: BsModalRef, private appService: AppService, public modalService: ModalService) { }
 
   /** 註冊送出 */
-  onSubmit() {
+  onSubmit(): void {
     if (this.pwdModel.AFPPassword === this.pwdModel.AFPPasswordRe) {
       this.appService.openBlock();
       const resetpwd: Request_AFPPassword = {
@@ -39,9 +39,6 @@ export class PasswordModalComponent implements OnInit {
         }
       });
     }
-  }
-
-  ngOnInit() {
   }
 
 }

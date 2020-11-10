@@ -494,7 +494,6 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   }
 }
 
-/* tslint:disable */
 class Response_AFPUserService extends Model_ShareData {
   Model_Function: AFP_Function[];
   Model_UserFunction?: AFP_Function[];

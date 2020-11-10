@@ -3,6 +3,7 @@ import { AppService } from 'src/app/app.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Meta, Title } from '@angular/platform-browser';
+// APP的Interface
 declare var BindingSocialJSInterface: any;
 
 @Component({
@@ -25,11 +26,11 @@ export class SettingComponent implements OnInit {
   }
 
   /** 前往關於我 */
-  goToAbout() {
+  goToAbout(): void {
     window.open('https://mobii.ai/Official/about.html?utm_source=MobiiWeb&utm_medium=Footer', '_self');
   }
 
-  logout() {
+  logout(): void {
     this.appService.onLogout();
     if (this.appService.isApp === null) {
       this.location.back();
@@ -37,7 +38,7 @@ export class SettingComponent implements OnInit {
   }
 
   /** 判斷是否為App，如果是則跳到App原生  */
-  goIf() {
+  goIf(): void {
     if (this.appService.isApp === null) {
       this.router.navigate(['/Member/ThirdBinding']);
     } else {

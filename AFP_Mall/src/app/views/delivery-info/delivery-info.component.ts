@@ -57,12 +57,12 @@ export class DeliveryInfoComponent implements OnInit {
   }
 
   /** 偵測行政區是否被點擊 */
-  districtCheck(click: boolean) {
+  districtCheck(click: boolean): void {
     this.deliveryClick = click;
   }
 
   /** 抓取用戶資料 */
-  getDeliveryCfm() {
+  getDeliveryCfm(): void {
     const request: Request_DeliveryCfm = {
       SelectMode: 1,
       User_Code: sessionStorage.getItem('userCode'),
@@ -80,14 +80,14 @@ export class DeliveryInfoComponent implements OnInit {
   }
 
   /** 地址組合(城市+行政區+詳細地址) */
-  CombineAddress() {
+  CombineAddress(): string {
     let addstr: string;
     addstr = `${this.deliveryCity}${this.deliveryDistrict}${this.deliveryAdd}`;
     return addstr;
   }
 
   /** 表單送出 */
-  deliverySubmit(form: NgForm) {
+  deliverySubmit(form: NgForm): void {
     this.deliveryForm.RecAddress = this.CombineAddress();
     const request: Request_DeliveryCfm = {
       SelectMode: 2,
