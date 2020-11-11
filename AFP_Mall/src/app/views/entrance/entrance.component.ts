@@ -20,7 +20,6 @@ declare var $: any;
 })
 export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   public userProfile: Model_MemberProfile = new Model_MemberProfile();
-  @ViewChild('kvSwiper', { static: false }) kvSwiper: SwiperComponent;
 
   /** 個人捷徑 swiper */
   public boxIcon: SwiperOptions = {
@@ -94,7 +93,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
     }
   };
 
-  /** 本月旅遊主打、本月周邊主打 tab swiper */
+  /** 現領優惠券、主打店家、本月外送主打、本月旅遊主打 tab swiper */
   public boxTabs: SwiperOptions = {
     slidesPerView: 5,
     spaceBetween: 10,
@@ -165,11 +164,9 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   public ftBottom_org: AFP_Function[] = [];
   /** 使用者服務-手機版下排 */
   public ftBottom: AFP_Function[] = [];
-  /** 我的服務 */
-  public ftUserBottom: AFP_Function[] = [];
   /** 我的服務編輯狀態 */
   public editFunction = false;
-  /** 更多-我的服務清單 */
+  /** 我的服務-所有服務清單 */
   public serviceList: AFP_NewFunction[] = [];
   /** 我的服務-數量提醒最少4個 */
   public noticeFour = false;
@@ -240,7 +237,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   /** 讀取首頁資料
    * @param mode 讀取時機 1: 進入此頁 2: 在此頁登入時
    */
-  readHome(mode: number) {
+  readHome(mode: number): void {
     const request: Request_Home = {
       User_Code: sessionStorage.getItem('userCode'),
       SearchModel: {
@@ -330,7 +327,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
    * @param cat  分類編碼
    * @param action icon是否有效(如果純上架但無效，action = 0)
    */
-  serviceClick(code: number, cat: number, action: boolean) {
+  serviceClick(code: number, cat: number, action: boolean): void {
     if (this.editFunction && action) {
       this.noticeNine = this.ftBottom.length === 9 ? true : false;
       this.noticeFour = this.ftBottom.length === 4 ? true : false;
@@ -382,7 +379,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
     if (oring.join('') !== result.join('')) {
       this.appService.toApi('Home', '1108', request).subscribe((data: Response_AFPUpdateUserService) => {
         if ( data !== null ) {
-          this.ftBottom_org = this.ftUserBottom;
+          this.ftBottom_org = this.ftBottom.concat();
         }
       });
 
@@ -395,7 +392,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
    * @param menuCode 目錄編碼
    * @param prodChannelCode 商品頻道編號
    */
-  getMoreData(mode: number, index: number, menuCode: number, prodChannelCode?: number) {
+  getMoreData(mode: number, index: number, menuCode: number, prodChannelCode?: number): void {
     const request: Request_OtherInfo = {
       User_Code: sessionStorage.getItem('userCode'),
       SelectMode: mode,
@@ -452,7 +449,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   }
 
   /** (中間四格)廣告route */
-  adRoute(url: string, urlTarget: string) {
+  adRoute(url: string, urlTarget: string): void {
     if (url.indexOf('http') !== -1) {
       // 外部連結 || 指定到內部某頁的某分頁
       window.open(url, urlTarget);
@@ -465,7 +462,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   /** 立即下載APP
    * TODO: 用universal link
    */
-  toDownloadAPP() {
+  toDownloadAPP(): void {
     window.location.href = 'mobii://';
     setTimeout(() => {
       if (document.visibilityState === 'visible') {

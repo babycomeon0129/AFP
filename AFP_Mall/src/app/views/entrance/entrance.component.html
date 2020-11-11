@@ -149,7 +149,7 @@
             <div class="swiper-slide" *ngFor="let item of adMid4">
               <div class="item">
                 <a class="link-item" (click)="adRoute(item?.ADImg_URL, item?.ADImg_URLTarget)">
-                  <img src="{{item.ADImg_Img}}" alt="">
+                  <img [lazyLoad]="item.ADImg_Img" [defaultImage]="appService.defaultImage" [alt]="item?.ADImg_Title">
                 </a>
               </div>
             </div>
@@ -484,7 +484,7 @@
                 <a [href]="!editFunction ? icon.Function_URL : 'javascript:;' | Safe: 'url'"
                   [appKeyController]="editFunction" [keyControl]="'target'" [keyValue]="icon?.Function_URLTarget"
                  rel="noopener noreferrer">
-                  <img [lazyLoad]="icon.Function_Icon" [defaultImage]="appService.defaultImage" alt="">
+                  <img [lazyLoad]="icon.Function_Icon" [defaultImage]="appService.defaultImage" [alt]="icon.Function_Name">
                   <p>{{icon.Function_Name}}</p>
                 </a>
               </div>
