@@ -149,7 +149,7 @@
             <div class="swiper-slide" *ngFor="let item of adMid4">
               <div class="item">
                 <a class="link-item" (click)="adRoute(item?.ADImg_URL, item?.ADImg_URLTarget)">
-                  <img src="{{item.ADImg_Img}}" alt="">
+                  <img [lazyLoad]="item.ADImg_Img" [defaultImage]="appService.defaultImage" [alt]="item?.ADImg_Title">
                 </a>
               </div>
             </div>
@@ -182,7 +182,7 @@
         <div class="afp-tab mb-3">
           <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs">
             <!-- Nav tabs -->
-            <ul id="nav-tab" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
+            <ul id="nav-tab-member" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
               <li role="presentation" class="swiper-slide" *ngFor="let item of nowVoucher; let blFirst=first; let i = index"
               (click)="getMoreData(2, i, item?.UserDefine_Code, item?.UserDefine_ChannelID)"
                 [ngClass]="{'active': blFirst}">
@@ -232,13 +232,13 @@
     </div>
 
     <!-- 主打店家 -->
-    <div *ngIf="hitArea?.length > 0" class="explore-block container px-3 py-4 mb-2">
+    <div *ngIf="hitArea?.length > 0" class="explore-block container px-3 pb-3">
       <h6>主打店家</h6>
       <div class="afp-tab-box">
         <div class="afp-tab">
           <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs">
             <!-- Nav tabs -->
-            <ul id="nav-tab" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
+            <ul id="nav-tab-hitArea" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
               <li role="presentation" class="swiper-slide" *ngFor="let item of hitArea; let blFirst=first;"
                 [ngClass]="{'active': blFirst}">
                 <a href="#Code{{item.UserDefine_Code}}" class="tablist-link show" [ngClass]="{'active': blFirst}"
@@ -278,13 +278,13 @@
       </div>
     </div>
     <!-- 本月外送主打 -->
-    <div *ngIf="deliveryArea?.length > 0" class="explore-block container px-3 py-4 mb-2">
+    <div *ngIf="deliveryArea?.length > 0" class="explore-block container px-3 pb-3">
       <h6>本月外送主打</h6>
       <div class="afp-tab-box">
         <div class="afp-tab">
           <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs">
             <!-- Nav tabs -->
-            <ul id="nav-tab" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
+            <ul id="nav-tab-deliveryArea" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
               <li role="presentation" class="swiper-slide" *ngFor="let item of deliveryArea;let blFirst=first;"
                 [hidden]="item?.ECStoreData.length == 0" [ngClass]="{'active': blFirst}">
                 <a href="#Code{{item.UserDefine_Code}}" class="tablist-link show" [ngClass]="{'active': blFirst}"
@@ -377,7 +377,7 @@
       </div>
     </div>
     <!-- 本月旅遊主打 -->
-    <div *ngIf="hitTravel?.length > 0" class="travel-featuredlist container px-3 py-4 mb-2">
+    <div *ngIf="hitTravel?.length > 0" class="travel-featuredlist container px-3 pb-3">
       <h6>本月旅遊主打</h6>
       <!-- tab content -->
       <div class="afp-tab-box">
@@ -484,7 +484,7 @@
                 <a [href]="!editFunction ? icon.Function_URL : 'javascript:;' | Safe: 'url'"
                   [appKeyController]="editFunction" [keyControl]="'target'" [keyValue]="icon?.Function_URLTarget"
                  rel="noopener noreferrer">
-                  <img [lazyLoad]="icon.Function_Icon" [defaultImage]="appService.defaultImage" alt="">
+                  <img [lazyLoad]="icon.Function_Icon" [defaultImage]="appService.defaultImage" [alt]="icon.Function_Name">
                   <p>{{icon.Function_Name}}</p>
                 </a>
               </div>
