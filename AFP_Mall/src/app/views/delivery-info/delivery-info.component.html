@@ -22,8 +22,7 @@
                     </div>
                     <div class="item auto-left">
                         <input type="text" #Vname="ngModel" class="form-control" id="Vname" name="Vname" placeholder="請輸入"
-                        [(ngModel)]="deliveryForm.RecName"
-                        required>
+                        [(ngModel)]="deliveryForm.RecName" required>
                     </div>
                 </li>
                 <li class="index-flex">
@@ -34,21 +33,19 @@
                     </div>
                     <div class="item two auto-left">
                         <input type="email" #Vmail="ngModel" class="form-control" id="Vmail" name="Vmail" placeholder="請輸入"
-                        [(ngModel)]="deliveryForm.RecEmail"
-                        pattern="[a-z0-9\*._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                        required>
+                        [(ngModel)]="deliveryForm.RecEmail" pattern="[a-z0-9\*._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
                     </div>
 
                 </li>
                 <li class="index-flex">
                     <div class="item one">
                       <p>手機號碼</p>
-                      <small class="text-danger" *ngIf="Vphone.invalid && Vphone.touched">手機號碼為必填</small>
+                      <small class="text-danger" *ngIf="Vphone.touched && Vphone.value ===''">手機號碼為必填</small>
+                      <small class="text-danger" *ngIf="Vphone.invalid && Vphone.dirty && Vphone.value !==''">手機號碼格式有誤</small>
                       </div>
                     <div class="item two auto-left">
-                        <input type="tel" #Vphone="ngModel" name="Vphone" class="form-control" id="Vphone" placeholder="請輸入" pattern="^[0-9\*]{0,10}$"
-                        [(ngModel)]="deliveryForm.RecMobile"
-                        required>
+                        <input type="tel" #Vphone="ngModel" name="Vphone" class="form-control" id="Vphone" placeholder="請輸入" pattern="^09\d{8}$"
+                        [(ngModel)]="deliveryForm.RecMobile" appDigitOnly maxlength="10" required>
                     </div>
                 </li>
                 <li>
@@ -74,8 +71,7 @@
                       </div>
                     <div class="item w-100">
                         <input type="text" #Vaddr="ngModel" placeholder="請輸入地址" id="Vaddr" name="Vaddr"
-                        [(ngModel)]="deliveryAdd"
-                        required>
+                        [(ngModel)]="deliveryAdd" required>
                     </div>
                 </li>
             </ul>
@@ -116,15 +112,10 @@
                   <li *ngFor="let city of cityList" class="flex-inline-between"
                   [ngClass]="{'active' : deliveryCity === city.UserReport_ItemName}"
                   (click)="deliveryCity = city.UserReport_ItemName; districtSelect = city.UserReport_ItemCode;appService.callsortLayer('.dist');">
-                      <div class="item">
-                        {{city.UserReport_ItemName}}
-                      </div>
-                      <div class="item">
-                          <i class="fas fa-check"></i>
-                      </div>
+                      <div class="item">{{city.UserReport_ItemName}}</div>
+                      <div class="item"><i class="fas fa-check"></i></div>
                   </li>
               </ul>
-
           </div>
       </div>
       <div class="dist">

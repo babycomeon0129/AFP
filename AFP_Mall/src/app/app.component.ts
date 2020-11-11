@@ -19,7 +19,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
   /** 不顯示手機版footer的頁面 */
   public mobileNoFooter = ['Map', 'ShoppingCart', 'ShoppingOrder', 'ShoppingPayment', 'Game/', 'QA',
   'ExploreDetail', 'ProductDetail', 'VoucherDetail', 'Notification/', 'Terms', 'Privacy', 'MyProfile', 'CellVerification',
-   'MyAddress', 'PasswordUpdate', 'ThirdBinding', 'QA' ];
+   'MyAddress', 'PasswordUpdate', 'ThirdBinding', 'QA', 'DeliveryInfo' ];
   /** 是否顯示手機版footer */
   public showMobileFooter = true;
 

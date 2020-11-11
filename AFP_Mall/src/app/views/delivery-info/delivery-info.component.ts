@@ -75,6 +75,7 @@ export class DeliveryInfoComponent implements OnInit {
       this.deliveryForm = data.Model_DeliveryForm;
       this.cityList = data.List_UserReport.filter(city => city.UserReport_CategoryCode === 21);
       this.districtList = data.List_UserReport.filter(district => district.UserReport_CategoryCode === 22);
+      console.log(data);
     });
   }
 
