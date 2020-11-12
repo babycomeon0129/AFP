@@ -99,6 +99,7 @@ import { Error404Component } from './views/error404/error404.component';
 import { Error500Component } from './views/error500/error500.component';
 import { Error503Component } from './views/error503/error503.component';
 import { DirectiveModuleModule } from './directive/directive-module.module';
+import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 
 export function provideConfig() {
   const config = new AuthServiceConfig([
@@ -235,7 +236,8 @@ defineLocale('zh-cn', zhCnLocale);
     LazyLoadImageModule,
     AngularResizedEventModule,
     DirectiveModuleModule,
-    SortablejsModule
+    SortablejsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   exports: [
     AppComponent
@@ -252,4 +254,13 @@ defineLocale('zh-cn', zhCnLocale);
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(swUpdate: SwUpdate) {
+    // console.log('swUpdate.isEnabled:', swUpdate.isEnabled);
+    if (swUpdate.isEnabled) {
+      swUpdate.available.subscribe((event) => {
+        window.location.reload();
+      });
+    }
+  }
+}
