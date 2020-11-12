@@ -23,18 +23,10 @@ export class DeliveryInfoComponent implements OnInit {
   public cityList: AFP_UserReport[] = [];
   /** 行政區列表 */
   public districtList: AFP_UserReport[] = [];
-  /** 外送表單的城市 */
-  public deliveryCity: string;
-  /** 外送表單的行政區 */
-  public deliveryDistrict: string;
-  /** 外送表單的詳細地址 */
-  public deliveryAdd: string;
-  /** 跳轉至外部商店連結 */
-  public sendUrl: string;
-  /** 抓取對應行政區用 */
-  public districtSelect: number;
   /** 偵測行政區是否被點擊 */
-  public deliveryClick: boolean;
+  public deliveryClick = false;
+  /** 我同意checkbox核取狀態 */
+  public agreeCheck = false;
 
 
   constructor(public appService: AppService, private route: ActivatedRoute, private meta: Meta, private title: Title) {
@@ -47,11 +39,6 @@ export class DeliveryInfoComponent implements OnInit {
   ngOnInit() {
     // 取得商家/景點編碼
     this.siteCode = Number(this.route.snapshot.params.ECStore_Code);
-    // 初始預設城市為臺北市
-    this.deliveryCity = '臺北市';
-    // 抓取對應行政區用，預設臺北市的行政區(1)
-    this.districtSelect = 1;
-    this.deliveryClick = false;
     this.getDeliveryCfm();
   }
 
@@ -62,6 +49,7 @@ export class DeliveryInfoComponent implements OnInit {
 
   /** 抓取用戶資料 */
   getDeliveryCfm(): void {
+    this.appService.openBlock();
     const request: Request_DeliveryCfm = {
       SelectMode: 1,
       User_Code: sessionStorage.getItem('userCode'),
@@ -73,22 +61,43 @@ export class DeliveryInfoComponent implements OnInit {
 
     this.appService.toApi('Area', '1404', request).subscribe((data: Response_DeliveryCfm) => {
       this.deliveryForm = data.Model_DeliveryForm;
+      // 如果從來沒使用過外送功能，預設初始城市為臺北市，RecCityKey為1
+      this.deliveryForm.RecCityKey = this.deliveryForm.RecCityKey !== 0 ? this.deliveryForm.RecCityKey : 1;
       this.cityList = data.List_UserReport.filter(city => city.UserReport_CategoryCode === 21);
       this.districtList = data.List_UserReport.filter(district => district.UserReport_CategoryCode === 22);
-      console.log(data);
+      this.deliveryForm.RecCityValue = data.List_UserReport
+                                       .filter(city => city.UserReport_CategoryCode === 21
+                                                    && city.UserReport_ItemCode === this.deliveryForm.RecCityKey)[0].UserReport_ItemName;
+      this.deliveryForm.RecCityAreaValue = data.List_UserReport
+                                           .filter( area => area.UserReport_CategoryCode === 22
+                                                 && area.UserReport_ItemCode === this.deliveryForm.RecCityAreaKey)[0].UserReport_ItemName;
     });
   }
 
-  /** 地址組合(城市+行政區+詳細地址) */
-  CombineAddress(): string {
-    let addstr: string;
-    addstr = `${this.deliveryCity}${this.deliveryDistrict}${this.deliveryAdd}`;
-    return addstr;
+  /** 城市確認
+   * @param city 城市名稱
+   * @param citykey 城市key
+   */
+  cityCheck(city: string, citykey: number): void {
+    this.deliveryForm.RecCityKey = citykey;
+    this.deliveryForm.RecCityValue = city;
+    // 防用戶點了城市又不點行政區，造成行政區還在帶上一次的行政區資料
+    this.deliveryForm.RecCityAreaValue = null;
   }
+
+  /** 行政區確認
+   * @param city 行政區名稱
+   * @param citykey 行政區key
+   */
+  cityAreaCheck(area: string, areakey: number): void {
+    this.deliveryForm.RecCityAreaValue = area;
+    this.deliveryForm.RecCityAreaKey = areakey;
+  }
+
 
   /** 表單送出 */
   deliverySubmit(form: NgForm): void {
-    this.deliveryForm.RecAddress = this.CombineAddress();
+    this.appService.openBlock();
     const request: Request_DeliveryCfm = {
       SelectMode: 2,
       User_Code: sessionStorage.getItem('userCode'),
@@ -99,8 +108,7 @@ export class DeliveryInfoComponent implements OnInit {
     };
     // 送外送表單資訊到server，索取跳轉至外送商家的Url
     this.appService.toApi('Area', '1404', request).subscribe((data: Response_DeliveryCfm) => {
-      this.sendUrl = data.SendURL;
-      window.location.href = this.sendUrl.length > 0 ? this.sendUrl : null;
+      window.location.href = data.SendURL.length > 0 ? data.SendURL : null;
     });
   }
 
@@ -114,9 +122,14 @@ class Request_DeliveryCfm extends Model_ShareData {
 }
 
 class AFP_DeliveryForm {
+  RecID: number;
   RecName: string;
   RecEmail: string;
   RecMobile: string;
+  RecCityKey: number;
+  RecCityAreaKey: number;
+  RecCityValue: string;
+  RecCityAreaValue: string;
   RecAddress: string;
 }
 

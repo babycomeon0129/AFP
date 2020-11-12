@@ -17,7 +17,7 @@
             <ul class="bg-white">
                 <li>
                     <div class="item w-84">
-                        <p>收件人姓名</p>
+                        <p>訂購人姓名</p>
                         <small class="text-danger" *ngIf="Vname.invalid && Vname.touched">收件人姓名為必填</small>
                     </div>
                     <div class="item auto-left">
@@ -51,7 +51,7 @@
                 <li>
                     <div class="item">縣市</div>
                     <div class="item auto-left citydefault" (click)="appService.callsortLayer('.city');">
-                        <span class="text-muted">{{ deliveryCity }}</span><i class="material-icons">&#xe315;</i>
+                        <span class="text-muted">{{ deliveryForm.RecCityValue }}</span><i class="material-icons">&#xe315;</i>
                     </div>
                 </li>
                 <li>
@@ -60,9 +60,9 @@
                       <small class="text-danger" *ngIf="Vdistrict.invalid && deliveryClick">行政區為必填</small>
                     </div>
                     <div class="item auto-left distdefault"  (click)="appService.callsortLayer('.dist'); districtCheck($event.isTrusted);" #tdistrict>
-                        <span class="text-muted">{{ deliveryDistrict ? deliveryDistrict: '請選擇' }}</span><i class="material-icons">&#xe315;</i>
+                        <span class="text-muted">{{ deliveryForm.RecCityAreaValue ? deliveryForm.RecCityAreaValue: '請選擇' }}</span><i class="material-icons">&#xe315;</i>
                     </div>
-                    <input type="hidden" name="Vdistrict" #Vdistrict="ngModel" [(ngModel)]="deliveryDistrict" required>
+                    <input type="hidden" name="Vdistrict" #Vdistrict="ngModel" [(ngModel)]="deliveryForm.RecCityAreaValue" required>
                 </li>
                 <li class="flex-column">
                     <div class="item w-100">
@@ -71,13 +71,13 @@
                       </div>
                     <div class="item w-100">
                         <input type="text" #Vaddr="ngModel" placeholder="請輸入地址" id="Vaddr" name="Vaddr"
-                        [(ngModel)]="deliveryAdd" required>
+                        [(ngModel)]="deliveryForm.RecAddress" required>
                     </div>
                 </li>
             </ul>
             <div class="px-3 py-4 bg-gray8">
                 <label class="radio-box">我同意將以上資料傳送給「有無外送」建立訂單
-                    <input type="checkbox" name="checkbox" class="store1" #radioagree>
+                    <input type="checkbox" name="checkbox" class="store1" [(ngModel)]="agreeCheck">
                     <span class="checkmark"></span>
                 </label>
             </div>
@@ -85,7 +85,7 @@
         </div>
         <div class="fixed-btn container">
             <button class="btn next-btn w-100 unable" type="submit"
-            [ngClass]="{'unable': !radioagree.checked || deliveryInfo.form.invalid}" [disabled]="!radioagree.checked || deliveryInfo.form.invalid">下一步</button>
+            [ngClass]="{'unable': !agreeCheck || deliveryInfo.form.invalid}" [disabled]="!agreeCheck || deliveryInfo.form.invalid">下一步</button>
         </div>
       </form>
   </div>
@@ -110,8 +110,8 @@
               </div>
               <ul class="open-page-ul" id="citylist">
                   <li *ngFor="let city of cityList" class="flex-inline-between"
-                  [ngClass]="{'active' : deliveryCity === city.UserReport_ItemName}"
-                  (click)="deliveryCity = city.UserReport_ItemName; districtSelect = city.UserReport_ItemCode;appService.callsortLayer('.dist');">
+                  [ngClass]="{'active' : deliveryForm.RecCityValue === city.UserReport_ItemName}"
+                  (click)="cityCheck(city.UserReport_ItemName,city.UserReport_ItemCode);appService.callsortLayer('.dist');">
                       <div class="item">{{city.UserReport_ItemName}}</div>
                       <div class="item"><i class="fas fa-check"></i></div>
                   </li>
@@ -134,9 +134,9 @@
               </div>
               <ul class="open-page-ul" id="distlist">
                 <li class="flex-inline-between" *ngFor="let district of districtList"
-                [ngClass]="{'active' : deliveryDistrict == district.UserReport_ItemName}"
-                [hidden]="district.UserReport_UpItemCode != districtSelect"
-                (click)="deliveryDistrict = district.UserReport_ItemName;appService.backsortLayer();appService.backsortLayer();">
+                [ngClass]="{'active' : deliveryForm.RecCityAreaValue === district.UserReport_ItemName}"
+                [hidden]="district.UserReport_UpItemCode !== deliveryForm.RecCityKey"
+                (click)="cityAreaCheck(district.UserReport_ItemName, district.UserReport_ItemCode);appService.backsortLayer();appService.backsortLayer();">
                   <div class="item">
                     {{district.UserReport_ItemName}}
                   </div>
