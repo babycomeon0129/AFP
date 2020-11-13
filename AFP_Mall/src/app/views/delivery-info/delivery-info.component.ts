@@ -17,8 +17,6 @@ export class DeliveryInfoComponent implements OnInit {
   public siteCode: number;
   /** 外送表單資訊 */
   public deliveryForm: AFP_DeliveryForm = new AFP_DeliveryForm();
-  /** 地區列表 */
-  public areaList: AFP_UserReport[] = [];
   /** 城市列表 */
   public cityList: AFP_UserReport[] = [];
   /** 行政區列表 */
