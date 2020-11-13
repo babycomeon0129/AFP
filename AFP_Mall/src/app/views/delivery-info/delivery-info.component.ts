@@ -66,9 +66,11 @@ export class DeliveryInfoComponent implements OnInit {
       this.deliveryForm.RecCityValue = data.List_UserReport
                                        .filter(city => city.UserReport_CategoryCode === 21
                                                     && city.UserReport_ItemCode === this.deliveryForm.RecCityKey)[0].UserReport_ItemName;
-      this.deliveryForm.RecCityAreaValue = data.List_UserReport
+      if ( this.deliveryForm.RecCityAreaValue !== null) {
+        this.deliveryForm.RecCityAreaValue = data.List_UserReport
                                            .filter( area => area.UserReport_CategoryCode === 22
                                                  && area.UserReport_ItemCode === this.deliveryForm.RecCityAreaKey)[0].UserReport_ItemName;
+      }
     });
   }
 
