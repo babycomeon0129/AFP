@@ -109,7 +109,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
     }
   };
 
-  /** 本月旅遊主打內容 swiper */
+  /** 現領優惠券、主打店家、本月旅遊主打內容 swiper */
   public boxTFeature: SwiperOptions = {
     slidesPerView: 1.7,
     spaceBetween: 10,
