@@ -73,7 +73,7 @@
         <div class="carousel-inner">
           <a *ngFor="let ad of adTop; let First = first" href="{{ad?.ADImg_URL}}" target="{{ad?.ADImg_URLTarget}}"
             rel="noopener noreferrer" [ngClass]="{'active': First}" class="carousel-item">
-            <img src="{{ad?.ADImg_Img}}" class="d-block w-100" alt="">
+            <img [lazyLoad]="ad?.ADImg_Img" [defaultImage]="appService.defaultImage" class="d-block w-100" alt="">
           </a>
         </div>
       </div>
@@ -110,7 +110,7 @@
               <div *ngFor="let item of ftTop" class="link-item">
                 <a href="javascript:;" (click)="FunctionLink(item, false)">
                   <div class="img-box">
-                    <img [lazyLoad]="item.Function_Icon" [defaultImage]="appService.defaultImage" alt="">
+                    <img [lazyLoad]="item.Function_Icon" [defaultImage]="appService.defaultImage" alt="{{item.Function_Name}}">
                   </div>
                   <p>{{item.Function_Name}}</p>
                 </a>
@@ -123,7 +123,7 @@
               <div *ngFor="let item of ftBottom" class="link-item">
                 <a href="javascript:;" (click)="FunctionLink(item, false)">
                   <div class="img-box">
-                    <img [lazyLoad]="item.Function_Icon" [defaultImage]="appService.defaultImage" alt="">
+                    <img [lazyLoad]="item.Function_Icon" [defaultImage]="appService.defaultImage" alt="{{item.Function_Name}}">
                   </div>
                   <p>{{item.Function_Name}}</p>
                 </a>
@@ -149,7 +149,7 @@
             <div class="swiper-slide" *ngFor="let item of adMid4">
               <div class="item">
                 <a class="link-item" (click)="adRoute(item?.ADImg_URL, item?.ADImg_URLTarget)">
-                  <img src="{{item.ADImg_Img}}" alt="">
+                  <img [lazyLoad]="item.ADImg_Img" [defaultImage]="appService.defaultImage" [alt]="item?.ADImg_Title">
                 </a>
               </div>
             </div>
@@ -182,7 +182,7 @@
         <div class="afp-tab mb-3">
           <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs">
             <!-- Nav tabs -->
-            <ul id="nav-tab" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
+            <ul id="nav-tab-member" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
               <li role="presentation" class="swiper-slide" *ngFor="let item of nowVoucher; let blFirst=first; let i = index"
               (click)="getMoreData(2, i, item?.UserDefine_Code, item?.UserDefine_ChannelID)"
                 [ngClass]="{'active': blFirst}">
@@ -201,7 +201,7 @@
                   <div class="swiper-slide" *ngFor="let inside of item.VoucherData">
                     <div class="products-item bg-FFF6F1 border-radius5"
                       [routerLink]="inside?.Voucher_UserVoucherCode === null? ['/VoucherDetail', inside?.Voucher_Code] : ['/VoucherDetail', inside?.Voucher_UserVoucherCode]">
-                      <div class="p-2" onclick="">
+                      <div class="p-2">
                         <div class="products-img">
                           <div class="img-box">
                             <div class="rwdimg" [lazyLoad]="inside.Voucher_Image"
@@ -232,13 +232,13 @@
     </div>
 
     <!-- 主打店家 -->
-    <div *ngIf="hitArea?.length > 0" class="explore-block container px-3 py-4 mb-2">
+    <div *ngIf="hitArea?.length > 0" class="explore-block container px-3 pb-3">
       <h6>主打店家</h6>
       <div class="afp-tab-box">
         <div class="afp-tab">
           <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs">
             <!-- Nav tabs -->
-            <ul id="nav-tab" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
+            <ul id="nav-tab-hitArea" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
               <li role="presentation" class="swiper-slide" *ngFor="let item of hitArea; let blFirst=first;"
                 [ngClass]="{'active': blFirst}">
                 <a href="#Code{{item.UserDefine_Code}}" class="tablist-link show" [ngClass]="{'active': blFirst}"
@@ -258,7 +258,7 @@
                       <div class="products-item">
                         <a [routerLink]="['/ExploreDetail', inside.ECStore_Code]" class="content-item">
                           <div class="img-box imgLiquidFill imgLiquid">
-                            <img [src]="inside.ECStore_Image1">
+                            <img [lazyLoad]="inside.ECStore_Image1"  [defaultImage]="appService.defaultImage" alt="{{inside.ECStore_ShowName}}">
                           </div>
                           <div class="item-title">
                             {{inside.ECStore_ShowName}}
@@ -278,13 +278,13 @@
       </div>
     </div>
     <!-- 本月外送主打 -->
-    <div *ngIf="deliveryArea?.length > 0" class="explore-block container px-3 py-4 mb-2">
+    <div *ngIf="deliveryArea?.length > 0" class="explore-block container px-3 pb-3">
       <h6>本月外送主打</h6>
       <div class="afp-tab-box">
         <div class="afp-tab">
           <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs">
             <!-- Nav tabs -->
-            <ul id="nav-tab" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
+            <ul id="nav-tab-deliveryArea" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
               <li role="presentation" class="swiper-slide" *ngFor="let item of deliveryArea;let blFirst=first;"
                 [hidden]="item?.ECStoreData.length == 0" [ngClass]="{'active': blFirst}">
                 <a href="#Code{{item.UserDefine_Code}}" class="tablist-link show" [ngClass]="{'active': blFirst}"
@@ -304,7 +304,7 @@
                       <div class="products-item">
                         <a [routerLink]="['/ExploreDetail', inside.ECStore_Code]" class="content-item">
                           <div class="img-box imgLiquidFill imgLiquid">
-                            <img [src]="inside.ECStore_Image1">
+                            <img [lazyLoad]="inside.ECStore_Image1"  [defaultImage]="appService.defaultImage" alt="{{inside.ECStore_ShowName}}">
                           </div>
                           <div class="item-title">
                             {{inside.ECStore_ShowName}}
@@ -377,7 +377,7 @@
       </div>
     </div>
     <!-- 本月旅遊主打 -->
-    <div *ngIf="hitTravel?.length > 0" class="travel-featuredlist container px-3 py-4 mb-2">
+    <div *ngIf="hitTravel?.length > 0" class="travel-featuredlist container px-3 pb-3">
       <h6>本月旅遊主打</h6>
       <!-- tab content -->
       <div class="afp-tab-box">
@@ -402,15 +402,15 @@
                   <div class="col-6" *ngFor="let inside of item.TravelData">
                     <div class="item-body">
                       <a class="item-img rwdimg-cover h65" [lazyLoad]="inside.Travel_Img"
-                        [defaultImage]="appService.defaultImage" [href]="inside.Travel_URL"
+                        [defaultImage]="appService.defaultImage" [href]="inside.Travel_URL | Safe: 'url'"
                         [target]="inside.Travel_URLTarget" rel="noopener noreferrer"></a>
                       <div class="item-favorite">
                         <button [ngClass]="{'active' : appService.userFavCodes.includes(inside.Travel_Code) == true}"
                           (click)="appService.favToggle(appService.userFavCodes.includes(inside.Travel_Code) ? 2 : 1, 54, inside.Travel_Code)">
-                          <img src="../img/share/icon_favorite.png" class="imgicon">
+                          <img [lazyLoad]="'../img/share/icon_favorite.png'"  [defaultImage]="appService.defaultImage" class="imgicon">
                         </button>
                       </div>
-                      <a [href]="inside.Travel_URL" target="_blank" rel="noopener noreferrer">
+                      <a [href]="inside.Travel_URL | Safe: 'url'" target="_blank" rel="noopener noreferrer">
                         <div class="item-info">
                           <div class="item-title txt-line-clamp2">
                             {{inside.Travel_Title}}
@@ -448,7 +448,7 @@
           </button>
         </div>
         <div class="edit-title-box">
-          <div class="edit-item edit-title-cancel" (click)="editFunction = false; ftBottom = ftBottom_org.concat()">取消</div>
+          <div class="edit-item edit-title-cancel" (click)="editClose();">取消</div>
           <div class="edit-item edit-title">編輯我的服務</div>
           <div class="edit-item edit-title-save" (click)="updateUserService();">確定</div>
         </div>
@@ -470,21 +470,21 @@
       <div class="service-box bt1-solid" [hidden]="!appService.loginState">
         <!-- 我的服務 -->
           <div class="title-item pt-3">
-            我的服務
+            我的服務<span class="pl-2 small text-muted editnote1">長按可以拖動排序</span>
             <div class="editbox">
-              <button (click)="editFunction = true"
+              <button (click)="editOpen()"
               class="btn title-item edit-btn fit small-80 border-radius5 py-0">編輯</button>
             </div>
           </div>
           <div class="service-title">
-             <div class="main-link edit-link sort-block" id="myService">
+             <div class="main-link edit-link sort-block" id="myService" [sortablejs]="ftBottom" [sortablejsOptions]="options">
               <div class="link-item mysvc remove-item"  *ngFor="let icon of ftBottom;"
-              (click)="serviceClick(icon.Function_Code, icon.Function_CategaryCode, icon.Function_IsActive);"
-              [attr.data-code]="icon.Function_Code">
+              [attr.data-cat]="icon.Function_CategaryCode" [attr.data-act]="icon.Function_IsActive" [attr.data-code]="icon.Function_Code"
+              (click)="serviceClick(icon.Function_Code, icon.Function_CategaryCode, icon.Function_IsActive);">
                 <a [href]="!editFunction ? icon.Function_URL : 'javascript:;' | Safe: 'url'"
                   [appKeyController]="editFunction" [keyControl]="'target'" [keyValue]="icon?.Function_URLTarget"
                  rel="noopener noreferrer">
-                  <img [lazyLoad]="icon.Function_Icon" [defaultImage]="appService.defaultImage" alt="">
+                  <img [lazyLoad]="icon.Function_Icon" [defaultImage]="appService.defaultImage" [alt]="icon.Function_Name">
                   <p>{{icon.Function_Name}}</p>
                 </a>
               </div>
@@ -507,8 +507,7 @@
           <div class="main-link edit-link items0">
             <div class="link-item" *ngFor="let icon of item.Model_Function;"
             (click)="serviceClick(icon.Function_Code, item.CategaryCode, icon.Function_IsActive);"
-            [ngClass]="{'remove-item': !icon?.isAdd && icon.Function_IsActive, 'add-item':icon?.isAdd && icon.Function_IsActive,'disable' : icon.Function_IsActive === 0}"
-            [id]="'more-'+icon.Function_Code">
+            [ngClass]="{'remove-item': !icon?.isAdd && icon.Function_IsActive, 'add-item':icon?.isAdd && icon.Function_IsActive,'disable' : icon.Function_IsActive === 0}">
               <a [href]="!editFunction && icon.Function_IsActive ? icon.Function_URL : 'javascript:;' | Safe: 'url'"
               [appKeyController]="editFunction" [keyControl]="'target'" [keyValue]="icon?.Function_URLTarget" rel="noopener noreferrer">
                 <div class="img-box">

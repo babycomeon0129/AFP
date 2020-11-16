@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { Router, NavigationExtras } from '@angular/router';
 import { Model_MissionDetail } from '../../../_models';
@@ -8,20 +8,19 @@ import { AppService } from 'src/app/app.service';
   selector: 'app-mission-modal',
   templateUrl: './mission-modal.component.html'
 })
-export class MissionModalComponent implements OnInit {
+export class MissionModalComponent  {
   currentPage = this.router.url;
   missionArr: Model_MissionDetail[];
 
   constructor(private bsModalRef: BsModalRef, private router: Router, private appService: AppService) {}
 
-  ngOnInit() {
-  }
 
+  /** 關閉Modal */
   closeModal(): void {
     this.bsModalRef.hide();
   }
 
-  claimNow() {
+  claimNow(): void {
     if (this.currentPage === '/Mission') {
       this.closeModal();
     } else {

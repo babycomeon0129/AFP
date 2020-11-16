@@ -1,6 +1,7 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
+// TODO: 測試推播時production要改為true, manifest.webmainfest中的gcm_sender_id要改為sit使用的
 
 export const environment = {
   production: false,
@@ -8,7 +9,17 @@ export const environment = {
   FBApiKey: '349758176149496',
   GoogleApiKey: '260499247538-ctoucp9t09ufdpgqmd4ac368lfpgmorm.apps.googleusercontent.com',
   cookieDomain: '54.150.124.230',
-  cookieSecure: false
+  cookieSecure: false,
+  firebase: {
+    apiKey: 'AIzaSyCjtBdCm4T5SdndyaCGHN-S7LJQaLxftsE',
+    authDomain: 'afp-consumer-sit.firebaseapp.com',
+    databaseURL: 'https://afp-consumer-sit.firebaseio.com',
+    projectId: 'afp-consumer-sit',
+    storageBucket: 'afp-consumer-sit.appspot.com',
+    messagingSenderId: '571296338960',
+    appId: '1:571296338960:web:afd1efd62b8c89a970a695',
+    measurementId: 'G-0DDRXNYEBE'
+  }
 };
 
 /*

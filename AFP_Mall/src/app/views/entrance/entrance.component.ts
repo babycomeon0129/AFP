@@ -9,6 +9,8 @@ import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'ngx-useful-swiper';
 import { Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
+import { SortablejsOptions } from 'ngx-sortablejs';
+import { isNgTemplate } from '@angular/compiler';
 
 declare var $: any;
 
@@ -18,7 +20,6 @@ declare var $: any;
 })
 export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   public userProfile: Model_MemberProfile = new Model_MemberProfile();
-  @ViewChild('kvSwiper', { static: false }) kvSwiper: SwiperComponent;
 
   /** 個人捷徑 swiper */
   public boxIcon: SwiperOptions = {
@@ -92,7 +93,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
     }
   };
 
-  /** 本月旅遊主打、本月周邊主打 tab swiper */
+  /** 現領優惠券、主打店家、本月外送主打、本月旅遊主打 tab swiper */
   public boxTabs: SwiperOptions = {
     slidesPerView: 5,
     spaceBetween: 10,
@@ -108,7 +109,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
     }
   };
 
-  /** 本月旅遊主打內容 swiper */
+  /** 現領優惠券、主打店家、本月旅遊主打內容 swiper */
   public boxTFeature: SwiperOptions = {
     slidesPerView: 1.7,
     spaceBetween: 10,
@@ -163,11 +164,9 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   public ftBottom_org: AFP_Function[] = [];
   /** 使用者服務-手機版下排 */
   public ftBottom: AFP_Function[] = [];
-  /** 我的服務 */
-  public ftUserBottom: AFP_Function[] = [];
   /** 我的服務編輯狀態 */
   public editFunction = false;
-  /** 更多-我的服務清單 */
+  /** 我的服務-所有服務清單 */
   public serviceList: AFP_NewFunction[] = [];
   /** 我的服務-數量提醒最少4個 */
   public noticeFour = false;
@@ -181,6 +180,37 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   public userPoint: number;
   /** 使用者擁有優惠券數量 */
   public userVoucherCount: number;
+  /** 我的服務: 判斷是否被拖曳 */
+  public isMove = false;
+  /** 我的服務:拖曳功能options */
+  // tslint:disable-next-line: deprecation
+  public options: SortablejsOptions = {
+    disabled: true,
+    handle: '#myService',
+    draggable: '.mysvc',
+    group: '.mysvc',
+    onStart: (evt) => {
+      evt.preventDefault();
+      evt.stopPropagation();
+    },
+    onMove: (evt) => {
+      evt.preventDefault();
+      evt.stopPropagation();
+      this.isMove = true;
+    },
+    onEnd: (evt) => {
+      evt.preventDefault();
+      evt.stopPropagation();
+      const code: number = parseInt(evt.item.dataset.code, 10);
+      const cat: number = parseInt(typeof evt.item.dataset.cat, 10);
+      const act: boolean = evt.item.dataset.cat === '1' ? true : false;
+      this.serviceClick(code, cat, act);
+      this.isMove = false;
+    }
+  };
+
+
+
   /** 變化追蹤（登入狀態） */
   private serviceDiffer: KeyValueDiffer<string, any>;
 
@@ -207,7 +237,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   /** 讀取首頁資料
    * @param mode 讀取時機 1: 進入此頁 2: 在此頁登入時
    */
-  readHome(mode: number) {
+  readHome(mode: number): void {
     const request: Request_Home = {
       User_Code: sessionStorage.getItem('userCode'),
       SearchModel: {
@@ -242,6 +272,19 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
       this.getHomeservice();
     });
   }
+
+  /** 我的服務編輯模式開啟 */
+  editOpen(): void {
+    this.editFunction = true;
+    this.options = {disabled: false};
+  }
+
+   /** 我的服務編輯模式關閉 */
+   editClose(): void {
+    this.editFunction = false;
+    this.options = {disabled: true};
+    this.ftBottom = this.ftBottom_org.concat();
+   }
 
   /** 首頁我的服務 */
   getHomeservice(): void {
@@ -284,7 +327,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
    * @param cat  分類編碼
    * @param action icon是否有效(如果純上架但無效，action = 0)
    */
-  serviceClick(code: number, cat: number, action: boolean) {
+  serviceClick(code: number, cat: number, action: boolean): void {
     if (this.editFunction && action) {
       this.noticeNine = this.ftBottom.length === 9 ? true : false;
       this.noticeFour = this.ftBottom.length === 4 ? true : false;
@@ -292,7 +335,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
       const result = this.ftBottom.findIndex(item => item.Function_Code === code);
       if (result > -1) {
         // 已經在我的服務內，就將這個ICON移出我的服務
-        if (this.ftBottom.length > 4) {
+        if (this.ftBottom.length > 4 && !this.isMove) {
           this.ftBottom.splice(result, 1);
           // 根據我的服務清單，修改下面更多服務的class狀態
           this.serviceList.filter(item => item.CategaryCode === cat)[0].Model_Function.forEach( icon => {
@@ -325,7 +368,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   updateUserService(): void {
     this.editFunction = false;
     // 將我的服務的function code 陣列result傳給後端
-    const result = this.ftBottom.map( item => item.Function_Code);
+    const result = this.ftBottom.map( (item: AFP_Function) => item.Function_Code);
     const request: Request_AFPUpdateUserService = {
       User_Code: sessionStorage.getItem('userCode'),
       Model_UserFavourite: null,
@@ -336,7 +379,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
     if (oring.join('') !== result.join('')) {
       this.appService.toApi('Home', '1108', request).subscribe((data: Response_AFPUpdateUserService) => {
         if ( data !== null ) {
-          this.ftBottom_org = this.ftUserBottom;
+          this.ftBottom_org = this.ftBottom.concat();
         }
       });
 
@@ -349,7 +392,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
    * @param menuCode 目錄編碼
    * @param prodChannelCode 商品頻道編號
    */
-  getMoreData(mode: number, index: number, menuCode: number, prodChannelCode?: number) {
+  getMoreData(mode: number, index: number, menuCode: number, prodChannelCode?: number): void {
     const request: Request_OtherInfo = {
       User_Code: sessionStorage.getItem('userCode'),
       SelectMode: mode,
@@ -406,7 +449,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   }
 
   /** (中間四格)廣告route */
-  adRoute(url: string, urlTarget: string) {
+  adRoute(url: string, urlTarget: string): void {
     if (url.indexOf('http') !== -1) {
       // 外部連結 || 指定到內部某頁的某分頁
       window.open(url, urlTarget);
@@ -419,7 +462,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   /** 立即下載APP
    * TODO: 用universal link
    */
-  toDownloadAPP() {
+  toDownloadAPP(): void {
     window.location.href = 'mobii://';
     setTimeout(() => {
       if (document.visibilityState === 'visible') {
@@ -448,7 +491,6 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   }
 }
 
-/* tslint:disable */
 class Response_AFPUserService extends Model_ShareData {
   Model_Function: AFP_Function[];
   Model_UserFunction?: AFP_Function[];
