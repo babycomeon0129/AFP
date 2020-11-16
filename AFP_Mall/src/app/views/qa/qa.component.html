@@ -31,15 +31,16 @@
               <ul class="qList">
                 <!-- 問題 -->
                 <ng-container *ngFor="let q of cate?.List_QuestionContent">
-                  <li [hidden]="!q?.QuestionContent_Title.includes(searchTarget) && !q?.QuestionContent_Body.includes(searchTarget)"
-                  id="{{'c' + cate?.QuestionCategory_Code}}" class="collapse row">
+                  <!-- [hidden]="!q?.QuestionContent_Title.includes(searchTarget) && !q?.QuestionContent_Body.includes(searchTarget)" -->
+                  <li id="{{'c' + cate?.QuestionCategory_Code}}" class="collapse row">
                     <div class="col-12">
                         <button class="btn px-0 w-100 text-left" type="button" data-toggle="collapse" attr.data-target="{{'#q' + q?.QuestionContent_Code}}" attr.aria-controls="{{'#' + q?.QuestionContent_Code}}" aria-expanded="false">
                             {{q?.QuestionContent_Title}}
                         </button>
                     </div>
                     <!-- 答案 -->
-                    <div [hidden]="!q?.QuestionContent_Body.includes(searchTarget)" id="{{'q' + q?.QuestionContent_Code}}" class="collapse col-12">
+                    <!-- [hidden]="!q?.QuestionContent_Body.includes(searchTarget)" -->
+                    <div id="{{'q' + q?.QuestionContent_Code}}" class="collapse col-12">
                       <div class="abox" [innerHTML]="q?.QuestionContent_Body"></div>
                     </div>
                   </li>
