@@ -10,6 +10,10 @@ import { Meta, Title } from '@angular/platform-browser';
   styleUrls: ['../../../dist/style/explore.min.css']
 })
 export class ExploreListComponent implements OnInit, AfterViewInit {
+  /** 緯度 */
+  public lat = 25.034306;
+  /** 經度 */
+  public lng = 121.564603;
   /** 景點資料（目錄包景點） */
   public exAreadata: AreaJsonFile_ECStore[] = [];
   /** 目錄資料 */
@@ -43,7 +47,18 @@ export class ExploreListComponent implements OnInit, AfterViewInit {
         // this.readData();
         this.categoryOpenStatus = false;
       }
-      this.readData();
+      if (navigator.geolocation !== undefined) {
+        // 請求取用使用者現在的位置
+        navigator.geolocation.getCurrentPosition((position) => {
+          // console.log(position);
+          /* 22.6117234 120.2979388 */
+          this.lat = position.coords.latitude;
+          this.lng = position.coords.longitude;
+          this.readData();
+        });
+      } else {
+        alert('該瀏覽器不支援定位功能');
+      }
     });
   }
 
@@ -58,7 +73,7 @@ export class ExploreListComponent implements OnInit, AfterViewInit {
         IndexArea_Distance: 5000
       }
     };
-    this.appService.toApi('Area', '1401', request).subscribe((data: Response_AreaIndex) => {
+    this.appService.toApi('Area', '1401', request, this.lat, this.lng).subscribe((data: Response_AreaIndex) => {
       // 景點資料依距離升冪(近到遠)排列
       this.exAreadata = data.List_AreaData[0].ECStoreData.sort((a, b) => {
         return a.ECStore_Distance - b.ECStore_Distance;
