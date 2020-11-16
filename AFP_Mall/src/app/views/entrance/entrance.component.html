@@ -73,7 +73,7 @@
         <div class="carousel-inner">
           <a *ngFor="let ad of adTop; let First = first" href="{{ad?.ADImg_URL}}" target="{{ad?.ADImg_URLTarget}}"
             rel="noopener noreferrer" [ngClass]="{'active': First}" class="carousel-item">
-            <img src="{{ad?.ADImg_Img}}" class="d-block w-100" alt="">
+            <img [lazyLoad]="ad?.ADImg_Img" [defaultImage]="appService.defaultImage" class="d-block w-100" alt="">
           </a>
         </div>
       </div>
@@ -110,7 +110,7 @@
               <div *ngFor="let item of ftTop" class="link-item">
                 <a href="javascript:;" (click)="FunctionLink(item, false)">
                   <div class="img-box">
-                    <img [lazyLoad]="item.Function_Icon" [defaultImage]="appService.defaultImage" alt="">
+                    <img [lazyLoad]="item.Function_Icon" [defaultImage]="appService.defaultImage" alt="{{item.Function_Name}}">
                   </div>
                   <p>{{item.Function_Name}}</p>
                 </a>
@@ -123,7 +123,7 @@
               <div *ngFor="let item of ftBottom" class="link-item">
                 <a href="javascript:;" (click)="FunctionLink(item, false)">
                   <div class="img-box">
-                    <img [lazyLoad]="item.Function_Icon" [defaultImage]="appService.defaultImage" alt="">
+                    <img [lazyLoad]="item.Function_Icon" [defaultImage]="appService.defaultImage" alt="{{item.Function_Name}}">
                   </div>
                   <p>{{item.Function_Name}}</p>
                 </a>
@@ -201,7 +201,7 @@
                   <div class="swiper-slide" *ngFor="let inside of item.VoucherData">
                     <div class="products-item bg-FFF6F1 border-radius5"
                       [routerLink]="inside?.Voucher_UserVoucherCode === null? ['/VoucherDetail', inside?.Voucher_Code] : ['/VoucherDetail', inside?.Voucher_UserVoucherCode]">
-                      <div class="p-2" onclick="">
+                      <div class="p-2">
                         <div class="products-img">
                           <div class="img-box">
                             <div class="rwdimg" [lazyLoad]="inside.Voucher_Image"
@@ -258,7 +258,7 @@
                       <div class="products-item">
                         <a [routerLink]="['/ExploreDetail', inside.ECStore_Code]" class="content-item">
                           <div class="img-box imgLiquidFill imgLiquid">
-                            <img [src]="inside.ECStore_Image1">
+                            <img [lazyLoad]="inside.ECStore_Image1"  [defaultImage]="appService.defaultImage" alt="{{inside.ECStore_ShowName}}">
                           </div>
                           <div class="item-title">
                             {{inside.ECStore_ShowName}}
@@ -304,7 +304,7 @@
                       <div class="products-item">
                         <a [routerLink]="['/ExploreDetail', inside.ECStore_Code]" class="content-item">
                           <div class="img-box imgLiquidFill imgLiquid">
-                            <img [src]="inside.ECStore_Image1">
+                            <img [lazyLoad]="inside.ECStore_Image1"  [defaultImage]="appService.defaultImage" alt="{{inside.ECStore_ShowName}}">
                           </div>
                           <div class="item-title">
                             {{inside.ECStore_ShowName}}
@@ -407,7 +407,7 @@
                       <div class="item-favorite">
                         <button [ngClass]="{'active' : appService.userFavCodes.includes(inside.Travel_Code) == true}"
                           (click)="appService.favToggle(appService.userFavCodes.includes(inside.Travel_Code) ? 2 : 1, 54, inside.Travel_Code)">
-                          <img src="../img/share/icon_favorite.png" class="imgicon">
+                          <img [lazyLoad]="'../img/share/icon_favorite.png'"  [defaultImage]="appService.defaultImage" class="imgicon">
                         </button>
                       </div>
                       <a [href]="inside.Travel_URL | Safe: 'url'" target="_blank" rel="noopener noreferrer">
