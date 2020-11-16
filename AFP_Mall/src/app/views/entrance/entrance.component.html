@@ -410,7 +410,7 @@
                           <img src="../img/share/icon_favorite.png" class="imgicon">
                         </button>
                       </div>
-                      <a [href]="inside.Travel_URL" target="_blank" rel="noopener noreferrer">
+                      <a [href]="inside.Travel_URL | Safe: 'url'" target="_blank" rel="noopener noreferrer">
                         <div class="item-info">
                           <div class="item-title txt-line-clamp2">
                             {{inside.Travel_Title}}
