@@ -47,38 +47,20 @@ export class QAComponent implements OnInit {
 
     this.appService.toApi('Member', '1522', request).subscribe((data: Response_MemberQuestion) => {
       this.qaData = data.List_QuestionCategory;
-      // this.qaDataCopy = data.List_QuestionCategory.concat();
-      // this.newQAData = this.qaData;
-      // console.log('qaData:', this.qaData);
-      // console.log('qaDataCopy:', this.qaDataCopy);
+      this.qaDataCopy = JSON.parse(JSON.stringify(this.qaData));
     });
   }
 
   /** 搜尋輸入字串 */
   search() {
-    if (this.searchTarget === '') {
-      this.qaData = this.qaDataCopy;
-    } else {
-      const newData = [];
-      this.qaData.forEach((cate) => {
-        const newQList = cate.List_QuestionContent.filter((q) => {
-          return q.QuestionContent_Title.includes(this.searchTarget) || q.QuestionContent_Body.includes(this.searchTarget);
-        });
-        if (newQList.length > 0) {
-          newData.push(cate);
-          newData[newData.length - 1].List_QuestionContent = newQList;
-        }
-      });
-      this.qaData = newData;
+    if (!this.searchTarget) {
+      this.qaData = JSON.parse(JSON.stringify(this.qaDataCopy));
     }
-    // this.qaData = this.qaData.filter(cate => {
-    //   const newCate = cate.List_QuestionContent.filter(q => q.QuestionContent_Title.includes(this.searchTarget) || q.QuestionContent_Body.includes(this.searchTarget));
-    //   cate.List_QuestionContent = newCate;
-    //   return newCate.length > 0;
-    // });
-    console.log('字串:', this.searchTarget);
-    console.log('qaData:', this.qaData);
-    console.log('qaDataCopy:', this.qaDataCopy);
+    this.qaData.filter(cate => {
+      const newCate = cate.List_QuestionContent.filter(q => q.QuestionContent_Title.includes(this.searchTarget) || q.QuestionContent_Body.includes(this.searchTarget));
+      cate.List_QuestionContent = newCate;
+      return newCate.length > 0;
+    });
   }
 
   /** 若從APP登入頁進入則按回上一頁時APP把此頁關掉 */

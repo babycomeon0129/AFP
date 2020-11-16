@@ -13,7 +13,7 @@
       <div class="faqbox pb-5 mb-5">
         <div class="input-box border border-radius5 my-2 bg-eee mx-2">
           <button class="btn d-flex w-100"><i class="material-icons">&#xE8B6;</i>
-            <input [(ngModel)]="searchTarget" type="search" placeholder="搜尋" class="border-0 bg-eee">
+            <input [(ngModel)]="searchTarget" (change)="search()" type="search" placeholder="搜尋" class="border-0 bg-eee">
           </button>
         </div>
         <!-- 問題類別總列表 -->
@@ -31,7 +31,6 @@
               <ul class="qList">
                 <!-- 問題 -->
                 <ng-container *ngFor="let q of cate?.List_QuestionContent">
-                  <!-- [hidden]="!q?.QuestionContent_Title.includes(searchTarget) && !q?.QuestionContent_Body.includes(searchTarget)" -->
                   <li id="{{'c' + cate?.QuestionCategory_Code}}" class="collapse row">
                     <div class="col-12">
                         <button class="btn px-0 w-100 text-left" type="button" data-toggle="collapse" attr.data-target="{{'#q' + q?.QuestionContent_Code}}" attr.aria-controls="{{'#' + q?.QuestionContent_Code}}" aria-expanded="false">
@@ -39,7 +38,6 @@
                         </button>
                     </div>
                     <!-- 答案 -->
-                    <!-- [hidden]="!q?.QuestionContent_Body.includes(searchTarget)" -->
                     <div id="{{'q' + q?.QuestionContent_Code}}" class="collapse col-12">
                       <div class="abox" [innerHTML]="q?.QuestionContent_Body"></div>
                     </div>
