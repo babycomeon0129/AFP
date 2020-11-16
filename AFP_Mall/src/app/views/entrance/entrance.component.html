@@ -402,7 +402,7 @@
                   <div class="col-6" *ngFor="let inside of item.TravelData">
                     <div class="item-body">
                       <a class="item-img rwdimg-cover h65" [lazyLoad]="inside.Travel_Img"
-                        [defaultImage]="appService.defaultImage" [href]="inside.Travel_URL"
+                        [defaultImage]="appService.defaultImage" [href]="inside.Travel_URL | Safe: 'url'"
                         [target]="inside.Travel_URLTarget" rel="noopener noreferrer"></a>
                       <div class="item-favorite">
                         <button [ngClass]="{'active' : appService.userFavCodes.includes(inside.Travel_Code) == true}"
@@ -410,7 +410,7 @@
                           <img src="../img/share/icon_favorite.png" class="imgicon">
                         </button>
                       </div>
-                      <a [href]="inside.Travel_URL" target="_blank" rel="noopener noreferrer">
+                      <a [href]="inside.Travel_URL | Safe: 'url'" target="_blank" rel="noopener noreferrer">
                         <div class="item-info">
                           <div class="item-title txt-line-clamp2">
                             {{inside.Travel_Title}}
