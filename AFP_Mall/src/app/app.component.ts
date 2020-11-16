@@ -1,5 +1,6 @@
+import { environment } from 'src/environments/environment';
 import { Component, OnInit, AfterViewInit, AfterViewChecked } from '@angular/core';
-import { environment } from './../environments/environment';
+import { Model_ShareData, Model_CustomerDetail } from './_models';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from './service/modal.service';
@@ -22,13 +23,15 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
   public headingPage = '';
   /** 不顯示手機版footer的頁面 */
   public mobileNoFooter = ['Map', 'ShoppingCart', 'ShoppingOrder', 'ShoppingPayment', 'Game/', 'QA',
-  'ExploreDetail', 'ProductDetail', 'VoucherDetail', 'Notification/', 'Terms', 'Privacy', 'MyProfile', 'CellVerification',
-   'MyAddress', 'PasswordUpdate', 'ThirdBinding', 'QA' ];
+    'ExploreDetail', 'ProductDetail', 'VoucherDetail', 'Notification/', 'Terms', 'Privacy', 'MyProfile', 'CellVerification',
+    'MyAddress', 'PasswordUpdate', 'ThirdBinding', 'QA'];
   /** 是否顯示手機版footer */
   public showMobileFooter = true;
+  /** GUID (推播使用) */
+  public deviceCode: string;
 
   constructor(private router: Router, public appService: AppService, private activatedRoute: ActivatedRoute, public modal: ModalService,
-              private cookieService: CookieService, private swPush: SwPush) {
+    private cookieService: CookieService, private swPush: SwPush) {
     if (sessionStorage.getItem('CustomerInfo') !== null && sessionStorage.getItem('userCode') !== null
       && sessionStorage.getItem('userName') !== null) {
       this.appService.loginState = true;
@@ -91,7 +94,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
       }
       window.scrollTo(0, 0);
       // 手機版-只有大首頁、探索周邊首頁、任務牆、通知頁、我的列表頁露出footer
-      this.showMobileFooter = !this.mobileNoFooter.some( page => this.router.url.includes(page));
+      this.showMobileFooter = !this.mobileNoFooter.some(page => this.router.url.includes(page));
       this.appService.appShowbottomBar(this.showMobileFooter);
     });
 
@@ -108,8 +111,32 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
         messaging.useServiceWorker(registration);
         Notification
           .requestPermission()
-          .then(() => messaging.getToken());
-          // .then(token => console.log('Permission granted!', token));
+          .then(() => messaging.getToken())
+          .then(token => {
+            // send token to BE
+            console.log('Permission granted!', token);
+            // get GUID (device code) from session, or generate one if there's no
+            // let deviceCode = '';
+            if (sessionStorage.getItem('M_DeviceCode') !== null) {
+              this.deviceCode = sessionStorage.getItem('M_DeviceCode');
+              console.log('deviceCode from session:', this.deviceCode);
+            } else {
+              this.deviceCode = this.guid();
+              sessionStorage.setItem('M_DeviceCode', this.deviceCode);
+              console.log('deviceCode:', this.deviceCode);
+            }
+
+            const request: Request_AFPPushToken = {
+              User_Code: sessionStorage.getItem('userCode'),
+              Token: token
+            };
+            console.log('deviceCode:', this.deviceCode);
+            this.appService.toApi('Home', '1113', request, null, null, this.deviceCode).subscribe((data: Response_AFPPushToken) => {
+              console.log(data);
+              sessionStorage.setItem('CustomerInfo', data.CustomerInfo);
+              this.cookieService.set('CustomerInfo', data.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+            });
+          });
       } else {
         console.warn(
           'No active service worker found, not able to get firebase messaging'
@@ -118,7 +145,9 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
     });
 
     this.swPush.messages.subscribe(msg => {
-      // console.log(msg);
+      // count msg length and show red point
+      console.log(msg);
+      this.appService.pushCount += 1;
     });
 
     // this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => window.scrollTo(0, 0));
@@ -170,6 +199,18 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
     // });
   }
 
+  guid(): string {
+    let d = Date.now();
+    if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
+      d += performance.now(); // use high-precision timer if available
+    }
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+      const r = (d + Math.random() * 16) % 16 | 0;
+      d = Math.floor(d / 16);
+      return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+  }
+
   /** 前往頁面前判斷登入狀態 */
   goTo() {
     if (this.appService.loginState === true) {
@@ -204,4 +245,12 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
       $(this).hide();
     });
   }
+}
+
+interface Request_AFPPushToken extends Model_ShareData {
+  Token: string;
+}
+
+interface Response_AFPPushToken extends Model_ShareData {
+  CustomerInfo: string;
 }
