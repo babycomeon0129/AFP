@@ -75,6 +75,7 @@ export class ExploreListComponent implements OnInit, AfterViewInit {
     };
     this.appService.toApi('Area', '1401', request, this.lat, this.lng).subscribe((data: Response_AreaIndex) => {
       // 景點資料依距離升冪(近到遠)排列
+
       this.exAreadata = data.List_AreaData[0].ECStoreData.sort((a, b) => {
         return a.ECStore_Distance - b.ECStore_Distance;
       });
