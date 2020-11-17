@@ -11,9 +11,9 @@ import { Meta, Title } from '@angular/platform-browser';
 })
 export class ExploreListComponent implements OnInit, AfterViewInit {
   /** 緯度 */
-  public lat = 25.034306;
+  public lat: number;
   /** 經度 */
-  public lng = 121.564603;
+  public lng: number;
   /** 景點資料（目錄包景點） */
   public exAreadata: AreaJsonFile_ECStore[] = [];
   /** 目錄資料 */
@@ -49,11 +49,16 @@ export class ExploreListComponent implements OnInit, AfterViewInit {
       }
       if (navigator.geolocation !== undefined) {
         // 請求取用使用者現在的位置
-        navigator.geolocation.getCurrentPosition((position) => {
+        navigator.geolocation.getCurrentPosition(success => {
           // console.log(position);
           /* 22.6117234 120.2979388 */
-          this.lat = position.coords.latitude;
-          this.lng = position.coords.longitude;
+          this.lat = success.coords.latitude;
+          this.lng = success.coords.longitude;
+          this.readData();
+        }, err => {
+          console.log(err);
+          this.lat = 25.034306;
+          this.lng = 121.564603;
           this.readData();
         });
       } else {

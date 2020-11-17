@@ -39,7 +39,9 @@
       <div class="mask-container w-100 h-100" [ngClass]="{'d-block': categoryOpenStatus}"></div>
       <ul [ngClass]="{'is-open': categoryOpenStatus == true}">
         <ng-container *ngIf="exAreadata.length === 0">
-            <img src="../../../img/share/oopsarea.jpg" class="rwdimg">
+          <div class="no-data">
+            <img src="../../../img/share/oopsarea.jpg">
+          </div>
         </ng-container>
         <ng-container *ngIf="exAreadata.length > 0">
           <li *ngFor="let inside of exAreadata" [routerLink]="['/ExploreDetail', inside.ECStore_Code]">
