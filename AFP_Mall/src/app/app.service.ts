@@ -65,9 +65,9 @@ export class AppService {
   }
 
   toApi(ctrl: string, command: string, request: any, lat: number = null, lng: number = null, deviceCode?: string): Observable<any> {
-    console.log('deviceCode:', deviceCode);
+    console.log('deviceCode (in toApi):', deviceCode);
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/manifest+json',
       xEyes_Command: command,
       xEyes_X: (lng != null) ? lng.toString() : '',
       xEyes_Y: (lat != null) ? lat.toString() : '',

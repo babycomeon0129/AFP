@@ -119,18 +119,18 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
             // let deviceCode = '';
             if (sessionStorage.getItem('M_DeviceCode') !== null) {
               this.deviceCode = sessionStorage.getItem('M_DeviceCode');
-              console.log('deviceCode from session:', this.deviceCode);
+              console.log('deviceCode (from session):', this.deviceCode);
             } else {
               this.deviceCode = this.guid();
               sessionStorage.setItem('M_DeviceCode', this.deviceCode);
-              console.log('deviceCode:', this.deviceCode);
+              console.log('deviceCode (new):', this.deviceCode);
             }
 
             const request: Request_AFPPushToken = {
               User_Code: sessionStorage.getItem('userCode'),
               Token: token
             };
-            console.log('deviceCode:', this.deviceCode);
+            console.log('deviceCode (before call 1113):', this.deviceCode);
             this.appService.toApi('Home', '1113', request, null, null, this.deviceCode).subscribe((data: Response_AFPPushToken) => {
               console.log(data);
               sessionStorage.setItem('CustomerInfo', data.CustomerInfo);
