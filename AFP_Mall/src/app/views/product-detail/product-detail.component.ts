@@ -177,14 +177,12 @@ export class ProductDetailComponent implements OnInit, AfterViewChecked {
     const attrValueCodeList = [];
     const attrValueNameList = [];
 
-    // 規格值編碼array
-    $('input[type=radio]:checked').each(function() {
-      attrValueCodeList.push($(this).attr('id'));
+    // 規格值編碼 & 名稱 array
+    document.querySelectorAll('input[type=radio]:checked').forEach(radio => {
+      attrValueCodeList.push(radio.id);
+      attrValueNameList.push((radio as HTMLInputElement).value);
     });
-    // 規格值名稱array
-    $('input[type=radio]:checked').each(function() {
-      attrValueNameList.push($(this).val());
-    });
+
     this.cartAttrValueCode = attrValueCodeList.toString();
     this.cartAttrValueName = attrValueNameList.toString();
   }

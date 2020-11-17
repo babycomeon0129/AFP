@@ -1,4 +1,14 @@
-<div class="member-body container px-5 pt-5 hasBg pb-wrap">
-  <h4 class="text-center font-blod p-2">{{privacyTitle}}</h4>
-  <div [innerHTML]="privacyContent"></div>
+<div class="wrap container">
+  <div class="headerbox container title-box border-b">
+    <div class="item icon-btn">
+      <button class="btn px-0" (click)="backIf()" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+        <i class="material-icons">&#xe314;</i>
+      </button>
+    </div>
+    <h4 class="text-center font-blod p-2">{{privacyTitle}}</h4>
+    <div class="item icon-btn"></div>
+  </div>
+  <div class="member-body">
+    <div [innerHTML]="privacyContent" class="p-4"></div>
+  </div>
 </div>

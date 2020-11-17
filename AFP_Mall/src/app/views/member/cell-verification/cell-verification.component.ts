@@ -99,6 +99,7 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
     this.requestMobileVerify.VerifiedAction = this.toVerifyCell ? 11 : 3;
 
     this.appService.toApi('Member', '1112', this.requestMobileVerify).subscribe((data: Response_AFPVerifyCode) => {
+      this.router.navigate(['/']);
       const msg = `手機認證成功！歡迎您盡情享受 Mobii! 獨家優惠`;
       this.modal.show('message', { initialState: { success: true, message: msg, showType: 5 } });
       this.readCellNumber();

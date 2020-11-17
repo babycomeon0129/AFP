@@ -31,7 +31,7 @@
       <button type="button" *ngIf="showType === 4" class="btn btn-login font-bold px-0 w-50" [routerLink]="['/Member/ThirdBinding']" (click)="closeModal()">
         立即綁定
       </button>
-      <button type="button" *ngIf="showType === 5" class="btn btn-login font-bold px-0 w-50" [routerLink]="['/']" (click)="closeModal()">
+      <button type="button" *ngIf="showType === 5" class="btn btn-login font-bold px-0 w-50" (click)="closeModal()">
         確認
       </button>
     </div>

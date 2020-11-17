@@ -13,33 +13,39 @@
       <div class="faqbox pb-5 mb-5">
         <div class="input-box border border-radius5 my-2 bg-eee mx-2">
           <button class="btn d-flex w-100"><i class="material-icons">&#xE8B6;</i>
-            <input [(ngModel)]="searchTarget" type="search" placeholder="搜尋" class="border-0 bg-eee">
+            <input [(ngModel)]="searchTarget" (change)="search()" type="search" placeholder="搜尋" class="border-0 bg-eee">
           </button>
         </div>
         <!-- 問題類別總列表 -->
         <ul>
           <!-- 類別 -->
-          <ul *ngFor="let cate of qaData">
-            <li [hidden]="cate?.List_QuestionContent.length <= 0">
-              <button class="btn px-0 w-100 text-left" type="button" data-toggle="collapse" attr.data-target="{{'#c' + cate?.QuestionCategory_Code}}"  attr.aria-controls="{{'#c' + cate?.QuestionCategory_Code}}" aria-expanded="false">
-                  {{cate?.QuestionCategory_Name}} <span class="float-right"><i class="material-icons expand_more">&#xe5cf;</i></span></button>
-            </li>
-            <!-- 問題列表 -->
-            <ul>
-              <!-- 問題 -->
-              <li *ngFor="let q of cate?.List_QuestionContent" [hidden]="!q?.QuestionContent_Title.includes(searchTarget) && !q?.QuestionContent_Body.includes(searchTarget)" id="{{'c' + cate?.QuestionCategory_Code}}" class="collapse row">
-                  <div class="col-12">
-                      <button class="btn px-0 w-100 text-left" type="button" data-toggle="collapse" attr.data-target="{{'#q' + q?.QuestionContent_Code}}" attr.aria-controls="{{'#' + q?.QuestionContent_Code}}" aria-expanded="false">
-                          {{q?.QuestionContent_Title}}
-                      </button>
-                  </div>
-                  <!-- 答案 -->
-                  <div [hidden]="!q?.QuestionContent_Body.includes(searchTarget)" id="{{'q' + q?.QuestionContent_Code}}" class="collapse col-12">
-                    <div class="abox" [innerHTML]="q?.QuestionContent_Body"></div>
-                  </div>
+          <ng-container *ngFor="let cate of qaData">
+            <ul class="cateList">
+              <li [hidden]="cate?.List_QuestionContent.length <= 0">
+                <button class="btn px-0 w-100 text-left" type="button" data-toggle="collapse" attr.data-target="{{'#c' + cate?.QuestionCategory_Code}}"
+                  attr.aria-controls="{{'#c' + cate?.QuestionCategory_Code}}" aria-expanded="false">
+                    {{cate?.QuestionCategory_Name}} <span class="float-right"><i class="material-icons expand_more">&#xe5cf;</i></span>
+                </button>
               </li>
+              <!-- 問題列表 -->
+              <ul class="qList">
+                <!-- 問題 -->
+                <ng-container *ngFor="let q of cate?.List_QuestionContent">
+                  <li id="{{'c' + cate?.QuestionCategory_Code}}" class="collapse row">
+                    <div class="col-12">
+                        <button class="btn px-0 w-100 text-left" type="button" data-toggle="collapse" attr.data-target="{{'#q' + q?.QuestionContent_Code}}" attr.aria-controls="{{'#' + q?.QuestionContent_Code}}" aria-expanded="false">
+                            {{q?.QuestionContent_Title}}
+                        </button>
+                    </div>
+                    <!-- 答案 -->
+                    <div id="{{'q' + q?.QuestionContent_Code}}" class="collapse col-12">
+                      <div class="abox" [innerHTML]="q?.QuestionContent_Body"></div>
+                    </div>
+                  </li>
+                </ng-container>
+              </ul>
             </ul>
-          </ul>
+          </ng-container>
         </ul>
       </div>
   </div>

@@ -1,11 +1,15 @@
-import { environment } from './../environments/environment';
 import { Component, OnInit, AfterViewInit, AfterViewChecked } from '@angular/core';
+import { environment } from './../environments/environment';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from './service/modal.service';
 import { CookieService } from 'ngx-cookie-service';
 import { RouterOutlet } from '@angular/router';
 import { slideInAnimation } from './animations';
+import { SwPush } from '@angular/service-worker';
+// import * as firebase from 'firebase/app';
+import firebase from 'firebase/app';
+import 'firebase/messaging';
 
 @Component({
   // tslint:disable-next-line
@@ -19,13 +23,12 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
   /** 不顯示手機版footer的頁面 */
   public mobileNoFooter = ['Map', 'ShoppingCart', 'ShoppingOrder', 'ShoppingPayment', 'Game/', 'QA',
   'ExploreDetail', 'ProductDetail', 'VoucherDetail', 'Notification/', 'Terms', 'Privacy', 'MyProfile', 'CellVerification',
-   'MyAddress', 'PasswordUpdate', 'ThirdBinding', 'QA' ];
+   'MyAddress', 'PasswordUpdate', 'ThirdBinding', 'QA', 'DeliveryInfo' ];
   /** 是否顯示手機版footer */
   public showMobileFooter = true;
 
-  constructor(
-    private router: Router, public appService: AppService, private activatedRoute: ActivatedRoute, public modal: ModalService,
-    private cookieService: CookieService) {
+  constructor(private router: Router, public appService: AppService, private activatedRoute: ActivatedRoute, public modal: ModalService,
+              private cookieService: CookieService, private swPush: SwPush) {
     if (sessionStorage.getItem('CustomerInfo') !== null && sessionStorage.getItem('userCode') !== null
       && sessionStorage.getItem('userName') !== null) {
       this.appService.loginState = true;
@@ -90,6 +93,32 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
       // 手機版-只有大首頁、探索周邊首頁、任務牆、通知頁、我的列表頁露出footer
       this.showMobileFooter = !this.mobileNoFooter.some( page => this.router.url.includes(page));
       this.appService.appShowbottomBar(this.showMobileFooter);
+    });
+
+    // 通知推播
+    firebase.initializeApp(environment.firebase);
+    const messaging = firebase.messaging();
+    navigator.serviceWorker.ready.then(registration => {
+      if (
+        !!registration &&
+        registration.active &&
+        registration.active.state &&
+        registration.active.state === 'activated'
+      ) {
+        messaging.useServiceWorker(registration);
+        Notification
+          .requestPermission()
+          .then(() => messaging.getToken());
+          // .then(token => console.log('Permission granted!', token));
+      } else {
+        console.warn(
+          'No active service worker found, not able to get firebase messaging'
+        );
+      }
+    });
+
+    this.swPush.messages.subscribe(msg => {
+      // console.log(msg);
     });
 
     // this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => window.scrollTo(0, 0));
@@ -167,35 +196,9 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
       }
     });
 
-    // 開啟 dropMenu
-    $('body').on('click', (evt) => {
-      if ($(evt.target).attr('class') !== 'drop-content' && $(evt.target).attr('class') !== 'drop_menu_toggle') {
-        $('.more-horiz').removeClass('is-open');
-      }
-    });
-    // tslint:disable-next-line:space-before-function-paren
-    $('body').on('click', '.drop_menu_toggle', function () {
-      const dropwrap = $(this).parent('.more-horiz');
-      dropwrap.toggleClass('is-open');
-    });
-
-    $('#webservice').on('click', () => {
-      $('#qnimate').addClass('popup-box-on');
-      $('#webservice').addClass('d-none');
-      $('#webservice_close').removeClass();
-    });
-    $('#webservice_close').on('click', () => {
-      $('#qnimate').removeClass('popup-box-on');
-      $('#webservice_close').addClass('d-none');
-      $('#webservice').removeClass();
-    });
   }
 
   ngAfterViewChecked() {
-    // footer.pc
-    // tslint:disable-next-line: max-line-length
-    // (($('.wrap').height()) < ($(window).height())) ? ($('footer.for-pc').css('position', 'absolute')) : ($('footer.for-pc').css('position', 'relative'));
-
     // 隱藏抓不到src的圖片(例: 類型為線上商店的優惠券icon)
     $('img').on('stalled', function() {
       $(this).hide();

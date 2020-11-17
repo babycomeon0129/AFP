@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Request_MemberQuestion, Response_MemberQuestion } from '../../../app/_models';
 import { Meta, Title } from '@angular/platform-browser';
+declare var AppJSInterface: any;
 
 @Component({
   templateUrl: './terms.component.html'
@@ -9,6 +10,8 @@ import { Meta, Title } from '@angular/platform-browser';
 export class TermsComponent implements OnInit {
   public termsTitle: string;
   public termsContent: string;
+  /** 是否從APP登入頁進入（若從APP登入頁進入則按回上一頁時APP把此頁關掉） */
+  public fromAppLogin: boolean;
 
   constructor(public appService: AppService, private meta: Meta, private title: Title) {
     // tslint:disable: max-line-length
@@ -19,6 +22,12 @@ export class TermsComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.appService.isApp !== null && (this.appService.prevUrl === '/' || this.appService.prevUrl === '')) {
+      this.fromAppLogin = true;
+    } else {
+      this.fromAppLogin = false;
+    }
+
     this.appService.openBlock();
     const request: Request_MemberQuestion = {
       SelectMode: 5,
@@ -33,6 +42,21 @@ export class TermsComponent implements OnInit {
       this.termsTitle = data.AFP_QuestionContent.QuestionContent_Title;
       this.termsContent = data.AFP_QuestionContent.QuestionContent_Body;
     });
+  }
+
+  /** 若從APP登入頁進入則按回上一頁時APP把此頁關掉 */
+  backIf() {
+    if (this.fromAppLogin) {
+      if (navigator.userAgent.match(/android/i)) {
+        //  Android
+        AppJSInterface.back();
+      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+        //  IOS
+        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'back' });
+      }
+    } else {
+      history.back();
+    }
   }
 
 }
