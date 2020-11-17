@@ -4,7 +4,7 @@
 // TODO: 測試推播時production要改為true, manifest.webmainfest中的gcm_sender_id要改為sit使用的
 
 export const environment = {
-  production: true,
+  production: false,
   apiUrl: 'http://54.150.124.230:38086/api/',
   FBApiKey: '349758176149496',
   GoogleApiKey: '260499247538-ctoucp9t09ufdpgqmd4ac368lfpgmorm.apps.googleusercontent.com',

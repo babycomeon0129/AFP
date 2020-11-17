@@ -31,7 +31,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
   public deviceCode: string;
 
   constructor(private router: Router, public appService: AppService, private activatedRoute: ActivatedRoute, public modal: ModalService,
-    private cookieService: CookieService, private swPush: SwPush) {
+              private cookieService: CookieService, private swPush: SwPush) {
     if (sessionStorage.getItem('CustomerInfo') !== null && sessionStorage.getItem('userCode') !== null
       && sessionStorage.getItem('userName') !== null) {
       this.appService.loginState = true;
@@ -99,9 +99,10 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
     });
 
     // 通知推播
-    firebase.initializeApp(environment.firebase);
-    const messaging = firebase.messaging();
-    navigator.serviceWorker.ready.then(registration => {
+    if (environment.production) {
+      firebase.initializeApp(environment.firebase);
+      const messaging = firebase.messaging();
+      navigator.serviceWorker.ready.then(registration => {
       if (
         !!registration &&
         registration.active &&
@@ -137,18 +138,17 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
               this.cookieService.set('CustomerInfo', data.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
             });
           });
-      } else {
-        console.warn(
-          'No active service worker found, not able to get firebase messaging'
-        );
-      }
-    });
+        } else {
+          console.warn('No active service worker found, not able to get firebase messaging');
+        }
+      });
 
-    this.swPush.messages.subscribe(msg => {
-      // count msg length and show red point
-      console.log(msg);
-      this.appService.pushCount += 1;
-    });
+      this.swPush.messages.subscribe(msg => {
+        // count msg length and show red point
+        console.log(msg);
+        this.appService.pushCount += 1;
+      });
+    }
 
     // this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => window.scrollTo(0, 0));
 

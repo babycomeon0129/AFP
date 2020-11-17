@@ -1,12 +1,12 @@
 {
-  "name": "eyesMedia-angular",
-  "short_name": "eyesMedia-angular",
+  "name": "Mobii!",
+  "short_name": "Mobii!",
   "theme_color": "#1976d2",
-  "background_color": "#fafafa",
+  "background_color": "#70C6C7",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
-  "gcm_sender_id": "571296338960",
+  "gcm_sender_id": "248768981886",
   "icons": [
     {
       "src": "assets/icons/icon-72x72.png",
@@ -55,6 +55,16 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable any"
+    }
+  ],
+  "related_applications": [
+    {
+    "platform": "play",
+    "url": "https://play.google.com/store/apps/details?id=com.eyesmedia.afp"
+    },
+    {
+      "platform": "itunes",
+      "url": "https://itunes.apple.com/app/id1512321552"
     }
   ]
 }
