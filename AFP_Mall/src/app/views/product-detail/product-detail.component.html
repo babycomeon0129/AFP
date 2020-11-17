@@ -142,7 +142,7 @@
                                   <!-- Nav tabs -->
                                   <ul id="nav-tab-storedetail" class="nav nav-tabs pt-2" role="tablist">
                                     <li>
-                                        <a class="tablist-link link-orange" [ngClass]="{'active show': currentSec === 1 }" id="tab-tag01" (click)="scrollTo(1)">關於商品</a>
+                                        <a class="tablist-link link-orange" [ngClass]="{'active show': currentSec === 1 || currentSec === 0 }" id="tab-tag01" (click)="scrollTo(1)">關於商品</a>
                                     </li>
                                     <li>
                                         <a class="tablist-link link-orange" [ngClass]="{'active show': currentSec === 2 }" id="tab-tag02" (click)="scrollTo(2)">訂購須知</a>
