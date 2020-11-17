@@ -24,7 +24,12 @@ export class ExploreListComponent implements OnInit, AfterViewInit {
   public areaMenuName: string;
   /** 篩選清單開啟狀態 */
   public categoryOpenStatus = false;
-  public hideGoBack = null; // APP 特例處理（APP訪問則隱藏返回鍵）
+  /** 特例處理（APP訪問則隱藏返回鍵） */
+  public hideGoBack = null; //
+  /** 預設圖片文字 */
+  public oopsTxt = `Oops！<br>你搜尋的景點已經超過走路能到的距離囉...`;
+  /** 如果readData() 跑完資料才顯示 */
+  public dataOk = false;
 
   constructor(public appService: AppService, private route: ActivatedRoute, private meta: Meta, private title: Title) {
     // 若有從外部帶一指定目錄編碼
@@ -79,8 +84,8 @@ export class ExploreListComponent implements OnInit, AfterViewInit {
       }
     };
     this.appService.toApi('Area', '1401', request, this.lat, this.lng).subscribe((data: Response_AreaIndex) => {
+      this.dataOk = true;
       // 景點資料依距離升冪(近到遠)排列
-
       this.exAreadata = data.List_AreaData[0].ECStoreData.sort((a, b) => {
         return a.ECStore_Distance - b.ECStore_Distance;
       });
