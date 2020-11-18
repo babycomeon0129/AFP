@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { Request_MemberQuestion, Response_MemberQuestion, AFP_QuestionCategory } from '../../../app/_models';
+import { Request_MemberQuestion, Response_MemberQuestion, AFP_QuestionCategory, AFP_QuestionContent } from '../../../app/_models';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation } from '../../animations';
 declare var AppJSInterface: any;
@@ -48,7 +48,7 @@ export class QAComponent implements OnInit {
     this.appService.toApi('Member', '1522', request).subscribe((data: Response_MemberQuestion) => {
       const dataFilter = JSON.parse(JSON.stringify(data.List_QuestionCategory));
       // 如果大分類內沒有任何QA內容，先篩選掉
-      this.qaDataCopy = dataFilter.filter(list => list.List_QuestionContent.length > 0);
+      this.qaDataCopy = dataFilter.filter((list:　AFP_QuestionCategory) => list.List_QuestionContent.length > 0);
       this.qaData = JSON.parse(JSON.stringify(this.qaDataCopy));
     });
   }
@@ -56,8 +56,8 @@ export class QAComponent implements OnInit {
   /** 搜尋輸入字串 */
   search(): void {
     const newQa = JSON.parse(JSON.stringify(this.qaDataCopy));
-    this.qaData = this.qaDataCopy.filter(cate => {
-      const newCate = cate.List_QuestionContent.filter(q => q.QuestionContent_Title.includes(this.searchTarget) || q.QuestionContent_Body.includes(this.searchTarget));
+    this.qaData = this.qaDataCopy.filter((cate: AFP_QuestionCategory) => {
+      const newCate = cate.List_QuestionContent.filter((q: AFP_QuestionContent) => q.QuestionContent_Title.includes(this.searchTarget) || q.QuestionContent_Body.includes(this.searchTarget));
       cate.List_QuestionContent = newCate;
       return newCate.length > 0;
     });
