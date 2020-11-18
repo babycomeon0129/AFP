@@ -58,7 +58,10 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
   private serviceDiffer: KeyValueDiffer<string, any>;
   /** 分享至社群時顯示的文字 */
   public textForShare: string;
-  public showBackBtn = false; // APP特例處理
+  /** APP特例處理  */
+  public showBackBtn = false;
+  /** 確認資料是否下載完畢  */
+  public dataLoad = false;
 
   constructor(public appService: AppService, private router: Router, private route: ActivatedRoute, public modal: ModalService,
               private differs: KeyValueDiffers, private meta: Meta, private title: Title) {
@@ -166,6 +169,7 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
           break;
         }
       }
+      this.dataLoad = true;
       this.ecStoreExtType = data.Model_ECStoreExtType;
       this.JustKaUrl = data.JustKaUrl;
     });

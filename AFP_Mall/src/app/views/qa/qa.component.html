@@ -21,7 +21,7 @@
           <!-- 類別 -->
           <ng-container *ngFor="let cate of qaData">
             <ul class="cateList">
-              <li [hidden]="cate?.List_QuestionContent.length <= 0">
+              <li>
                 <button class="btn px-0 w-100 text-left" type="button" data-toggle="collapse" attr.data-target="{{'#c' + cate?.QuestionCategory_Code}}"
                   attr.aria-controls="{{'#c' + cate?.QuestionCategory_Code}}" aria-expanded="false">
                     {{cate?.QuestionCategory_Name}} <span class="float-right"><i class="material-icons expand_more">&#xe5cf;</i></span>
