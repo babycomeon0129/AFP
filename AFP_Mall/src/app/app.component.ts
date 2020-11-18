@@ -143,6 +143,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
         }
       });
 
+      console.log('swPush.isEnabled:', this.swPush.isEnabled);
       this.swPush.messages.subscribe(msg => {
         // count msg length and show red point
         console.log(msg);

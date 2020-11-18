@@ -22,7 +22,7 @@
             "assets": [
               "src/favicon.ico",
               "src/img",
-              "src/manifest.webmanifest"
+              "src/manifest.json"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -85,7 +85,7 @@
                 }
               ],
               "optimization": false,
-              "outputHashing": "none",
+              "outputHashing": "all",
               "sourceMap": true,
               "extractCss": true,
               "namedChunks": false,
@@ -137,7 +137,7 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/manifest.webmanifest"
+              "src/manifest.json"
             ],
             "styles": [
               "src/styles.css"
