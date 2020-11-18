@@ -56,7 +56,7 @@ export class QAComponent implements OnInit {
   /** 搜尋輸入字串 */
   search(): void {
     const newQa = JSON.parse(JSON.stringify(this.qaDataCopy));
-    this.qaData = this.qaDataCopy.filter((cate: AFP_QuestionCategory) => {
+    this.qaData = newQa.filter((cate: AFP_QuestionCategory) => {
       const newCate = cate.List_QuestionContent.filter((q: AFP_QuestionContent) => q.QuestionContent_Title.includes(this.searchTarget) || q.QuestionContent_Body.includes(this.searchTarget));
       cate.List_QuestionContent = newCate;
       return newCate.length > 0;
