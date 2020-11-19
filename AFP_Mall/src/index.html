@@ -1,14 +1,17 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <base href="/">
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=no">
-    <!-- Material Design for Bootstrap fonts and icons -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
+
+<head>
+  <base href="/">
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=no">
+  <!--Cache-Control meta-->
+  <meta http-equiv="Cache-Control" content="no-store, expires 0" />
+  <!-- Material Design for Bootstrap fonts and icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
@@ -34,24 +37,26 @@
     <link rel="apple-touch-icon" href="/assets/icons/icon-384x384.png"/>
     <link rel="apple-touch-icon" href="/assets/icons/icon-512x512.png"/>
 </head>
-  <body>
-    <noscript>Please enable JavaScript to continue using this application.</noscript>
+
+<body>
+  <noscript>Please enable JavaScript to continue using this application.</noscript>
 </body>
-  <script>
+<script>
   // Android需要调用的方法-1
   function AppRouter(url, userName = null, userCode = null, CustomerInfo = null, loginType = 1) {
     let actionUrl = url;
-    if(CustomerInfo != null) {
+    if (CustomerInfo != null) {
       // if (userName != null && userCode != null && CustomerInfo != null) {
       //   alert('全部都有');
       //   sessionStorage.setItem('CustomerInfo', CustomerInfo);
       //   sessionStorage.setItem('userCode', userCode);
       //   sessionStorage.setItem('userName', userName.replace('"',''));
       //  }
-      actionUrl = url + '&customerInfo=' + CustomerInfo + '&userName=' + userName.replace('"','') + '&userCode=' + userCode + '&loginType=' + loginType;
+      actionUrl = url + '&customerInfo=' + CustomerInfo + '&userName=' + userName.replace('"', '') + '&userCode=' + userCode + '&loginType=' + loginType;
     }
     //alert(actionUrl);
-    window.location.href= actionUrl;
+    window.location.href = actionUrl;
   }
-  </script>
+</script>
+
 </html>
