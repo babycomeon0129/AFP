@@ -25,24 +25,26 @@
     <link rel="manifest" href="manifest.webmanifest">
     <meta name="theme-color" content="#1976d2">
 </head>
-  <body>
-    <noscript>Please enable JavaScript to continue using this application.</noscript>
+
+<body>
+  <noscript>Please enable JavaScript to continue using this application.</noscript>
 </body>
-  <script>
+<script>
   // Android需要调用的方法-1
   function AppRouter(url, userName = null, userCode = null, CustomerInfo = null, loginType = 1) {
     let actionUrl = url;
-    if(CustomerInfo != null) {
+    if (CustomerInfo != null) {
       // if (userName != null && userCode != null && CustomerInfo != null) {
       //   alert('全部都有');
       //   sessionStorage.setItem('CustomerInfo', CustomerInfo);
       //   sessionStorage.setItem('userCode', userCode);
       //   sessionStorage.setItem('userName', userName.replace('"',''));
       //  }
-      actionUrl = url + '&customerInfo=' + CustomerInfo + '&userName=' + userName.replace('"','') + '&userCode=' + userCode + '&loginType=' + loginType;
+      actionUrl = url + '&customerInfo=' + CustomerInfo + '&userName=' + userName.replace('"', '') + '&userCode=' + userCode + '&loginType=' + loginType;
     }
     //alert(actionUrl);
-    window.location.href= actionUrl;
+    window.location.href = actionUrl;
   }
-  </script>
+</script>
+
 </html>

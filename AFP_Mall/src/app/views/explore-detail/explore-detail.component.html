@@ -254,7 +254,7 @@
       <div class="addheight"></div>
       <div class="h-50 d-inline-block"></div>
       <!--外送點餐按鈕-->
-      <footer class="success-mode container z-index301" *ngIf="ecStoreExtType !== null">
+      <footer class="success-mode container z-index301" *ngIf="ecStoreExtType !== null && dataLoad">
         <button class="btn-ok" (click)="sendDelivery()">我要點餐</button>
      </footer>
 

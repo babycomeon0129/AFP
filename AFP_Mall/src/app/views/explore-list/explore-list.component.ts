@@ -3,6 +3,8 @@ import { AppService } from 'src/app/app.service';
 import { Response_AreaIndex, AFP_UserDefine, Request_AreaIndex, AreaJsonFile_ECStore } from '../../_models';
 import { ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
+import { ModalService } from 'src/app/service/modal.service';
+import { BsModalRef } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-explore-list',
@@ -29,7 +31,8 @@ export class ExploreListComponent implements OnInit {
   /** 如果readData() 跑完資料才顯示 */
   public dataOk = false;
 
-  constructor(public appService: AppService, private route: ActivatedRoute, private meta: Meta, private title: Title) {
+  constructor(public appService: AppService, private route: ActivatedRoute, private meta: Meta, private title: Title,
+              private modal: ModalService, private bsModalRef: BsModalRef) {
     // 若有從外部帶一指定目錄編碼
     if (this.route.snapshot.params.AreaMenu_Code !== undefined) {
       this.areaMenuCode = Number(this.route.snapshot.params.AreaMenu_Code);
@@ -50,11 +53,10 @@ export class ExploreListComponent implements OnInit {
         // this.readData();
         this.categoryOpenStatus = false;
       }
+      // 判斷瀏覽器是否支援geolocation API
       if (navigator.geolocation !== undefined) {
         // 請求取用使用者現在的位置
         navigator.geolocation.getCurrentPosition(success => {
-          // console.log(position);
-          /* 22.6117234 120.2979388 */
           this.lat = success.coords.latitude;
           this.lng = success.coords.longitude;
           this.readData();
@@ -65,7 +67,15 @@ export class ExploreListComponent implements OnInit {
           this.readData();
         });
       } else {
-        alert('該瀏覽器不支援定位功能');
+        const initialState = {
+          success: true,
+          message: '該瀏覽器不支援定位功能',
+          showType: 1
+        };
+        this.modal.show('message', { initialState }, this.bsModalRef);
+        this.lat = 25.034306;
+        this.lng = 121.564603;
+        this.readData();
       }
     });
   }
