@@ -257,8 +257,8 @@
                     <div class="swiper-slide" *ngFor="let inside of item.ECStoreData">
                       <div class="products-item">
                         <a [routerLink]="['/ExploreDetail', inside.ECStore_Code]" class="content-item">
-                          <div class="img-box imgLiquidFill imgLiquid">
-                            <img [lazyLoad]="inside.ECStore_Image1"  [defaultImage]="appService.defaultImage" alt="{{inside.ECStore_ShowName}}">
+                          <div class="img-box">
+                            <img [lazyLoad]="inside.ECStore_Image1"  [defaultImage]="appService.defaultImage" alt="{{inside.ECStore_ShowName}}" class="rwdimg">
                           </div>
                           <div class="item-title">
                             {{inside.ECStore_ShowName}}
@@ -303,8 +303,8 @@
                     <div class="swiper-slide" *ngFor="let inside of item.ECStoreData">
                       <div class="products-item">
                         <a [routerLink]="['/ExploreDetail', inside.ECStore_Code]" class="content-item">
-                          <div class="img-box imgLiquidFill imgLiquid">
-                            <img [lazyLoad]="inside.ECStore_Image1"  [defaultImage]="appService.defaultImage" alt="{{inside.ECStore_ShowName}}">
+                          <div class="img-box">
+                            <img [lazyLoad]="inside.ECStore_Image1"  [defaultImage]="appService.defaultImage" alt="{{inside.ECStore_ShowName}}" class="rwdimg">
                           </div>
                           <div class="item-title">
                             {{inside.ECStore_ShowName}}

@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AACA,OAAO,CAAC,kBAAI;AACZ,OAAO,CAAC,qBAAI;AACZ,OAAO,CAAC,oBAAI",
-    "sources": [
-        "../../scss/afp.scss"
-    ],
-    "names": [],
-    "file": "afp.css"
-}

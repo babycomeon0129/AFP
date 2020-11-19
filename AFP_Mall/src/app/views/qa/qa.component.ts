@@ -46,9 +46,8 @@ export class QAComponent implements OnInit {
     };
 
     this.appService.toApi('Member', '1522', request).subscribe((data: Response_MemberQuestion) => {
-      const dataFilter = JSON.parse(JSON.stringify(data.List_QuestionCategory));
       // 如果大分類內沒有任何QA內容，先篩選掉
-      this.qaDataCopy = dataFilter.filter((list: AFP_QuestionCategory) => list.List_QuestionContent.length > 0);
+      this.qaDataCopy = data.List_QuestionCategory.filter((list: AFP_QuestionCategory) => list.List_QuestionContent.length > 0);
       this.qaData = JSON.parse(JSON.stringify(this.qaDataCopy));
     });
   }

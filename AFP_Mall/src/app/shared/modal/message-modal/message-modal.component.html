@@ -6,6 +6,7 @@
 <div class="modal-body">
   <div>
     <p id="msg-loginok" *ngIf="success" [innerHTML]="message"></p>
+    <p *ngIf="success && voucherName !== null">{{voucherName}}</p>
     <p id="msg-loginerror" *ngIf="!success">{{message}}</p>
     <small id="reminder" *ngIf="note !== null">{{note}}</small>
     <div *ngIf="showType == 999 && adImgList.length > 0" class="pt-4">

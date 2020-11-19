@@ -8,7 +8,6 @@ import { CookieService } from 'ngx-cookie-service';
 import { RouterOutlet } from '@angular/router';
 import { slideInAnimation } from './animations';
 import { SwPush } from '@angular/service-worker';
-// import * as firebase from 'firebase/app';
 import firebase from 'firebase/app';
 import 'firebase/messaging';
 
@@ -115,25 +114,19 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
           .then(() => messaging.getToken())
           .then(token => {
             // send token to BE
-            console.log('Permission granted!', token);
             // get GUID (device code) from session, or generate one if there's no
-            // let deviceCode = '';
             if (sessionStorage.getItem('M_DeviceCode') !== null) {
               this.deviceCode = sessionStorage.getItem('M_DeviceCode');
-              console.log('deviceCode (from session):', this.deviceCode);
             } else {
               this.deviceCode = this.guid();
               sessionStorage.setItem('M_DeviceCode', this.deviceCode);
-              console.log('deviceCode (new):', this.deviceCode);
             }
 
             const request: Request_AFPPushToken = {
               User_Code: sessionStorage.getItem('userCode'),
               Token: token
             };
-            console.log('deviceCode (before call 1113):', this.deviceCode);
             this.appService.toApi('Home', '1113', request, null, null, this.deviceCode).subscribe((data: Response_AFPPushToken) => {
-              console.log(data);
               sessionStorage.setItem('CustomerInfo', data.CustomerInfo);
               this.cookieService.set('CustomerInfo', data.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
             });
@@ -143,10 +136,8 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
         }
       });
 
-      console.log('swPush.isEnabled:', this.swPush.isEnabled);
       this.swPush.messages.subscribe(msg => {
         // count msg length and show red point
-        console.log(msg);
         this.appService.pushCount += 1;
       });
     }
@@ -200,6 +191,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
     // });
   }
 
+  /** 產生device code */
   guid(): string {
     let d = Date.now();
     if (typeof performance !== 'undefined' && typeof performance.now === 'function') {

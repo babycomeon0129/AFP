@@ -65,7 +65,6 @@ export class AppService {
   }
 
   toApi(ctrl: string, command: string, request: any, lat: number = null, lng: number = null, deviceCode?: string): Observable<any> {
-    console.log('deviceCode (in toApi):', deviceCode);
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       xEyes_Command: command,
@@ -110,11 +109,6 @@ export class AppService {
           default:
             this.onLogout();
             this.router.navigate(['/']);
-        }
-        // 任務完成訊息
-        const MissionList = data.MissionInfo.List_MissionDetail.filter(x => (x.Mission_Info !== null && x.Mission_Info.trim() !== ''));
-        if (MissionList.length > 0) {
-          this.modal.show('mission', { initialState: { missionArr: MissionList } });
         }
         this.blockUI.stop();
         return JSON.parse(data.Data);
