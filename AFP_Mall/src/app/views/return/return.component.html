@@ -18,89 +18,89 @@
       </div>
     </div>
   </header>
-  
-  <div class="order-info">
-    <ul>
-      <li class="flex-inline-between">
-        <div class="item">訂單編號</div>
-        <div class="item">{{orderNo}}</div>
-      </li>
-    </ul>
-  </div>
-  <div class="order-box">
-    <div class="order-subtitle">
-      <i class="material-icons">&#xE8D1;</i><span class="store-name">{{storeInfo?.ECStore_ShowName}}</span>
-    </div>
-    <ul class="order-shop-list">
-      <li *ngFor="let product of productInfo">
-        <div class="item rwdimgbox-80">
-          <div [style.background-image]="'url('+product?.Product_ShowImg+')'" class="rwdimg-cover"></div>
-        </div>
-        <div class="item item-txt">
-          <p>{{product?.ItemInfoPart_ItemName}}</p>
-          <p>規格：{{product?.ItemInfoPart_AttributeValueName}}</p>
-          <p class="order-price auto-top">{{product?.ItemInfoPart_PayAmount | currency: 'TWD':'$':'1.0-2'}}</p>
-        </div>
-        <div class="item item-num order-quantity">x{{product?.ItemInfoPart_Quantity}}</div>
-      </li>
-    </ul>
-    <div class="order-method-box">
-      <ul class="method-list">
-        <li class="index-flex">
-          <div class="item one">選擇方式</div>
-          <div class="item three item-right">
-            <div class="form-check-inline">
-              <label class="radio-box form-check-label">退貨
-                <input type="radio" name="p1radio" class="form-check-input" style="position: fixed;" checked>
-                <span class="checkmark"></span>
-              </label>
-              <!-- 換貨先隱藏 -->
-              <label class="radio-box form-check-label d-none">換貨
-                <input type="radio" name="p1radio" class="form-check-input" style="position: fixed;">
-                <span class="checkmark"></span>
-              </label>
-            </div>
-          </div>
-        </li>
-        <li class="index-flex" (click)="appService.callLayer('.returnReason')">
-          <div class="item one">原因</div>
-          <div class="item two item-right d-flex d-inline">
-            <span class="reason-txt w-100">{{showReason(servicesModel.Services_Reason)}}</span>
-            <span class="center-v"><i class="material-icons">&#xe315;</i></span>
-          </div>
-        </li>
-        <li class="index-flex">
-          <div class="item one">備註</div>
-          <div class="item three item-right">
-            <input type="text" placeholder="補充更多退款/退貨的原因" [(ngModel)]="servicesModel.Services_OtherMsg">
-          </div>
-        </li>
-        <li class="index-flex" (click)="readMemberAddress(); appService.callLayer('.myaddress');">
-          <div class="item">取件地址</div>
-          <div class="item-group item-right d-flex d-inline">
-            <span class="item small w-100">
-              {{servicesModel.Services_Address}}<br>
-              {{servicesModel.Services_CName}}<br>
-              {{servicesModel.Services_CPhone}}
-            </span>
-            <span class="center-v"><i class="material-icons">&#xe315;</i></span>
-          </div>
-        </li>
-        <li class="note-boxbg">
-          若需退貨，司機將會於3~7天內與您聯絡取件，請您手機保持通暢，以利司機與您聯繫
-        </li>
-      </ul>
-    </div>
-    <div class="addheight"></div>
-    <footer class="shopping-cartfooter container fixed-bottom">
+  <div>
+    <div class="order-info">
       <ul>
-        <li>
-          <div class="item w-100 p-2"><button type="button" class="btn index-outline-btn w-100" (click)="SendService()">完成</button></div>
+        <li class="flex-inline-between">
+          <div class="item">訂單編號</div>
+          <div class="item">{{orderNo}}</div>
         </li>
       </ul>
-    </footer>
+    </div>
+    <div class="order-box">
+      <div class="order-subtitle">
+        <i class="material-icons">&#xE8D1;</i><span class="store-name">{{storeInfo?.ECStore_ShowName}}</span>
+      </div>
+      <ul class="order-shop-list">
+        <li *ngFor="let product of productInfo">
+          <div class="item rwdimgbox-80">
+            <div [style.background-image]="'url('+product?.Product_ShowImg+')'" class="rwdimg-cover"></div>
+          </div>
+          <div class="item item-txt">
+            <p>{{product?.ItemInfoPart_ItemName}}</p>
+            <p>規格：{{product?.ItemInfoPart_AttributeValueName}}</p>
+            <p class="order-price auto-top">{{product?.ItemInfoPart_PayAmount | currency: 'TWD':'$':'1.0-2'}}</p>
+          </div>
+          <div class="item item-num order-quantity">x{{product?.ItemInfoPart_Quantity}}</div>
+        </li>
+      </ul>
+      <div class="order-method-box">
+        <ul class="method-list">
+          <li class="index-flex">
+            <div class="item one">選擇方式</div>
+            <div class="item three item-right">
+              <div class="form-check-inline">
+                <label class="radio-box form-check-label">退貨
+                  <input type="radio" name="p1radio" class="form-check-input" style="position: fixed;" checked>
+                  <span class="checkmark"></span>
+                </label>
+                <!-- 換貨先隱藏 -->
+                <label class="radio-box form-check-label d-none">換貨
+                  <input type="radio" name="p1radio" class="form-check-input" style="position: fixed;">
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+            </div>
+          </li>
+          <li class="index-flex" (click)="appService.callLayer('.returnReason')">
+            <div class="item one">原因</div>
+            <div class="item two item-right d-flex d-inline">
+              <span class="reason-txt w-100">{{showReason(servicesModel.Services_Reason)}}</span>
+              <span class="center-v"><i class="material-icons">&#xe315;</i></span>
+            </div>
+          </li>
+          <li class="index-flex">
+            <div class="item one">備註</div>
+            <div class="item three item-right">
+              <input type="text" placeholder="補充更多退款/退貨的原因" [(ngModel)]="servicesModel.Services_OtherMsg">
+            </div>
+          </li>
+          <li class="index-flex" (click)="readMemberAddress(); appService.callLayer('.myaddress');">
+            <div class="item">取件地址</div>
+            <div class="item-group item-right d-flex d-inline">
+              <span class="item small w-100">
+                {{servicesModel.Services_Address}}<br>
+                {{servicesModel.Services_CName}}<br>
+                {{servicesModel.Services_CPhone}}
+              </span>
+              <span class="center-v"><i class="material-icons">&#xe315;</i></span>
+            </div>
+          </li>
+          <li class="note-boxbg">
+            若需退貨，司機將會於3~7天內與您聯絡取件，請您手機保持通暢，以利司機與您聯繫
+          </li>
+        </ul>
+      </div>
+      <div class="addheight"></div>
+      <footer class="shopping-cartfooter container fixed-bottom">
+        <ul>
+          <li>
+            <div class="item w-100 p-2"><button type="button" class="btn index-outline-btn w-100" (click)="SendService()">完成</button></div>
+          </li>
+        </ul>
+      </footer>
+    </div>
   </div>
-
   <!--次頁-->
   <div class="multilayer">
     <!-- 退貨原因 -->
