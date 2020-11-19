@@ -60,7 +60,7 @@
                 <div class="item item-card-num">*{{card.UserFavourite_Text2}}</div>
                 <div class="item item-default auto-left"
                   [ngClass]="{'active': reqData.UserFavourite_ID === card.UserFavourite_ID}">
-                  <i class="fas fa-check" [hidden]="!(reqData.UserFavourite_ID === card.UserFavourite_ID)"></i>
+                  <i class="material-icons done" [hidden]="!(reqData.UserFavourite_ID === card.UserFavourite_ID)">&#xe876;</i>
                 </div>
               </li>
               <li (click)="addNewCard(payWay);">

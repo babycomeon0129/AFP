@@ -113,7 +113,7 @@
                   [ngClass]="{'active' : deliveryForm.RecCityValue === city.UserReport_ItemName}"
                   (click)="cityCheck(city.UserReport_ItemName,city.UserReport_ItemCode);appService.callsortLayer('.dist');">
                       <div class="item">{{city.UserReport_ItemName}}</div>
-                      <div class="item"><i class="fas fa-check"></i></div>
+                      <div class="item"><i class="material-icons done">&#xe876;</i></div>
                   </li>
               </ul>
           </div>
@@ -141,7 +141,7 @@
                     {{district.UserReport_ItemName}}
                   </div>
                   <div class="item">
-                      <i class="fas fa-check"></i>
+                      <i class="material-icons done">&#xe876;</i>
                   </div>
               </li>
               </ul>
