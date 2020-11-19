@@ -19,6 +19,8 @@ export class MessageModalComponent implements OnInit {
   adImgList: AFP_ADImg[];
   /** 重設密碼用 */
   VerifiedInfo: AFP_VerifiedInfo;
+  /** 優惠券名稱 */
+  voucherName: string;
 
   constructor(public bsModalRef: BsModalRef, public modal: ModalService, private router: Router, public appService: AppService) { }
 

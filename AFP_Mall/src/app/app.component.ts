@@ -95,32 +95,6 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
       this.appService.appShowbottomBar(this.showMobileFooter);
     });
 
-    // 通知推播
-    firebase.initializeApp(environment.firebase);
-    const messaging = firebase.messaging();
-    navigator.serviceWorker.ready.then(registration => {
-      if (
-        !!registration &&
-        registration.active &&
-        registration.active.state &&
-        registration.active.state === 'activated'
-      ) {
-        messaging.useServiceWorker(registration);
-        Notification
-          .requestPermission()
-          .then(() => messaging.getToken());
-          // .then(token => console.log('Permission granted!', token));
-      } else {
-        console.warn(
-          'No active service worker found, not able to get firebase messaging'
-        );
-      }
-    });
-
-    this.swPush.messages.subscribe(msg => {
-      // console.log(msg);
-    });
-
     // this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => window.scrollTo(0, 0));
 
     // // App訪問
