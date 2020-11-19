@@ -189,7 +189,7 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
           clearTimeout(this.timer3Mins);
           this.appService.backLayer();
           // showType: 999核銷成功後顯示廣告圖片
-          this.modal.show('message', { initialState: { success: true, message: data.AFP_UserVoucher.VoucherUsedMessage, showType: 999, adImgList: data.List_ADImg}});
+          this.modal.show('message', { initialState: { success: true, message: data.AFP_UserVoucher.VoucherUsedMessage, showType: 999, adImgList: data.List_ADImg, voucherName: data.AFP_UserVoucher.Voucher_Name}});
           return false;
         }
       });
