@@ -198,7 +198,6 @@
     <Content Include="src\app\views\travel\travel.component.html" />
     <Content Include="src\app\views\voucher-detail\voucher-detail.component.css" />
     <Content Include="src\app\views\voucher-detail\voucher-detail.component.html" />
-    <Content Include="src\dist\imgLiquid.js" />
     <Content Include="src\dist\style\a11y.css" />
     <Content Include="src\dist\style\a11y.css.map" />
     <Content Include="src\dist\style\a11y.min.css" />

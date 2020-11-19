@@ -41,8 +41,7 @@
               "node_modules/popper.js/dist/umd/popper.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/swiper/js/swiper.min.js",
-              "node_modules/jquery-editable-select/dist/jquery-editable-select.min.js",
-              "src/dist/imgLiquid.js"
+              "node_modules/jquery-editable-select/dist/jquery-editable-select.min.js"
             ]
           },
           "configurations": {
