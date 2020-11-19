@@ -37,7 +37,6 @@
     "firebase": "^8.0.1",
     "html2canvas": "^1.0.0-rc.5",
     "jquery": "^3.2.1",
-    "jquery-editable-select": "^2.2.5",
     "jspdf": "^1.5.3",
     "jwt-decode": "^3.0.0-beta.2",
     "ng-block-ui": "^2.1.8",

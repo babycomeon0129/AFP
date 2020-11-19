@@ -1,5 +1,5 @@
 import { environment } from './../../../../environments/environment';
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap';
 import { AppService } from 'src/app/app.service';
@@ -7,13 +7,12 @@ import { ModalService } from 'src/app/service/modal.service';
 import { Request_AFPThird, Request_AFPAccount, Response_AFPAccount, Response_AFPLogin } from 'src/app/_models';
 import { AuthService, SocialUser, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 import { CookieService } from 'ngx-cookie-service';
-declare var $: any;
 
 @Component({
   selector: 'app-register-modal',
   templateUrl: './register-modal.component.html'
 })
-export class RegisterModalComponent implements OnInit, AfterViewInit {
+export class RegisterModalComponent implements OnInit {
 
   // 第三方登入 User容器
   thirdUser: SocialUser;
@@ -51,7 +50,7 @@ export class RegisterModalComponent implements OnInit, AfterViewInit {
   }
 
   // 註冊送出
-  onRegSubmit() {
+  onRegSubmit(): void {
     this.appService.openBlock();
     this.appService.toApi('AFPAccount', '1101', this.register).subscribe((data: Response_AFPAccount) => {
       this.register.AFPAccountCTY = 886;
@@ -80,7 +79,7 @@ export class RegisterModalComponent implements OnInit, AfterViewInit {
   }
 
 
-  ngOnInit() {
+  ngOnInit(): void {
     //  第三方登入取得資料
     this.authService.authState.subscribe((user) => {
       if (user != null && this.regClick) {
@@ -113,12 +112,6 @@ export class RegisterModalComponent implements OnInit, AfterViewInit {
       //  IOS
       this.hideThird = true;
     }
-  }
-
-  ngAfterViewInit(): void {
-
-    // 手機國碼選擇
-    $('#registeredSelectState').editableSelect({ effects: 'default' });
   }
 
 }
