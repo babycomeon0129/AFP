@@ -29,7 +29,7 @@
               "node_modules/swiper/css/swiper.min.css",
               "node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css",
               "node_modules/@fortawesome/fontawesome-free/css/brands.css",
-              "node_modules/@fortawesome/fontawesome-free/css/solid.css",
+              "node_modules/@fortawesome/fontawesome-free/css/solid.min.css",
               "node_modules/jquery-editable-select/dist/jquery-editable-select.min.css",
               "node_modules/animate.css/animate.min.css",
               "src/dist/style/css.min.css",
