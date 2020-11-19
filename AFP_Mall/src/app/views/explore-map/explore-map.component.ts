@@ -5,6 +5,8 @@ import { Request_AreaIndex, Response_AreaIndex, AreaJsonFile_ECStore, AFP_UserDe
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'ngx-useful-swiper';
 import { AgmMap } from '@agm/core';
+import { ModalService } from 'src/app/service/modal.service';
+import { BsModalRef } from 'ngx-bootstrap';
 
 @Component({
   // selector: 'app-explore-map',
@@ -52,24 +54,33 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
     }
   };
 
-  constructor(public appService: AppService, private route: ActivatedRoute) {
+  constructor(public appService: AppService, private route: ActivatedRoute, private modal: ModalService, private bsModalRef: BsModalRef) {
   }
 
   ngOnInit() {
-    this.lat = 25.034306;
-    this.lng = 121.564603;
-    this.readAreaData(this.areaMenuCode);
-
+    // 判斷瀏覽器是否支援geolocation API
     if (navigator.geolocation !== undefined) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        // console.log(position);
-        /* 22.6117234 120.2979388 */
-        this.lat = position.coords.latitude;
-        this.lng = position.coords.longitude;
+      // 請求取用使用者現在的位置
+      navigator.geolocation.getCurrentPosition(success => {
+        this.lat = success.coords.latitude;
+        this.lng = success.coords.longitude;
+        this.readAreaData(this.areaMenuCode);
+      }, err => {
+        // 如果用戶不允取分享位置，取預設位置(台北101)
+        this.lat = 25.034306;
+        this.lng = 121.564603;
         this.readAreaData(this.areaMenuCode);
       });
     } else {
-      alert('該瀏覽器不支援定位功能');
+      const initialState = {
+        success: true,
+        message: '該瀏覽器不支援定位功能',
+        showType: 1
+      };
+      this.modal.show('message', { initialState }, this.bsModalRef);
+      this.lat = 25.034306;
+      this.lng = 121.564603;
+      this.readAreaData(this.areaMenuCode);
     }
   }
 
