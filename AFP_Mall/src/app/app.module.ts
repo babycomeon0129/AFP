@@ -254,13 +254,4 @@ defineLocale('zh-cn', zhCnLocale);
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class AppModule {
-  constructor(swUpdate: SwUpdate) {
-    // console.log('swUpdate.isEnabled:', swUpdate.isEnabled);
-    if (swUpdate.isEnabled) {
-      swUpdate.available.subscribe((event) => {
-        window.location.reload();
-      });
-    }
-  }
-}
+export class AppModule { }
