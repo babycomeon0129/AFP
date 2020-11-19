@@ -473,9 +473,6 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      $('.imgLiquidFill').imgLiquid();
-    }, 600);
   }
 
   ngDoCheck(): void {
