@@ -118,7 +118,7 @@ export class RegisterModalComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
 
     // 手機國碼選擇
-    $('#registeredSelectState').editableSelect({ effects: 'default' });
+    // $('#registeredSelectState').editableSelect({ effects: 'default' });
   }
 
 }

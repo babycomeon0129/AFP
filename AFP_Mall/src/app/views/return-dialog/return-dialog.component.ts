@@ -107,8 +107,8 @@ export class ReturnDialogComponent implements OnInit, AfterViewInit, AfterViewCh
     this.height = event.newHeight;
   }
   ngAfterViewChecked() {
-    this.el.nativeElement.querySelector('.service-store-footer').style = 'bottom:' +
-    this.el.nativeElement.querySelector('#footpc').clientHeight + 'px;';
+    // this.el.nativeElement.querySelector('.service-store-footer').style = 'bottom:' +
+    // this.el.nativeElement.querySelector('#footpc').clientHeight + 'px;';
   }
 }
 
