@@ -162,6 +162,7 @@ export class AppService {
     this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
     this.loginState = false;
     this.userFavCodes = [];
+    this.pushCount = 0;
 
     //  APP登出導頁
     if (this.isApp !== null) {
