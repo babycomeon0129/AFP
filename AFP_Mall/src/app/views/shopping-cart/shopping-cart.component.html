@@ -48,7 +48,7 @@
                             <div class="icheck-material-blue">
                                 <input id="{{store.StoreCode}}" [checked]="store.CheckedStatus === true" (change)="onToggleStore(store)" type="checkbox">
                                 <label for="{{store.StoreCode}}">
-                                    <i class="fas fa-store pr-2 pb-1"></i>{{store.StoreName}}
+                                  <i class="material-icons storefront">&#xea12;</i>{{store.StoreName}}
                                 </label>
                             </div>
                         </div>
@@ -77,11 +77,11 @@
                                         <div class="products-quantity">
                                             <div class="d-flex p-quantity products001">
                                                 <div class="input-group-btn data-dwn" (click)="onChangeAmount(0, product)">
-                                                      <button type="button" class="btn btn-default btn-outline-dark" data-dir="dwn"><i class="fas fa-minus"></i></button>
+                                                      <button type="button" class="btn btn-default btn-outline-dark" data-dir="dwn"><i class="material-icons remove">&#xe15b;</i></button>
                                                 </div>
                                                 <div><input type="number" class="form-control text-center products001 bg-white" value="{{product.ProductQty}}" required readonly></div>
                                                 <div class="input-group-btn data-up" (click)="onChangeAmount(1, product)">
-                                                      <button type="button" class="btn btn-default btn-outline-dark" data-dir="up"><i class="fas fa-plus"></i></button>
+                                                      <button type="button" class="btn btn-default btn-outline-dark" data-dir="up"><i class="material-icons add">&#xe145;</i></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -113,7 +113,7 @@
       <footer class="shopping-cartfooter">
           <div class="shopping-coupon container">
               <div class="flex-inline-between coupon-box">
-                  <div><i class="material-icons offer"></i>下一步使用優惠券、折扣碼</div>
+                  <div><i class="material-icons local_offer">&#xe54e;</i>下一步使用優惠券、折扣碼</div>
               </div>
           </div>
           <div class="fixed-bottom container">

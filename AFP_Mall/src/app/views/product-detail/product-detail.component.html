@@ -92,14 +92,14 @@
                   <div class="products-quantity">
                     <div class="flex-inline-between p-quantity products001">
                       <div class="input-group-btn data-dwn">
-                          <button (click)="onSelectAmount(0)" class="btn btn-default btn-outline-dark amountBtn" id="amountMinus" data-dir="dwn"><i class="fas fa-minus"></i></button>
+                          <button (click)="onSelectAmount(0)" class="btn btn-default btn-outline-dark amountBtn" id="amountMinus" data-dir="dwn"><i class="material-icons remove">&#xe15b;</i></button>
                       </div>
                       <div>
                         <input type="number" id="selectedAmount" readonly appDigitOnly [(ngModel)]="prodAmount" #selectedAmount="ngModel"
                           class="form-control text-center products001 bg-white" (keydown)="preventInput($event)">
                       </div>
                       <div class="input-group-btn data-up">
-                          <button (click)="onSelectAmount(1)" class="btn btn-default btn-outline-dark amountBtn" id="amountPlus" data-dir="up"><i class="fas fa-plus"></i></button>
+                          <button (click)="onSelectAmount(1)" class="btn btn-default btn-outline-dark amountBtn" id="amountPlus" data-dir="up"><i class="material-icons add">&#xe145;</i></button>
                       </div>
                     </div>
                   </div>

@@ -55,7 +55,7 @@
         <div *ngIf="storeData?.length > 0" class="ticket-detailrow">
           <a [routerLink]="['/ExploreDetail', store.ECStore_Code]" *ngFor="let store of storeData" class="d-flex p-3">
             <div class="item item-icon">
-              <i class="material-icons"></i>
+              <i class="material-icons location_on">&#xe0c8;</i>
             </div>
             <div class="item">
               {{store?.ECStore_ShowName}}
@@ -68,7 +68,7 @@
         <div class="ticket-detailrow">
           <div class="d-flex p-3">
             <div class="item item-icon">
-              <i class="material-icons"></i>
+              <i class="material-icons access_time">&#xe192;</i>
             </div>
             <div class="item">
               {{(voucherData?.Voucher_UsedOnDate | date: 'yyyy/MM/dd')}}～{{(voucherData?.Voucher_UsedOffDate | date: 'yyyy/MM/dd')}}

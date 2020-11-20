@@ -114,7 +114,7 @@
                                       <ul class="itemopen-list">
                                           <li *ngFor="let store of branchList" [routerLink]="['/ExploreDetail', store?.ECStore_Code]">
                                             <span>{{store?.ECStore_ShowName}}</span>
-                                            <i class="fas fa-chevron-right text-right pr-2"></i>
+                                            <i class="material-icons keyboard_arrow_right">&#xe315;</i>
                                           </li>
                                           <li *ngIf="branchList.length === 0">
                                             <span>無分店資訊</span>
@@ -317,7 +317,7 @@
                           熱門程度優先
                       </div>
                       <div class="">
-                          <i class="fas fa-check"></i>
+                          <i class="material-icons done">&#xe876;</i>
                       </div>
                   </li>
                   <li class="flex-inline-between">
@@ -357,7 +357,7 @@
               <ul class="open-page-ul">
                   <li class="flex-inline-between active">
                       <div class="">
-                          <i class="fas fa-check"></i> 全部顯示
+                          <i class="material-icons done">&#xe876;</i> 全部顯示
                       </div>
                       <div class="">
                       </div>
