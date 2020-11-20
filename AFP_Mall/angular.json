@@ -22,7 +22,8 @@
             "assets": [
               "src/favicon.ico",
               "src/img",
-              "src/manifest.json"
+              "src/manifest.json",
+              "src/assets"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
