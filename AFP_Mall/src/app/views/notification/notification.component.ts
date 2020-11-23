@@ -42,6 +42,8 @@ export class NotificationComponent implements OnInit, OnDestroy {
       this.categoryMsg = data.List_MsgTitle;
       this.latestList = data.List_Message;
       this.JustkaUrl = data.JustKaUrl;
+      // 將通知都視為已讀
+      this.appService.pushCount = 0;
     });
     // 若是從訊息詳情點擊分類進來則直接開啟該分類列表
     if (history.state.data !== undefined) {

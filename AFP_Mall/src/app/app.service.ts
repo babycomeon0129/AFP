@@ -46,6 +46,8 @@ export class AppService {
   public currentUrl = this.router.url;
   /** lazyload 的初始圖片 */
   public defaultImage = '../img/share/eee.jpg';
+  /** 推播訊息數量 */
+  public pushCount = 0;
 
   @BlockUI() blockUI: NgBlockUI;
   constructor(private http: HttpClient, private bsModal: BsModalService, public modal: ModalService, private router: Router,
@@ -62,14 +64,15 @@ export class AppService {
     });
   }
 
-  toApi(ctrl: string, command: string, request: any, lat: number = null, lng: number = null): Observable<any> {
+  toApi(ctrl: string, command: string, request: any, lat: number = null, lng: number = null, deviceCode?: string): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       xEyes_Command: command,
       xEyes_X: (lng != null) ? lng.toString() : '',
       xEyes_Y: (lat != null) ? lat.toString() : '',
       xEyes_DeviceType: (this.isApp != null) ? '1' : '0',
-      xEyes_CustomerInfo: (sessionStorage.getItem('CustomerInfo') !== null) ? sessionStorage.getItem('CustomerInfo') : ''
+      xEyes_CustomerInfo: (sessionStorage.getItem('CustomerInfo') !== null) ? sessionStorage.getItem('CustomerInfo') : '',
+      xEyes_DeviceCode: deviceCode === undefined ? '' : deviceCode
     });
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
@@ -106,11 +109,6 @@ export class AppService {
           default:
             this.onLogout();
             this.router.navigate(['/']);
-        }
-        // 任務完成訊息
-        const MissionList = data.MissionInfo.List_MissionDetail.filter(x => (x.Mission_Info !== null && x.Mission_Info.trim() !== ''));
-        if (MissionList.length > 0) {
-          this.modal.show('mission', { initialState: { missionArr: MissionList } });
         }
         this.blockUI.stop();
         return JSON.parse(data.Data);
@@ -164,6 +162,7 @@ export class AppService {
     this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
     this.loginState = false;
     this.userFavCodes = [];
+    this.pushCount = 0;
 
     //  APP登出導頁
     if (this.isApp !== null) {

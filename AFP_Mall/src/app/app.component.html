@@ -21,13 +21,15 @@
       周邊
     </a>
     <a [routerLink]="['/Mission']" class="bar-item" [ngClass]="{'active': headingPage.indexOf('/Mission') != -1}">
-      <div class="more-dot d-none"></div>
+      <!-- <div class="more-dot"></div> -->
       <img class="default-img" src="img/index/tabbar/mission.png" alt="">
       <img class="active-img" src="img/index/tabbar/mission_choosen.png" alt="">
       任務
     </a>
     <a (click)="goTo()" [ngClass]="{'active': headingPage.indexOf('/Notification') != -1}" id="BearIcon" class="bar-item">
-      <div class="more-dot d-none"></div>
+      <ng-container *ngIf="appService.pushCount > 0">
+        <div class="more-dot"></div>
+      </ng-container>
       <img class="default-img" src="img/index/tabbar/notification.png" alt="">
       <img class="active-img" src="img/index/tabbar/notification_choosen.png" alt="">
       通知

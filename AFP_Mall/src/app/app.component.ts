@@ -1,5 +1,6 @@
+import { environment } from 'src/environments/environment';
 import { Component, OnInit, AfterViewInit, AfterViewChecked } from '@angular/core';
-import { environment } from './../environments/environment';
+import { Model_ShareData, Model_CustomerDetail } from './_models';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from './service/modal.service';
@@ -7,7 +8,6 @@ import { CookieService } from 'ngx-cookie-service';
 import { RouterOutlet } from '@angular/router';
 import { slideInAnimation } from './animations';
 import { SwPush } from '@angular/service-worker';
-// import * as firebase from 'firebase/app';
 import firebase from 'firebase/app';
 import 'firebase/messaging';
 
@@ -26,6 +26,8 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
    'MyAddress', 'PasswordUpdate', 'ThirdBinding', 'QA', 'DeliveryInfo' ];
   /** 是否顯示手機版footer */
   public showMobileFooter = true;
+  /** GUID (推播使用) */
+  public deviceCode: string;
 
   constructor(private router: Router, public appService: AppService, private activatedRoute: ActivatedRoute, public modal: ModalService,
               private cookieService: CookieService, private swPush: SwPush) {
@@ -91,9 +93,54 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
       }
       window.scrollTo(0, 0);
       // 手機版-只有大首頁、探索周邊首頁、任務牆、通知頁、我的列表頁露出footer
-      this.showMobileFooter = !this.mobileNoFooter.some( page => this.router.url.includes(page));
+      this.showMobileFooter = !this.mobileNoFooter.some(page => this.router.url.includes(page));
       this.appService.appShowbottomBar(this.showMobileFooter);
     });
+
+    // 通知推播
+    if (environment.production) {
+      firebase.initializeApp(environment.firebase);
+      const messaging = firebase.messaging();
+      navigator.serviceWorker.ready.then(registration => {
+      if (
+        !!registration &&
+        registration.active &&
+        registration.active.state &&
+        registration.active.state === 'activated'
+      ) {
+        messaging.useServiceWorker(registration);
+        Notification
+          .requestPermission()
+          .then(() => messaging.getToken())
+          .then(token => {
+            // send token to BE
+            // get GUID (device code) from session, or generate one if there's no
+            if (sessionStorage.getItem('M_DeviceCode') !== null) {
+              this.deviceCode = sessionStorage.getItem('M_DeviceCode');
+            } else {
+              this.deviceCode = this.guid();
+              sessionStorage.setItem('M_DeviceCode', this.deviceCode);
+            }
+
+            const request: Request_AFPPushToken = {
+              User_Code: sessionStorage.getItem('userCode'),
+              Token: token
+            };
+            this.appService.toApi('Home', '1113', request, null, null, this.deviceCode).subscribe((data: Response_AFPPushToken) => {
+              sessionStorage.setItem('CustomerInfo', data.CustomerInfo);
+              this.cookieService.set('CustomerInfo', data.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+            });
+          });
+        } else {
+          console.warn('No active service worker found, not able to get firebase messaging');
+        }
+      });
+
+      this.swPush.messages.subscribe(msg => {
+        // count msg length and show red point
+        this.appService.pushCount += 1;
+      });
+    }
 
     // this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => window.scrollTo(0, 0));
 
@@ -144,6 +191,19 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
     // });
   }
 
+  /** 產生device code */
+  guid(): string {
+    let d = Date.now();
+    if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
+      d += performance.now(); // use high-precision timer if available
+    }
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+      const r = (d + Math.random() * 16) % 16 | 0;
+      d = Math.floor(d / 16);
+      return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+  }
+
   /** 前往頁面前判斷登入狀態 */
   goTo() {
     if (this.appService.loginState === true) {
@@ -178,4 +238,12 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
       $(this).hide();
     });
   }
+}
+
+interface Request_AFPPushToken extends Model_ShareData {
+  Token: string;
+}
+
+interface Response_AFPPushToken extends Model_ShareData {
+  CustomerInfo: string;
 }
