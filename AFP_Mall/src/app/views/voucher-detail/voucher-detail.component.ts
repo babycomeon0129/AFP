@@ -42,7 +42,7 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
   public showBackBtn = false; // APP特例處理
 
   constructor(public appService: AppService, private route: ActivatedRoute, private router: Router, public modal: ModalService,
-    private differs: KeyValueDiffers, private meta: Meta, private title: Title) {
+              private differs: KeyValueDiffers, private meta: Meta, private title: Title) {
     this.serviceDiffer = this.differs.find({}).create();
     this.voucherCode = this.route.snapshot.params.Voucher_Code;
     if (this.voucherCode.toString().substring(0, 2) === '46') {
