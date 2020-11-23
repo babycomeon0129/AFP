@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import {
-  Response_APIModel, Request_MemberFavourite, Response_MemberFavourite, AFP_Voucher,
-  Request_MemberUserVoucher, Response_MemberUserVoucher, Request_ECCart, Response_ECCart
+import { Response_APIModel, Request_MemberFavourite, Response_MemberFavourite, AFP_Voucher,
+  Request_MemberUserVoucher, Response_MemberUserVoucher, Request_ECCart, Response_ECCart, Model_ShareData
 } from './_models';
 import { BsModalService } from 'ngx-bootstrap';
 import { MessageModalComponent } from './shared/modal/message-modal/message-modal.component';
@@ -14,6 +13,9 @@ import { ModalService } from './service/modal.service';
 import { Router, NavigationExtras, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from 'angularx-social-login';
+import { SwPush } from '@angular/service-worker';
+import firebase from 'firebase/app';
+import 'firebase/messaging';
 
 declare var $: any;
 declare var AppJSInterface: any;
@@ -48,10 +50,13 @@ export class AppService {
   public defaultImage = '../img/share/eee.jpg';
   /** 推播訊息數量 */
   public pushCount = 0;
+  /** GUID (推播使用) */
+  public deviceCode: string;
 
   @BlockUI() blockUI: NgBlockUI;
   constructor(private http: HttpClient, private bsModal: BsModalService, public modal: ModalService, private router: Router,
-              private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService) {
+              private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService,
+              private swPush: SwPush) {
     if (sessionStorage.getItem('CustomerInfo')) {
       this.loginState = true;
     }
@@ -444,6 +449,66 @@ export class AppService {
     this.modal.show('justka', { initialState: { justkaUrl: url } });
   }
 
+  /** 初始化推播 (註冊firebase、取得token、產生/取得deviceCode、傳送給後端並取得新消費者包) */
+  initPush() {
+    if (environment.production) {
+      firebase.initializeApp(environment.firebase);
+      const messaging = firebase.messaging();
+      navigator.serviceWorker.ready.then(registration => {
+      if (
+        !!registration &&
+        registration.active &&
+        registration.active.state &&
+        registration.active.state === 'activated'
+      ) {
+        messaging.useServiceWorker(registration);
+        Notification
+          .requestPermission()
+          .then(() => messaging.getToken())
+          .then(token => {
+            // send token to BE
+            // get GUID (device code) from session, or generate one if there's no
+            if (sessionStorage.getItem('M_DeviceCode') !== null) {
+              this.deviceCode = sessionStorage.getItem('M_DeviceCode');
+            } else {
+              this.deviceCode = this.guid();
+              sessionStorage.setItem('M_DeviceCode', this.deviceCode);
+            }
+
+            const request: Request_AFPPushToken = {
+              User_Code: sessionStorage.getItem('userCode'),
+              Token: token
+            };
+            this.toApi('Home', '1113', request, null, null, this.deviceCode).subscribe((data: Response_AFPPushToken) => {
+              sessionStorage.setItem('CustomerInfo', data.CustomerInfo);
+              this.cookieService.set('CustomerInfo', data.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+            });
+          });
+        } else {
+          console.warn('No active service worker found, not able to get firebase messaging');
+        }
+      });
+
+      this.swPush.messages.subscribe(msg => {
+        // count msg length and show red point
+        this.pushCount += 1;
+      });
+    }
+  }
+
+  /** 產生device code */
+  guid(): string {
+    let d = Date.now();
+    if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
+      d += performance.now(); // use high-precision timer if available
+    }
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+      const r = (d + Math.random() * 16) % 16 | 0;
+      d = Math.floor(d / 16);
+      return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+  }
+
   // 開啟側邊功能
   // multilayer animateCss
   callLayer(nextLayer) {
@@ -538,3 +603,11 @@ jQuery.prototype.animateCss = function(animationName, anotherCss, callback): voi
   }
   return this;
 };
+
+interface Request_AFPPushToken extends Model_ShareData {
+  Token: string;
+}
+
+interface Response_AFPPushToken extends Model_ShareData {
+  CustomerInfo: string;
+}

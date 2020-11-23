@@ -138,6 +138,8 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       this.bsModalRef.hide();
       this.appService.showFavorites();
       this.appService.readCart();
+      // 通知推播
+      this.appService.initPush();
     });
   }
 
@@ -176,6 +178,8 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       this.bsModalRef.hide();
       this.appService.showFavorites();
       this.appService.readCart();
+      // 通知推播
+      this.appService.initPush();
     });
   }
 
@@ -240,9 +244,11 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
         environment.cookieDomain, environment.cookieSecure, 'Lax');
       this.appService.loginState = true;
       this.bsModalRef.hide();
-      // 提示社群綁
+      // 提示社群綁定
       const msg = `註冊成功！歡迎加入Mobii!\n小技巧：綁定您的社群帳號，未來就可快速登入囉！`;
       this.modal.show('message', { initialState: { success: true, message: msg, showType: 4 } });
+      // 通知推播
+      this.appService.initPush();
     });
   }
 
