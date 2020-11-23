@@ -289,6 +289,14 @@ export class AppService {
             voucher.Voucher_IsFreq = data.Model_Voucher.Voucher_IsFreq;
             voucher.Voucher_FreqName = data.Model_Voucher.Voucher_FreqName;
             voucher.Voucher_ReleasedCount += 1;
+            if ( voucher.Voucher_DedPoint > 0 ) {
+              const initialState = {
+                success: true,
+                type: 1,
+                message: `<div class="no-data"><img src="../../../../img/shopping/payment-ok.png"><p>兌換成功！</p></div>`
+              };
+              this.modal.show('message', {initialState});
+            }
           });
           break;
         case 2:

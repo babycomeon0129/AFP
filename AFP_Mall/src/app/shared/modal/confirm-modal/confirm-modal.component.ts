@@ -21,6 +21,7 @@ export class ConfirmModalComponent implements OnInit {
   }
 
   closeModal(): void {
+    this.action.emit(false);
     this.bsModalRef.hide();
   }
 }

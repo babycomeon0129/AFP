@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { AFP_VouFlashSale, Request_ECVouFlashSale, Response_ECVouFlashSale,
-  AFP_ChannelVoucher, AFP_Voucher } from '../../_models';
+import {AFP_VouFlashSale, Request_ECVouFlashSale, Response_ECVouFlashSale, AFP_ChannelVoucher, AFP_Voucher } from '../../_models';
 import { SwiperOptions } from 'swiper';
 import { ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
+import { ModalService } from 'src/app/service/modal.service';
 
 @Component({
   selector: 'app-offers',
@@ -54,13 +54,13 @@ export class OffersComponent implements OnInit, DoCheck, OnDestroy {
   };
 
   constructor(public appService: AppService, private activatedRoute: ActivatedRoute, private differs: KeyValueDiffers,
-              private meta: Meta, private title: Title) {
+              private meta: Meta, private title: Title, private modal: ModalService) {
     this.serviceDiffer = this.differs.find({}).create();
     // tslint:disable: max-line-length
     this.title.setTitle('找優惠 - Mobii!');
-    this.meta.updateTag({name : 'description', content: 'Mobii! - 找優惠。這裡會顯示 Mobii! 合作店家的優惠券，吃喝玩樂、食衣住行，你想得到、想不到的，都在 Mobii! 找優惠裡！'});
-    this.meta.updateTag({content: '找優惠 - Mobii!', property: 'og:title'});
-    this.meta.updateTag({content: 'Mobii! - 找優惠。這裡會顯示 Mobii! 合作店家的優惠券，吃喝玩樂、食衣住行，你想得到、想不到的，都在 Mobii! 找優惠裡！', property: 'og:description'});
+    this.meta.updateTag({ name: 'description', content: 'Mobii! - 找優惠。這裡會顯示 Mobii! 合作店家的優惠券，吃喝玩樂、食衣住行，你想得到、想不到的，都在 Mobii! 找優惠裡！' });
+    this.meta.updateTag({ content: '找優惠 - Mobii!', property: 'og:title' });
+    this.meta.updateTag({ content: 'Mobii! - 找優惠。這裡會顯示 Mobii! 合作店家的優惠券，吃喝玩樂、食衣住行，你想得到、想不到的，都在 Mobii! 找優惠裡！', property: 'og:description' });
 
     this.activatedRoute.queryParams.subscribe(params => {
       //  目標Tab
@@ -100,6 +100,32 @@ export class OffersComponent implements OnInit, DoCheck, OnDestroy {
         }
       }
     });
+  }
+
+  /** 兌換優惠券
+   * @param voucher 優惠券詳細
+   */
+  toVoucher(voucher: AFP_Voucher): void {
+    if (voucher.Voucher_DedPoint > 0) {
+      this.modal.confirm({
+        initialState: {
+          message: `請確定是否扣除 Mobii! Points ${voucher.Voucher_DedPoint} 點兌換「${voucher.Voucher_ExtName}」？`
+        }
+      }).subscribe(res => {
+        if (res) {
+          this.appService.onVoucher(voucher);
+        } else {
+          const initialState = {
+            success: true,
+            type: 1,
+            message: `<div class="no-data"><img src="../../../../img/shopping/payment-failed.png"><p>兌換失敗！</p></div>`
+          };
+          this.modal.show('message', { initialState });
+        }
+      });
+    } else {
+      this.appService.onVoucher(voucher);
+    }
   }
 
   /** 限時搶購倒數顯示 */

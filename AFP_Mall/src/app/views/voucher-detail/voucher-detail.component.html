@@ -89,7 +89,7 @@
           <img src="../img/share/mobiicoin_red.png" class="coinimg-m mb-1">
           <span>{{voucherData.Voucher_SpecialPoint > 0? voucherData.Voucher_SpecialPoint : voucherData.Voucher_DedPoint | currency: '':'':'1.0-2'}}</span>
         </div>
-        <button (click)="onVoucher(voucherData)"
+        <button (click)="toVoucher(voucherData)"
           [disabled]="appService.loginState === true && (voucherData?.Voucher_IsFreq === 0 || voucherData?.Voucher_IsFreq === 3 || voucherData?.Voucher_IsFreq === 6)"
           [ngClass]="{'gray-obtn': voucherData?.Voucher_IsFreq === 0 || voucherData?.Voucher_IsFreq === 3 || voucherData?.Voucher_IsFreq === 6,
                           'index-btn': voucherData?.Voucher_IsFreq === 1,
