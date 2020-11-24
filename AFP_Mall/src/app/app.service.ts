@@ -508,23 +508,6 @@ export class AppService {
     }
   }
 
-
-  // black mask
-  open_mask(e) {
-    $('.mask-bk').removeClass('d-none').addClass('d-block');
-    $('.' + e).css('display', 'block');
-  }
-  close_mask(e) {
-    $('.mask-bk').removeClass('d-block').addClass('d-none');
-    $('.' + e).css('display', 'none');
-  }
-
-  // div switch
-  div_switch() {
-    $('.div-switch.d-block').removeClass('d-block').addClass('d-none1');
-    $('.div-switch.d-none').removeClass('d-none').addClass('d-block');
-    $('.div-switch.d-none1').removeClass('d-none1').addClass('d-none');
-  }
 }
 
 // tslint:disable-next-line: class-name
