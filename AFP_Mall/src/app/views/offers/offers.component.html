@@ -57,7 +57,7 @@
                           <div class="circle circle-bottom"></div>
                           <div class="d-flex flex-column">
                               <button
-                                (click)="appService.onVoucher(sale)"
+                                (click)="toVoucher(sale)"
                                 [disabled]="appService.loginState == true && (sale.Voucher_IsFreq === 0 || sale.Voucher_IsFreq === 3)"
                                 [ngClass]="{'gray-obtn': sale.Voucher_IsFreq === 0 || sale.Voucher_IsFreq === 3, 'index-btn': sale?.Voucher_IsFreq === 1, 'index-outline-btn': sale.Voucher_IsFreq === 2 || sale.Voucher_IsFreq === 5}"
                                 class="btn small-80 sendval">
@@ -102,7 +102,7 @@
                                       </div>
                                       <div class="item one">
                                           <button
-                                            (click)="appService.onVoucher(voucher)"
+                                            (click)="toVoucher(voucher)"
                                             [disabled]="appService.loginState == true && (voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3 || voucher.Voucher_IsFreq === 6)"
                                             [ngClass]="{'gray-obtn': voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3 || voucher.Voucher_IsFreq === 6,
                                                         'index-btn': voucher?.Voucher_IsFreq === 1,

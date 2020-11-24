@@ -5,7 +5,7 @@
 </button>
 <div class="modal-body">
   <div>
-    <p id="msg-loginok" *ngIf="success" [innerHTML]="message"></p>
+    <p id="msg-loginok" *ngIf="success" [innerHTML]="message | Safe: 'html'"></p>
     <p *ngIf="success && voucherName !== null">{{voucherName}}</p>
     <p id="msg-loginerror" *ngIf="!success">{{message}}</p>
     <small id="reminder" *ngIf="note !== null">{{note}}</small>
