@@ -20,9 +20,15 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
   /** 不顯示手機版footer的頁面 */
   public mobileNoFooter = ['Map', 'ShoppingCart', 'ShoppingOrder', 'ShoppingPayment', 'Game/', 'QA',
   'ExploreDetail', 'ProductDetail', 'VoucherDetail', 'Notification/', 'Terms', 'Privacy', 'MyProfile', 'CellVerification',
-   'MyAddress', 'PasswordUpdate', 'ThirdBinding', 'QA', 'DeliveryInfo' ];
+   'MyAddress', 'PasswordUpdate', 'ThirdBinding', 'QA', 'DeliveryInfo'];
   /** 是否顯示手機版footer */
   public showMobileFooter = true;
+  /** 裝置系統或瀏覽器版本是否過舊 */
+  public isOld: boolean;
+  /** 需更新項目 */
+  public targetToUpdate: string;
+  /** 是否顯示過舊提示 */
+  public showOldHint = true;
 
   constructor(private router: Router, public appService: AppService, private activatedRoute: ActivatedRoute, public modal: ModalService,
               private cookieService: CookieService) {
@@ -95,6 +101,8 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
     // 通知推播
     this.appService.initPush();
 
+    this.detectOld();
+
     // this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => window.scrollTo(0, 0));
 
     // // App訪問
@@ -156,6 +164,78 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
   /** 獲取這個 outlet 指令的值（透過 #outlet="outlet"），並根據當前活動路由的自訂資料返回一個表示動畫狀態的字串值。用此資料來控制各個路由之間該執行哪個轉場 */
   prepareRoute(outlet: RouterOutlet) {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation;
+  }
+
+  /** 偵測裝置系統或瀏覽器版本是否過舊 */
+  detectOld() {
+    // mobile OS
+      // iOS: 2 most recent major versions
+      // Android: 7 - 10
+    // browser
+      // Chrome: latest; Firefox: latest; Edge: 2 most recent major versions; Safari: 2 most recent major versions
+    const ua = navigator.userAgent;
+
+    if (ua.match(/iPhone|iPad|iPod/i)) {
+      // iOS
+      const match = ua.match(/OS\s([0-9\.]*)/i);
+      const ver = parseInt(match[1], 10);
+      if (ver < 12) {
+        this.isOld = true;
+        this.targetToUpdate = '裝置';
+      } else {
+        this.isOld = false;
+      }
+    } else if (ua.match(/android/i)) {
+      // Android
+      const match = ua.match(/android\s([0-9\.]*)/i);
+      const ver = parseInt(match[1], 10);
+      if (ver < 7) {
+        this.isOld = true;
+        this.targetToUpdate = '裝置';
+      } else {
+        this.isOld = false;
+      }
+    } else if (ua.includes('Chrome') && !ua.includes('Edg')) {
+      // Chrome
+      const match = ua.match(/Chrome\/([0-9]+)\./);
+      const ver = parseInt(match[1], 10);
+      if (ver < 86) {
+        this.isOld = true;
+        this.targetToUpdate = '瀏覽器';
+      } else {
+        this.isOld = false;
+      }
+    } else if (ua.includes('Firefox')) {
+      // Firefox
+      const match = ua.match(/Firefox\/([0-9]+)\./);
+      const ver = parseInt(match[1], 10);
+      if (ver < 83) {
+        this.isOld = true;
+        this.targetToUpdate = '瀏覽器';
+      } else {
+        this.isOld = false;
+      }
+    } else if (ua.includes('Edg')) {
+      // Edge
+      const match = ua.match(/Edg\/([0-9]+)\./);
+      const ver = parseInt(match[1], 10);
+      if (ver < 86) {
+        this.isOld = true;
+        this.targetToUpdate = '瀏覽器';
+      } else {
+        this.isOld = false;
+      }
+    } else if (ua.includes('Safari') && !ua.includes('Chrome')) {
+      // Safari
+      const match = ua.match(/Safari\/([0-9]+)\./);
+      const ver = parseInt(match[1], 10);
+      if (ver < 13) {
+        this.isOld = true;
+        this.targetToUpdate = '瀏覽器';
+      } else {
+        this.isOld = false;
+      }
+    }
   }
 
   ngAfterViewInit(): void {

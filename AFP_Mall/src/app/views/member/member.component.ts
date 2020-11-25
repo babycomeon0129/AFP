@@ -36,11 +36,11 @@ export class MemberComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     /** 避免灰屏 */
-    $('.modal-backdrop').on('click', () => {
-      this.appService.backLayer();
-      this.appService.backsortLayer();
-      $('.modal-backdrop').remove();
-    });
+    // $('.modal-backdrop').on('click', () => {
+    //   this.appService.backLayer();
+    //   this.appService.backsortLayer();
+    //   $('.modal-backdrop').remove();
+    // });
 
     // footer.pc
     // tslint:disable-next-line: max-line-length

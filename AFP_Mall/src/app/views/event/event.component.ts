@@ -49,7 +49,6 @@ export class EventComponent implements OnInit, DoCheck {
     };
     this.appService.toApi('EC', '1205', request).subscribe((data: Response_ECVoucher) => {
       this.voucherList = data.List_Voucher;
-      console.log(this.voucherList);
       this.coverImg = data.List_ADImg;
     });
   }
