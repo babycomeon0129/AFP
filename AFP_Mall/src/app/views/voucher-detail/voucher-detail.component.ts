@@ -1,7 +1,9 @@
 import { Component, OnInit, DoCheck, KeyValueDiffer, KeyValueDiffers, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Model_ShareData, AFP_Voucher, AFP_UserVoucher, AFP_ECStore, Request_MemberUserVoucher,
-  Response_MemberUserVoucher, Request_MemberCheckStatus, Response_MemberCheckStatus} from '../../_models';
+import {
+  Model_ShareData, AFP_Voucher, AFP_UserVoucher, AFP_ECStore, Request_MemberUserVoucher,
+  Response_MemberUserVoucher, Request_MemberCheckStatus, Response_MemberCheckStatus
+} from '../../_models';
 import { AppService } from 'src/app/app.service';
 import { Router, NavigationExtras } from '@angular/router';
 import { ModalService } from '../../service/modal.service';
@@ -81,9 +83,9 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
 
       // tslint:disable: max-line-length
       this.title.setTitle(this.voucherData.Voucher_ExtName + ' - Mobii!');
-      this.meta.updateTag({name : 'description', content: this.voucherData.Voucher_Content});
-      this.meta.updateTag({content: this.voucherData.Voucher_ExtName + ' - Mobii!', property: 'og:title'});
-      this.meta.updateTag({content: this.voucherData.Voucher_Content, property: 'og:description'});
+      this.meta.updateTag({ name: 'description', content: this.voucherData.Voucher_Content });
+      this.meta.updateTag({ content: this.voucherData.Voucher_ExtName + ' - Mobii!', property: 'og:title' });
+      this.meta.updateTag({ content: this.voucherData.Voucher_Content, property: 'og:description' });
       this.textForShare = `嘿！我有好康優會要跟你分享喔！趕快進來看看吧！這是「${this.voucherData.Voucher_ExtName}」，趕快去領不然被領光就沒得領囉！
       ${location.href}`;
     });
@@ -95,20 +97,46 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
   dayOfWeek(date: Date): string {
     const day = new Date(date).getDay(); // day of the week (0-6)
     switch (day) {
-    case 0:
-      return '日';
-    case 1:
-      return '一';
-    case 2:
-      return '二';
-    case 3:
-      return '三';
-    case 4:
-      return '四';
-    case 5:
-      return '五';
-    case 6:
-      return '六';
+      case 0:
+        return '日';
+      case 1:
+        return '一';
+      case 2:
+        return '二';
+      case 3:
+        return '三';
+      case 4:
+        return '四';
+      case 5:
+        return '五';
+      case 6:
+        return '六';
+    }
+  }
+
+  /** 兌換優惠券
+   * @param voucher 優惠券詳細
+   */
+  toVoucher(voucher: AFP_Voucher): void {
+    if (voucher.Voucher_DedPoint > 0) {
+      this.modal.confirm({
+        initialState: {
+          message: `請確定是否扣除 Mobii! Points ${voucher.Voucher_DedPoint} 點兌換「${voucher.Voucher_ExtName}」？`
+        }
+      }).subscribe(res => {
+        if (res) {
+          this.onVoucher(voucher);
+        } else {
+          const initialState = {
+            success: true,
+            type: 1,
+            message: `<div class="no-data"><img src="../../../../img/shopping/payment-failed.png"><p>兌換失敗！</p></div>`
+          };
+          this.modal.show('message', { initialState });
+        }
+      });
+    } else {
+      this.onVoucher(voucher);
     }
   }
 
@@ -136,6 +164,15 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
             voucher.Voucher_FreqName = data.Model_Voucher.Voucher_FreqName;
             // 放上QRCode
             this.userVoucher = data.AFP_UserVoucher;
+            // 如果這個券用點數兌換，跳成功視窗
+            if (voucher.Voucher_DedPoint > 0) {
+              const initialState = {
+                success: true,
+                type: 1,
+                message: `<div class="no-data"><img src="../../../../img/shopping/payment-ok.png"><p>兌換成功！</p></div>`
+              };
+              this.modal.show('message', { initialState });
+            }
           });
           break;
         case 2:
@@ -189,7 +226,7 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
           clearTimeout(this.timer3Mins);
           this.appService.backLayer();
           // showType: 999核銷成功後顯示廣告圖片
-          this.modal.show('message', { initialState: { success: true, message: data.AFP_UserVoucher.VoucherUsedMessage, showType: 999, adImgList: data.List_ADImg}});
+          this.modal.show('message', { initialState: { success: true, message: data.AFP_UserVoucher.VoucherUsedMessage, showType: 999, adImgList: data.List_ADImg, voucherName: data.AFP_UserVoucher.Voucher_Name } });
           return false;
         }
       });
@@ -197,7 +234,7 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
 
     // 三分鐘後(若還在此頁)則停止timer
     this.timer3Mins = setTimeout(() => {
-      this.modal.show('message', { initialState: { success: false, message: '連線逾時，請重新操作。', showType: 1}});
+      this.modal.show('message', { initialState: { success: false, message: '連線逾時，請重新操作。', showType: 1 } });
       clearInterval(this.checkTimer);
       this.appService.backLayer();
     }, 180000);

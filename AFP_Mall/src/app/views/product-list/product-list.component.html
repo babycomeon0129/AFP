@@ -77,7 +77,7 @@
                         </div>
                         <div>
                           <span class="d-none">{{dir.UserDefine_ProdCount}}</span>
-                          <i *ngIf="dir?.UserDefine_Code === dirCode" class="fas fa-check"></i>
+                          <i *ngIf="dir?.UserDefine_Code === dirCode" class="material-icons done">&#xe876;</i>
                         </div>
                     </li>
                 </ul>
@@ -115,26 +115,26 @@
                   <li (click)="onSelectSort(1)" [ngClass]="{'active': sorting === 1}" class="flex-inline-between">
                       <div>最新上架優先</div>
                       <div>
-                        <i class="fas fa-check"></i>
+                        <i class="material-icons done">&#xe876;</i>
                       </div>
                   </li>
                   <!-- 暫無熱門篩選 -->
                   <li [ngClass]="{'active': sorting === 2}" class="flex-inline-between d-none">
                       <div> 熱門程度優先</div>
                       <div>
-                        <i class="fas fa-check"></i>
+                        <i class="material-icons done">&#xe876;</i>
                       </div>
                   </li>
                   <li (click)="onSelectSort(3)" [ngClass]="{'active': sorting === 3}" class="flex-inline-between">
                       <div>價格由低而高</div>
                       <div>
-                        <i class="fas fa-check"></i>
+                        <i class="material-icons done">&#xe876;</i>
                       </div>
                   </li>
                   <li (click)="onSelectSort(4)" [ngClass]="{'active': sorting === 4}" class="flex-inline-between">
                       <div>價格由高而低</div>
                       <div>
-                        <i class="fas fa-check"></i>
+                        <i class="material-icons done">&#xe876;</i>
                       </div>
                   </li>
               </ul>

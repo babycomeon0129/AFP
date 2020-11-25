@@ -1,8 +1,9 @@
 {
-  "name": "eyesMedia-angular",
-  "short_name": "eyesMedia-angular",
-  "theme_color": "#1976d2",
-  "background_color": "#fafafa",
+  "name": "Mobii!",
+  "short_name": "Mobii!",
+  "theme_color": "#2fee45",
+  "description": "Mobii!｜城市生活服務平台",
+  "background_color": "#2fee45",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
@@ -55,6 +56,16 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable any"
+    }
+  ],
+  "related_applications": [
+    {
+    "platform": "play",
+    "url": "https://play.google.com/store/apps/details?id=com.eyesmedia.afp"
+    },
+    {
+      "platform": "itunes",
+      "url": "https://itunes.apple.com/app/id1512321552"
     }
   ]
 }

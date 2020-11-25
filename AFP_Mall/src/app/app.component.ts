@@ -1,15 +1,12 @@
+import { environment } from 'src/environments/environment';
 import { Component, OnInit, AfterViewInit, AfterViewChecked } from '@angular/core';
-import { environment } from './../environments/environment';
+import { Model_ShareData, Model_CustomerDetail } from './_models';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from './service/modal.service';
 import { CookieService } from 'ngx-cookie-service';
 import { RouterOutlet } from '@angular/router';
 import { slideInAnimation } from './animations';
-import { SwPush } from '@angular/service-worker';
-// import * as firebase from 'firebase/app';
-import firebase from 'firebase/app';
-import 'firebase/messaging';
 
 @Component({
   // tslint:disable-next-line
@@ -28,7 +25,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
   public showMobileFooter = true;
 
   constructor(private router: Router, public appService: AppService, private activatedRoute: ActivatedRoute, public modal: ModalService,
-              private cookieService: CookieService, private swPush: SwPush) {
+              private cookieService: CookieService) {
     if (sessionStorage.getItem('CustomerInfo') !== null && sessionStorage.getItem('userCode') !== null
       && sessionStorage.getItem('userName') !== null) {
       this.appService.loginState = true;
@@ -91,35 +88,12 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
       }
       window.scrollTo(0, 0);
       // 手機版-只有大首頁、探索周邊首頁、任務牆、通知頁、我的列表頁露出footer
-      this.showMobileFooter = !this.mobileNoFooter.some( page => this.router.url.includes(page));
+      this.showMobileFooter = !this.mobileNoFooter.some(page => this.router.url.includes(page));
       this.appService.appShowbottomBar(this.showMobileFooter);
     });
 
     // 通知推播
-    firebase.initializeApp(environment.firebase);
-    const messaging = firebase.messaging();
-    navigator.serviceWorker.ready.then(registration => {
-      if (
-        !!registration &&
-        registration.active &&
-        registration.active.state &&
-        registration.active.state === 'activated'
-      ) {
-        messaging.useServiceWorker(registration);
-        Notification
-          .requestPermission()
-          .then(() => messaging.getToken());
-          // .then(token => console.log('Permission granted!', token));
-      } else {
-        console.warn(
-          'No active service worker found, not able to get firebase messaging'
-        );
-      }
-    });
-
-    this.swPush.messages.subscribe(msg => {
-      // console.log(msg);
-    });
+    this.appService.initPush();
 
     // this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => window.scrollTo(0, 0));
 

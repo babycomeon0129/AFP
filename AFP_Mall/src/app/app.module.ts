@@ -256,7 +256,6 @@ defineLocale('zh-cn', zhCnLocale);
 })
 export class AppModule {
   constructor(swUpdate: SwUpdate) {
-    // console.log('swUpdate.isEnabled:', swUpdate.isEnabled);
     if (swUpdate.isEnabled) {
       swUpdate.available.subscribe((event) => {
         window.location.reload();

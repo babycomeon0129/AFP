@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
+import { Component, OnInit, AfterViewInit, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from '../../service/modal.service';
 import {
@@ -6,11 +6,9 @@ import {
   Model_ShareData, Model_MemberProfile, AFP_UserFavourite, Request_Home, AFP_ChannelProduct, AFP_ChannelVoucher,
   Request_OtherInfo } from '../../_models';
 import { SwiperOptions } from 'swiper';
-import { SwiperComponent } from 'ngx-useful-swiper';
 import { Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 import { SortablejsOptions } from 'ngx-sortablejs';
-import { isNgTemplate } from '@angular/compiler';
 
 declare var $: any;
 

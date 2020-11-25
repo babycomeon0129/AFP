@@ -95,7 +95,11 @@
       <footer class="shopping-cartfooter container fixed-bottom">
         <ul>
           <li>
-            <div class="item w-100 p-2"><button type="button" class="btn index-outline-btn w-100" (click)="SendService()">完成</button></div>
+            <div class="item w-100 p-2">
+              <button type="button" (click)="SendService()"
+                [ngClass]="{'unable': orderInfo?.ServiceTableNo !== null}" [disabled]="orderInfo?.ServiceTableNo !== null"
+                class="btn index-outline-btn w-100">完成</button>
+            </div>
           </li>
         </ul>
       </footer>
@@ -284,7 +288,7 @@
               {{city?.UserReport_ItemName}}
             </div>
             <div class="item">
-              <i class="fas fa-check"></i>
+              <i class="material-icons done">&#xe876;</i>
             </div>
           </li>
         </ul>
@@ -313,7 +317,7 @@
               {{district?.UserReport_ItemName}}
             </div>
             <div class="item">
-              <i class="fas fa-check"></i>
+              <i class="material-icons done">&#xe876;</i>
             </div>
           </li>
         </ul>

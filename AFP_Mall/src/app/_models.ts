@@ -654,6 +654,7 @@ export class AFP_UserVoucher {
   VoucherUsedMessage: string;
   Voucher_URL: string;
   Voucher_URLTarget: string;
+  Voucher_Name: string;
 }
 
 

@@ -179,10 +179,10 @@ export class MyProfileComponent implements OnInit {
   onFileSelected(event): void {
 
     const fd = new FormData();
-    // 圖片大小限制2MB
+    // 圖片大小限制4MB
     if (event.srcElement.files.length > 0) {
-      if (event.srcElement.files[0].size > 2097152) {
-        this.modal.show('message', { initialState: { success: false, message: '圖片大小超過2MB，上傳失敗！', showType: 1 } });
+      if (event.srcElement.files[0].size > 4194304) {
+        this.modal.show('message', { initialState: { success: false, message: '圖片大小超過4MB，上傳失敗！', showType: 1 } });
       } else {
         fd.append('WebFile', event.target.files[0], event.target.files[0].name);
         this.appService.tofile('Files/SingleFile', fd).subscribe((data: Response_Files) => {

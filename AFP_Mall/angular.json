@@ -22,19 +22,23 @@
             "assets": [
               "src/favicon.ico",
               "src/img",
-              "src/manifest.webmanifest"
+              "src/manifest.json",
+              "src/assets"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/ngx-bootstrap/datepicker/bs-datepicker.scss",
               "node_modules/swiper/css/swiper.min.css",
-              "node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css",
-              "node_modules/@fortawesome/fontawesome-free/css/brands.css",
-              "node_modules/@fortawesome/fontawesome-free/css/solid.min.css",
               "node_modules/animate.css/animate.min.css",
               "src/dist/style/css.min.css",
               "src/dist/style/global.min.css",
               "src/dist/style/index.min.css"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/ngx-bootstrap/datepicker/bs-datepicker.scss"
+              ]
+            },
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/popper.js/dist/umd/popper.min.js",
@@ -165,7 +169,7 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/manifest.webmanifest"
+              "src/manifest.json"
             ],
             "styles": [
               "src/styles.css"

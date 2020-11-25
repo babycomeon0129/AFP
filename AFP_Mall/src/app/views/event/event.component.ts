@@ -1,8 +1,9 @@
 import { Component, OnInit, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
-import { AFP_ChannelVoucher, AFP_ADImg, Request_ECVoucher, Response_ECVoucher } from '../../_models';
+import { AFP_ChannelVoucher, AFP_ADImg, Request_ECVoucher, Response_ECVoucher, AFP_Voucher } from '../../_models';
 import { AppService } from 'src/app/app.service';
 import { SwiperOptions } from 'swiper';
 import { Meta, Title } from '@angular/platform-browser';
+import { ModalService } from 'src/app/service/modal.service';
 
 @Component({
   selector: 'app-event',
@@ -24,7 +25,8 @@ export class EventComponent implements OnInit, DoCheck {
   /** 變化追蹤（登入狀態） */
   private serviceDiffer: KeyValueDiffer<string, any>;
 
-  constructor(public appService: AppService, private differs: KeyValueDiffers, private meta: Meta, private title: Title) {
+  constructor(public appService: AppService, private differs: KeyValueDiffers, private meta: Meta, private title: Title,
+              private modal: ModalService) {
     this.serviceDiffer = this.differs.find({}).create();
     // tslint:disable: max-line-length
     this.title.setTitle('1元搶購優惠 - Mobii!');
@@ -47,8 +49,35 @@ export class EventComponent implements OnInit, DoCheck {
     };
     this.appService.toApi('EC', '1205', request).subscribe((data: Response_ECVoucher) => {
       this.voucherList = data.List_Voucher;
+      console.log(this.voucherList);
       this.coverImg = data.List_ADImg;
     });
+  }
+
+  /** 兌換優惠券
+   * @param voucher 優惠券詳細
+   */
+  toVoucher(voucher: AFP_Voucher): void {
+    if (voucher.Voucher_DedPoint > 0) {
+      this.modal.confirm({
+        initialState: {
+          message: `請確定是否扣除 Mobii! Points ${voucher.Voucher_DedPoint} 點兌換「${voucher.Voucher_ExtName}」？`
+        }
+      }).subscribe( res => {
+        if ( res) {
+          this.appService.onVoucher(voucher);
+        } else {
+          const initialState = {
+            success: true,
+            type: 1,
+            message: `<div class="no-data"><img src="../../../../img/shopping/payment-failed.png"><p>兌換失敗！</p></div>`
+          };
+          this.modal.show('message', {initialState});
+        }
+      });
+    } else {
+      this.appService.onVoucher(voucher);
+    }
   }
 
   ngDoCheck() {

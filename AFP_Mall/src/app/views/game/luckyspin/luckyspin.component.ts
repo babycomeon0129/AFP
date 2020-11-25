@@ -38,7 +38,7 @@ export class LuckyspinComponent implements OnInit, AfterViewInit, OnDestroy {
     this.prizeList = this.gameData.List_GamePart;
     // 若可玩次數 === 0或是所剩點數不夠遊完一次則阻擋遊玩
     if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
-      this.modal.show('message', { initialState: { success: false, message: '您的點數已不足或是遊玩次數已達上限!', showType: 1}});
+      this.modal.show('message', { initialState: { success: false, message: '您的點數已不足或是遊玩次數已達上限!', showType: 1 } });
     }
     // APP從M Points或進來則顯示返回鍵
     if (this.route.snapshot.queryParams.hideBackBtn === 'false') {
@@ -76,48 +76,55 @@ export class LuckyspinComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /** 開始遊玩 */
   play() {
-    this.playingStatus = true;
-    // 閃亮效果
-    this.prizesArr.forEach((item, index) => {
-      for (let i = 1; i <= this.prizesArr.length; i++) {
-        const sec = i - (0.95 * i);
-        if (item.classList.contains(i.toString())) {
-          item.classList.add('opacity5');
-          item.setAttribute('style', 'animation-delay:' + sec + 's');
-        }
+    this.modal.confirm({
+      initialState: {
+        message: '請確定是否扣除 Mobii! Points 1 點玩「國旅大轉盤」？'
       }
-    });
-
-    // call api 取得開獎結果
-    const request: Request_Games = {
-      User_Code: sessionStorage.getItem('userCode'),
-      SelectMode: 1,
-      Game_Code: this.gameData.AFP_Game.Game_Code,
-      SearchModel: {
-        Game_Code: null
-      }
-    };
-    setTimeout(() => {
-      this.appService.toApi('Games', '1701', request).subscribe((data: Response_Games) => {
-        // 更新可玩次數、中獎結果
-        this.playTimes = data.AFP_Game.Game_PlayCount;
-        this.prizeData = data.GameReward;
-        // 讓動畫僅停留在中獎項目
-        this.prizesArr.forEach(i => {
-          if (i.id !== this.prizeData.GamePart_ID.toString()) {
-            i.classList.remove('opacity5');
+    }).subscribe(res => {
+      if (res) {
+        this.playingStatus = true;
+        // 閃亮效果
+        this.prizesArr.forEach((item, index) => {
+          for (let i = 1; i <= this.prizesArr.length; i++) {
+            const sec = i - (0.95 * i);
+            if (item.classList.contains(i.toString())) {
+              item.classList.add('opacity5');
+              item.setAttribute('style', 'animation-delay:' + sec + 's');
+            }
           }
         });
-        // 顯示中獎結果(若還在本頁/無前往任務牆領取獎勵)
-        if (this.router.url === this.currentUrl) {
-          // 更新總點數
-          this.totalPoints = data.TotalPoint;
-          this.appService.callLayerUp('.winmsg');
-          // $('.contbox').removeClass('opacity5');
-          this.playingStatus = false;
-        }
-      });
-    }, 2500);
+        // call api 取得開獎結果
+        const request: Request_Games = {
+          User_Code: sessionStorage.getItem('userCode'),
+          SelectMode: 1,
+          Game_Code: this.gameData.AFP_Game.Game_Code,
+          SearchModel: {
+            Game_Code: null
+          }
+        };
+        setTimeout(() => {
+          this.appService.toApi('Games', '1701', request).subscribe((data: Response_Games) => {
+            // 更新可玩次數、中獎結果
+            this.playTimes = data.AFP_Game.Game_PlayCount;
+            this.prizeData = data.GameReward;
+            // 讓動畫僅停留在中獎項目
+            this.prizesArr.forEach(i => {
+              if (i.id !== this.prizeData.GamePart_ID.toString()) {
+                i.classList.remove('opacity5');
+              }
+            });
+            // 顯示中獎結果(若還在本頁/無前往任務牆領取獎勵)
+            if (this.router.url === this.currentUrl) {
+              // 更新總點數
+              this.totalPoints = data.TotalPoint;
+              this.appService.callLayerUp('.winmsg');
+              // $('.contbox').removeClass('opacity5');
+              this.playingStatus = false;
+            }
+          });
+        }, 2500);
+      }
+    });
   }
 
   /** 再玩一次 */
@@ -127,7 +134,7 @@ export class LuckyspinComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /** 中獎獎項的顯示訊息及前往路徑 */
-  prizeResponse(): {msg: string, page: string} {
+  prizeResponse(): { msg: string, page: string } {
     if (this.prizeData !== undefined) {
       switch (this.prizeData.GamePart_Type) {
         case 1:
