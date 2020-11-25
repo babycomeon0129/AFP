@@ -78,7 +78,7 @@ export class LuckyspinComponent implements OnInit, AfterViewInit, OnDestroy {
   play() {
     this.modal.confirm({
       initialState: {
-        message: '請確定是否扣除 Mobii! Points 1 點玩「國旅大轉盤」？'
+        message: `請確定是否扣除 Mobii! Points ${this.gameData.AFP_Game.Game_DedPoint} 點玩「${this.gameData.AFP_Game.Game_ExtName}」？`
       }
     }).subscribe(res => {
       if (res) {
