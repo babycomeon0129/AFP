@@ -163,75 +163,72 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation;
   }
 
-  /** 偵測裝置系統或瀏覽器版本是否過舊 */
+  // tslint:disable: no-redundant-jsdoc
+  /** 偵測裝置系統或瀏覽器版本是否過舊（根據Angular browser support）
+   * @property target 偵測目標
+   * @property type OS - 0, browser - 1
+   * @property condition 可從userAgent中找出該目標的條件
+   * @property matchRegex 可從userAgent中找出該目標版本的Regex
+   * @property minVer 目前Angular支援該目標的最低版本
+   */
   detectOld() {
-    // mobile OS
-      // iOS: 2 most recent major versions
-      // Android: 7 - 10
-    // browser
-      // Chrome: latest; Firefox: latest; Edge: 2 most recent major versions; Safari: 2 most recent major versions
     const ua = navigator.userAgent;
+    const targetList = [
+      {
+        target: 'iOS',
+        type: 0,
+        condition: ua.match(/iPhone|iPad|iPod/i) !== null,
+        matchRegex: ua.match(/OS\s([0-9\.]*)/i),
+        minVer: 12
+      },
+      {
+        target: 'Android',
+        type: 0,
+        condition: ua.match(/android/i) !== null,
+        matchRegex: ua.match(/android\s([0-9\.]*)/i),
+        minVer: 7
+      },
+      {
+        target: 'Chrome',
+        type: 1,
+        condition: ua.includes('Chrome') && !ua.includes('Edg'),
+        matchRegex: ua.match(/Chrome\/([0-9]+)\./),
+        minVer: 86
+      },
+      {
+        target: 'Firefox',
+        type: 1,
+        condition: ua.includes('Firefox'),
+        matchRegex: ua.match(/Firefox\/([0-9]+)\./),
+        minVer: 83
+      },
+      {
+        target: 'Edge',
+        type: 1,
+        condition: ua.includes('Edg'),
+        matchRegex: ua.match(/Edg\/([0-9]+)\./),
+        minVer: 86
+      },
+      {
+        target: 'Safari',
+        type: 1,
+        condition: ua.includes('Safari') && !ua.includes('Chrome'),
+        matchRegex: ua.match(/Safari\/([0-9]+)\./),
+        minVer: 13
+      }
+    ];
 
-    if (ua.match(/iPhone|iPad|iPod/i)) {
-      // iOS
-      const match = ua.match(/OS\s([0-9\.]*)/i);
-      const ver = parseInt(match[1], 10);
-      if (ver < 12) {
-        this.isOld = true;
+    const result = targetList.find(t => t.condition);
+    const ver = parseInt(result.matchRegex[1], 10);
+    if (ver < result.minVer) {
+      this.isOld = true;
+      if (result.type === 0) {
         this.targetToUpdate = '裝置';
       } else {
-        this.isOld = false;
-      }
-    } else if (ua.match(/android/i)) {
-      // Android
-      const match = ua.match(/android\s([0-9\.]*)/i);
-      const ver = parseInt(match[1], 10);
-      if (ver < 7) {
-        this.isOld = true;
-        this.targetToUpdate = '裝置';
-      } else {
-        this.isOld = false;
-      }
-    } else if (ua.includes('Chrome') && !ua.includes('Edg')) {
-      // Chrome
-      const match = ua.match(/Chrome\/([0-9]+)\./);
-      const ver = parseInt(match[1], 10);
-      if (ver < 86) {
-        this.isOld = true;
         this.targetToUpdate = '瀏覽器';
-      } else {
-        this.isOld = false;
       }
-    } else if (ua.includes('Firefox')) {
-      // Firefox
-      const match = ua.match(/Firefox\/([0-9]+)\./);
-      const ver = parseInt(match[1], 10);
-      if (ver < 83) {
-        this.isOld = true;
-        this.targetToUpdate = '瀏覽器';
-      } else {
-        this.isOld = false;
-      }
-    } else if (ua.includes('Edg')) {
-      // Edge
-      const match = ua.match(/Edg\/([0-9]+)\./);
-      const ver = parseInt(match[1], 10);
-      if (ver < 86) {
-        this.isOld = true;
-        this.targetToUpdate = '瀏覽器';
-      } else {
-        this.isOld = false;
-      }
-    } else if (ua.includes('Safari') && !ua.includes('Chrome')) {
-      // Safari
-      const match = ua.match(/Safari\/([0-9]+)\./);
-      const ver = parseInt(match[1], 10);
-      if (ver < 13) {
-        this.isOld = true;
-        this.targetToUpdate = '瀏覽器';
-      } else {
-        this.isOld = false;
-      }
+    } else {
+      this.isOld = false;
     }
   }
 
