@@ -1,5 +1,5 @@
 <section [ngClass]="{'d-none': !appService.showAPPHint}" class="appNotifyBox">
-  <div class="appNotify container">
+  <div class="appNotify container" [ngClass]="{'animationMoveUpOut': animationMoveUpOut}">
     <div class="d-flex">
       <img src="img/index/AppLogo.png" class="item AppLogo">
       <div class="item">
@@ -8,7 +8,7 @@
       </div>
       <div class="item appNotifyBtn">
         <button (click)="toDownloadAPP()" class="btn dwbtn">立即下載</button>
-        <button (click)="appService.showAPPHint = false" type="button" class="close appclose">&times;</button>
+        <button (click)="toCloaseDownloadAPP();" type="button" class="close appclose">&times;</button>
       </div>
     </div>
   </div>

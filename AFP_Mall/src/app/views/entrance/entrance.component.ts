@@ -206,11 +206,10 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
       this.isMove = false;
     }
   };
-
-
-
   /** 變化追蹤（登入狀態） */
   private serviceDiffer: KeyValueDiffer<string, any>;
+  /** 關閉下載APP動畫控制 */
+  public animationMoveUpOut = false;
 
   constructor(public appService: AppService, public modal: ModalService, private router: Router, private differs: KeyValueDiffers,
               private meta: Meta, private title: Title) {
@@ -468,6 +467,13 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
         this.router.navigate(['/AppDownload']);
       }
     }, 25);
+  }
+
+  toCloaseDownloadAPP(): void {
+    setTimeout( () => {
+      this.appService.showAPPHint = false;
+    }, 500);
+    this.animationMoveUpOut = true;
   }
 
   ngAfterViewInit(): void {
