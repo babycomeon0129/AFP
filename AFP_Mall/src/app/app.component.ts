@@ -97,11 +97,8 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
       this.showMobileFooter = !this.mobileNoFooter.some(page => this.router.url.includes(page));
       this.appService.appShowbottomBar(this.showMobileFooter);
     });
-
-    // 通知推播
-    this.appService.initPush();
-
     this.detectOld();
+    this.appService.initPush();
 
     // this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => window.scrollTo(0, 0));
 
