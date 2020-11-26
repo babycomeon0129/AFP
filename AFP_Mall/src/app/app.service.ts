@@ -99,7 +99,7 @@ export class AppService {
         switch (data.Verification.MobileVerified) {
           case 1:
             // 「一般登入」、「第三方登入」、「登入後讀購物車數量」不引導驗證手機
-            if (command !== '1104' && command !== '1105' && command !== '1204') {
+            if (command !== '1104' && command !== '1105' && command !== '1204' && command !== '1113') {
               this.modal.openModal('verifyMobile');
             }
             break;
