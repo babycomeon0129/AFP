@@ -469,6 +469,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
     }, 25);
   }
 
+  /** 關閉下載APP */
   toCloaseDownloadAPP(): void {
     setTimeout( () => {
       this.appService.showAPPHint = false;
