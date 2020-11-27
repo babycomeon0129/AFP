@@ -183,7 +183,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
    * @property target 偵測目標
    * @property type OS - 0, browser - 1
    * @property condition 可從userAgent中找出該目標的條件
-   * @property matchRegex 可從userAgent中找出該目標版本的Regex
+   * @property matchRegex 陣列[目標及版本, 版本], parseInt()第[1]個項目後取得版本
    * @property minVer 目前Angular支援該目標的最低版本
    */
   detectOld() {
@@ -233,9 +233,8 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
       }
     ];
 
-    const result = targetList.find(t => t.condition);
-    const ver = parseInt(result.matchRegex[1], 10);
-    if (ver < result.minVer) {
+    const result = targetList.find(t => t.condition && parseInt(t.matchRegex[1], 10) < t.minVer);
+    if (result !== undefined) {
       this.isOld = true;
       if (result.type === 0) {
         this.targetToUpdate = '裝置';
