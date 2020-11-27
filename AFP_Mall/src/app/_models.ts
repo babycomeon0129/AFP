@@ -139,6 +139,7 @@ export interface Response_Home {
   ADImg_Top3: AFP_ADImg[];
   ADImg_Activity: AFP_ADImg[];
   ADImg_Theme: AFP_ADImg[];
+  ADImg_Approach: AFP_ADImg[];
   List_AreaData: Model_AreaJsonFile[];
   List_TravelData: Model_TravelJsonFile[];
   List_ProductData: AFP_ChannelProduct[];

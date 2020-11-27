@@ -7,6 +7,8 @@ import {
   Request_OtherInfo } from '../../_models';
 import { SwiperOptions } from 'swiper';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { environment } from 'src/environments/environment';
 import { Meta, Title } from '@angular/platform-browser';
 import { SortablejsOptions } from 'ngx-sortablejs';
 
@@ -18,6 +20,25 @@ declare var $: any;
 })
 export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   public userProfile: Model_MemberProfile = new Model_MemberProfile();
+
+  /** 進場廣告swiper */
+  public adIndexOption = {
+    observer: true,
+    observeParents: true,
+    slidesPerView: 1,
+    spaceBetween: 10,
+    loop: true,
+    loopPreventsSlide: true,
+    breakpoints: {
+        640: {
+        slidesPerView: 1,
+        spaceBetween: 30
+        }
+    },
+    pagination: {
+      el: '.swiper-pagination',
+    }
+  };
 
   /** 個人捷徑 swiper */
   public boxIcon: SwiperOptions = {
@@ -139,7 +160,10 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
     preloadImages: true,
     updateOnImagesReady: true
   };
-
+  /** 首頁進場廣告 */
+  public adIndex: AFP_ADImg[] = [];
+  /** 首頁進場廣告開關 */
+  public adIndexisOpen = false;
   /** 置頂廣告列表 */
   public adTop: AFP_ADImg[] = [];
   /** 中間四格廣告(去哪玩連結) */
@@ -212,7 +236,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   public animationMoveUpOut = false;
 
   constructor(public appService: AppService, public modal: ModalService, private router: Router, private differs: KeyValueDiffers,
-              private meta: Meta, private title: Title) {
+              private meta: Meta, private title: Title, private cookieService: CookieService) {
     this.serviceDiffer = this.differs.find({}).create();
     // tslint:disable: max-line-length
     this.title.setTitle('Mobii!｜城市生活服務平台');
@@ -259,6 +283,11 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
           this.userVoucherCount = data.VoucherCount;
           this.deliveryArea = data.List_DeliveryData;
           this.nowVoucher = data.List_Voucher;
+          this.adIndex = data.ADImg_Approach;
+          this.adIndexisOpen = true;
+          const nowTime = new Date();
+         // nowTime = JSON.stringify(nowTime);
+         // this.cookieService.set('AdTime', JSON.stringify(nowTime), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
           break;
         case 2:
           this.userName = sessionStorage.getItem('userName');

@@ -110,7 +110,8 @@
               <div *ngFor="let item of ftTop" class="link-item">
                 <a href="javascript:;" (click)="FunctionLink(item, false)">
                   <div class="img-box">
-                    <img [lazyLoad]="item.Function_Icon" [defaultImage]="appService.defaultImage" alt="{{item.Function_Name}}">
+                    <img [lazyLoad]="item.Function_Icon" [defaultImage]="appService.defaultImage"
+                      alt="{{item.Function_Name}}">
                   </div>
                   <p>{{item.Function_Name}}</p>
                 </a>
@@ -123,7 +124,8 @@
               <div *ngFor="let item of ftBottom" class="link-item">
                 <a href="javascript:;" (click)="FunctionLink(item, false)">
                   <div class="img-box">
-                    <img [lazyLoad]="item.Function_Icon" [defaultImage]="appService.defaultImage" alt="{{item.Function_Name}}">
+                    <img [lazyLoad]="item.Function_Icon" [defaultImage]="appService.defaultImage"
+                      alt="{{item.Function_Name}}">
                   </div>
                   <p>{{item.Function_Name}}</p>
                 </a>
@@ -164,7 +166,8 @@
         <swiper class="swiper-container" [config]="boxAD">
           <div class="swiper-wrapper">
             <div class="swiper-slide" *ngFor="let item of adMid">
-              <a [href]="item?.ADImg_URL == '/'? null : item?.ADImg_URL" [target]="item?.ADImg_URLTarget" rel="noopener noreferrer">
+              <a [href]="item?.ADImg_URL == '/'? null : item?.ADImg_URL" [target]="item?.ADImg_URLTarget"
+                rel="noopener noreferrer">
                 <div class="rwdimg-cover h37" [lazyLoad]="item.ADImg_Img" [defaultImage]="appService.defaultImage">
                 </div>
               </a>
@@ -183,8 +186,9 @@
           <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs">
             <!-- Nav tabs -->
             <ul id="nav-tab-member" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
-              <li role="presentation" class="swiper-slide" *ngFor="let item of nowVoucher; let blFirst=first; let i = index"
-              (click)="getMoreData(2, i, item?.UserDefine_Code, item?.UserDefine_ChannelID)"
+              <li role="presentation" class="swiper-slide"
+                *ngFor="let item of nowVoucher; let blFirst=first; let i = index"
+                (click)="getMoreData(2, i, item?.UserDefine_Code, item?.UserDefine_ChannelID)"
                 [ngClass]="{'active': blFirst}">
                 <a href="#Code{{item.UserDefine_Code}}" class="tablist-link show" [ngClass]="{'active': blFirst}"
                   attr.aria-controls="Code{{item.UserDefine_Code}}" role="tab" data-toggle="tab"
@@ -258,7 +262,8 @@
                       <div class="products-item">
                         <a [routerLink]="['/ExploreDetail', inside.ECStore_Code]" class="content-item">
                           <div class="img-box">
-                            <img [lazyLoad]="inside.ECStore_Image1"  [defaultImage]="appService.defaultImage" alt="{{inside.ECStore_ShowName}}" class="rwdimg">
+                            <img [lazyLoad]="inside.ECStore_Image1" [defaultImage]="appService.defaultImage"
+                              alt="{{inside.ECStore_ShowName}}" class="rwdimg">
                           </div>
                           <div class="item-title">
                             {{inside.ECStore_ShowName}}
@@ -304,7 +309,8 @@
                       <div class="products-item">
                         <a [routerLink]="['/ExploreDetail', inside.ECStore_Code]" class="content-item">
                           <div class="img-box">
-                            <img [lazyLoad]="inside.ECStore_Image1"  [defaultImage]="appService.defaultImage" alt="{{inside.ECStore_ShowName}}" class="rwdimg">
+                            <img [lazyLoad]="inside.ECStore_Image1" [defaultImage]="appService.defaultImage"
+                              alt="{{inside.ECStore_ShowName}}" class="rwdimg">
                           </div>
                           <div class="item-title">
                             {{inside.ECStore_ShowName}}
@@ -332,8 +338,8 @@
             <!-- Nav tabs -->
             <ul id="nav-tab-member" class="swiper-wrapper nav nav-tabs nav-line mb-2" role="tablist">
               <li *ngFor="let tab of popProducts; let i = index; let theFirst = first"
-              (click)="getMoreData(1, i, tab?.UserDefine_Code, tab?.UserDefine_ChannelID)"
-              role="presentation" class="swiper-slide">
+                (click)="getMoreData(1, i, tab?.UserDefine_Code, tab?.UserDefine_ChannelID)" role="presentation"
+                class="swiper-slide">
                 <a href="#onsale-tab-{{i}}" class="tablist-link show" [ngClass]="{'active': theFirst}"
                   attr.aria-controls="onsale-tab-{{i}}" role="tab" data-toggle="tab"
                   [attr.aria-selected]="theFirst">{{tab?.UserDefine_Name}}</a>
@@ -407,7 +413,8 @@
                       <div class="item-favorite">
                         <button [ngClass]="{'active' : appService.userFavCodes.includes(inside.Travel_Code) == true}"
                           (click)="appService.favToggle(appService.userFavCodes.includes(inside.Travel_Code) ? 2 : 1, 54, inside.Travel_Code)">
-                          <img [lazyLoad]="'../img/share/icon_favorite.png'"  [defaultImage]="appService.defaultImage" class="imgicon">
+                          <img [lazyLoad]="'../img/share/icon_favorite.png'" [defaultImage]="appService.defaultImage"
+                            class="imgicon">
                         </button>
                       </div>
                       <a [href]="inside.Travel_URL | Safe: 'url'" target="_blank" rel="noopener noreferrer">
@@ -437,6 +444,23 @@
       </div>
     </div>
   </main>
+  <!-- 進場廣告 -->
+  <div class="enterbox" *ngIf="adIndexisOpen && appService.showOldHint">
+    <swiper class="enterswiper swiper-container" [config]="adIndexOption">
+      <button type="button" class="btn enterCloseBtn" (click)="adIndexisOpen = false">
+        <img src="img/share/close.png"></button>
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" *ngFor="let ad of adIndex">
+            <img [lazyLoad]="ad.ADImg_Img" [defaultImage]="appService.defaultImage">
+          </div>
+        </div>
+      <div class="swiper-pagination"></div>
+      <!-- <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div> -->
+    </swiper>
+    <div class="modal-backdrop"></div>
+  </div>
+
 
   <div class="multilayer">
     <div class="setting" [ngClass]="{'edit-mode': editFunction}">
@@ -455,69 +479,74 @@
       </div>
       <div class="service-sysbox bb3-solid">
         <!-- 系統服務 -->
-          <div class="title-item pt-3">
-            系統服務
-          </div>
-          <div class="title-group">
-            <div class="title-box">
-              <div class="sys-item" *ngFor="let icon of ftTop">
-                <img [lazyLoad]="icon.Function_Icon" [defaultImage]="appService.defaultImage" [alt]="icon.Function_Name" (click)="FunctionLink(icon, false)">
-                <p>{{icon.Function_Name}}</p>
-              </div>
+        <div class="title-item pt-3">
+          系統服務
+        </div>
+        <div class="title-group">
+          <div class="title-box">
+            <div class="sys-item" *ngFor="let icon of ftTop">
+              <img [lazyLoad]="icon.Function_Icon" [defaultImage]="appService.defaultImage" [alt]="icon.Function_Name"
+                (click)="FunctionLink(icon, false)">
+              <p>{{icon.Function_Name}}</p>
             </div>
           </div>
+        </div>
       </div>
       <div class="service-box bt1-solid" [hidden]="!appService.loginState">
         <!-- 我的服務 -->
-          <div class="title-item pt-3">
-            我的服務<span class="pl-2 small text-muted editnote1">長按可以拖動排序</span>
-            <div class="editbox">
-              <button (click)="editOpen()"
-              class="btn title-item edit-btn fit small-80 border-radius5 py-0">編輯</button>
-            </div>
+        <div class="title-item pt-3">
+          我的服務<span class="pl-2 small text-muted editnote1">長按可以拖動排序</span>
+          <div class="editbox">
+            <button (click)="editOpen()" class="btn title-item edit-btn fit small-80 border-radius5 py-0">編輯</button>
           </div>
-          <div class="service-title">
-             <div class="main-link edit-link sort-block" id="myService" [sortablejs]="ftBottom" [sortablejsOptions]="options">
-              <div class="link-item mysvc remove-item"  *ngFor="let icon of ftBottom;"
-              [attr.data-cat]="icon.Function_CategaryCode" [attr.data-act]="icon.Function_IsActive" [attr.data-code]="icon.Function_Code"
+        </div>
+        <div class="service-title">
+          <div class="main-link edit-link sort-block" id="myService" [sortablejs]="ftBottom"
+            [sortablejsOptions]="options">
+            <div class="link-item mysvc remove-item" *ngFor="let icon of ftBottom;"
+              [attr.data-cat]="icon.Function_CategaryCode" [attr.data-act]="icon.Function_IsActive"
+              [attr.data-code]="icon.Function_Code"
               (click)="serviceClick(icon.Function_Code, icon.Function_CategaryCode, icon.Function_IsActive);">
-                <a [href]="!editFunction ? icon.Function_URL : 'javascript:;' | Safe: 'url'"
-                  [appKeyController]="editFunction" [keyControl]="'target'" [keyValue]="icon?.Function_URLTarget"
-                 rel="noopener noreferrer">
-                  <img [lazyLoad]="icon.Function_Icon" [defaultImage]="appService.defaultImage" [alt]="icon.Function_Name">
-                  <p>{{icon.Function_Name}}</p>
-                </a>
-              </div>
+              <a [href]="!editFunction ? icon.Function_URL : 'javascript:;' | Safe: 'url'"
+                [appKeyController]="editFunction" [keyControl]="'target'" [keyValue]="icon?.Function_URLTarget"
+                rel="noopener noreferrer">
+                <img [lazyLoad]="icon.Function_Icon" [defaultImage]="appService.defaultImage"
+                  [alt]="icon.Function_Name">
+                <p>{{icon.Function_Name}}</p>
+              </a>
             </div>
           </div>
+        </div>
         <div class="w-100 text-right text-danger small-70 pb-3 editnote h24">
-            <ng-container *ngIf="noticeNine">
-              至多可選擇9種服務
-            </ng-container>
-            <ng-container *ngIf="noticeFour">
-              請至少選擇4種服務
-            </ng-container>
+          <ng-container *ngIf="noticeNine">
+            至多可選擇9種服務
+          </ng-container>
+          <ng-container *ngIf="noticeFour">
+            請至少選擇4種服務
+          </ng-container>
         </div>
       </div>
       <div class="service-box bt1-solid" id="moreServiceList">
         <!-- 更多服務 -->
         <ng-container *ngFor="let item of serviceList">
           <ng-container *ngIf="item?.Model_Function.length > 0">
-          <div class="title-item pt-3">{{item.CategaryName}}</div>
-          <div class="main-link edit-link items0">
-            <div class="link-item" *ngFor="let icon of item.Model_Function;"
-            (click)="serviceClick(icon.Function_Code, item.CategaryCode, icon.Function_IsActive);"
-            [ngClass]="{'remove-item': !icon?.isAdd && icon.Function_IsActive, 'add-item':icon?.isAdd && icon.Function_IsActive,'disable' : icon.Function_IsActive === 0}">
-              <a [href]="!editFunction && icon.Function_IsActive ? icon.Function_URL : 'javascript:;' | Safe: 'url'"
-              [appKeyController]="editFunction" [keyControl]="'target'" [keyValue]="icon?.Function_URLTarget" rel="noopener noreferrer">
-                <div class="img-box">
-                  <img [lazyLoad]="icon.Function_Icon" [defaultImage]="appService.defaultImage" [alt]="icon.Function_Name">
-                </div>
-                <p>{{icon.Function_Name}}</p>
-              </a>
+            <div class="title-item pt-3">{{item.CategaryName}}</div>
+            <div class="main-link edit-link items0">
+              <div class="link-item" *ngFor="let icon of item.Model_Function;"
+                (click)="serviceClick(icon.Function_Code, item.CategaryCode, icon.Function_IsActive);"
+                [ngClass]="{'remove-item': !icon?.isAdd && icon.Function_IsActive, 'add-item':icon?.isAdd && icon.Function_IsActive,'disable' : icon.Function_IsActive === 0}">
+                <a [href]="!editFunction && icon.Function_IsActive ? icon.Function_URL : 'javascript:;' | Safe: 'url'"
+                  [appKeyController]="editFunction" [keyControl]="'target'" [keyValue]="icon?.Function_URLTarget"
+                  rel="noopener noreferrer">
+                  <div class="img-box">
+                    <img [lazyLoad]="icon.Function_Icon" [defaultImage]="appService.defaultImage"
+                      [alt]="icon.Function_Name">
+                  </div>
+                  <p>{{icon.Function_Name}}</p>
+                </a>
+              </div>
             </div>
-          </div>
-        </ng-container>
+          </ng-container>
         </ng-container>
       </div>
     </div>

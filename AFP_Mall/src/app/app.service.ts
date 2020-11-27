@@ -54,6 +54,8 @@ export class AppService {
   public deviceCode: string;
   /** firebase 推播 token */
   public firebaseToken: string;
+  /** 是否顯示過舊提示 */
+  public showOldHint = true;
 
   @BlockUI() blockUI: NgBlockUI;
   constructor(private http: HttpClient, private bsModal: BsModalService, public modal: ModalService, private router: Router,
