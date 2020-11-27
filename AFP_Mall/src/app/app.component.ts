@@ -8,6 +8,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { RouterOutlet } from '@angular/router';
 import { slideInAnimation } from './animations';
 
+declare var AppJSInterface: any;
+
 @Component({
   // tslint:disable-next-line
   selector: 'body',
@@ -95,7 +97,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
       window.scrollTo(0, 0);
       // 手機版-只有大首頁、探索周邊首頁、任務牆、通知頁、我的列表頁露出footer
       this.showMobileFooter = !this.mobileNoFooter.some(page => this.router.url.includes(page));
-      this.appService.appShowbottomBar(this.showMobileFooter);
+      this.appShowbottomBar(this.showMobileFooter);
     });
     this.detectOld();
     this.appService.initPush();
@@ -147,6 +149,19 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
     //     this.cookieService.set('cart_code', params.cartCode, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
     //   }
     // });
+  }
+
+  /** 通知APP是否開啟BottomBar */
+  appShowbottomBar(isOpen: boolean): void {
+    if (this.appService.isApp !== null) {
+      if (navigator.userAgent.match(/android/i)) {
+        //  Android
+        AppJSInterface.showBottomBar(isOpen);
+      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+        //  IOS
+        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showBottomBar', isShow: isOpen });
+      }
+    }
   }
 
   /** 前往頁面前判斷登入狀態 */

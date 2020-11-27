@@ -441,18 +441,6 @@ export class AppService {
     }
   }
 
-  /** 通知APP是否開啟BottomBar */
-  appShowbottomBar(isOpen: boolean): void {
-    if (this.isApp !== null) {
-      if (navigator.userAgent.match(/android/i)) {
-        //  Android
-        AppJSInterface.showBottomBar(isOpen);
-      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-        //  IOS
-        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showBottomBar', isShow: isOpen });
-      }
-    }
-  }
 
   /** 打開JustKa iframe */
   showJustka(url: string): void {
