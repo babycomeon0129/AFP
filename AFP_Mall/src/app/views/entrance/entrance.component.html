@@ -451,7 +451,9 @@
         <img src="img/share/close.png"></button>
         <div class="swiper-wrapper">
           <div class="swiper-slide" *ngFor="let ad of adIndex">
+            <a href="{{ ad?.ADImg_URL }}" target="{{ ad?.ADImg_URLTarget }}">
             <img [lazyLoad]="ad.ADImg_Img" [defaultImage]="appService.defaultImage">
+           </a>
           </div>
         </div>
       <div class="swiper-pagination"></div>
