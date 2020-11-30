@@ -189,6 +189,7 @@ export class ProductDetailComponent implements OnInit, AfterViewChecked {
 
   /** 加入購物車 */
   onAddToCart() {
+    // 電子票券: 先確認已登入
     if (this.productInfo.Product_Type === 21 && !this.appService.loginState) {
       this.appService.loginPage();
     } else {
@@ -230,38 +231,34 @@ export class ProductDetailComponent implements OnInit, AfterViewChecked {
           this.cartCount = data.Cart_Count;
           this.modal.show('message', { initialState: { success: true, message: '加入購物車成功!', showType: 1 } });
         } else {
-        // 電子票券: 直接將購物車資訊帶到確認訂單頁（需先確認已登入）
-          if (!this.appService.loginState) {
-            this.modal.openModal('login');
-          } else {
-            const EcartList: CartStoreList[] = [];
-            const storeInfo: CartStoreList = {
-              StoreCode: data.AFP_Cart.Cart_ECStoreCode,
-              StoreName: data.AFP_Cart.Cart_ECStoreName,
-              CheckedStatus: true,
-              EditMode: true,
-              ProductList: [
-                {
-                  CartId: data.AFP_Cart.Cart_ID,
-                  DirCode: data.AFP_Cart.Cart_UserDefineCode,
-                  DirName: null,
-                  ProductCode: data.AFP_Cart.Cart_ProductCode,
-                  ProductName: null,
-                  ProductAttrValues: data.AFP_Cart.Cart_AttributeValueName,
-                  ProductQty: 1,
-                  ProductPrice: null,
-                  ProductImg: null,
-                  CheckedStatus: true
-                }
-              ]
-            };
-            EcartList.push(storeInfo);
-            this.router.navigate(['/ETicketOrder'], {
-              state: {
-                data: { checkoutList: EcartList }
+          // 電子票券: 直接將購物車資訊帶到確認訂單頁
+          const EcartList: CartStoreList[] = [];
+          const storeInfo: CartStoreList = {
+            StoreCode: data.AFP_Cart.Cart_ECStoreCode,
+            StoreName: data.AFP_Cart.Cart_ECStoreName,
+            CheckedStatus: true,
+            EditMode: true,
+            ProductList: [
+              {
+                CartId: data.AFP_Cart.Cart_ID,
+                DirCode: data.AFP_Cart.Cart_UserDefineCode,
+                DirName: null,
+                ProductCode: data.AFP_Cart.Cart_ProductCode,
+                ProductName: null,
+                ProductAttrValues: data.AFP_Cart.Cart_AttributeValueName,
+                ProductQty: 1,
+                ProductPrice: null,
+                ProductImg: null,
+                CheckedStatus: true
               }
-            });
-          }
+            ]
+          };
+          EcartList.push(storeInfo);
+          this.router.navigate(['/ETicketOrder'], {
+            state: {
+              data: { checkoutList: EcartList }
+            }
+          });
         }
       });
     }
