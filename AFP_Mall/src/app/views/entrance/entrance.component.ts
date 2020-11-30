@@ -164,7 +164,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   /** 首頁進場廣告 */
   public adIndex: AFP_ADImg[] = [];
   /** 首頁進場廣告開始時間確認 */
-  public adIndexTime = true;
+  public adIndexTime = false;
   /** 置頂廣告列表 */
   public adTop: AFP_ADImg[] = [];
   /** 中間四格廣告(去哪玩連結) */
@@ -248,7 +248,6 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
 
   ngOnInit() {
     this.readHome(1);
-    this.adIndexChenck();
     // 若有登入則顯示名字、M Points及優惠券資訊（手機版）、我的收藏
     if (this.appService.loginState) {
       this.userName = sessionStorage.getItem('userName');
@@ -518,6 +517,9 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   }
 
   ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.adIndexChenck();
+    }, 5000);
   }
 
   ngDoCheck(): void {
