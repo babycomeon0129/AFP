@@ -304,9 +304,17 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
     if (adTimeString !== nowTime) {
       this.cookieService.set('adTime', JSON.stringify(nowTime), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       this.adIndexTime = true;
+      document.body.style.overflow = 'hidden' ;
+    //  document.body.removeAttribute('style');
     } else {
       this.adIndexTime = false;
     }
+  }
+
+  /** 首頁進場廣告關閉 */
+  adIndexClose(): void {
+    document.body.removeAttribute('style');
+    this.appService.adIndexOpen = false;
   }
 
   /** 我的服務編輯模式開啟 */
