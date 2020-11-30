@@ -298,13 +298,13 @@ export class AppService {
             voucher.Voucher_IsFreq = data.Model_Voucher.Voucher_IsFreq;
             voucher.Voucher_FreqName = data.Model_Voucher.Voucher_FreqName;
             voucher.Voucher_ReleasedCount += 1;
-            if ( voucher.Voucher_DedPoint > 0 ) {
+            if (voucher.Voucher_DedPoint > 0) {
               const initialState = {
                 success: true,
                 type: 1,
                 message: `<div class="no-data"><img src="../../../../img/shopping/payment-ok.png"><p>兌換成功！</p></div>`
               };
-              this.modal.show('message', {initialState});
+              this.modal.show('message', { initialState });
             }
           });
           break;
@@ -387,57 +387,73 @@ export class AppService {
   /** 初始化推播 (註冊firebase、取得token、產生/取得deviceCode、傳送給後端並取得新消費者包) */
   initPush() {
     if (environment.production) {
-      // 若已初始化過就不再重複一次
+      // 不重複初始化
       if (!firebase.apps.length) {
         firebase.initializeApp(environment.firebase);
-      } else {
-        firebase.app();
-      }
-      const messaging = firebase.messaging();
-      navigator.serviceWorker.ready.then(registration => {
-        if (
-          !!registration &&
-          registration.active &&
-          registration.active.state &&
-          registration.active.state === 'activated'
-        ) {
-          // 若還未取過token則去要求允許推播，使用者允許後取得token，保存在變數
-            if (this.firebaseToken === undefined) {
-              messaging.useServiceWorker(registration);
+        console.log('firebase.initializeApp');
+        const messaging = firebase.messaging();
+        navigator.serviceWorker.ready.then(registration => {
+          if (
+            !!registration &&
+            registration.active &&
+            registration.active.state &&
+            registration.active.state === 'activated'
+          ) {
+            messaging.useServiceWorker(registration);
+            console.log('messaging.useServiceWorker(registration)');
+            if (Notification.permission !== 'denied') {
+              console.log('Notification.permission !== denied');
               Notification
               .requestPermission()
-              .then(() => messaging.getToken())
-              .then(token => {
-                this.firebaseToken = token;
-                // send token to BE
-                // get GUID (device code) from session, or generate one if there's no
-                if (sessionStorage.getItem('M_DeviceCode') !== null) {
-                  this.deviceCode = sessionStorage.getItem('M_DeviceCode');
+              .then((permission) => {
+                if (permission === 'granted') {
+                  messaging.getToken().then(token => {
+                    this.firebaseToken = token;
+                    console.log('got firebaseToken from: messaging.getToken()');
+                    // console.log('this.firebaseToken:', this.firebaseToken);
+                    // send token to BE
+                    // get GUID (device code) from session, or generate one if there's no
+                    if (sessionStorage.getItem('M_DeviceCode') !== null) {
+                      this.deviceCode = sessionStorage.getItem('M_DeviceCode');
+                      console.log('deviceCode (from session):', this.deviceCode);
+                    } else {
+                      this.deviceCode = this.guid();
+                      sessionStorage.setItem('M_DeviceCode', this.deviceCode);
+                      console.log('deviceCode (new):', this.deviceCode);
+                    }
+                    this.toPushApi();
+                  });
                 } else {
-                  this.deviceCode = this.guid();
-                  sessionStorage.setItem('M_DeviceCode', this.deviceCode);
+                  console.warn('The notification permission was not granted and blocked instead');
                 }
               });
             }
-
-            const request: Request_AFPPushToken = {
-              User_Code: sessionStorage.getItem('userCode'),
-              Token: this.firebaseToken
-            };
-            this.toApi('Home', '1113', request, null, null, this.deviceCode).subscribe((data: Response_AFPPushToken) => {
-              sessionStorage.setItem('CustomerInfo', data.CustomerInfo);
-              this.cookieService.set('CustomerInfo', data.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-            });
           } else {
             console.warn('No active service worker found, not able to get firebase messaging');
           }
-      });
+        });
+      } else {
+        firebase.app();
+        this.toPushApi();
+      }
 
       this.swPush.messages.subscribe(msg => {
         // count msg length and show red point
         this.pushCount += 1;
       });
     }
+  }
+
+  /** 推播-取得含device code的新消費者包 */
+  toPushApi() {
+    const request: Request_AFPPushToken = {
+      User_Code: sessionStorage.getItem('userCode'),
+      Token: this.firebaseToken
+    };
+    this.toApi('Home', '1113', request, null, null, this.deviceCode).subscribe((data: Response_AFPPushToken) => {
+      sessionStorage.setItem('CustomerInfo', data.CustomerInfo);
+      this.cookieService.set('CustomerInfo', data.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+    });
   }
 
   /** 產生device code */
@@ -516,12 +532,12 @@ export interface jQuery {
   animateCss(): void;
 }
 
-jQuery.prototype.animateCss = function(animationName, anotherCss, callback): void {
+jQuery.prototype.animateCss = function (animationName, anotherCss, callback): void {
   const animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
   const isAdd = anotherCss.substr(0, 1);
   const addCss = anotherCss.substr(1);
   if (isAdd === '+' || isAdd === '-') {
-    this.addClass('animated ' + animationName + ' ' + addCss).bind(animationEnd, function() {
+    this.addClass('animated ' + animationName + ' ' + addCss).bind(animationEnd, function () {
       if (isAdd === '+') { $(this).addClass(addCss); }
       if (isAdd === '-') { $(this).removeClass(addCss); }
       $(this).removeClass('animated ' + animationName);
