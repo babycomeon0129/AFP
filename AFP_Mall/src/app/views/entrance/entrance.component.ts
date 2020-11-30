@@ -4,7 +4,8 @@ import { ModalService } from '../../service/modal.service';
 import {
   Response_Home, AFP_ADImg, Model_AreaJsonFile, AFP_Function, Model_TravelJsonFile,
   Model_ShareData, Model_MemberProfile, AFP_UserFavourite, Request_Home, AFP_ChannelProduct, AFP_ChannelVoucher,
-  Request_OtherInfo } from '../../_models';
+  Request_OtherInfo
+} from '../../_models';
 import { SwiperOptions } from 'swiper';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
@@ -30,10 +31,10 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
     loop: true,
     loopPreventsSlide: true,
     breakpoints: {
-        640: {
+      640: {
         slidesPerView: 1,
         spaceBetween: 30
-        }
+      }
     },
     pagination: {
       el: '.swiper-pagination',
@@ -162,8 +163,8 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   };
   /** 首頁進場廣告 */
   public adIndex: AFP_ADImg[] = [];
-  /** 首頁進場廣告開關 */
-  public adIndexisOpen = false;
+  /** 首頁進場廣告開始時間確認 */
+  public adIndexTime = true;
   /** 置頂廣告列表 */
   public adTop: AFP_ADImg[] = [];
   /** 中間四格廣告(去哪玩連結) */
@@ -247,7 +248,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
 
   ngOnInit() {
     this.readHome(1);
-
+    this.adIndexChenck();
     // 若有登入則顯示名字、M Points及優惠券資訊（手機版）、我的收藏
     if (this.appService.loginState) {
       this.userName = sessionStorage.getItem('userName');
@@ -284,10 +285,6 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
           this.deliveryArea = data.List_DeliveryData;
           this.nowVoucher = data.List_Voucher;
           this.adIndex = data.ADImg_Approach;
-          this.adIndexisOpen = true;
-          const nowTime = new Date();
-         // nowTime = JSON.stringify(nowTime);
-         // this.cookieService.set('AdTime', JSON.stringify(nowTime), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
           break;
         case 2:
           this.userName = sessionStorage.getItem('userName');
@@ -299,18 +296,32 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
     });
   }
 
+  /** 判斷首頁進場廣告開啟 */
+  adIndexChenck(): void {
+    const adTime = this.cookieService.get('adTime') || null;
+    // adTime轉字串adTimeString
+    const adTimeString = JSON.parse(adTime);
+    const nowTime = new Date().getDate().toString();
+    if (adTimeString !== nowTime) {
+      this.cookieService.set('adTime', JSON.stringify(nowTime), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+      this.adIndexTime = true;
+    } else {
+      this.adIndexTime = false;
+    }
+  }
+
   /** 我的服務編輯模式開啟 */
   editOpen(): void {
     this.editFunction = true;
-    this.options = {disabled: false};
+    this.options = { disabled: false };
   }
 
-   /** 我的服務編輯模式關閉 */
-   editClose(): void {
+  /** 我的服務編輯模式關閉 */
+  editClose(): void {
     this.editFunction = false;
-    this.options = {disabled: true};
+    this.options = { disabled: true };
     this.ftBottom = this.ftBottom_org.concat();
-   }
+  }
 
   /** 首頁我的服務 */
   getHomeservice(): void {
@@ -364,8 +375,8 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
         if (this.ftBottom.length > 4 && !this.isMove) {
           this.ftBottom.splice(result, 1);
           // 根據我的服務清單，修改下面更多服務的class狀態
-          this.serviceList.filter(item => item.CategaryCode === cat)[0].Model_Function.forEach( icon => {
-            if ( icon.Function_Code === code) {
+          this.serviceList.filter(item => item.CategaryCode === cat)[0].Model_Function.forEach(icon => {
+            if (icon.Function_Code === code) {
               icon.isAdd = true;
             }
           });
@@ -379,8 +390,8 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
             .filter(item => item.Function_Code === code)[0];
           this.ftBottom.push(add);
           // 根據我的服務清單，修改下面更多服務的class狀態
-          this.serviceList.filter(item => item.CategaryCode === cat)[0].Model_Function.forEach( icon => {
-            if ( icon.Function_Code === code) {
+          this.serviceList.filter(item => item.CategaryCode === cat)[0].Model_Function.forEach(icon => {
+            if (icon.Function_Code === code) {
               icon.isAdd = false;
             }
           });
@@ -394,7 +405,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   updateUserService(): void {
     this.editFunction = false;
     // 將我的服務的function code 陣列result傳給後端
-    const result = this.ftBottom.map( (item: AFP_Function) => item.Function_Code);
+    const result = this.ftBottom.map((item: AFP_Function) => item.Function_Code);
     const request: Request_AFPUpdateUserService = {
       User_Code: sessionStorage.getItem('userCode'),
       Model_UserFavourite: null,
@@ -404,7 +415,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
     // 如果我的服務沒有修改，不送後端
     if (oring.join('') !== result.join('')) {
       this.appService.toApi('Home', '1108', request).subscribe((data: Response_AFPUpdateUserService) => {
-        if ( data !== null ) {
+        if (data !== null) {
           this.ftBottom_org = this.ftBottom.concat();
         }
       });
@@ -500,7 +511,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
 
   /** 關閉下載APP */
   toCloaseDownloadAPP(): void {
-    setTimeout( () => {
+    setTimeout(() => {
       this.appService.showAPPHint = false;
     }, 500);
     this.animationMoveUpOut = true;

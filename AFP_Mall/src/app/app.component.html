@@ -42,10 +42,10 @@
   </div>
 </footer>
 <!-- 裝置版本過低提示 -->
-<div *ngIf="isOld && appService.showOldHint" class="sysmsgcontainer">
+<div *ngIf="isOld && showOldHint" class="sysmsgcontainer">
   <div class="container p-3 sysmsgbox">
       <p class="py-2">您的{{targetToUpdate}}版本過低，請更新至最新版本</p>
-      <button type="button" class="btn index-btn w-100" [routerLink]="'/'" (click)="appService.showOldHint = false">關閉</button>
+      <button type="button" class="btn index-btn w-100" [routerLink]="'/'" (click)="showOldHint = false; appService.adIndexOpen = true;">關閉</button>
   </div>
   <div class="modal-backdrop"></div>
 </div>

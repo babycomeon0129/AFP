@@ -29,6 +29,8 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
   public isOld: boolean;
   /** 需更新項目 */
   public targetToUpdate: string;
+  /** 是否顯示過舊提示 */
+  public showOldHint = true;
 
   constructor(private router: Router, public appService: AppService, private activatedRoute: ActivatedRoute, public modal: ModalService,
               private cookieService: CookieService) {
@@ -235,6 +237,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
     const ver = parseInt(result.matchRegex[1], 10);
     if (ver < result.minVer) {
       this.isOld = true;
+      this.appService.adIndexOpen = false;
       if (result.type === 0) {
         this.targetToUpdate = '裝置';
       } else {
@@ -242,6 +245,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
       }
     } else {
       this.isOld = false;
+      this.appService.adIndexOpen = true;
     }
   }
 

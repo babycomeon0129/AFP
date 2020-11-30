@@ -54,8 +54,8 @@ export class AppService {
   public deviceCode: string;
   /** firebase 推播 token */
   public firebaseToken: string;
-  /** 是否顯示過舊提示 */
-  public showOldHint = true;
+  /** 首頁進場廣告是否開啟 (要再確認過瀏覽器版本後打開) */
+  public adIndexOpen = false;
 
   @BlockUI() blockUI: NgBlockUI;
   constructor(private http: HttpClient, private bsModal: BsModalService, public modal: ModalService, private router: Router,
