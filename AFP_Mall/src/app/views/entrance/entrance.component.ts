@@ -300,7 +300,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
     const adTime = this.cookieService.get('adTime') || null;
     // adTime轉字串adTimeString
     const adTimeString = JSON.parse(adTime);
-    const nowTime = new Date().getDate().toString();
+    const nowTime = new Date().getMonth().toString() + new Date().getDate().toString();
     if (adTimeString !== nowTime) {
       this.cookieService.set('adTime', JSON.stringify(nowTime), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       this.adIndexTime = true;
