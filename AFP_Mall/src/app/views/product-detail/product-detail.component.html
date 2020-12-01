@@ -16,7 +16,7 @@
               <div class="item two">
                   <div class="top-item climate text-right">
                     <a *ngIf="vendorInfo?.ECStore_Justka !== null" (click)="appService.showJustka(vendorInfo.ECStore_Justka)">
-                      <img src="../img/share/notify.png" class="h38" data-toggle="tooltip" data-placement="bottom" title="客服">
+                      <img src="../../img/share/notify.png" class="h38" data-toggle="tooltip" data-placement="bottom" title="客服">
                     </a>
                     <a [routerLink]="['/ShoppingCart']">
                       <button class="badge-img px-0" data-toggle="tooltip" data-placement="bottom" title="購物車">
@@ -40,7 +40,7 @@
                           <button (click)="appService.favToggle(appService.userFavCodes.includes(productInfo?.Product_Code) ? 2 : 1, 51, productInfo.Product_Code)"
                           [ngClass]="{'active' : appService.userFavCodes.includes(productInfo?.Product_Code) == true}"
                           type="button" data-toggle="modal" data-target=".bd-example-modal-sm" data-toggle="tooltip" data-placement="top" title="加入/移除收藏">
-                          <img src="../img/share/icon_favorite.png" class="imgicon">
+                          <img src="../../img/share/icon_favorite.png" class="imgicon">
                           </button>
                         </div>
                     </div>
@@ -114,7 +114,7 @@
               <div class="products-storebox flex-inline-between center-v">
                   <div class="products-store-info d-flex d-inline center-v pb-2">
                       <div class="img-box">
-                          <div [lazyLoad]="vendorInfo?.ECStore_Logo" [defaultImage]="appService.defaultImage" class="rwdimg logo-img"></div>
+                          <div *ngIf="vendorInfo?.ECStore_Logo !== null" [lazyLoad]="vendorInfo?.ECStore_Logo" class="rwdimg logo-img" [defaultImage]="appService.defaultImage"></div>
                       </div>
                       <div class="store-title">{{vendorInfo?.ECStore_ShowName}}</div>
                   </div>
