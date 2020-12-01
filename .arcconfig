@@ -1,3 +1,5 @@
 {
-  "phabricator.uri" : "http://codereview.eyesmedia.com.tw/"
+  "phabricator.uri" : "http://codereview.eyesmedia.com.tw/",
+  "base": "git:merge-base(origin/developer), arc:prompt",
+  "arc.land.onto.default": "developer"
 }
