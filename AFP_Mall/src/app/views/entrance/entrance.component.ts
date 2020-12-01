@@ -38,6 +38,10 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
     },
     pagination: {
       el: '.swiper-pagination',
+    },
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false
     }
   };
 
