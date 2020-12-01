@@ -22,7 +22,7 @@
           <div class="swiper-container">
               <div class="swiper-wrapper">
                   <div class="swiper-slide">
-                      <img src="{{imgTop?.ADImg_Img}}" alt="top-image">
+                      <img [lazyLoad]="imgTop?.ADImg_Img" alt="top-image" [defaultImage]="appService.defaultImage">
                   </div>
               </div>
           </div>
@@ -31,7 +31,7 @@
           <h6 class="py-2">遊戲列表</h6>
           <div class="member-flex flex-gamebn">
               <div *ngFor="let game of gameList" (click)="GoGame(game.Game_Code, game.Game_Type, game.Game_DedPoint, game.Game_ExtName)" class="item">
-                  <img src="{{game?.Game_Image}}" alt="" class="img-fluid border-radius5">
+                  <img [lazyLoad]="game?.Game_Image" alt="" class="img-fluid border-radius5" [defaultImage]="appService.defaultImage">
               </div>
           </div>
       </div>

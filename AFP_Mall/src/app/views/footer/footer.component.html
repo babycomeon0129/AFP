@@ -3,7 +3,7 @@
   <div class="bearservice">
     <div class="scroll-top-wrapper">
       <span class="scroll-top-inner">
-        <button (click)="toggle();" type="button" id="webservice"><img [src]="justkaImg"></button>
+        <button (click)="toggle();" type="button" id="webservice"><img [lazyLoad]="justkaImg" [defaultImage]="appService.defaultImage"></button>
       </span>
     </div>
   </div>

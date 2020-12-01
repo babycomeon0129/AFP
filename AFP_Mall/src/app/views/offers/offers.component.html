@@ -42,7 +42,7 @@
                       <a [routerLink]="sale?.Voucher_UserVoucherCode === null? ['/VoucherDetail', sale?.Voucher_Code] : ['/VoucherDetail', sale?.Voucher_UserVoucherCode]" class="item">
                           <div class="pr-2">
                               <div class="img-box">
-                                  <img src="{{sale?.Voucher_Image}}" alt="">
+                                  <img [lazyLoad]="sale?.Voucher_Image" [alt]="sale?.Voucher_ExtName" [defaultImage]="appService.defaultImage">
                               </div>
                           </div>
                           <div class="discount-text">

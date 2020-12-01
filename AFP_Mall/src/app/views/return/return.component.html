@@ -34,7 +34,7 @@
       <ul class="order-shop-list">
         <li *ngFor="let product of productInfo">
           <div class="item rwdimgbox-80">
-            <div [style.background-image]="'url('+product?.Product_ShowImg+')'" class="rwdimg-cover"></div>
+            <div [lazyLoad]="product?.Product_ShowImg" [defaultImage]="appService.defaultImage" class="rwdimg-cover"></div>
           </div>
           <div class="item item-txt">
             <p>{{product?.ItemInfoPart_ItemName}}</p>
