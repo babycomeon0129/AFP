@@ -182,9 +182,9 @@
   <div class="my-info-box">
     <label class="custom-file-upload">
       <div class="upload-box" (click)="showFileDetail = 3">
-        <img [src]="CertificatePic">
+        <img [lazyLoad]="CertificatePic" [defaultImage]="appService.defaultImage">
         <div class="add-btn" *ngIf="userCertificate.UserFavourite_TypeCode === null">
-          <img src="../../img/member/uploadphoto.svg" alt="">
+          <img src="../../img/member/uploadphoto.svg">
         </div>
         <div class="change-btn" *ngIf="userCertificate.UserFavourite_TypeCode !== null">
           變更

@@ -30,7 +30,7 @@
               class="imgicon"></button>
         </div>
         <div class="img-box">
-          <img src="{{voucherData?.Voucher_Image}}" alt="voucher-image">
+          <img [lazyLoad]="voucherData?.Voucher_Image" [alt]="voucherData?.Voucher_ExtName" [defaultImage]="appService.defaultImage">
         </div>
         <div class="index-flex p-3">
           <div class="item three font-bold text-bluedk">

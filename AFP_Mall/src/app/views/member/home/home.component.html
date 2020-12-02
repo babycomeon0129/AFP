@@ -114,7 +114,7 @@
                       <div class="swiper-wrapper">
                           <div *ngFor="let ad of indexData?.ADImg_Btm" class="swiper-slide">
                               <a (click)="adRouter(ad)">
-                                <div class="rwdimg-cover h20 border-radius5" [style.background-image]="'url('+ad?.ADImg_Img+')'"></div>
+                                <div class="rwdimg-cover h20 border-radius5" [lazyLoad]="ad?.ADImg_Img" [defaultImage]="appService.defaultImage"></div>
                               </a>
                           </div>
                       </div>

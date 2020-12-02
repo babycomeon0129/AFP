@@ -38,6 +38,10 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
     },
     pagination: {
       el: '.swiper-pagination',
+    },
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false
     }
   };
 
@@ -300,13 +304,20 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
     const adTime = this.cookieService.get('adTime') || null;
     // adTime轉字串adTimeString
     const adTimeString = JSON.parse(adTime);
-    const nowTime = new Date().getDate().toString();
+    const nowTime = new Date().getFullYear().toString() + new Date().getMonth().toString() + new Date().getDate().toString();
     if (adTimeString !== nowTime) {
       this.cookieService.set('adTime', JSON.stringify(nowTime), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       this.adIndexTime = true;
+      document.body.style.overflow = 'hidden' ;
     } else {
       this.adIndexTime = false;
     }
+  }
+
+  /** 首頁進場廣告關閉 */
+  adIndexClose(): void {
+    document.body.removeAttribute('style');
+    this.appService.adIndexOpen = false;
   }
 
   /** 我的服務編輯模式開啟 */

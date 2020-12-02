@@ -59,7 +59,7 @@
                               <ul *ngIf="orderList.length > 0; else elseBlock1">
                                   <li *ngFor="let item of orderList" (click)="goToDetail(21, item)">
                                       <div class="item rwdimgbox-80">
-                                          <div [style.background-image]="'url('+item.Order_ProdImg+')'" class="rwdimg"></div>
+                                          <div [lazyLoad]="item.Order_ProdImg" [defaultImage]="appService.defaultImage" class="rwdimg"></div>
                                       </div>
                                       <div class="item item-info">
                                           <p>{{item.Order_ECStoreName}}</p>
@@ -115,7 +115,7 @@
                               <ul>
                                   <li *ngFor="let item of orderList" (click)="goToDetail(1, item)">
                                       <div class="item rwdimgbox-80">
-                                          <div [style.background-image]="'url('+item.Order_ProdImg+')'" class="rwdimg"></div>
+                                          <div [lazyLoad]="item.Order_ProdImg" [defaultImage]="appService.defaultImage" class="rwdimg"></div>
                                       </div>
                                       <div class="item item-info">
                                           <p>
