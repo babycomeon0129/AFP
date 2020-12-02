@@ -89,7 +89,6 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
   }
 
   ngOnInit() {
-    console.log('測試Phabricator, 請Lynn review');
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
         this.headingPage = this.router.url;

@@ -390,7 +390,6 @@ export class AppService {
       // 不重複初始化
       if (!firebase.apps.length) {
         firebase.initializeApp(environment.firebase);
-        console.log('firebase.initializeApp');
         const messaging = firebase.messaging();
         navigator.serviceWorker.ready.then(registration => {
           if (
@@ -400,26 +399,20 @@ export class AppService {
             registration.active.state === 'activated'
           ) {
             messaging.useServiceWorker(registration);
-            console.log('messaging.useServiceWorker(registration)');
             if (Notification.permission !== 'denied') {
-              console.log('Notification.permission !== denied');
               Notification
               .requestPermission()
               .then((permission) => {
                 if (permission === 'granted') {
                   messaging.getToken().then(token => {
                     this.firebaseToken = token;
-                    console.log('got firebaseToken from: messaging.getToken()');
-                    // console.log('this.firebaseToken:', this.firebaseToken);
                     // send token to BE
                     // get GUID (device code) from session, or generate one if there's no
                     if (sessionStorage.getItem('M_DeviceCode') !== null) {
                       this.deviceCode = sessionStorage.getItem('M_DeviceCode');
-                      console.log('deviceCode (from session):', this.deviceCode);
                     } else {
                       this.deviceCode = this.guid();
                       sessionStorage.setItem('M_DeviceCode', this.deviceCode);
-                      console.log('deviceCode (new):', this.deviceCode);
                     }
                     this.toPushApi();
                   });
