@@ -41,7 +41,7 @@ export class EventComponent implements OnInit, DoCheck {
   }
 
   /** 讀取資料 */
-  readData() {
+  readData(): void {
     this.appService.openBlock();
     const request: Request_ECVoucher = {
       User_Code: sessionStorage.getItem('userCode'),
