@@ -19,15 +19,15 @@ export class MemberCoinComponent implements OnInit {
 
   /** 分類導覽 */
   public boxTabs: SwiperOptions = {
-    slidesPerView: 3,
+    slidesPerView: 5,
     spaceBetween: 10,
     breakpoints: {
       320: {
-        slidesPerView: 3,
+        slidesPerView: 4,
         spaceBetween: 10
       },
       480: {
-        slidesPerView: 4,
+        slidesPerView: 5,
         spaceBetween: 15
       },
       640: {
