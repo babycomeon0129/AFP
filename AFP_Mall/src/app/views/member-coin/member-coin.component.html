@@ -33,7 +33,7 @@
       <h6 class="py-2">遊戲館</h6>
       <div class="member-flex flex-coinbn">
         <div *ngFor="let item of info.List_Game" [routerLink]="['/Game', item?.Game_Code]" [queryParams]="{hideBackBtn: false}" class="item">
-          <img [src]="item.Game_Image" class="img-fluid border-radius5" alt="">
+          <img [lazyLoad]="item.Game_Image" class="img-fluid border-radius5" [defaultImage]="appService.defaultImage">
         </div>
       </div>
     </div>
@@ -64,7 +64,7 @@
                   <div class="card-text">
                     <div class="member-flex">
                       <div class="item one">
-                        <div [style.background-image]="'url('+voucher.Voucher_Image+')' | Safe: 'style'"
+                        <div [lazyLoad]="voucher.Voucher_Image" [defaultImage]="appService.defaultImage"
                           (click)="goDetail(voucher)" class="rwdimg logo-img">
                         </div>
                       </div>

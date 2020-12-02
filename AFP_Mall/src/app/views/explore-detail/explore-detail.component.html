@@ -7,19 +7,19 @@
                   <swiper class="shopping-storeimg swiper-container" [config]="imgSwiper">
                       <div class="swiper-wrapper">
                         <div class="swiper-slide" *ngIf="siteInfo?.ECStore_Image1 !== null">
-                          <div [style.background-image]="'url('+siteInfo?.ECStore_Image1+')' | Safe: 'style'" class="img-fluid"></div>
+                          <div [lazyLoad]="siteInfo?.ECStore_Image1" [defaultImage]="appService.defaultImage" class="img-fluid"></div>
                         </div>
                         <div class="swiper-slide" *ngIf="siteInfo?.ECStore_Image2 !== null">
-                          <div [style.background-image]="'url('+siteInfo?.ECStore_Image2+')' | Safe: 'style'" class="img-fluid"></div>
+                          <div [lazyLoad]="siteInfo?.ECStore_Image2" [defaultImage]="appService.defaultImage" class="img-fluid"></div>
                         </div>
                         <div class="swiper-slide" *ngIf="siteInfo?.ECStore_Image3 !== null">
-                          <div [style.background-image]="'url('+siteInfo?.ECStore_Image3+')' | Safe: 'style'" class="img-fluid"></div>
+                          <div [lazyLoad]="siteInfo?.ECStore_Image3" [defaultImage]="appService.defaultImage" class="img-fluid"></div>
                         </div>
                         <div class="swiper-slide" *ngIf="siteInfo?.ECStore_Image4 !== null">
-                          <div [style.background-image]="'url('+siteInfo?.ECStore_Image4+')' | Safe: 'style'" class="img-fluid"></div>
+                          <div [lazyLoad]="siteInfo?.ECStore_Image4" [defaultImage]="appService.defaultImage" class="img-fluid"></div>
                         </div>
                         <div class="swiper-slide" *ngIf="siteInfo?.ECStore_Image5 !== null">
-                          <div [style.background-image]="'url('+siteInfo?.ECStore_Image5+')' | Safe: 'style'" class="img-fluid"></div>
+                          <div [lazyLoad]="siteInfo?.ECStore_Image5" [defaultImage]="appService.defaultImage" class="img-fluid"></div>
                         </div>
                       </div>
                       <!-- Add Pagination -->
@@ -47,7 +47,7 @@
                       <div class="item three">
                           <div class="shopping-storebox d-flex flex-row d-inline-block">
                               <div *ngIf="siteInfo?.ECStore_Type < 2000 && siteInfo?.ECStore_Logo !== null" class="img-box mr-2">
-                                  <div [style.background-image]="'url('+siteInfo?.ECStore_Logo+')'" class="rwdimg logo-img"></div>
+                                  <div [lazyLoad]="siteInfo?.ECStore_Logo" [defaultImage]="appService.defaultImage" class="rwdimg logo-img"></div>
                               </div>
                               <div class="store-title center-v">{{siteInfo?.ECStore_ShowName}}</div>
                           </div>

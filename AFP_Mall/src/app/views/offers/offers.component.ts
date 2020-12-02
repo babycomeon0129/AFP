@@ -106,7 +106,7 @@ export class OffersComponent implements OnInit, DoCheck, OnDestroy {
    * @param voucher 優惠券詳細
    */
   toVoucher(voucher: AFP_Voucher): void {
-    if (voucher.Voucher_DedPoint > 0) {
+    if (voucher.Voucher_DedPoint > 0 && voucher.Voucher_IsFreq === 1) {
       this.modal.confirm({
         initialState: {
           message: `請確定是否扣除 Mobii! Points ${voucher.Voucher_DedPoint} 點兌換「${voucher.Voucher_ExtName}」？`

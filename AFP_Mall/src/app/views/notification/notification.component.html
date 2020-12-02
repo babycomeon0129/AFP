@@ -37,7 +37,7 @@
   <ul class="newlist">
       <li *ngFor="let msg of latestList" (click)="msg?.IMessage_OrderType !== null? null : unfoldItem(msg)" [ngClass]="{'active': msg?.activeStatus === true}" class="d-flex">
           <div class="img-box rwdimgbox-80" (click)="goOrder(msg)">
-              <div [style.background-image]="'url('+msg?.IMessage_SmallImg+')'" class="rwdimg"></div>
+              <div [lazyLoad]="msg?.IMessage_SmallImg" [defaultImage]="appService.defaultImage" class="rwdimg"></div>
           </div>
           <div class="newinfo">
             <div class="newinfo-body">
@@ -78,7 +78,7 @@
           <li *ngFor="let item of SCategoryList"
             [ngClass]="{'active': item?.activeStatus === true}" class="d-flex">
               <div class="img-box rwdimgbox-80" (click)="goOrder(item)">
-                  <div [style.background-image]="'url('+item?.IMessage_SmallImg+')'" class="rwdimg"></div>
+                  <div [lazyLoad]="item?.IMessage_SmallImg" [defaultImage]="appService.defaultImage" class="rwdimg"></div>
               </div>
               <div class="newinfo">
                   <div class="newinfo-body">

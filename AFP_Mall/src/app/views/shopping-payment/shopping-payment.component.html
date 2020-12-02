@@ -35,13 +35,13 @@
       <ul class="main-list">
         <li [ngClass]="{'otherpay': payWay.CSPayment_PayType !== 1001}" *ngFor="let payWay of payWays.AFP_CSPayment">
           <div class="item item-img" *ngIf="payWay.CSPayment_PayType !== 1001" (click)="choicePayment(payWay);">
-            <img [src]="payWay.CSPayment_Image" alt="">
+            <img [lazyLoad]="payWay.CSPayment_Image" [defaultImage]="appService.defaultImage">
           </div>
           <div class="item" *ngIf="payWay.CSPayment_PayType !== 1001" (click)="choicePayment(payWay);"> {{payWay.CSPayment_ShowName}} </div>
           <a *ngIf="payWay.CSPayment_PayType === 1001" class="collapsed w-100 p-0 banksp" data-toggle="collapse"
             href="#collapseCard" role="button" aria-expanded="false" aria-controls="collapseCard">
             <div class="item item-img">
-              <img [src]="payWay.CSPayment_Image" alt="">
+              <img [lazyLoad]="payWay.CSPayment_Image" [defaultImage]="appService.defaultImage">
             </div>
             <div class="item">{{payWay.CSPayment_ShowName}}</div>
             <div class="item auto-left">
@@ -54,7 +54,7 @@
             <ul class="sub-list">
               <li class="lidisplay" *ngFor="let card of payWays.List_BindCard" (click)="choicePayCard(payWay, card);">
                 <div class="item item-img">
-                  <img [src]="'/img/share/' + card.UserFavourite_Text1 + '.png'" alt="">
+                  <img [lazyLoad]="'/img/share/' + card.UserFavourite_Text1 + '.png'"  [defaultImage]="appService.defaultImage">
                 </div>
                 <div class="item card-type">{{card.UserFavourite_Text1}}</div>
                 <div class="item item-card-num">*{{card.UserFavourite_Text2}}</div>

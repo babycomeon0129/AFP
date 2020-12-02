@@ -50,7 +50,7 @@
               <div class="luckspin-contbox" [ngClass]="{'no9': gameData?.AFP_Game.Game_TypeSpace === 8}">
                   <!-- 獎品品項 -->
                   <div *ngFor="let item of prizeList; let i = index" id="{{item?.GamePart_ID}}" class="contbox">
-                    <img [src]="item?.GamePart_State === 0? '/img/mission/thanks.png' : item?.GamePart_ItemImage">
+                    <img [lazyLoad]="item?.GamePart_State === 0? '/img/mission/thanks.png' : item?.GamePart_ItemImage" [defaultImage]="appService.defaultImage">
                     <p>{{item?.GamePart_State === 0? '再接再厲' : item?.GamePart_ItemName}}</p>
                   </div>
                   <!-- 遊玩按鈕 -->
@@ -98,7 +98,7 @@
         <button type="button" class="btn winbtn" (click)="playAgain()">×</button>
           <div class="winbox w-100">
               <div class="wincontbox">
-                  <img src="{{prizeData?.GamePart_State === 0? '/img/mission/thanks.png' : prizeData?.GamePart_ItemImage}}">
+                  <img [lazyLoad]="prizeData?.GamePart_State === 0? '/img/mission/thanks.png' : prizeData?.GamePart_ItemImage" [defaultImage]="appService.defaultImage">
                   <p>{{prizeData?.GamePart_State === 0? '再接再厲' : prizeData?.GamePart_ItemName}}</p>
               </div>
           </div>
