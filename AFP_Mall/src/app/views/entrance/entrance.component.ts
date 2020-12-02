@@ -530,7 +530,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.adIndexChenck();
-    }, 5000);
+    }, 3000);
   }
 
   ngDoCheck(): void {
