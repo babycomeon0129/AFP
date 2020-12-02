@@ -513,9 +513,15 @@ export class ShoppingOrderComponent implements OnInit {
         if (this.info.preInvoice.invoiceTitle.trim() === '' || this.info.preInvoice.invoiceTaxID.trim() === '') {
           this.modal.show('message', { initialState: { success: false, message: '請輸入發票抬頭名稱與統一編號', showType: 1 } });
         } else {
-          this.info.invoice = this.info.preInvoice;
-          this.info.invoice.message = '三聯式發票 ' + this.info.invoice.invoiceTitle + '/' + this.info.invoice.invoiceTaxID;
-          this.appService.backLayer();
+          const regexp1 = /^[0-9]{8}$/g;
+          const regexp1Ok = regexp1.exec(this.info.preInvoice.invoiceTaxID.trim());
+          if ( regexp1Ok === null ) {
+            this.modal.show('message', { initialState: { success: false, message: '統一編號格式錯誤，請輸入正確的統一編號', showType: 1 } });
+          } else {
+            this.info.invoice = this.info.preInvoice;
+            this.info.invoice.message = '三聯式發票 ' + this.info.invoice.invoiceTitle + '/' + this.info.invoice.invoiceTaxID;
+            this.appService.backLayer();
+          }
         }
         break;
       }
@@ -540,10 +546,16 @@ export class ShoppingOrderComponent implements OnInit {
         if (this.info.preInvoice.carrierCode.trim() === '') {
           this.modal.show('message', { initialState: { success: false, message: '請輸入正確的手機條碼', showType: 1 } });
         } else {
-          this.info.invoice = this.info.preInvoice;
-          this.info.invoice.carrierType = 1;
-          this.info.invoice.message = '手機條碼載具 ' + this.info.invoice.carrierCode;
-          this.appService.backLayer();
+          const regexp = /^\/{1}[0-9A-Z]{7}$/g;
+          const regexpOk = regexp.exec(this.info.preInvoice.carrierCode.trim());
+          if ( regexpOk === null ) {
+            this.modal.show('message', { initialState: { success: false, message: '手機條碼格式錯誤，請輸入正確的手機條碼', showType: 1 } });
+          } else {
+            this.info.invoice = this.info.preInvoice;
+            this.info.invoice.carrierType = 1;
+            this.info.invoice.message = '手機條碼載具 ' + this.info.invoice.carrierCode;
+            this.appService.backLayer();
+          }
         }
         break;
       }

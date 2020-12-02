@@ -17,17 +17,17 @@ export class MemberCoinComponent implements OnInit {
   public pointType = 0;
   public showBackBtn = false; // APP特例處理
 
-  /** 分類導覽 */
+  /** 活動分類導覽 */
   public boxTabs: SwiperOptions = {
-    slidesPerView: 5,
+    slidesPerView: 3,
     spaceBetween: 10,
     breakpoints: {
       320: {
-        slidesPerView: 4,
+        slidesPerView: 3,
         spaceBetween: 10
       },
       480: {
-        slidesPerView: 5,
+        slidesPerView: 4,
         spaceBetween: 15
       },
       640: {
