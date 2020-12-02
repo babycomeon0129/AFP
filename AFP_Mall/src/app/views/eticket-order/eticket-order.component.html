@@ -71,7 +71,7 @@
               <ul class="order-shop-list">
                   <li *ngFor="let ticket of store.products">
                       <div class="item rwdimgbox-80">
-                          <div [style.background-image]="'url('+ticket?.Show_ProductImg+')'" class="rwdimg"></div>
+                          <div [lazyLoad]="ticket?.Show_ProductImg" [defaultImage]="appService.defaultImage" class="rwdimg"></div>
                       </div>
                       <div class="item item-txt">
                           <p>{{ticket?.Show_ProductName}}</p>
@@ -202,7 +202,7 @@
                       <ul>
                         <li class="checkedli" *ngFor="let voucher of store.vouchers">
                           <div class="item rwdimgbox-80">
-                            <div [style.background-image]="'url('+voucher?.Voucher_Image+')'" class="rwdimg-cover">
+                            <div [lazyLoad]="voucher?.Voucher_Image" [defaultImage]="appService.defaultImage" class="rwdimg-cover">
                             </div>
                           </div>
                           <div class="item discount-text item-middle">
@@ -228,7 +228,7 @@
                       <ul>
                         <li class="checkedli" *ngFor="let voucher of info.platform.vouchers">
                           <div class="item rwdimgbox-80">
-                            <div [style.background-image]="'url('+voucher?.Voucher_Image+')'" class="rwdimg-cover">
+                            <div [lazyLoad]="voucher?.Voucher_Image" [defaultImage]="appService.defaultImage" class="rwdimg-cover">
                             </div>
                           </div>
                           <div class="item discount-text item-middle">
@@ -253,7 +253,7 @@
                       <ul>
                         <li *ngFor="let voucher of banVoucher" class="checkedli">
                           <div class="item rwdimgbox-80">
-                            <div [style.background-image]="'url('+voucher?.Voucher_Image+')'" class="rwdimg-cover"></div>
+                            <div [lazyLoad]="voucher?.Voucher_Image" [defaultImage]="appService.defaultImage" class="rwdimg-cover"></div>
                           </div>
                           <div class="item item-middle">
                             <p hidden>昇恆昌</p>

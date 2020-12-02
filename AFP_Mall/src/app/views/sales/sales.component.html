@@ -26,7 +26,7 @@
         <div class="swiper-wrapper">
           <div *ngFor="let ad of adTopList" class="swiper-slide">
             <a [href]="ad?.ADImg_URL === '/'? null : [ad?.ADImg_URL]" target={{ad?.ADImg_URLTarget}} rel="noopener noreferrer">
-              <div [style.background-image]="'url('+ad?.ADImg_Img+')'" class="kvbn-img"></div>
+              <div [lazyLoad]="ad?.ADImg_Img" [defaultImage]="appService.defaultImage" class="kvbn-img"></div>
             </a>
           </div>
         </div>
@@ -50,7 +50,7 @@
               <a [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/VoucherDetail', voucher?.Voucher_Code] : ['/VoucherDetail', voucher?.Voucher_UserVoucherCode]" class="item">
                 <div class="pr-2">
                   <div class="img-box">
-                    <img src="{{voucher?.Voucher_Image}}" alt="">
+                    <img [lazyLoad]="voucher?.Voucher_Image" [alt]="voucher?.Voucher_Title" [defaultImage]="appService.defaultImage">
                   </div>
                 </div>
                 <div class="discount-text">

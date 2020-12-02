@@ -24,7 +24,7 @@
           </div>
           <div class="ticket-content">
               <div class="img-box">
-                  <img src="{{ticketProd?.Product_PrimeImage}}" alt="">
+                  <img [lazyLoad]="ticketProd?.Product_PrimeImage" alt="{{userTicket?.UserTicket_Title}}" [defaultImage]="appService.defaultImage">
               </div>
               <div class="index-flex p-3 tk-main">
                   <div class="item three text-bluedk">
@@ -34,7 +34,7 @@
                   <div class="item one text-right align-self-start">
                       <div class="shopping-store-badge">
                         <!-- 商品無「交通」類型，icon 圖固定-->
-                          <span class="badge badge-pill text-explore"><img src="../img/share/2600.png" alt="">{{userTicket?.UserTicket_ShowType}}</span>
+                          <span class="badge badge-pill text-explore"><img src="../img/share/2600.png"  alt="">{{userTicket?.UserTicket_ShowType}}</span>
                       </div>
                   </div>
               </div>

@@ -86,7 +86,7 @@
       <div class="winmsg">
           <div class="winbox w-100">
               <div class="wincontbox">
-                  <img src="{{prizeData?.GamePart_State === 0? '/img/mission/thanks.png' : prizeData?.GamePart_ItemImage}}">
+                  <img [lazyLoad]="prizeData?.GamePart_State === 0? '/img/mission/thanks.png' : prizeData?.GamePart_ItemImage" [defaultImage]="appService.defaultImage">
                   <p>{{prizeData?.GamePart_State === 0? '再接再厲' : prizeData?.GamePart_ItemName}}</p>
               </div>
           </div>

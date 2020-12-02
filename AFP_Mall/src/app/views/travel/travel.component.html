@@ -42,10 +42,10 @@
         <div class="swiper-wrapper">
             <div *ngFor="let item of ad20001" class="swiper-slide">
               <a [href]="item.ADImg_URL" [target]="item.ADImg_URLTarget" *ngIf="item.ADImg_URL.indexOf('http') != -1" rel="noopener noreferrer">
-                <img [src]="item.ADImg_Img" />
+                <img [lazyLoad]="item.ADImg_Img" [defaultImage]="appService.defaultImage">
               </a>
               <a [routerLink]="[item.ADImg_URL]" *ngIf="item.ADImg_URL.indexOf('http') == -1">
-                <img [src]="item.ADImg_Img" />
+                <img [lazyLoad]="item.ADImg_Img" [defaultImage]="appService.defaultImage">
               </a>
             </div>
         </div>
@@ -60,13 +60,13 @@
               <a [href]="item.Function_URL" [target]="item.Function_URLTarget"
                 *ngIf="item.Function_URL.indexOf('http') != -1" rel="noopener noreferrer">
                 <div class="travel-bgbox">
-                  <img [src]="item.Function_Icon" alt="">
+                  <img [lazyLoad]="item.Function_Icon" [defaultImage]="appService.defaultImage" [alt]="item.Function_Name">
                 </div>
                 <div class="travel-txt">{{item.Function_Name}}</div>
               </a>
               <a [routerLink]="[item.Function_URL]" *ngIf="item.Function_URL.indexOf('http') == -1">
                 <div class="travel-bgbox">
-                  <img [src]="item.Function_Icon" alt="">
+                  <img [lazyLoad]="item.Function_Icon" [defaultImage]="appService.defaultImage" [alt]="item.Function_Name">
                 </div>
                 <div class="travel-txt">{{item.Function_Name}}</div>
               </a>
@@ -85,7 +85,7 @@
                     [target]="item.ADImg_URLTarget" rel="noopener noreferrer">
                   <div class="hot-img-top ">
                     <!-- [target]="item.ADImg_URLTarget" -->
-                    <div class="rwdimg-cover" [style.background-image]="'url('+item.ADImg_Img+')' | Safe: 'style'" ></div>
+                    <div class="rwdimg-cover" [lazyLoad]="item.ADImg_Img" [defaultImage]="appService.defaultImage"></div>
                   </div>
                   <div class="hot-body">
                     <h6 class="txt-line-clamp2">{{item.ADImg_Title}}</h6>
@@ -108,7 +108,7 @@
                 <a class="txt-line-clamp1 d-block" [href]="item.ADImg_URL"
                     [target]="item.ADImg_URLTarget" rel="noopener noreferrer">
                   <div class="topic-img-top">
-                    <div class="rwdimg-cover h55" [style.background-image]="'url('+item.ADImg_Img+')' | Safe: 'style'"></div>
+                    <div class="rwdimg-cover h55" [lazyLoad]="item.ADImg_Img" [defaultImage]="appService.defaultImage"></div>
                   </div>
                   <div class="topic-body">
                     <h6 class="txt-line-clamp1 d-block">{{item.ADImg_Title}}</h6>
@@ -147,7 +147,7 @@
                     <div class="swiper-slide" *ngFor="let inside of item.TravelData">
                       <div class="item-body">
                         <a class="item-img rwdimg-cover h65"
-                           [style.background-image]="'url('+inside.Travel_Img+')' | Safe: 'style'"
+                           [lazyLoad]="inside.Travel_Img" [defaultImage]="appService.defaultImage"
                            [href]="inside.Travel_URL" [target]="inside.Travel_URLTarget" rel="noopener noreferrer"></a>
                         <div class="item-favorite">
                           <button (click)="appService.favToggle(1, 54, inside.Travel_Code)" *ngIf="!appService.userFavCodes.includes(inside.Travel_Code)" data-toggle="modal" data-target=".bd-example-modal-sm" data-toggle="tooltip" data-placement="top"
