@@ -20,7 +20,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
   /** 前往頁面url (手機版footer icon變色判別 ) */
   public headingPage = '';
   /** 不顯示手機版footer的頁面 */
-  public mobileNoFooter = ['Map', 'ShoppingCart', 'ShoppingOrder', 'ShoppingPayment', 'Game/', 'QA',
+  public mobileNoFooter = ['Map', 'ShoppingCart', 'ShoppingOrder', 'ETicketOrder', 'ShoppingPayment', 'Game/', 'QA',
   'ExploreDetail', 'ProductDetail', 'VoucherDetail', 'Notification/', 'Terms', 'Privacy', 'MyProfile', 'CellVerification',
    'MyAddress', 'PasswordUpdate', 'ThirdBinding', 'QA', 'DeliveryInfo'];
   /** 是否顯示手機版footer */
