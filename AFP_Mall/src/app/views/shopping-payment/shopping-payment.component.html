@@ -41,7 +41,7 @@
           <a *ngIf="payWay.CSPayment_PayType === 1001" class="collapsed w-100 p-0 banksp" data-toggle="collapse"
             href="#collapseCard" role="button" aria-expanded="false" aria-controls="collapseCard">
             <div class="item item-img">
-              <img [lazyLoad]="payWay.CSPayment_Image" [defaultImage]="appService.defaultImage">
+              <img src="../../../img/share/creditcard.png">
             </div>
             <div class="item">{{payWay.CSPayment_ShowName}}</div>
             <div class="item auto-left">
