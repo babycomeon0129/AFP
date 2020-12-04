@@ -35,13 +35,13 @@
       <ul class="main-list">
         <li [ngClass]="{'otherpay': payWay.CSPayment_PayType !== 1001}" *ngFor="let payWay of payWays.AFP_CSPayment">
           <div class="item item-img" *ngIf="payWay.CSPayment_PayType !== 1001" (click)="choicePayment(payWay);">
-            <img [lazyLoad]="payWay.CSPayment_Image" [defaultImage]="appService.defaultImage">
+            <img [lazyLoad]="payWay.CSPayment_Image === null ? '../../../img/share/creditcard.png' : payWay.CSPayment_Image" [defaultImage]="appService.defaultImage">
           </div>
           <div class="item" *ngIf="payWay.CSPayment_PayType !== 1001" (click)="choicePayment(payWay);"> {{payWay.CSPayment_ShowName}} </div>
           <a *ngIf="payWay.CSPayment_PayType === 1001" class="collapsed w-100 p-0 banksp" data-toggle="collapse"
             href="#collapseCard" role="button" aria-expanded="false" aria-controls="collapseCard">
             <div class="item item-img">
-              <img src="../../../img/share/creditcard.png">
+              <img [lazyLoad]="payWay.CSPayment_Image === null ? '../../../img/share/creditcard.png' : payWay.CSPayment_Image" [defaultImage]="appService.defaultImage">
             </div>
             <div class="item">{{payWay.CSPayment_ShowName}}</div>
             <div class="item auto-left">
