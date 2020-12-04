@@ -68,7 +68,7 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
     this.serviceDiffer = this.differs.find({}).create();
     // 取得商家/景點編碼
     this.siteCode = Number(this.route.snapshot.params.ECStore_Code);
-    // APP從會員中心進來則顯示返回鍵
+    // APP從會員中心進來則隱藏返回鍵
     if (this.route.snapshot.queryParams.showBack === 'true') {
       this.showBackBtn = true;
     }

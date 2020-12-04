@@ -26,7 +26,7 @@
                       <div class="swiper-pagination"></div>
                       <div class="shopping-storeup">
                           <div class="back-go">
-                              <button type="button" onclick="history.back();" #clickbtn data-toggle="tooltip" data-placement="top" title="回上一頁" [hidden]="appService.isApp !== null && showBackBtn"><img src="../img/share/icon_back.png" class="imgicon"></button>
+                              <button type="button" onclick="history.back();" #clickbtn data-toggle="tooltip" data-placement="top" title="回上一頁" [hidden]="appService.isApp !== null && !showBackBtn"><img src="../img/share/icon_back.png" class="imgicon"></button>
                           </div>
                           <div class="ml-auto d-flex d-inline align-items-center">
                             <button class="btn add-share" type="button" (click)="modal.show('msgShare', { initialState: {sharedText: textForShare} })"><img src="../img/share/icon_share.png" class="imgicon"></button>
