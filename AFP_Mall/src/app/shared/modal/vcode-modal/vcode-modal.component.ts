@@ -5,7 +5,7 @@ import { AppService } from 'src/app/app.service';
 import {
   Request_AFPVerify, Response_AFPVerify, Request_AFPAccount, Response_AFPAccount
 } from 'src/app/_models';
-import { ModalService } from 'src/app/service/modal.service';
+import { ModalService } from '../modal.service';
 
 @Component({
   selector: 'app-vcode-modal',

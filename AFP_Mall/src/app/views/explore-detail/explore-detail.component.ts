@@ -7,7 +7,7 @@ import {
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'ngx-useful-swiper';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ModalService } from 'src/app/service/modal.service';
+import { ModalService } from '../../shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({

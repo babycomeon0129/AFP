@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AppService } from 'src/app/app.service';
-import { Model_ShareData } from '../_models';
+import { Model_ShareData } from '../../_models';
 
 @Injectable({
   providedIn: 'root'

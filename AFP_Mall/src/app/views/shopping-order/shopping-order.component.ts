@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 import { AppService } from 'src/app/app.service';
-import { ModalService } from 'src/app/service/modal.service';
+import { ModalService } from '../../shared/modal/modal.service';
 import {
   Request_GetCheckout, Response_GetCheckout,
   Request_GetUserVoucher, Response_GetUserVoucher,

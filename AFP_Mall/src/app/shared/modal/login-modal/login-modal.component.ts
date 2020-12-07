@@ -2,7 +2,7 @@ import { environment } from '../../../../environments/environment';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { AppService } from 'src/app/app.service';
-import { ModalService } from 'src/app/service/modal.service';
+import { ModalService } from '../modal.service';
 import { AuthService, SocialUser, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 import { NgForm } from '@angular/forms';
 import { Request_AFPThird, Model_ShareData, Response_AFPLogin, Third_AppleUser } from 'src/app/_models';

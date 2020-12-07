@@ -6,7 +6,7 @@ import {
   Response_ECCart, AFP_Voucher, AFP_ProductImg, CartStoreList } from '../../_models';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { ModalService } from 'src/app/service/modal.service';
+import { ModalService } from '../../shared/modal/modal.service';
 import { SwiperOptions } from 'swiper';
 import { Meta, Title } from '@angular/platform-browser';
 

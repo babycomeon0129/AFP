@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
-import { ModalService } from 'src/app/service/modal.service';
+import { ModalService } from '../modal.service';
 import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 

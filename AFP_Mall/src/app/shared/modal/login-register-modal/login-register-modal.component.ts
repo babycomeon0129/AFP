@@ -2,9 +2,9 @@ import { environment } from '../../../../environments/environment';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { AppService } from 'src/app/app.service';
-import { ModalService } from 'src/app/service/modal.service';
+import { ModalService } from '../modal.service';
 import { AuthService, SocialUser, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
-import { NgForm, Validators } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { Request_AFPThird, Model_ShareData, Response_AFPLogin, Request_AFPAccount, Request_AFPVerifyCode,
   Response_AFPVerifyCode, Request_AFPReadMobile, Response_AFPReadMobile } from 'src/app/_models';
 import { CookieService } from 'ngx-cookie-service';

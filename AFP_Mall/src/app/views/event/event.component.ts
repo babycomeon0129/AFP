@@ -3,7 +3,7 @@ import { AFP_ChannelVoucher, AFP_ADImg, Request_ECVoucher, Response_ECVoucher, A
 import { AppService } from 'src/app/app.service';
 import { SwiperOptions } from 'swiper';
 import { Meta, Title } from '@angular/platform-browser';
-import { ModalService } from 'src/app/service/modal.service';
+import { ModalService } from '../../shared/modal/modal.service';
 
 @Component({
   selector: 'app-event',

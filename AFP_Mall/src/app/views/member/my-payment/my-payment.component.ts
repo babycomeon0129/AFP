@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Model_ShareData, AFP_UserFavourite } from '../../../_models';
-import { ModalService } from 'src/app/service/modal.service';
+import { ModalService } from '../../../shared/modal/modal.service';
 import { layerAnimation } from '../../../animations';
 
 @Component({

@@ -8,11 +8,12 @@ import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ModalModule, BsModalRef } from 'ngx-bootstrap';
 import { AgmCoreModule } from '@agm/core';
-import { AfpModalModule } from './shared/modal/afp-modal.module';
+// import { AfpModalModule } from './shared/modal/afp-modal.module';
 import { BlockUIModule } from 'ng-block-ui';
 import { NgxMasonryModule } from 'ngx-masonry';
 import { CookieService } from 'ngx-cookie-service';
-import { SharedPipeModule } from './pipe/shared-pipe.module';
+// import { SharedPipeModule } from './shared/pipe/shared-pipe.module';
+import { ShredModule } from './shared/shared.module';
 import { QRCodeModule } from 'angularx-qrcode';
 import { TextMaskModule } from 'angular2-text-mask';
 import { NgCircleProgressModule } from 'ng-circle-progress';
@@ -30,13 +31,12 @@ import { SortablejsModule } from 'ngx-sortablejs';
 
 // Component
 import { AppComponent } from './app.component';
-import { EntranceComponent } from './views/entrance/entrance.component';
+// import { EntranceComponent } from './views/entrance/entrance.component';
 import { TravelComponent } from './views/travel/travel.component';
 import { ExploreMapComponent } from './views/explore-map/explore-map.component';
 import { ShoppingComponent } from './views/shopping/shopping.component';
 import { ExploreListComponent } from './views/explore-list/explore-list.component';
 import { ExploreDetailComponent } from './views/explore-detail/explore-detail.component';
-import { BearServicesComponent } from './views/bearservices/bearservices.component';
 import { environment } from './../environments/environment';
 import { MemberComponent } from './views/member/member.component';
 import { MemberCardComponent } from './views/member-card/member-card.component';
@@ -51,10 +51,7 @@ import { PrivacyComponent } from './views/privacy/privacy.component';
 import { TrafficComponent } from './views/traffic/traffic.component';
 import { ProductListComponent } from './views/product-list/product-list.component';
 import { ProductDetailComponent } from './views/product-detail/product-detail.component';
-import { AppLoginComponent } from './views/app-login/app-login.component';
-import { AppLoginSuccessComponent } from './views/app-login-success/app-login-success.component';
 import { ShoppingCartComponent } from './views/shopping-cart/shopping-cart.component';
-import { AppRedirectComponent } from './views/app-redirect/app-redirect.component';
 import { ShoppingOrderComponent } from './views/shopping-order/shopping-order.component';
 import { ShoppingOffersComponent } from './views/shopping-offers/shopping-offers.component';
 import { VoucherDetailComponent } from './views/voucher-detail/voucher-detail.component';
@@ -67,14 +64,11 @@ import { ShoppingPaymentComponent } from './views/shopping-payment/shopping-paym
 import { OffersComponent } from './views/offers/offers.component';
 import { SalesComponent } from './views/sales/sales.component';
 import { NotificationComponent } from './views/notification/notification.component';
-import { AppGoPaymentComponent } from './views/app-go-payment/app-go-payment.component';
-import { AppLogoutComponent } from './views/app-logout/app-logout.component';
 import { MissionComponent } from './views/mission/mission.component';
 import { GameComponent } from './views/game/game.component';
 import { LuckyspinComponent } from './views/game/luckyspin/luckyspin.component';
 import { ScratchComponent } from './views/game/scratch/scratch.component';
 import { GameCenterComponent } from './views/game-center/game-center.component';
-import { AppDownloadComponent } from './views/app-download/app-download.component';
 import { QAComponent } from './views/qa/qa.component';
 import { OrderResultComponent } from './views/order-result/order-result.component';
 import { EventComponent } from './views/event/event.component';
@@ -87,18 +81,13 @@ import { PasswordUpdateComponent } from './views/member/password-update/password
 import { MyPaymentComponent } from './views/member/my-payment/my-payment.component';
 import { ThirdBindingComponent } from './views/member/third-binding/third-binding.component';
 import { MaintenanceComponent } from './views/maintenance/maintenance.component';
-import { MaintenanceRoutingModule } from './maintenance-routing.module';
 import { ETicketOrderComponent } from './views/eticket-order/eticket-order.component';
 import { ETicketDetailComponent } from './views/eticket-detail/eticket-detail.component';
 import { ETicketOrderDetailComponent } from './views/eticket-order-detail/eticket-order-detail.component';
 import { DeliveryInfoComponent } from './views/delivery-info/delivery-info.component';
-import { FooterComponent } from './views/footer/footer.component';
 import { MemberFoodComponent } from './views/member-food/member-food.component';
 import { NotificationDetailComponent } from './views/notification-detail/notification-detail.component';
-import { Error404Component } from './views/error404/error404.component';
-import { Error500Component } from './views/error500/error500.component';
-import { Error503Component } from './views/error503/error503.component';
-import { DirectiveModuleModule } from './directive/directive-module.module';
+// import { DirectiveModuleModule } from './shared/directive/directive-module.module';
 import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 
 export function provideConfig() {
@@ -120,13 +109,11 @@ defineLocale('zh-cn', zhCnLocale);
 @NgModule({
   declarations: [
     AppComponent,
-    EntranceComponent,
     TravelComponent,
     ExploreMapComponent,
     ShoppingComponent,
     ExploreListComponent,
     ExploreDetailComponent,
-    BearServicesComponent,
     MemberComponent,
     MemberCardComponent,
     MemberTicketComponent,
@@ -139,10 +126,7 @@ defineLocale('zh-cn', zhCnLocale);
     TrafficComponent,
     ProductListComponent,
     ProductDetailComponent,
-    AppLoginComponent,
-    AppLoginSuccessComponent,
     ShoppingCartComponent,
-    AppRedirectComponent,
     ShoppingOrderComponent,
     ShoppingOffersComponent,
     VoucherDetailComponent,
@@ -155,14 +139,11 @@ defineLocale('zh-cn', zhCnLocale);
     OffersComponent,
     SalesComponent,
     NotificationComponent,
-    AppGoPaymentComponent,
-    AppLogoutComponent,
     MissionComponent,
     GameComponent,
     LuckyspinComponent,
     ScratchComponent,
     GameCenterComponent,
-    AppDownloadComponent,
     QAComponent,
     OrderResultComponent,
     EventComponent,
@@ -179,12 +160,8 @@ defineLocale('zh-cn', zhCnLocale);
     ETicketDetailComponent,
     ETicketOrderDetailComponent,
     DeliveryInfoComponent,
-    FooterComponent,
     MemberFoodComponent,
-    NotificationDetailComponent,
-    Error404Component,
-    Error500Component,
-    Error503Component
+    NotificationDetailComponent
   ],
   entryComponents: [
     ExploreMapComponent
@@ -192,6 +169,7 @@ defineLocale('zh-cn', zhCnLocale);
   imports: [
     BrowserModule,
     // MaintenanceRoutingModule, // 系統維護或大更新時取消註解，並手動更新maintenance.html中的日期及時間
+    ShredModule,
     MemberRoutingModule,
     AppRoutingModule,
     HttpClientModule,
@@ -204,10 +182,8 @@ defineLocale('zh-cn', zhCnLocale);
       apiKey: 'AIzaSyB0XQBqNsHt-g1VJEqVCrW7uG0tpMMS9sc',
       language: 'zh-TW'
     }),
-    AfpModalModule,
     BlockUIModule.forRoot(),
     NgxMasonryModule,
-    SharedPipeModule,
     QRCodeModule,
     TextMaskModule,
     NgCircleProgressModule.forRoot({
@@ -231,11 +207,9 @@ defineLocale('zh-cn', zhCnLocale);
       showZeroOuterStroke: false
     }),
     BrowserAnimationsModule,
-    MaintenanceRoutingModule,
     BsDatepickerModule.forRoot(),
     LazyLoadImageModule,
     AngularResizedEventModule,
-    DirectiveModuleModule,
     SortablejsModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],

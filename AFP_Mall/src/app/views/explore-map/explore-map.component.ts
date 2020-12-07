@@ -5,7 +5,7 @@ import { Request_AreaIndex, Response_AreaIndex, AreaJsonFile_ECStore, AFP_UserDe
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'ngx-useful-swiper';
 import { AgmMap } from '@agm/core';
-import { ModalService } from 'src/app/service/modal.service';
+import { ModalService } from '../../shared/modal/modal.service';
 import { BsModalRef } from 'ngx-bootstrap';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Component, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { ModalService } from '../../service/modal.service';
+import { ModalService } from '../../shared/modal/modal.service';
 import { Response_TravelHome, AFP_ADImg, AFP_Function, Model_TravelJsonFile, Request_TravelHome } from '../../_models';
 import { SwiperOptions } from 'swiper';
 import { Meta, Title } from '@angular/platform-browser';

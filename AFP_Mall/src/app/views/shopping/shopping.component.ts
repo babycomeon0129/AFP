@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { ModalService } from '../../service/modal.service';
+import { ModalService } from '../../shared/modal/modal.service';
 import { Response_ECHome, AFP_ADImg, AFP_Function, AFP_ChannelProduct, AFP_Product, AFP_ChannelVoucher } from '../../_models';
 import { SwiperOptions } from 'swiper';
 import { NgxMasonryOptions } from 'ngx-masonry';

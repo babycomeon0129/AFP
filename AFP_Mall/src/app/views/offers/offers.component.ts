@@ -4,7 +4,7 @@ import {AFP_VouFlashSale, Request_ECVouFlashSale, Response_ECVouFlashSale, AFP_C
 import { SwiperOptions } from 'swiper';
 import { ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
-import { ModalService } from 'src/app/service/modal.service';
+import { ModalService } from '../../shared/modal/modal.service';
 
 @Component({
   selector: 'app-offers',

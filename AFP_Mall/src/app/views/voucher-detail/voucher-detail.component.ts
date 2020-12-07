@@ -6,7 +6,7 @@ import {
 } from '../../_models';
 import { AppService } from 'src/app/app.service';
 import { Router, NavigationExtras } from '@angular/router';
-import { ModalService } from '../../service/modal.service';
+import { ModalService } from '../../shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({

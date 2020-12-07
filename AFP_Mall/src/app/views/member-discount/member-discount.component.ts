@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Request_MemberUserVoucher, AFP_Voucher, Model_DictionaryShort, Response_MemberUserVoucher } from '../../_models';
 import { AppService } from 'src/app/app.service';
-import { ModalService } from 'src/app/service/modal.service';
+import { ModalService } from '../../shared/modal/modal.service';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 import { ModalOptions } from 'ngx-bootstrap';

@@ -1,7 +1,7 @@
 import { Component, OnInit, DoCheck, KeyValueDiffer, KeyValueDiffers, ɵConsole } from '@angular/core';
 import { Model_ShareData } from '../../_models';
 import { AppService } from 'src/app/app.service';
-import { ModalService } from '../../service/modal.service';
+import { ModalService } from '../../shared/modal/modal.service';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 

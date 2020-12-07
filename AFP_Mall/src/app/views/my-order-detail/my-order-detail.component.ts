@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { Request_MemberOrder, Response_MemberOrder, AFP_MemberOrder, AFP_ECStore, AFP_ItemInfoPart, AFP_Voucher,
   Model_ShareData, Request_MemberCheckStatus, Response_MemberCheckStatus, AFP_UserReport } from '../../_models';
-import { ModalService } from 'src/app/service/modal.service';
+import { ModalService } from '../../shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({

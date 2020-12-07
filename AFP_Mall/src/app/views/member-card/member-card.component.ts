@@ -2,7 +2,7 @@ import { environment } from './../../../environments/environment';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { NgForm } from '@angular/forms';
-import { ModalService } from 'src/app/service/modal.service';
+import { ModalService } from '../../shared/modal/modal.service';
 import { Model_ShareData, AFP_UserFavourite, AFP_UserReport } from '../../_models';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation } from '../../animations';

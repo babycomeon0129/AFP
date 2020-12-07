@@ -5,7 +5,7 @@ import {
   Request_MemberOrder, Response_MemberOrder, AFP_ECStore, AFP_MemberOrder, AFP_ItemInfoPart, Request_MemberAddress,
   Response_MemberAddress, AFP_UserFavourite, AFP_Services, AFP_UserReport, Request_MemberServices, Response_MemberServices
 } from '../../_models';
-import { ModalService } from 'src/app/service/modal.service';
+import { ModalService } from '../../shared/modal/modal.service';
 import { NgForm } from '@angular/forms';
 
 @Component({

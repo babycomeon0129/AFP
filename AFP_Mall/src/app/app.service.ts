@@ -9,7 +9,7 @@ import { BsModalService } from 'ngx-bootstrap';
 import { MessageModalComponent } from './shared/modal/message-modal/message-modal.component';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { environment } from './../environments/environment';
-import { ModalService } from './service/modal.service';
+import { ModalService } from './shared/modal/modal.service';
 import { Router, NavigationExtras, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from 'angularx-social-login';

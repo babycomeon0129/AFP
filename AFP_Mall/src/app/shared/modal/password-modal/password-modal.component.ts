@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { AppService } from 'src/app/app.service';
 import { Request_AFPPassword, AFP_VerifiedInfo } from 'src/app/_models';
-import { ModalService } from 'src/app/service/modal.service';
+import { ModalService } from '../modal.service';
 
 @Component({
   selector: 'app-password-modal',

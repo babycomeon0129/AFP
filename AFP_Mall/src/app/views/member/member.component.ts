@@ -1,7 +1,7 @@
 import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Model_ShareData } from '../../_models';
-import { ModalService } from 'src/app/service/modal.service';
+import { ModalService } from '../../shared/modal/modal.service';
 import { Router, RouterOutlet } from '@angular/router';
 import { slideInAnimation } from '../../animations';
 import { MemberService } from './member.service';

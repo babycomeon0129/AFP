@@ -1,4 +1,4 @@
-import { ModalService } from './../../../service/modal.service';
+import { ModalService } from '../modal.service';
 import { environment } from 'src/environments/environment';
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';

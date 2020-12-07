@@ -3,20 +3,20 @@ import { Observable, Subject } from 'rxjs';
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap';
 // import { LoginModalComponent } from '../shared/modal/login-modal/login-modal.component';
 // import { RegisterModalComponent } from '../shared/modal/register-modal/register-modal.component';
-import { ForgetModalComponent } from '../shared/modal/forget-modal/forget-modal.component';
-import { VcodeModalComponent } from '../shared/modal/vcode-modal/vcode-modal.component';
-import { FavoriteModalComponent } from '../shared/modal/favorite-modal/favorite-modal.component';
-import { MessageModalComponent } from '../shared/modal/message-modal/message-modal.component';
-import { PasswordModalComponent } from '../shared/modal/password-modal/password-modal.component';
-import { ConfirmModalComponent } from '../shared/modal/confirm-modal/confirm-modal.component';
-import { CouponModalComponent } from '../shared/modal/coupon-modal/coupon-modal.component';
-import { JustkaModalComponent } from '../shared/modal/justka-modal/justka-modal.component';
-import { MissionModalComponent } from '../shared/modal/mission-modal/mission-modal.component';
-import { ReceiptModalComponent } from '../shared/modal/receipt-modal/receipt-modal.component';
-import { MsgShareModalComponent } from '../shared/modal/msg-share-modal/msg-share-modal.component';
-import { LoginRegisterModalComponent } from '../shared/modal/login-register-modal/login-register-modal.component';
-import { VerifyMobileModalComponent } from '../shared/modal/verify-mobile-modal/verify-mobile-modal.component';
-import { AppleModalComponent } from '../shared/modal/apple-modal/apple-modal.component';
+import { ForgetModalComponent } from './forget-modal/forget-modal.component';
+import { VcodeModalComponent } from './vcode-modal/vcode-modal.component';
+import { FavoriteModalComponent } from './favorite-modal/favorite-modal.component';
+import { MessageModalComponent } from './message-modal/message-modal.component';
+import { PasswordModalComponent } from './password-modal/password-modal.component';
+import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
+import { CouponModalComponent } from './coupon-modal/coupon-modal.component';
+import { JustkaModalComponent } from './justka-modal/justka-modal.component';
+import { MissionModalComponent } from './mission-modal/mission-modal.component';
+import { ReceiptModalComponent } from './receipt-modal/receipt-modal.component';
+import { MsgShareModalComponent } from './msg-share-modal/msg-share-modal.component';
+import { LoginRegisterModalComponent } from './login-register-modal/login-register-modal.component';
+import { VerifyMobileModalComponent } from './verify-mobile-modal/verify-mobile-modal.component';
+import { AppleModalComponent } from './apple-modal/apple-modal.component';
 
 @Injectable({
   providedIn: 'root'

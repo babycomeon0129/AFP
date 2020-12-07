@@ -3,7 +3,7 @@ import { Component, OnInit, AfterViewInit, AfterViewChecked } from '@angular/cor
 import { Model_ShareData, Model_CustomerDetail } from './_models';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { AppService } from 'src/app/app.service';
-import { ModalService } from './service/modal.service';
+import { ModalService } from './shared/modal/modal.service';
 import { CookieService } from 'ngx-cookie-service';
 import { RouterOutlet } from '@angular/router';
 import { slideInAnimation } from './animations';

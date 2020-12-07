@@ -4,7 +4,7 @@ import { AppService } from 'src/app/app.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Request_ECCart, Response_ECCart, AFP_Cart, CartStoreList, ProductInfo } from '../../_models';
 import { CookieService } from 'ngx-cookie-service';
-import { ModalService } from 'src/app/service/modal.service';
+import { ModalService } from '../../shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
