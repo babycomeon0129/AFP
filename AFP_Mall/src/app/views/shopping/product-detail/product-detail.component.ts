@@ -3,17 +3,17 @@ import { Component, OnInit, AfterViewChecked, HostListener, ViewChild, ElementRe
 import { AppService } from 'src/app/app.service';
 import {
   Request_ECProductDetail, Response_ECProductDetail, AFP_Product, AFP_ECStore, AFP_Attribute, Request_ECCart,
-  Response_ECCart, AFP_Voucher, AFP_ProductImg, CartStoreList } from '../../_models';
+  Response_ECCart, AFP_Voucher, AFP_ProductImg, CartStoreList } from '../../../_models';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { ModalService } from '../../shared/modal/modal.service';
+import { ModalService } from '../../../shared/modal/modal.service';
 import { SwiperOptions } from 'swiper';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
-  styleUrls: ['../../../dist/style/shopping-index.min.css']
+  styleUrls: ['../../../../dist/style/shopping-index.min.css']
 })
 export class ProductDetailComponent implements OnInit, AfterViewChecked {
   /** 購物車編碼 */

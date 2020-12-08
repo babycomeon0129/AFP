@@ -34,7 +34,7 @@ import { AppComponent } from './app.component';
 // import { EntranceComponent } from './views/entrance/entrance.component';
 import { TravelComponent } from './views/travel/travel.component';
 // import { ExploreMapComponent } from './views/explore-map/explore-map.component';
-import { ShoppingComponent } from './views/shopping/shopping.component';
+// import { ShoppingComponent } from './views/shopping/shopping.component';
 // import { ExploreListComponent } from './views/explore-list/explore-list.component';
 // import { ExploreDetailComponent } from './views/explore-detail/explore-detail.component';
 import { environment } from './../environments/environment';
@@ -49,9 +49,9 @@ import { MessageModalComponent } from './shared/modal/message-modal/message-moda
 import { TermsComponent } from './views/terms/terms.component';
 import { PrivacyComponent } from './views/privacy/privacy.component';
 import { TrafficComponent } from './views/traffic/traffic.component';
-import { ProductListComponent } from './views/product-list/product-list.component';
-import { ProductDetailComponent } from './views/product-detail/product-detail.component';
-import { ShoppingCartComponent } from './views/shopping-cart/shopping-cart.component';
+// import { ProductListComponent } from './views/product-list/product-list.component';
+// import { ProductDetailComponent } from './views/product-detail/product-detail.component';
+// import { ShoppingCartComponent } from './views/shopping-cart/shopping-cart.component';
 import { ShoppingOrderComponent } from './views/shopping-order/shopping-order.component';
 import { ShoppingOffersComponent } from './views/shopping-offers/shopping-offers.component';
 import { VoucherDetailComponent } from './views/voucher-detail/voucher-detail.component';
@@ -111,7 +111,7 @@ defineLocale('zh-cn', zhCnLocale);
     AppComponent,
     TravelComponent,
     // ExploreMapComponent,
-    ShoppingComponent,
+    // ShoppingComponent,
     // ExploreListComponent,
     // ExploreDetailComponent,
     MemberComponent,
@@ -124,9 +124,9 @@ defineLocale('zh-cn', zhCnLocale);
     TermsComponent,
     PrivacyComponent,
     TrafficComponent,
-    ProductListComponent,
-    ProductDetailComponent,
-    ShoppingCartComponent,
+    // ProductListComponent,
+    // ProductDetailComponent,
+    // ShoppingCartComponent,
     ShoppingOrderComponent,
     ShoppingOffersComponent,
     VoucherDetailComponent,

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { AFP_Product, AFP_UserDefine, Request_ECProductList, Response_ECProductList, AFP_Attribute,
-  AFP_AttributeValue } from '../../_models';
+  AFP_AttributeValue } from '../../../_models';
 import { ActivatedRoute } from '@angular/router';
 // import { NgxMasonryOptions } from 'ngx-masonry';
 import { CookieService } from 'ngx-cookie-service';
@@ -10,7 +10,7 @@ import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
-  styleUrls: ['../../../dist/style/shopping-index.min.css']
+  styleUrls: ['../../../../dist/style/shopping-index.min.css']
 })
 export class ProductListComponent implements OnInit {
   /** 購物車編碼 */

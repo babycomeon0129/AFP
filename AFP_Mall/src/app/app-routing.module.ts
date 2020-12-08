@@ -5,7 +5,7 @@ import { TravelComponent } from './views/travel/travel.component';
 // import { ExploreListComponent } from './views/explore-list/explore-list.component';
 // import { ExploreDetailComponent } from './views/explore-detail/explore-detail.component';
 // import { ExploreMapComponent } from './views/explore-map/explore-map.component';
-import { ShoppingComponent } from './views/shopping/shopping.component';
+// import { ShoppingComponent } from './views/shopping/shopping.component';
 // import { BearServicesComponent } from './views/bearservices/bearservices.component';
 import { AuthUserGuard } from './shared/auth/auth-user.guard';
 import { SessionAliveGuard } from './shared/auth/session-alive.guard';
@@ -18,11 +18,11 @@ import { MemberOrderComponent } from './views/member-order/member-order.componen
 import { TermsComponent } from './views/terms/terms.component';
 import { PrivacyComponent } from './views/privacy/privacy.component';
 import { TrafficComponent } from './views/traffic/traffic.component';
-import { ProductListComponent } from './views/product-list/product-list.component';
-import { ProductDetailComponent } from './views/product-detail/product-detail.component';
+// import { ProductListComponent } from './views/product-list/product-list.component';
+// import { ProductDetailComponent } from './views/product-detail/product-detail.component';
 // import { AppLoginComponent } from './views/app-login/app-login.component';
 // import { AppLoginSuccessComponent } from './views/app-login-success/app-login-success.component';
-import { ShoppingCartComponent } from './views/shopping-cart/shopping-cart.component';
+// import { ShoppingCartComponent } from './views/shopping-cart/shopping-cart.component';
 import { ShoppingOrderComponent } from './views/shopping-order/shopping-order.component';
 import { ShoppingPaymentComponent } from './views/shopping-payment/shopping-payment.component';
 // import { AppRedirectComponent } from './views/app-redirect/app-redirect.component';
@@ -59,6 +59,7 @@ const routes: Routes = [
   { path: '', loadChildren: () => import('./views/entrance/entrance.module').then(m => m.EntranceModule)},
   { path: 'Function', loadChildren: () => import('./views/function/function.module').then(m => m.FunctionModule)},
   { path: 'Explore', loadChildren: () => import('./views/explore/explore.module').then(m => m.ExploreModule)},
+  { path: 'Shopping', loadChildren: () => import('./views/shopping/shopping.module').then(m => m.ShoppingModule)},
   // { path: 'Travel', canActivate: [SessionAliveGuard], component: TravelComponent },
   // { path: 'ExploreMap', canActivate: [SessionAliveGuard], component: ExploreMapComponent },
   // { path: 'Shopping', canActivate: [SessionAliveGuard], component: ShoppingComponent },

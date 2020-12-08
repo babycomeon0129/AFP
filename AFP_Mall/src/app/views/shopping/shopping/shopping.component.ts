@@ -1,16 +1,16 @@
 import { Component, OnInit, AfterViewInit, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { ModalService } from '../../shared/modal/modal.service';
-import { Response_ECHome, AFP_ADImg, AFP_Function, AFP_ChannelProduct, AFP_Product, AFP_ChannelVoucher } from '../../_models';
+import { ModalService } from '../../../shared/modal/modal.service';
+import { Response_ECHome, AFP_ADImg, AFP_Function, AFP_ChannelProduct, AFP_Product, AFP_ChannelVoucher,
+        Request_ECHome } from '../../../_models';
 import { SwiperOptions } from 'swiper';
 import { NgxMasonryOptions } from 'ngx-masonry';
-import { Request_ECHome } from '../../_models';
 import { CookieService } from 'ngx-cookie-service';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   templateUrl: './shopping.component.html',
-  styleUrls: ['../../../dist/style/shopping-index.min.css']
+  styleUrls: ['../../../../dist/style/shopping-index.min.css']
 })
 export class ShoppingComponent implements OnInit, AfterViewInit, DoCheck {
   public userName: string;
