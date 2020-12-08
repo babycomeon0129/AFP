@@ -1,17 +1,17 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { Request_AreaIndex, Response_AreaIndex, AreaJsonFile_ECStore, AFP_UserDefine } from '../../_models';
+import { Request_AreaIndex, Response_AreaIndex, AreaJsonFile_ECStore, AFP_UserDefine } from '../../../_models';
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'ngx-useful-swiper';
 import { AgmMap } from '@agm/core';
-import { ModalService } from '../../shared/modal/modal.service';
+import { ModalService } from '../../../shared/modal/modal.service';
 import { BsModalRef } from 'ngx-bootstrap';
 
 @Component({
   // selector: 'app-explore-map',
   templateUrl: './explore-map.component.html',
-  styleUrls: ['../../../dist/style/explore.min.css']
+  styleUrls: ['../../../../dist/style/explore.min.css']
 })
 export class ExploreMapComponent implements OnInit, AfterViewInit {
   @ViewChild('usefulSwiper', {static: false}) usefulSwiper: SwiperComponent;

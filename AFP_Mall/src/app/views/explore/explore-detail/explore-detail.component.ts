@@ -3,17 +3,17 @@ import { AppService } from 'src/app/app.service';
 import {
   Response_AreaDetail, AFP_ECStore, Request_AreaDetail, AFP_Voucher, AFP_Product,
   Request_MemberUserVoucher, Response_MemberUserVoucher, AFP_ECStoreExtType
-} from '../../_models';
+} from '../../../_models';
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'ngx-useful-swiper';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ModalService } from '../../shared/modal/modal.service';
+import { ModalService } from '../../../shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-explore-detail',
   templateUrl: './explore-detail.component.html',
-  styleUrls: ['../../../dist/style/shopping-index.min.css']
+  styleUrls: ['../../../../dist/style/shopping-index.min.css']
 })
 export class ExploreDetailComponent implements OnInit, DoCheck {
   @ViewChild('kvSwiper', { static: false }) kvSwiper: SwiperComponent;

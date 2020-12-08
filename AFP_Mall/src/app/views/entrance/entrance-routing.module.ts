@@ -4,11 +4,7 @@ import { SessionAliveGuard } from '../../shared/auth/session-alive.guard';
 import { EntranceComponent } from './entrance.component';
 
 const routes: Routes = [
-  { path: '',
-    canActivate: [SessionAliveGuard],
-    component: EntranceComponent,
-    data: {animation: 'Entrance'}
-  },
+  { path: '', canActivate: [SessionAliveGuard], component: EntranceComponent, data: {animation: 'Entrance'} },
 ];
 
 @NgModule({

@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 // import { EntranceComponent } from './views/entrance/entrance.component';
 import { TravelComponent } from './views/travel/travel.component';
-import { ExploreListComponent } from './views/explore-list/explore-list.component';
-import { ExploreDetailComponent } from './views/explore-detail/explore-detail.component';
-import { ExploreMapComponent } from './views/explore-map/explore-map.component';
+// import { ExploreListComponent } from './views/explore-list/explore-list.component';
+// import { ExploreDetailComponent } from './views/explore-detail/explore-detail.component';
+// import { ExploreMapComponent } from './views/explore-map/explore-map.component';
 import { ShoppingComponent } from './views/shopping/shopping.component';
 // import { BearServicesComponent } from './views/bearservices/bearservices.component';
 import { AuthUserGuard } from './shared/auth/auth-user.guard';
@@ -47,7 +47,7 @@ import { GameComponent } from './views/game/game.component';
 import { ETicketOrderComponent } from './views/eticket-order/eticket-order.component';
 import { ETicketDetailComponent } from './views/eticket-detail/eticket-detail.component';
 import { ETicketOrderDetailComponent } from './views/eticket-order-detail/eticket-order-detail.component';
-import { DeliveryInfoComponent } from './views/delivery-info/delivery-info.component';
+// import { DeliveryInfoComponent } from './views/delivery-info/delivery-info.component';
 import { MemberFoodComponent } from './views/member-food/member-food.component';
 import { NotificationDetailComponent } from './views/notification-detail/notification-detail.component';
 // import { Error404Component } from './views/error404/error404.component';
@@ -58,6 +58,7 @@ const routes: Routes = [
   // { path: '', canActivate: [SessionAliveGuard], component: EntranceComponent, data: {animation: 'Entrance'} },
   { path: '', loadChildren: () => import('./views/entrance/entrance.module').then(m => m.EntranceModule)},
   { path: 'Function', loadChildren: () => import('./views/function/function.module').then(m => m.FunctionModule)},
+  { path: 'Explore', loadChildren: () => import('./views/explore/explore.module').then(m => m.ExploreModule)},
   // { path: 'Travel', canActivate: [SessionAliveGuard], component: TravelComponent },
   // { path: 'ExploreMap', canActivate: [SessionAliveGuard], component: ExploreMapComponent },
   // { path: 'Shopping', canActivate: [SessionAliveGuard], component: ShoppingComponent },

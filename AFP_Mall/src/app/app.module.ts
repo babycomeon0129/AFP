@@ -33,10 +33,10 @@ import { SortablejsModule } from 'ngx-sortablejs';
 import { AppComponent } from './app.component';
 // import { EntranceComponent } from './views/entrance/entrance.component';
 import { TravelComponent } from './views/travel/travel.component';
-import { ExploreMapComponent } from './views/explore-map/explore-map.component';
+// import { ExploreMapComponent } from './views/explore-map/explore-map.component';
 import { ShoppingComponent } from './views/shopping/shopping.component';
-import { ExploreListComponent } from './views/explore-list/explore-list.component';
-import { ExploreDetailComponent } from './views/explore-detail/explore-detail.component';
+// import { ExploreListComponent } from './views/explore-list/explore-list.component';
+// import { ExploreDetailComponent } from './views/explore-detail/explore-detail.component';
 import { environment } from './../environments/environment';
 import { MemberComponent } from './views/member/member.component';
 import { MemberCardComponent } from './views/member-card/member-card.component';
@@ -84,7 +84,7 @@ import { MaintenanceComponent } from './views/maintenance/maintenance.component'
 import { ETicketOrderComponent } from './views/eticket-order/eticket-order.component';
 import { ETicketDetailComponent } from './views/eticket-detail/eticket-detail.component';
 import { ETicketOrderDetailComponent } from './views/eticket-order-detail/eticket-order-detail.component';
-import { DeliveryInfoComponent } from './views/delivery-info/delivery-info.component';
+// import { DeliveryInfoComponent } from './views/delivery-info/delivery-info.component';
 import { MemberFoodComponent } from './views/member-food/member-food.component';
 import { NotificationDetailComponent } from './views/notification-detail/notification-detail.component';
 // import { DirectiveModuleModule } from './shared/directive/directive-module.module';
@@ -110,10 +110,10 @@ defineLocale('zh-cn', zhCnLocale);
   declarations: [
     AppComponent,
     TravelComponent,
-    ExploreMapComponent,
+    // ExploreMapComponent,
     ShoppingComponent,
-    ExploreListComponent,
-    ExploreDetailComponent,
+    // ExploreListComponent,
+    // ExploreDetailComponent,
     MemberComponent,
     MemberCardComponent,
     MemberTicketComponent,
@@ -159,12 +159,12 @@ defineLocale('zh-cn', zhCnLocale);
     ETicketOrderComponent,
     ETicketDetailComponent,
     ETicketOrderDetailComponent,
-    DeliveryInfoComponent,
+    // DeliveryInfoComponent,
     MemberFoodComponent,
     NotificationDetailComponent
   ],
   entryComponents: [
-    ExploreMapComponent
+    // ExploreMapComponent
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-// import { DirectiveModuleModule } from './directive/directive-module.module';
+import { RouterModule } from '@angular/router';
 // Modal
 import { AppleModalComponent } from './modal/apple-modal/apple-modal.component';
 import { ConfirmModalComponent } from './modal/confirm-modal/confirm-modal.component';
@@ -26,9 +26,6 @@ import { TextFilterPipe } from './pipe/text-filter.pipe';
 // Directive
 import { DigitOnlyDirective } from './directive/digitonly-directive/digit-only.directive';
 import { KeyControllerDirective } from './directive/keycontroller-directive/key-controller.directive';
-// Routing
-import { AppRoutingModule } from '../app-routing.module';
-import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [

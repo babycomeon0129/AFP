@@ -27,7 +27,7 @@ const routes: Routes = [
       { path: 'AppDownload', component: AppDownloadComponent },
       { path: 'Error500', component: Error500Component},
       { path: 'Error503', component: Error503Component},
-      { path: '**', component: Error404Component }
+      // { path: '**', component: Error404Component }
     ]
   },
 ];

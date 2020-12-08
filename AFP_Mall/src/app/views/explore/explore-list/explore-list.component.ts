@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { Response_AreaIndex, AFP_UserDefine, Request_AreaIndex, AreaJsonFile_ECStore } from '../../_models';
+import { Response_AreaIndex, AFP_UserDefine, Request_AreaIndex, AreaJsonFile_ECStore } from '../../../_models';
 import { ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
-import { ModalService } from '../../shared/modal/modal.service';
+import { ModalService } from '../../../shared/modal/modal.service';
 import { BsModalRef } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-explore-list',
   templateUrl: './explore-list.component.html',
-  styleUrls: ['../../../dist/style/explore.min.css']
+  styleUrls: ['../../../../dist/style/explore.min.css']
 })
 export class ExploreListComponent implements OnInit {
   /** 緯度 */

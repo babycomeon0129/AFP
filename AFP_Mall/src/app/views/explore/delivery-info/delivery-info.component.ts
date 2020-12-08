@@ -3,12 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { AFP_UserReport, Model_ShareData } from '../../_models';
+import { AFP_UserReport, Model_ShareData } from '../../../_models';
 
 @Component({
   selector: 'app-delivery-info',
   templateUrl: './delivery-info.component.html',
-  styleUrls: ['../../../dist/style/member.min.css']
+  styleUrls: ['../../../../dist/style/member.min.css']
 })
 
 export class DeliveryInfoComponent implements OnInit {
