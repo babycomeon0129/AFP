@@ -3,16 +3,16 @@ import { ActivatedRoute } from '@angular/router';
 import {
   Model_ShareData, AFP_Voucher, AFP_UserVoucher, AFP_ECStore, Request_MemberUserVoucher,
   Response_MemberUserVoucher, Request_MemberCheckStatus, Response_MemberCheckStatus
-} from '../../_models';
+} from '../../../_models';
 import { AppService } from 'src/app/app.service';
 import { Router, NavigationExtras } from '@angular/router';
-import { ModalService } from '../../shared/modal/modal.service';
+import { ModalService } from '../../../shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-voucher-detail',
   templateUrl: './voucher-detail.component.html',
-  styleUrls: ['../../../dist/style/offers.min.css']
+  styleUrls: ['../../../../dist/style/offers.min.css']
 })
 export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
   /** UUID */

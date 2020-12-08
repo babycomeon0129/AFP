@@ -53,16 +53,16 @@ import { TrafficComponent } from './views/traffic/traffic.component';
 // import { ProductDetailComponent } from './views/product-detail/product-detail.component';
 // import { ShoppingCartComponent } from './views/shopping-cart/shopping-cart.component';
 // import { ShoppingOrderComponent } from './views/shopping-order/shopping-order.component';
-import { ShoppingOffersComponent } from './views/shopping-offers/shopping-offers.component';
-import { VoucherDetailComponent } from './views/voucher-detail/voucher-detail.component';
+// import { ShoppingOffersComponent } from './views/shopping-offers/shopping-offers.component';
+// import { VoucherDetailComponent } from './views/voucher-detail/voucher-detail.component';
 import { MyOrderDetailComponent } from './views/my-order-detail/my-order-detail.component';
 // import { ReturnComponent } from './views/return/return.component';
 // import { ReturnDetailComponent } from './views/return-detail/return-detail.component';
 // import { ReturnDialogComponent } from './views/return-dialog/return-dialog.component';
 // import { OrderCompleteComponent } from './views/order-complete/order-complete.component';
 // import { ShoppingPaymentComponent } from './views/shopping-payment/shopping-payment.component';
-import { OffersComponent } from './views/offers/offers.component';
-import { SalesComponent } from './views/sales/sales.component';
+// import { OffersComponent } from './views/offers/offers.component';
+// import { SalesComponent } from './views/sales/sales.component';
 import { NotificationComponent } from './views/notification/notification.component';
 import { MissionComponent } from './views/mission/mission.component';
 import { GameComponent } from './views/game/game.component';
@@ -71,7 +71,7 @@ import { ScratchComponent } from './views/game/scratch/scratch.component';
 import { GameCenterComponent } from './views/game-center/game-center.component';
 import { QAComponent } from './views/qa/qa.component';
 // import { OrderResultComponent } from './views/order-result/order-result.component';
-import { EventComponent } from './views/event/event.component';
+// import { EventComponent } from './views/event/event.component';
 import { HomeComponent } from './views/member/home/home.component';
 import { SettingComponent } from './views/member/setting/setting.component';
 import { MyProfileComponent } from './views/member/my-profile/my-profile.component';
@@ -128,16 +128,16 @@ defineLocale('zh-cn', zhCnLocale);
     // ProductDetailComponent,
     // ShoppingCartComponent,
     // ShoppingOrderComponent,
-    ShoppingOffersComponent,
-    VoucherDetailComponent,
+    // ShoppingOffersComponent,
+    // VoucherDetailComponent,
     MyOrderDetailComponent,
     // ReturnComponent,
     // ReturnDetailComponent,
     // ReturnDialogComponent,
     // OrderCompleteComponent,
     // ShoppingPaymentComponent,
-    OffersComponent,
-    SalesComponent,
+    // OffersComponent,
+    // SalesComponent,
     NotificationComponent,
     MissionComponent,
     GameComponent,
@@ -146,7 +146,7 @@ defineLocale('zh-cn', zhCnLocale);
     GameCenterComponent,
     QAComponent,
     // OrderResultComponent,
-    EventComponent,
+    // EventComponent,
     HomeComponent,
     SettingComponent,
     MyProfileComponent,

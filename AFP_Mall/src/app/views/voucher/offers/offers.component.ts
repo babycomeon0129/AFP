@@ -1,15 +1,15 @@
 import { Component, OnInit, OnDestroy, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import {AFP_VouFlashSale, Request_ECVouFlashSale, Response_ECVouFlashSale, AFP_ChannelVoucher, AFP_Voucher } from '../../_models';
+import {AFP_VouFlashSale, Request_ECVouFlashSale, Response_ECVouFlashSale, AFP_ChannelVoucher, AFP_Voucher } from '../../../_models';
 import { SwiperOptions } from 'swiper';
 import { ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
-import { ModalService } from '../../shared/modal/modal.service';
+import { ModalService } from '../../../shared/modal/modal.service';
 
 @Component({
   selector: 'app-offers',
   templateUrl: './offers.component.html',
-  styleUrls: ['../../../dist/style/offers.min.css']
+  styleUrls: ['../../../../dist/style/offers.min.css']
 })
 export class OffersComponent implements OnInit, DoCheck, OnDestroy {
   /** 上方限時搶購優惠券(最多4筆) */

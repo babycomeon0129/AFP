@@ -1,14 +1,14 @@
 import { Component, OnInit, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
-import { AFP_ChannelVoucher, AFP_ADImg, Request_ECVoucher, Response_ECVoucher, AFP_Voucher } from '../../_models';
+import { AFP_ChannelVoucher, AFP_ADImg, Request_ECVoucher, Response_ECVoucher, AFP_Voucher } from '../../../_models';
 import { AppService } from 'src/app/app.service';
 import { SwiperOptions } from 'swiper';
 import { Meta, Title } from '@angular/platform-browser';
-import { ModalService } from '../../shared/modal/modal.service';
+import { ModalService } from '../../../shared/modal/modal.service';
 
 @Component({
   selector: 'app-event',
   templateUrl: './event.component.html',
-  styleUrls: ['../../../dist/style/offers.min.css']
+  styleUrls: ['../../../../dist/style/offers.min.css']
 })
 export class EventComponent implements OnInit, DoCheck {
   /** 置頂圖片 */
