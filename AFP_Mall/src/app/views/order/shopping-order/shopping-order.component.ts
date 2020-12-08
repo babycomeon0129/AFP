@@ -1,37 +1,63 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  Model_ShareData, AFP_Cart, AFP_ECStore, AFP_Product, AFP_Voucher, AFP_Order,
-  Request_GetUserVoucher, Response_GetUserVoucher, Request_CheckUserVoucher, Response_CheckUserVoucher,
-  AFP_UserVoucher, AFP_VoucherLimit, OrderVoucher, OrderInvoice, OrderStore, OrderPlatform
-} from '../../_models';
-import { ModalService } from '../../shared/modal/modal.service';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 import { AppService } from 'src/app/app.service';
+import { ModalService } from '../../../shared/modal/modal.service';
+import {
+  Request_GetCheckout, Response_GetCheckout,
+  Request_GetUserVoucher, Response_GetUserVoucher,
+  Request_CheckUserVoucher, Response_CheckUserVoucher,
+  Request_MemberAddress,
+  AFP_Cart, AFP_ECStore, AFP_UserFavourite, AFP_UserVoucher, AFP_Voucher, AFP_VoucherLimit, AFP_Order,
+  Model_ShareData, OrderVoucher, OrderInvoice, OrderStore, OrderPlatform
+} from 'src/app/_models';
 import { NgForm } from '@angular/forms';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-eticket-order',
-  templateUrl: './eticket-order.component.html',
-  styleUrls: ['../../../dist/style/shopping-index.min.css']
+  selector: 'app-shopping-order',
+  templateUrl: './shopping-order.component.html',
+  styleUrls: ['../../../../dist/style/shopping-index.min.css']
 })
-export class ETicketOrderComponent implements OnInit {
-  /** 票券結帳頁資訊整合 */
+export class ShoppingOrderComponent implements OnInit {
+  /** 結帳頁資訊整合 */
   public info: OrderInfo = new OrderInfo();
-  /** 儲存結帳相關資訊 */
-  public checkout: Response_GetTCheckout;
-  /** 無法結帳的優惠券 */
-  public banVoucher: AFP_Voucher[] = [];
+  /** 目前鎖定的商店(選擇寄送方式時使用) */
+  public holdStore: OrderStore = new OrderStore();
+  /** 暫存的訂單資訊 */
+  public tempOrder: AFP_Order = new AFP_Order();
+  /** 寄送方式暫存選項 */
+  public choiceNum = 0;
   /** 折扣金額 */
   public discount = 0;
+  /** 儲存結帳相關資訊 */
+  public checkout: Response_GetCheckout = { List_UserReport: [] };
   /** 儲存優惠券相關資訊 */
   public voucher: Response_GetUserVoucher;
+  /** 無法結帳的優惠券 */
+  // public banVoucher: AFP_Voucher[] = [];
+  /** 消費者地址列表 */
+  public addressList: AFP_UserFavourite[] = [];
+  /** 自取店家列表 */
+  public storePickSelf: AFP_ECStore[] = [];
   /** 優惠券整理資訊 */
   public userVouchers: AFP_UserVoucher[] = [];
+  /** 新增地址用 */
+  public requestAddress: AFP_UserFavourite = new AFP_UserFavourite();
+  /** 是否正在設定預設地址 (控制進入頁面正在設置時不呼叫callLayer()) */
+  private settingAddress = true;
 
-  constructor(public modal: ModalService, private router: Router, public appService: AppService) {
+  constructor(public appService: AppService, public modal: ModalService, private router: Router, private meta: Meta, private title: Title) {
+    // tslint:disable: max-line-length
+    this.title.setTitle('確定訂單｜線上商城 - Mobii!');
+    this.meta.updateTag({ name: 'description', content: 'Mobii! 線上商城購物車 - 確認訂單。 如果你有在 Mobii! 平台購物，這裡就會看到你的訂單訊息。請登入註冊 Mobii! 帳號以看到完整內容。' });
+    this.meta.updateTag({ content: '確定訂單｜線上商城 - Mobii!', property: 'og:title' });
+    this.meta.updateTag({ content: 'Mobii! 線上商城購物車 - 確認訂單。 如果你有在 Mobii! 平台購物，這裡就會看到你的訂單訊息。請登入註冊 Mobii! 帳號以看到完整內容。', property: 'og:description' });
+  }
+
+  ngOnInit() {
     if (history.state.data !== undefined) {
       const afpCart: AFP_Cart[] = [];
-      // 以購物車 ID 取得結帳相關資訊
+      // 以購物車 ID 取得相關結帳資訊
       history.state.data.checkoutList.forEach((cart: { ProductList: any[]; }) => {
         const checkout = cart.ProductList.filter(x => x.CheckedStatus);
         if (checkout.length > 0) {
@@ -40,22 +66,29 @@ export class ETicketOrderComponent implements OnInit {
           });
         }
       });
-      const getTCheckout: Request_GetTCheckout = {
+      this.appService.openBlock();
+      const getCheckout: Request_GetCheckout = {
         SelectMode: 4, // 查詢
         User_Code: sessionStorage.getItem('userCode'),
         List_Cart: afpCart
       };
-      this.appService.toApi('Checkout', '1609', getTCheckout).subscribe((data: Response_GetTCheckout) => {
+      this.appService.toApi('Checkout', '1605', getCheckout).subscribe((data: Response_GetCheckout) => {
         this.checkout = data;
-        // 取得使用者優惠券
+        // 帶入會員資訊 (姓名、手機、email)
+        this.info.name = this.checkout.UserInfo_Name;
+        this.info.phone = this.checkout.UserProfile_Mobile;
+        this.info.email = this.checkout.UserProfile_Email;
         const getVoucher: Request_GetUserVoucher = {
           SelectMode: 4, // 查詢
           User_Code: sessionStorage.getItem('userCode'),
           List_Cart: this.checkout.List_Cart
         };
-
         this.appService.toApi('Checkout', '1606', getVoucher).subscribe((voucher: Response_GetUserVoucher) => {
           this.voucher = voucher;
+          this.addressList = data.List_UserFavourite;
+          // 檢查使用者有無預設地址
+          const defaultAddress = this.addressList.find((x) => x.UserFavourite_IsDefault === 1);
+          const addressIndex = this.addressList.findIndex((x) => x.UserFavourite_IsDefault === 1);
 
           // 依商店整理
           data.List_ECStore.forEach(store => {
@@ -67,20 +100,34 @@ export class ETicketOrderComponent implements OnInit {
             newStore.order.Order_Currency = 'TWD';
             newStore.preVoucher = new OrderVoucher();
             newStore.voucher = new OrderVoucher();
-            newStore.products = this.checkout.List_Cart.filter(x => x.Cart_ECStoreCode === store.ECStore_Code);
+            newStore.products = data.List_Cart.filter(x => x.Cart_ECStoreCode === store.ECStore_Code);
             newStore.products.forEach(product => {
               newStore.total += product.Cart_Quantity * product.Cart_Amount;
             });
+
+            // 若使用者已有預設地址且該商店只提供宅配則將寄送方式設為寄送至該預設地址
+            if (defaultAddress !== undefined && this.checkout.Pick_ECStore.length === 0) {
+              if (this.checkout.Pick_ECStore.find(s => s.ECStore_Code === store.ECStore_Code) === undefined) {
+                // 該商店只提供宅配(無自取)
+                this.clickDeliveryWay(newStore);
+                this.choiceAddress(defaultAddress, addressIndex);
+                this.confirmDeliveryWay();
+              }
+            }
+
             // 以總店查詢商店可使用的優惠券
             newStore.vouchers = voucher.List_Voucher
               .filter(x => x.Voucher_ECStoreCode === store.ECStore_Code
                 && x.Voucher_UsedLimitType === 11 && x.VoucherRange_Prod !== null);
             if (newStore.vouchers.length > 0) { this.info.visibleVouchers = true; }
             // 無法結帳的優惠券
-            this.banVoucher = voucher.List_Voucher.filter(x => x.VoucherRange_Prod === null);
+            // this.banVoucher = voucher.List_Voucher.filter(x => x.VoucherRange_Prod === null);
             // 總計訂單金額
             this.info.total += newStore.total;
           });
+
+          this.settingAddress = false;
+          // this.addressList = data.List_UserFavourite;
 
           // 平台可使用的優惠券整理
           this.info.platform.vouchers = voucher.List_Voucher
@@ -93,13 +140,19 @@ export class ETicketOrderComponent implements OnInit {
     } else {
       this.modal.confirm({
         initialState:
-          { message: '請選擇要結帳的車票!', showCancel: false },
+          { message: '請由購物車選擇要結帳的商品!', showCancel: false },
         backdrop: 'static',
         keyboard: false
       }).subscribe(option => {
-        this.router.navigate(['/']);
+        this.router.navigate(['/ShoppingCart', { referrer: 'illegal' } ]);
       });
     }
+
+    /** 避免輸入鍵盤擋到輸入框 */
+    $('input').focus((e) => {
+      const target = $('input').index(e.currentTarget);
+      document.body.scrollTop = ($('input').eq(target)[0].scrollHeight - 50);
+    });
   }
 
   /** 開啟選擇優惠券頁面 */
@@ -123,6 +176,7 @@ export class ETicketOrderComponent implements OnInit {
     this.discount = 0;
     this.info.totalDiscount = 0;
     this.info.platform.preVoucher = new OrderVoucher();
+    this.info.platform.topFreightStore = new OrderStore();
   }
 
   /** 選擇優惠券 */
@@ -166,7 +220,7 @@ export class ETicketOrderComponent implements OnInit {
           this.info.platform.preVoucher = new OrderVoucher();
           this.modal.show('message', { initialState: { success: false, message: '請重新選擇平台優惠券!', showType: 1 } });
         }
-        this.recalculate();
+        this.recalculate('discount');
       } else {
         e.target.checked = false;
         this.modal.show('message', { initialState: { success: false, message: result.message, showType: 1 } });
@@ -213,7 +267,7 @@ export class ETicketOrderComponent implements OnInit {
 
           if (amount > 0) {
             result = this.validVoucher(voucher, amount, productsAmount, productsQTY);
-            // this.info.platform.topFreightStore = topFreightStore;
+            this.info.platform.topFreightStore = topFreightStore;
           } else {
             e.target.checked = false;
             result.message = '沒有運費需要折抵,請選擇其他優惠券';
@@ -231,7 +285,7 @@ export class ETicketOrderComponent implements OnInit {
     }
     if (result.success) {
       this.info.platform.preVoucher = voucher;
-      this.recalculate();
+      this.recalculate('discount');
     } else {
       e.target.checked = false;
       this.modal.show('message', { initialState: { success: false, message: result.message, showType: 1 } });
@@ -294,18 +348,26 @@ export class ETicketOrderComponent implements OnInit {
 
           // 平台優惠券的優惠金額均分給各商店(訂單)
           if (this.info.platform.preVoucher.discount > 0) {
-            // 以消費金額優惠則將折扣均分至各訂單
-            const average = this.info.platform.preVoucher.discount / this.info.stores.length;
-            const isFloat = String(average).indexOf('.') > -1;
-            const floor = Math.floor(average);
-            // 取得平均後無條件捨去小數
-            this.info.stores.forEach((store, index) => {
-              // 回填各商店平台優惠券折扣金額
-              const changeAmount = floor + ((isFloat && index === 0) ? 1 : 0); // 如果有小數則第一張訂單+1折扣，其餘無條件捨去
-              store.order.Order_ChangeAmount += changeAmount;
-              store.order.Order_PlatChangeAmount = changeAmount;
-            });
-
+            switch (this.info.platform.preVoucher.Voucher_Type) {
+              case 1: { // 以消費金額優惠則將折扣均分至各訂單
+                const average = this.info.platform.preVoucher.discount / this.info.stores.length;
+                const isFloat = String(average).indexOf('.') > -1;
+                const floor = Math.floor(average);
+                // 取得平均後無條件捨去小數
+                this.info.stores.forEach((store, index) => {
+                  // 回填各商店平台優惠券折扣金額
+                  const changeAmount = floor + ((isFloat && index === 0) ? 1 : 0); // 如果有小數則第一張訂單+1折扣，其餘無條件捨去
+                  store.order.Order_ChangeAmount += changeAmount;
+                  store.order.Order_PlatChangeAmount = changeAmount;
+                });
+                break;
+              }
+              case 2: { // 以最高運費店家再折扣
+                this.info.platform.topFreightStore.order.Order_ChangeAmount += this.info.platform.preVoucher.discount;
+                this.info.platform.topFreightStore.order.Order_ChangeShippingAmount += this.info.platform.preVoucher.discount;
+                break;
+              }
+            }
             this.info.platform.voucher = JSON.parse(JSON.stringify(this.info.platform.preVoucher));
             this.info.totalDiscount += this.info.platform.preVoucher.discount;
             this.info.voucherInfo.push(this.info.platform.voucher);
@@ -323,21 +385,126 @@ export class ETicketOrderComponent implements OnInit {
     }
   }
 
-  /** 選擇發票/收據
-   * @param type 0 發票 1 收據
+  /**
+   * 點擊開啟寄送方式
+   * @param store 店家(訂單)
    */
-  toInvoice(type: number): void {
-    this.info.preInvoice = JSON.parse(JSON.stringify(this.info.invoice));
-    switch (type) {
-      // 選擇發票
-      case 0:
-        this.appService.callLayer('.shopping-invoice');
-        break;
-      // 選擇收據
-      case 1:
-        this.appService.callLayer('.shopping-receipt');
-        break;
+  clickDeliveryWay(store: OrderStore): void {
+    this.holdStore = store;
+    this.tempOrder = JSON.parse(JSON.stringify(store.order));
+    this.choiceNum = store.dwSelected;
+    this.storePickSelf = this.checkout.Pick_ECStore.filter(x => x.ECStore_CompanyCode === store.ECStore_CompanyCode);
+    this.addressList.forEach((address, index) => {
+      if (address.UserFavourite_IsDefault === 1) {
+        let pairSuccess = false;
+        this.checkout.List_ECLogistics.forEach(logistics => {
+          const pair = logistics.List_ECLogisticsPart.find(x => x.ECLogisticsPart_Country === 886 &&
+            x.ECLogisticsPart_City === address.UserFavourite_Number1);
+          if (pair !== undefined) { // 匹配到物流資訊時擷取運費
+            pairSuccess = true;
+            this.tempOrder.Order_ECLogisticsID = logistics.ECLogistics_ID;
+            this.tempOrder.Order_ShippingAmount = logistics.ECLogistics_Amount;
+            return false; // 跳出物流資訊 forEach
+          }
+        });
+        if (pairSuccess) {
+          this.choiceNum = index;
+          this.tempOrder.Order_DeliveryWays = 1;
+          this.tempOrder.Order_RecCountry = 886;
+          this.tempOrder.Order_RecCity = address.UserFavourite_Number1;
+          this.tempOrder.Order_RecCityArea = address.UserFavourite_Number2;
+          this.tempOrder.Order_RecAddress = address.UserFavourite_Text3;
+          return false; // 跳出地址 forEach
+        }
+      }
+    });
+    if (!this.settingAddress) {
+      this.appService.callLayer('.shopping-send');
     }
+  }
+
+  /**
+   * 選擇寄送地址，並驗證是否有匹配的物流資訊，計算運費
+   * @param address 所選地址
+   * @param num 項目編號
+   * @returns 回傳結果(未匹配物流資訊時回傳失敗)
+   */
+  choiceAddress(address: AFP_UserFavourite, num: number) {
+    this.choiceNum = num;
+    // 是否匹配物流成功
+    let pairSuccess = false;
+    this.checkout.List_ECLogistics.forEach(logistics => {
+      const pair = logistics.List_ECLogisticsPart.find(x => x.ECLogisticsPart_Country === 886 &&
+        x.ECLogisticsPart_City === address.UserFavourite_Number1);
+      if (pair !== undefined) { // 匹配到物流資訊時擷取運費
+        pairSuccess = true;
+        this.tempOrder.Order_ECLogisticsID = logistics.ECLogistics_ID;
+        this.tempOrder.Order_ShippingAmount = logistics.ECLogistics_Amount;
+        return false; // 跳出 forEach
+      }
+    });
+    if (pairSuccess) {
+      this.tempOrder.Order_DeliveryWays = 1;
+      this.tempOrder.Order_RecCountry = 886;
+      this.tempOrder.Order_RecCity = address.UserFavourite_Number1;
+      this.tempOrder.Order_RecCityArea = address.UserFavourite_Number2;
+      this.tempOrder.Order_RecAddress = address.UserFavourite_Text3;
+    } else {
+      this.modal.show('message', { initialState: { success: false, message: '尚未有物流可以配送選擇地址,請選擇其他地址!', showType: 1 } });
+      return false;
+    }
+  }
+
+  /**
+   * 選擇來店自取，歸 0 運費
+   * @param store 所選自取店家
+   * @param num 項目編號
+   */
+  choicePickSelf(store: AFP_ECStore, num: number) {
+    this.tempOrder.Order_ECLogisticsID = store.ECStore_Code;
+    this.tempOrder.Order_DeliveryWays = 2;
+    this.tempOrder.Order_RecCountry = 886;
+    this.tempOrder.Order_RecCity = store.ECStore_PickCity;
+    this.tempOrder.Order_RecCityArea = store.ECStore_PickCityArea;
+    this.tempOrder.Order_RecAddress = store.ECStore_PickAddress;
+    this.tempOrder.Order_ShippingAmount = 0;
+    this.choiceNum = num;
+  }
+
+  confirmDeliveryWay() {
+    if (this.holdStore.order.Order_ShippingAmount !== this.tempOrder.Order_ShippingAmount && this.userVouchers.length > 0) {
+      this.info.totalDiscount = 0;
+      this.userVouchers = [];
+      this.info.stores.forEach(store => {
+        store.voucher = new OrderVoucher();
+        store.preVoucher = new OrderVoucher();
+        store.order.Order_ChangeAmount = 0;
+        store.order.Order_PlatChangeAmount = 0;
+      });
+      this.info.voucherInfo = [];
+      this.info.platform.voucher = new OrderVoucher();
+      this.info.platform.preVoucher = new OrderVoucher();
+      this.info.platform.topFreightStore = new OrderStore();
+
+      this.modal.show('message', { initialState: { success: false, message: '因運費變動,請重新選擇優惠券', showType: 1 } });
+    }
+    this.holdStore.order.Order_ECLogisticsID = this.tempOrder.Order_ECLogisticsID;
+    this.holdStore.order.Order_DeliveryWays = this.tempOrder.Order_DeliveryWays;
+    this.holdStore.order.Order_RecCountry = this.tempOrder.Order_RecCountry;
+    this.holdStore.order.Order_RecCity = this.tempOrder.Order_RecCity;
+    this.holdStore.order.Order_RecCityArea = this.tempOrder.Order_RecCityArea;
+    this.holdStore.order.Order_RecAddress = this.tempOrder.Order_RecAddress;
+    this.holdStore.order.Order_ShippingAmount = this.tempOrder.Order_ShippingAmount;
+    this.holdStore.dwSelected = this.choiceNum;
+    this.recalculate('freight');
+    if (!this.settingAddress) {
+      this.appService.backLayer();
+    }
+  }
+
+  toInvoice(): void {
+    this.info.preInvoice = JSON.parse(JSON.stringify(this.info.invoice));
+    this.appService.callLayer('.shopping-invoice');
   }
 
   confirmInvoice(): void {
@@ -346,9 +513,15 @@ export class ETicketOrderComponent implements OnInit {
         if (this.info.preInvoice.invoiceTitle.trim() === '' || this.info.preInvoice.invoiceTaxID.trim() === '') {
           this.modal.show('message', { initialState: { success: false, message: '請輸入發票抬頭名稱與統一編號', showType: 1 } });
         } else {
-          this.info.invoice = this.info.preInvoice;
-          this.info.invoice.message = '三聯式發票 ' + this.info.invoice.invoiceTitle + '/' + this.info.invoice.invoiceTaxID;
-          this.appService.backLayer();
+          const regexp1 = /^[0-9]{8}$/g;
+          const regexp1Ok = regexp1.exec(this.info.preInvoice.invoiceTaxID.trim());
+          if ( regexp1Ok === null ) {
+            this.modal.show('message', { initialState: { success: false, message: '統一編號格式錯誤，請輸入正確的統一編號', showType: 1 } });
+          } else {
+            this.info.invoice = this.info.preInvoice;
+            this.info.invoice.message = '三聯式發票 ' + this.info.invoice.invoiceTitle + '/' + this.info.invoice.invoiceTaxID;
+            this.appService.backLayer();
+          }
         }
         break;
       }
@@ -373,31 +546,21 @@ export class ETicketOrderComponent implements OnInit {
         if (this.info.preInvoice.carrierCode.trim() === '') {
           this.modal.show('message', { initialState: { success: false, message: '請輸入正確的手機條碼', showType: 1 } });
         } else {
-          this.info.invoice = this.info.preInvoice;
-          this.info.invoice.carrierType = 1;
-          this.info.invoice.message = '手機條碼載具 ' + this.info.invoice.carrierCode;
-          this.appService.backLayer();
+          const regexp = /^\/{1}[0-9A-Z]{7}$/g;
+          const regexpOk = regexp.exec(this.info.preInvoice.carrierCode.trim());
+          if ( regexpOk === null ) {
+            this.modal.show('message', { initialState: { success: false, message: '手機條碼格式錯誤，請輸入正確的手機條碼', showType: 1 } });
+          } else {
+            this.info.invoice = this.info.preInvoice;
+            this.info.invoice.carrierType = 1;
+            this.info.invoice.message = '手機條碼載具 ' + this.info.invoice.carrierCode;
+            this.appService.backLayer();
+          }
         }
-        break;
-      }
-      case 6: { // 收據
-        if (this.info.preInvoice.invoiceTitle.trim() === '' || this.info.preInvoice.invoiceTaxID.trim() === '') {
-          this.modal.show('message', { initialState: { success: false, message: '請輸入發票抬頭名稱與統一編號', showType: 1 } });
-        } else {
-          this.info.invoice = this.info.preInvoice;
-          this.info.invoice.message = '收據 ' + this.info.invoice.invoiceTitle + '/' + this.info.invoice.invoiceTaxID;
-          this.appService.backLayer();
-        }
-        break;
-      }
-      case 7: { // 收據但不需抬頭與統編
-        this.info.invoice = this.info.preInvoice;
-        this.info.invoice.message = '收據（不需抬頭與統編）';
-        this.appService.backLayer();
         break;
       }
       default: {
-        this.modal.show('message', { initialState: { success: false, message: '請選擇您所需要的發票/收據樣式', showType: 1 } });
+        this.modal.show('message', { initialState: { success: false, message: '請選擇您所需要的發票樣式', showType: 1 } });
         break;
       }
     }
@@ -406,13 +569,25 @@ export class ETicketOrderComponent implements OnInit {
   /**
    * 重新計算各商店優惠金額及平台優惠金額
    */
-  recalculate(): void {
-    this.discount = 0;
-    this.info.stores.forEach(store => {
-      this.discount += store.preVoucher.discount;
-    });
-    this.discount += this.info.platform.preVoucher.discount;
-    this.info.payment = this.info.total - this.info.totalDiscount;
+  recalculate(type?: string): void {
+    switch (type) {
+      case 'discount': { // 重計折扣
+        this.discount = 0;
+        this.info.stores.forEach(store => {
+          this.discount += store.preVoucher.discount;
+        });
+        this.discount += this.info.platform.preVoucher.discount;
+        break;
+      }
+      case 'freight': { // 重計運費
+        this.info.totalFreight = 0;
+        this.info.stores.forEach(store => {
+          this.info.totalFreight += store.order.Order_ShippingAmount;
+        });
+        break;
+      }
+    }
+    this.info.payment = (this.info.total + this.info.totalFreight) - this.info.totalDiscount;
   }
 
   /**
@@ -466,31 +641,52 @@ export class ETicketOrderComponent implements OnInit {
     }
   }
 
+  /** 新增地址 */
+  onAddressSubmit(form: NgForm): void {
+    this.requestAddress.UserFavourite_ID = 0;
+    this.requestAddress.UserFavourite_CountryCode = 886;
+    this.requestAddress.UserFavourite_Type = 1;
+    this.requestAddress.UserFavourite_UserInfoCode = 0;
+    this.requestAddress.UserFavourite_TypeCode = 0;
+    this.requestAddress.UserFavourite_State = 1;
+    this.requestAddress.UserFavourite_SyncState = 0;
+    if (!this.requestAddress.UserFavourite_IsDefault) {
+      this.requestAddress.UserFavourite_IsDefault = 0;
+    }
+
+    const request: Request_MemberAddress = {
+      SelectMode: 1,
+      User_Code: sessionStorage.getItem('userCode'),
+      AFP_UserFavourite: this.requestAddress
+    };
+
+    this.appService.toApi('Member', '1503', request).subscribe(() => {
+      // 將資料放入「地址列表」中
+      this.addressList.push(JSON.parse(JSON.stringify(this.requestAddress)));
+      // 回到上一頁(「地址列表」)
+      this.appService.backLayer();
+      // 將「新增地址」的input清空
+      form.resetForm();
+      this.requestAddress = new AFP_UserFavourite();
+    });
+  }
+
   onCheckoutSubmit(form: NgForm): void {
     const result = { success: true, message: '' };
     const orders: AFP_Order[] = [];
     this.info.stores.forEach(store => {
-      store.order.Order_RecName = this.info.name;
-      store.order.Order_RecTel = this.info.phone;
-      store.order.Order_RecEmail = this.info.email;
-      store.order.Order_Amount = store.total;
-      orders.push(store.order);
+      if (store.order.Order_DeliveryWays > 0) {
+        store.order.Order_RecName = this.info.name;
+        store.order.Order_RecTel = this.info.phone;
+        store.order.Order_RecEmail = this.info.email;
+        store.order.Order_Amount = store.total + store.order.Order_ShippingAmount;
+        orders.push(store.order);
+      } else {
+        result.success = false;
+        result.message = '店家 ' + store.ECStore_ShowName + ' 尚未選擇寄送方式!';
+        return result.success;
+      }
     });
-
-    // 收據金額 >= 銷售金額時，開收據
-    // if (this.checkout.List_Cart[0].Cart_ProdReceiptPrice >= this.checkout.List_Cart[0].Cart_Amount) {
-    //   sessionStorage.setItem('invoice', JSON.stringify(this.info.invoice));
-    //   result.success = true;
-    // } else {
-    //   // 收據金額 < 銷售金額時，開發票
-    //   if (this.info.invoice.invoiceMode > 0) {
-    //     // 有選擇的發票樣式
-    //     sessionStorage.setItem('invoice', JSON.stringify(this.info.invoice));
-    //   } else {
-    //     result.success = false;
-    //     result.message = '尚未選擇發票樣式!';
-    //   }
-    // }
 
     if (this.info.invoice.invoiceMode > 0) {
       sessionStorage.setItem('invoice', JSON.stringify(this.info.invoice));
@@ -507,13 +703,13 @@ export class ETicketOrderComponent implements OnInit {
           //   order.Order_ChangeShippingAmount = order.Order_ChangeShippingAmount * -1;
           // });
           this.appService.openBlock();
-          const createOrder: Request_CreateTOrder = {
+          const createOrder: Request_CreateOrder = {
             User_Code: sessionStorage.getItem('userCode'),
             List_Cart: this.checkout.List_Cart,
             List_UserVoucher: this.userVouchers,
             List_Order: orders
           };
-          this.appService.toApi('Checkout', '1608', createOrder).subscribe((coResult: Response_CreateTOrder) => {
+          this.appService.toApi('EC', '1601', createOrder).subscribe((coResult: Response_CreateOrder) => {
             this.router.navigate(['/ShoppingPayment'], {
               state: { data: coResult }
             });
@@ -525,23 +721,6 @@ export class ETicketOrderComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
-    /** 避免輸入鍵盤擋到輸入框 */
-    $('input').on('focus', (e) => {
-      const target = $('input').index(e.currentTarget);
-      document.body.scrollTop = ($('input').eq(target)[0].scrollHeight - 50);
-    });
-  }
-
-}
-
-export interface Request_GetTCheckout extends Model_ShareData {
-  List_Cart: AFP_Cart[];
-}
-
-export interface Response_GetTCheckout extends Model_ShareData {
-  List_ECStore: AFP_ECStore[];
-  List_Cart: AFP_Cart[];
 }
 
 export class OrderInfo {
@@ -552,26 +731,29 @@ export class OrderInfo {
     this.preInvoice = new OrderInvoice();
     this.invoice = new OrderInvoice();
     this.total = 0;
+    this.totalFreight = 0;
     this.totalDiscount = 0;
     this.payment = 0;
   }
-  name: string;
-  phone: string;
-  email: string;
+
+  /** 須結帳店家(訂單) */
   stores: OrderStore[];
   /** 平台折扣相關資訊 */
   platform: OrderPlatform;
-  tickets: AFP_Product[];
   /** 總計商品金額 */
   total: number;
+  /** 總計運費金額 */
+  totalFreight: number;
   /** 總計折扣金額 */
   totalDiscount: number;
   /** 實際付款金額 */
   payment: number;
   /** 優惠內容顯示資訊 */
   voucherInfo: OrderVoucher[];
-  /** 是否有可顯示的優惠券 */
   visibleVouchers: boolean;
+  name: string;
+  phone: string;
+  email: string;
   /** 選擇中的發票資訊 */
   preInvoice: OrderInvoice;
   /** 已確認的發票資訊 */
@@ -587,15 +769,4 @@ export class Request_CreateOrder extends Model_ShareData {
 export class Response_CreateOrder extends Model_ShareData {
   OrderNo: string;
   UserVoucher_ID?: number;
-}
-
-export interface Request_CreateTOrder extends Model_ShareData {
-  List_Order: AFP_Order[];
-  List_UserVoucher: AFP_UserVoucher[];
-  List_Cart: AFP_Cart[];
-}
-
-export interface Response_CreateTOrder extends Model_ShareData {
-  OrderNo: string;
-  UserVoucher_ID: number;
 }

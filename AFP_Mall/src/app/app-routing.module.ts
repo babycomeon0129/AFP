@@ -23,8 +23,8 @@ import { TrafficComponent } from './views/traffic/traffic.component';
 // import { AppLoginComponent } from './views/app-login/app-login.component';
 // import { AppLoginSuccessComponent } from './views/app-login-success/app-login-success.component';
 // import { ShoppingCartComponent } from './views/shopping-cart/shopping-cart.component';
-import { ShoppingOrderComponent } from './views/shopping-order/shopping-order.component';
-import { ShoppingPaymentComponent } from './views/shopping-payment/shopping-payment.component';
+// import { ShoppingOrderComponent } from './views/shopping-order/shopping-order.component';
+// import { ShoppingPaymentComponent } from './views/shopping-payment/shopping-payment.component';
 // import { AppRedirectComponent } from './views/app-redirect/app-redirect.component';
 import { ShoppingOffersComponent } from './views/shopping-offers/shopping-offers.component';
 import { VoucherDetailComponent } from './views/voucher-detail/voucher-detail.component';
@@ -32,7 +32,7 @@ import { MyOrderDetailComponent } from './views/my-order-detail/my-order-detail.
 import { ReturnComponent } from './views/return/return.component';
 import { ReturnDetailComponent } from './views/return-detail/return-detail.component';
 import { ReturnDialogComponent } from './views/return-dialog/return-dialog.component';
-import { OrderCompleteComponent } from './views/order-complete/order-complete.component';
+// import { OrderCompleteComponent } from './views/order-complete/order-complete.component';
 import { OffersComponent } from './views/offers/offers.component';
 import { SalesComponent } from './views/sales/sales.component';
 import { NotificationComponent } from './views/notification/notification.component';
@@ -44,7 +44,7 @@ import { GameCenterComponent } from './views/game-center/game-center.component';
 import { QAComponent } from './views/qa/qa.component';
 import { EventComponent } from './views/event/event.component';
 import { GameComponent } from './views/game/game.component';
-import { ETicketOrderComponent } from './views/eticket-order/eticket-order.component';
+// import { ETicketOrderComponent } from './views/eticket-order/eticket-order.component';
 import { ETicketDetailComponent } from './views/eticket-detail/eticket-detail.component';
 import { ETicketOrderDetailComponent } from './views/eticket-order-detail/eticket-order-detail.component';
 // import { DeliveryInfoComponent } from './views/delivery-info/delivery-info.component';
@@ -57,9 +57,10 @@ import { NotificationDetailComponent } from './views/notification-detail/notific
 const routes: Routes = [
   // { path: '', canActivate: [SessionAliveGuard], component: EntranceComponent, data: {animation: 'Entrance'} },
   { path: '', loadChildren: () => import('./views/entrance/entrance.module').then(m => m.EntranceModule)},
-  { path: 'Function', loadChildren: () => import('./views/function/function.module').then(m => m.FunctionModule)},
   { path: 'Explore', loadChildren: () => import('./views/explore/explore.module').then(m => m.ExploreModule)},
   { path: 'Shopping', loadChildren: () => import('./views/shopping/shopping.module').then(m => m.ShoppingModule)},
+  { path: 'Order', loadChildren: () => import('./views/order/order.module').then(m => m.OrderModule)},
+  { path: 'Function', loadChildren: () => import('./views/function/function.module').then(m => m.FunctionModule)},
   // { path: 'Travel', canActivate: [SessionAliveGuard], component: TravelComponent },
   // { path: 'ExploreMap', canActivate: [SessionAliveGuard], component: ExploreMapComponent },
   // { path: 'Shopping', canActivate: [SessionAliveGuard], component: ShoppingComponent },

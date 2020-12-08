@@ -6,7 +6,7 @@ import { AppService } from 'src/app/app.service';
 @Component({
   selector: 'app-order-result',
   templateUrl: './order-result.component.html',
-  styleUrls: ['../../../dist/style/shopping-index.min.css']
+  styleUrls: ['../../../../dist/style/shopping-index.min.css']
 })
 export class OrderResultComponent implements OnInit {
 

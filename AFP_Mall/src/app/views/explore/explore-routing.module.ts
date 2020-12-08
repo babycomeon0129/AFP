@@ -8,15 +8,11 @@ import { ExploreMapComponent } from './explore-map/explore-map.component';
 import { DeliveryInfoComponent } from './delivery-info/delivery-info.component';
 
 const routes: Routes = [
-  { path: '', canActivate: [SessionAliveGuard],
-    children: [
-      { path: 'ExploreMap', canActivate: [SessionAliveGuard], component: ExploreMapComponent },
-      { path: 'ExploreList/:AreaMenu_Code', canActivate: [SessionAliveGuard], component: ExploreListComponent },
-      { path: 'ExploreList', canActivate: [SessionAliveGuard], component: ExploreListComponent },
-      { path: 'ExploreDetail/:ECStore_Code', canActivate: [SessionAliveGuard], component: ExploreDetailComponent },
-      { path: 'DeliveryInfo/:ECStore_Code', component: DeliveryInfoComponent}
-    ]
-  }
+  { path: 'ExploreMap', canActivate: [SessionAliveGuard], component: ExploreMapComponent },
+  { path: 'ExploreList/:AreaMenu_Code', canActivate: [SessionAliveGuard], component: ExploreListComponent },
+  { path: 'ExploreList', canActivate: [SessionAliveGuard], component: ExploreListComponent },
+  { path: 'ExploreDetail/:ECStore_Code', canActivate: [SessionAliveGuard], component: ExploreDetailComponent },
+  { path: 'DeliveryInfo/:ECStore_Code', component: DeliveryInfoComponent}
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

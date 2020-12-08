@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { ModalService } from '../../shared/modal/modal.service';
+import { ModalService } from '../../../shared/modal/modal.service';
 import { Router, NavigationExtras } from '@angular/router';
 import { Model_ShareData, AFP_CSPayment, AFP_UserFavourite, OrderInvoice } from 'src/app/_models';
 import { environment } from 'src/environments/environment';
@@ -11,7 +11,7 @@ declare var $: any;
 @Component({
   selector: 'app-shopping-payment',
   templateUrl: './shopping-payment.component.html',
-  styleUrls: ['../../../dist/style/shopping-index.min.css']
+  styleUrls: ['../../../../dist/style/shopping-index.min.css']
 })
 export class ShoppingPaymentComponent implements OnInit {
   public apiUrl = environment.apiUrl;

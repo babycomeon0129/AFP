@@ -52,15 +52,15 @@ import { TrafficComponent } from './views/traffic/traffic.component';
 // import { ProductListComponent } from './views/product-list/product-list.component';
 // import { ProductDetailComponent } from './views/product-detail/product-detail.component';
 // import { ShoppingCartComponent } from './views/shopping-cart/shopping-cart.component';
-import { ShoppingOrderComponent } from './views/shopping-order/shopping-order.component';
+// import { ShoppingOrderComponent } from './views/shopping-order/shopping-order.component';
 import { ShoppingOffersComponent } from './views/shopping-offers/shopping-offers.component';
 import { VoucherDetailComponent } from './views/voucher-detail/voucher-detail.component';
 import { MyOrderDetailComponent } from './views/my-order-detail/my-order-detail.component';
 import { ReturnComponent } from './views/return/return.component';
 import { ReturnDetailComponent } from './views/return-detail/return-detail.component';
 import { ReturnDialogComponent } from './views/return-dialog/return-dialog.component';
-import { OrderCompleteComponent } from './views/order-complete/order-complete.component';
-import { ShoppingPaymentComponent } from './views/shopping-payment/shopping-payment.component';
+// import { OrderCompleteComponent } from './views/order-complete/order-complete.component';
+// import { ShoppingPaymentComponent } from './views/shopping-payment/shopping-payment.component';
 import { OffersComponent } from './views/offers/offers.component';
 import { SalesComponent } from './views/sales/sales.component';
 import { NotificationComponent } from './views/notification/notification.component';
@@ -70,7 +70,7 @@ import { LuckyspinComponent } from './views/game/luckyspin/luckyspin.component';
 import { ScratchComponent } from './views/game/scratch/scratch.component';
 import { GameCenterComponent } from './views/game-center/game-center.component';
 import { QAComponent } from './views/qa/qa.component';
-import { OrderResultComponent } from './views/order-result/order-result.component';
+// import { OrderResultComponent } from './views/order-result/order-result.component';
 import { EventComponent } from './views/event/event.component';
 import { HomeComponent } from './views/member/home/home.component';
 import { SettingComponent } from './views/member/setting/setting.component';
@@ -81,7 +81,7 @@ import { PasswordUpdateComponent } from './views/member/password-update/password
 import { MyPaymentComponent } from './views/member/my-payment/my-payment.component';
 import { ThirdBindingComponent } from './views/member/third-binding/third-binding.component';
 import { MaintenanceComponent } from './views/maintenance/maintenance.component';
-import { ETicketOrderComponent } from './views/eticket-order/eticket-order.component';
+// import { ETicketOrderComponent } from './views/eticket-order/eticket-order.component';
 import { ETicketDetailComponent } from './views/eticket-detail/eticket-detail.component';
 import { ETicketOrderDetailComponent } from './views/eticket-order-detail/eticket-order-detail.component';
 // import { DeliveryInfoComponent } from './views/delivery-info/delivery-info.component';
@@ -127,15 +127,15 @@ defineLocale('zh-cn', zhCnLocale);
     // ProductListComponent,
     // ProductDetailComponent,
     // ShoppingCartComponent,
-    ShoppingOrderComponent,
+    // ShoppingOrderComponent,
     ShoppingOffersComponent,
     VoucherDetailComponent,
     MyOrderDetailComponent,
     ReturnComponent,
     ReturnDetailComponent,
     ReturnDialogComponent,
-    OrderCompleteComponent,
-    ShoppingPaymentComponent,
+    // OrderCompleteComponent,
+    // ShoppingPaymentComponent,
     OffersComponent,
     SalesComponent,
     NotificationComponent,
@@ -145,7 +145,7 @@ defineLocale('zh-cn', zhCnLocale);
     ScratchComponent,
     GameCenterComponent,
     QAComponent,
-    OrderResultComponent,
+    // OrderResultComponent,
     EventComponent,
     HomeComponent,
     SettingComponent,
@@ -156,7 +156,7 @@ defineLocale('zh-cn', zhCnLocale);
     MyPaymentComponent,
     ThirdBindingComponent,
     MaintenanceComponent,
-    ETicketOrderComponent,
+    // ETicketOrderComponent,
     ETicketDetailComponent,
     ETicketOrderDetailComponent,
     // DeliveryInfoComponent,
@@ -170,7 +170,7 @@ defineLocale('zh-cn', zhCnLocale);
     BrowserModule,
     // MaintenanceRoutingModule, // 系統維護或大更新時取消註解，並手動更新maintenance.html中的日期及時間
     ShredModule,
-    MemberRoutingModule,
+    // MemberRoutingModule,
     AppRoutingModule,
     HttpClientModule,
     SocialLoginModule,

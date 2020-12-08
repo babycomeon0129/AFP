@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppService } from 'src/app/app.service';
-import { AFP_MemberOrder, Model_ShareData } from '../../_models';
+import { AFP_MemberOrder, Model_ShareData } from '../../../_models';
 import { CookieService } from 'ngx-cookie-service';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-order-complete',
   templateUrl: './order-complete.component.html',
-  styleUrls: ['../../../dist/style/shopping-index.min.css']
+  styleUrls: ['../../../../dist/style/shopping-index.min.css']
 })
 export class OrderCompleteComponent implements OnInit {
 
