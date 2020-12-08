@@ -445,7 +445,7 @@
     </div>
   </main>
   <!-- 進場廣告 -->
-  <div class="enterbox" *ngIf="appService.adIndexOpen && adIndexTime">
+  <div class="enterbox" *ngIf="appService.adIndexOpen && adIndexTime && adIndex.length > 0">
     <swiper class="enterswiper swiper-container" [config]="adIndexOption">
       <button type="button" class="btn enterCloseBtn" (click)="adIndexClose()">
         <img src="img/share/close.png"></button>

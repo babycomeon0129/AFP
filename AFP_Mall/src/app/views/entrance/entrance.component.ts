@@ -288,6 +288,10 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
           this.deliveryArea = data.List_DeliveryData;
           this.nowVoucher = data.List_Voucher;
           this.adIndex = data.ADImg_Approach;
+          // 如果進場廣告只有一張，則不輪播
+          if ( this.adIndex.length === 1) {
+            this.adIndexOption.loop = false;
+          }
           break;
         case 2:
           this.userName = sessionStorage.getItem('userName');
