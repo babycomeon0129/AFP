@@ -15,7 +15,6 @@ import { TrafficComponent } from './views/traffic/traffic.component';
 import { MyOrderDetailComponent } from './views/my-order-detail/my-order-detail.component';
 import { NotificationComponent } from './views/notification/notification.component';
 import { MissionComponent } from './views/mission/mission.component';
-import { GameCenterComponent } from './views/game-center/game-center.component';
 import { QAComponent } from './views/qa/qa.component';
 import { GameComponent } from './views/game/game.component';
 import { ETicketDetailComponent } from './views/eticket-detail/eticket-detail.component';
@@ -30,6 +29,7 @@ const routes: Routes = [
   { path: 'Shopping', loadChildren: () => import('./views/shopping/shopping.module').then(m => m.ShoppingModule)},
   { path: 'Order', loadChildren: () => import('./views/order/order.module').then(m => m.OrderModule)},
   { path: 'Voucher', loadChildren: () => import('./views/voucher/voucher.module').then(m => m.VoucherModule)},
+  { path: 'Game', loadChildren: () => import('./views/game/game.module').then(m => m.GameModule)},
 
   { path: 'Function', loadChildren: () => import('./views/function/function.module').then(m => m.FunctionModule)},
   // { path: 'Travel', canActivate: [SessionAliveGuard], component: TravelComponent },
@@ -51,8 +51,6 @@ const routes: Routes = [
   // { path: 'Notification', component: NotificationComponent },
   // { path: 'Notification/:IMessage_Code', component: NotificationDetailComponent },
   // { path: 'Mission', canActivate: [SessionAliveGuard], component: MissionComponent },
-  // { path: 'Game/:Game_Code', canActivate: [SessionAliveGuard], component: GameComponent },
-  // { path: 'GameCenter', canActivate: [SessionAliveGuard], component: GameCenterComponent },
   // { path: 'QA', component: QAComponent },
   // { path: 'ETicketOrder', component: ETicketOrderComponent},
   // { path: 'ETicketDetail/:UserTicket_Code', component: ETicketDetailComponent},

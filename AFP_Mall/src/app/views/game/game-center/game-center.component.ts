@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Model_ShareData, AFP_ADImg, AFP_Game } from '../../_models';
+import { Model_ShareData, AFP_ADImg, AFP_Game } from '../../../_models';
 import { AppService } from 'src/app/app.service';
 import { Router } from '@angular/router';
-import { ModalService } from '../../shared/modal/modal.service';
+import { ModalService } from '../../../shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({

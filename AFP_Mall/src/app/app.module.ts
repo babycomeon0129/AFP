@@ -65,10 +65,10 @@ import { MyOrderDetailComponent } from './views/my-order-detail/my-order-detail.
 // import { SalesComponent } from './views/sales/sales.component';
 import { NotificationComponent } from './views/notification/notification.component';
 import { MissionComponent } from './views/mission/mission.component';
-import { GameComponent } from './views/game/game.component';
-import { LuckyspinComponent } from './views/game/luckyspin/luckyspin.component';
-import { ScratchComponent } from './views/game/scratch/scratch.component';
-import { GameCenterComponent } from './views/game-center/game-center.component';
+// import { GameComponent } from './views/game/game.component';
+// import { LuckyspinComponent } from './views/game/luckyspin/luckyspin.component';
+// import { ScratchComponent } from './views/game/scratch/scratch.component';
+
 import { QAComponent } from './views/qa/qa.component';
 // import { OrderResultComponent } from './views/order-result/order-result.component';
 // import { EventComponent } from './views/event/event.component';
@@ -140,10 +140,10 @@ defineLocale('zh-cn', zhCnLocale);
     // SalesComponent,
     NotificationComponent,
     MissionComponent,
-    GameComponent,
-    LuckyspinComponent,
-    ScratchComponent,
-    GameCenterComponent,
+    // GameComponent,
+    // LuckyspinComponent,
+    // ScratchComponent,
+    // GameCenterComponent,
     QAComponent,
     // OrderResultComponent,
     // EventComponent,
