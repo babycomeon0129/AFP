@@ -10,7 +10,6 @@ import { MemberDiscountComponent } from './views/member-discount/member-discount
 import { MemberFavoriteComponent } from './views/member-favorite/member-favorite.component';
 import { MemberOrderComponent } from './views/member-order/member-order.component';
 import { MyOrderDetailComponent } from './views/my-order-detail/my-order-detail.component';
-import { MissionComponent } from './views/mission/mission.component';
 import { GameComponent } from './views/game/game.component';
 import { ETicketDetailComponent } from './views/eticket-detail/eticket-detail.component';
 import { ETicketOrderDetailComponent } from './views/eticket-order-detail/eticket-order-detail.component';
@@ -26,6 +25,7 @@ const routes: Routes = [
   { path: 'Game', loadChildren: () => import('./views/game/game.module').then(m => m.GameModule)},
   { path: 'Notification', loadChildren: () => import('./views/notification/notification.module').then(m => m.NotificationModule)},
   { path: 'Info', loadChildren: () => import('./views/info/info.module').then(m => m.InfoModule)},
+  { path: 'Mission', loadChildren: () => import('./views/mission/mission.module').then(m => m.MissionModule)},
 
   { path: 'Function', loadChildren: () => import('./views/function/function.module').then(m => m.FunctionModule)},
   // { path: 'Travel', canActivate: [SessionAliveGuard], component: TravelComponent },
@@ -42,7 +42,6 @@ const routes: Routes = [
   // { path: 'MemberFood', component: MemberFoodComponent, data: {animation: 'MemberFood'}},
   // { path: 'MyOrderDetail/:Order_TableNo', canActivate: [SessionAliveGuard], component: MyOrderDetailComponent },
   // { path: 'Mission', canActivate: [SessionAliveGuard], component: MissionComponent },
-  // { path: 'ETicketOrder', component: ETicketOrderComponent},
   // { path: 'ETicketDetail/:UserTicket_Code', component: ETicketDetailComponent},
   // { path: 'ETicketOrderDetail/:Order_TableNo', component: ETicketOrderDetailComponent},
 ];

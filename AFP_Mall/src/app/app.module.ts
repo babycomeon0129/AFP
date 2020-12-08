@@ -63,7 +63,7 @@ import { MyOrderDetailComponent } from './views/my-order-detail/my-order-detail.
 // import { ShoppingPaymentComponent } from './views/shopping-payment/shopping-payment.component';
 // import { OffersComponent } from './views/offers/offers.component';
 // import { SalesComponent } from './views/sales/sales.component';
-import { MissionComponent } from './views/mission/mission.component';
+// import { MissionComponent } from './views/mission/mission.component';
 // import { GameComponent } from './views/game/game.component';
 // import { LuckyspinComponent } from './views/game/luckyspin/luckyspin.component';
 // import { ScratchComponent } from './views/game/scratch/scratch.component';
@@ -132,7 +132,7 @@ defineLocale('zh-cn', zhCnLocale);
     // ShoppingPaymentComponent,
     // OffersComponent,
     // SalesComponent,
-    MissionComponent,
+    // MissionComponent,
     // GameComponent,
     // LuckyspinComponent,
     // ScratchComponent,

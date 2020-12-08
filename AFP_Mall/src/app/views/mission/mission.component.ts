@@ -127,7 +127,7 @@ export class MissionComponent implements OnInit, DoCheck {
         case 2:
           if (mission.Mission_CurrentURL.indexOf('eyesmedia.com.tw/feedback') > 0) {
             const strUser = '?customerInfo=' + sessionStorage.getItem('CustomerInfo') + '&userCode=' + sessionStorage.getItem('userCode') + '&userName=' + sessionStorage.getItem('userName') + '&loginType=1';
-            let device = {system : '', isApp: this.appService.isApp !== null ? strUser + '&isApp=1' : ''};
+            const device = {system : '', isApp: this.appService.isApp !== null ? strUser + '&isApp=1' : ''};
             //  Justka特別處理
             if (navigator.userAgent.match(/android/i)) {
               //  Android
