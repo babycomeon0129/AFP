@@ -5,7 +5,7 @@ import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-traffic',
   templateUrl: './traffic.component.html',
-  styleUrls: ['../../../dist/style/traffic.min.css']
+  styleUrls: ['../../../../dist/style/traffic.min.css']
 })
 export class TrafficComponent implements OnInit {
 

@@ -9,12 +9,8 @@ import { MemberCoinComponent } from './views/member-coin//member-coin.component'
 import { MemberDiscountComponent } from './views/member-discount/member-discount.component';
 import { MemberFavoriteComponent } from './views/member-favorite/member-favorite.component';
 import { MemberOrderComponent } from './views/member-order/member-order.component';
-import { TermsComponent } from './views/terms/terms.component';
-import { PrivacyComponent } from './views/privacy/privacy.component';
-import { TrafficComponent } from './views/traffic/traffic.component';
 import { MyOrderDetailComponent } from './views/my-order-detail/my-order-detail.component';
 import { MissionComponent } from './views/mission/mission.component';
-import { QAComponent } from './views/qa/qa.component';
 import { GameComponent } from './views/game/game.component';
 import { ETicketDetailComponent } from './views/eticket-detail/eticket-detail.component';
 import { ETicketOrderDetailComponent } from './views/eticket-order-detail/eticket-order-detail.component';
@@ -29,6 +25,7 @@ const routes: Routes = [
   { path: 'Voucher', loadChildren: () => import('./views/voucher/voucher.module').then(m => m.VoucherModule)},
   { path: 'Game', loadChildren: () => import('./views/game/game.module').then(m => m.GameModule)},
   { path: 'Notification', loadChildren: () => import('./views/notification/notification.module').then(m => m.NotificationModule)},
+  { path: 'Info', loadChildren: () => import('./views/info/info.module').then(m => m.InfoModule)},
 
   { path: 'Function', loadChildren: () => import('./views/function/function.module').then(m => m.FunctionModule)},
   // { path: 'Travel', canActivate: [SessionAliveGuard], component: TravelComponent },
@@ -43,12 +40,8 @@ const routes: Routes = [
   // { path: 'MemberFavorite', component: MemberFavoriteComponent, data: {animation: 'MemberFavorite'}},
   // { path: 'MemberOrder', component: MemberOrderComponent, data: {animation: 'MemberOrder'}},
   // { path: 'MemberFood', component: MemberFoodComponent, data: {animation: 'MemberFood'}},
-  // { path: 'Terms', component: TermsComponent },
-  // { path: 'Privacy', component: PrivacyComponent },
-  // { path: 'Traffic', component: TrafficComponent },
   // { path: 'MyOrderDetail/:Order_TableNo', canActivate: [SessionAliveGuard], component: MyOrderDetailComponent },
   // { path: 'Mission', canActivate: [SessionAliveGuard], component: MissionComponent },
-  // { path: 'QA', component: QAComponent },
   // { path: 'ETicketOrder', component: ETicketOrderComponent},
   // { path: 'ETicketDetail/:UserTicket_Code', component: ETicketDetailComponent},
   // { path: 'ETicketOrderDetail/:Order_TableNo', component: ETicketOrderDetailComponent},

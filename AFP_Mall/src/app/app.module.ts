@@ -46,9 +46,9 @@ import { MemberDiscountComponent } from './views/member-discount/member-discount
 import { MemberFavoriteComponent } from './views/member-favorite/member-favorite.component';
 import { MemberOrderComponent } from './views/member-order/member-order.component';
 import { MessageModalComponent } from './shared/modal/message-modal/message-modal.component';
-import { TermsComponent } from './views/terms/terms.component';
-import { PrivacyComponent } from './views/privacy/privacy.component';
-import { TrafficComponent } from './views/traffic/traffic.component';
+// import { TermsComponent } from './views/terms/terms.component';
+// import { PrivacyComponent } from './views/privacy/privacy.component';
+// import { TrafficComponent } from './views/traffic/traffic.component';
 // import { ProductListComponent } from './views/product-list/product-list.component';
 // import { ProductDetailComponent } from './views/product-detail/product-detail.component';
 // import { ShoppingCartComponent } from './views/shopping-cart/shopping-cart.component';
@@ -68,7 +68,6 @@ import { MissionComponent } from './views/mission/mission.component';
 // import { LuckyspinComponent } from './views/game/luckyspin/luckyspin.component';
 // import { ScratchComponent } from './views/game/scratch/scratch.component';
 
-import { QAComponent } from './views/qa/qa.component';
 // import { OrderResultComponent } from './views/order-result/order-result.component';
 // import { EventComponent } from './views/event/event.component';
 import { HomeComponent } from './views/member/home/home.component';
@@ -119,9 +118,6 @@ defineLocale('zh-cn', zhCnLocale);
     MemberDiscountComponent,
     MemberFavoriteComponent,
     MemberOrderComponent,
-    TermsComponent,
-    PrivacyComponent,
-    TrafficComponent,
     // ProductListComponent,
     // ProductDetailComponent,
     // ShoppingCartComponent,
@@ -141,7 +137,6 @@ defineLocale('zh-cn', zhCnLocale);
     // LuckyspinComponent,
     // ScratchComponent,
     // GameCenterComponent,
-    QAComponent,
     // OrderResultComponent,
     // EventComponent,
     HomeComponent,
