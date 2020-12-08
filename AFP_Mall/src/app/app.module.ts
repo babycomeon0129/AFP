@@ -56,9 +56,9 @@ import { TrafficComponent } from './views/traffic/traffic.component';
 import { ShoppingOffersComponent } from './views/shopping-offers/shopping-offers.component';
 import { VoucherDetailComponent } from './views/voucher-detail/voucher-detail.component';
 import { MyOrderDetailComponent } from './views/my-order-detail/my-order-detail.component';
-import { ReturnComponent } from './views/return/return.component';
-import { ReturnDetailComponent } from './views/return-detail/return-detail.component';
-import { ReturnDialogComponent } from './views/return-dialog/return-dialog.component';
+// import { ReturnComponent } from './views/return/return.component';
+// import { ReturnDetailComponent } from './views/return-detail/return-detail.component';
+// import { ReturnDialogComponent } from './views/return-dialog/return-dialog.component';
 // import { OrderCompleteComponent } from './views/order-complete/order-complete.component';
 // import { ShoppingPaymentComponent } from './views/shopping-payment/shopping-payment.component';
 import { OffersComponent } from './views/offers/offers.component';
@@ -131,9 +131,9 @@ defineLocale('zh-cn', zhCnLocale);
     ShoppingOffersComponent,
     VoucherDetailComponent,
     MyOrderDetailComponent,
-    ReturnComponent,
-    ReturnDetailComponent,
-    ReturnDialogComponent,
+    // ReturnComponent,
+    // ReturnDetailComponent,
+    // ReturnDialogComponent,
     // OrderCompleteComponent,
     // ShoppingPaymentComponent,
     OffersComponent,
