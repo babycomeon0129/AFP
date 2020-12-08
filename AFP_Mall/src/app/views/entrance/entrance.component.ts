@@ -288,7 +288,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
           this.deliveryArea = data.List_DeliveryData;
           this.nowVoucher = data.List_Voucher;
           this.adIndex = data.ADImg_Approach;
-          if ( this.adIndex.length === 1){
+          if ( this.adIndex.length === 1) {
             this.adIndexOption.loop = false;
           }
           break;
