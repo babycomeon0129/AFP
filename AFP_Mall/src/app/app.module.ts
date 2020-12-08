@@ -63,7 +63,6 @@ import { MyOrderDetailComponent } from './views/my-order-detail/my-order-detail.
 // import { ShoppingPaymentComponent } from './views/shopping-payment/shopping-payment.component';
 // import { OffersComponent } from './views/offers/offers.component';
 // import { SalesComponent } from './views/sales/sales.component';
-import { NotificationComponent } from './views/notification/notification.component';
 import { MissionComponent } from './views/mission/mission.component';
 // import { GameComponent } from './views/game/game.component';
 // import { LuckyspinComponent } from './views/game/luckyspin/luckyspin.component';
@@ -86,7 +85,6 @@ import { ETicketDetailComponent } from './views/eticket-detail/eticket-detail.co
 import { ETicketOrderDetailComponent } from './views/eticket-order-detail/eticket-order-detail.component';
 // import { DeliveryInfoComponent } from './views/delivery-info/delivery-info.component';
 import { MemberFoodComponent } from './views/member-food/member-food.component';
-import { NotificationDetailComponent } from './views/notification-detail/notification-detail.component';
 // import { DirectiveModuleModule } from './shared/directive/directive-module.module';
 import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 
@@ -138,7 +136,6 @@ defineLocale('zh-cn', zhCnLocale);
     // ShoppingPaymentComponent,
     // OffersComponent,
     // SalesComponent,
-    NotificationComponent,
     MissionComponent,
     // GameComponent,
     // LuckyspinComponent,
@@ -161,7 +158,6 @@ defineLocale('zh-cn', zhCnLocale);
     ETicketOrderDetailComponent,
     // DeliveryInfoComponent,
     MemberFoodComponent,
-    NotificationDetailComponent
   ],
   entryComponents: [
     // ExploreMapComponent

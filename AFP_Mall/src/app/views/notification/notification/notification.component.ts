@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { Request_MemberMsg, Response_MemberMsg, AFP_MemberMsgTitle, AFP_IMessage } from '../../_models';
+import { Request_MemberMsg, Response_MemberMsg, AFP_MemberMsgTitle, AFP_IMessage } from '../../../_models';
 import { Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-notification',
   templateUrl: './notification.component.html',
-  styleUrls: ['../../../dist/style/notify.min.css']
+  styleUrls: ['../../../../dist/style/notify.min.css']
 })
 export class NotificationComponent implements OnInit, OnDestroy {
   /** 主頁：通知分類 */

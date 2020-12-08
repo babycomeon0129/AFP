@@ -13,14 +13,12 @@ import { TermsComponent } from './views/terms/terms.component';
 import { PrivacyComponent } from './views/privacy/privacy.component';
 import { TrafficComponent } from './views/traffic/traffic.component';
 import { MyOrderDetailComponent } from './views/my-order-detail/my-order-detail.component';
-import { NotificationComponent } from './views/notification/notification.component';
 import { MissionComponent } from './views/mission/mission.component';
 import { QAComponent } from './views/qa/qa.component';
 import { GameComponent } from './views/game/game.component';
 import { ETicketDetailComponent } from './views/eticket-detail/eticket-detail.component';
 import { ETicketOrderDetailComponent } from './views/eticket-order-detail/eticket-order-detail.component';
 import { MemberFoodComponent } from './views/member-food/member-food.component';
-import { NotificationDetailComponent } from './views/notification-detail/notification-detail.component';
 
 const routes: Routes = [
   // { path: '', canActivate: [SessionAliveGuard], component: EntranceComponent, data: {animation: 'Entrance'} },
@@ -30,6 +28,7 @@ const routes: Routes = [
   { path: 'Order', loadChildren: () => import('./views/order/order.module').then(m => m.OrderModule)},
   { path: 'Voucher', loadChildren: () => import('./views/voucher/voucher.module').then(m => m.VoucherModule)},
   { path: 'Game', loadChildren: () => import('./views/game/game.module').then(m => m.GameModule)},
+  { path: 'Notification', loadChildren: () => import('./views/notification/notification.module').then(m => m.NotificationModule)},
 
   { path: 'Function', loadChildren: () => import('./views/function/function.module').then(m => m.FunctionModule)},
   // { path: 'Travel', canActivate: [SessionAliveGuard], component: TravelComponent },
@@ -48,8 +47,6 @@ const routes: Routes = [
   // { path: 'Privacy', component: PrivacyComponent },
   // { path: 'Traffic', component: TrafficComponent },
   // { path: 'MyOrderDetail/:Order_TableNo', canActivate: [SessionAliveGuard], component: MyOrderDetailComponent },
-  // { path: 'Notification', component: NotificationComponent },
-  // { path: 'Notification/:IMessage_Code', component: NotificationDetailComponent },
   // { path: 'Mission', canActivate: [SessionAliveGuard], component: MissionComponent },
   // { path: 'QA', component: QAComponent },
   // { path: 'ETicketOrder', component: ETicketOrderComponent},
