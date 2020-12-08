@@ -32,7 +32,7 @@ import { SortablejsModule } from 'ngx-sortablejs';
 // Component
 import { AppComponent } from './app.component';
 // import { EntranceComponent } from './views/entrance/entrance.component';
-import { TravelComponent } from './views/travel/travel.component';
+// import { TravelComponent } from './views/travel/travel.component';
 // import { ExploreMapComponent } from './views/explore-map/explore-map.component';
 // import { ShoppingComponent } from './views/shopping/shopping.component';
 // import { ExploreListComponent } from './views/explore-list/explore-list.component';
@@ -106,7 +106,7 @@ defineLocale('zh-cn', zhCnLocale);
 @NgModule({
   declarations: [
     AppComponent,
-    TravelComponent,
+    // TravelComponent,
     // ExploreMapComponent,
     // ShoppingComponent,
     // ExploreListComponent,

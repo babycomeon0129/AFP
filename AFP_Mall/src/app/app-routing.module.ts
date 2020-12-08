@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
-import { TravelComponent } from './views/travel/travel.component';
 import { AuthUserGuard } from './shared/auth/auth-user.guard';
 import { SessionAliveGuard } from './shared/auth/session-alive.guard';
 import { MemberCardComponent } from './views/member-card/member-card.component';
@@ -26,9 +25,9 @@ const routes: Routes = [
   { path: 'Notification', loadChildren: () => import('./views/notification/notification.module').then(m => m.NotificationModule)},
   { path: 'Info', loadChildren: () => import('./views/info/info.module').then(m => m.InfoModule)},
   { path: 'Mission', loadChildren: () => import('./views/mission/mission.module').then(m => m.MissionModule)},
+  { path: 'Travel', loadChildren: () => import('./views/travel/travel.module').then(m => m.TravelModule)},
 
   { path: 'Function', loadChildren: () => import('./views/function/function.module').then(m => m.FunctionModule)},
-  // { path: 'Travel', canActivate: [SessionAliveGuard], component: TravelComponent },
   // { path: 'ExploreMap', canActivate: [SessionAliveGuard], component: ExploreMapComponent },
   // { path: 'ExploreList/:AreaMenu_Code', canActivate: [SessionAliveGuard], component: ExploreListComponent },
   // { path: 'ExploreList', canActivate: [SessionAliveGuard], component: ExploreListComponent },
