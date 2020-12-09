@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AppService } from '../../app.service';
 import { Response_MemberProfile, Request_MemberProfile, Request_MemberThird, Response_MemberThird,
-        AFP_UserThird } from './member.component';
+        AFP_UserThird } from './member/member.component';
 
 @Injectable()
 export class MemberService {

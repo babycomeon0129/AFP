@@ -18,7 +18,7 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { TextMaskModule } from 'angular2-text-mask';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MemberRoutingModule } from './views/member/member-routing.module';
+// import { MemberRoutingModule } from './views/member/member-routing.module';
 import { AngularResizedEventModule } from 'angular-resize-event';
 // 我的檔案-生日datepicker
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
@@ -38,13 +38,13 @@ import { AppComponent } from './app.component';
 // import { ExploreListComponent } from './views/explore-list/explore-list.component';
 // import { ExploreDetailComponent } from './views/explore-detail/explore-detail.component';
 import { environment } from './../environments/environment';
-import { MemberComponent } from './views/member/member.component';
-import { MemberCardComponent } from './views/member-card/member-card.component';
-import { MemberTicketComponent } from './views/member-ticket/member-ticket.component';
-import { MemberCoinComponent } from './views/member-coin/member-coin.component';
-import { MemberDiscountComponent } from './views/member-discount/member-discount.component';
-import { MemberFavoriteComponent } from './views/member-favorite/member-favorite.component';
-import { MemberOrderComponent } from './views/member-order/member-order.component';
+// import { MemberComponent } from './views/member/member.component';
+// import { MemberCardComponent } from './views/member-card/member-card.component';
+// import { MemberTicketComponent } from './views/member-ticket/member-ticket.component';
+// import { MemberCoinComponent } from './views/member-coin/member-coin.component';
+// import { MemberDiscountComponent } from './views/member-discount/member-discount.component';
+// import { MemberFavoriteComponent } from './views/member-favorite/member-favorite.component';
+// import { MemberOrderComponent } from './views/member-order/member-order.component';
 import { MessageModalComponent } from './shared/modal/message-modal/message-modal.component';
 // import { TermsComponent } from './views/terms/terms.component';
 // import { PrivacyComponent } from './views/privacy/privacy.component';
@@ -55,7 +55,7 @@ import { MessageModalComponent } from './shared/modal/message-modal/message-moda
 // import { ShoppingOrderComponent } from './views/shopping-order/shopping-order.component';
 // import { ShoppingOffersComponent } from './views/shopping-offers/shopping-offers.component';
 // import { VoucherDetailComponent } from './views/voucher-detail/voucher-detail.component';
-import { MyOrderDetailComponent } from './views/my-order-detail/my-order-detail.component';
+// import { MyOrderDetailComponent } from './views/my-order-detail/my-order-detail.component';
 // import { ReturnComponent } from './views/return/return.component';
 // import { ReturnDetailComponent } from './views/return-detail/return-detail.component';
 // import { ReturnDialogComponent } from './views/return-dialog/return-dialog.component';
@@ -70,20 +70,20 @@ import { MyOrderDetailComponent } from './views/my-order-detail/my-order-detail.
 
 // import { OrderResultComponent } from './views/order-result/order-result.component';
 // import { EventComponent } from './views/event/event.component';
-import { HomeComponent } from './views/member/home/home.component';
-import { SettingComponent } from './views/member/setting/setting.component';
-import { MyProfileComponent } from './views/member/my-profile/my-profile.component';
-import { CellVerificationComponent } from './views/member/cell-verification/cell-verification.component';
-import { MyAddressComponent } from './views/member/my-address/my-address.component';
-import { PasswordUpdateComponent } from './views/member/password-update/password-update.component';
-import { MyPaymentComponent } from './views/member/my-payment/my-payment.component';
-import { ThirdBindingComponent } from './views/member/third-binding/third-binding.component';
+// import { HomeComponent } from './views/member/home/home.component';
+// import { SettingComponent } from './views/member/setting/setting.component';
+// import { MyProfileComponent } from './views/member/my-profile/my-profile.component';
+// import { CellVerificationComponent } from './views/member/cell-verification/cell-verification.component';
+// import { MyAddressComponent } from './views/member/my-address/my-address.component';
+// import { PasswordUpdateComponent } from './views/member/password-update/password-update.component';
+// import { MyPaymentComponent } from './views/member/my-payment/my-payment.component';
+// import { ThirdBindingComponent } from './views/member/third-binding/third-binding.component';
 import { MaintenanceComponent } from './views/maintenance/maintenance.component';
 // import { ETicketOrderComponent } from './views/eticket-order/eticket-order.component';
-import { ETicketDetailComponent } from './views/eticket-detail/eticket-detail.component';
-import { ETicketOrderDetailComponent } from './views/eticket-order-detail/eticket-order-detail.component';
+// import { ETicketDetailComponent } from './views/eticket-detail/eticket-detail.component';
+// import { ETicketOrderDetailComponent } from './views/eticket-order-detail/eticket-order-detail.component';
 // import { DeliveryInfoComponent } from './views/delivery-info/delivery-info.component';
-import { MemberFoodComponent } from './views/member-food/member-food.component';
+// import { MemberFoodComponent } from './views/member-food/member-food.component';
 // import { DirectiveModuleModule } from './shared/directive/directive-module.module';
 import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 
@@ -111,20 +111,20 @@ defineLocale('zh-cn', zhCnLocale);
     // ShoppingComponent,
     // ExploreListComponent,
     // ExploreDetailComponent,
-    MemberComponent,
-    MemberCardComponent,
-    MemberTicketComponent,
-    MemberCoinComponent,
-    MemberDiscountComponent,
-    MemberFavoriteComponent,
-    MemberOrderComponent,
+    // MemberComponent,
+    // MemberCardComponent,
+    // MemberTicketComponent,
+    // MemberCoinComponent,
+    // MemberDiscountComponent,
+    // MemberFavoriteComponent,
+    // MemberOrderComponent,
     // ProductListComponent,
     // ProductDetailComponent,
     // ShoppingCartComponent,
     // ShoppingOrderComponent,
     // ShoppingOffersComponent,
     // VoucherDetailComponent,
-    MyOrderDetailComponent,
+    // MyOrderDetailComponent,
     // ReturnComponent,
     // ReturnDetailComponent,
     // ReturnDialogComponent,
@@ -139,20 +139,20 @@ defineLocale('zh-cn', zhCnLocale);
     // GameCenterComponent,
     // OrderResultComponent,
     // EventComponent,
-    HomeComponent,
-    SettingComponent,
-    MyProfileComponent,
-    CellVerificationComponent,
-    MyAddressComponent,
-    PasswordUpdateComponent,
-    MyPaymentComponent,
-    ThirdBindingComponent,
+    // HomeComponent,
+    // SettingComponent,
+    // MyProfileComponent,
+    // CellVerificationComponent,
+    // MyAddressComponent,
+    // PasswordUpdateComponent,
+    // MyPaymentComponent,
+    // ThirdBindingComponent,
     MaintenanceComponent,
     // ETicketOrderComponent,
-    ETicketDetailComponent,
-    ETicketOrderDetailComponent,
+    // ETicketDetailComponent,
+    // ETicketOrderDetailComponent,
     // DeliveryInfoComponent,
-    MemberFoodComponent,
+    // MemberFoodComponent,
   ],
   entryComponents: [
     // ExploreMapComponent

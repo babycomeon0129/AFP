@@ -2,17 +2,17 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { AuthUserGuard } from './shared/auth/auth-user.guard';
 import { SessionAliveGuard } from './shared/auth/session-alive.guard';
-import { MemberCardComponent } from './views/member-card/member-card.component';
-import { MemberTicketComponent } from './views/member-ticket/member-ticket.component';
-import { MemberCoinComponent } from './views/member-coin//member-coin.component';
-import { MemberDiscountComponent } from './views/member-discount/member-discount.component';
-import { MemberFavoriteComponent } from './views/member-favorite/member-favorite.component';
-import { MemberOrderComponent } from './views/member-order/member-order.component';
-import { MyOrderDetailComponent } from './views/my-order-detail/my-order-detail.component';
+// import { MemberCardComponent } from './views/member-card/member-card.component';
+// import { MemberTicketComponent } from './views/member-ticket/member-ticket.component';
+// import { MemberCoinComponent } from './views/member-coin//member-coin.component';
+// import { MemberDiscountComponent } from './views/member-discount/member-discount.component';
+// import { MemberFavoriteComponent } from './views/member-favorite/member-favorite.component';
+// import { MemberOrderComponent } from './views/member-order/member-order.component';
+// import { MyOrderDetailComponent } from './views/my-order-detail/my-order-detail.component';
 import { GameComponent } from './views/game/game.component';
-import { ETicketDetailComponent } from './views/eticket-detail/eticket-detail.component';
-import { ETicketOrderDetailComponent } from './views/eticket-order-detail/eticket-order-detail.component';
-import { MemberFoodComponent } from './views/member-food/member-food.component';
+// import { ETicketDetailComponent } from './views/eticket-detail/eticket-detail.component';
+// import { ETicketOrderDetailComponent } from './views/eticket-order-detail/eticket-order-detail.component';
+// import { MemberFoodComponent } from './views/member-food/member-food.component';
 
 const routes: Routes = [
   // { path: '', canActivate: [SessionAliveGuard], component: EntranceComponent, data: {animation: 'Entrance'} },
@@ -26,23 +26,9 @@ const routes: Routes = [
   { path: 'Info', loadChildren: () => import('./views/info/info.module').then(m => m.InfoModule)},
   { path: 'Mission', loadChildren: () => import('./views/mission/mission.module').then(m => m.MissionModule)},
   { path: 'Travel', loadChildren: () => import('./views/travel/travel.module').then(m => m.TravelModule)},
-
-  { path: 'Function', loadChildren: () => import('./views/function/function.module').then(m => m.FunctionModule)},
-  // { path: 'ExploreMap', canActivate: [SessionAliveGuard], component: ExploreMapComponent },
-  // { path: 'ExploreList/:AreaMenu_Code', canActivate: [SessionAliveGuard], component: ExploreListComponent },
-  // { path: 'ExploreList', canActivate: [SessionAliveGuard], component: ExploreListComponent },
-  // { path: 'ExploreDetail/:ECStore_Code', canActivate: [SessionAliveGuard], component: ExploreDetailComponent },
-  // { path: 'MemberCard', canActivate: [SessionAliveGuard], component: MemberCardComponent},
-  // { path: 'MemberTicket', canActivate: [SessionAliveGuard], component: MemberTicketComponent},
-  // { path: 'MemberCoin', canActivate: [SessionAliveGuard], component: MemberCoinComponent},
-  // { path: 'MemberDiscount', component: MemberDiscountComponent, data: {animation: 'MemberDiscount'}},
-  // { path: 'MemberFavorite', component: MemberFavoriteComponent, data: {animation: 'MemberFavorite'}},
-  // { path: 'MemberOrder', component: MemberOrderComponent, data: {animation: 'MemberOrder'}},
-  // { path: 'MemberFood', component: MemberFoodComponent, data: {animation: 'MemberFood'}},
-  // { path: 'MyOrderDetail/:Order_TableNo', canActivate: [SessionAliveGuard], component: MyOrderDetailComponent },
-  // { path: 'Mission', canActivate: [SessionAliveGuard], component: MissionComponent },
-  // { path: 'ETicketDetail/:UserTicket_Code', component: ETicketDetailComponent},
-  // { path: 'ETicketOrderDetail/:Order_TableNo', component: ETicketOrderDetailComponent},
+  { path: 'Member', loadChildren: () => import('./views/member/member/member.module').then(m => m.MemeberModule)},
+  { path: 'MemberFunction', loadChildren: () => import('./views/member/member-function/member-function.module').then(m => m.MemberFunctionModule)},
+  { path: 'Function', loadChildren: () => import('./views/function/function.module').then(m => m.FunctionModule)}
 ];
 
 // const extraOptions: ExtraOptions = {
