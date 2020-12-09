@@ -252,6 +252,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
 
   ngOnInit() {
     this.readHome(1);
+    this.getHomeservice();
     // 若有登入則顯示名字、M Points及優惠券資訊（手機版）、我的收藏
     if (this.appService.loginState) {
       this.userName = sessionStorage.getItem('userName');
@@ -275,6 +276,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
     };
     this.appService.openBlock();
     this.appService.toApi('Home', '1011', request).subscribe((data: Response_Home) => {
+      console.log(data);
       switch (mode) {
         case 1:
           this.adTop = data.ADImg_Top;
@@ -298,7 +300,6 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
           this.userVoucherCount = data.VoucherCount;
           break;
       }
-      this.getHomeservice();
     });
   }
 
