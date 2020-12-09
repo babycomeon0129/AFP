@@ -68,13 +68,13 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
 
   /** 送出驗證碼至手機 */
   sendVCode() {
-    this.remainingSec = 60; // 開始倒數60秒
     this.requestMobileVerify.User_Code = sessionStorage.getItem('userCode'),
     this.requestMobileVerify.SelectMode = 11;
     this.requestMobileVerify.VerifiedAction = this.toVerifyCell ? 11 : 3;
-
+    this.appService.openBlock();
     this.appService.toApi('Member', '1112', this.requestMobileVerify).subscribe((data: Response_AFPVerifyCode) => {
       this.requestMobileVerify.VerifiedInfo.CheckValue = data.VerifiedInfo.CheckValue;
+      this.remainingSec = 60; // 開始倒數60秒
       // 每秒更新剩餘秒數
       this.vcodeTimer = setInterval(() => {
         // 計算剩餘秒數
