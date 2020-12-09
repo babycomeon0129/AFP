@@ -1,13 +1,13 @@
 import { Component, OnInit, Input, AfterViewInit, OnDestroy } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { Response_Games, Request_Games, AFP_GamePart } from '../../../_models';
-import { ModalService } from '../../../shared/modal/modal.service';
+import { Response_Games, Request_Games, AFP_GamePart } from '../../../../_models';
+import { ModalService } from '../../../../shared/modal/modal.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-luckyspin',
   templateUrl: './luckyspin.component.html',
-  styleUrls: ['../../../../dist/style/mission.min.css']
+  styleUrls: ['../../../../../dist/style/mission.min.css']
 })
 export class LuckyspinComponent implements OnInit, AfterViewInit, OnDestroy {
   /** 遊戲資料（遊戲名稱、類型、格數、上方圖片、規則、遊玩一次所需點數。每次玩完不更新） */

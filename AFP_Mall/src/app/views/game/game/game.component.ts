@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
-import { Request_Games, Search_Game, Response_Games, AFP_Game, AFP_GamePart } from '../../_models';
+import { Request_Games, Search_Game, Response_Games, AFP_Game, AFP_GamePart } from '../../../_models';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
@@ -20,6 +20,9 @@ export class GameComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router, public appService: AppService
             , private meta: Meta, private title: Title) {
     this.gameCode = Number(this.route.snapshot.params.Game_Code);
+  }
+
+  ngOnInit() {
     const request: Request_Games = {
       User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 4,
@@ -38,9 +41,6 @@ export class GameComponent implements OnInit {
       this.meta.updateTag({ content: data.AFP_Game.Game_ExtName + ' - Mobii!', property: 'og:title' });
       this.meta.updateTag({ content: '', property: 'og:description' });
     });
-  }
-
-  ngOnInit() {
   }
 
 }
