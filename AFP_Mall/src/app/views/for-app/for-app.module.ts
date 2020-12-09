@@ -8,8 +8,6 @@ import { AppDownloadComponent } from './app-download/app-download.component';
 import { AppGoPaymentComponent } from './app-go-payment/app-go-payment.component';
 import { AppLogoutComponent } from './app-logout/app-logout.component';
 import { AppRedirectComponent } from './app-redirect/app-redirect.component';
-import { Error500Component } from './error500/error500.component';
-import { Error503Component } from './error503/error503.component';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 @NgModule({
@@ -17,9 +15,7 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
     AppRedirectComponent,
     AppGoPaymentComponent,
     AppLogoutComponent,
-    AppDownloadComponent,
-    Error500Component,
-    Error503Component
+    AppDownloadComponent
   ],
   imports: [
     ForAppRoutingModule,
@@ -31,9 +27,7 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
     AppRedirectComponent,
     AppGoPaymentComponent,
     AppLogoutComponent,
-    AppDownloadComponent,
-    Error500Component,
-    Error503Component
+    AppDownloadComponent
   ]
 })
 export class ForAppModule {}
