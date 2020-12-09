@@ -180,7 +180,7 @@ export class MyProfileComponent implements OnInit {
     // 避免部分瀏覽器沒有event.target選項(如IE6-8)
     const filesEvent  = event.target ? event.target : event.srcElement;
     const fd = new FormData();
-    // 圖片大小限制4MB ; 避免有些瀏覽器
+    // 圖片大小限制4MB
     if (filesEvent.files.length > 0 ) {
       if (filesEvent.files[0].size > 4194304 ) {
         this.modal.show('message', { initialState: { success: false, message: '圖片大小超過4MB，上傳失敗！', showType: 1 } });
