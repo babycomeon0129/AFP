@@ -1,10 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { LazyLoadImageModule } from 'ng-lazyload-image';
-import { NgxMasonryModule } from 'ngx-masonry';
 import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 import { QRCodeModule } from 'angularx-qrcode';
 

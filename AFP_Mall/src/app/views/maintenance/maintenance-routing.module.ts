@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { MaintenanceComponent } from './views/maintenance/maintenance.component';
+import { MaintenanceComponent } from '../maintenance/maintenance.component';
 import { Routes, RouterModule } from '@angular/router';
 
 // const routes: Routes = [
