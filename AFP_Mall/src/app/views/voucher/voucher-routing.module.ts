@@ -10,11 +10,12 @@ import { ShoppingOffersComponent } from './shopping-offers/shopping-offers.compo
 import { VoucherDetailComponent } from './voucher-detail/voucher-detail.component';
 
 const routes: Routes = [
-    { path: 'Event', component: EventComponent },
-    { path: 'Offers', component: OffersComponent },
-    { path: 'Sales', component: SalesComponent },
-    { path: 'ShoppingOffers', component: ShoppingOffersComponent },
-    { path: 'VoucherDetail/:Voucher_Code', canActivate: [SessionAliveGuard], component: VoucherDetailComponent }
+  { path: 'Event', component: EventComponent },
+  { path: 'Offers', component: OffersComponent },
+  { path: 'Sales', component: SalesComponent },
+  { path: 'ShoppingOffers', component: ShoppingOffersComponent },
+  { path: 'VoucherDetail/:Voucher_Code', canActivate: [SessionAliveGuard], component: VoucherDetailComponent },
+  { path: '', redirectTo: '/Shopping' }
 ];
 
 @NgModule({

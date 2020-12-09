@@ -10,7 +10,8 @@ const routes: Routes = [
   { path: 'ExploreMap', canActivate: [SessionAliveGuard], component: ExploreMapComponent },
   { path: 'ExploreList/:AreaMenu_Code', canActivate: [SessionAliveGuard], component: ExploreListComponent },
   { path: 'ExploreList', canActivate: [SessionAliveGuard], component: ExploreListComponent },
-  { path: 'ExploreDetail/:ECStore_Code', canActivate: [SessionAliveGuard], component: ExploreDetailComponent }
+  { path: 'ExploreDetail/:ECStore_Code', canActivate: [SessionAliveGuard], component: ExploreDetailComponent },
+  { path: '', redirectTo: 'ExploreMap' }
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

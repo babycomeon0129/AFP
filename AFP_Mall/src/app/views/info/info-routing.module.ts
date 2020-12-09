@@ -10,7 +10,8 @@ const routes: Routes = [
   { path: 'QA', component: QAComponent },
   { path: 'Terms', component: TermsComponent },
   { path: 'Privacy', component: PrivacyComponent },
-  { path: 'Traffic', component: TrafficComponent }
+  { path: 'Traffic', component: TrafficComponent },
+  { path: '', redirectTo: '/' }
 ];
 
 @NgModule({

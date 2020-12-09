@@ -10,7 +10,8 @@ import { ReturnComponent } from './return/return.component';
 const routes: Routes = [
   { path: ':Order_TableNo', canActivate: [SessionAliveGuard], component: ReturnComponent },
   { path: 'ReturnDetail/:Services_TableNo', component: ReturnDetailComponent },
-  { path: 'ReturnDialog/:Services_TableNo', component: ReturnDialogComponent }
+  { path: 'ReturnDialog/:Services_TableNo', component: ReturnDialogComponent },
+  { path: '', canActivate: [SessionAliveGuard], redirectTo: '/Member' }
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

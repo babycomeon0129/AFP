@@ -11,19 +11,14 @@ import { MyPaymentComponent } from './my-payment/my-payment.component';
 import { ThirdBindingComponent } from './third-binding/third-binding.component';
 
 const routes: Routes = [
-  {
-    path: '', component: MemberComponent, children: [
-      { path: '', component: HomeComponent, data: {animation: 'MemberHome'}  },
-      { path: 'Setting', component: SettingComponent, data: {animation: 'Setting'} },
-      { path: 'MyProfile', component: MyProfileComponent, data: {animation: 'MyProfile'} },
-      { path: 'CellVerification', component: CellVerificationComponent,
-        data: {animation: 'CellVerification'} },
-      { path: 'MyAddress', component: MyAddressComponent, data: {animation: 'MyAddress'} },
-      { path: 'MyPayment', component: MyPaymentComponent, data: {animation: 'MyPayment'} },
-      { path: 'PasswordUpdate', component: PasswordUpdateComponent, data: {animation: 'PasswordUpdate'} },
-      { path: 'ThirdBinding', component: ThirdBindingComponent, data: {animation: 'ThirdBinding'} }
-    ]
-  }
+  { path: '', component: HomeComponent, data: {animation: 'MemberHome'}  },
+  { path: 'Setting', component: SettingComponent, data: {animation: 'Setting'} },
+  { path: 'MyProfile', component: MyProfileComponent, data: {animation: 'MyProfile'} },
+  { path: 'CellVerification', component: CellVerificationComponent, data: {animation: 'CellVerification'} },
+  { path: 'MyAddress', component: MyAddressComponent, data: {animation: 'MyAddress'} },
+  { path: 'MyPayment', component: MyPaymentComponent, data: {animation: 'MyPayment'} },
+  { path: 'PasswordUpdate', component: PasswordUpdateComponent, data: {animation: 'PasswordUpdate'} },
+  { path: 'ThirdBinding', component: ThirdBindingComponent, data: {animation: 'ThirdBinding'} }
 ];
 
 @NgModule({

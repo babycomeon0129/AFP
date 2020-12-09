@@ -3,7 +3,8 @@ import { NgModule } from '@angular/core';
 import { DeliveryInfoComponent } from './delivery-info/delivery-info.component';
 
 const route: Routes = [
-  { path: 'DeliveryInfo/:ECStore_Code', component: DeliveryInfoComponent}
+  { path: 'DeliveryInfo/:ECStore_Code', component: DeliveryInfoComponent},
+  { path: '', redirectTo: '/'}
 ];
 
 @NgModule({

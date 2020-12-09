@@ -24,8 +24,9 @@ const routes: Routes = [
   { path: 'MemberFood', component: MemberFoodComponent, data: {animation: 'MemberFood'}},
   { path: 'MyOrderDetail/:Order_TableNo', canActivate: [SessionAliveGuard], component: MyOrderDetailComponent },
   { path: 'ETicketDetail/:UserTicket_Code', component: ETicketDetailComponent},
-  { path: 'ETicketOrderDetail/:Order_TableNo', component: ETicketOrderDetailComponent}
-]
+  { path: 'ETicketOrderDetail/:Order_TableNo', component: ETicketOrderDetailComponent},
+  { path: '', redirectTo: '/Member'}
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
