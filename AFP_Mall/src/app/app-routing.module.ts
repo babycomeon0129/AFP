@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
+// tslint:disable: max-line-length
 const routes: Routes = [
   { path: '', loadChildren: () => import('./views/entrance/entrance.module').then(m => m.EntranceModule)},
   { path: 'Explore', loadChildren: () => import('./views/explore/explore.module').then(m => m.ExploreModule)},
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'Travel', loadChildren: () => import('./views/travel/travel.module').then(m => m.TravelModule)},
   { path: 'Member', loadChildren: () => import('./views/member/member/member.module').then(m => m.MemeberModule)},
   { path: 'MemberFunction', loadChildren: () => import('./views/member/member-function/member-function.module').then(m => m.MemberFunctionModule)},
+  { path: 'Delivery', loadChildren: () => import('./views/delivery/delivery.module').then(m => m.DeliveryModule)},
   { path: 'Function', loadChildren: () => import('./views/function/function.module').then(m => m.FunctionModule)}
 ];
 

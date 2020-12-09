@@ -14,20 +14,17 @@ import { FunctionModule } from './../function/function.module';
 import { ExploreDetailComponent } from './explore-detail/explore-detail.component';
 import { ExploreListComponent } from './explore-list/explore-list.component';
 import { ExploreMapComponent } from './explore-map/explore-map.component';
-import { DeliveryInfoComponent } from './delivery-info/delivery-info.component';
 
 @NgModule({
   declarations: [
     ExploreListComponent,
     ExploreDetailComponent,
-    ExploreMapComponent,
-    DeliveryInfoComponent
+    ExploreMapComponent
   ],
   exports: [
     ExploreListComponent,
     ExploreDetailComponent,
-    ExploreMapComponent,
-    DeliveryInfoComponent
+    ExploreMapComponent
   ],
   entryComponents: [
     ExploreMapComponent
