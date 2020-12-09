@@ -15,22 +15,19 @@ import { ShoppingOrderComponent } from './shopping-order/shopping-order.componen
 import { ETicketOrderComponent } from './eticket-order/eticket-order.component';
 import { OrderCompleteComponent } from './order-complete/order-complete.component';
 import { ShoppingPaymentComponent } from './shopping-payment/shopping-payment.component';
-import { OrderResultComponent } from './order-result/order-result.component';
 
 @NgModule({
   declarations: [
     ShoppingOrderComponent,
     ETicketOrderComponent,
     ShoppingPaymentComponent,
-    OrderCompleteComponent,
-    OrderResultComponent
+    OrderCompleteComponent
   ],
   exports: [
     ShoppingOrderComponent,
     ETicketOrderComponent,
     ShoppingPaymentComponent,
-    OrderCompleteComponent,
-    OrderResultComponent
+    OrderCompleteComponent
   ],
   imports: [
     CommonModule,

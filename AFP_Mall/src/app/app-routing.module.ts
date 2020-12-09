@@ -7,6 +7,7 @@ const routes: Routes = [
   { path: 'Explore', loadChildren: () => import('./views/explore/explore.module').then(m => m.ExploreModule)},
   { path: 'Shopping', loadChildren: () => import('./views/shopping/shopping.module').then(m => m.ShoppingModule)},
   { path: 'Order', loadChildren: () => import('./views/order/order.module').then(m => m.OrderModule)},
+  { path: 'Return', loadChildren: () => import('./views/return/return.module').then(m => m.ReturnModule)},
   { path: 'Voucher', loadChildren: () => import('./views/voucher/voucher.module').then(m => m.VoucherModule)},
   { path: 'Game', loadChildren: () => import('./views/game/game.module').then(m => m.GameModule)},
   { path: 'Notification', loadChildren: () => import('./views/notification/notification.module').then(m => m.NotificationModule)},
