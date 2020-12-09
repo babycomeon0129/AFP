@@ -105,7 +105,7 @@
                                 <div class="text-center p-3">
                                     <span>
                                         <a class="font-bold small-80" (click)="modal.openModal('forget', bsModalRef)">忘記密碼?</a>
-                                        | <a class="font-bold small-80" (click)="bsModalRef.hide();" [routerLink]="['/QA']">常見問題</a>
+                                        | <a class="font-bold small-80" (click)="bsModalRef.hide();" [routerLink]="['/Info/QA']">常見問題</a>
                                     </span>
                                 </div>
                             </div>
@@ -186,8 +186,8 @@
                                             <input type="checkbox" name="Agree" [(ngModel)]="registerRequest.Agree" #Agree="ngModel" required
                                               class="form-check-input icheckBgOrg" id="registeredCheck1">
                                             <label class="form-check-label" for="registeredCheck1">我同意 Mobii! 的</label>
-                                            <a (click)="bsModalRef.hide();" [routerLink]="['/Terms']" class="font-bold">&ensp;會員條款&ensp;</a>及
-                                            <a (click)="bsModalRef.hide();" [routerLink]="['/Privacy']" class="font-bold">&ensp;隱私政策&ensp;</a>
+                                            <a (click)="bsModalRef.hide();" [routerLink]="['/Info/Terms']" class="font-bold">&ensp;會員條款&ensp;</a>及
+                                            <a (click)="bsModalRef.hide();" [routerLink]="['/Info/Privacy']" class="font-bold">&ensp;隱私政策&ensp;</a>
                                             <div *ngIf="Agree.dirty && Agree.invalid" class="small-warning pl-0 warningNote"><span>未同意條款與隱私</span></div>
                                         </div>
                                     </li>

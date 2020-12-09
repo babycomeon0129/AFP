@@ -16,10 +16,10 @@
                     <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">&#xE5D3;</i></a>
                     <ul class="dropdown-menu dropdown-menu-right">
-                        <li><a [routerLink]="['/MemberDiscount']"><img src="../img/share/drop_discount.png" alt="">我的優惠</a></li>
-                        <li><a [routerLink]="['/MemberFavorite']"><img src="../img/share/drop_favorite.png" alt="">我的收藏</a></li>
-                        <li><a [routerLink]="['/MemberOrder']"><img src="../img/share/drop_order.png" alt="">我的訂單</a></li>
-                        <li><a [routerLink]="['/MemberFood']"><img src="../img/share/drop_food.png" alt="">我的點餐</a></li>
+                        <li><a [routerLink]="['/MemberFunction/MemberDiscount']"><img src="../img/share/drop_discount.png" alt="">我的優惠</a></li>
+                        <li><a [routerLink]="['/MemberFunction/MemberFavorite']"><img src="../img/share/drop_favorite.png" alt="">我的收藏</a></li>
+                        <li><a [routerLink]="['/MemberFunction/MemberOrder']"><img src="../img/share/drop_order.png" alt="">我的訂單</a></li>
+                        <li><a [routerLink]="['/MemberFunction/MemberFood']"><img src="../img/share/drop_food.png" alt="">我的點餐</a></li>
                     </ul>
                     </li>
                 </ul>
@@ -37,7 +37,7 @@
             </div>
             <div class="go-cart">
                 <div class="top-item climate">
-                    <button [routerLink]="['/ShoppingCart']" class="badge-img px-2" data-toggle="tooltip" data-placement="bottom" title="購物車">
+                    <button [routerLink]="['/Shopping/ShoppingCart']" class="badge-img px-2" data-toggle="tooltip" data-placement="bottom" title="購物車">
                         <span *ngIf="cartCount > 0" class="badge badge-on">{{cartCount > 99 ? '99+' : cartCount}}</span><img src="../img/shopping/cart_white.png" class="h38">
                     </button>
                 </div>
@@ -89,12 +89,12 @@
       <div *ngIf="voucherList?.length > 0" class="container other-discount-list">
         <div class="p-3">
           <h6>{{voucherList[0]?.UserDefine_Name}}</h6>
-          <div class="discount-more"><a [routerLink]="['/ShoppingOffers']">更多優惠券</a></div>
+          <div class="discount-more"><a [routerLink]="['/Voucher/ShoppingOffers']">更多優惠券</a></div>
           <div class="row">
               <div *ngFor="let voucher of voucherList[0].VoucherData;" class="col-sm-12 col-md-6 discount-box">
                   <div class="discount-item">
                       <div class="item">
-                          <div [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/VoucherDetail', voucher.Voucher_Code] : ['/VoucherDetail', voucher.Voucher_UserVoucherCode]" class="img-box">
+                          <div [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', voucher.Voucher_Code] : ['/Voucher/VoucherDetail', voucher.Voucher_UserVoucherCode]" class="img-box">
                             <img [lazyLoad]="voucher?.Voucher_Image" [defaultImage] ="appService.defaultImage" alt="">
                           </div>
                       </div>
@@ -135,7 +135,7 @@
               <div class="swiper-wrapper">
                   <div *ngFor="let product of dir.ProductData" class="swiper-slide">
                       <div class="products-item">
-                        <a [routerLink]="['/ProductDetail', dir.UserDefine_Code, product.Product_Code]">
+                        <a [routerLink]="['/Shopping/ProductDetail', dir.UserDefine_Code, product.Product_Code]">
                               <div class="products-img">
                                   <div class="img-box">
                                       <div class="rwdimg" [lazyLoad]="product.Product_PrimeImage" [defaultImage] ="appService.defaultImage"></div>
@@ -164,7 +164,7 @@
                       <div class="products-sizer"></div>
                       <ngx-masonry [options]="masonry">
                         <div ngxMasonryItem  *ngFor="let product of hotProducts" class="products-item">
-                          <a [routerLink]="['/ProductDetail', product.Product_UserDefineCode, product.Product_Code]">
+                          <a [routerLink]="['/Shopping/ProductDetail', product.Product_UserDefineCode, product.Product_Code]">
                               <div class="products-img">
                                   <div class="img-box">
                                       <div class="rwdimg" [lazyLoad]="product?.Product_PrimeImage" [defaultImage] ="appService.defaultImage"></div>

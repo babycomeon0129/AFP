@@ -40,7 +40,7 @@ export class NotificationDetailComponent implements OnInit, AfterViewChecked {
 
   /** 前往通知頁並打開該分類列表layer */
   goCateList() {
-    this.router.navigate(['/Notification'],
+    this.router.navigate(['/Notification/NotificationList'],
     {state:
       {
         data: {

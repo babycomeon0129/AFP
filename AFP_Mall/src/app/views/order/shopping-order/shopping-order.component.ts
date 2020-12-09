@@ -144,7 +144,7 @@ export class ShoppingOrderComponent implements OnInit {
         backdrop: 'static',
         keyboard: false
       }).subscribe(option => {
-        this.router.navigate(['/ShoppingCart', { referrer: 'illegal' } ]);
+        this.router.navigate(['/Shopping/ShoppingCart', { referrer: 'illegal' } ]);
       });
     }
 
@@ -710,7 +710,7 @@ export class ShoppingOrderComponent implements OnInit {
             List_Order: orders
           };
           this.appService.toApi('EC', '1601', createOrder).subscribe((coResult: Response_CreateOrder) => {
-            this.router.navigate(['/ShoppingPayment'], {
+            this.router.navigate(['/Order/ShoppingPayment'], {
               state: { data: coResult }
             });
           });

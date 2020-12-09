@@ -80,13 +80,13 @@ export class AppGoPaymentComponent implements OnInit {
           // 前往結帳
           switch (this.checkoutType) {
             case '1':
-              checkoutUrl = '/ShoppingOrder';
+              checkoutUrl = '/Order/ShoppingOrder';
               break;
             case '2':
-              checkoutUrl = '/ETicketOrder';
+              checkoutUrl = '/Order/ETicketOrder';
               break;
             default:
-              checkoutUrl = '/ShoppingOrder';
+              checkoutUrl = '/Order/ShoppingOrder';
               break;
           }
 

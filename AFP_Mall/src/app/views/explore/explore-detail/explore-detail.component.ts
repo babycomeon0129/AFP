@@ -207,7 +207,7 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
           break;
         case 5:
           // 前往優惠券詳細
-          this.router.navigate(['/VoucherDetail', voucher.Voucher_Code]);
+          this.router.navigate(['/Voucher/VoucherDetail', voucher.Voucher_Code]);
           break;
       }
     } else {

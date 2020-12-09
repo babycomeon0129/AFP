@@ -94,7 +94,7 @@
                 #UserMobile="ngModel" [(ngModel)]="memberService.userProfile.UserProfile_Mobile"
                 placeholder="請至「手機驗證」新增" class="text-secondary" readOnly>
               <small *ngIf="memberService.userProfile?.UserProfile_Mobile === null"
-                [routerLink]="['../CellVerification']" class="text-primary cursor-pointer">請至「手機驗證」新增</small>
+                [routerLink]="['/Member/CellVerification']" class="text-primary cursor-pointer">請至「手機驗證」新增</small>
             </div>
           </li>
           <li>

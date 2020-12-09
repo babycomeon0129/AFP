@@ -181,9 +181,9 @@ export class MissionComponent implements OnInit, DoCheck {
         const navigationExtras: NavigationExtras = {
           queryParams: { showBack: true }
         };
-        this.router.navigate(['/MemberCoin'], navigationExtras);
+        this.router.navigate(['/MemberFunction/MemberCoin'], navigationExtras);
       } else {
-        this.router.navigate(['/MemberCoin']);
+        this.router.navigate(['/MemberFunction/MemberCoin']);
       }
     } else {
       this.appService.loginPage();

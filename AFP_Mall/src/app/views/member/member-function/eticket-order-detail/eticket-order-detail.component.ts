@@ -116,7 +116,7 @@ export class ETicketOrderDetailComponent implements OnInit {
     this.appService.toApi('Member', '1515', serviceRequest).subscribe((serviceData: Response_MemberServices) => {
       this.appService.tLayer = [];
       // 導去退貨詳細
-      this.router.navigate(['/ReturnDetail', this.servicesModel.Services_TableNo]);
+      this.router.navigate(['/Return/ReturnDetail', this.servicesModel.Services_TableNo]);
     });
   }
 

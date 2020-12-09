@@ -254,7 +254,7 @@ export class ProductDetailComponent implements OnInit, AfterViewChecked {
             ]
           };
           EcartList.push(storeInfo);
-          this.router.navigate(['/ETicketOrder'], {
+          this.router.navigate(['/Order/ETicketOrder'], {
             state: {
               data: { checkoutList: EcartList }
             }
@@ -271,7 +271,7 @@ export class ProductDetailComponent implements OnInit, AfterViewChecked {
     const navigationExtras: NavigationExtras = {
       queryParams: { navNo: fragment }
     };
-    this.router.navigate(['/ExploreDetail/' + this.productInfo.Product_ECStoreCode], navigationExtras);
+    this.router.navigate(['/Explore/ExploreDetail' + this.productInfo.Product_ECStoreCode], navigationExtras);
   }
 
 }

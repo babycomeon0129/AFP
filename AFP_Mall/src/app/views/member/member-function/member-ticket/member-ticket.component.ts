@@ -50,7 +50,7 @@ export class MemberTicketComponent implements OnInit {
   /** 前往電子票證詳細 */
   goToDetail(code: number) {
     if (this.listType === 1) {
-      this.router.navigate(['/ETicketDetail', code]);
+      this.router.navigate(['/MemberFunction/ETicketDetail', code]);
     }
   }
 

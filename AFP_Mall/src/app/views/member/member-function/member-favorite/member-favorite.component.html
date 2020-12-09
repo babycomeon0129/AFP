@@ -63,7 +63,7 @@
                                   <div class="mask-container d-none w-100 h-100"></div>
                                   <div class="favorite-explore p-0">
                                     <div *ngFor="let item of selectedType" id="{{item.ECStore_Code}}" class="d-flex" [ngClass]="{'brightness': !item.ECStore_IsOnline}">
-                                      <a (click)="goToDetail(item?.ECStore_IsOnline, '/ExploreDetail', item?.ECStore_Code)" class="d-flex align-items-start w-100">
+                                      <a (click)="goToDetail(item?.ECStore_IsOnline, '/Explore/ExploreDetail', item?.ECStore_Code)" class="d-flex align-items-start w-100">
                                           <div class="item-explore">
                                             <div class="img-box rwdimgbox-80">
                                               <div [lazyLoad]="item.ECStore_Image1" [defaultImage]="appService.defaultImage" class="rwdimg-cover"></div>
@@ -156,7 +156,7 @@
                       <div role="tabpanel" class="tab-pane fade w-100" id="favoritetag03">
                           <div class="favorite-explore p-0">
                             <div *ngFor="let item of selectedType" id="{{item.Product_Code}}" class="d-flex" [ngClass]="{'brightness': !item.Product_IsOnline}">
-                                <a (click)="goToDetail(item?.Product_IsOnline, '/ProductDetail', item?.Product_UserDefineCode, item?.Product_Code)" class="d-flex w-100">
+                                <a (click)="goToDetail(item?.Product_IsOnline, '/Shopping/ProductDetail', item?.Product_UserDefineCode, item?.Product_Code)" class="d-flex w-100">
                                   <a class="item-explore">
                                     <div class="img-box rwdimgbox-80">
                                       <div [lazyLoad]="item.Product_PrimeImage" [defaultImage]="appService.defaultImage" class="rwdimg-cover"></div>
@@ -184,7 +184,7 @@
                       <div role="tabpanel" class="tab-pane fade w-100" id="favoritetag04">
                           <div class="favorite-explore p-0">
                               <div *ngFor="let item of selectedType" id="{{item.ECStore_Code}}" class="d-flex" [ngClass]="{'brightness': !item.ECStore_IsOnline}">
-                                <a (click)="goToDetail(item?.ECStore_IsOnline, '/ExploreDetail', item.ECStore_Code)" class="d-flex w-100">
+                                <a (click)="goToDetail(item?.ECStore_IsOnline, '/Explore/ExploreDetail', item.ECStore_Code)" class="d-flex w-100">
                                   <a class="item-explore">
                                     <div class="img-box rwdimgbox-80">
                                       <div [lazyLoad]="item.ECStore_Logo" [defaultImage]="appService.defaultImage" class="rwdimg-cover"></div>

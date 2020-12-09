@@ -222,13 +222,13 @@ export class MemberDiscountComponent implements OnInit, AfterViewInit {
   goVDetail(voucher: AFP_Voucher): void {
     if (this.vSelectMode === 1) {
       if (this.route.snapshot.queryParams.showBack === undefined) {
-        this.router.navigate(['/VoucherDetail', voucher.Voucher_UserVoucherCode]);
+        this.router.navigate(['/Voucher/VoucherDetail', voucher.Voucher_UserVoucherCode]);
       } else {
         if (this.route.snapshot.queryParams.showBack) {
           const navigationExtras: NavigationExtras = {
             queryParams: { showBack: true }
           };
-          this.router.navigate(['/VoucherDetail', voucher.Voucher_UserVoucherCode], navigationExtras);
+          this.router.navigate(['/Voucher/VoucherDetail', voucher.Voucher_UserVoucherCode], navigationExtras);
         }
       }
     }

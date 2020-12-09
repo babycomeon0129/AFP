@@ -5,7 +5,7 @@
           onclick="history.back()">&#xe314;</i></div>
       <div class="item title-name">探索周邊</div>
       <div class="item icon-btn">
-        <button [routerLink]="['/ExploreMap']" data-toggle="tooltip" data-placement="bottom" title="查看地圖">
+        <button [routerLink]="['/Explore/ExploreMap']" data-toggle="tooltip" data-placement="bottom" title="查看地圖">
           <img src="../../img/explore/icon/open-map.svg">
         </button>
       </div>
@@ -45,7 +45,7 @@
           </div>
         </ng-container>
         <ng-container *ngIf="exAreadata.length > 0">
-          <li *ngFor="let inside of exAreadata" [routerLink]="['/ExploreDetail', inside.ECStore_Code]">
+          <li *ngFor="let inside of exAreadata" [routerLink]="['/Explore/ExploreDetail', inside.ECStore_Code]">
             <div class="card-item" id="{{inside.ECStore_Code}}">
               <div class="img-box rwdimgbox-80">
                 <div class="rwdimg" [lazyLoad]="inside.ECStore_Image1" [defaultImage]="appService.defaultImage"></div>
@@ -79,7 +79,7 @@
     </div>
     <div id="type" [ngClass]="{'is-open': categoryOpenStatus}" class="filter-content pb-wrap">
       <ul class="open-page-ul">
-        <li *ngFor="let item of exUserdefine;" [routerLink]="['/ExploreList', item.UserDefine_Code]"
+        <li *ngFor="let item of exUserdefine;" [routerLink]="['/Explore/ExploreList', item.UserDefine_Code]"
           [ngClass]="{'active': areaMenuCode == item.UserDefine_Code}" class="flex-inline-between">
           <div>
             {{item.UserDefine_Name}}

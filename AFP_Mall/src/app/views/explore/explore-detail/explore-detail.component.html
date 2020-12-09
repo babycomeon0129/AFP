@@ -75,13 +75,13 @@
                   <div class="store-tab-box">
                       <ul class="nav nav-tabs" id="storeTab" role="tablist">
                           <li class="nav-item">
-                            <a [routerLink]="['/ExploreDetail', siteCode]" [queryParams]="{ navNo: 1 }" [ngClass]="{'active' : tabNo == 1}" class="nav-link active" id="store-tab" data-toggle="tab" href="#store" role="tab" aria-controls="store" aria-selected="true">{{siteInfo?.ECStore_Type < 2000? '店家' : '周邊'}}簡介</a>
+                            <a [routerLink]="['/Explore/ExploreDetail', siteCode]" [queryParams]="{ navNo: 1 }" [ngClass]="{'active' : tabNo == 1}" class="nav-link active" id="store-tab" data-toggle="tab" href="#store" role="tab" aria-controls="store" aria-selected="true">{{siteInfo?.ECStore_Type < 2000? '店家' : '周邊'}}簡介</a>
                           </li>
                           <li *ngIf="siteInfo?.ECStore_Type < 2000 && siteInfo?.ECStore_Type !== 1100" class="nav-item">
-                              <a [routerLink]="['/ExploreDetail', siteCode]" [queryParams]="{ navNo: 3 }" [ngClass]="{'active' : tabNo == 3}" class="nav-link" id="shop-tab" data-toggle="tab" href="#shop" role="tab" aria-controls="shop" aria-selected="false">所有商品</a>
+                              <a [routerLink]="['/Explore/ExploreDetail', siteCode]" [queryParams]="{ navNo: 3 }" [ngClass]="{'active' : tabNo == 3}" class="nav-link" id="shop-tab" data-toggle="tab" href="#shop" role="tab" aria-controls="shop" aria-selected="false">所有商品</a>
                           </li>
                           <li  *ngIf="siteInfo?.ECStore_Type < 2000" class="nav-item">
-                              <a [routerLink]="['/ExploreDetail', siteCode]" [queryParams]="{ navNo: 2 }" [ngClass]="{'active' : tabNo == 2}" class="nav-link" id="ticket-tab" data-toggle="tab" href="#ticket" role="tab" aria-controls="ticket" aria-selected="false">優惠券</a>
+                              <a [routerLink]="['/Explore/ExploreDetail', siteCode]" [queryParams]="{ navNo: 2 }" [ngClass]="{'active' : tabNo == 2}" class="nav-link" id="ticket-tab" data-toggle="tab" href="#ticket" role="tab" aria-controls="ticket" aria-selected="false">優惠券</a>
                           </li>
                       </ul>
                       <div class="tab-content">
@@ -112,7 +112,7 @@
                                       </div>
                                       <div (click)="unfold(2)" class="open-btn"><i class="material-icons"></i></div>
                                       <ul class="itemopen-list">
-                                          <li *ngFor="let store of branchList" [routerLink]="['/ExploreDetail', store?.ECStore_Code]">
+                                          <li *ngFor="let store of branchList" [routerLink]="['/Explore/ExploreDetail', store?.ECStore_Code]">
                                             <span>{{store?.ECStore_ShowName}}</span>
                                             <i class="material-icons keyboard_arrow_right">&#xe315;</i>
                                           </li>
@@ -182,7 +182,7 @@
                                     <div class="row">
                                       <div *ngFor="let product of productList" class="col-6 col-md-4">
                                         <div class="products-item">
-                                          <a [routerLink]="['/ProductDetail', product.Product_UserDefineCode, product.Product_Code]">
+                                          <a [routerLink]="['/Shopping/ProductDetail', product.Product_UserDefineCode, product.Product_Code]">
                                               <div class="products-img">
                                                   <div class="productimg-box">
                                                       <div class="rwdimg" [lazyLoad]="product.Product_PrimeImage" [defaultImage] ="appService.defaultImage"></div>
@@ -210,7 +210,7 @@
                                   <div class="card-body">
                                   <div class="card-text">
                                       <div class="member-flex">
-                                          <div [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/VoucherDetail', voucher.Voucher_Code] : ['/VoucherDetail', voucher.Voucher_UserVoucherCode]" class="item one">
+                                          <div [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', voucher.Voucher_Code] : ['/Voucher/VoucherDetail', voucher.Voucher_UserVoucherCode]" class="item one">
                                               <div [lazyLoad]="voucher.Voucher_Image" [defaultImage] = "appService.defaultImage" class="rwdimg logo-img"></div>
                                           </div>
                                           <div class="item three px-2">

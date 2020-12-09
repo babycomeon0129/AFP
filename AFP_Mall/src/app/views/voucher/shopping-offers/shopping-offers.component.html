@@ -15,7 +15,7 @@
               </div>
               <div class="item two">
                   <div class="top-item climate text-right">
-                    <button [routerLink]="['/ShoppingCart']" [queryParams]="{isApp: appService.isApp}" class="badge-img px-0" data-toggle="tooltip" data-placement="bottom" title="購物車">
+                    <button [routerLink]="['/Shopping/ShoppingCart']" [queryParams]="{isApp: appService.isApp}" class="badge-img px-0" data-toggle="tooltip" data-placement="bottom" title="購物車">
                       <span *ngIf="cartCount > 0" class="badge badge-on">{{cartCount > 99 ? '99+' : cartCount}}</span>
                       <img src="../img/shopping/icon_shoppingcart.svg">
                     </button>

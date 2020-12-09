@@ -30,7 +30,7 @@
           <div class="container">
               <div class="row">
                   <div class="col-6">
-                      <button class="btn index-outline-btn w-100" [routerLink]="['/MemberOrder']">查看訂單</button>
+                      <button class="btn index-outline-btn w-100" [routerLink]="['/MemberFunction/MemberOrder']">查看訂單</button>
                   </div>
                   <div class="col-6" *ngIf="appService.isApp == null">
                       <button class="btn index-btn w-100" (click)="GoECIndex()">繼續逛逛</button>
@@ -53,7 +53,7 @@
           <div class="container text-center">
               <div class="row">
                   <div class="col-12">
-                      <button class="btn index-btn btn-ok" [routerLink]="['/MemberOrder']">返回確認帳單</button>
+                      <button class="btn index-btn btn-ok" [routerLink]="['/MemberFunction/MemberOrder']">返回確認帳單</button>
                   </div>
               </div>
           </div>

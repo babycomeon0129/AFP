@@ -51,11 +51,11 @@ export class GameCenterComponent implements OnInit {
           }
         }).subscribe( res => {
           if (res) {
-            this.router.navigate(['/Game', GameCode], {queryParams: { isApp: this.appService.isApp}});
+            this.router.navigate(['/GameCenter/Game', GameCode], {queryParams: { isApp: this.appService.isApp}});
           }
         });
       } else {
-        this.router.navigate(['/Game', GameCode], {queryParams: { isApp: this.appService.isApp}});
+        this.router.navigate(['/GameCenter/Game', GameCode], {queryParams: { isApp: this.appService.isApp}});
       }
     } else {
       this.appService.loginPage();

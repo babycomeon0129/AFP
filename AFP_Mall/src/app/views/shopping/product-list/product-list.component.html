@@ -16,7 +16,7 @@
                   </div>
                   <div class="item two">
                       <div class="top-item climate text-right">
-                          <button class="badge-img px-0" data-toggle="tooltip" data-placement="bottom" title="購物車" [routerLink]="['/ShoppingCart']">
+                          <button class="badge-img px-0" data-toggle="tooltip" data-placement="bottom" title="購物車" [routerLink]="['/Shopping/ShoppingCart']">
                             <span *ngIf="cartCount > 0" class="badge badge-on">{{cartCount > 99 ? '99+' : cartCount}}</span><img src="../img/shopping/icon_shoppingcart.svg">
                           </button>
                       </div>
@@ -49,7 +49,7 @@
                   <div class="row products-item">
                       <div class="col-6 col-xl-4 pl-0 pb-3" *ngFor="let product of dirProductList">
                           <div class="w-100 bg-white">
-                            <a [routerLink]="['/ProductDetail', dirCode, product.Product_Code]">
+                            <a [routerLink]="['/Shopping/ProductDetail', dirCode, product.Product_Code]">
                                 <div class="products-img">
                                     <div class="img-box">
                                         <div class="rwdimg" [lazyLoad]="product?.Product_PrimeImage" [defaultImage] ="appService.defaultImage"></div>

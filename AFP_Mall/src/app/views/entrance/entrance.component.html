@@ -41,10 +41,10 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">&#xE5D3;</i></a>
               <ul class="dropdown-menu dropdown-menu-right">
-                <li><a [routerLink]="['/MemberDiscount']"><img src="img/share/drop_discount.png" alt="">我的優惠</a></li>
-                <li><a [routerLink]="['/MemberFavorite']"><img src="img/share/drop_favorite.png" alt="">我的收藏</a></li>
-                <li><a [routerLink]="['/MemberOrder']"><img src="img/share/drop_order.png" alt="">我的訂單</a></li>
-                <li><a [routerLink]="['/MemberFood']"><img src="img/share/drop_food.png" alt="">我的點餐</a></li>
+                <li><a [routerLink]="['/MemberFunction/MemberDiscount']"><img src="img/share/drop_discount.png" alt="">我的優惠</a></li>
+                <li><a [routerLink]="['/MemberFunction/MemberFavorite']"><img src="img/share/drop_favorite.png" alt="">我的收藏</a></li>
+                <li><a [routerLink]="['/MemberFunction/MemberOrder']"><img src="img/share/drop_order.png" alt="">我的訂單</a></li>
+                <li><a [routerLink]="['/MemberFunction/MemberFood']"><img src="img/share/drop_food.png" alt="">我的點餐</a></li>
               </ul>
             </li>
           </ul>
@@ -204,7 +204,7 @@
                 <div class="swiper-wrapper">
                   <div class="swiper-slide" *ngFor="let inside of item.VoucherData">
                     <div class="products-item bg-FFF6F1 border-radius5"
-                      [routerLink]="inside?.Voucher_UserVoucherCode === null? ['/VoucherDetail', inside?.Voucher_Code] : ['/VoucherDetail', inside?.Voucher_UserVoucherCode]">
+                      [routerLink]="inside?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', inside?.Voucher_Code] : ['/Voucher/VoucherDetail', inside?.Voucher_UserVoucherCode]">
                       <div class="p-2">
                         <div class="products-img">
                           <div class="img-box">
@@ -260,7 +260,7 @@
                   <div class="swiper-wrapper content-list">
                     <div class="swiper-slide" *ngFor="let inside of item.ECStoreData">
                       <div class="products-item">
-                        <a [routerLink]="['/ExploreDetail', inside.ECStore_Code]" class="content-item">
+                        <a [routerLink]="['/Explore/ExploreDetail', inside.ECStore_Code]" class="content-item">
                           <div class="img-box">
                             <img [lazyLoad]="inside.ECStore_Image1" [defaultImage]="appService.defaultImage"
                               alt="{{inside.ECStore_ShowName}}" class="rwdimg">
@@ -307,7 +307,7 @@
                   <div class="swiper-wrapper content-list">
                     <div class="swiper-slide" *ngFor="let inside of item.ECStoreData">
                       <div class="products-item">
-                        <a [routerLink]="['/ExploreDetail', inside.ECStore_Code]" class="content-item">
+                        <a [routerLink]="['/Explore/ExploreDetail', inside.ECStore_Code]" class="content-item">
                           <div class="img-box">
                             <img [lazyLoad]="inside.ECStore_Image1" [defaultImage]="appService.defaultImage"
                               alt="{{inside.ECStore_ShowName}}" class="rwdimg">
@@ -354,7 +354,7 @@
                 <div class="swiper-wrapper">
                   <div *ngFor="let product of item?.ProductData" class="swiper-slide">
                     <div class="products-item">
-                      <a [routerLink]="['/ProductDetail', item?.UserDefine_Code, product?.Product_Code]">
+                      <a [routerLink]="['/Shopping/ProductDetail', item?.UserDefine_Code, product?.Product_Code]">
                         <div class="products-img">
                           <div class="img-box">
                             <div class="rwdimg" [lazyLoad]="product.Product_PrimeImage"

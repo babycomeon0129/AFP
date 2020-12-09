@@ -167,7 +167,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
   /** 前往頁面前判斷登入狀態 */
   goTo() {
     if (this.appService.loginState === true) {
-      this.router.navigate(['/Notification']);
+      this.router.navigate(['/Notification/NotificationList']);
     } else {
       this.appService.loginPage();
     }

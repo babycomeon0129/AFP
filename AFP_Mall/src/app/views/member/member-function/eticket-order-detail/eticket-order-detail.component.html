@@ -79,7 +79,7 @@
             <div class="small text-danger text-right w-100 status1">退款完成</div>
           </li> -->
           <p *ngIf="productsData[0]?.UserTicket_UsedState === 0 || productsData[0]?.UserTicket_UsedState === 1" class="text-right">
-            <a [routerLink]="['/ETicketDetail', productsData[0]?.ItemInfoPart_OtherCode]"><small>前往使用</small></a>
+            <a [routerLink]="['/MemberFunction/ETicketOrderDetail', productsData[0]?.ItemInfoPart_OtherCode]"><small>前往使用</small></a>
           </p>
       </ul>
   </div>
@@ -172,7 +172,7 @@
             type="button" class="btn bluedk-outline-btn w-100">
             退款
           </button>
-          <button *ngIf="orderInfo?.ServiceTableNo !== null" [routerLink]="['/ReturnDetail', this.orderInfo.ServiceTableNo]"
+          <button *ngIf="orderInfo?.ServiceTableNo !== null" [routerLink]="['/Return/ReturnDetail', this.orderInfo.ServiceTableNo]"
             type="button" class="btn bluedk-outline-btn w-100">
             退款詳情
           </button>

@@ -13,7 +13,7 @@
                   <div class="title-name">週邊地圖</div>
               </div>
               <div class="item two">
-                  <button [routerLink]="['/ExploreList']" type="button" class="btn p-0 btnList"><i class="material-icons format_list_bulleted">&#xe241;</i></button>
+                  <button [routerLink]="['/Explore/ExploreList']" type="button" class="btn p-0 btnList"><i class="material-icons format_list_bulleted">&#xe241;</i></button>
               </div>
           </div>
       </div>
@@ -51,7 +51,7 @@
                   <div *ngFor="let spot of AreaList" class="swiper-slide">
                       <div class="card-item sm">
                           <div class="img-box rwdimgbox-60">
-                              <div [lazyLoad]="spot?.ECStore_Image1" [defaultImage] ="appService.defaultImage" [routerLink]="['/ExploreDetail', spot?.ECStore_Code]" class="rwdimg"></div>
+                              <div [lazyLoad]="spot?.ECStore_Image1" [defaultImage] ="appService.defaultImage" [routerLink]="['/Explore/ExploreDetail', spot?.ECStore_Code]" class="rwdimg"></div>
                           </div>
                           <div class="info-box">
                               <ul class="info-list">

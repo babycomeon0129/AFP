@@ -345,7 +345,7 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit, DoCheck {
           this.appService.toApi('EC', '1204', request).subscribe((data: Response_ECCart) => {
             // 若失敗後端會回(可能是沒登入)
             // 數量更新成功後前往結帳
-            this.router.navigate(['/ShoppingOrder'], {
+            this.router.navigate(['/Order/ShoppingOrder'], {
               state: {
                 data: { checkoutList: this.cartList }
               }
@@ -353,7 +353,7 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit, DoCheck {
           });
         } else {
           // 直接前往結帳
-          this.router.navigate(['/ShoppingOrder'], {
+          this.router.navigate(['/Order/ShoppingOrder'], {
             state: {
               data: { checkoutList: this.cartList }
             }

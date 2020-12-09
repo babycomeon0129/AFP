@@ -481,7 +481,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
           this.modal.confirm({ initialState: { message: '請問是否要開啟Mobii App?' } }).subscribe(res => {
             if (res) {
               window.location.href = Link.Function_URL;
-              setTimeout(() => { this.router.navigate(['/AppDownload']); }, 25);
+              setTimeout(() => { this.router.navigate(['/ForApp/AppDownload']); }, 25);
             }
           });
         } else if (Link.Function_URL.indexOf('http') !== -1) {
@@ -517,7 +517,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
     setTimeout(() => {
       if (document.visibilityState === 'visible') {
         // 未成功開啟APP則前往AppDownload被引導至平台下載
-        this.router.navigate(['/AppDownload']);
+        this.router.navigate(['/ForApp/AppDownload']);
       }
     }, 25);
   }

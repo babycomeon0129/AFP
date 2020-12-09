@@ -46,7 +46,7 @@
               <p class="item-date">{{msg?.IMessage_ReleaseDate | date: 'yyyy/MM/dd'}}</p>
               <div [hidden]="!msg?.activeStatus|| msg?.activeStatus === undefined" class="msgContent">
                 {{msg?.IMessage_Desc}}
-                <p [hidden]="msg?.IMessage_IsShowCTA === 0" class="moreBtn"><button class="btn index-btn" [routerLink]="['/Notification', msg?.IMessage_Code]">了解更多</button></p>
+                <p [hidden]="msg?.IMessage_IsShowCTA === 0" class="moreBtn"><button class="btn index-btn" [routerLink]="['/Notification/NotificationDetail', msg?.IMessage_Code]">了解更多</button></p>
               </div>
             </div>
               <span [hidden]="msg?.IMessage_OrderType !== null" class="auto-left"><i class="material-icons">&#xe5cf;</i></span>
@@ -89,7 +89,7 @@
                       <p class="item-date">{{item?.IMessage_ReleaseDate | date: 'yyyy/MM/dd'}}</p>
                       <div [hidden]="item?.activeStatus === false || item?.activeStatus === undefined" class="msgContent">
                         {{item.IMessage_Desc}}
-                        <p [hidden]="item?.IMessage_IsShowCTA === 0"  class="moreBtn"><button class="btn index-btn" [routerLink]="['/Notification', item?.IMessage_Code]">了解更多</button></p>
+                        <p [hidden]="item?.IMessage_IsShowCTA === 0"  class="moreBtn"><button class="btn index-btn" [routerLink]="['/Notification/NotificationDetail', item?.IMessage_Code]">了解更多</button></p>
                       </div>
                   </div>
                   <span [hidden]="item?.IMessage_OrderType !== null" (click)="unfoldItem(item)" class="auto-left">

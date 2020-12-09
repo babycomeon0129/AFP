@@ -514,7 +514,7 @@ export class ETicketOrderComponent implements OnInit {
             List_Order: orders
           };
           this.appService.toApi('Checkout', '1608', createOrder).subscribe((coResult: Response_CreateTOrder) => {
-            this.router.navigate(['/ShoppingPayment'], {
+            this.router.navigate(['/Order/ShoppingPayment'], {
               state: { data: coResult }
             });
           });

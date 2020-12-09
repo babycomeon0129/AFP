@@ -182,7 +182,7 @@ export class ReturnComponent implements OnInit {
         };
         this.appService.toApi('Member', '1515', request).subscribe((data: Response_MemberServices) => {
           //  導去退貨詳細
-          this.router.navigate(['/ReturnDetail', data.AFP_Services.Services_TableNo]);
+          this.router.navigate(['/Return/ReturnDetail', data.AFP_Services.Services_TableNo]);
         });
       } else {
         this.modal.show('message', {

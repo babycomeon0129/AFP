@@ -294,7 +294,7 @@
                     {{voucher.Voucher_UsedOffDate | date: 'yyyy/MM/dd'}}</p>
                 </div>
                 <div class="item item-see-more">
-                  <a [routerLink]="['/ExploreDetail', voucher.Voucher_CompanyCode]"
+                  <a [routerLink]="['/Explore/ExploreDetail', voucher.Voucher_CompanyCode]"
                     [hidden]="!(voucher.Voucher_CompanyCode !== 9999)">
                     去逛逛<i class="material-icons">&#xe315;</i>
                   </a>

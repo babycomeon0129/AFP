@@ -94,14 +94,14 @@ export class MemberOrderComponent implements OnInit, AfterViewInit {
    */
   goToDetail(type: number, order: AFP_MemberOrder) {
     if (this.selectedState === 4) {
-      this.router.navigate(['/ReturnDetail', order.ServiceTableNo]);
+      this.router.navigate(['/Return/ReturnDetail', order.ServiceTableNo]);
     } else {
       switch (type) {
         case 1:
-        this.router.navigate(['/MyOrderDetail', order.Order_TableNo, {orderState: this.selectedState}]);
+        this.router.navigate(['/MemberFunction/MyOrderDetail', order.Order_TableNo, {orderState: this.selectedState}]);
         break;
       case 21:
-        this.router.navigate(['/ETicketOrderDetail', order.Order_TableNo, {orderState: this.selectedState}]);
+        this.router.navigate(['/MemberFunction/ETicketOrderDetail', order.Order_TableNo, {orderState: this.selectedState}]);
         break;
       }
     }

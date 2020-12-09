@@ -88,13 +88,13 @@ export class MemberCoinComponent implements OnInit {
       code = voucher.Voucher_UserVoucherCode;
     }
     if (this.route.snapshot.queryParams.showBack === undefined ) {
-      this.router.navigate(['VoucherDetail', code]);
+      this.router.navigate(['/Voucher/VoucherDetail', code]);
     } else {
       if (this.route.snapshot.queryParams.showBack) {
         const navigationExtras: NavigationExtras = {
           queryParams: { showBack: true }
         };
-        this.router.navigate(['VoucherDetail', code], navigationExtras);
+        this.router.navigate(['/Voucher/VoucherDetail', code], navigationExtras);
       }
     }
   }

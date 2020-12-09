@@ -47,7 +47,7 @@
         <div class="row p-2">
           <div *ngFor="let voucher of saleVouchers" class="col-sm-12 col-md-6 discount-box">
             <div class="discount-item">
-              <a [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/VoucherDetail', voucher?.Voucher_Code] : ['/VoucherDetail', voucher?.Voucher_UserVoucherCode]" class="item">
+              <a [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', voucher?.Voucher_Code] : ['/Voucher/VoucherDetail', voucher?.Voucher_UserVoucherCode]" class="item">
                 <div class="pr-2">
                   <div class="img-box">
                     <img [lazyLoad]="voucher?.Voucher_Image" [alt]="voucher?.Voucher_Title" [defaultImage]="appService.defaultImage">

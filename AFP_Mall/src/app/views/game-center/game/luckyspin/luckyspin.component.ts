@@ -141,19 +141,19 @@ export class LuckyspinComponent implements OnInit, AfterViewInit, OnDestroy {
           // 點數
           return {
             msg: '已發送至您的會員帳戶。',
-            page: '/MemberCoin'
+            page: '/MemberFunction/MemberCoin'
           };
         case 2:
           // 優惠券
           return {
             msg: '已發送至您的票券夾，請注意使用期限。',
-            page: '/MemberDiscount'
+            page: '/MemberFunction/MemberDiscount'
           };
         case 3:
           // 贈品
           return {
             msg: '中獎通知已發送至您的會員帳戶。',
-            page: '/Notification'
+            page: '/Notification/NotificationList'
           };
       }
     }

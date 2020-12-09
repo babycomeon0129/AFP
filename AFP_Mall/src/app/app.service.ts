@@ -332,14 +332,14 @@ export class AppService {
             code = voucher.Voucher_UserVoucherCode;
           }
           if (this.route.snapshot.queryParams.showBack === undefined) {
-            this.router.navigate(['VoucherDetail', code]);
+            this.router.navigate(['/Voucher/VoucherDetail', code]);
           } else {
             // APP特例處理: 若是從會員過去則要隱藏返回鍵
             if (this.route.snapshot.queryParams.showBack) {
               const navigationExtras: NavigationExtras = {
                 queryParams: { showBack: true }
               };
-              this.router.navigate(['VoucherDetail', code], navigationExtras);
+              this.router.navigate(['/Voucher/VoucherDetail', code], navigationExtras);
             }
           }
           break;
