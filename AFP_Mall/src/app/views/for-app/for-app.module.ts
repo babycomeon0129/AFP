@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 
-import { FunctionRoutingModule } from './function-routing.module';
+import { ForAppRoutingModule } from './for-app-routing.module';
 
 import { AppDownloadComponent } from './app-download/app-download.component';
 import { AppGoPaymentComponent } from './app-go-payment/app-go-payment.component';
@@ -22,7 +22,7 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
     Error503Component
   ],
   imports: [
-    FunctionRoutingModule,
+    ForAppRoutingModule,
     FormsModule,
     CommonModule,
     LazyLoadImageModule
@@ -36,4 +36,4 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
     Error503Component
   ]
 })
-export class FunctionModule {}
+export class ForAppModule {}

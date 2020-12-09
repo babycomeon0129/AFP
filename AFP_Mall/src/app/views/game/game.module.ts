@@ -6,7 +6,7 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 import { GameRoutingModule } from './game-routing.module';
 import { ShredModule } from 'src/app/shared/shared.module';
-import { FunctionModule } from '../function/function.module';
+import { ForAppModule } from '../for-app/for-app.module';
 
 import { GameComponent } from './game/game.component';
 import { GameCenterComponent } from './game-center/game-center.component';
@@ -32,7 +32,7 @@ import { ScratchComponent } from './game/scratch/scratch.component';
     GameRoutingModule,
     LazyLoadImageModule,
     ShredModule,
-    FunctionModule
+    ForAppModule
   ]
 })
 export class GameModule {}

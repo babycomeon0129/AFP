@@ -7,7 +7,7 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 import { ReturnRoutingModule } from './return-routing.module';
 import { ShredModule } from 'src/app/shared/shared.module';
-import { FunctionModule } from '../function/function.module';
+import { ForAppModule } from '../for-app/for-app.module';
 
 import { ReturnDetailComponent } from './return-detail/return-detail.component';
 import { ReturnDialogComponent } from './return-dialog/return-dialog.component';
@@ -31,7 +31,7 @@ import { ReturnComponent } from './return/return.component';
     FormsModule,
     LazyLoadImageModule,
     ShredModule,
-    FunctionModule
+    ForAppModule
   ]
 })
 export class ReturnModule {}

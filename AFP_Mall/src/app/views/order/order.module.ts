@@ -9,7 +9,7 @@ import { TextMaskModule } from 'angular2-text-mask';
 
 import { OrderRoutingModule } from './order-routing.module';
 import { ShredModule } from 'src/app/shared/shared.module';
-import { FunctionModule } from '../function/function.module';
+import { ForAppModule } from '../for-app/for-app.module';
 
 import { ShoppingOrderComponent } from './shopping-order/shopping-order.component';
 import { ETicketOrderComponent } from './eticket-order/eticket-order.component';
@@ -38,7 +38,7 @@ import { ShoppingPaymentComponent } from './shopping-payment/shopping-payment.co
     NgxUsefulSwiperModule,
     TextMaskModule,
     ShredModule,
-    FunctionModule
+    ForAppModule
   ]
 })
 export class OrderModule {}

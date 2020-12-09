@@ -9,7 +9,7 @@ import { NgxMasonryModule } from 'ngx-masonry';
 
 import { ShoppingRoutingModule } from './shopping-routing.module';
 import { ShredModule } from 'src/app/shared/shared.module';
-import { FunctionModule } from '../function/function.module';
+import { ForAppModule } from '../for-app/for-app.module';
 
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ProductListComponent } from './product-list/product-list.component';
@@ -37,7 +37,7 @@ import { ShoppingComponent } from './shopping/shopping.component';
     LazyLoadImageModule,
     NgxUsefulSwiperModule,
     ShredModule,
-    FunctionModule,
+    ForAppModule,
     NgxMasonryModule
   ]
 })

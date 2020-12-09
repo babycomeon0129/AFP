@@ -19,7 +19,7 @@ const routes: Routes = [
   { path: 'Member', loadChildren: () => import('./views/member/member/member.module').then(m => m.MemeberModule)},
   { path: 'MemberFunction', loadChildren: () => import('./views/member/member-function/member-function.module').then(m => m.MemberFunctionModule)},
   { path: 'Delivery', loadChildren: () => import('./views/delivery/delivery.module').then(m => m.DeliveryModule)},
-  { path: 'Function', loadChildren: () => import('./views/function/function.module').then(m => m.FunctionModule)},
+  { path: 'ForApp', loadChildren: () => import('./views/for-app/for-app.module').then(m => m.ForAppModule)},
   { path: '**', component: Error404Component }
 ];
 

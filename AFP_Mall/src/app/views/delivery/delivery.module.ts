@@ -5,9 +5,9 @@ import { RouterModule } from '@angular/router';
 
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { ShredModule } from 'src/app/shared/shared.module';
-import { FunctionModule } from '../function/function.module';
 
 import { DeliveryRoutingModule } from './delivery-routing.module';
+import { ForAppModule } from '../for-app/for-app.module';
 
 import { DeliveryInfoComponent } from './delivery-info/delivery-info.component';
 
@@ -24,7 +24,7 @@ import { DeliveryInfoComponent } from './delivery-info/delivery-info.component';
     DeliveryRoutingModule,
     LazyLoadImageModule,
     ShredModule,
-    FunctionModule,
+    ForAppModule,
     FormsModule,
   ]
 })
