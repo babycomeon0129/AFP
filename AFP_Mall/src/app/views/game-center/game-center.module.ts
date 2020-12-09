@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 
-import { GameRoutingModule } from './game-routing.module';
+import { GameCenterRoutingModule } from './game-center-routing.module';
 import { ShredModule } from 'src/app/shared/shared.module';
 import { ForAppModule } from '../for-app/for-app.module';
 
@@ -29,10 +29,10 @@ import { ScratchComponent } from './game/scratch/scratch.component';
   imports: [
     CommonModule,
     RouterModule,
-    GameRoutingModule,
+    GameCenterRoutingModule,
     LazyLoadImageModule,
     ShredModule,
     ForAppModule
   ]
 })
-export class GameModule {}
+export class GameCenterModule {}

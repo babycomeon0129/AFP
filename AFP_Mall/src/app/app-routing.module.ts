@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'Order', loadChildren: () => import('./views/order/order.module').then(m => m.OrderModule)},
   { path: 'Return', loadChildren: () => import('./views/return/return.module').then(m => m.ReturnModule)},
   { path: 'Voucher', loadChildren: () => import('./views/voucher/voucher.module').then(m => m.VoucherModule)},
-  { path: 'GameCenter', loadChildren: () => import('./views/game/game.module').then(m => m.GameModule)},
+  { path: 'GameCenter', loadChildren: () => import('./views/game-center/game-center.module').then(m => m.GameCenterModule)},
   { path: 'Notification', loadChildren: () => import('./views/notification/notification.module').then(m => m.NotificationModule)},
   { path: 'Info', loadChildren: () => import('./views/info/info.module').then(m => m.InfoModule)},
   { path: 'Mission', loadChildren: () => import('./views/mission/mission.module').then(m => m.MissionModule)},
