@@ -30,6 +30,7 @@ defineLocale('zh-cn', zhCnLocale);
 // Component
 import { AppComponent } from './app.component';
 import { MessageModalComponent } from './shared/modal/message-modal/message-modal.component';
+import { Error404Component } from './views/error404/error404.component';
 import { MaintenanceComponent } from './views/maintenance/maintenance.component';
 
 // Service Worker
@@ -57,6 +58,7 @@ export function provideConfig() {
 @NgModule({
   declarations: [
     AppComponent,
+    Error404Component,
     MaintenanceComponent,
   ],
   imports: [

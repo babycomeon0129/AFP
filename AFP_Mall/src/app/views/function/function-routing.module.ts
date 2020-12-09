@@ -6,7 +6,6 @@ import { AppDownloadComponent } from './app-download/app-download.component';
 import { AppGoPaymentComponent } from './app-go-payment/app-go-payment.component';
 import { AppLogoutComponent } from './app-logout/app-logout.component';
 import { AppRedirectComponent } from './app-redirect/app-redirect.component';
-import { Error404Component } from './error404/error404.component';
 import { Error500Component } from './error500/error500.component';
 import { Error503Component } from './error503/error503.component';
 
@@ -20,8 +19,7 @@ const routes: Routes = [
       { path: 'AppLogout', component: AppLogoutComponent },
       { path: 'AppDownload', component: AppDownloadComponent },
       { path: 'Error500', component: Error500Component},
-      { path: 'Error503', component: Error503Component},
-      // { path: '**', component: Error404Component }
+      { path: 'Error503', component: Error503Component}
     ]
   },
 ];

@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
+import { Error404Component } from './views/error404/error404.component';
+
 // tslint:disable: max-line-length
 const routes: Routes = [
   { path: '', loadChildren: () => import('./views/entrance/entrance.module').then(m => m.EntranceModule)},
@@ -17,7 +19,8 @@ const routes: Routes = [
   { path: 'Member', loadChildren: () => import('./views/member/member/member.module').then(m => m.MemeberModule)},
   { path: 'MemberFunction', loadChildren: () => import('./views/member/member-function/member-function.module').then(m => m.MemberFunctionModule)},
   { path: 'Delivery', loadChildren: () => import('./views/delivery/delivery.module').then(m => m.DeliveryModule)},
-  { path: 'Function', loadChildren: () => import('./views/function/function.module').then(m => m.FunctionModule)}
+  { path: 'Function', loadChildren: () => import('./views/function/function.module').then(m => m.FunctionModule)},
+  { path: '**', component: Error404Component }
 ];
 
 @NgModule({
