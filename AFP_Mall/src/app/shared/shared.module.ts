@@ -26,6 +26,10 @@ import { TextFilterPipe } from './pipe/text-filter.pipe';
 // Directive
 import { DigitOnlyDirective } from './directive/digitonly-directive/digit-only.directive';
 import { KeyControllerDirective } from './directive/keycontroller-directive/key-controller.directive';
+// Widget
+import { FooterComponent } from './widget/footer/footer.component';
+// imported Plugin
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 @NgModule({
   declarations: [
@@ -49,7 +53,8 @@ import { KeyControllerDirective } from './directive/keycontroller-directive/key-
     VerifyMobileModalComponent,
     AppleModalComponent,
     DigitOnlyDirective,
-    KeyControllerDirective
+    KeyControllerDirective,
+    FooterComponent
   ],
   exports: [
     SafePipe,
@@ -72,15 +77,15 @@ import { KeyControllerDirective } from './directive/keycontroller-directive/key-
     VerifyMobileModalComponent,
     AppleModalComponent,
     DigitOnlyDirective,
-    KeyControllerDirective
+    KeyControllerDirective,
+    FooterComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-    // SharedPipeModule,
-    // AppRoutingModule
+    LazyLoadImageModule
   ],
   entryComponents: [
     LoginModalComponent,
