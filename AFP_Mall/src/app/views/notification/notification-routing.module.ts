@@ -5,8 +5,9 @@ import { NotificationDetailComponent } from './notification-detail/notification-
 import { NotificationComponent } from './notification/notification.component';
 
 const routes: Routes = [
-  { path: '', component: NotificationComponent },
-  { path: 'Notification/:IMessage_Code', component: NotificationDetailComponent }
+  { path: '', redirectTo: 'NotificationList' },
+  { path: 'NotificationList', component: NotificationComponent },
+  { path: 'NotificationDetail/:IMessage_Code', component: NotificationDetailComponent }
 ];
 
 @NgModule({
