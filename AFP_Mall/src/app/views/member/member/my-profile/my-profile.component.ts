@@ -177,14 +177,15 @@ export class MyProfileComponent implements OnInit {
 
   /** 檔案上傳 */
   onFileSelected(event): void {
-
+    // 避免部分瀏覽器沒有event.target選項(如IE6-8)
+    const filesEvent  = event.target ? event.target : event.srcElement;
     const fd = new FormData();
     // 圖片大小限制4MB
-    if (event.srcElement.files.length > 0) {
-      if (event.srcElement.files[0].size > 4194304) {
+    if (filesEvent.files.length > 0 ) {
+      if (filesEvent.files[0].size > 4194304 ) {
         this.modal.show('message', { initialState: { success: false, message: '圖片大小超過4MB，上傳失敗！', showType: 1 } });
       } else {
-        fd.append('WebFile', event.target.files[0], event.target.files[0].name);
+        fd.append('WebFile', filesEvent.files[0], filesEvent.files[0].name);
         this.appService.tofile('Files/SingleFile', fd).subscribe((data: Response_Files) => {
           this.userCertificate.UserFavourite_TypeCode = data.List_FileSettings[0].FileSettings_ID;
           this.isUpload = true;
