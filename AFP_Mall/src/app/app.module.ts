@@ -1,5 +1,5 @@
 // Module
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, ɵbypassSanitizationTrustResourceUrl } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
@@ -105,11 +105,13 @@ export function provideConfig() {
   const config = new AuthServiceConfig([
     {
       id: GoogleLoginProvider.PROVIDER_ID,
-      provider: new GoogleLoginProvider(environment.GoogleApiKey)
+      provider: new GoogleLoginProvider(environment.GoogleApiKey),
+      lazyLoad: true
     },
     {
       id: FacebookLoginProvider.PROVIDER_ID,
-      provider: new FacebookLoginProvider(environment.FBApiKey)
+      provider: new FacebookLoginProvider(environment.FBApiKey),
+      lazyLoad: true
     }
   ]);
 
