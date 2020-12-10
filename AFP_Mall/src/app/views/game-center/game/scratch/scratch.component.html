@@ -84,6 +84,7 @@
   <!-- 開獎訊息 -->
   <div class="uplayer">
       <div class="winmsg">
+        <button type="button" class="btn winbtn" (click)="playAgain()">×</button>
           <div class="winbox w-100">
               <div class="wincontbox">
                   <img [lazyLoad]="prizeData?.GamePart_State === 0? '/img/mission/thanks.png' : prizeData?.GamePart_ItemImage" [defaultImage]="appService.defaultImage">
