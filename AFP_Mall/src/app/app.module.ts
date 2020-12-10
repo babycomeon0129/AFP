@@ -46,11 +46,13 @@ export function provideConfig() {
   const config = new AuthServiceConfig([
     {
       id: GoogleLoginProvider.PROVIDER_ID,
-      provider: new GoogleLoginProvider(environment.GoogleApiKey)
+      provider: new GoogleLoginProvider(environment.GoogleApiKey),
+      lazyLoad: true
     },
     {
       id: FacebookLoginProvider.PROVIDER_ID,
-      provider: new FacebookLoginProvider(environment.FBApiKey)
+      provider: new FacebookLoginProvider(environment.FBApiKey),
+      lazyLoad: true
     }
   ]);
 
