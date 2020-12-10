@@ -27,7 +27,7 @@ import { TextFilterPipe } from './pipe/text-filter.pipe';
 import { DigitOnlyDirective } from './directive/digitonly-directive/digit-only.directive';
 import { KeyControllerDirective } from './directive/keycontroller-directive/key-controller.directive';
 // Widget
-import { FooterComponent } from './widget/footer/footer.component';
+import { PCFooterComponent } from './widget/pc-footer/pc-footer.component';
 // imported Plugin
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 
@@ -54,7 +54,7 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
     AppleModalComponent,
     DigitOnlyDirective,
     KeyControllerDirective,
-    FooterComponent
+    PCFooterComponent
   ],
   exports: [
     SafePipe,
@@ -78,7 +78,7 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
     AppleModalComponent,
     DigitOnlyDirective,
     KeyControllerDirective,
-    FooterComponent
+    PCFooterComponent
   ],
   imports: [
     CommonModule,

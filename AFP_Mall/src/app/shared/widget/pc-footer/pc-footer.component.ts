@@ -4,10 +4,10 @@ import { AppService } from 'src/app/app.service';
 import { ModalService } from '../../../shared/modal/modal.service';
 
 @Component({
-  selector: 'app-footer',
-  templateUrl: './footer.component.html'
+  selector: 'app-pc-footer',
+  templateUrl: './pc-footer.component.html'
 })
-export class FooterComponent implements OnInit {
+export class PCFooterComponent implements OnInit {
 
   public show = false;
   public justkaImg = 'img/index/icons/for-pc/icon_service.png';
