@@ -9,14 +9,12 @@ import { CouponModalComponent } from './modal/coupon-modal/coupon-modal.componen
 import { FavoriteModalComponent } from './modal/favorite-modal/favorite-modal.component';
 import { ForgetModalComponent } from './modal/forget-modal/forget-modal.component';
 import { JustkaModalComponent } from './modal/justka-modal/justka-modal.component';
-import { LoginModalComponent } from './modal/login-modal/login-modal.component';
 import { LoginRegisterModalComponent } from './modal/login-register-modal/login-register-modal.component';
 import { MessageModalComponent } from './modal/message-modal/message-modal.component';
 import { MissionModalComponent } from './modal/mission-modal/mission-modal.component';
 import { MsgShareModalComponent } from './modal/msg-share-modal/msg-share-modal.component';
 import { PasswordModalComponent } from './modal/password-modal/password-modal.component';
 import { ReceiptModalComponent } from './modal/receipt-modal/receipt-modal.component';
-import { RegisterModalComponent } from './modal/register-modal/register-modal.component';
 import { VcodeModalComponent } from './modal/vcode-modal/vcode-modal.component';
 import { VerifyMobileModalComponent } from './modal/verify-mobile-modal/verify-mobile-modal.component';
 // Pipe
@@ -36,8 +34,6 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
     SafePipe,
     ConvertPipe,
     TextFilterPipe,
-    LoginModalComponent,
-    RegisterModalComponent,
     ForgetModalComponent,
     VcodeModalComponent,
     PasswordModalComponent,
@@ -60,8 +56,6 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
     SafePipe,
     ConvertPipe,
     TextFilterPipe,
-    LoginModalComponent,
-    RegisterModalComponent,
     ForgetModalComponent,
     VcodeModalComponent,
     PasswordModalComponent,
@@ -88,8 +82,6 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
     LazyLoadImageModule
   ],
   entryComponents: [
-    LoginModalComponent,
-    RegisterModalComponent,
     ForgetModalComponent,
     VcodeModalComponent,
     PasswordModalComponent,
