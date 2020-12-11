@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppService } from './../../../app.service';
 
@@ -9,21 +9,20 @@ declare var AppJSInterface: any;
   templateUrl: './mobile-footer.component.html',
   styleUrls: ['./mobile-footer.component.css']
 })
-export class MobileFooterComponent implements OnInit {
+export class MobileFooterComponent implements OnInit, OnDestroy {
+  /** 當前網址（判斷icon是否填滿） */
   public currentUrl = '';
-
-  /** 不顯示手機版footer的頁面  */
-  public mobileNoFooter = ['ExploreDetail', 'Map', 'ShoppingCart', 'ShoppingOrder', 'ShoppingPayment', 'ProductDetail',
-  'Return', 'ReturnDetail', 'ReturnDialog', 'ETicketOrder', 'ETicketDetail', 'ETocketOrderDetail',
-  'MyProfile', 'MyPayment', 'CellVerification', 'MyAddress', 'PasswordUpdate', 'ThirdBinding', 'DeliveryInfo', 'Game/', 'VoucherDetail',
-  'NotificationDetail', 'Terms', 'Privacy', 'QA', 'Error404', 'Error500', 'Error503'];
+  /** 不顯示mobile footer的頁面 */
+  // public mobileNoFooter = ['ExploreDetail', 'Map', 'ShoppingCart', 'ShoppingOrder', 'ShoppingPayment', 'ProductDetail',
+  // 'Return', 'ReturnDetail', 'ReturnDialog', 'ETicketOrder', 'ETicketDetail', 'ETocketOrderDetail',
+  // 'MyProfile', 'MyPayment', 'CellVerification', 'MyAddress', 'PasswordUpdate', 'ThirdBinding', 'DeliveryInfo', 'Game/', 'VoucherDetail',
+  // 'NotificationDetail', 'Terms', 'Privacy', 'QA', 'Error404', 'Error500', 'Error503'];
 
   constructor(public appService: AppService, public router: Router) { }
 
   ngOnInit() {
     this.currentUrl = this.router.url;
-
-    // this.appShowbottomBar(this.showMobileFooter);
+    this.appShowMobileFooter(true);
   }
 
   /** 前往頁面前判斷登入狀態 */
@@ -36,16 +35,20 @@ export class MobileFooterComponent implements OnInit {
   }
 
   /** 通知APP是否開啟BottomBar */
-  // appShowbottomBar(isOpen: boolean): void {
-  //   if (this.appService.isApp !== null) {
-  //     if (navigator.userAgent.match(/android/i)) {
-  //       //  Android
-  //       AppJSInterface.showBottomBar(isOpen);
-  //     } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-  //       //  IOS
-  //       (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showBottomBar', isShow: isOpen });
-  //     }
-  //   }
-  // }
+  appShowMobileFooter(isOpen: boolean): void {
+    if (this.appService.isApp !== null) {
+      if (navigator.userAgent.match(/android/i)) {
+        //  Android
+        AppJSInterface.showBottomBar(isOpen);
+      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+        //  IOS
+        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showBottomBar', isShow: isOpen });
+      }
+    }
+  }
+
+  ngOnDestroy() {
+    this.appShowMobileFooter(false);
+  }
 
 }
