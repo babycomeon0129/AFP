@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
+import { Component, OnInit, AfterViewInit, DoCheck, OnDestroy, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from '../../service/modal.service';
 import {
@@ -19,7 +19,7 @@ declare var $: any;
   templateUrl: './entrance.component.html',
   styleUrls: ['../../../dist/style/home.min.css', '../../../dist/style/travel-index.min.css']
 })
-export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
+export class EntranceComponent implements OnInit, AfterViewInit, DoCheck, OnDestroy {
   public userProfile: Model_MemberProfile = new Model_MemberProfile();
 
   /** 進場廣告swiper */
@@ -311,6 +311,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
     if (adTimeString !== nowTime) {
       this.cookieService.set('adTime', JSON.stringify(nowTime), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       this.adIndexTime = true;
+      // TODO: 需要再改一下，"真的"有秀廣告在判斷document.body.style.overflow = 'hidden' ; 可能不能放在ngAfterViewInit了
       document.body.style.overflow = 'hidden' ;
     } else {
       this.adIndexTime = false;
@@ -547,6 +548,10 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
         }
       });
     }
+  }
+
+  ngOnDestroy(): void {
+    document.body.removeAttribute('style');
   }
 }
 
