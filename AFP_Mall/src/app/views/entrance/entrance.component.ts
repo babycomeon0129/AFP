@@ -314,6 +314,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
       document.body.style.overflow = 'hidden' ;
     } else {
       this.adIndexTime = false;
+      document.body.removeAttribute('style');
     }
   }
 
