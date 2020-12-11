@@ -12,7 +12,7 @@ import { AgmCoreModule } from '@agm/core';
 import { BlockUIModule } from 'ng-block-ui';
 import { NgxMasonryModule } from 'ngx-masonry';
 import { CookieService } from 'ngx-cookie-service';
-import { ShredModule } from './shared/shared.module';
+import { SharedModule } from './shared/shared.module';
 import { QRCodeModule } from 'angularx-qrcode';
 import { TextMaskModule } from 'angular2-text-mask';
 import { NgCircleProgressModule } from 'ng-circle-progress';
@@ -70,7 +70,7 @@ export function provideConfig() {
   imports: [
     BrowserModule,
     // MaintenanceRoutingModule, // 系統維護或大更新時取消「這裡」及「此routing中」的註解，並手動更新maintenance.html中的日期及時間
-    ShredModule,
+    SharedModule,
     AppRoutingModule,
     HttpClientModule,
     SocialLoginModule,

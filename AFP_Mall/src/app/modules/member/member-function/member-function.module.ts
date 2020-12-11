@@ -8,7 +8,7 @@ import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 import { QRCodeModule } from 'angularx-qrcode';
 
 import { MemberFunctionRoutingModule } from './member-function-routing.module';
-import { ShredModule } from 'src/app/shared/shared.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { MemberService } from '../member.service';
 import { ForAppModule } from '../../for-app/for-app.module';
 
@@ -55,7 +55,7 @@ import { MyOrderDetailComponent } from './my-order-detail/my-order-detail.compon
     FormsModule,
     LazyLoadImageModule,
     NgxUsefulSwiperModule,
-    ShredModule,
+    SharedModule,
     ForAppModule,
     QRCodeModule
   ],

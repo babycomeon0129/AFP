@@ -8,7 +8,7 @@ import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 import { BsDatepickerModule } from 'ngx-bootstrap';
 
 import { MemberRoutingModule } from './member-routing.module';
-import { ShredModule } from 'src/app/shared/shared.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { MemberService } from '../member.service';
 import { ForAppModule } from '../../for-app/for-app.module';
 
@@ -52,7 +52,7 @@ import { PasswordUpdateComponent } from './password-update/password-update.compo
     FormsModule,
     LazyLoadImageModule,
     NgxUsefulSwiperModule,
-    ShredModule,
+    SharedModule,
     ForAppModule,
     BsDatepickerModule
   ],

@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 import { GameCenterRoutingModule } from './game-center-routing.module';
-import { ShredModule } from 'src/app/shared/shared.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { ForAppModule } from '../for-app/for-app.module';
 
 import { GameComponent } from './game/game.component';
@@ -31,7 +31,7 @@ import { ScratchComponent } from './game/scratch/scratch.component';
     RouterModule,
     GameCenterRoutingModule,
     LazyLoadImageModule,
-    ShredModule,
+    SharedModule,
     ForAppModule
   ]
 })

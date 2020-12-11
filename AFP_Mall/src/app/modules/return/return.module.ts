@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 import { ReturnRoutingModule } from './return-routing.module';
-import { ShredModule } from 'src/app/shared/shared.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { ForAppModule } from '../for-app/for-app.module';
 
 import { ReturnDetailComponent } from './return-detail/return-detail.component';
@@ -30,7 +30,7 @@ import { ReturnComponent } from './return/return.component';
     ReturnRoutingModule,
     FormsModule,
     LazyLoadImageModule,
-    ShredModule,
+    SharedModule,
     ForAppModule
   ]
 })

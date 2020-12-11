@@ -8,7 +8,7 @@ import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 import { AgmCoreModule } from '@agm/core';
 
 import { ExploreRoutingModule } from './explore-routing.module';
-import { ShredModule } from 'src/app/shared/shared.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { ForAppModule } from '../for-app/for-app.module';
 
 import { ExploreDetailComponent } from './explore-detail/explore-detail.component';
@@ -35,7 +35,7 @@ import { ExploreMapComponent } from './explore-map/explore-map.component';
     ExploreRoutingModule,
     LazyLoadImageModule,
     NgxUsefulSwiperModule,
-    ShredModule,
+    SharedModule,
     ForAppModule,
     FormsModule,
     AgmCoreModule

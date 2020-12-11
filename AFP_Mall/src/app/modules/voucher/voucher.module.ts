@@ -7,7 +7,7 @@ import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 import { QRCodeModule } from 'angularx-qrcode';
 
 import { VoucherRoutingModule } from './voucher-routing.module';
-import { ShredModule } from 'src/app/shared/shared.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { ForAppModule } from '../for-app/for-app.module';
 
 import { EventComponent } from './event/event.component';
@@ -37,7 +37,7 @@ import { VoucherDetailComponent } from './voucher-detail/voucher-detail.componen
     VoucherRoutingModule,
     LazyLoadImageModule,
     NgxUsefulSwiperModule,
-    ShredModule,
+    SharedModule,
     ForAppModule,
     QRCodeModule
   ]

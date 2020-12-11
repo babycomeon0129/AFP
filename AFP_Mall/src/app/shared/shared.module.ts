@@ -26,6 +26,7 @@ import { DigitOnlyDirective } from './directive/digitonly-directive/digit-only.d
 import { KeyControllerDirective } from './directive/keycontroller-directive/key-controller.directive';
 // Widget
 import { PCFooterComponent } from './widget/pc-footer/pc-footer.component';
+import { MobileFooterComponent } from './widget/mobile-footer/mobile-footer.component';
 // imported Plugin
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 
@@ -50,7 +51,8 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
     AppleModalComponent,
     DigitOnlyDirective,
     KeyControllerDirective,
-    PCFooterComponent
+    PCFooterComponent,
+    MobileFooterComponent
   ],
   exports: [
     SafePipe,
@@ -72,7 +74,8 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
     AppleModalComponent,
     DigitOnlyDirective,
     KeyControllerDirective,
-    PCFooterComponent
+    PCFooterComponent,
+    MobileFooterComponent
   ],
   imports: [
     CommonModule,
@@ -98,4 +101,4 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
     AppleModalComponent,
   ]
 })
-export class ShredModule {}
+export class SharedModule {}

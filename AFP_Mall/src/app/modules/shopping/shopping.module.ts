@@ -8,7 +8,7 @@ import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 import { NgxMasonryModule } from 'ngx-masonry';
 
 import { ShoppingRoutingModule } from './shopping-routing.module';
-import { ShredModule } from 'src/app/shared/shared.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { ForAppModule } from '../for-app/for-app.module';
 
 import { ProductDetailComponent } from './product-detail/product-detail.component';
@@ -36,7 +36,7 @@ import { ShoppingComponent } from './shopping/shopping.component';
     FormsModule,
     LazyLoadImageModule,
     NgxUsefulSwiperModule,
-    ShredModule,
+    SharedModule,
     ForAppModule,
     NgxMasonryModule
   ]
