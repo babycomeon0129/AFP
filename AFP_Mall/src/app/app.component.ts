@@ -1,5 +1,5 @@
 import { environment } from 'src/environments/environment';
-import { Component, OnInit, AfterViewInit, AfterViewChecked, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from './shared/modal/modal.service';
@@ -14,7 +14,6 @@ import { slideInAnimation } from './animations';
   animations: [slideInAnimation]
 })
 export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
-  @ViewChild('MobileFooter', { read: ElementRef, static: true }) MobileFooter: ElementRef;
   /** 裝置系統或瀏覽器版本是否過舊 */
   public isOld: boolean;
   /** 需更新項目 */
