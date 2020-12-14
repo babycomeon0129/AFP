@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, DoCheck, OnDestroy, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
+import { Component, OnInit, AfterViewInit, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from '../../service/modal.service';
 import {
@@ -19,7 +19,7 @@ declare var $: any;
   templateUrl: './entrance.component.html',
   styleUrls: ['../../../dist/style/home.min.css', '../../../dist/style/travel-index.min.css']
 })
-export class EntranceComponent implements OnInit, AfterViewInit, DoCheck, OnDestroy {
+export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   public userProfile: Model_MemberProfile = new Model_MemberProfile();
 
   /** 進場廣告swiper */
@@ -289,6 +289,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck, OnDest
           this.deliveryArea = data.List_DeliveryData;
           this.nowVoucher = data.List_Voucher;
           this.adIndex = data.ADImg_Approach;
+          // 只有一張廣告圖時不輪播
           if ( this.adIndex.length === 1) {
             this.adIndexOption.loop = false;
           }
@@ -311,8 +312,10 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck, OnDest
     if (adTimeString !== nowTime) {
       this.cookieService.set('adTime', JSON.stringify(nowTime), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       this.adIndexTime = true;
-      // TODO: 需要再改一下，"真的"有秀廣告在判斷document.body.style.overflow = 'hidden' ; 可能不能放在ngAfterViewInit了
-      document.body.style.overflow = 'hidden' ;
+      // 出現首頁廣告版面才禁止背景滑動
+      if ( this.adIndex.length > 0 && this.appService.adIndexOpen) {
+        document.body.style.overflow = 'hidden' ;
+      }
     } else {
       this.adIndexTime = false;
       document.body.removeAttribute('style');
@@ -535,7 +538,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck, OnDest
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.adIndexChenck();
-    }, 3000);
+    }, 2000);
   }
 
   ngDoCheck(): void {
@@ -548,10 +551,6 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck, OnDest
         }
       });
     }
-  }
-
-  ngOnDestroy(): void {
-    document.body.removeAttribute('style');
   }
 }
 
