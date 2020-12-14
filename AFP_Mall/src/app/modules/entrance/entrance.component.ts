@@ -7,7 +7,7 @@ import {
   Request_OtherInfo
 } from '../../_models';
 import { SwiperOptions } from 'swiper';
-import { Router } from '@angular/router';
+import { Route, Router, ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'src/environments/environment';
 import { Meta, Title } from '@angular/platform-browser';
@@ -241,7 +241,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   public animationMoveUpOut = false;
 
   constructor(public appService: AppService, public modal: ModalService, private router: Router, private differs: KeyValueDiffers,
-              private meta: Meta, private title: Title, private cookieService: CookieService) {
+              private meta: Meta, private title: Title, private cookieService: CookieService, public route: ActivatedRoute) {
     this.serviceDiffer = this.differs.find({}).create();
     // tslint:disable: max-line-length
     this.title.setTitle('Mobii!｜城市生活服務平台');
@@ -251,7 +251,25 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   }
 
   ngOnInit() {
-    this.readHome(1);
+    // 從route resolver取得首頁資料
+    this.route.data.subscribe((data: { homeData: Response_Home }) => {
+      this.adTop = data.homeData.ADImg_Top;
+      this.adMid4 = data.homeData.ADImg_Activity;
+      this.adMid = data.homeData.ADImg_Theme;
+      this.hitArea = data.homeData.List_AreaData;
+      this.hitTravel = data.homeData.List_TravelData;
+      this.popProducts = data.homeData.List_ProductData;
+      this.userPoint = data.homeData.TotalPoint;
+      this.userVoucherCount = data.homeData.VoucherCount;
+      this.deliveryArea = data.homeData.List_DeliveryData;
+      this.nowVoucher = data.homeData.List_Voucher;
+      this.adIndex = data.homeData.ADImg_Approach;
+      if (this.adIndex.length === 1) {
+        this.adIndexOption.loop = false;
+      }
+    });
+    // this.readHome(1);
+    this.getHomeservice();
     // 若有登入則顯示名字、M Points及優惠券資訊（手機版）、我的收藏
     if (this.appService.loginState) {
       this.userName = sessionStorage.getItem('userName');
@@ -298,7 +316,6 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
           this.userVoucherCount = data.VoucherCount;
           break;
       }
-      this.getHomeservice();
     });
   }
 
@@ -311,7 +328,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
     if (adTimeString !== nowTime) {
       this.cookieService.set('adTime', JSON.stringify(nowTime), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       this.adIndexTime = true;
-      document.body.style.overflow = 'hidden' ;
+      document.body.style.overflow = 'hidden';
     } else {
       this.adIndexTime = false;
     }
@@ -542,6 +559,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
       change.forEachChangedItem(item => {
         if (item.key === 'loginState' && item.currentValue === true) {
           // 在此頁登入則更新使用者暱稱、點數、優惠券、我的服務
+          console.log('ngDoCheck-loginState === true');
           this.readHome(2);
         }
       });

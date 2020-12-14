@@ -525,12 +525,12 @@ export interface jQuery {
   animateCss(): void;
 }
 
-jQuery.prototype.animateCss = function (animationName, anotherCss, callback): void {
+jQuery.prototype.animateCss = function(animationName, anotherCss, callback): void {
   const animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
   const isAdd = anotherCss.substr(0, 1);
   const addCss = anotherCss.substr(1);
   if (isAdd === '+' || isAdd === '-') {
-    this.addClass('animated ' + animationName + ' ' + addCss).bind(animationEnd, function () {
+    this.addClass('animated ' + animationName + ' ' + addCss).bind(animationEnd, function() {
       if (isAdd === '+') { $(this).addClass(addCss); }
       if (isAdd === '-') { $(this).removeClass(addCss); }
       $(this).removeClass('animated ' + animationName);
