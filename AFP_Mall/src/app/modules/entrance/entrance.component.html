@@ -52,7 +52,7 @@
       </div>
       <img src="img/index/txt.png" class="m-topbox-item sloger">
     </div>
-    <!-- 手機版 -->
+    <!-- 手機版 上方banner -->
     <section class="mobii-bnbox">
       <div class="userbox mr-auto">
         <div *ngIf="appService.loginState == true" class="txt-line-clamp1 user-hi">你好，{{userName}}</div>
@@ -73,7 +73,7 @@
         <div class="carousel-inner">
           <a *ngFor="let ad of adTop; let First = first" href="{{ad?.ADImg_URL}}" target="{{ad?.ADImg_URLTarget}}"
             rel="noopener noreferrer" [ngClass]="{'active': First}" class="carousel-item">
-            <img [lazyLoad]="ad?.ADImg_Img" [defaultImage]="appService.defaultImage" class="d-block w-100" alt="">
+            <img [src]="ad?.ADImg_Img" class="d-block w-100" alt="">
           </a>
         </div>
       </div>
@@ -82,7 +82,7 @@
   <main class="pt-0">
     <div class="main-content container">
       <div class="row pt-2">
-        <!-- 主要連結 -->
+        <!-- 我的服務-主要連結(PC) -->
         <div class="col-12 for-pc">
           <!-- Swiper for icons -->
           <div class="index-iconbox">
@@ -93,7 +93,7 @@
                     <a href="javascript:;" (click)="FunctionLink(item, false)"
                       [ngClass]="{'disable' : item.Function_IsActive == 0}">
                       <div class="img-box">
-                        <img [lazyLoad]="item.Function_Icon" [defaultImage]="appService.defaultImage" alt="">
+                        <img [src]="item?.Function_Icon" [alt]="item?.Function_Name">
                       </div>{{item.Function_Name}}
                     </a>
                   </div>
@@ -104,14 +104,14 @@
             <div class="swiper-button-next"></div>
           </div>
         </div>
+        <!-- 我的服務-主要連結(mobile) -->
         <div class="for-mobile w-100">
           <div class="col-12 center-v">
             <div class="mainicon-link default-link">
               <div *ngFor="let item of ftTop" class="link-item">
                 <a href="javascript:;" (click)="FunctionLink(item, false)">
                   <div class="img-box">
-                    <img [lazyLoad]="item.Function_Icon" [defaultImage]="appService.defaultImage"
-                      alt="{{item.Function_Name}}">
+                    <img [src]="item?.Function_Icon" [alt]="[item?.Function_Name]">
                   </div>
                   <p>{{item.Function_Name}}</p>
                 </a>
@@ -124,8 +124,7 @@
               <div *ngFor="let item of ftBottom" class="link-item">
                 <a href="javascript:;" (click)="FunctionLink(item, false)">
                   <div class="img-box">
-                    <img [lazyLoad]="item.Function_Icon" [defaultImage]="appService.defaultImage"
-                      alt="{{item.Function_Name}}">
+                    <img [src]="item?.Function_Icon" [alt]="item?.Function_Name">
                   </div>
                   <p>{{item.Function_Name}}</p>
                 </a>
@@ -151,7 +150,7 @@
             <div class="swiper-slide" *ngFor="let item of adMid4">
               <div class="item">
                 <a class="link-item" (click)="adRoute(item?.ADImg_URL, item?.ADImg_URLTarget)">
-                  <img [lazyLoad]="item.ADImg_Img" [defaultImage]="appService.defaultImage" [alt]="item?.ADImg_Title">
+                  <img [src]="item?.ADImg_Img" [alt]="item?.ADImg_Title">
                 </a>
               </div>
             </div>
@@ -168,8 +167,7 @@
             <div class="swiper-slide" *ngFor="let item of adMid">
               <a [href]="item?.ADImg_URL == '/'? null : item?.ADImg_URL" [target]="item?.ADImg_URLTarget"
                 rel="noopener noreferrer">
-                <div class="rwdimg-cover h37" [lazyLoad]="item.ADImg_Img" [defaultImage]="appService.defaultImage">
-                </div>
+                <div class="rwdimg-cover h37" [style.background-image]="'url('+item?.ADImg_Img+')'"></div>
               </a>
             </div>
           </div>
