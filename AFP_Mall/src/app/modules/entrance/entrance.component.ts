@@ -306,7 +306,8 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
           this.deliveryArea = data.List_DeliveryData;
           this.nowVoucher = data.List_Voucher;
           this.adIndex = data.ADImg_Approach;
-          if (this.adIndex.length === 1) {
+          // 只有一張廣告圖時不輪播
+          if ( this.adIndex.length === 1) {
             this.adIndexOption.loop = false;
           }
           break;
@@ -328,9 +329,13 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
     if (adTimeString !== nowTime) {
       this.cookieService.set('adTime', JSON.stringify(nowTime), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       this.adIndexTime = true;
-      document.body.style.overflow = 'hidden';
+      // 出現首頁廣告版面才禁止背景滑動
+      if ( this.adIndex.length > 0 && this.appService.adIndexOpen) {
+        document.body.style.overflow = 'hidden' ;
+      }
     } else {
       this.adIndexTime = false;
+      document.body.removeAttribute('style');
     }
   }
 
@@ -550,7 +555,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.adIndexChenck();
-    }, 3000);
+    }, 2000);
   }
 
   ngDoCheck(): void {

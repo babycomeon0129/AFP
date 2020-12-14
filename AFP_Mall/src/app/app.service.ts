@@ -169,6 +169,8 @@ export class AppService {
     sessionStorage.clear();
     localStorage.clear();
     this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+    // 為避免刪除不到以前存的Domain設置為www.mobii.ai的cookie，而導致的無法登出問題
+    this.cookieService.deleteAll('/', 'www.mobii.ai', environment.cookieSecure, 'Lax');
     this.loginState = false;
     this.userFavCodes = [];
     this.pushCount = 0;

@@ -76,6 +76,7 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
       this.requestMobileVerify.VerifiedInfo.CheckValue = data.VerifiedInfo.CheckValue;
       this.remainingSec = 60; // 開始倒數60秒
       // 每秒更新剩餘秒數
+      this.remainingSec = 60; // 開始倒數60秒
       this.vcodeTimer = setInterval(() => {
         // 計算剩餘秒數
         this.remainingSec -= 1;
