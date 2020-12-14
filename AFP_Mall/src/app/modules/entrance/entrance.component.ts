@@ -360,6 +360,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
 
   /** 首頁我的服務 */
   getHomeservice(): void {
+    this.appService.openBlock();
     const request: Request_AFPUserService = {
       User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 1
