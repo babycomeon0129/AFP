@@ -2,9 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-// Guard
-import { AuthUserGuard } from './guard/auth-user-guard/auth-user.guard';
-import { SessionAliveGuard } from './guard/session-alive-guard/session-alive.guard';
 // Pipe
 import { ConvertPipe } from './pipe/convert-pipe/convert.pipe';
 import { SafePipe } from './pipe/safe-pipe/safe.pipe';
@@ -35,8 +32,6 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 @NgModule({
   declarations: [
-    SessionAliveGuard,
-    AuthUserGuard,
     SafePipe,
     ConvertPipe,
     TextFilterPipe,
@@ -60,8 +55,6 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
     MobileFooterComponent
   ],
   exports: [
-    SessionAliveGuard,
-    AuthUserGuard,
     SafePipe,
     ConvertPipe,
     TextFilterPipe,
