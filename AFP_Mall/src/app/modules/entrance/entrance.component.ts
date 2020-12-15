@@ -252,23 +252,23 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
 
   ngOnInit() {
     // 從route resolver取得首頁資料
-    this.route.data.subscribe((data: { homeData: Response_Home }) => {
-      this.adTop = data.homeData.ADImg_Top;
-      this.adMid4 = data.homeData.ADImg_Activity;
-      this.adMid = data.homeData.ADImg_Theme;
-      this.hitArea = data.homeData.List_AreaData;
-      this.hitTravel = data.homeData.List_TravelData;
-      this.popProducts = data.homeData.List_ProductData;
-      this.userPoint = data.homeData.TotalPoint;
-      this.userVoucherCount = data.homeData.VoucherCount;
-      this.deliveryArea = data.homeData.List_DeliveryData;
-      this.nowVoucher = data.homeData.List_Voucher;
-      this.adIndex = data.homeData.ADImg_Approach;
-      if (this.adIndex.length === 1) {
-        this.adIndexOption.loop = false;
-      }
-    });
-    // this.readHome(1);
+    // this.route.data.subscribe((data: { homeData: Response_Home }) => {
+    //   this.adTop = data.homeData.ADImg_Top;
+    //   this.adMid4 = data.homeData.ADImg_Activity;
+    //   this.adMid = data.homeData.ADImg_Theme;
+    //   this.hitArea = data.homeData.List_AreaData;
+    //   this.hitTravel = data.homeData.List_TravelData;
+    //   this.popProducts = data.homeData.List_ProductData;
+    //   this.userPoint = data.homeData.TotalPoint;
+    //   this.userVoucherCount = data.homeData.VoucherCount;
+    //   this.deliveryArea = data.homeData.List_DeliveryData;
+    //   this.nowVoucher = data.homeData.List_Voucher;
+    //   this.adIndex = data.homeData.ADImg_Approach;
+    //   if (this.adIndex.length === 1) {
+    //     this.adIndexOption.loop = false;
+    //   }
+    // });
+    this.readHome(1);
     this.getHomeservice();
     // 若有登入則顯示名字、M Points及優惠券資訊（手機版）、我的收藏
     if (this.appService.loginState) {

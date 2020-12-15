@@ -8,7 +8,7 @@ const routes: Routes = [
   { path: '',
     canActivate: [SessionAliveGuard],
     component: EntranceComponent, data: {animation: 'Entrance'},
-    resolve: {homeData: EntranceResolver}
+    // resolve: {homeData: EntranceResolver}
   }
 ];
 
