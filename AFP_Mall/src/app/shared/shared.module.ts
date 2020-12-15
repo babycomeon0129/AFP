@@ -18,9 +18,9 @@ import { ReceiptModalComponent } from './modal/receipt-modal/receipt-modal.compo
 import { VcodeModalComponent } from './modal/vcode-modal/vcode-modal.component';
 import { VerifyMobileModalComponent } from './modal/verify-mobile-modal/verify-mobile-modal.component';
 // Pipe
-import { ConvertPipe } from './pipe/convert.pipe';
-import { SafePipe } from './pipe/safe.pipe';
-import { TextFilterPipe } from './pipe/text-filter.pipe';
+import { ConvertPipe } from './pipe/convert-pipe/convert.pipe';
+import { SafePipe } from './pipe/safe-pipe/safe.pipe';
+import { TextFilterPipe } from './pipe/text-filter-pipe/text-filter.pipe';
 // Directive
 import { DigitOnlyDirective } from './directive/digitonly-directive/digit-only.directive';
 import { KeyControllerDirective } from './directive/keycontroller-directive/key-controller.directive';

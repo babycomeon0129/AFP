@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap';
-import { MessageModalComponent } from '../../shared/modal/message-modal/message-modal.component';
-import { AppService } from '../../app.service';
-import { Model_ShareData } from '../../_models';
+import { MessageModalComponent } from '../../../shared/modal/message-modal/message-modal.component';
+import { AppService } from '../../../app.service';
+import { Model_ShareData } from '../../../_models';
 
 @Injectable({
   providedIn: 'root'

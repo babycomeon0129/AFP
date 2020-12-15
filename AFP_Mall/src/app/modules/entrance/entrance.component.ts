@@ -5,9 +5,9 @@ import {
   Response_Home, AFP_ADImg, Model_AreaJsonFile, AFP_Function, Model_TravelJsonFile,
   Model_ShareData, Model_MemberProfile, AFP_UserFavourite, Request_Home, AFP_ChannelProduct, AFP_ChannelVoucher,
   Request_OtherInfo
-} from '../../_models';
+} from 'src/app/_models';
 import { SwiperOptions } from 'swiper';
-import { Route, Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'src/environments/environment';
 import { Meta, Title } from '@angular/platform-browser';
@@ -565,7 +565,6 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
       change.forEachChangedItem(item => {
         if (item.key === 'loginState' && item.currentValue === true) {
           // 在此頁登入則更新使用者暱稱、點數、優惠券、我的服務
-          console.log('ngDoCheck-loginState === true');
           this.readHome(2);
         }
       });

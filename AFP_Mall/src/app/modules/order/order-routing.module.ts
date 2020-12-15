@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { SessionAliveGuard } from 'src/app/shared/auth/session-alive.guard';
+import { SessionAliveGuard } from 'src/app/shared/guard/session-alive-guard/session-alive.guard';
 
 import { ShoppingOrderComponent } from './shopping-order/shopping-order.component';
 import { ETicketOrderComponent } from './eticket-order/eticket-order.component';

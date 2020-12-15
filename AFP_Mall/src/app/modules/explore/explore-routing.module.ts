@@ -1,6 +1,6 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { SessionAliveGuard } from 'src/app/shared/auth/session-alive.guard';
+import { SessionAliveGuard } from 'src/app/shared/guard/session-alive-guard/session-alive.guard';
 
 import { ExploreDetailComponent } from './explore-detail/explore-detail.component';
 import { ExploreListComponent } from './explore-list/explore-list.component';

@@ -1,7 +1,7 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 
-import { SessionAliveGuard } from 'src/app/shared/auth/session-alive.guard';
+import { SessionAliveGuard } from 'src/app/shared/guard/session-alive-guard/session-alive.guard';
 
 import { ReturnDetailComponent } from './return-detail/return-detail.component';
 import { ReturnDialogComponent } from './return-dialog/return-dialog.component';

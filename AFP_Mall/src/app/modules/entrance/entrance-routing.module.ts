@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EntranceResolver } from './entrance-resolver.service';
-import { SessionAliveGuard } from '../../shared/auth/session-alive.guard';
+import { SessionAliveGuard } from 'src/app/shared/guard/session-alive-guard/session-alive.guard';
 import { EntranceComponent } from './entrance.component';
 
 const routes: Routes = [
