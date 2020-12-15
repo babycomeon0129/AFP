@@ -2,6 +2,16 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+// Guard
+import { AuthUserGuard } from './guard/auth-user-guard/auth-user.guard';
+import { SessionAliveGuard } from './guard/session-alive-guard/session-alive.guard';
+// Pipe
+import { ConvertPipe } from './pipe/convert-pipe/convert.pipe';
+import { SafePipe } from './pipe/safe-pipe/safe.pipe';
+import { TextFilterPipe } from './pipe/text-filter-pipe/text-filter.pipe';
+// Directive
+import { DigitOnlyDirective } from './directive/digitonly-directive/digit-only.directive';
+import { KeyControllerDirective } from './directive/keycontroller-directive/key-controller.directive';
 // Modal
 import { AppleModalComponent } from './modal/apple-modal/apple-modal.component';
 import { ConfirmModalComponent } from './modal/confirm-modal/confirm-modal.component';
@@ -17,21 +27,16 @@ import { PasswordModalComponent } from './modal/password-modal/password-modal.co
 import { ReceiptModalComponent } from './modal/receipt-modal/receipt-modal.component';
 import { VcodeModalComponent } from './modal/vcode-modal/vcode-modal.component';
 import { VerifyMobileModalComponent } from './modal/verify-mobile-modal/verify-mobile-modal.component';
-// Pipe
-import { ConvertPipe } from './pipe/convert-pipe/convert.pipe';
-import { SafePipe } from './pipe/safe-pipe/safe.pipe';
-import { TextFilterPipe } from './pipe/text-filter-pipe/text-filter.pipe';
-// Directive
-import { DigitOnlyDirective } from './directive/digitonly-directive/digit-only.directive';
-import { KeyControllerDirective } from './directive/keycontroller-directive/key-controller.directive';
 // Widget
 import { PCFooterComponent } from './widget/pc-footer/pc-footer.component';
 import { MobileFooterComponent } from './widget/mobile-footer/mobile-footer.component';
-// imported Plugin
+// Third-Party Plugin
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 @NgModule({
   declarations: [
+    SessionAliveGuard,
+    AuthUserGuard,
     SafePipe,
     ConvertPipe,
     TextFilterPipe,
@@ -55,6 +60,8 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
     MobileFooterComponent
   ],
   exports: [
+    SessionAliveGuard,
+    AuthUserGuard,
     SafePipe,
     ConvertPipe,
     TextFilterPipe,
