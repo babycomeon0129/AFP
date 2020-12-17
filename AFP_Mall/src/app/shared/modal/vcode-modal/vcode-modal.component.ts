@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { BsModalRef } from 'ngx-bootstrap';
 import { AppService } from 'src/app/app.service';
-import {
-  Request_AFPVerify, Response_AFPVerify, Request_AFPAccount, Response_AFPAccount
-} from 'src/app/_models';
+import { Request_AFPVerify, Response_AFPVerify, Request_AFPAccount, Response_AFPAccount } from 'src/app/_models';
 import { ModalService } from '../modal.service';
 
 @Component({
