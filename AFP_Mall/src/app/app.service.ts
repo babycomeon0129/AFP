@@ -61,9 +61,6 @@ export class AppService {
   constructor(private http: HttpClient, private bsModal: BsModalService, public modal: ModalService, private router: Router,
               private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService,
               private swPush: SwPush) {
-    if (sessionStorage.getItem('CustomerInfo')) {
-      this.loginState = true;
-    }
     // 取得前一頁面url
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -166,6 +163,11 @@ export class AppService {
       User_Code: sessionStorage.getItem('userCode')
     };
     this.toApi_Logout('Home', '1109', request).subscribe((Data: any) => { });
+    // 第三方登入套件登出
+    if (this.cookieService.get('Mobii_ThirdLogin') !== null) {
+      this.authService.signOut();
+    }
+    // 清除session、cookie、localStorage、我的收藏資料，重置登入狀態及通知數量
     sessionStorage.clear();
     localStorage.clear();
     this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
@@ -179,8 +181,6 @@ export class AppService {
     if (this.isApp !== null) {
       window.location.href = '/AppLogout';
     }
-    // 第三方登入套件登出
-    this.authService.signOut();
   }
 
   /**
