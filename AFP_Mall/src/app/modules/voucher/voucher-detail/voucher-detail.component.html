@@ -30,7 +30,8 @@
               class="imgicon"></button>
         </div>
         <div class="img-box">
-          <img [lazyLoad]="voucherData?.Voucher_Image" [alt]="voucherData?.Voucher_ExtName" [defaultImage]="appService.defaultImage">
+          <img [lazyLoad]="voucherData?.Voucher_Image" [alt]="voucherData?.Voucher_ExtName"
+            [defaultImage]="appService.defaultImage">
         </div>
         <div class="index-flex p-3">
           <div class="item three font-bold text-bluedk">
@@ -53,7 +54,8 @@
           </div>
         </div>
         <div *ngIf="storeData?.length > 0" class="ticket-detailrow">
-          <a [routerLink]="['/Explore/ExploreDetail', store.ECStore_Code]" *ngFor="let store of storeData" class="d-flex p-3">
+          <a [routerLink]="['/Explore/ExploreDetail', store.ECStore_Code]" *ngFor="let store of storeData"
+            class="d-flex p-3">
             <div class="item item-icon">
               <i class="material-icons location_on">&#xe0c8;</i>
             </div>
@@ -71,7 +73,8 @@
               <i class="material-icons access_time">&#xe192;</i>
             </div>
             <div class="item">
-              {{(voucherData?.Voucher_UsedOnDate | date: 'yyyy/MM/dd')}}～{{(voucherData?.Voucher_UsedOffDate | date: 'yyyy/MM/dd')}}
+              {{(voucherData?.Voucher_UsedOnDate | date: 'yyyy/MM/dd')}}～{{(voucherData?.Voucher_UsedOffDate | date:
+              'yyyy/MM/dd')}}
             </div>
           </div>
         </div>
@@ -85,18 +88,18 @@
       </div>
       <div class="h100"></div>
       <div class="fixed-btn container flex-inline-between">
-        <div *ngIf="voucherData?.Voucher_DedPoint > 0" class="align-self-center">扣除
+        <div *ngIf="voucherData?.Voucher_DedPoint > 0 && selectMode !== 5" class="align-self-center">扣除
           <img src="../img/share/mobiicoin_red.png" class="coinimg-m mb-1">
-          <span>{{voucherData.Voucher_SpecialPoint > 0? voucherData.Voucher_SpecialPoint : voucherData.Voucher_DedPoint | currency: '':'':'1.0-2'}}</span>
+          <span>{{voucherData.Voucher_SpecialPoint > 0? voucherData.Voucher_SpecialPoint : voucherData.Voucher_DedPoint
+            | currency: '':'':'1.0-2'}}</span>
         </div>
         <button (click)="toVoucher(voucherData)"
           [disabled]="appService.loginState === true && (voucherData?.Voucher_IsFreq === 0 || voucherData?.Voucher_IsFreq === 3 || voucherData?.Voucher_IsFreq === 6)"
           [ngClass]="{'gray-obtn': voucherData?.Voucher_IsFreq === 0 || voucherData?.Voucher_IsFreq === 3 || voucherData?.Voucher_IsFreq === 6,
-                          'index-btn': voucherData?.Voucher_IsFreq === 1,
-                          'index-outline-btn': voucherData?.Voucher_IsFreq === 2 || voucherData?.Voucher_IsFreq === 5,
-                          'w-50': voucherData?.Voucher_DedPoint > 0,
-                          'w-100': voucherData?.Voucher_DedPoint <= 0}" type="button" id="claimBtn"
-          class="btn msg-open">
+                      'index-btn': voucherData?.Voucher_IsFreq === 1,
+                      'index-outline-btn': voucherData?.Voucher_IsFreq === 2 || voucherData?.Voucher_IsFreq === 5,
+                      'w-50': voucherData?.Voucher_DedPoint > 0,
+                      'w-100': voucherData?.Voucher_DedPoint <= 0 || selectMode === 5}" type="button" id="claimBtn" class="btn msg-open">
           {{appService.loginState === true? voucherData?.Voucher_FreqName : '兌換'}}
         </button>
       </div>
@@ -137,7 +140,8 @@
           <span>核銷後請務必等待「成功使用優惠券」畫面跳出，以免影響相關權益。</span>
         </div>
         <div class="bg-light p-2">
-          已使用次數：{{voucherData?.VoucherUseCount + '/' + (voucherData?.Voucher_UsedLimit === -1? '不限' : voucherData?.Voucher_UsedLimit)}}次
+          已使用次數：{{voucherData?.VoucherUseCount + '/' + (voucherData?.Voucher_UsedLimit === -1? '不限' :
+          voucherData?.Voucher_UsedLimit)}}次
         </div>
         <div class="bg-light p-2">UUID：{{UUid}}</div>
       </div>
