@@ -13,7 +13,7 @@ import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
-  styleUrls: ['../../../../dist/style/shopping-index.min.css']
+  styleUrls: ['../../../../dist/style/shopping-index.min.css', '../../../../dist/style/products-detail.min.css']
 })
 export class ProductDetailComponent implements OnInit, AfterViewChecked {
   /** 購物車編碼 */
