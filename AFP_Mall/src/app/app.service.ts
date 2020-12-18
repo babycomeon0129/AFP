@@ -164,7 +164,7 @@ export class AppService {
     };
     this.toApi_Logout('Home', '1109', request).subscribe((Data: any) => { });
     // 第三方登入套件登出
-    if (this.cookieService.get('Mobii_ThirdLogin') !== null) {
+    if (this.cookieService.get('Mobii_ThirdLogin') === 'true') {
       this.authService.signOut();
     }
     // 清除session、cookie、localStorage、我的收藏資料，重置登入狀態及通知數量
