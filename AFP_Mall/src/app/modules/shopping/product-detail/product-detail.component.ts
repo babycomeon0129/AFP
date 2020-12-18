@@ -271,7 +271,7 @@ export class ProductDetailComponent implements OnInit, AfterViewChecked {
     const navigationExtras: NavigationExtras = {
       queryParams: { navNo: fragment }
     };
-    this.router.navigate(['/Explore/ExploreDetail' + this.productInfo.Product_ECStoreCode], navigationExtras);
+    this.router.navigate(['/Explore/ExploreDetail', this.productInfo.Product_ECStoreCode], navigationExtras);
   }
 
 }
