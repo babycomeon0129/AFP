@@ -78,7 +78,6 @@ export class NotificationComponent implements OnInit, OnDestroy {
    */
   goOrder(msg: AFP_IMessage) {
     if (msg.IMessage_OrderNo != null) {
-      // this.router.navigate(['/MemberFunction/MyOrderDetail', msg.IMessage_OrderNo]);
       if (msg.IMessage_OrderType === 21) {
         this.router.navigate(['/MemberFunction/ETicketOrderDetail', msg.IMessage_OrderNo]);
       } else {

@@ -98,11 +98,11 @@ export class MemberOrderComponent implements OnInit, AfterViewInit {
     } else {
       switch (type) {
         case 1:
-        this.router.navigate(['/MemberFunction/MyOrderDetail', order.Order_TableNo, {orderState: this.selectedState}]);
-        break;
-      case 21:
-        this.router.navigate(['/MemberFunction/ETicketOrderDetail', order.Order_TableNo, {orderState: this.selectedState}]);
-        break;
+          this.router.navigate(['/MemberFunction/MyOrderDetail', order.Order_TableNo], {queryParams: {orderState: this.selectedState}});
+          break;
+        case 21:
+          this.router.navigate(['/MemberFunction/ETicketOrderDetail', order.Order_TableNo], {queryParams: {orderState: this.selectedState}});
+          break;
       }
     }
   }

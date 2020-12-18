@@ -82,7 +82,7 @@ export class ShoppingPaymentComponent implements OnInit {
         }
       });
     } else {
-      this.router.navigate(['/Shopping/ShoppingCart', { referrer: 'illegal' }]);
+      this.router.navigate(['/Shopping/ShoppingCart'], {queryParams: { referrer: 'illegal' }});
     }
   }
 

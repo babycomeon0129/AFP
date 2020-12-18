@@ -144,7 +144,7 @@ export class ShoppingOrderComponent implements OnInit {
         backdrop: 'static',
         keyboard: false
       }).subscribe(option => {
-        this.router.navigate(['/Shopping/ShoppingCart', { referrer: 'illegal' } ]);
+        this.router.navigate(['/Shopping/ShoppingCart'], {queryParams: { referrer: 'illegal' }});
       });
     }
 

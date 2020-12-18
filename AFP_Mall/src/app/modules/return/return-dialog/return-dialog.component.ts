@@ -15,8 +15,8 @@ import { ResizedEvent } from 'angular-resize-event';
 export class ReturnDialogComponent implements OnInit, AfterViewInit, AfterViewChecked {
   constructor(private route: ActivatedRoute, public appService: AppService, public el: ElementRef) {
     this.ServiceTableNO = this.route.snapshot.params.Services_TableNo;
-    this.ECStoreName = this.route.snapshot.paramMap.get('ECStoreName');
-    this.HandleState = Number(this.route.snapshot.paramMap.get('HandleState'));
+    this.ECStoreName = this.route.snapshot.queryParams.ECStoreName;
+    this.HandleState = Number(this.route.snapshot.queryParams.HandleState);
 
     const request: Request_MemberServices = {
       User_Code: sessionStorage.getItem('userCode'),
