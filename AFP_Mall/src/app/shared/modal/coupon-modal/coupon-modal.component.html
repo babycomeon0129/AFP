@@ -3,7 +3,7 @@
 <form #formAddCoupon="ngForm" (ngSubmit)="formAddCoupon.form.valid && btnOk(formAddCoupon)" id="msg-mydiscount">
 <div class="modal-body">
   <h5 class="pt-0 text-index">新增優惠</h5>
-  <input type="text" class="input-index w-80 px-2 my-2" placeholder="請輸入您的優惠碼"
+  <input type="text" class="input-index w-80 px-2 m-2" placeholder="請輸入您的優惠碼"
   #couponCode="ngModel" [(ngModel)]="requestAddCoupon.Voucher_ActivityCode" name="Voucher_ActivityCode" pattern="^[a-zA-Z0-9_]*$" required><br>
   <small *ngIf="couponCode.dirty && couponCode.invalid" class="text-danger">優惠碼格式有誤</small>
 </div>

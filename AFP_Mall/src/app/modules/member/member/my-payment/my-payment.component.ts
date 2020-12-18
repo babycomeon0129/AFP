@@ -7,7 +7,7 @@ import { layerAnimation } from '../../../../animations';
 @Component({
   selector: 'app-my-payment',
   templateUrl: './my-payment.component.html',
-  styleUrls: ['../../../../../dist/style/member.min.css'],
+  styleUrls: ['../../../../../dist/style/member.min.css', '../../../../../dist/style/member-setting.min.css'],
   animations: [layerAnimation]
 })
 export class MyPaymentComponent implements OnInit {
