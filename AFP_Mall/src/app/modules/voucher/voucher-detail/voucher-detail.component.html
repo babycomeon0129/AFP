@@ -54,7 +54,7 @@
           </div>
         </div>
         <div *ngIf="storeData?.length > 0" class="ticket-detailrow">
-          <a [routerLink]="['/Explore/ExploreDetail', store.ECStore_Code]" *ngFor="let store of storeData"
+          <a *ngFor="let store of storeData" (click)="goExploreDetail(store.ECStore_Code)"
             class="d-flex p-3">
             <div class="item item-icon">
               <i class="material-icons location_on">&#xe0c8;</i>
