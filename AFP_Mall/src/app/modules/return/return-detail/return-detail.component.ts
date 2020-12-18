@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AppService } from 'src/app/app.service';
-import {
-  AFP_ECStore, AFP_MemberOrder, AFP_ItemInfoPart, AFP_UserFavourite
-  , Model_ShareData, AFP_Services, AFP_UserReport, AFP_DealInfo
-} from '../../../_models';
+import { AFP_ECStore, AFP_MemberOrder, AFP_ItemInfoPart, AFP_UserFavourite, Model_ShareData,
+        AFP_Services, AFP_UserReport, AFP_DealInfo
+        } from '@app/_models';
 import { Router } from '@angular/router';
 
 @Component({

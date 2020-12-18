@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Model_ShareData} from '../../../../_models';
+import { Model_ShareData} from '@app/_models';
 import { AppService } from 'src/app/app.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';

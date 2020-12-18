@@ -4,7 +4,7 @@ import { AppService } from 'src/app/app.service';
 import {
   AFP_ECStore, AFP_MemberOrder, AFP_ItemInfoPart, AFP_UserFavourite
   , Model_ShareData, AFP_Services, AFP_UserReport, AFP_DealInfo
-} from '../../../_models';
+} from '@app/_models';
 import { ResizedEvent } from 'angular-resize-event';
 
 @Component({

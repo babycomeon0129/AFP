@@ -1,8 +1,8 @@
-import { environment } from 'src/environments/environment';
+import { environment } from '@env/environment';
 import { Component, OnInit, AfterViewInit, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Request_ECCart, Response_ECCart, AFP_Cart, CartStoreList, ProductInfo } from '../../../_models';
+import { Request_ECCart, Response_ECCart, AFP_Cart, CartStoreList, ProductInfo } from '@app/_models';
 import { CookieService } from 'ngx-cookie-service';
 import { ModalService } from '../../../shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';

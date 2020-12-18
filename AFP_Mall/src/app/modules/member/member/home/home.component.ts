@@ -1,6 +1,6 @@
 import { Component, OnInit, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { Model_ShareData, AFP_ADImg } from '../../../../_models';
+import { Model_ShareData, AFP_ADImg } from '@app/_models';
 import { Request_MemberThird, Response_MemberThird } from '../member.component';
 import { Router } from '@angular/router';
 import { ModalService } from '../../../../shared/modal/modal.service';

@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { ModalService } from '../../modal/modal.service';
-import { AFP_UserVoucher, Request_MemberUserVoucher,  Response_MemberUserVoucher} from '../../../_models';
+import { AFP_UserVoucher, Request_MemberUserVoucher,  Response_MemberUserVoucher} from '@app/_models';
 import { NgForm } from '@angular/forms';
 import { AppService } from 'src/app/app.service';
 

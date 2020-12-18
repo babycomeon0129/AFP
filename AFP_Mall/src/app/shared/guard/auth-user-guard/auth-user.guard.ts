@@ -3,7 +3,7 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from
 import { BsModalService } from 'ngx-bootstrap';
 import { MessageModalComponent } from '../../../shared/modal/message-modal/message-modal.component';
 import { AppService } from '../../../app.service';
-import { Model_ShareData } from '../../../_models';
+import { Model_ShareData } from '@app/_models';
 
 @Injectable({
   providedIn: 'root'

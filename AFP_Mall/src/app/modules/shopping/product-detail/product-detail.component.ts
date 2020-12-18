@@ -1,9 +1,9 @@
-import { environment } from 'src/environments/environment';
+import { environment } from '@env/environment';
 import { Component, OnInit, AfterViewChecked, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import {
   Request_ECProductDetail, Response_ECProductDetail, AFP_Product, AFP_ECStore, AFP_Attribute, Request_ECCart,
-  Response_ECCart, AFP_Voucher, AFP_ProductImg, CartStoreList } from '../../../_models';
+  Response_ECCart, AFP_Voucher, AFP_ProductImg, CartStoreList } from '@app/_models';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { ModalService } from '../../../shared/modal/modal.service';

@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewChecked } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { Request_MemberMsg, Response_MemberMsg, AFP_MemberMsgTitle, AFP_IMessage } from '../../../_models';
+import { Request_MemberMsg, Response_MemberMsg, AFP_MemberMsgTitle, AFP_IMessage } from '@app/_models';
 import { ModalService } from '../../../shared/modal/modal.service';
 
 @Component({

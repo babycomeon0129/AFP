@@ -1,5 +1,5 @@
 import { Component, OnInit, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
-import { AFP_ChannelVoucher, AFP_ADImg, Request_ECVoucher, Response_ECVoucher, AFP_Voucher } from '../../../_models';
+import { AFP_ChannelVoucher, AFP_ADImg, Request_ECVoucher, Response_ECVoucher, AFP_Voucher } from '@app/_models';
 import { AppService } from 'src/app/app.service';
 import { SwiperOptions } from 'swiper';
 import { Meta, Title } from '@angular/platform-browser';

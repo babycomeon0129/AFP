@@ -3,7 +3,7 @@ import { AppService } from 'src/app/app.service';
 import {
   Response_AreaDetail, AFP_ECStore, Request_AreaDetail, AFP_Voucher, AFP_Product,
   Request_MemberUserVoucher, Response_MemberUserVoucher, AFP_ECStoreExtType
-} from '../../../_models';
+} from '@app/_models';
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'ngx-useful-swiper';
 import { Router, ActivatedRoute } from '@angular/router';

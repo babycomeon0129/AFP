@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, DoCheck, KeyValueDiffer, KeyValueDiff
 import { AppService } from 'src/app/app.service';
 import { ModalService } from '../../../shared/modal/modal.service';
 import { Response_ECHome, AFP_ADImg, AFP_Function, AFP_ChannelProduct, AFP_Product, AFP_ChannelVoucher,
-        Request_ECHome } from '../../../_models';
+        Request_ECHome } from '@app/_models';
 import { SwiperOptions } from 'swiper';
 import { NgxMasonryOptions } from 'ngx-masonry';
 import { CookieService } from 'ngx-cookie-service';

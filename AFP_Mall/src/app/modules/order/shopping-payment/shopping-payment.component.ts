@@ -1,9 +1,9 @@
+import { environment } from '@env/environment';
 import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from '../../../shared/modal/modal.service';
 import { Router, NavigationExtras } from '@angular/router';
-import { Model_ShareData, AFP_CSPayment, AFP_UserFavourite, OrderInvoice } from 'src/app/_models';
-import { environment } from 'src/environments/environment';
+import { Model_ShareData, AFP_CSPayment, AFP_UserFavourite, OrderInvoice } from '@app/_models';
 import { NgForm } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
 declare var $: any;

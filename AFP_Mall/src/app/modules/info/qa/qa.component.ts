@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { Request_MemberQuestion, Response_MemberQuestion, AFP_QuestionCategory, AFP_QuestionContent } from '../../../../app/_models';
+import { Request_MemberQuestion, Response_MemberQuestion, AFP_QuestionCategory, AFP_QuestionContent } from '@app/_models';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation } from '../../../animations';
 declare var AppJSInterface: any;

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, AfterViewInit, OnDestroy } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { Response_Games, Request_Games, AFP_GamePart } from '../../../../_models';
+import { Response_Games, Request_Games, AFP_GamePart } from '@app/_models';
 import { ModalService } from '../../../../shared/modal/modal.service';
 import { Router, ActivatedRoute } from '@angular/router';
 

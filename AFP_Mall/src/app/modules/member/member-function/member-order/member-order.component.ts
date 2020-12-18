@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { Request_MemberOrder, Response_MemberOrder, AFP_MemberOrder } from '../../../../_models';
+import { Request_MemberOrder, Response_MemberOrder, AFP_MemberOrder } from '@app/_models';
 import { AppService } from 'src/app/app.service';
 import { SwiperOptions } from 'swiper';
 import { Router, ActivatedRoute } from '@angular/router';

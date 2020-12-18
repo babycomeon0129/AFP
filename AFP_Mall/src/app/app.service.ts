@@ -4,11 +4,11 @@ import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { Response_APIModel, Request_MemberFavourite, Response_MemberFavourite, AFP_Voucher,
   Request_MemberUserVoucher, Response_MemberUserVoucher, Request_ECCart, Response_ECCart, Model_ShareData
-} from './_models';
+} from '@app/_models';
 import { BsModalService } from 'ngx-bootstrap';
 import { MessageModalComponent } from './shared/modal/message-modal/message-modal.component';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { environment } from './../environments/environment';
+import { environment } from '@env/environment';
 import { ModalService } from './shared/modal/modal.service';
 import { Router, NavigationExtras, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';

@@ -2,7 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { ModalService } from '../modal.service';
 import { AppService } from 'src/app/app.service';
-import { Response_AFPVerifyCode, Request_AFPVerifyCode, Request_AFPReadMobile, Response_AFPReadMobile } from 'src/app/_models';
+import { Response_AFPVerifyCode, Request_AFPVerifyCode, Request_AFPReadMobile, Response_AFPReadMobile } from '@app/_models';
 
 @Component({
   selector: 'app-forget-modal',

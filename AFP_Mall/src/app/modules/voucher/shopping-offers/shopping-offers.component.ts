@@ -1,6 +1,6 @@
 import { Component, OnInit, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { AFP_ChannelVoucher, AFP_ADImg, Request_ECVoucher, Response_ECVoucher } from '../../../_models';
+import { AFP_ChannelVoucher, AFP_ADImg, Request_ECVoucher, Response_ECVoucher } from '@app/_models';
 import { SwiperOptions } from 'swiper';
 import { CookieService } from 'ngx-cookie-service';
 import { Meta, Title } from '@angular/platform-browser';
