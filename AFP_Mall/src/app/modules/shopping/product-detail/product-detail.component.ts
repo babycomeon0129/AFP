@@ -1,13 +1,11 @@
 import { environment } from '@env/environment';
 import { Component, OnInit, AfterViewChecked, HostListener, ViewChild, ElementRef } from '@angular/core';
-import { AppService } from 'src/app/app.service';
-import {
-  Request_ECProductDetail, Response_ECProductDetail, AFP_Product, AFP_ECStore, AFP_Attribute, Request_ECCart,
-  Response_ECCart, AFP_Voucher, AFP_ProductImg, CartStoreList
-} from '@app/_models';
+import { AppService } from '@app/app.service';
+import { Request_ECProductDetail, Response_ECProductDetail, AFP_Product, AFP_ECStore, AFP_Attribute, Request_ECCart,
+        Response_ECCart, AFP_Voucher, AFP_ProductImg, CartStoreList } from '@app/_models';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { ModalService } from '../../../shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { SwiperOptions } from 'swiper';
 import { Meta, Title } from '@angular/platform-browser';
 
@@ -120,11 +118,6 @@ export class ProductDetailComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  ngAfterViewChecked(): void {
-    // 商品詳細、運送須知、訂購須知內的圖片responsive
-    $('figure').find('img').addClass('img-fluid');
-  }
-
   /** 滑動至指定區域 */
   scrollTo(sectionId: number): void {
     this.currentSec = sectionId;
@@ -142,14 +135,17 @@ export class ProductDetailComponent implements OnInit, AfterViewChecked {
     const topSec1 = this.tag01.nativeElement.offsetTop;
     const topSec2 = this.tag02.nativeElement.offsetTop;
     const topSec3 = this.tag03.nativeElement.offsetTop;
-    if (window.pageYOffset + 100 > topSec3 || (window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-      this.currentSec = 3;
-    } else if (window.pageYOffset + 100 > topSec2) {
-      this.currentSec = 2;
-    } else if (window.pageYOffset + 100 > topSec1) {
-      this.currentSec = 1;
-    } else {
-      this.currentSec = 0;
+    // 在畫面開始繪製後再判斷
+    if (document.body.offsetHeight > 0) {
+      if (window.pageYOffset + 100 > topSec3 || (window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
+        this.currentSec = 3;
+      } else if (window.pageYOffset + 100 > topSec2) {
+        this.currentSec = 2;
+      } else if (window.pageYOffset + 100 > topSec1) {
+        this.currentSec = 1;
+      } else {
+        this.currentSec = 0;
+      }
     }
   }
 
@@ -317,6 +313,11 @@ export class ProductDetailComponent implements OnInit, AfterViewChecked {
       queryParams: { navNo: fragment }
     };
     this.router.navigate(['/Explore/ExploreDetail', this.productInfo.Product_ECStoreCode], navigationExtras);
+  }
+
+  ngAfterViewChecked(): void {
+    // 商品詳細、運送須知、訂購須知內的圖片responsive
+    $('figure').find('img').addClass('img-fluid');
   }
 
 }
