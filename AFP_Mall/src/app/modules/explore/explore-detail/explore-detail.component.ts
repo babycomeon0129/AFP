@@ -151,6 +151,7 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
 
             ${location.href}`;
           }
+          this.JustKaUrl = data.JustKaUrl;
           // 設置meta
           this.title.setTitle(this.siteInfo.ECStore_ShowName + '｜' + typeText + '介紹 - Mobii!');
           this.meta.updateTag({ name: 'description', content: this.siteInfo.ECStore_Features });
@@ -171,7 +172,6 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
       }
       this.dataLoad = true;
       this.ecStoreExtType = data.Model_ECStoreExtType;
-      this.JustKaUrl = data.JustKaUrl;
     });
   }
 
