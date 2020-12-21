@@ -3,7 +3,8 @@ import { Component, OnInit, AfterViewChecked, HostListener, ViewChild, ElementRe
 import { AppService } from 'src/app/app.service';
 import {
   Request_ECProductDetail, Response_ECProductDetail, AFP_Product, AFP_ECStore, AFP_Attribute, Request_ECCart,
-  Response_ECCart, AFP_Voucher, AFP_ProductImg, CartStoreList } from '@app/_models';
+  Response_ECCart, AFP_Voucher, AFP_ProductImg, CartStoreList
+} from '@app/_models';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { ModalService } from '../../../shared/modal/modal.service';
@@ -54,14 +55,14 @@ export class ProductDetailComponent implements OnInit, AfterViewChecked {
     }
   };
   // 關於商品3個標籤
-  @ViewChild('tag01', {static: false}) tag01: ElementRef;
-  @ViewChild('tag02', {static: false}) tag02: ElementRef;
-  @ViewChild('tag03', {static: false}) tag03: ElementRef;
+  @ViewChild('tag01', { static: false }) tag01: ElementRef;
+  @ViewChild('tag02', { static: false }) tag02: ElementRef;
+  @ViewChild('tag03', { static: false }) tag03: ElementRef;
   /** 目前所在區塊 0 不在詳細內容 1 關於商品 2 訂購須知 3運送須知 */
   currentSec = 0;
 
   constructor(public appService: AppService, private router: Router, private route: ActivatedRoute, public modal: ModalService,
-              private cookieService: CookieService, private meta: Meta, private title: Title) {
+    private cookieService: CookieService, private meta: Meta, private title: Title) {
     this.productCode = parseInt(this.route.snapshot.params.Product_Code, 10);
     this.productDirCode = parseInt(this.route.snapshot.params.ProductDir_Code, 10);
     this.cartCode = Number(this.cookieService.get('cart_code'));
@@ -107,9 +108,9 @@ export class ProductDetailComponent implements OnInit, AfterViewChecked {
       this.cartAttrValueName = this.cartAttrValueName.substring(0, this.cartAttrValueName.length - 1);
 
       this.title.setTitle(this.productInfo.Product_ExtName + '｜產品資訊 - Mobii!');
-      this.meta.updateTag({name : 'description', content: this.productInfo.Product_Depiction.replace(/<[^>]*>/g, '')});
-      this.meta.updateTag({content: this.productInfo.Product_ExtName + '｜產品資訊 - Mobii!', property: 'og:title'});
-      this.meta.updateTag({content: this.productInfo.Product_Depiction.replace(/<[^>]*>/g, ''), property: 'og:description'});
+      this.meta.updateTag({ name: 'description', content: this.productInfo.Product_Depiction.replace(/<[^>]*>/g, '') });
+      this.meta.updateTag({ content: this.productInfo.Product_ExtName + '｜產品資訊 - Mobii!', property: 'og:title' });
+      this.meta.updateTag({ content: this.productInfo.Product_Depiction.replace(/<[^>]*>/g, ''), property: 'og:description' });
       this.textForShare = `嘿！我有好物要跟你分享喔！趕快進來看看吧！這是「${this.productInfo.Product_ExtName}」，快來跟我一起買東西吧！
       ${location.href}`;
     });
@@ -217,49 +218,95 @@ export class ProductDetailComponent implements OnInit, AfterViewChecked {
       };
 
       this.appService.toApi('EC', '1204', request).subscribe((data: Response_ECCart) => {
-        // 一般商品
-        if (this.productInfo.Product_Type !== 21) {
-          // 若沒有購物車碼，則取得後端產生的並設在cookie裡
-          if (this.cartCode === 0) {
-            this.cookieService.set('cart_code', data.AFP_Cart.Cart_Code.toString(), 90, '/', environment.cookieDomain,
-            environment.cookieSecure, 'Lax');
-            this.cartCode = Number(this.cookieService.get('cart_code'));
-          }
-          // 把購物車商品數設到 cookie
-          this.cookieService.set('cart_count_Mobii', data.Cart_Count.toString(), 90, '/', environment.cookieDomain,
-            environment.cookieSecure, 'Lax');
-          this.cartCount = data.Cart_Count;
-          this.modal.show('message', { initialState: { success: true, message: '加入購物車成功!', showType: 1 } });
-        } else {
-          // 電子票券: 直接將購物車資訊帶到確認訂單頁
-          const EcartList: CartStoreList[] = [];
-          const storeInfo: CartStoreList = {
-            StoreCode: data.AFP_Cart.Cart_ECStoreCode,
-            StoreName: data.AFP_Cart.Cart_ECStoreName,
-            CheckedStatus: true,
-            EditMode: true,
-            ProductList: [
-              {
-                CartId: data.AFP_Cart.Cart_ID,
-                DirCode: data.AFP_Cart.Cart_UserDefineCode,
-                DirName: null,
-                ProductCode: data.AFP_Cart.Cart_ProductCode,
-                ProductName: null,
-                ProductAttrValues: data.AFP_Cart.Cart_AttributeValueName,
-                ProductQty: 1,
-                ProductPrice: null,
-                ProductImg: null,
-                CheckedStatus: true
+        switch (this.productInfo.Product_Type) {
+          case 2: // 外部商品直購
+            window.open(this.productInfo.Product_URL);
+            break;
+          case 21: // 電子票券: 直接將購物車資訊帶到確認訂單頁
+            const EcartList: CartStoreList[] = [];
+            const storeInfo: CartStoreList = {
+              StoreCode: data.AFP_Cart.Cart_ECStoreCode,
+              StoreName: data.AFP_Cart.Cart_ECStoreName,
+              CheckedStatus: true,
+              EditMode: true,
+              ProductList: [
+                {
+                  CartId: data.AFP_Cart.Cart_ID,
+                  DirCode: data.AFP_Cart.Cart_UserDefineCode,
+                  DirName: null,
+                  ProductCode: data.AFP_Cart.Cart_ProductCode,
+                  ProductName: null,
+                  ProductAttrValues: data.AFP_Cart.Cart_AttributeValueName,
+                  ProductQty: 1,
+                  ProductPrice: null,
+                  ProductImg: null,
+                  CheckedStatus: true
+                }
+              ]
+            };
+            EcartList.push(storeInfo);
+            this.router.navigate(['/Order/ETicketOrder'], {
+              state: {
+                data: { checkoutList: EcartList }
               }
-            ]
-          };
-          EcartList.push(storeInfo);
-          this.router.navigate(['/Order/ETicketOrder'], {
-            state: {
-              data: { checkoutList: EcartList }
+            });
+            break;
+          default: // 一般商品
+            // 若沒有購物車碼，則取得後端產生的並設在cookie裡
+            if (this.cartCode === 0) {
+              this.cookieService.set('cart_code', data.AFP_Cart.Cart_Code.toString(), 90, '/', environment.cookieDomain,
+                environment.cookieSecure, 'Lax');
+              this.cartCode = Number(this.cookieService.get('cart_code'));
             }
-          });
+            // 把購物車商品數設到 cookie
+            this.cookieService.set('cart_count_Mobii', data.Cart_Count.toString(), 90, '/', environment.cookieDomain,
+              environment.cookieSecure, 'Lax');
+            this.cartCount = data.Cart_Count;
+            this.modal.show('message', { initialState: { success: true, message: '加入購物車成功!', showType: 1 } });
+            break;
         }
+        // if (this.productInfo.Product_Type !== 21) {
+        //   // 若沒有購物車碼，則取得後端產生的並設在cookie裡
+        //   if (this.cartCode === 0) {
+        //     this.cookieService.set('cart_code', data.AFP_Cart.Cart_Code.toString(), 90, '/', environment.cookieDomain,
+        //     environment.cookieSecure, 'Lax');
+        //     this.cartCode = Number(this.cookieService.get('cart_code'));
+        //   }
+        //   // 把購物車商品數設到 cookie
+        //   this.cookieService.set('cart_count_Mobii', data.Cart_Count.toString(), 90, '/', environment.cookieDomain,
+        //     environment.cookieSecure, 'Lax');
+        //   this.cartCount = data.Cart_Count;
+        //   this.modal.show('message', { initialState: { success: true, message: '加入購物車成功!', showType: 1 } });
+        // } else {
+        //   // 電子票券: 直接將購物車資訊帶到確認訂單頁
+        //   const EcartList: CartStoreList[] = [];
+        //   const storeInfo: CartStoreList = {
+        //     StoreCode: data.AFP_Cart.Cart_ECStoreCode,
+        //     StoreName: data.AFP_Cart.Cart_ECStoreName,
+        //     CheckedStatus: true,
+        //     EditMode: true,
+        //     ProductList: [
+        //       {
+        //         CartId: data.AFP_Cart.Cart_ID,
+        //         DirCode: data.AFP_Cart.Cart_UserDefineCode,
+        //         DirName: null,
+        //         ProductCode: data.AFP_Cart.Cart_ProductCode,
+        //         ProductName: null,
+        //         ProductAttrValues: data.AFP_Cart.Cart_AttributeValueName,
+        //         ProductQty: 1,
+        //         ProductPrice: null,
+        //         ProductImg: null,
+        //         CheckedStatus: true
+        //       }
+        //     ]
+        //   };
+        //   EcartList.push(storeInfo);
+        //   this.router.navigate(['/Order/ETicketOrder'], {
+        //     state: {
+        //       data: { checkoutList: EcartList }
+        //     }
+        //   });
+        // }
       });
     }
   }
