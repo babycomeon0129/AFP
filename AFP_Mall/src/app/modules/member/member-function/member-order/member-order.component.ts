@@ -8,7 +8,7 @@ import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-member-order',
   templateUrl: './member-order.component.html',
-  styleUrls: ['../../../../../dist/style/member.min.css']
+  styleUrls: ['../../../../../dist/style/member.min.css', '../../../../../dist/style/member-function.min.css']
 })
 export class MemberOrderComponent implements OnInit, AfterViewInit {
   /** 訂單列表 */

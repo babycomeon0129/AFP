@@ -9,7 +9,9 @@ import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-my-order-detail',
   templateUrl: './my-order-detail.component.html',
-  styleUrls: ['../../../../../dist/style/member.min.css', '../../../../../dist/style/shopping-index.min.css']
+  styleUrls: ['../../../../../dist/style/member.min.css',
+              '../../../../../dist/style/member-function.min.css',
+              '../../../../../dist/style/shopping-index.min.css']
 })
 export class MyOrderDetailComponent implements OnInit, OnDestroy {
   /** 訂單編號 */
