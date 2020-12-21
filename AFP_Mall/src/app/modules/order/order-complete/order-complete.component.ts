@@ -50,7 +50,6 @@ export class OrderCompleteComponent implements OnInit {
 
     this.appService.openBlock();
     this.appService.toApi('Member', '1604', request).subscribe((data: Response_OrderComplete) => {
-      console.log('Response_OrderComplete:', data);
       this.ResponseModel = data;
       if (data.IsApp === 0) {
         this.appService.isApp = null;
