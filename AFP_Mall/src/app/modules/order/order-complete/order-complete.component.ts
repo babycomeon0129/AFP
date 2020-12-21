@@ -58,7 +58,9 @@ export class OrderCompleteComponent implements OnInit {
 
     //  例外狀況處理（例: API沒回應）
     this.countdown = setTimeout(() => {
-      this.ResponseModel = new Response_OrderComplete();
+      if (this.ResponseModel === undefined) {
+        this.ResponseModel = new Response_OrderComplete();
+      }
     }, 3000);
   }
 
