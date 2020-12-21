@@ -11,7 +11,9 @@ import { NgForm } from '@angular/forms';
 @Component({
   selector: 'app-return',
   templateUrl: './return.component.html',
-  styleUrls: ['../../../../dist/style/member.min.css', '../../../../dist/style/shopping-index.min.css']
+  styleUrls: ['../../../../dist/style/member.min.css',
+              '../../../../dist/style/member-function.min.css',
+              '../../../../dist/style/shopping-index.min.css']
 })
 export class ReturnComponent implements OnInit {
   public orderNo: number;

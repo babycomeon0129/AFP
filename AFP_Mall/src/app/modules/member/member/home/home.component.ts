@@ -11,7 +11,7 @@ import { AuthService, SocialUser } from 'angularx-social-login';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['../../../../../dist/style/member.min.css']
+  styleUrls: ['../../../../../dist/style/member.min.css', '../../../../../dist/style/member-home.min.css']
 })
 export class HomeComponent implements OnInit, DoCheck {
   // 第三方登入 User容器
