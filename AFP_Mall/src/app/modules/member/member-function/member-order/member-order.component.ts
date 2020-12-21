@@ -107,6 +107,17 @@ export class MemberOrderComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /** 判斷回上一頁
+   * （若從付款完成頁/OrderComplete過來則按「回上一頁」直接前往大首頁）
+   */
+  conditionBack() {
+    if (this.route.snapshot.queryParams.referrer === 'OrderComplete') {
+      this.router.navigate(['/']);
+    } else {
+      history.back();
+    }
+  }
+
   ngAfterViewInit() {
     // slidesPerView:x.5時,可視定位
     $( '.ordershop-swiper .nav-tabSub li:first-child' ).on('click', function() { $(this).parent('.nav-tabSub').css('transform', 'translate3d(0px, 0px, 0px)'); });
