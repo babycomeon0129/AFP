@@ -190,10 +190,11 @@ export class ProductDetailComponent implements OnInit, AfterViewChecked {
 
   /** 加入購物車 */
   onAddToCart() {
-    // 電子票券: 先確認已登入
-    if (this.productInfo.Product_Type === 21 && !this.appService.loginState) {
+    if (this.productInfo.Product_Type === 21 && !this.appService.loginState) { // 電子票券: 先確認已登入
       this.appService.loginPage();
-    } else {
+    } else if (this.productInfo.Product_Type === 2) { // 外部商品直接外連到外部頁面
+      window.open(this.productInfo.Product_URL);
+    } else {  // 一般商品 & 電子票券(已登入) 走以下流程
       const request: Request_ECCart = {
         User_Code: sessionStorage.getItem('userCode'),
         SelectMode: 1,
@@ -219,9 +220,6 @@ export class ProductDetailComponent implements OnInit, AfterViewChecked {
 
       this.appService.toApi('EC', '1204', request).subscribe((data: Response_ECCart) => {
         switch (this.productInfo.Product_Type) {
-          case 2: // 外部商品直購
-            window.open(this.productInfo.Product_URL);
-            break;
           case 21: // 電子票券: 直接將購物車資訊帶到確認訂單頁
             const EcartList: CartStoreList[] = [];
             const storeInfo: CartStoreList = {
