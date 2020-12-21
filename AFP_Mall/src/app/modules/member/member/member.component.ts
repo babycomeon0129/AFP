@@ -1,6 +1,6 @@
 import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { Model_ShareData } from '../../../_models';
+import { Model_ShareData } from '@app/_models';
 import { ModalService } from '../../../shared/modal/modal.service';
 import { Router, RouterOutlet } from '@angular/router';
 import { slideInAnimation } from '../../../animations';

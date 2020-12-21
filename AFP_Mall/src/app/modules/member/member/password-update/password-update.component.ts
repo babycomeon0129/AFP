@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { Model_ShareData } from '../../../../_models';
+import { Model_ShareData } from '@app/_models';
 import { NgForm } from '@angular/forms';
 import { ModalService } from '../../../../shared/modal/modal.service';
 import { Location } from '@angular/common';

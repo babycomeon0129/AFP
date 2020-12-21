@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
-import { Request_Games, Search_Game, Response_Games, AFP_Game, AFP_GamePart } from '../../../_models';
+import { Request_Games, Response_Games} from '@app/_models';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({

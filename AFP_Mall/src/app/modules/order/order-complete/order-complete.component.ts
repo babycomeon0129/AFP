@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppService } from 'src/app/app.service';
-import { AFP_MemberOrder, Model_ShareData } from '../../../_models';
+import { AFP_MemberOrder, Model_ShareData } from '@app/_models';
 import { CookieService } from 'ngx-cookie-service';
 import { Meta, Title } from '@angular/platform-browser';
 

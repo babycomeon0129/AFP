@@ -253,31 +253,76 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   ngOnInit() {
     // 從route resolver取得首頁資料
     // this.route.data.subscribe((data: { homeData: Response_Home }) => {
-    //   this.adTop = data.homeData.ADImg_Top;
-    //   this.adMid4 = data.homeData.ADImg_Activity;
-    //   this.adMid = data.homeData.ADImg_Theme;
-    //   this.hitArea = data.homeData.List_AreaData;
-    //   this.hitTravel = data.homeData.List_TravelData;
-    //   this.popProducts = data.homeData.List_ProductData;
-    //   this.userPoint = data.homeData.TotalPoint;
-    //   this.userVoucherCount = data.homeData.VoucherCount;
-    //   this.deliveryArea = data.homeData.List_DeliveryData;
-    //   this.nowVoucher = data.homeData.List_Voucher;
-    //   this.adIndex = data.homeData.ADImg_Approach;
-    //   if (this.adIndex.length === 1) {
-    //     this.adIndexOption.loop = false;
-    //   }
+    //   // 接資料
     // });
-    this.readHome(1);
+    this.readUp(1);
     this.getHomeservice();
+    this.readDown();
+    // this.readHome(1);
+    // this.getHomeservice();
     // 若有登入則顯示名字、M Points及優惠券資訊（手機版）、我的收藏
     if (this.appService.loginState) {
       this.userName = sessionStorage.getItem('userName');
       this.appService.showFavorites();
     }
   }
+  /** 讀取首頁上方資料（皆為廣告及會員資料，我的服務除外）
+   * @param mode 讀取時機 1: 進入此頁 2: 在此頁登入時
+   */
+  readUp(mode: number) {
+    const request: Request_Home = {
+      User_Code: sessionStorage.getItem('userCode')
+    };
+    this.appService.openBlock();
+    this.appService.toApi('Home', '1021', request).subscribe((data: Response_Home) => {
+      switch (mode) {
+        case 1:
+          // 會員資訊
+          this.userPoint = data.TotalPoint;
+          this.userVoucherCount = data.VoucherCount;
+          // 廣告
+          this.adTop = data.ADImg_Top;
+          this.adMid4 = data.ADImg_Activity;
+          this.adMid = data.ADImg_Theme;
+          this.adIndex = data.ADImg_Approach;
+          // 進場廣告只有一張廣告圖時不輪播
+          if (this.adIndex.length === 1) {
+            this.adIndexOption.loop = false;
+          }
+          break;
+        case 2:
+          // 會員資訊
+          this.userName = sessionStorage.getItem('userName');
+          this.userPoint = data.TotalPoint;
+          this.userVoucherCount = data.VoucherCount;
+          break;
+      }
+    });
+  }
 
-  /** 讀取首頁資料
+  /** 讀取首頁下方資料（中間大廣告以下各區塊） */
+  readDown() {
+    const request: Request_Home = {
+      User_Code: sessionStorage.getItem('userCode'),
+      SearchModel: {
+        IndexArea_Code: 100001,
+        IndexTravel_Code: 21001,
+        UserInfo_Code: null,
+        IndexChannel_Code: 10000001,
+        IndexDelivery_Code: 300001
+      }
+    };
+    // 不使用loading spinner 讓進入首頁可先快速瀏覽上方
+    this.appService.toApi('Home', '1022', request).subscribe((data: Response_Home) => {
+      this.hitArea = data.List_AreaData;
+      this.hitTravel = data.List_TravelData;
+      this.popProducts = data.List_ProductData;
+      this.deliveryArea = data.List_DeliveryData;
+      this.nowVoucher = data.List_Voucher;
+    });
+  }
+
+  /** 讀取首頁資料（目前未使用，以拆分過的readUp及readDown取代）
    * @param mode 讀取時機 1: 進入此頁 2: 在此頁登入時
    */
   readHome(mode: number): void {
@@ -307,7 +352,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
           this.nowVoucher = data.List_Voucher;
           this.adIndex = data.ADImg_Approach;
           // 只有一張廣告圖時不輪播
-          if ( this.adIndex.length === 1) {
+          if (this.adIndex.length === 1) {
             this.adIndexOption.loop = false;
           }
           break;
@@ -330,8 +375,8 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
       this.cookieService.set('adTime', JSON.stringify(nowTime), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       this.adIndexTime = true;
       // 出現首頁廣告版面才禁止背景滑動
-      if ( this.adIndex.length > 0 && this.appService.adIndexOpen) {
-        document.body.style.overflow = 'hidden' ;
+      if (this.adIndex.length > 0 && this.appService.adIndexOpen) {
+        document.body.style.overflow = 'hidden';
       }
     } else {
       this.adIndexTime = false;
@@ -565,7 +610,8 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
       change.forEachChangedItem(item => {
         if (item.key === 'loginState' && item.currentValue === true) {
           // 在此頁登入則更新使用者暱稱、點數、優惠券、我的服務
-          this.readHome(2);
+          // this.readHome(2);
+          this.readUp(2);
         }
       });
     }

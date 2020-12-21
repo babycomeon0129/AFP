@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Meta, Title } from '@angular/platform-browser';
-import { Request_MemberTicket, Response_MemberTicket, AFP_UserTicket } from '../../../../_models';
+import { Request_MemberTicket, Response_MemberTicket, AFP_UserTicket } from '@app/_models';
 
 @Component({
   selector: 'app-member-ticket',

@@ -2,14 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from '../../../shared/modal/modal.service';
-import {
-  Request_GetCheckout, Response_GetCheckout,
-  Request_GetUserVoucher, Response_GetUserVoucher,
-  Request_CheckUserVoucher, Response_CheckUserVoucher,
-  Request_MemberAddress,
-  AFP_Cart, AFP_ECStore, AFP_UserFavourite, AFP_UserVoucher, AFP_Voucher, AFP_VoucherLimit, AFP_Order,
-  Model_ShareData, OrderVoucher, OrderInvoice, OrderStore, OrderPlatform
-} from 'src/app/_models';
+import { Request_GetCheckout, Response_GetCheckout, Request_GetUserVoucher, Response_GetUserVoucher,
+        Request_CheckUserVoucher, Response_CheckUserVoucher, Request_MemberAddress, AFP_Cart, AFP_ECStore,
+        AFP_UserFavourite, AFP_UserVoucher, AFP_Voucher, AFP_VoucherLimit, AFP_Order, Model_ShareData,
+        OrderVoucher, OrderInvoice, OrderStore, OrderPlatform } from '@app/_models';
 import { NgForm } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
 
@@ -144,7 +140,7 @@ export class ShoppingOrderComponent implements OnInit {
         backdrop: 'static',
         keyboard: false
       }).subscribe(option => {
-        this.router.navigate(['/Shopping/ShoppingCart', { referrer: 'illegal' } ]);
+        this.router.navigate(['/Shopping/ShoppingCart'], {queryParams: { referrer: 'illegal' }});
       });
     }
 

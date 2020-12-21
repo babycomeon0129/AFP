@@ -128,7 +128,7 @@ export interface AreaJsonFile_Attrbute {
 
 // 大首頁
 export interface Request_Home extends Model_ShareData {
-  SearchModel: Search_ConsHome;
+  SearchModel?: Search_ConsHome;
 }
 
 export interface Response_Home {

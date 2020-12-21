@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { Request_MemberOrder, Response_MemberOrder, AFP_MemberOrder } from '../../../../_models';
+import { Request_MemberOrder, Response_MemberOrder, AFP_MemberOrder } from '@app/_models';
 import { AppService } from 'src/app/app.service';
 import { SwiperOptions } from 'swiper';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -98,11 +98,11 @@ export class MemberOrderComponent implements OnInit, AfterViewInit {
     } else {
       switch (type) {
         case 1:
-        this.router.navigate(['/MemberFunction/MyOrderDetail', order.Order_TableNo, {orderState: this.selectedState}]);
-        break;
-      case 21:
-        this.router.navigate(['/MemberFunction/ETicketOrderDetail', order.Order_TableNo, {orderState: this.selectedState}]);
-        break;
+          this.router.navigate(['/MemberFunction/MyOrderDetail', order.Order_TableNo], {queryParams: {orderState: this.selectedState}});
+          break;
+        case 21:
+          this.router.navigate(['/MemberFunction/ETicketOrderDetail', order.Order_TableNo], {queryParams: {orderState: this.selectedState}});
+          break;
       }
     }
   }

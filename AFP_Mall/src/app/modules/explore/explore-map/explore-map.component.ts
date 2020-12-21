@@ -1,11 +1,10 @@
-import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import { AppService } from 'src/app/app.service';
-import { Request_AreaIndex, Response_AreaIndex, AreaJsonFile_ECStore, AFP_UserDefine } from '../../../_models';
+import { AppService } from '@app/app.service';
+import { Request_AreaIndex, Response_AreaIndex, AreaJsonFile_ECStore, AFP_UserDefine } from '@app/_models';
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'ngx-useful-swiper';
 import { AgmMap } from '@agm/core';
-import { ModalService } from '../../../shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { BsModalRef } from 'ngx-bootstrap';
 
 @Component({
@@ -54,7 +53,7 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
     }
   };
 
-  constructor(public appService: AppService, private route: ActivatedRoute, private modal: ModalService, private bsModalRef: BsModalRef) {
+  constructor(public appService: AppService, private modal: ModalService, private bsModalRef: BsModalRef) {
   }
 
   ngOnInit() {
@@ -88,6 +87,7 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
    * @param dirCode 目錄編碼
    */
   readAreaData(dirCode: number) {
+    this.appService.openBlock();
     this.areaMenuCode = dirCode;
     const request: Request_AreaIndex = {
       User_Code: sessionStorage.getItem('userCode'),
@@ -97,15 +97,12 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
         IndexArea_Distance: 5000
       }
     };
-
-    this.appService.openBlock();
     this.appService.toApi('Area', '1401', request, this.lat, this.lng).subscribe((data: Response_AreaIndex) => {
-      this.appService.openBlock();
+      this.appService.openBlock(); // 在畫面資料ready前顯示loader避免過早使用swiper卡住
       // 近 > 遠
       this.AreaList = data.List_AreaData[0].ECStoreData.sort((a, b) => {
         return a.ECStore_Distance - b.ECStore_Distance;
       });
-      this.appService.blockUI.stop();
       // 更新目前所選景點、景點列表、目錄列表
       if (this.AreaItem === undefined) {
         this.AreaItem = this.AreaList[0];
@@ -126,6 +123,7 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
         }
       }
       this.dirFilterOpen = false; // 關閉篩選清單
+      this.appService.blockUI.stop();
     });
   }
 

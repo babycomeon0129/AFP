@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Request_MemberTicket, Response_MemberTicket, AFP_UserTicket, AFP_Product } from '../../../../_models';
+import { Request_MemberTicket, Response_MemberTicket, AFP_UserTicket, AFP_Product } from '@app/_models';
 import { ActivatedRoute } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 

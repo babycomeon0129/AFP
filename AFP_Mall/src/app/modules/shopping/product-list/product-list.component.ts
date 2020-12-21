@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { AFP_Product, AFP_UserDefine, Request_ECProductList, Response_ECProductList, AFP_Attribute,
-  AFP_AttributeValue } from '../../../_models';
+  AFP_AttributeValue } from '@app/_models';
 import { ActivatedRoute } from '@angular/router';
 // import { NgxMasonryOptions } from 'ngx-masonry';
 import { CookieService } from 'ngx-cookie-service';
