@@ -9,7 +9,7 @@ import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-my-address',
   templateUrl: './my-address.component.html',
-  styleUrls: ['../../../../../dist/style/member.min.css'],
+  styleUrls: ['../../../../../styles/member.min.css'],
   animations: [layerAnimation]
 })
 export class MyAddressComponent implements OnInit {

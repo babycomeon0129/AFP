@@ -8,7 +8,7 @@ import jwt_decode from 'jwt-decode';
 @Component({
   selector: 'app-third-binding',
   templateUrl: './third-binding.component.html',
-  styleUrls: ['../../../../../dist/style/member.min.css']
+  styleUrls: ['../../../../../styles/member.min.css']
 })
 export class ThirdBindingComponent implements OnInit, OnDestroy {
   // 第三方登入 User容器

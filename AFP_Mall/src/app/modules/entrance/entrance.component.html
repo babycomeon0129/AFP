@@ -143,20 +143,18 @@
       </div>
     </div>
     <!-- 去哪玩連結/中間四格 -->
-    <div class="container">
-      <div class="go-where-link px-3 mb-3">
-        <swiper class="index-gowhere swiper-container" [config]="boxGoWhere">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide" *ngFor="let item of adMid4">
-              <div class="item">
-                <a class="link-item" (click)="adRoute(item?.ADImg_URL, item?.ADImg_URLTarget)">
-                  <img [src]="item?.ADImg_Img" [alt]="item?.ADImg_Title">
-                </a>
-              </div>
+    <div class="container go-where-link px-3 my-3">
+      <swiper class="index-gowhere swiper-container" [config]="boxGoWhere">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" *ngFor="let item of adMid4">
+            <div class="item">
+              <a class="link-item" (click)="adRoute(item?.ADImg_URL, item?.ADImg_URLTarget)">
+                <img [src]="item?.ADImg_Img" [alt]="item?.ADImg_Title">
+              </a>
             </div>
           </div>
-        </swiper>
-      </div>
+        </div>
+      </swiper>
     </div>
     <!-- 中間大廣告 ad banner -->
     <div *ngIf="adMid?.length > 0" class="ad-box">

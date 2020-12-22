@@ -12,7 +12,7 @@ import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-shopping-order',
   templateUrl: './shopping-order.component.html',
-  styleUrls: ['../../../../dist/style/shopping-index.min.css']
+  styleUrls: ['../../../../styles/shopping-index.min.css']
 })
 export class ShoppingOrderComponent implements OnInit {
   /** 結帳頁資訊整合 */

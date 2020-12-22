@@ -9,7 +9,7 @@ import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-password-update',
   templateUrl: './password-update.component.html',
-  styleUrls: ['../../../../../dist/style/member.min.css']
+  styleUrls: ['../../../../../styles/member.min.css']
 })
 export class PasswordUpdateComponent implements OnInit {
   /** 變更密碼 ngForm request */

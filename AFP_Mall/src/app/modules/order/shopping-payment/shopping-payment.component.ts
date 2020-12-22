@@ -11,7 +11,7 @@ declare var $: any;
 @Component({
   selector: 'app-shopping-payment',
   templateUrl: './shopping-payment.component.html',
-  styleUrls: ['../../../../dist/style/shopping-index.min.css']
+  styleUrls: ['../../../../styles/shopping-index.min.css']
 })
 export class ShoppingPaymentComponent implements OnInit {
   public apiUrl = environment.apiUrl;

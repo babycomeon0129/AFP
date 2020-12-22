@@ -6,7 +6,7 @@ import { AppService } from 'src/app/app.service';
 @Component({
   selector: 'app-eticket-detail',
   templateUrl: './eticket-detail.component.html',
-  styleUrls: ['../../../../../dist/style/offers.min.css']
+  styleUrls: ['../../../../../styles/offers.min.css']
 })
 export class ETicketDetailComponent implements OnInit {
   /** 票券編碼 */

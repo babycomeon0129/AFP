@@ -9,9 +9,9 @@ import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-eticket-order-detail',
   templateUrl: './eticket-order-detail.component.html',
-  styleUrls: ['../../../../../dist/style/member.min.css',
-              '../../../../../dist/style/member-function.min.css',
-              '../../../../../dist/style/shopping-index.min.css']
+  styleUrls: ['../../../../../styles/member.min.css',
+              '../../../../../styles/member-function.min.css',
+              '../../../../../styles/shopping-index.min.css']
 })
 export class ETicketOrderDetailComponent implements OnInit {
   /** 訂單編號 */

@@ -8,7 +8,7 @@ import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-travel',
   templateUrl: './travel.component.html',
-  styleUrls: ['../../../dist/style/travel-index.min.css']
+  styleUrls: ['./travel.scss']
 })
 export class TravelComponent implements DoCheck {
   /** 使用者名稱 */

@@ -9,7 +9,7 @@ import { BsModalRef } from 'ngx-bootstrap';
 @Component({
   selector: 'app-explore-list',
   templateUrl: './explore-list.component.html',
-  styleUrls: ['../../../../dist/style/explore.min.css']
+  styleUrls: ['../../../../styles/explore.min.css']
 })
 export class ExploreListComponent implements OnInit {
   /** 緯度 */

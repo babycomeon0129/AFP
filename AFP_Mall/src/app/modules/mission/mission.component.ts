@@ -8,7 +8,7 @@ import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-mission',
   templateUrl: './mission.component.html',
-  styleUrls: ['../../../dist/style/mission.min.css']
+  styleUrls: ['../../../styles/mission.min.css']
 })
 export class MissionComponent implements OnInit, DoCheck {
   /** 會員名稱 */

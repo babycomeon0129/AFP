@@ -7,7 +7,7 @@ import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-notification',
   templateUrl: './notification.component.html',
-  styleUrls: ['../../../../dist/style/notify.min.css']
+  styleUrls: ['../../../../styles/notify.min.css']
 })
 export class NotificationComponent implements OnInit, OnDestroy {
   /** 主頁：通知分類 */

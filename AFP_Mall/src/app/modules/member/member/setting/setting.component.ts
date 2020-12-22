@@ -9,7 +9,7 @@ declare var BindingSocialJSInterface: any;
 @Component({
   selector: 'app-setting',
   templateUrl: './setting.component.html',
-  styleUrls: ['../../../../../dist/style/member.min.css']
+  styleUrls: ['../../../../../styles/member.min.css']
 })
 export class SettingComponent implements OnInit {
 

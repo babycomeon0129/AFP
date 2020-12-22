@@ -7,7 +7,7 @@ import { ModalService } from '../../../../shared/modal/modal.service';
 @Component({
   selector: 'app-scratch',
   templateUrl: './scratch.component.html',
-  styleUrls: ['../../../../../dist/style/mission.min.css']
+  styleUrls: ['../../../../../styles/mission.min.css']
 })
 export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
   /** 遊戲資料（遊戲名稱、類型、格數、上方圖片、規則、遊玩一次所需點數、刮刮樂圖片。每次玩完不更新） */

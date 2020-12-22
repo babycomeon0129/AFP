@@ -17,7 +17,7 @@ declare var $: any;
 
 @Component({
   templateUrl: './entrance.component.html',
-  styleUrls: ['../../../dist/style/home.min.css', '../../../dist/style/travel-index.min.css']
+  styleUrls: ['./entrance.scss', '../travel/travel.scss']
 })
 export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   public userProfile: Model_MemberProfile = new Model_MemberProfile();

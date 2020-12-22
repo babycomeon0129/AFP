@@ -9,7 +9,7 @@ import { ModalService } from '../../../shared/modal/modal.service';
 @Component({
   selector: 'app-offers',
   templateUrl: './offers.component.html',
-  styleUrls: ['../../../../dist/style/offers.min.css']
+  styleUrls: ['../../../../styles/offers.min.css']
 })
 export class OffersComponent implements OnInit, DoCheck, OnDestroy {
   /** 上方限時搶購優惠券(最多4筆) */

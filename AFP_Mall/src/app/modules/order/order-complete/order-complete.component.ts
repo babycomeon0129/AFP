@@ -8,7 +8,7 @@ import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-order-complete',
   templateUrl: './order-complete.component.html',
-  styleUrls: ['../../../../dist/style/shopping-index.min.css']
+  styleUrls: ['../../../../styles/shopping-index.min.css']
 })
 export class OrderCompleteComponent implements OnInit {
 

@@ -10,7 +10,7 @@ import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-member',
   templateUrl: './member.component.html',
-  styleUrls: ['../../../../dist/style/member.min.css'],
+  styleUrls: ['../../../../styles/member.min.css'],
   animations: [slideInAnimation]
 })
 export class MemberComponent implements OnInit, AfterViewInit {

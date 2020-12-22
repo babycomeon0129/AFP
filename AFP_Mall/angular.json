@@ -5,7 +5,15 @@
   "projects": {
     "eyesMedia-angular": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "styleext": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -21,8 +29,8 @@
             "aot": false,
             "assets": [
               "src/favicon.ico",
-              "src/img",
               "src/manifest.json",
+              "src/img",
               "src/assets"
             ],
             "styles": [
@@ -30,9 +38,8 @@
               "node_modules/ngx-bootstrap/datepicker/bs-datepicker.scss",
               "node_modules/swiper/css/swiper.min.css",
               "node_modules/animate.css/animate.min.css",
-              "src/dist/style/css.min.css",
-              "src/dist/style/global.min.css",
-              "src/dist/style/index.min.css"
+              "src/styles/css.min.css",
+              "src/styles/style.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
@@ -172,7 +179,7 @@
               "src/manifest.json"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "scripts": []
           }
@@ -203,6 +210,12 @@
           }
         }
       }
-    }},
-  "defaultProject": "eyesMedia-angular"
+    }
+  },
+  "defaultProject": "eyesMedia-angular",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  }
 }

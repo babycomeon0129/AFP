@@ -7,7 +7,7 @@ import { Request_MemberTicket, Response_MemberTicket, AFP_UserTicket } from '@ap
 @Component({
   selector: 'app-member-ticket',
   templateUrl: './member-ticket.component.html',
-  styleUrls: ['../../../../../dist/style/member.min.css']
+  styleUrls: ['../../../../../styles/member.min.css']
 })
 export class MemberTicketComponent implements OnInit {
   /** 票券列表 */

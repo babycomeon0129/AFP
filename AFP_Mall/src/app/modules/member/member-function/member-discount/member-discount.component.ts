@@ -10,7 +10,7 @@ import { ModalOptions } from 'ngx-bootstrap';
 @Component({
   selector: 'app-member-discount',
   templateUrl: './member-discount.component.html',
-  styleUrls: ['../../../../../dist/style/member.min.css']
+  styleUrls: ['../../../../../styles/member.min.css']
 })
 export class MemberDiscountComponent implements OnInit, AfterViewInit {
   /** 優惠券列表(原始名單) */

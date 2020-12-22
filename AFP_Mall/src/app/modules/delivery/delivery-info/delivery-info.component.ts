@@ -8,7 +8,7 @@ import { AFP_UserReport, Model_ShareData } from '@app/_models';
 @Component({
   selector: 'app-delivery-info',
   templateUrl: './delivery-info.component.html',
-  styleUrls: ['../../../../dist/style/member.min.css']
+  styleUrls: ['../../../../styles/member.min.css']
 })
 
 export class DeliveryInfoComponent implements OnInit {

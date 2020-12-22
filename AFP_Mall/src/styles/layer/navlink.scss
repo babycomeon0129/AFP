@@ -1,0 +1,183 @@
+@import 'src/styles/module/variable';
+
+/* afp-tab-box nav-link*/
+.afp-tab-box {
+    #nav-tab,
+    #nav-tab-hitArea,
+    #nav-tab-deliveryArea,
+    #nav-tab-member,
+    #nav-tab-featured {
+      display: inline-table;
+      overflow: visible;
+      white-space:nowrap;
+      li{
+        font-size: .9em;
+        text-align: center;
+        list-style: none;
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      &.nav-tabs{
+        border-bottom: 0px;
+      }
+    }
+    .tablist-panes {
+      position: relative;
+      display: block;
+    }
+  }
+
+  .afp-tab-box {
+    .nav-tab-list,
+    #nav-tab.nav-tabs {
+      display: flex;
+      flex-wrap: inherit;
+      padding-left: 0;
+      margin-bottom: 0;
+      list-style: none;
+      text-align: center;
+      border-bottom: 0px;
+      li {
+        color: #8E8E93;
+        text-decoration: none;
+        position: relative;
+        -webkit-transition: .5s color;
+        transition: .5s color;
+        border: none;
+        display: block;
+        flex-grow: 1;
+        flex-basis: 0;
+        text-align: center;
+        white-space:nowrap;
+        a{
+          display: inline-table;
+          width: 100%;
+          height: 100%;
+          color: $gray-color;
+          width: 100%;
+          background-color: transparent;
+          &.active{
+            font-weight: 700;
+            color: $index-default;
+            border-bottom: solid 3px $index-default;
+            animation-name:tabline;
+            animation-duration:0.7s;
+            animation-fill-mode: forwards;
+          }
+        }
+      }
+    }
+  }
+
+  .afp-tab-box {
+    #nav-tab-storedetail.nav-tabs {
+      display: flex;
+      flex-wrap: inherit;
+      padding-left: 0;
+      margin-bottom: 0;
+      list-style: none;
+      text-align: center;
+      border-bottom: 0px;
+      line-height: 3.8em;
+      background-color: #fff;
+      li {
+        font-size: .9em;
+        color: #8E8E93;
+        text-decoration: none;
+        position: relative;
+        -webkit-transition: .5s color;
+        transition: .5s color;
+        border: none;
+        display: block;
+        flex-grow: 1;
+        flex-basis: 0;
+        text-align: center;
+        white-space:nowrap;
+        a{
+          font-size: 1.1em;
+          display: inline-table;
+          width: 100%;
+          height: 100%;
+          color: $gray-color;
+          width: 100%;
+          background-color: transparent;
+          &.active{
+            font-weight: 700;
+            color: $index-default;
+            border-bottom: solid 3px $index-default;
+            animation-name:tabline;
+            animation-duration:0.7s;
+            animation-fill-mode: forwards;
+          }
+        }
+      }
+    }
+  }
+
+  .store-tab-box{
+    li {
+      color: #8E8E93;
+      text-decoration: none;
+      position: relative;
+      -webkit-transition: .5s color;
+      transition: .5s color;
+      border: none;
+      display: block;
+      flex-grow: 1;
+      flex-basis: 0;
+      text-align: center;
+      white-space:nowrap;
+      .nav-link,
+      a.nav-link{
+        display: inline-table;
+        width: 100%;
+        height: 100%;
+        color: $gray-color;
+        width: 100%;
+        background-color: transparent;
+        border-color: transparent;
+        &.active{
+          font-weight: 700;
+          color: $index-default;
+          border-bottom: solid 3px $index-default;
+          animation-name:tabline;
+          animation-duration:0.7s;
+          animation-fill-mode: forwards;
+        }
+      }
+    }
+  }
+  /* all tablist-link */
+  .afp-tab-box{
+    .tab-pane{
+      min-height: 50px;
+    }
+    a.tablist-link{
+      display: inline-table;
+      width: 100%;
+      height: 100%;
+      color: $gray-color;
+      width: 100%;
+      background-color: transparent;
+      &:hover{
+        text-decoration: none;
+      }
+      &.active{
+        font-weight: 700;
+        color: $index-default;
+        border-bottom: solid 3px $index-default;
+        animation-name:tabline;
+        animation-duration:0.7s;
+        animation-fill-mode: forwards;
+      }
+    }
+  }
+  @keyframes tabline{
+      from{
+        width: 0;
+      }
+      to{
+        width: 100%;
+      }
+  }

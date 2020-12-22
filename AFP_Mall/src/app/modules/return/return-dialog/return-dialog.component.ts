@@ -10,7 +10,7 @@ import { ResizedEvent } from 'angular-resize-event';
 @Component({
   selector: 'app-return-dialog',
   templateUrl: './return-dialog.component.html',
-  styleUrls: ['../../../../dist/style/member.min.css', '../../../../dist/style/shopping-index.min.css']
+  styleUrls: ['../../../../styles/member.min.css', '../../../../styles/shopping-index.min.css']
 })
 export class ReturnDialogComponent implements OnInit, AfterViewInit, AfterViewChecked {
   constructor(private route: ActivatedRoute, public appService: AppService, public el: ElementRef) {

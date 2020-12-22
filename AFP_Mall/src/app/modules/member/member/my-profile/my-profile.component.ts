@@ -14,7 +14,7 @@ import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 @Component({
   selector: 'app-my-profile',
   templateUrl: './my-profile.component.html',
-  styleUrls: ['../../../../../dist/style/member.min.css', '../../../../../dist/style/member-setting.min.css'],
+  styleUrls: ['../../../../../styles/member.min.css', '../../../../../styles/member-setting.min.css'],
   animations: [layerAnimation]
 })
 export class MyProfileComponent implements OnInit {
