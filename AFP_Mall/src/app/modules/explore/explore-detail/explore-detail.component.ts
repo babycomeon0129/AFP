@@ -231,7 +231,7 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
     // 先判斷是否有登入
     if (this.appService.loginState) {
       // 把商店code帶到DeliveryInfo頁面
-       window.open(`/Delivery/DeliveryInfo/${this.siteCode}`);
+      window.open('/Delivery/DeliveryInfo/' + this.siteCode);
     } else {
       this.appService.loginPage();
     }
