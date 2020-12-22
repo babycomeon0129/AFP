@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { Response_APIModel, Request_MemberFavourite, Response_MemberFavourite, AFP_Voucher,
+import {
+  Response_APIModel, Request_MemberFavourite, Response_MemberFavourite, AFP_Voucher,
   Request_MemberUserVoucher, Response_MemberUserVoucher, Request_ECCart, Response_ECCart, Model_ShareData
 } from '@app/_models';
 import { BsModalService } from 'ngx-bootstrap';
@@ -59,8 +60,8 @@ export class AppService {
 
   @BlockUI() blockUI: NgBlockUI;
   constructor(private http: HttpClient, private bsModal: BsModalService, public modal: ModalService, private router: Router,
-              private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService,
-              private swPush: SwPush) {
+    private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService,
+    private swPush: SwPush) {
     // 取得前一頁面url
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -83,41 +84,58 @@ export class AppService {
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
       .pipe(map((data: Response_APIModel) => {
-        if (data.Base.Rtn_State !== 1) {
-          this.bsModal.show(MessageModalComponent
-            , {
-              class: 'modal-sm modal-smbox', initialState: {
-                success: false, message: data.Base.Rtn_Message
-                , target: data.Base.Rtn_URL
-              }
-            });
-          this.blockUI.stop();
-          throw new Error('bad request');
-        }
-        // 手機是否驗證
-        switch (data.Verification.MobileVerified) {
-          case 1:
-            // 「一般登入」、「第三方登入」、「登入後讀購物車數量」、「推播」不引導驗證手機
-            if (command !== '1104' && command !== '1105' && command !== '1204' && command !== '1113') {
-              this.modal.openModal('verifyMobile');
+        switch (data.Base.Rtn_State) {
+          case 1: // Response OK
+            // 手機是否驗證
+            switch (data.Verification.MobileVerified) {
+              case 1:
+                // 「一般登入」、「第三方登入」、「登入後讀購物車數量」、「推播」不引導驗證手機
+                if (command !== '1104' && command !== '1105' && command !== '1204' && command !== '1113') {
+                  this.modal.openModal('verifyMobile');
+                }
+                break;
+              case 2:
+              case 3:
+                break;
+              case 4:
+                // tslint:disable: max-line-length
+                sessionStorage.setItem('userCode', data.Verification.UserCode);
+                sessionStorage.setItem('CustomerInfo', data.Verification.CustomerInfo);
+                this.cookieService.set('userCode', data.Verification.UserCode, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+                this.cookieService.set('CustomerInfo', data.Verification.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+                break;
+              default:
+                this.onLogout();
+                this.router.navigate(['/']);
             }
-            break;
-          case 2:
-          case 3:
-            break;
-          case 4:
-            // tslint:disable: max-line-length
-            sessionStorage.setItem('userCode', data.Verification.UserCode);
-            sessionStorage.setItem('CustomerInfo', data.Verification.CustomerInfo);
-            this.cookieService.set('userCode', data.Verification.UserCode, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-            this.cookieService.set('CustomerInfo', data.Verification.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-            break;
-          default:
+            this.blockUI.stop();
+            return JSON.parse(data.Data);
+          case 9998: // user資料不完整，讓使用者登出
+            this.modal.show('message', { initialState: { success: false, message: '請先登入', showType: 1}});
             this.onLogout();
-            this.router.navigate(['/']);
+            break;
+          default: // 其他錯誤
+            this.bsModal.show(MessageModalComponent
+              , {
+                class: 'modal-sm modal-smbox', initialState: {
+                  success: false, message: data.Base.Rtn_Message
+                  , target: data.Base.Rtn_URL
+                }
+              });
+            this.blockUI.stop();
+            throw new Error('bad request');
         }
-        this.blockUI.stop();
-        return JSON.parse(data.Data);
+        // if (data.Base.Rtn_State !== 1) {
+        //   this.bsModal.show(MessageModalComponent
+        //     , {
+        //       class: 'modal-sm modal-smbox', initialState: {
+        //         success: false, message: data.Base.Rtn_Message
+        //         , target: data.Base.Rtn_URL
+        //       }
+        //     });
+        //   this.blockUI.stop();
+        //   throw new Error('bad request');
+        // }
       }, catchError(this.handleError)));
   }
 
@@ -403,25 +421,25 @@ export class AppService {
             messaging.useServiceWorker(registration);
             if (Notification.permission !== 'denied') {
               Notification
-              .requestPermission()
-              .then((permission) => {
-                if (permission === 'granted') {
-                  messaging.getToken().then(token => {
-                    this.firebaseToken = token;
-                    // send token to BE
-                    // get GUID (device code) from session, or generate one if there's no
-                    if (sessionStorage.getItem('M_DeviceCode') !== null) {
-                      this.deviceCode = sessionStorage.getItem('M_DeviceCode');
-                    } else {
-                      this.deviceCode = this.guid();
-                      sessionStorage.setItem('M_DeviceCode', this.deviceCode);
-                    }
-                    this.toPushApi();
-                  });
-                } else {
-                  console.warn('The notification permission was not granted and blocked instead');
-                }
-              });
+                .requestPermission()
+                .then((permission) => {
+                  if (permission === 'granted') {
+                    messaging.getToken().then(token => {
+                      this.firebaseToken = token;
+                      // send token to BE
+                      // get GUID (device code) from session, or generate one if there's no
+                      if (sessionStorage.getItem('M_DeviceCode') !== null) {
+                        this.deviceCode = sessionStorage.getItem('M_DeviceCode');
+                      } else {
+                        this.deviceCode = this.guid();
+                        sessionStorage.setItem('M_DeviceCode', this.deviceCode);
+                      }
+                      this.toPushApi();
+                    });
+                  } else {
+                    console.warn('The notification permission was not granted and blocked instead');
+                  }
+                });
             }
           } else {
             console.warn('No active service worker found, not able to get firebase messaging');
@@ -527,12 +545,12 @@ export interface jQuery {
   animateCss(): void;
 }
 
-jQuery.prototype.animateCss = function(animationName, anotherCss, callback): void {
+jQuery.prototype.animateCss = function (animationName, anotherCss, callback): void {
   const animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
   const isAdd = anotherCss.substr(0, 1);
   const addCss = anotherCss.substr(1);
   if (isAdd === '+' || isAdd === '-') {
-    this.addClass('animated ' + animationName + ' ' + addCss).bind(animationEnd, function() {
+    this.addClass('animated ' + animationName + ' ' + addCss).bind(animationEnd, function () {
       if (isAdd === '+') { $(this).addClass(addCss); }
       if (isAdd === '-') { $(this).removeClass(addCss); }
       $(this).removeClass('animated ' + animationName);
