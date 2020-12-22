@@ -244,9 +244,9 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
               private meta: Meta, private title: Title, private cookieService: CookieService, public route: ActivatedRoute) {
     this.serviceDiffer = this.differs.find({}).create();
     // tslint:disable: max-line-length
-    this.title.setTitle('Mobii!｜城市生活服務平台');
+    this.title.setTitle('Mobii!｜綠色城市優惠平台');
     this.meta.updateTag({ name: 'description', content: '使用 Mobii! APP，讓你的移動總是驚喜。乘車、購物、美食、景點、旅行資訊全都包，使用就享點數回饋，每日登入再領 M Points，會員再享獨家彩蛋大禮包。先下載 Mobii APP 看看裡面有什麼好玩的吧？' });
-    this.meta.updateTag({ content: 'Mobii!｜城市生活服務平台', property: 'og:title' });
+    this.meta.updateTag({ content: 'Mobii!｜綠色城市優惠平台', property: 'og:title' });
     this.meta.updateTag({ content: '使用 Mobii! APP，讓你的移動總是驚喜。乘車、購物、美食、景點、旅行資訊全都包，使用就享點數回饋，每日登入再領 M Points，會員再享獨家彩蛋大禮包。先下載 Mobii APP 看看裡面有什麼好玩的吧？', property: 'og:description' });
   }
 
