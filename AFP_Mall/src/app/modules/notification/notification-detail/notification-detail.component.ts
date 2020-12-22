@@ -47,11 +47,11 @@ export class NotificationDetailComponent implements OnInit, AfterViewChecked {
         property: 'og:title'
       });
       this.meta.updateTag({
-        content: `${data.AFP_IMessage.IMessage_SmallImg}`,
+        content: `${data.AFP_IMessage.IMessage_Desc}`,
         property: 'og:description'
       });
       this.meta.updateTag({
-        content: `${data.AFP_IMessage.IMessage_Desc}`,
+        content: `${data.AFP_IMessage.IMessage_SmallImg}`,
         property: 'og:image'
       });
     });
