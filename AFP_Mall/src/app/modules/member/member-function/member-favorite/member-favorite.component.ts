@@ -167,10 +167,4 @@ export class MemberFavoriteComponent implements OnInit {
     routeChanged = true;
   }
 
-  // Leave Forwarding
-  countdown() {
-    setTimeout(() => { history.back() ; }, 200);
-    $('.mycard').removeClass('slideInRight').addClass('slideOutRight');
-  }
-
 }
