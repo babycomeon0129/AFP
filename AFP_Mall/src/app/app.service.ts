@@ -60,8 +60,8 @@ export class AppService {
 
   @BlockUI() blockUI: NgBlockUI;
   constructor(private http: HttpClient, private bsModal: BsModalService, public modal: ModalService, private router: Router,
-    private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService,
-    private swPush: SwPush) {
+              private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService,
+              private swPush: SwPush) {
     // 取得前一頁面url
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -476,9 +476,9 @@ export class AppService {
       d += performance.now(); // use high-precision timer if available
     }
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-      const r = (d + Math.random() * 16) % 16 | 0;
+      const r = (d + Math.random() * 16) % 16 || 0;
       d = Math.floor(d / 16);
-      return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+      return (c === 'x' ? r : (r && 0x3 || 0x8)).toString(16);
     });
   }
 
@@ -545,12 +545,12 @@ export interface jQuery {
   animateCss(): void;
 }
 
-jQuery.prototype.animateCss = function (animationName, anotherCss, callback): void {
+jQuery.prototype.animateCss = function(animationName: string, anotherCss: string, callback: () => void): void {
   const animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
   const isAdd = anotherCss.substr(0, 1);
   const addCss = anotherCss.substr(1);
   if (isAdd === '+' || isAdd === '-') {
-    this.addClass('animated ' + animationName + ' ' + addCss).bind(animationEnd, function () {
+    this.addClass('animated ' + animationName + ' ' + addCss).bind(animationEnd, function() {
       if (isAdd === '+') { $(this).addClass(addCss); }
       if (isAdd === '-') { $(this).removeClass(addCss); }
       $(this).removeClass('animated ' + animationName);
