@@ -15,7 +15,7 @@ export class MemberCoinComponent implements OnInit {
   public info: Response_MemberPoint = new Response_MemberPoint();
   public pointHistory: AFP_UserPoint[] = [];
   public pointType = 0;
-  public showBackBtn = false; // APP特例處理
+  public showBack = false; // APP特例處理
 
   /** 活動分類導覽 */
   public boxTabs: SwiperOptions = {
@@ -57,7 +57,7 @@ export class MemberCoinComponent implements OnInit {
     });
     // 從會員中心或任務牆進來則隱藏返回鍵
     if (this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBackBtn = true;
+      this.showBack = true;
     }
   }
 

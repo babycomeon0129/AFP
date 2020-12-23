@@ -59,7 +59,7 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
   /** 分享至社群時顯示的文字 */
   public textForShare: string;
   /** APP特例處理  */
-  public showBackBtn = false;
+  public showBack = false;
   /** 確認資料是否下載完畢  */
   public dataLoad = false;
 
@@ -70,7 +70,7 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
     this.siteCode = Number(this.route.snapshot.params.ECStore_Code);
     // APP從會員中心進來則隱藏返回鍵
     if (this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBackBtn = true;
+      this.showBack = true;
     }
   }
 
@@ -86,6 +86,7 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
     this.route.queryParams.subscribe(params => {
       if (typeof params.navNo !== 'undefined') {
         this.tabNo = parseInt(params.navNo, 10);
+        this.showBack = params.showBack;
         if (this.tabNo > 1 && this.tabNo <= 3) {
           this.readTabData(this.tabNo);
         }

@@ -15,7 +15,7 @@ export class MemberFavoriteComponent implements OnInit {
   public editMode = false;
   /** 目前所選收藏類型資料容器 */
   public selectedType = [];
-  public showBackBtn = false; // APP特例處理
+  public showBack = false; // APP特例處理
 
   constructor(public appService: AppService, public modal: ModalService, private route: ActivatedRoute, private router: Router,
               private meta: Meta, private title: Title) {
@@ -31,7 +31,7 @@ export class MemberFavoriteComponent implements OnInit {
     this.onFavList(53);
     // 從會員中心進來則隱藏返回鍵
     if (this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBackBtn = true;
+      this.showBack = true;
     }
   }
 
@@ -158,9 +158,9 @@ export class MemberFavoriteComponent implements OnInit {
       if (!routeChanged) {
         // 若route還未改變才前往
         if (code2 === undefined) {
-          this.router.navigate([page, code1], {queryParams: {showBack: this.showBackBtn}});
+          this.router.navigate([page, code1], {queryParams: {showBack: this.showBack}});
         } else {
-          this.router.navigate([page, code1, code2], {queryParams: {showBack: this.showBackBtn}});
+          this.router.navigate([page, code1, code2], {queryParams: {showBack: this.showBack}});
         }
       }
     }
