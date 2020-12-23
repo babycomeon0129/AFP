@@ -352,6 +352,7 @@ export class AppService {
             code = voucher.Voucher_UserVoucherCode;
           }
           if (this.route.snapshot.queryParams.showBack === undefined) {
+            console.log(this.route.snapshot.queryParams);
             this.router.navigate(['/Voucher/VoucherDetail', code]);
           } else {
             // APP特例處理: 若是從會員過去則要隱藏返回鍵

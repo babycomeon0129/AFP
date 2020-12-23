@@ -26,7 +26,7 @@
                       <div class="swiper-pagination"></div>
                       <div class="shopping-storeup">
                           <div class="back-go">
-                              <button type="button" onclick="history.back();" #clickbtn data-toggle="tooltip" data-placement="top" title="回上一頁" [hidden]="appService.isApp !== null && !showBackBtn"><img src="../img/share/icon_back.png" class="imgicon"></button>
+                              <button type="button" onclick="history.back();" #clickbtn data-toggle="tooltip" data-placement="top" title="回上一頁" [hidden]="appService.isApp !== null && !showBack"><img src="../img/share/icon_back.png" class="imgicon"></button>
                           </div>
                           <div class="ml-auto d-flex d-inline align-items-center">
                             <button class="btn add-share" type="button" (click)="modal.show('msgShare', { initialState: {sharedText: textForShare} })"><img src="../img/share/icon_share.png" class="imgicon"></button>
@@ -75,13 +75,13 @@
                   <div class="store-tab-box">
                       <ul class="nav nav-tabs" id="storeTab" role="tablist">
                           <li class="nav-item">
-                            <a [routerLink]="['/Explore/ExploreDetail', siteCode]" [queryParams]="{ navNo: 1 }" [ngClass]="{'active' : tabNo == 1}" class="nav-link active" id="store-tab" data-toggle="tab" href="#store" role="tab" aria-controls="store" aria-selected="true">{{siteInfo?.ECStore_Type < 2000? '店家' : '周邊'}}簡介</a>
+                            <a [routerLink]="['/Explore/ExploreDetail', siteCode]" [queryParams]="{ navNo: 1, showBack: this.showBack}" [ngClass]="{'active' : tabNo == 1}" class="nav-link active" id="store-tab" data-toggle="tab" href="#store" role="tab" aria-controls="store" aria-selected="true">{{siteInfo?.ECStore_Type < 2000? '店家' : '周邊'}}簡介</a>
                           </li>
                           <li *ngIf="siteInfo?.ECStore_Type < 2000 && siteInfo?.ECStore_Type !== 1100" class="nav-item">
-                              <a [routerLink]="['/Explore/ExploreDetail', siteCode]" [queryParams]="{ navNo: 3 }" [ngClass]="{'active' : tabNo == 3}" class="nav-link" id="shop-tab" data-toggle="tab" href="#shop" role="tab" aria-controls="shop" aria-selected="false">所有商品</a>
+                              <a [routerLink]="['/Explore/ExploreDetail', siteCode]" [queryParams]="{ navNo: 3, showBack: this.showBack }" [ngClass]="{'active' : tabNo == 3}" class="nav-link" id="shop-tab" data-toggle="tab" href="#shop" role="tab" aria-controls="shop" aria-selected="false">所有商品</a>
                           </li>
                           <li  *ngIf="siteInfo?.ECStore_Type < 2000" class="nav-item">
-                              <a [routerLink]="['/Explore/ExploreDetail', siteCode]" [queryParams]="{ navNo: 2 }" [ngClass]="{'active' : tabNo == 2}" class="nav-link" id="ticket-tab" data-toggle="tab" href="#ticket" role="tab" aria-controls="ticket" aria-selected="false">優惠券</a>
+                              <a [routerLink]="['/Explore/ExploreDetail', siteCode]" [queryParams]="{ navNo: 2, showBack: this.showBack }" [ngClass]="{'active' : tabNo == 2}" class="nav-link" id="ticket-tab" data-toggle="tab" href="#ticket" role="tab" aria-controls="ticket" aria-selected="false">優惠券</a>
                           </li>
                       </ul>
                       <div class="tab-content">

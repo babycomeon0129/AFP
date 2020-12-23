@@ -3,7 +3,7 @@
     <div class="header-secondary container">
       <div class="index-flex justify-content-between">
         <div class="item two">
-          <div class="close-btn" [hidden]="appService.isApp !== null && !showBackBtn">
+          <div class="close-btn" [hidden]="appService.isApp !== null && !showBack">
             <button type="button" class="btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom"
               title="回上一頁">
               <i class="material-icons">&#xe314;</i>
@@ -111,7 +111,7 @@
     <div class="useoffers">
       <div class="title-box">
         <div class="item icon-btn">
-          <button [hidden]="appService.isApp !== null && !showBackBtn" type="button" (click)="closeQRCode()"
+          <button [hidden]="appService.isApp !== null && !showBack" type="button" (click)="closeQRCode()"
             class="btn px-0" title="回上一頁">
             <i class="material-icons">&#xe314;</i>
           </button>
