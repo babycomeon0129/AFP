@@ -1,0 +1,110 @@
+@import '../../../../../styles/module/variable';
+
+/** mypay付款設定 */
+.my-creditcard-list{
+    .main-list{
+        border-top: 1px $gray-light solid;
+        color:$blue-dark;
+        >li{
+            a{
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+                padding: 15px;
+                color:$blue-dark;
+                &.collapsed{
+                    .material-icons{
+                        transform: rotate(180deg);
+                    }
+                }
+            }
+            .item-img, .item-icon{
+                width: 32px;
+                margin-right: 15px;
+                img{
+                    vertical-align: sub;
+                }
+            }
+            .item-icon{
+                width: 26px;
+                height: 26px;
+                border: 1px #ccc dotted;
+                text-align: center;
+                border-radius: 2px;
+                .material-icons{
+                    font-size: 18px;
+                    vertical-align: text-top;
+                }
+            }
+            .card-type{
+                flex: 1;
+            }
+            .item-card-num{
+                margin-right: 40px;
+            }
+            .item-default{
+                min-width: 40px;
+                color: $member-default;
+                font-size: small;
+            }
+            .sub-list{
+                flex: none;
+                width: 100%;
+                padding-left: 55px;
+                li{
+                    display: flex;
+                    flex-wrap: wrap;
+                    align-items: center;
+                    padding: 15px 15px 15px 0;
+                    border-top: 1px $gray-light solid;
+                    // &:last-child{
+                    //     border-bottom: 1px $gray-light solid;
+                    // }
+                    .item-dates{
+                        flex: none;
+                        width: 100%;
+                        display: flex;
+                        .item-date{
+                            flex: 1;
+                            padding-left: 45px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .setting-default{
+        border-top: 1px $gray-light solid;
+        border-bottom: 1px $gray-light solid;
+    }
+}
+
+/** mypay付款設定 - 新增信用卡 */
+.my-creditcard-info{
+    padding: 30px 0;
+    border-top: 1px $gray-light solid;
+    border-bottom: 1px $gray-light solid;
+    .container{
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    label{
+        color:#273D52;
+        margin-bottom: 5px;
+    }
+    input{
+        border-radius: 10px;
+    }
+    .setting-default{
+        border: none;
+    }
+}
+.neweb-pay{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    img{
+        margin: 20px 0;
+    }
+}

@@ -1,0 +1,40 @@
+@import '../../../../styles/module/variable';
+// faq
+.faqbox{
+  button{
+      &:focus{
+          outline: none;
+          box-shadow: none;
+      }
+      &[aria-expanded="true"] {
+          i.material-icons {
+              transform: rotate(180deg);
+          }
+      }
+  }
+  li{
+      padding: .5em;
+      color: $blue-dark;
+      border-bottom: 1px $gray-light solid;
+      .col-12{
+          font-size: small;
+          color: gray;
+          button{
+              padding: .75em 0;
+              font-size: small;
+              color: gray;
+              border-top: 1px $gray-light solid;
+          }
+          &:first-child button{
+              border-top:0;
+          }
+          .abox{
+              background: $gray-light;
+              padding: 1em;
+          }
+          li{
+              color: gray;
+          }
+      }
+  }
+}

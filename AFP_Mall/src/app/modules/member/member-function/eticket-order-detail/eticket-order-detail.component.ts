@@ -9,7 +9,7 @@ import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-eticket-order-detail',
   templateUrl: './eticket-order-detail.component.html',
-  styleUrls: ['../../../../../styles/member.min.css',
+  styleUrls: ['../../member/member.scss',
               '../../../../../styles/member-function.min.css',
               '../../../../../styles/shopping-index.min.css']
 })

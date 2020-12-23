@@ -8,7 +8,7 @@ declare var AppJSInterface: any;
 @Component({
   selector: 'app-qa',
   templateUrl: './qa.component.html',
-  styleUrls: ['../../../../styles/member.min.css', '../../../../styles/member-setting.min.css'],
+  styleUrls: ['../../member/member/member.scss', './qa.scss'],
   animations: [layerAnimation]
 })
 export class QAComponent implements OnInit {

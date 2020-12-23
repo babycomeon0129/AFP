@@ -7,7 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-luckyspin',
   templateUrl: './luckyspin.component.html',
-  styleUrls: ['../../../../../styles/mission.min.css']
+  styleUrls: ['./luckyspin.scss']
 })
 export class LuckyspinComponent implements OnInit, AfterViewInit, OnDestroy {
   /** 遊戲資料（遊戲名稱、類型、格數、上方圖片、規則、遊玩一次所需點數。每次玩完不更新） */

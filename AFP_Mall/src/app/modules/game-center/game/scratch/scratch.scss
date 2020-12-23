@@ -1,0 +1,65 @@
+@import '../game.scss';
+
+.bg-m1{
+  background-color: #f9621d;
+}
+
+.scratch-cont{
+  padding: 2em 1em 1em 1em;
+  width: 100%;
+  top: -10px;
+  z-index: -1;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  background: -webkit-linear-gradient(#f9621d,#e00602);
+  background: -o-linear-gradient(#f9621d,#e00602);
+  background: -moz-linear-gradient(#f9621d,#e00602);
+  background: linear-gradient(#f9621d,#e00602);
+  height: 880px;
+  #bottom{
+      border-radius: 7%;
+  }
+  @media (max-width: 991px) {
+      height: 600px;
+  }
+  @media (max-width: 480px) {
+      height: 500px;
+  }
+  @media (max-width: 375px) {
+      height: 400px;
+  }
+  h5{
+      font-weight: 700;
+  }
+}
+
+.scratch-cont canvas{
+  position: absolute;
+  align-items: center;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  background-size: contain;
+  background-repeat: inherit;
+  width: 800px;
+  height: 770px;
+  font-size: 40px;
+  @media (max-width: 991px) {
+      width: 500px;
+      height: 480px;
+      font-size: 30px;
+      margin-bottom: 0.5em;
+  }
+  @media (max-width: 480px) {
+      width: 390px;
+      height: 375px;
+      font-size: 24px;
+      margin-bottom: 3em;
+  }
+  @media (max-width: 375px) {
+      width: 300px;
+      height: 290px;
+      font-size: 18px;
+      margin-bottom: 3em;
+  }
+}

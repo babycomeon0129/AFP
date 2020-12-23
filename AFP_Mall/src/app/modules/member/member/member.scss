@@ -1,0 +1,554 @@
+@import '../../../../styles/module/variable';
+
+
+/** member shared */
+.note-box{
+  border-top: 5px #f8f8f8 solid;
+  .note-item{
+      border-top: 1px $gray-light solid;
+      border-bottom: 1px $gray-light solid;
+      padding: 15px;
+      background-color: #fff;
+      font-size: 90%;
+  }
+}
+.auto-left{
+  margin-left: auto;
+  text-align: right;
+}
+#open-mask.modal-backdrop {
+  z-index: 1040;
+}
+ul{
+  padding: 0;
+}
+.title-box{
+  min-width: 320px;
+  button.btn{
+      color: $blue-dark;
+  }
+}
+.input-box{
+  display: flex;
+}
+.info-img{
+  flex: none;
+  width: 75px;
+  height: 75px;
+  @media (max-width: 375px) {
+      width: 65px;
+      height: 65px;
+  }
+  border-radius: 100%;
+  overflow: hidden;
+  margin-right: 15px;
+  img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+  }
+}
+.w-84{
+  width: 87px;
+  line-height: initial;
+  @media (min-width: 376px) {
+      white-space: nowrap;
+  }
+}
+
+/** logo-img shared */
+.rwdimg.logo-img{
+  //border: 1px $gray-light solid;
+  width: 80px;
+  height: 80px;
+  @media screen and (max-width: 571px) {
+      width: 60px;
+      height: 60px;
+  }
+}
+
+/** member-card, memberindex shared */
+.member-item-group{
+  background-color: $default-white;
+  .mycard-box{
+      position: relative;
+      text-align: center;
+      margin: 0 auto;
+      margin-bottom: 1em;
+      width: 80%;
+      max-width: 500px;
+      .mycard-img {
+          position: relative;
+          width: 100%;
+      }
+      .uploadphoto{
+          width: 64px;
+          position: absolute;
+          top: 50%;
+          right: 0;
+          transform: translate(-31%, -50%);
+          @media (max-width: 480px) {
+              width: 48px;
+              transform: translate(-22%, -50%);
+          }
+      }
+      .mycard-info {
+          top:0;
+          width: 100%;
+          height: 100%;
+          padding: 1em 1em 0.75em 1em;
+          position: absolute;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          a{
+              color: $default-black;
+          }
+          .info-c{
+              position: absolute;
+              text-align: left;
+              top: 40%;
+              left: 40%;
+              @media (max-width: 480px) {
+                  font-size: small;
+                  left: 33%;
+              }
+          }
+          .info-bc{
+              width: 66%;
+              max-width: 330px;
+              color: #fff;
+              position: absolute;
+              text-align: left;
+              top: 40%;
+              left: 10%;
+              font-size: 1.2em;
+              @media (max-width: 375px) {
+                  width: 66%;
+                  max-width: 168px;
+                  font-size: 1em;
+                  top: 45%;
+              }
+          }
+          .info-bb{
+              color: #fff;
+              font-size: 1.5em;
+              padding: .5em;
+              @media (max-width: 767px) {
+                  font-size: 1.4em;
+                  padding: .25em;
+              }
+              @media (max-width: 480px) {
+                  font-size: 1.2em;
+                  padding: .2em;
+              }
+              @media (max-width: 375px) {
+                  font-size: 1em;
+                  padding: 0;
+              }
+          }
+          .mycard-simg{
+              max-width:160px ;
+              @media (max-width: 767px) {
+                  max-width:110px ;
+              }
+              @media (max-width: 480px) {
+                  max-width:70px ;
+              }
+          }
+
+      }
+  }
+  .member-item-bg{
+      width: 100%;
+      background: linear-gradient($index-default 15%, #fff 0);
+      /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/$member-default+0,ffffff+100&1+0,0+100 */
+      // background: -moz-linear-gradient(top,  rgba(244,36,106,1) 0%, rgba(255,255,255,0) 100%); /* FF3.6-15 */
+      // background: -webkit-linear-gradient(top,  rgba(244,36,106,1) 0%,rgba(255,255,255,0) 100%); /* Chrome10-25,Safari5.1-6 */
+      // background: linear-gradient(to bottom,  rgba(244,36,106,1) 0%,rgba(255,255,255,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+      // filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$member-default', endColorstr='#00ffffff',GradientType=0 ); /* IE6-9 */
+  }
+  .member-item-list{
+      //position: relative;
+      z-index: 50;
+      padding: 0 15px;
+      background-color: $default-white;
+      box-shadow: 0px 1px 4px rgba(174, 165, 165, 0.5);
+      border-radius: 10px;
+      .member-items{
+          display: flex;
+          &:not(:last-child){
+              border-bottom: 1px #eee solid;
+          }
+          .member-item{
+              flex: 1;
+              text-align: center;
+              padding: 15px 10px;
+              color: $blue-dark;
+              p{
+                  font-size: x-small;
+                  @media (min-width: 480px) {
+                      font-size: medium;
+                  }
+              }
+          }
+          .img-box{
+              margin-bottom: 5px;
+          }
+      }
+  }
+}
+
+/** setting, mycard, my-profile, mysocial shared */
+.my-list-box{
+  border-top: 1px $gray-light solid;
+  /* Chrome, Safari, Edge, Opera */
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+      border: 0;
+      text-align: right;
+  }
+  /* Firefox */
+  input[type=number] {
+      -moz-appearance: textfield;
+      border: 0;
+      text-align: right;
+  }
+  select.form-control{
+      border: 1px solid #fff;
+      cursor: pointer;
+  }
+  p{
+      padding: 2px 15px;
+      //box-shadow: 0px -0.5px 0px rgba(0, 0, 0, 0.15);
+      background-color: #F8F8F8;
+  }
+  .text-index{
+      background-color: #F8F8F8;
+  }
+  &.edit-list{
+      ul{
+          li{
+              border-bottom: none;
+              .item{
+                  &:first-child{
+                      flex: 1;
+                  }
+                  &.auto-left:last-child{
+                      flex: none;
+                      width: 30px;
+                      .material-icons{
+                          color: $gray-color;
+                      }
+                  }
+              }
+          }
+      }
+  }
+  &.cardbox {
+      height: 100%;
+      background: $gray-light8;
+      min-width: 320px;
+      ul{
+          background: #fff;
+          li.small-end{
+              padding: 5px 15px;
+              justify-content: flex-end;
+              font-size: small;
+              background: $gray-light8;
+          }
+          li.captchabox{
+              padding: 5px 15px;
+              justify-content: flex-end;
+              background: $gray-light8;
+              button{
+                  color: $index-default;
+              }
+              .captnote{
+                  padding-right: 120px;
+                  transform: translate(0%, -50%);
+              }
+          }
+      }
+  }
+  ul{
+      &.my-language{
+          li{
+              flex-direction: column;
+              align-items: flex-start;
+              .item{
+                  &:last-child{
+                      color: $gray-color;
+                  }
+              }
+          }
+      }
+      &.social-account{
+          .item-img{
+              width: 35px;
+              height: 35px;
+              margin-right: 10px;
+          }
+          .auto-left{
+              color: $member-default;
+          }
+          button.bind{
+              color: $member-default;
+              &.unable{
+                  color: $mission-color;
+              }
+          }
+      }
+      li{
+          color: $blue-dark;
+          display: flex;
+          flex: 1;
+          align-items: center;
+          padding: 15px;
+          border-bottom: 1px $gray-light solid;
+          small.text-danger{
+              position: absolute;
+              transform: translate(-18%, 99%);
+          }
+          .input-box{
+              flex: 2;
+              text-align: right;
+              justify-content: flex-end;
+              input[type='date'],
+              input[type='tel'],
+              input[type='email'],
+              input[type='text']{
+                  background-color: #fff;
+                  border: 0;
+                  text-align: right;
+                  color: $blue-dark;
+                  &.text-a8{
+                      color: #a8a8a8a8;
+                  }
+              }
+              input[type='tel'],
+              input[type='email'],
+              input[type='text']{
+                  width: 100%;
+              }
+              input[type='date']{
+                  width: 110px;
+              }
+              input#bdayinput{
+                  padding: 0;
+                  height: auto;
+                  width: calc(100% - 38px);
+              }
+              .icon-birth{
+                  width: 26px;
+                  height: 26px;
+              }
+              input[type=date]::-webkit-inner-spin-button {
+                  -webkit-appearance: none;
+                  display: none;
+              }
+              input[type=date]::-webkit-calendar-picker-indicator {
+                  -webkit-appearance: none;
+                  display: none;
+              }
+          }
+          button{
+              color: $blue-dark;
+              display: flex;
+          }
+      }
+      &.p-select-wheel>li{
+          border-bottom: 0px;
+      }
+  }
+  #sexSelect{
+      float: right;
+      text-align-last: right;
+      width: 50%;
+      color: rgb(118, 118, 118);
+      option{
+          color: $blue-dark;
+      }
+  }
+}
+
+/** uplayer */
+.uplayer>div.mycardprompt {
+  overflow: hidden;
+  max-height: 82vh;
+  padding-bottom: 60px;
+  @media (min-width: 768px){
+      max-height: 65vh;
+  }
+}
+
+/** mycard, my-profile shared */
+.my-info-box{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding-right: 1em;
+  padding-left: 1em;
+  border-top: 1px $gray-light solid;
+  border-bottom: 1px $gray-light solid;
+  .info-email{
+      margin-top: 5px;
+      color: $blue-dark;
+  }
+  .passport-status{
+      margin-top: -6px;
+      color: $index-default;
+      .material-icons{
+          font-size: 18px;
+          vertical-align: sub;
+      }
+  }
+}
+
+/** mycard, my-profile, ridecode shared */
+.upload-box{
+  position: relative;
+  .add-btn, .change-btn{
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      &.uploadItembox{
+          position: relative;
+          top: 0;
+          left: 0;
+          transform: none;
+          .uploadItem{
+              position: relative;
+              width: 100%;
+              min-width: 260px;
+              display: flex;
+              justify-content: space-between;
+          }
+      }
+  }
+  .change-btn{
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: $default-white;
+      background-color: $member-default;
+      border-radius: 100%;
+      box-shadow: 0 0 10px rgba(0,0,0,.5);
+  }
+  .add-btnbg {
+      width: 130px;
+      @media (min-width: 768px) {
+          width: 200px;
+      }
+  }
+}
+input[type="file"] {
+  visibility: hidden;
+  position: fixed;
+  line-height: 0;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
+.custom-file-upload {
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+
+/** memberFood, returns, myAddress, deliveryInfo手機驗證我的地址 */
+.my-address-list{
+  color: $blue-dark;
+  &.L2height{
+      line-height: 2em;
+  }
+  .distdefault, .citydefault{
+      color: #2796DF;
+  }
+  ul{
+      li{
+          padding: 10px 15px;
+          border-bottom: 1px $gray-light solid;
+          display: flex;
+          align-items: center;
+          &:first-child{
+              border-top: 1px $gray-light solid;
+          }
+          .item{
+              &.default-item{
+                  p{
+                      color: $member-default;
+                      margin-top: -10px;
+                  }
+              }
+              &.foodstatus{
+                  font-size: .95em;
+                  p{
+                      color: $gray-color;
+                  }
+                  &.active{
+                      p{
+                          color: $member-default;
+                      }
+                  }
+                  &.error{
+                      p{
+                          color: $red-dark;
+                      }
+                  }
+              }
+          }
+          p{
+              color: $blue-dark;
+              &.small{
+                  color: $gray-color;
+              }
+              &.small-70{
+                  color: $gray-color;
+                  font-size: 70%;
+              }
+              small{
+                  margin-left: 5px;
+                  color: $gray-color;
+              }
+          }
+          input{
+              background-color: #fff;
+              width: 100%;
+              border: none;
+              text-align: right;
+              color: $blue-dark;
+              //border-bottom: 1px $gray-light solid;
+          }
+      }
+  }
+  .add-address-btn{
+      text-align: center;
+      padding: 15px;
+      color: $blue-dark;
+      cursor: pointer;
+  }
+  .material-icons{
+      font-size: 18px;
+      vertical-align: sub;
+  }
+  label.radio-box {
+      line-height: initial;
+  }
+}
+.multilayer .my-address-list{
+  ul li{
+      line-height: 2em;
+  }
+}

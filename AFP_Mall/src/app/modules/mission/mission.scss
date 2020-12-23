@@ -1,0 +1,125 @@
+@import '../../../styles/module/variable';
+
+.mission-personal{
+    background: $mission-color;
+    color: white;
+    padding: 1em 1.5em;
+    .item{
+        margin-bottom: .5em;
+        &:last-child{
+            margin-bottom: 0;
+        }
+        &.coin{
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+        &.progress{
+            height: .5em;
+            border-radius: 30px;
+        }
+        &.task{
+            font-size: .9em;
+        }
+        .info-img{
+            flex: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 100%;
+            overflow: hidden;
+            margin-right: 15px;
+            img{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+}
+.ms-item{
+    border-bottom: 1px solid #eee;
+}
+.info-box {
+    color: $blue-dark;
+    flex: 1;
+    margin: .5em;
+    .info-list {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .info-name {
+        font-weight: 600;
+        font-size: 1em;
+    }
+    li {
+        font-size: small;
+        span.num{
+            color: $index-default;
+            font-size: 1.4em;
+            font-weight: 600;
+        }
+    }
+}
+
+//circle progress
+.progressbar{
+    line-height: 0;
+    .circle {
+        width: 50px;
+        margin: 0px;
+        display: inline-block;
+        position: relative;
+        text-align: center;
+        line-height: 1.2;
+    }
+
+    .circle strong {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
+        width: 100%;
+        text-align: center;
+        line-height: 1.4em;
+        font-size: 1.2em;
+        color: #FD5F00;
+    }
+
+    .circle strong i {
+        font-style: normal;
+        font-size: 0.6em;
+        font-weight: normal;
+    }
+
+    canvas{
+        margin-top: 0;
+        font-size: 1.2em;
+    }
+    .second.circle{
+        background-color: #fdebef;
+        border-radius: 100%;
+        canvas{
+            margin-top: 0;
+            font-size: 1.2em;
+            background-color: #fdebef;
+            border-radius: 100%;
+        }
+    }
+}
+
+.circular-progress-bar {
+    display: inline-block;
+    border-radius: 50%;
+    .circular-progress-bar_value {
+        position: relative;
+        display: inline-block;
+        border-radius: 50%;
+        .circular-progress-bar_value_text {
+            text-align: center;
+            font-family: monospace;
+            color: #fff;
+            mix-blend-mode: difference;
+        }
+    }
+}

@@ -1,0 +1,72 @@
+@import '../../../../styles/module/variable';
+@import '../../../../styles/layer/explore-filer.scss';
+
+.card-item {
+  display: flex;
+  padding: 15px;
+  border-bottom: 1px #eee solid;
+  color: $explore-default;
+
+  .img-box {
+      width: 80px;
+      height: 80px;
+      border-radius: 5px;
+      overflow: hidden;
+      background: #eee;
+      img {
+          width: 100%;
+      }
+  }
+  &.sm{
+      padding: 10px;
+      font-size: small;
+      border-bottom: 0;
+      .info-near{
+          font-size: x-small;
+      }
+  }
+  .info-box {
+      flex: 1;
+      padding-left: 15px;
+
+      .info-list {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+      }
+
+      .info-name {
+          font-weight: 600;
+          font-size: 1em;
+      }
+
+      li {
+          display: flex;
+          align-items: center;
+          font-size: 13px;
+          &.info-near {
+              margin-top: auto;
+          }
+      }
+
+      .item-tag {
+          display: flex;
+          align-items: center;
+          border: 1px solid #e5e9f2;
+          padding: 1px 10px;
+          border-radius: 100px;
+          line-height: 1.3;
+          font-size: 13px;
+      }
+
+      .item-ticket {
+          padding: 1px 10px;
+          background: #f2f5fa;
+          border-radius: 5px;
+
+          .material-icons {
+              font-size: 18px;
+          }
+      }
+  }
+}

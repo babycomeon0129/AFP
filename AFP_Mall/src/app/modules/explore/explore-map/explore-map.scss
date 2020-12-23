@@ -1,0 +1,403 @@
+@import '../explore-list/explore-list.scss';
+
+.mapbox{
+  height: 100vh;
+}
+
+.explore-swiper{
+  position: absolute;
+  bottom: 2.5em;
+  width: 100%;
+  z-index: 1;
+  .swiper-container{
+      padding: 0 10px;
+  }
+  .swiper-slide{
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 15px;
+  }
+}
+.store-slider {
+  height: 230px;
+  position: relative;
+
+  .slider-box,
+  .slick-list,
+  .slick-track,
+  .img-box {
+      height: inherit;
+  }
+
+  .slider_counter {
+      position: absolute;
+      bottom: 30px;
+      right: 15px;
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid #e5e9f2;
+      border-radius: 100px;
+      padding: 1px 10px;
+      font-size: 14px;
+  }
+}
+.store-info-box {
+  .card-item {
+      min-height: 110px;
+      border-bottom: none;
+
+      .info-box {
+          padding-left: 0;
+
+          .item-ticket {
+              background: none;
+              padding: 5px 0;
+          }
+      }
+  }
+
+  .store-tab-box {
+      color: $explore-default;
+
+      .nav-tabs {
+          display: flex;
+
+          .nav-item {
+              flex: 1;
+              text-align: center;
+              position: relative;
+          }
+
+          .nav-link {
+              &:after {
+                  content: "";
+                  display: none;
+                  width: 25%;
+                  height: 3px;
+                  background-color: #4a90e2;
+                  border-radius: 1px;
+                  position: absolute;
+                  left: 50%;
+                  -o-transform: translateX(-50%);
+                  -webkit-transform: translateX(-50%);
+                  -moz-transform: translateX(-50%);
+                  -ms-transform: translateX(-50%);
+                  transform: translateX(-50%);
+                  bottom: 0;
+              }
+
+              &.active {
+                  &:after {
+                      display: block;
+                  }
+              }
+          }
+      }
+
+
+      .store-group {
+          font-size: small;
+
+          .store-item {
+              display: flex;
+              align-items: center;
+              position: relative;
+              padding: 15px;
+              border-bottom: 1px $gray-light solid;
+              /* store intro*/
+              &.store-open {
+                  p {
+                      max-height: 94px;
+                      transition: max-height 0.15s ease-out;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                      display: -webkit-box;
+                      -webkit-line-clamp: 3;
+                      -webkit-box-orient: vertical;
+                      padding-right: 25px;
+                  }
+
+                  .open-btn {
+                      position: absolute;
+                      right: 15px;
+                      bottom: 15px;
+                  }
+
+                  &.is-open {
+                      p {
+                          transition: max-height 0.25s ease-in;
+                          text-overflow: unset;
+                          display: -webkit-box;
+                          -webkit-line-clamp: unset;
+                          -webkit-box-orient: vertical;
+                          max-height: fit-content;
+                      }
+                  }
+              }
+              /* store item */
+              &.store-itemopen {
+                  flex-wrap: wrap;
+                  max-height: auto;
+                  transition: max-height 0s ease-out;
+
+                  .item {
+                      span {
+                          margin-right: 5px;
+                      }
+                  }
+
+                  .itemopen-list {
+                      flex: none;
+                      width: 100%;
+                      max-height: 0;
+                      transition: max-height 0.25s ease-out;
+                      overflow: hidden;
+                      padding-left: 35px;
+                      li {
+                          display: flex;
+                          justify-content: space-between;
+                          line-height: 2;
+                          &.this-day {
+                              font-weight: 700;
+                          }
+                      }
+                  }
+
+                  &.is-open {
+                      .item-icon,
+                      .open-btn {
+                          align-self: flex-start;
+                      }
+                      ul {
+                          max-height: fit-content;
+                          transition: max-height 0.5s ease-in;
+                      }
+                  }
+              }
+
+              &.is-open {
+                  transition: max-height 0s ease-in;
+                  overflow: auto;
+                  .open-btn {
+                      .material-icons {
+                          transform: rotate(180deg);
+                      }
+                  }
+              }
+
+              .item-icon {
+                  width: 25px;
+                  height: 25px;
+                  background-color: $blue-dark;
+                  border-radius: 100%;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  margin-right: 10px;
+
+                  .material-icons {
+                      font-size: 18px;
+                      color: $default-white;
+                  }
+              }
+              .item{
+                  word-break: break-all;
+              }
+          }
+      }
+
+      .ticket-list {
+          li {
+              display: flex;
+              align-items: center;
+              padding: 15px;
+              border-bottom: 1px $gray-light solid;
+          }
+
+          .img-box {
+              width: 100px;
+              margin-right: 15px;
+
+              img {
+                  width: 100%;
+              }
+          }
+
+          .ticket-info {
+              flex: 1;
+              font-size: 14px;
+
+              .ticket-title {
+                  color: #4a90e2;
+
+                  .material-icons {
+                      font-size: 18px;
+                      margin-right: 3px;
+                  }
+              }
+
+              .ticket-time {
+                  font-size: 13px;
+              }
+          }
+      }
+
+      .shop-filter {
+          padding: 15px;
+          display: flex;
+      }
+
+      .shop-list {
+          display: flex;
+          flex-wrap: wrap;
+          background-color: $gray-light;
+          padding: 5px;
+
+          .shop-item {
+              flex: none;
+              width: 49%;
+              margin-bottom: 0;
+              background-color: $default-white;
+              padding: 15px;
+              margin-bottom: 2%;
+
+              &:nth-child(odd) {
+                  margin-right: 2%;
+              }
+
+              .img-box {
+                  img {
+                      width: 100%;
+                  }
+              }
+
+              .prod-name {
+                  font-weight: 700;
+              }
+
+              .new-price {
+                  color: red;
+              }
+
+              .old-price {
+                  font-size: 14px;
+                  color: $gray-color;
+                  text-decoration: line-through;
+              }
+          }
+      }
+  }
+}
+
+
+#map {
+  height: calc(98vh - 118px);
+  z-index: 0;
+}
+
+.auto-left {
+  margin-left: auto;
+}
+
+/*HTML and CSS only multilevel drop down menu*/
+/*-- parent nav--*/
+.nav-container {
+  height: 100%;
+  background-color: $default-white;
+
+  nav {
+      width: 25%;
+      height: inherit;
+
+      >ul {
+          width: 100%;
+          height: inherit;
+      }
+
+      li {
+          display: block;
+          cursor: pointer;
+
+          >a {
+              display: block;
+              position: relative;
+              padding: 10px 15px;
+              color: #555;
+              text-align: center;
+              font-size: 14px;
+          }
+      }
+
+      // .levelOne, .levelTwo, .levelThree{
+      //     overflow-y: auto;
+      // }
+      .levelOne {
+          >li {
+
+              &:hover {
+                  background-color: #f2f5fa;
+              }
+          }
+      }
+
+      .levelTwo {
+          width: 25%;
+
+          >li {
+
+              &:hover {
+                  background-color: #e5e9f2;
+              }
+          }
+      }
+
+      .levelThree {
+          width: 200%;
+          height: 100%;
+          background-color: #e5e9f2;
+
+          .filter-all {
+              a {
+                  color: #48a2de;
+              }
+          }
+
+          a {
+              display: flex;
+              align-items: center;
+
+              .material-icons {
+                  font-size: 18px;
+                  margin-right: 5px;
+              }
+          }
+      }
+  }
+}
+
+nav>ul>li>ul {
+  position: absolute;
+  top: 0;
+  left: 25%;
+  bottom: 0;
+  background: #f2f5fa;
+  display: none;
+}
+
+nav>ul>li>ul>li>ul {
+  position: absolute;
+  left: 100%;
+  top: 0px;
+  bottom: 0;
+  display: none;
+  z-index: 2;
+  // background: #E5E9F2;
+  bottom: 0;
+  overflow: auto;
+}
+
+/*-- Display on hover--*/
+
+nav>ul>li:hover>ul,
+nav>ul>li>ul>li:hover>ul,
+nav>ul>li>ul>li>ul>li:hover ul {
+  display: block;
+}

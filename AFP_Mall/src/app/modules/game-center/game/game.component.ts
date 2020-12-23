@@ -7,7 +7,7 @@ import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
-  styleUrls: ['./game.component.css']
+  styleUrls: ['./game.scss']
 })
 export class GameComponent implements OnInit {
   /** 遊戲編碼 */

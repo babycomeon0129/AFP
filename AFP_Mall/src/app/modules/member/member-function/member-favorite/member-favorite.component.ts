@@ -8,7 +8,7 @@ import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-member-favorite',
   templateUrl: './member-favorite.component.html',
-  styleUrls: ['../../../../../styles/member.min.css', '../../../../../styles/member-function.min.css']
+  styleUrls: ['../../member/member.scss', '../../../../../styles/member-function.min.css']
 })
 export class MemberFavoriteComponent implements OnInit {
   /** 編輯模式 */

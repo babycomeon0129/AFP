@@ -1,0 +1,54 @@
+@import '../../../../../styles/module/variable';
+
+/** 我的首頁 */
+.mysetting{
+    height: 100vh;
+}
+.member-top-box{
+    background: $index-default;
+    .title-box{
+        .material-icons{
+            color: $default-white;
+        }
+    }
+    .member-info-box{
+        display: flex;
+        align-items: center;
+        width: 80%;
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 0 1em 1em 1em;
+        flex:1;
+        .info-coin{
+            text-align: center;
+        }
+        .info-item{
+            overflow:hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            align-items: center;
+            color: $default-white;
+            font-size: 16px;
+            &.info-name{
+                width: auto;
+                max-width: 250px;
+                @media (max-width: 767px) {
+                    width: 180px;
+                }
+                @media (max-width: 480px) {
+                    width: 120px;
+                }
+                @media (max-width: 375px) {
+                    width: 74px;
+                }
+                font-size: 18px;
+                font-weight: 700;
+            }
+            &.info-coin{
+                font-size: 18px;
+                font-weight: 700;
+                justify-content: center;
+            }
+        }
+    }
+}

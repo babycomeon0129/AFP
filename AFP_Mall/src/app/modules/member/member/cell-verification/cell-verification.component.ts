@@ -12,7 +12,7 @@ import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-cell-verification',
   templateUrl: './cell-verification.component.html',
-  styleUrls: ['../../../../../styles/member.min.css'],
+  styleUrls: ['../member.scss', './cell-verification.scss'],
   animations: [layerAnimation]
 })
 export class CellVerificationComponent implements OnInit, OnDestroy {

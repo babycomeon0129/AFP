@@ -9,7 +9,7 @@ import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-member-coin',
   templateUrl: './member-coin.component.html',
-  styleUrls: ['../../../../../styles/member.min.css', '../../../../../styles/member-function.min.css']
+  styleUrls: ['../../../../../styles/member.min.css', './member-coin.scss']
 })
 export class MemberCoinComponent implements OnInit {
   public info: Response_MemberPoint = new Response_MemberPoint();

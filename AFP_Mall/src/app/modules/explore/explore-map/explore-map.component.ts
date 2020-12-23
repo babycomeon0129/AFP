@@ -10,7 +10,7 @@ import { BsModalRef } from 'ngx-bootstrap';
 @Component({
   // selector: 'app-explore-map',
   templateUrl: './explore-map.component.html',
-  styleUrls: ['../../../../styles/explore.min.css']
+  styleUrls: ['./explore-map.scss']
 })
 export class ExploreMapComponent implements OnInit, AfterViewInit {
   @ViewChild('usefulSwiper', {static: false}) usefulSwiper: SwiperComponent;
