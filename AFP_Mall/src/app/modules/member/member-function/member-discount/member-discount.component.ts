@@ -44,7 +44,7 @@ export class MemberDiscountComponent implements OnInit {
   /** 重置按鈕開啟 */
   public resetOpen = false;
   /** APP特例處理 */
-  public showBackBtn = false;
+  public showBack = false;
 
 
   constructor(public appService: AppService, public modal: ModalService, public router: Router, private route: ActivatedRoute,
@@ -60,7 +60,7 @@ export class MemberDiscountComponent implements OnInit {
     this.readVoucher();
     // 從會員中心進來則隱藏返回鍵
     if (this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBackBtn = true;
+      this.showBack = true;
     }
   }
 

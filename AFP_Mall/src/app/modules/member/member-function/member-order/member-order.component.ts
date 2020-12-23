@@ -26,7 +26,7 @@ export class MemberOrderComponent implements OnInit {
     observeParents: true,
     freeMode: false
   };
-  public showBackBtn = false; // APP特例處理
+  public showBack = false; // APP特例處理
 
   constructor(public appService: AppService, private router: Router, private route: ActivatedRoute,
               private meta: Meta, private title: Title) {
@@ -38,7 +38,7 @@ export class MemberOrderComponent implements OnInit {
 
     // 從會員中心進來則隱藏返回鍵
     if (this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBackBtn = true;
+      this.showBack = true;
     }
   }
 
