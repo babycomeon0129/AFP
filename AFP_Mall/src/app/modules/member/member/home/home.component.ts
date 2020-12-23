@@ -3,9 +3,9 @@ import { AppService } from 'src/app/app.service';
 import { Model_ShareData, AFP_ADImg } from '@app/_models';
 import { Request_MemberThird, Response_MemberThird } from '../member.component';
 import { Router } from '@angular/router';
-import { ModalService } from '../../../../shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { SwiperOptions } from 'swiper';
-import { MemberService } from '../../member.service';
+import { MemberService } from '@app/modules/member/member.service';
 import { AuthService, SocialUser } from 'angularx-social-login';
 
 @Component({

@@ -1,187 +1,189 @@
+<div class="wrap container">
  <!-- 地址列表 -->
- <div [@layerTrigger] *ngIf="!showDetail" class="myaddress w-100">
-  <div class="headerbox container title-box">
-    <div class="item icon-btn">
-      <button type="button" class="btn px-0" onclick="history.back()" data-toggle="tooltip"
-        data-placement="bottom" title="回上一頁">
-        <i class="material-icons">&#xe314;</i>
-      </button>
-    </div>
-    <div class="item title-name">我的地址</div>
-    <div class="item ctrl-btn"></div>
-  </div>
-  <div class="my-address-list ">
-    <ul>
-      <li *ngFor="let address of userAddressList"
-        (click)="onReadAddressDetail(address.UserFavourite_ID);"
-        id="{{address.UserFavourite_ID}}">
-        <div class="item">
-          <button class="btn px-0 text-left p-0">{{ address.UserFavourite_Text1 }}</button>
-          <p class="tel">{{ address.UserFavourite_Text2 }}</p>
-          <p class="small">{{CombineAddress(address)}}</p>
-        </div>
-        <div class="item default-item auto-left">
-          <p class="t-nowrap" *ngIf="address.UserFavourite_IsDefault === 1">[預設]</p>
-        </div>
-      </li>
-    </ul>
-    <div class="add-address-btn">
-      <button class="btn px-0" (click)="onReadAddressDetail(0);">
-        新增地址<i class="material-icons">&#xE145;</i>
-      </button>
-    </div>
-  </div>
-</div>
-<!-- 新增/修改地址 -->
-<div [@layerTrigger] *ngIf="showDetail" class="myaddressDetail w-100">
-  <form #formAddAddress="ngForm" (ngSubmit)="formAddAddress.form.valid && onAddressSubmit(formAddAddress)">
+  <div [@layerTrigger] *ngIf="!showDetail" class="myaddress w-100">
     <div class="headerbox container title-box">
       <div class="item icon-btn">
-        <button type="button" class="btn px-0" (click)="showDetail = false; formAddAddress.resetForm()" data-toggle="tooltip"
+        <button type="button" class="btn px-0" onclick="history.back()" data-toggle="tooltip"
           data-placement="bottom" title="回上一頁">
           <i class="material-icons">&#xe314;</i>
         </button>
       </div>
-      <div class="item title-name">
-        {{(addressId > 0) ? '修改地址' : '新增地址'}}
-      </div>
-      <div class="item ctrl-btn" *ngIf="addressId == 0"></div>
-      <div class="item del-btn" *ngIf="addressId > 0">
-        <button type="button" class="btn msg-open" (click)="onDeleteAddress()">刪除</button>
-      </div>
+      <div class="item title-name">我的地址</div>
+      <div class="item ctrl-btn"></div>
     </div>
     <div class="my-address-list ">
       <ul>
-        <li>
-          <div class="item w-84">
-            <p>姓名 / 公司名稱</p>
-            <small class="text-danger" *ngIf="addressTitle.invalid && formAddAddress.submitted">地址名稱為必填</small>
-          </div>
-          <div class="item auto-left">
-            <input type="text" placeholder="請輸入" name="addressTitle" #addressTitle="ngModel"
-              [(ngModel)]="requestAddress.UserFavourite_Text1" maxlength="100" required>
-          </div>
-        </li>
-        <li>
-          <div class="item w-84">
-            <p>手機號碼</p>
-            <small class="text-danger" *ngIf="addressMobile.invalid && formAddAddress.submitted">手機號碼格式有誤</small>
-          </div>
-          <div class="item auto-left">
-            <input type="text" placeholder="請輸入" name="addressMobile" #addressMobile="ngModel"
-              [(ngModel)]="requestAddress.UserFavourite_Text2" pattern="^09\d{8}$" maxlength="12" required>
-          </div>
-        </li>
-        <li>
-          <div class="item">縣市</div>
-          <div class="item auto-left citydefault" (click)="appService.callsortLayer('.city');">
-            {{requestAddress.UserFavourite_Number1 | convert:'UR': UserReoprtList:21}}<i class="material-icons">&#xe315;</i>
-          </div>
-        </li>
-        <li>
+        <li *ngFor="let address of userAddressList"
+          (click)="onReadAddressDetail(address.UserFavourite_ID);"
+          id="{{address.UserFavourite_ID}}">
           <div class="item">
-            行政區
-            <small class="text-danger d-block" *ngIf="addressDistrict.invalid && formAddAddress.submitted">行政區及郵遞區號為必填</small>
+            <button class="btn px-0 text-left p-0">{{ address.UserFavourite_Text1 }}</button>
+            <p class="tel">{{ address.UserFavourite_Text2 }}</p>
+            <p class="small">{{CombineAddress(address)}}</p>
           </div>
-          <div class="item auto-left distdefault" (click)="appService.callsortLayer('.dist');">
-            {{requestAddress.UserFavourite_Number2 | convert:'UR': UserReoprtList:22:21:requestAddress.UserFavourite_Number1}}<i class="material-icons">&#xe315;</i>
-          </div>
-          <input type="hidden" name="addressDistrict" #addressDistrict="ngModel"
-          [(ngModel)]="requestAddress.UserFavourite_Number2" required>
-        </li>
-        <li class="index-flex">
-          <div class="item one">郵遞區號</div>
-          <div class="item two auto-left">
-              {{requestAddress.UserFavourite_Number2}}
-          </div>
-        </li>
-        <li>
-          <div class="item w-84">
-            <p>詳細地址</p>
-            <p class="small-70">里道路或街名，巷弄號</p>
-            <small class="text-danger d-block" *ngIf="addressDetail.invalid && formAddAddress.submitted">詳細地址為必填</small>
-          </div>
-          <div class="item auto-left">
-            <input type="text" placeholder="請輸入地址" name="addressDetail" #addressDetail="ngModel"
-              [(ngModel)]="requestAddress.UserFavourite_Text3" maxlength="500" required>
+          <div class="item default-item auto-left">
+            <p class="t-nowrap" *ngIf="address.UserFavourite_IsDefault === 1">[預設]</p>
           </div>
         </li>
       </ul>
-      <div class="flex-inline-between note-box">
-        <div class="p-3">設定為預設地址</div>
-        <div class="icheck-material-blue center-v">
-          <input id="i2" type="checkbox" name="defaultAddress" #defaultAddress="ngModel" [(ngModel)]="requestAddress.UserFavourite_IsDefault"
-          [checked]="requestAddress.UserFavourite_IsDefault === 1" (change)="requestAddress.UserFavourite_IsDefault = $event.target.checked ? 1 : 0">
-          <label for="i2"></label>
+      <div class="add-address-btn">
+        <button class="btn px-0" (click)="onReadAddressDetail(0);">
+          新增地址<i class="material-icons">&#xE145;</i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- 新增/修改地址 -->
+  <div [@layerTrigger] *ngIf="showDetail" class="myaddressDetail w-100">
+    <form #formAddAddress="ngForm" (ngSubmit)="formAddAddress.form.valid && onAddressSubmit(formAddAddress)">
+      <div class="headerbox container title-box">
+        <div class="item icon-btn">
+          <button type="button" class="btn px-0" (click)="showDetail = false; formAddAddress.resetForm()" data-toggle="tooltip"
+            data-placement="bottom" title="回上一頁">
+            <i class="material-icons">&#xe314;</i>
+          </button>
+        </div>
+        <div class="item title-name">
+          {{(addressId > 0) ? '修改地址' : '新增地址'}}
+        </div>
+        <div class="item ctrl-btn" *ngIf="addressId == 0"></div>
+        <div class="item del-btn" *ngIf="addressId > 0">
+          <button type="button" class="btn msg-open" (click)="onDeleteAddress()">刪除</button>
         </div>
       </div>
-    </div>
-    <div class="addheight"></div>
-    <div class="fixed-btn container">
-      <button type="submit"  class="btn next-btn w-100">確認</button>
-    </div>
-  </form>
-</div>
-
-<!-- 縣市/行政區選單 -->
-<div class="sortlayer">
-  <div class="city">
-      <div id="open-pagebox">
-          <div class="open-page-title flex-inline-between">
-              <div class="title-icon">
-                  <button class="btn" (click)="appService.backsortLayer();">
-                      <i class="material-icons">&#xe314;</i>
-                  </button>
-              </div>
-              <div class="title-txt">
-                  縣市
-              </div>
-              <div class="title-txt">
-              </div>
+      <div class="my-address-list ">
+        <ul>
+          <li>
+            <div class="item w-84">
+              <p>姓名 / 公司名稱</p>
+              <small class="text-danger" *ngIf="addressTitle.invalid && formAddAddress.submitted">地址名稱為必填</small>
+            </div>
+            <div class="item auto-left">
+              <input type="text" placeholder="請輸入" name="addressTitle" #addressTitle="ngModel"
+                [(ngModel)]="requestAddress.UserFavourite_Text1" maxlength="100" required>
+            </div>
+          </li>
+          <li>
+            <div class="item w-84">
+              <p>手機號碼</p>
+              <small class="text-danger" *ngIf="addressMobile.invalid && formAddAddress.submitted">手機號碼格式有誤</small>
+            </div>
+            <div class="item auto-left">
+              <input type="text" placeholder="請輸入" name="addressMobile" #addressMobile="ngModel"
+                [(ngModel)]="requestAddress.UserFavourite_Text2" pattern="^09\d{8}$" maxlength="12" required>
+            </div>
+          </li>
+          <li>
+            <div class="item">縣市</div>
+            <div class="item auto-left citydefault" (click)="appService.callsortLayer('.city');">
+              {{requestAddress.UserFavourite_Number1 | convert:'UR': UserReoprtList:21}}<i class="material-icons">&#xe315;</i>
+            </div>
+          </li>
+          <li>
+            <div class="item">
+              行政區
+              <small class="text-danger d-block" *ngIf="addressDistrict.invalid && formAddAddress.submitted">行政區及郵遞區號為必填</small>
+            </div>
+            <div class="item auto-left distdefault" (click)="appService.callsortLayer('.dist');">
+              {{requestAddress.UserFavourite_Number2 | convert:'UR': UserReoprtList:22:21:requestAddress.UserFavourite_Number1}}<i class="material-icons">&#xe315;</i>
+            </div>
+            <input type="hidden" name="addressDistrict" #addressDistrict="ngModel"
+            [(ngModel)]="requestAddress.UserFavourite_Number2" required>
+          </li>
+          <li class="index-flex">
+            <div class="item one">郵遞區號</div>
+            <div class="item two auto-left">
+                {{requestAddress.UserFavourite_Number2}}
+            </div>
+          </li>
+          <li>
+            <div class="item w-84">
+              <p>詳細地址</p>
+              <p class="small-70">里道路或街名，巷弄號</p>
+              <small class="text-danger d-block" *ngIf="addressDetail.invalid && formAddAddress.submitted">詳細地址為必填</small>
+            </div>
+            <div class="item auto-left">
+              <input type="text" placeholder="請輸入地址" name="addressDetail" #addressDetail="ngModel"
+                [(ngModel)]="requestAddress.UserFavourite_Text3" maxlength="500" required>
+            </div>
+          </li>
+        </ul>
+        <div class="flex-inline-between note-box">
+          <div class="p-3">設定為預設地址</div>
+          <div class="icheck-material-blue center-v">
+            <input id="i2" type="checkbox" name="defaultAddress" #defaultAddress="ngModel" [(ngModel)]="requestAddress.UserFavourite_IsDefault"
+            [checked]="requestAddress.UserFavourite_IsDefault === 1" (change)="requestAddress.UserFavourite_IsDefault = $event.target.checked ? 1 : 0">
+            <label for="i2"></label>
           </div>
-          <ul class="open-page-ul" id="citylist">
-            <!-- 縣市 -->
-            <li *ngFor="let city of cityList" class="flex-inline-between"
-              [ngClass]="{'active' : requestAddress.UserFavourite_Number1 == city.UserReport_ItemCode}"
-              (click)="requestAddress.UserFavourite_Number1 = city.UserReport_ItemCode;appService.callsortLayer('.dist');">
-                <div class="item">
-                    {{city.UserReport_ItemName}}
-                </div>
-                <div class="item">
-                    <i class="material-icons done">&#xe876;</i>
-                </div>
-            </li>
-          </ul>
+        </div>
       </div>
+      <div class="addheight"></div>
+      <div class="fixed-btn container">
+        <button type="submit"  class="btn next-btn w-100">確認</button>
+      </div>
+    </form>
   </div>
-  <div class="dist">
-      <div id="open-pagebox1">
-          <div class="open-page-title flex-inline-between">
-              <div class="close-btn">
-                  <button class="btn" (click)="appService.backsortLayer();">
-                      <i class="material-icons">&#xe314;</i>
-                  </button>
-              </div>
-              <div class="title-txt">
-                  行政區
-              </div>
-              <div class="title-txt">
-              </div>
-          </div>
-          <ul class="open-page-ul" id="distlist">
-            <!-- 行政區 -->
-            <li class="flex-inline-between" *ngFor="let district of districtList"
-              [ngClass]="{'active' : requestAddress.UserFavourite_Number2 == district.UserReport_ItemCode}"
-              [hidden]="district.UserReport_UpItemCode != requestAddress.UserFavourite_Number1"
-              (click)="requestAddress.UserFavourite_Number2 = district.UserReport_ItemCode; appService.backsortLayer(); appService.backsortLayer(); ">
-                <div class="item">
-                  {{district.UserReport_ItemName}}
+
+  <!-- 縣市/行政區選單 -->
+  <div class="sortlayer">
+    <div class="city">
+        <div id="open-pagebox">
+            <div class="open-page-title flex-inline-between">
+                <div class="title-icon">
+                    <button class="btn" (click)="appService.backsortLayer();">
+                        <i class="material-icons">&#xe314;</i>
+                    </button>
                 </div>
-                <div class="item">
-                    <i class="material-icons done">&#xe876;</i>
+                <div class="title-txt">
+                    縣市
                 </div>
-            </li>
-          </ul>
-      </div>
+                <div class="title-txt">
+                </div>
+            </div>
+            <ul class="open-page-ul" id="citylist">
+              <!-- 縣市 -->
+              <li *ngFor="let city of cityList" class="flex-inline-between"
+                [ngClass]="{'active' : requestAddress.UserFavourite_Number1 == city.UserReport_ItemCode}"
+                (click)="requestAddress.UserFavourite_Number1 = city.UserReport_ItemCode;appService.callsortLayer('.dist');">
+                  <div class="item">
+                      {{city.UserReport_ItemName}}
+                  </div>
+                  <div class="item">
+                      <i class="material-icons done">&#xe876;</i>
+                  </div>
+              </li>
+            </ul>
+        </div>
+    </div>
+    <div class="dist">
+        <div id="open-pagebox1">
+            <div class="open-page-title flex-inline-between">
+                <div class="close-btn">
+                    <button class="btn" (click)="appService.backsortLayer();">
+                        <i class="material-icons">&#xe314;</i>
+                    </button>
+                </div>
+                <div class="title-txt">
+                    行政區
+                </div>
+                <div class="title-txt">
+                </div>
+            </div>
+            <ul class="open-page-ul" id="distlist">
+              <!-- 行政區 -->
+              <li class="flex-inline-between" *ngFor="let district of districtList"
+                [ngClass]="{'active' : requestAddress.UserFavourite_Number2 == district.UserReport_ItemCode}"
+                [hidden]="district.UserReport_UpItemCode != requestAddress.UserFavourite_Number1"
+                (click)="requestAddress.UserFavourite_Number2 = district.UserReport_ItemCode; appService.backsortLayer(); appService.backsortLayer(); ">
+                  <div class="item">
+                    {{district.UserReport_ItemName}}
+                  </div>
+                  <div class="item">
+                      <i class="material-icons done">&#xe876;</i>
+                  </div>
+              </li>
+            </ul>
+        </div>
+    </div>
   </div>
 </div>
