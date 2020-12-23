@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, HostListener } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from '../../../shared/modal/modal.service';
@@ -11,10 +11,19 @@ export class PCFooterComponent implements OnInit {
 
   public show = false;
   public justkaImg = 'img/index/icons/for-pc/icon_service.png';
+  public justShow = false;
 
   constructor(public bsModalRef: BsModalRef, public appService: AppService, public modal: ModalService, public el: ElementRef) { }
 
   ngOnInit() {
+  }
+
+  /** 滑動時對應區塊標籤 */
+  @HostListener('window:scroll', ['$event'])
+  onScroll(event: Event) {
+    if (window.pageYOffset > 100) {
+      this.justShow = true;
+    }
   }
 
   toggle() {

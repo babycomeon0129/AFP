@@ -1,7 +1,7 @@
 <footer id="footpc" #footpc class="for-pc" *ngIf="appService.isApp == null">
   <!--web service-->
   <div class="bearservice">
-    <div class="scroll-top-wrapper">
+    <div class="scroll-top-wrapper" [ngClass]="{'show': justShow}">
       <span class="scroll-top-inner">
         <button (click)="toggle();" type="button" id="webservice"><img [lazyLoad]="justkaImg" [defaultImage]="appService.defaultImage"></button>
       </span>

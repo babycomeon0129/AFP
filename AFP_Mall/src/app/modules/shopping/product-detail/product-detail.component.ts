@@ -60,7 +60,7 @@ export class ProductDetailComponent implements OnInit {
   currentSec = 0;
 
   constructor(public appService: AppService, private router: Router, private route: ActivatedRoute, public modal: ModalService,
-    private cookieService: CookieService, private meta: Meta, private title: Title) {
+              private cookieService: CookieService, private meta: Meta, private title: Title) {
     this.productCode = parseInt(this.route.snapshot.params.Product_Code, 10);
     this.productDirCode = parseInt(this.route.snapshot.params.ProductDir_Code, 10);
     this.cartCode = Number(this.cookieService.get('cart_code'));
@@ -121,6 +121,7 @@ export class ProductDetailComponent implements OnInit {
   /** 滑動至指定區域 */
   scrollTo(sectionId: number): void {
     this.currentSec = sectionId;
+    // TODO: IOS不支援ScrollToOptions，document沒有smooth，如要移除jq但又要實現scroll功能需尋找合適的package
     $('html,body').animate({ scrollTop: $('#tag0' + sectionId).offset().top - 50 }, 1000);
     // iOS doesn't support ScrollToOptions
     // window.scrollTo({
