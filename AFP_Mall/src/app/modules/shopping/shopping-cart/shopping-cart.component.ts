@@ -380,8 +380,9 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit, DoCheck {
   }
 
   ngAfterViewInit(): void {
-    // footer coupon
+    // footer coupon TODO: 改為以CSS判斷
     $('.shopping-coupon').addClass('fixed-bottom').slideDown(2000);
+
   }
 
   ngDoCheck(): void {

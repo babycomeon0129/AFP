@@ -42,6 +42,7 @@
             <div class="item one">姓名<span style="color: red;">*</span></div>
             <div class="item three">
               <input type="text" class="form-control" placeholder="請輸入" name="consumerName" #consumerName="ngModel"
+                (focus)="keyboadCheck($event)"
                 [(ngModel)]="info.name" required />
             </div>
           </li>
@@ -49,6 +50,7 @@
             <div class="item one">手機號碼<span style="color: red;">*</span></div>
             <div class="item three">
               <input type="tel" class="form-control" placeholder="請輸入" name="consumerPhone" #consumerPhone="ngModel"
+                (focus)="keyboadCheck($event)"
                 [(ngModel)]="info.phone" required pattern="^09\d{8}$" maxlength="10"/>
             </div>
           </li>
@@ -56,6 +58,7 @@
             <div class="item one">Email<span style="color: red;">*</span></div>
             <div class="item three">
               <input type="email" class="form-control" placeholder="請輸入" name="consumerEmail" #consumerEmail="ngModel"
+                (focus)="keyboadCheck($event)"
                 [(ngModel)]="info.email" pattern="[a-z0-9\*._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required />
               <small class="d-flex justify-content-end text-danger" *ngIf="(consumerEmail.touched || consumerEmail.dirty) && consumerEmail.invalid">E-mail格式有誤</small>
             </div>
@@ -109,6 +112,7 @@
               <div class="item one">留言</div>
               <div class="item three">
                 <input type="text" name="comments{{store.ECStore_Code}}" placeholder="請留言..."
+                  (focus)="keyboadCheck($event)"
                   [(ngModel)]="store.order.Order_ConsumerMsg">
               </div>
             </li>
@@ -214,7 +218,7 @@
       </header>
       <div>
         <div class="input-box" hidden>
-          <input type="text" placeholder="輸入優惠碼">
+          <input type="text" placeholder="輸入優惠碼" (focus)="keyboadCheck($event)">
           <button type="button">新增</button>
         </div>
         <div class="or-box text-center" hidden>
@@ -478,6 +482,7 @@
                 <div class="item one">姓名/公司名稱</div>
                 <div class="item two auto-left">
                   <input type="text" placeholder="請輸入" name="addressTitle" #addressTitle="ngModel"
+                  (focus)="keyboadCheck($event)"
                     [(ngModel)]="requestAddress.UserFavourite_Text1" required>
                 </div>
               </li>
@@ -485,6 +490,7 @@
                 <div class="item one">手機號碼</div>
                 <div class="item two auto-left">
                   <input type="text" placeholder="請輸入" name="addressMobile" #addressMobile="ngModel"
+                    (focus)="keyboadCheck($event)"
                     [(ngModel)]="requestAddress.UserFavourite_Text2" required pattern="^[0-9\*]{0,10}$">
                 </div>
               </li>
@@ -512,6 +518,7 @@
                 <div class="item">詳細地址<small>里道路或街名，巷弄號</small></div>
                 <div class="item w-100 auto-left">
                   <input type="text" placeholder="請輸入地址" name="addressDetail" #addressDetail="ngModel"
+                    (focus)="keyboadCheck($event)"
                     [(ngModel)]="requestAddress.UserFavourite_Text3" required>
                 </div>
               </li>
@@ -573,6 +580,7 @@
                 <div class="d-flex align-items-center auto-left">
                   <div class="item">
                     <input type="text" name="loveCode" placeholder="請輸入愛心碼" class="heartcode"
+                      (focus)="keyboadCheck($event)"
                       [(ngModel)]="info.preInvoice.loveCode">
                   </div>
                   <div class="item search-txt pl-2" (click)="appService.callsortLayer('.hcode');">
@@ -609,8 +617,10 @@
                 </div>
                 <div class="item-group auto-left">
                   <input type="text" name="invoiceTitle" placeholder="請輸入發票抬頭名稱"
+                    (focus)="keyboadCheck($event)"
                     [(ngModel)]="info.preInvoice.invoiceTitle">
                   <input type="text" name="invoiceTaxID" placeholder="請輸入統一編號"
+                    (focus)="keyboadCheck($event)"
                     [(ngModel)]="info.preInvoice.invoiceTaxID">
                 </div>
               </li>
