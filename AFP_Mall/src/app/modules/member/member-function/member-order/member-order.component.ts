@@ -59,6 +59,7 @@ export class MemberOrderComponent implements OnInit, AfterViewInit {
    */
   showList(type: number, state: number) {
     this.selectedState = state;
+    this.appService.openBlock();
     const request: Request_MemberOrder = {
       User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 1, // 列表查詢
