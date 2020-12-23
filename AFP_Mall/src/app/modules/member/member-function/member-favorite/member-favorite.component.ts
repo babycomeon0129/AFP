@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Request_MemberFavourite, Response_MemberFavourite, TravelJsonFile_Travel } from '@app/_models';
 import { ModalService } from '../../../../shared/modal/modal.service';
-import { ActivatedRoute, Routes, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
