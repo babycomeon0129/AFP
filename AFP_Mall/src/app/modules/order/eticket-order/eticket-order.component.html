@@ -41,6 +41,7 @@
                       <div class="item one">姓名<span style="color: red;">*</span></div>
                       <div class="item three">
                           <input type="text" class="form-control" placeholder="請輸入" name="consumerName" #consumerName="ngModel"
+                          (focus)="keyboadCheck($event)"
                           [(ngModel)]="info.name" required>
                       </div>
                   </li>
@@ -48,6 +49,7 @@
                       <div class="item one">手機號碼<span style="color: red;">*</span></div>
                       <div class="item three">
                           <input type="tel" class="form-control" placeholder="請輸入" name="consumerPhone" #consumerPhone="ngModel"
+                          (focus)="keyboadCheck($event)"
                           [(ngModel)]="info.phone" required pattern="^[0-9\*]{0,10}$">
                       </div>
                   </li>
@@ -55,6 +57,7 @@
                       <div class="item one">Email<span style="color: red;">*</span></div>
                       <div class="item three">
                           <input type="email" class="form-control" placeholder="請輸入" name="consumerEmail" #consumerPhone="ngModel"
+                          (focus)="keyboadCheck($event)"
                           [(ngModel)]="info.email" required>
                       </div>
                   </li>

@@ -533,6 +533,12 @@ export class ETicketOrderComponent implements OnInit {
     });
   }
 
+  /** 避免輸入鍵盤擋到輸入框 */
+  keyboadCheck(event: Event): void {
+    console.log(event.target.offsetHeight);
+  //  document.body.scrollTop =
+  }
+
 }
 
 export interface Request_GetTCheckout extends Model_ShareData {
