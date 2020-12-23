@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ElementRef } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from '../../../shared/modal/modal.service';
@@ -143,12 +143,12 @@ export class ShoppingOrderComponent implements OnInit {
         this.router.navigate(['/Shopping/ShoppingCart'], {queryParams: { referrer: 'illegal' }});
       });
     }
+  }
 
-    /** 避免輸入鍵盤擋到輸入框 */
-    $('input').focus((e) => {
-      const target = $('input').index(e.currentTarget);
-      document.body.scrollTop = ($('input').eq(target)[0].scrollHeight - 50);
-    });
+  /** 避免手機輸入鍵盤擋到輸入框 */
+  @HostListener('window: focusin', ['$event'])
+  awayFromKeyboard(event: FocusEvent) {
+    document.body.scrollTop = (event.composedPath()[0] as HTMLElement).scrollHeight - 50;
   }
 
   /** 開啟選擇優惠券頁面 */
