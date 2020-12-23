@@ -1,5 +1,5 @@
 import { environment } from '@env/environment';
-import { Component, OnInit, AfterViewChecked, HostListener, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { AppService } from '@app/app.service';
 import { Request_ECProductDetail, Response_ECProductDetail, AFP_Product, AFP_ECStore, AFP_Attribute, Request_ECCart,
         Response_ECCart, AFP_Voucher, AFP_ProductImg, CartStoreList } from '@app/_models';
@@ -14,7 +14,7 @@ import { Meta, Title } from '@angular/platform-browser';
   templateUrl: './product-detail.component.html',
   styleUrls: ['../../../../dist/style/shopping-index.min.css', '../../../../dist/style/products-detail.min.css']
 })
-export class ProductDetailComponent implements OnInit, AfterViewChecked {
+export class ProductDetailComponent implements OnInit {
   /** 購物車編碼 */
   public cartCode: number;
   /** 購物車商品數 */
@@ -313,11 +313,6 @@ export class ProductDetailComponent implements OnInit, AfterViewChecked {
       queryParams: { navNo: fragment }
     };
     this.router.navigate(['/Explore/ExploreDetail', this.productInfo.Product_ECStoreCode], navigationExtras);
-  }
-
-  ngAfterViewChecked(): void {
-    // 商品詳細、運送須知、訂購須知內的圖片responsive
-    $('figure').find('img').addClass('img-fluid');
   }
 
 }
