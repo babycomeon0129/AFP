@@ -527,16 +527,15 @@ export class ETicketOrderComponent implements OnInit {
 
   ngOnInit() {
     /** 避免輸入鍵盤擋到輸入框 */
-    $('input').on('focus', (e) => {
-      const target = $('input').index(e.currentTarget);
-      document.body.scrollTop = ($('input').eq(target)[0].scrollHeight - 50);
-    });
+    // $('input').on('focus', (e) => {
+    //   const target = $('input').index(e.currentTarget);
+    //   document.body.scrollTop = ($('input').eq(target)[0].scrollHeight - 50);
+    // });
   }
 
   /** 避免輸入鍵盤擋到輸入框 */
-  keyboadCheck(event: Event): void {
-    console.log(event.target.offsetHeight);
-  //  document.body.scrollTop =
+  keyboadCheck(event): void {
+    document.body.scrollTop = event.target.offsetTop - 50;
   }
 
 }
