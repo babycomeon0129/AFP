@@ -185,8 +185,8 @@
             <!-- Nav tabs -->
             <ul id="nav-tab-member" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
               <li role="presentation" class="swiper-slide"
-                *ngFor="let item of nowVoucher; let blFirst=first; let i = index"
-                (click)="getMoreData(2, i, item?.UserDefine_Code, item?.UserDefine_ChannelID)"
+                *ngFor="let item of nowVoucher; let i = index; let blFirst = first"
+                (click)="readSheet(2, i, item?.UserDefine_Code, item?.UserDefine_ChannelID)"
                 [ngClass]="{'active': blFirst}">
                 <a href="#Code{{item.UserDefine_Code}}" class="tablist-link show" [ngClass]="{'active': blFirst}"
                   attr.aria-controls="Code{{item.UserDefine_Code}}" role="tab" data-toggle="tab"
@@ -241,8 +241,9 @@
           <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs">
             <!-- Nav tabs -->
             <ul id="nav-tab-hitArea" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
-              <li role="presentation" class="swiper-slide" *ngFor="let item of hitArea; let blFirst=first;"
-                [ngClass]="{'active': blFirst}">
+              <li  *ngFor="let item of hitArea; let i = index; let blFirst = first;"
+                (click)="readSheet(3, i, item?.UserDefine_Code, item?.UserDefine_ChannelID)"
+                [ngClass]="{'active': blFirst}" role="presentation" class="swiper-slide">
                 <a href="#Code{{item.UserDefine_Code}}" class="tablist-link show" [ngClass]="{'active': blFirst}"
                   attr.aria-controls="Code{{item.UserDefine_Code}}" role="tab" data-toggle="tab"
                   [attr.aria-selected]="blFirst">{{item.UserDefine_Name}}</a>
@@ -288,8 +289,9 @@
           <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs">
             <!-- Nav tabs -->
             <ul id="nav-tab-deliveryArea" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
-              <li role="presentation" class="swiper-slide" *ngFor="let item of deliveryArea;let blFirst=first;"
-                [ngClass]="{'active': blFirst}">
+              <li *ngFor="let item of deliveryArea; let i = index; let blFirst=first;"
+                (click)="readSheet(4, i, item?.UserDefine_Code, item?.UserDefine_ChannelID)"
+                [ngClass]="{'active': blFirst}" role="presentation" class="swiper-slide" >
                 <a href="#Code{{item.UserDefine_Code}}" class="tablist-link show" [ngClass]="{'active': blFirst}"
                   attr.aria-controls="Code{{item.UserDefine_Code}}" role="tab" data-toggle="tab"
                   [attr.aria-selected]="blFirst">{{item.UserDefine_Name}}</a>
@@ -336,7 +338,7 @@
             <!-- Nav tabs -->
             <ul id="nav-tab-member" class="swiper-wrapper nav nav-tabs nav-line mb-2" role="tablist">
               <li *ngFor="let tab of popProducts; let i = index; let theFirst = first"
-                (click)="getMoreData(1, i, tab?.UserDefine_Code, tab?.UserDefine_ChannelID)" role="presentation"
+                (click)="readSheet(1, i, tab?.UserDefine_Code, tab?.UserDefine_ChannelID)" role="presentation"
                 class="swiper-slide">
                 <a href="#onsale-tab-{{i}}" class="tablist-link show" [ngClass]="{'active': theFirst}"
                   attr.aria-controls="onsale-tab-{{i}}" role="tab" data-toggle="tab"
@@ -389,8 +391,9 @@
           <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs">
             <!-- Nav tabs -->
             <ul id="nav-tab-featured" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
-              <li role="presentation" class="swiper-slide" *ngFor="let item of hitTravel; let blFirst=first;"
-                [ngClass]="{'active': blFirst}">
+              <li *ngFor="let item of hitTravel; let i = index; let blFirst=first;"
+                (click)="readSheet(5, i, item?.UserDefine_Code, item?.UserDefine_ChannelID)"
+                [ngClass]="{'active': blFirst}" role="presentation" class="swiper-slide" >
                 <a href="#Code{{item.UserDefine_Code}}" class="tablist-link show" [ngClass]="{'active': blFirst} "
                   attr.aria-controls="Code{{item.UserDefine_Code}}" role="tab" data-toggle="tab"
                   [attr.aria-selected]="blFirst">{{item.UserDefine_Name}}</a>

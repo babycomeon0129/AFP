@@ -325,45 +325,45 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   /** 讀取首頁資料（目前未使用，以拆分過的readUp及readDown取代）
    * @param mode 讀取時機 1: 進入此頁 2: 在此頁登入時
    */
-  readHome(mode: number): void {
-    const request: Request_Home = {
-      User_Code: sessionStorage.getItem('userCode'),
-      SearchModel: {
-        IndexArea_Code: 100001,
-        IndexTravel_Code: 21001,
-        UserInfo_Code: null,
-        IndexChannel_Code: 10000001,
-        IndexDelivery_Code: 300001
-      }
-    };
-    this.appService.openBlock();
-    this.appService.toApi('Home', '1011', request).subscribe((data: Response_Home) => {
-      switch (mode) {
-        case 1:
-          this.adTop = data.ADImg_Top;
-          this.adMid4 = data.ADImg_Activity;
-          this.adMid = data.ADImg_Theme;
-          this.hitArea = data.List_AreaData;
-          this.hitTravel = data.List_TravelData;
-          this.popProducts = data.List_ProductData;
-          this.userPoint = data.TotalPoint;
-          this.userVoucherCount = data.VoucherCount;
-          this.deliveryArea = data.List_DeliveryData;
-          this.nowVoucher = data.List_Voucher;
-          this.adIndex = data.ADImg_Approach;
-          // 只有一張廣告圖時不輪播
-          if (this.adIndex.length === 1) {
-            this.adIndexOption.loop = false;
-          }
-          break;
-        case 2:
-          this.userName = sessionStorage.getItem('userName');
-          this.userPoint = data.TotalPoint;
-          this.userVoucherCount = data.VoucherCount;
-          break;
-      }
-    });
-  }
+  // readHome(mode: number): void {
+  //   const request: Request_Home = {
+  //     User_Code: sessionStorage.getItem('userCode'),
+  //     SearchModel: {
+  //       IndexArea_Code: 100001,
+  //       IndexTravel_Code: 21001,
+  //       UserInfo_Code: null,
+  //       IndexChannel_Code: 10000001,
+  //       IndexDelivery_Code: 300001
+  //     }
+  //   };
+  //   this.appService.openBlock();
+  //   this.appService.toApi('Home', '1011', request).subscribe((data: Response_Home) => {
+  //     switch (mode) {
+  //       case 1:
+  //         this.adTop = data.ADImg_Top;
+  //         this.adMid4 = data.ADImg_Activity;
+  //         this.adMid = data.ADImg_Theme;
+  //         this.hitArea = data.List_AreaData;
+  //         this.hitTravel = data.List_TravelData;
+  //         this.popProducts = data.List_ProductData;
+  //         this.userPoint = data.TotalPoint;
+  //         this.userVoucherCount = data.VoucherCount;
+  //         this.deliveryArea = data.List_DeliveryData;
+  //         this.nowVoucher = data.List_Voucher;
+  //         this.adIndex = data.ADImg_Approach;
+  //         // 只有一張廣告圖時不輪播
+  //         if (this.adIndex.length === 1) {
+  //           this.adIndexOption.loop = false;
+  //         }
+  //         break;
+  //       case 2:
+  //         this.userName = sessionStorage.getItem('userName');
+  //         this.userPoint = data.TotalPoint;
+  //         this.userVoucherCount = data.VoucherCount;
+  //         break;
+  //     }
+  //   });
+  // }
 
   /** 判斷首頁進場廣告開啟 */
   adIndexChenck(): void {
@@ -505,36 +505,47 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   }
 
   /** 取得「現領優惠券」、「特賣商品」頁籤資訊（點擊時）
-   * @param mode SelectMode: 1 商品 2 優惠券
+   * @param mode SelectMode: 1 特賣商品 2 現領優惠券 3 主打店家 4 外送店家 5 旅遊主打
    * @param index 索引
    * @param menuCode 目錄編碼
-   * @param prodChannelCode 商品頻道編號
+   * @param channelCode 頻道編號
    */
-  getMoreData(mode: number, index: number, menuCode: number, prodChannelCode?: number): void {
+  readSheet(mode: number, index: number, menuCode: number, channelCode?: number): void {
     const request: Request_OtherInfo = {
       User_Code: sessionStorage.getItem('userCode'),
       SelectMode: mode,
       SearchModel: {
         UserDefineCode: menuCode,
-        IndexChannel_Code: prodChannelCode
+        IndexChannel_Code: channelCode
       }
     };
 
     // 若該目錄下資料length為0才去call API
     switch (mode) {
       case 1:
-        if (this.popProducts[index].ProductData.length === 0) {
-          this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
-            this.popProducts[index].ProductData = data.List_ProductData[0].ProductData;
-          });
-        }
+        this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
+          this.popProducts[index].ProductData = data.List_ProductData[0].ProductData;
+        });
         break;
       case 2:
-        if (this.nowVoucher[index].VoucherData.length === 0) {
-          this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
-            this.nowVoucher[index].VoucherData = data.List_Voucher[0].VoucherData;
-          });
-        }
+        this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
+          this.nowVoucher[index].VoucherData = data.List_Voucher[0].VoucherData;
+        });
+        break;
+      case 3:
+        this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
+          this.hitArea[index].ECStoreData = data.List_AreaData[0].ECStoreData;
+        });
+        break;
+      case 4:
+        this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
+          this.deliveryArea[index].ECStoreData = data.List_DeliveryData[0].ECStoreData;
+        });
+        break;
+      case 5:
+        this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
+          this.hitTravel[index].TravelData = data.List_TravelData[0].TravelData;
+        });
         break;
     }
   }
