@@ -1,15 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, NavigationExtras } from '@angular/router';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from '../../../shared/modal/modal.service';
-import {
-  Request_GetCheckout, Response_GetCheckout,
-  Request_GetUserVoucher, Response_GetUserVoucher,
-  Request_CheckUserVoucher, Response_CheckUserVoucher,
-  Request_MemberAddress,
-  AFP_Cart, AFP_ECStore, AFP_UserFavourite, AFP_UserVoucher, AFP_Voucher, AFP_VoucherLimit, AFP_Order,
-  Model_ShareData, OrderVoucher, OrderInvoice, OrderStore, OrderPlatform
-} from 'src/app/_models';
+import { Request_GetCheckout, Response_GetCheckout, Request_GetUserVoucher, Response_GetUserVoucher,
+        Request_CheckUserVoucher, Response_CheckUserVoucher, Request_MemberAddress, AFP_Cart, AFP_ECStore,
+        AFP_UserFavourite, AFP_UserVoucher, AFP_VoucherLimit, AFP_Order, Model_ShareData,
+        OrderVoucher, OrderInvoice, OrderStore, OrderPlatform } from '@app/_models';
 import { NgForm } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
 
@@ -144,15 +140,15 @@ export class ShoppingOrderComponent implements OnInit {
         backdrop: 'static',
         keyboard: false
       }).subscribe(option => {
-        this.router.navigate(['/Shopping/ShoppingCart', { referrer: 'illegal' } ]);
+        this.router.navigate(['/Shopping/ShoppingCart'], {queryParams: { referrer: 'illegal' }});
       });
     }
+  }
 
-    /** 避免輸入鍵盤擋到輸入框 */
-    $('input').focus((e) => {
-      const target = $('input').index(e.currentTarget);
-      document.body.scrollTop = ($('input').eq(target)[0].scrollHeight - 50);
-    });
+  /** 避免手機輸入鍵盤擋到輸入框 */
+  @HostListener('window: focusin', ['$event'])
+  awayFromKeyboard(event: FocusEvent) {
+    document.body.scrollTop = (event.composedPath()[0] as HTMLElement).scrollHeight - 50;
   }
 
   /** 開啟選擇優惠券頁面 */

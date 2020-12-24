@@ -3,7 +3,7 @@ import { AppService } from 'src/app/app.service';
 import {
   Response_AreaDetail, AFP_ECStore, Request_AreaDetail, AFP_Voucher, AFP_Product,
   Request_MemberUserVoucher, Response_MemberUserVoucher, AFP_ECStoreExtType
-} from '../../../_models';
+} from '@app/_models';
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'ngx-useful-swiper';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -59,7 +59,7 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
   /** 分享至社群時顯示的文字 */
   public textForShare: string;
   /** APP特例處理  */
-  public showBackBtn = false;
+  public showBack = false;
   /** 確認資料是否下載完畢  */
   public dataLoad = false;
 
@@ -70,7 +70,7 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
     this.siteCode = Number(this.route.snapshot.params.ECStore_Code);
     // APP從會員中心進來則隱藏返回鍵
     if (this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBackBtn = true;
+      this.showBack = true;
     }
   }
 
@@ -86,6 +86,7 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
     this.route.queryParams.subscribe(params => {
       if (typeof params.navNo !== 'undefined') {
         this.tabNo = parseInt(params.navNo, 10);
+        this.showBack = params.showBack;
         if (this.tabNo > 1 && this.tabNo <= 3) {
           this.readTabData(this.tabNo);
         }
@@ -151,6 +152,7 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
 
             ${location.href}`;
           }
+          this.JustKaUrl = data.JustKaUrl;
           // 設置meta
           this.title.setTitle(this.siteInfo.ECStore_ShowName + '｜' + typeText + '介紹 - Mobii!');
           this.meta.updateTag({ name: 'description', content: this.siteInfo.ECStore_Features });
@@ -171,7 +173,6 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
       }
       this.dataLoad = true;
       this.ecStoreExtType = data.Model_ECStoreExtType;
-      this.JustKaUrl = data.JustKaUrl;
     });
   }
 
@@ -231,7 +232,7 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
     // 先判斷是否有登入
     if (this.appService.loginState) {
       // 把商店code帶到DeliveryInfo頁面
-       window.open(`/Delivery/DeliveryInfo/${this.siteCode}`);
+      window.open('/Delivery/DeliveryInfo/' + this.siteCode);
     } else {
       this.appService.loginPage();
     }

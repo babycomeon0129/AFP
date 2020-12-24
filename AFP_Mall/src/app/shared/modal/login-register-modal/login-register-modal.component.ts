@@ -6,7 +6,7 @@ import { ModalService } from '../modal.service';
 import { AuthService, SocialUser, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 import { NgForm } from '@angular/forms';
 import { Request_AFPThird, Model_ShareData, Response_AFPLogin, Request_AFPAccount, Request_AFPVerifyCode,
-  Response_AFPVerifyCode, Request_AFPReadMobile, Response_AFPReadMobile } from 'src/app/_models';
+  Response_AFPVerifyCode, Request_AFPReadMobile, Response_AFPReadMobile } from '@app/_models';
 import { CookieService } from 'ngx-cookie-service';
 import jwt_decode from 'jwt-decode';
 declare var AppleID: any;

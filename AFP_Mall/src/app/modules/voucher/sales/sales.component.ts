@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, DoCheck, KeyValueDiffer, KeyValueDiffers 
 import { SwiperOptions } from 'swiper';
 import { AppService } from 'src/app/app.service';
 import { AFP_VouFlashSale, Request_ECVouFlashSale, Response_ECVouFlashSale, AFP_ADImg,
-  AFP_Voucher } from '../../../_models';
+  AFP_Voucher } from '@app/_models';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({

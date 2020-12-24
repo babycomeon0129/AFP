@@ -3,7 +3,7 @@
       <div class="header-secondary container">
           <div class="index-flex justify-content-between">
               <div class="item two">
-                       <button [hidden]="appService.isApp !== null" type="button" class="btn" onclick="history.back()" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                       <button [hidden]="appService.isApp !== null" type="button" class="btn" (click)="conditionBack()" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
                           <i class="material-icons">&#xe314;</i>
                       </button>
               </div>
@@ -15,135 +15,137 @@
           </div>
       </div>
   </header>
-  <div class="">
-  <!-- tab content for record-->
-  <div class="afp-tab-box">
-      <div class="afp-tab">
-          <div class="nav-tabs-box">
-              <!-- Nav tabs -->
-              <ul class="nav-tab-list nav nav-tabs nav-line d-flex justify-content-around" role="tablist" id="mainTab">
-                      <li role="presentation" class="active">
-                          <a href="#ordertag01" (click)="showList(21, 1)" class="tablist-link active" aria-controls="ordertag01" role="tab" data-toggle="tab" aria-selected="true">電子票券</a>
-                      </li>
-                      <li role="presentation">
-                          <a href="#ordertag02" (click)="showList(1, 1)" class="tablist-link" aria-controls="ordertag02" role="tab" data-toggle="tab" aria-selected="false">購物商城</a>
-                      </li>
-              </ul>
-              <div class="tab-line w-100"></div>
-          </div>
-          <!-- Tab panes -->
-          <div class="tab-content tab-line">
-              <!-- 電子票券 -->
-              <div role="tabpanel" class="tab-pane fade active show w-100" id="ordertag01">
-                  <div class="order-tabSubox">
-                      <swiper class="orderticket-swiper swiper-container" [config]="ETicketTabs">
-                          <!-- 電子票券 狀態 Nav tabs -->
-                          <ul class="swiper-wrapper nav nav-tabSub" role="tablist">
-                              <li role="presentation" class="active swiper-slide">
-                                  <a (click)="showList(21, 1)" class="tabsub-link active" aria-controls="ticket-tab-1" role="tab" data-toggle="tab" aria-selected="true">處理中</a>
-                              </li>
-                              <li role="presentation" class="swiper-slide">
-                                  <a (click)="showList(21, 3)" class="tabsub-link" aria-controls="ticket-tab-2" role="tab" data-toggle="tab" aria-selected="false">已完成</a>
-                              </li>
-                              <li role="presentation" class="swiper-slide">
-                                  <a (click)="showList(21, 4)" class="tabsub-link" aria-controls="ticket-tab-3" role="tab" data-toggle="tab" aria-selected="false">退貨</a>
-                              </li>
-                          </ul>
-                      </swiper>
-                  </div>
-                  <!-- 電子票券 列表 Tab panes -->
-                  <div class="tab-content tab-line mt-1">
-                      <div role="tabpanel" class="tab-pane active" id="ticket-tab-1">
-                        <!-- 有訂單時顯示 -->
-                          <div class="wait-pay-list">
-                              <ul *ngIf="orderList.length > 0; else elseBlock1">
-                                  <li *ngFor="let item of orderList" (click)="goToDetail(21, item)">
-                                      <div class="item rwdimgbox-80">
-                                          <div [lazyLoad]="item.Order_ProdImg" [defaultImage]="appService.defaultImage" class="rwdimg"></div>
-                                      </div>
-                                      <div class="item item-info">
-                                          <p>{{item.Order_ECStoreName}}</p>
-                                          <p class="price-asking">{{item.PayOrder_PayAmount | currency: 'TWD':'NT$':'1.0-2' }}</p>
-                                          <p>{{item.Order_InsertDate | date: 'yyyy/MM/dd'}}</p>
-                                      </div>
-                                      <div class="item item-type">
-                                        <p>{{item.Order_ProdCount}}樣商品</p>
-                                      </div>
-                                  </li>
-                              </ul>
-                          </div>
-                          <!-- 無訂單時顯示 -->
-                          <ng-template #elseBlock1>
-                            <div class="no-order">
-                                <img src="../img/shopping/noorder.png" alt="no-order-img">
-                                <p>尚無訂單</p>
-                            </div>
-                          </ng-template>
-                      </div>
-                  </div>
-              </div>
-              <!-- 一般訂單 -->
-              <div role="tabpanel" class="tab-pane fade w-100" id="ordertag02">
-                  <div class="order-tabSubox">
-                      <swiper class="ordershop-swiper swiper-container" [config]="generalTabs">
-                          <!-- 一般訂單 狀態 Nav tabs -->
-                          <ul class="swiper-wrapper nav nav-tabSub" role="tablist">
-                              <!-- 暫無待付款 -->
-                              <!-- <li role="presentation" class="active swiper-slide">
-                                  <a href="#order-tab-1" class="tabsub-link active" aria-controls="order-tab-1" role="tab" data-toggle="tab" aria-selected="true">待付款</a>
-                              </li> -->
-                              <li role="presentation" class="swiper-slide">
-                                  <a (click)="showList(1, 1)" class="tabsub-link active" aria-controls="order-tab-2" role="tab" data-toggle="tab" aria-selected="false">處理中</a>
-                              </li>
-                              <li role="presentation" class="swiper-slide">
-                                  <a (click)="showList(1, 2)" class="tabsub-link" aria-controls="order-tab-3" role="tab" data-toggle="tab" aria-selected="false">待收貨</a>
-                              </li>
-                              <li role="presentation" class="swiper-slide">
-                                  <a (click)="showList(1, 3)" class="tabsub-link" aria-controls="order-tab-4" role="tab" data-toggle="tab" aria-selected="false">已完成</a>
-                              </li>
-                              <li role="presentation" class="swiper-slide">
-                                  <a (click)="showList(1, 4)" class="tabsub-link" aria-controls="order-tab-5" role="tab" data-toggle="tab" aria-selected="false">退貨</a>
-                              </li>
-                          </ul>
-                      </swiper>
-                  </div>
-                  <!-- 一般訂單 列表 Tab panes -->
-                  <div class="tab-content tab-line mt-1">
-                      <div role="tabpanel" class="tab-pane active">
+  <div>
+    <!-- tab content for record-->
+    <div class="afp-tab-box">
+        <div class="afp-tab">
+            <div class="nav-tabs-box">
+                <!-- Nav tabs -->
+                <ul class="nav-tab-list nav nav-tabs nav-line d-flex justify-content-around" role="tablist" id="mainTab">
+                        <li role="presentation" class="active">
+                            <a href="#ordertag01" (click)="showList(21, ETicket_selectedState)" class="tablist-link active" aria-controls="ordertag01" role="tab" data-toggle="tab" aria-selected="true">電子票券</a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#ordertag02" (click)="showList(1, Common_selectedState)" class="tablist-link" aria-controls="ordertag02" role="tab" data-toggle="tab" aria-selected="false">購物商城</a>
+                        </li>
+                </ul>
+                <div class="tab-line w-100"></div>
+            </div>
+            <!-- Tab panes -->
+            <div class="tab-content tab-line">
+                <!-- 電子票券 -->
+                <div role="tabpanel" class="tab-pane fade active show w-100" id="ordertag01">
+                    <div class="order-tabSubox">
+                        <swiper class="orderticket-swiper swiper-container" [config]="tabsConfig">
+                            <!-- 電子票券 狀態 Nav tabs -->
+                            <ul class="swiper-wrapper nav nav-tabSub" role="tablist">
+                                <li role="presentation" class="active swiper-slide">
+                                    <a (click)="showList(21, 1)" class="tabsub-link active" aria-controls="ticket-tab-1" role="tab" data-toggle="tab" aria-selected="true">處理中</a>
+                                </li>
+                                <li role="presentation" class="swiper-slide">
+                                    <a (click)="showList(21, 3)" class="tabsub-link" aria-controls="ticket-tab-2" role="tab" data-toggle="tab" aria-selected="false">已完成</a>
+                                </li>
+                                <li role="presentation" class="swiper-slide">
+                                    <a (click)="showList(21, 4)" class="tabsub-link" aria-controls="ticket-tab-3" role="tab" data-toggle="tab" aria-selected="false">退貨</a>
+                                </li>
+                            </ul>
+                        </swiper>
+                    </div>
+                    <!-- 電子票券 列表 Tab panes -->
+                    <div class="tab-content tab-line mt-1">
+                        <div role="tabpanel" class="tab-pane active" id="ticket-tab-1">
                           <!-- 有訂單時顯示 -->
-                          <div *ngIf="orderList.length > 0; else elseBlock2" class="wait-pay-list">
-                              <ul>
-                                  <li *ngFor="let item of orderList" (click)="goToDetail(1, item)">
-                                      <div class="item rwdimgbox-80">
-                                          <div [lazyLoad]="item.Order_ProdImg" [defaultImage]="appService.defaultImage" class="rwdimg"></div>
-                                      </div>
-                                      <div class="item item-info">
-                                          <p>
-                                            <span *ngIf="selectedState === 2">{{'(' + deliveryWay(item.Order_DeliveryWays) +')'}}</span>
-                                            {{item.Order_ECStoreName}}
-                                          </p>
-                                          <p class="price-asking">{{item.PayOrder_PayAmount | currency: 'TWD':'NT$':'1.0-2' }}</p>
-                                          <p>{{item.Order_InsertDate | date: 'yyyy/MM/dd'}}</p>
-                                      </div>
-                                      <div class="item item-type">
+                            <div class="wait-pay-list">
+                                <ul *ngIf="orderList.length > 0; else elseBlock1">
+                                    <li *ngFor="let item of orderList" (click)="goToDetail(21, item)">
+                                        <div class="item rwdimgbox-80">
+                                            <div [lazyLoad]="item.Order_ProdImg" [defaultImage]="appService.defaultImage" class="rwdimg"></div>
+                                        </div>
+                                        <div class="item item-info">
+                                            <p>{{item.Order_ECStoreName}}</p>
+                                            <p class="price-asking">{{item.PayOrder_PayAmount | currency: 'TWD':'NT$':'1.0-2' }}</p>
+                                            <p>{{item.Order_InsertDate | date: 'yyyy/MM/dd'}}</p>
+                                        </div>
+                                        <div class="item item-type">
                                           <p>{{item.Order_ProdCount}}樣商品</p>
-                                      </div>
-                                  </li>
-                              </ul>
-                          </div>
-                      </div>
-                      <!-- 無訂單時顯示 -->
-                      <ng-template #elseBlock2>
-                        <div class="no-order">
-                            <img src="../img/shopping/noorder.png" alt="no-order-img">
-                            <p>尚無訂單</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- 無訂單時顯示 -->
+                            <ng-template #elseBlock1>
+                              <div class="no-order">
+                                  <img src="../img/shopping/noorder.png" alt="no-order-img">
+                                  <p>尚無訂單</p>
+                              </div>
+                            </ng-template>
                         </div>
-                      </ng-template>
-                  </div>
-              </div>
-          </div>
-      </div>
+                    </div>
+                </div>
+                <!-- 一般訂單 -->
+                <div role="tabpanel" class="tab-pane fade w-100" id="ordertag02">
+                    <div class="order-tabSubox">
+                        <swiper class="ordershop-swiper swiper-container" [config]="tabsConfig">
+                            <!-- 一般訂單 狀態 Nav tabs -->
+                            <ul class="swiper-wrapper nav nav-tabSub" role="tablist">
+                                <!-- 暫無待付款 -->
+                                <!-- <li role="presentation" class="active swiper-slide">
+                                    <a href="#order-tab-1" class="tabsub-link active" aria-controls="order-tab-1" role="tab" data-toggle="tab" aria-selected="true">待付款</a>
+                                </li> -->
+                                <li role="presentation" class="swiper-slide">
+                                    <a (click)="showList(1, 1)" class="tabsub-link active" aria-controls="order-tab-2" role="tab" data-toggle="tab" aria-selected="false">處理中</a>
+                                </li>
+                                <li role="presentation" class="swiper-slide">
+                                    <a (click)="showList(1, 2)" class="tabsub-link" aria-controls="order-tab-3" role="tab" data-toggle="tab" aria-selected="false">待收貨</a>
+                                </li>
+                                <li role="presentation" class="swiper-slide">
+                                    <a (click)="showList(1, 3)" class="tabsub-link" aria-controls="order-tab-4" role="tab" data-toggle="tab" aria-selected="false">已完成</a>
+                                </li>
+                                <li role="presentation" class="swiper-slide">
+                                    <a (click)="showList(1, 4)" class="tabsub-link" aria-controls="order-tab-5" role="tab" data-toggle="tab" aria-selected="false">退貨</a>
+                                </li>
+                            </ul>
+                        </swiper>
+                    </div>
+                    <!-- 一般訂單 列表 Tab panes -->
+                    <div class="tab-content tab-line mt-1">
+                        <div role="tabpanel" class="tab-pane active">
+                            <!-- 有訂單時顯示 -->
+                            <div *ngIf="orderList.length > 0; else elseBlock2" class="wait-pay-list">
+                                <ul>
+                                    <li *ngFor="let item of orderList" (click)="goToDetail(1, item)">
+                                        <div class="item rwdimgbox-80">
+                                            <div [lazyLoad]="item.Order_ProdImg" [defaultImage]="appService.defaultImage" class="rwdimg"></div>
+                                        </div>
+                                        <div class="item item-info">
+                                            <p>
+                                              <span *ngIf="Common_selectedState === 2">{{'(' + deliveryWay(item.Order_DeliveryWays) +')'}}</span>
+                                              {{item.Order_ECStoreName}}
+                                            </p>
+                                            <p class="price-asking">{{item.PayOrder_PayAmount | currency: 'TWD':'NT$':'1.0-2' }}</p>
+                                            <p>{{item.Order_InsertDate | date: 'yyyy/MM/dd'}}</p>
+                                        </div>
+                                        <div class="item item-type">
+                                            <p>{{item.Order_ProdCount}}樣商品</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- 無訂單時顯示 -->
+                        <ng-template #elseBlock2>
+                          <div class="no-order">
+                              <img src="../img/shopping/noorder.png" alt="no-order-img">
+                              <p>尚無訂單</p>
+                          </div>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
   </div>
-  </div>
+</div>
 
-  <app-mobile-footer></app-mobile-footer>
+<!-- <app-pc-footer></app-pc-footer> -->
+<app-mobile-footer></app-mobile-footer>

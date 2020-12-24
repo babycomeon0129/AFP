@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, OnDestroy, Renderer2 } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { Response_Games, Request_Games, AFP_GamePart } from '../../../../_models';
+import { Response_Games, Request_Games, AFP_GamePart } from '@app/_models';
 import { ModalService } from '../../../../shared/modal/modal.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -28,7 +28,8 @@ export class LuckyspinComponent implements OnInit, AfterViewInit, OnDestroy {
   private currentUrl: string;
   public hideBackBtn = false; // APP特例處理
 
-  constructor(public appService: AppService, public modal: ModalService, private router: Router, private route: ActivatedRoute) {
+  constructor(public appService: AppService, public modal: ModalService, private router: Router, private route: ActivatedRoute,
+              private renderer2: Renderer2) {
     this.currentUrl = this.router.url;
   }
 
@@ -64,8 +65,6 @@ export class LuckyspinComponent implements OnInit, AfterViewInit, OnDestroy {
           break;
       }
     });
-    // 將按鈕移動至指定位置
-    $('#play').insertAfter('.contbox.' + this.gameData.AFP_Game.Game_TypeSpace.toString());
   }
 
   ngOnDestroy() {
@@ -118,7 +117,6 @@ export class LuckyspinComponent implements OnInit, AfterViewInit, OnDestroy {
               // 更新總點數
               this.totalPoints = data.TotalPoint;
               this.appService.callLayerUp('.winmsg');
-              // $('.contbox').removeClass('opacity5');
               this.playingStatus = false;
             }
           });
@@ -130,7 +128,7 @@ export class LuckyspinComponent implements OnInit, AfterViewInit, OnDestroy {
   /** 再玩一次 */
   playAgain() {
     this.appService.backLayerUp();
-    $('.contbox').removeClass('opacity5'); // 移除中獎項目動畫
+    this.prizesArr.forEach(contbox => this.renderer2.removeClass(contbox, 'opacity5')); // 移除中獎項目動畫
   }
 
   /** 中獎獎項的顯示訊息及前往路徑 */

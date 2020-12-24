@@ -1,8 +1,8 @@
-import { Component, OnInit, AfterViewInit, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
-import { AppService } from 'src/app/app.service';
-import { ModalService } from '../../../shared/modal/modal.service';
+import { Component, OnInit, DoCheck, KeyValueDiffer, KeyValueDiffers, HostListener } from '@angular/core';
+import { AppService } from '@app/app.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { Response_ECHome, AFP_ADImg, AFP_Function, AFP_ChannelProduct, AFP_Product, AFP_ChannelVoucher,
-        Request_ECHome } from '../../../_models';
+        Request_ECHome } from '@app/_models';
 import { SwiperOptions } from 'swiper';
 import { NgxMasonryOptions } from 'ngx-masonry';
 import { CookieService } from 'ngx-cookie-service';
@@ -12,7 +12,7 @@ import { Meta, Title } from '@angular/platform-browser';
   templateUrl: './shopping.component.html',
   styleUrls: ['../../../../dist/style/shopping-home.min.css', '../../../../dist/style/shopping-index.min.css']
 })
-export class ShoppingComponent implements OnInit, AfterViewInit, DoCheck {
+export class ShoppingComponent implements OnInit, DoCheck {
   public userName: string;
   /** 目前頁數 */
   public currentPage = 1;
@@ -160,14 +160,14 @@ export class ShoppingComponent implements OnInit, AfterViewInit, DoCheck {
     }
   }
 
-  ngAfterViewInit() {
-    // 讀取分頁資料(瀑布流)
-    $(window).on('scroll', () => {
-      if ($(window).scrollTop() + $(window).height() === $(document).height() && this.currentPage < this.totalPage) {
-        this.currentPage += 1;
-        this.readData(3);
-      }
-    });
+  /** 近期熱門商品瀑布流 */
+  @HostListener('window: scroll', ['$event'])
+  prodWaterfall(event: Event) {
+    if ((window.scrollY + window.innerHeight === document.documentElement.offsetHeight) && this.currentPage < this.totalPage) {
+      this.appService.openBlock();
+      this.currentPage += 1;
+      this.readData(3);
+    }
   }
 
 }

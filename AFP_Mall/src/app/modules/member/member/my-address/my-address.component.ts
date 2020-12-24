@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { AFP_UserFavourite, AFP_UserReport, Request_MemberAddress, Response_MemberAddress } from '../../../../_models';
+import { AFP_UserFavourite, AFP_UserReport, Request_MemberAddress, Response_MemberAddress } from '@app/_models';
 import { NgForm } from '@angular/forms';
 import { ModalService } from '../../../../shared/modal/modal.service';
 import { layerAnimation } from '../../../../animations';

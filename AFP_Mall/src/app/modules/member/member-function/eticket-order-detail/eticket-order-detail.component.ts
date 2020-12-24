@@ -2,14 +2,16 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { Request_MemberOrder, Response_MemberOrder, AFP_MemberOrder, AFP_ECStore, AFP_ItemInfoPart, AFP_Voucher,
-  Model_ShareData, AFP_Services, Request_MemberServices, Response_MemberServices } from '../../../../_models';
+  Model_ShareData, AFP_Services, Request_MemberServices, Response_MemberServices } from '@app/_models';
 import { ModalService } from '../../../../shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-eticket-order-detail',
   templateUrl: './eticket-order-detail.component.html',
-  styleUrls: ['../../../../../dist/style/member.min.css', '../../../../../dist/style/shopping-index.min.css']
+  styleUrls: ['../../../../../dist/style/member.min.css',
+              '../../../../../dist/style/member-function.min.css',
+              '../../../../../dist/style/shopping-index.min.css']
 })
 export class ETicketOrderDetailComponent implements OnInit {
   /** 訂單編號 */

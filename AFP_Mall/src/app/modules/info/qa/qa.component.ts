@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { Request_MemberQuestion, Response_MemberQuestion, AFP_QuestionCategory, AFP_QuestionContent } from '../../../../app/_models';
+import { Request_MemberQuestion, Response_MemberQuestion, AFP_QuestionCategory, AFP_QuestionContent } from '@app/_models';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation } from '../../../animations';
 declare var AppJSInterface: any;
@@ -8,7 +8,7 @@ declare var AppJSInterface: any;
 @Component({
   selector: 'app-qa',
   templateUrl: './qa.component.html',
-  styleUrls: ['../../../../dist/style/member.min.css'],
+  styleUrls: ['../../../../dist/style/member.min.css', '../../../../dist/style/member-setting.min.css'],
   animations: [layerAnimation]
 })
 export class QAComponent implements OnInit {

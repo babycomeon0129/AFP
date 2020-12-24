@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { AppService } from 'src/app/app.service';
-import { Request_AFPPassword, AFP_VerifiedInfo } from 'src/app/_models';
+import { Request_AFPPassword, AFP_VerifiedInfo } from '@app/_models';
 import { ModalService } from '../modal.service';
 
 @Component({

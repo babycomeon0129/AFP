@@ -1,17 +1,17 @@
 import { Component, OnInit, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { Model_ShareData, AFP_ADImg } from '../../../../_models';
+import { Model_ShareData, AFP_ADImg } from '@app/_models';
 import { Request_MemberThird, Response_MemberThird } from '../member.component';
 import { Router } from '@angular/router';
-import { ModalService } from '../../../../shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { SwiperOptions } from 'swiper';
-import { MemberService } from '../../member.service';
+import { MemberService } from '@app/modules/member/member.service';
 import { AuthService, SocialUser } from 'angularx-social-login';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['../../../../../dist/style/member.min.css']
+  styleUrls: ['../../../../../dist/style/member.min.css', '../../../../../dist/style/member-home.min.css']
 })
 export class HomeComponent implements OnInit, DoCheck {
   // 第三方登入 User容器

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Request_MemberTicket, Response_MemberTicket, AFP_UserTicket, AFP_Product } from '../../../../_models';
+import { Request_MemberTicket, Response_MemberTicket, AFP_UserTicket, AFP_Product } from '@app/_models';
 import { ActivatedRoute } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 
@@ -15,13 +15,13 @@ export class ETicketDetailComponent implements OnInit {
   public userTicket: AFP_UserTicket;
   /** 票券商品 */
   public ticketProd: AFP_Product;
-  public showBackBtn = false; // APP特例處理
+  public showBack = false; // APP特例處理
 
   constructor(private route: ActivatedRoute, public appService: AppService) {
     this.ticketCode = this.route.snapshot.params.UserTicket_Code;
     // APP特例處理: 若是從會員進來則顯示返回鍵
     if (this.route.snapshot.queryParams.showBack !== undefined && this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBackBtn = true;
+      this.showBack = true;
     }
   }
 

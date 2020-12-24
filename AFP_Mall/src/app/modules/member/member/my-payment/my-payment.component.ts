@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { Model_ShareData, AFP_UserFavourite } from '../../../../_models';
+import { Model_ShareData, AFP_UserFavourite } from '@app/_models';
 import { ModalService } from '../../../../shared/modal/modal.service';
 import { layerAnimation } from '../../../../animations';
 
 @Component({
   selector: 'app-my-payment',
   templateUrl: './my-payment.component.html',
-  styleUrls: ['../../../../../dist/style/member.min.css'],
+  styleUrls: ['../../../../../dist/style/member.min.css', '../../../../../dist/style/member-setting.min.css'],
   animations: [layerAnimation]
 })
 export class MyPaymentComponent implements OnInit {

@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import {
   Model_ShareData, AFP_Cart, AFP_ECStore, AFP_Product, AFP_Voucher, AFP_Order,
   Request_GetUserVoucher, Response_GetUserVoucher, Request_CheckUserVoucher, Response_CheckUserVoucher,
   AFP_UserVoucher, AFP_VoucherLimit, OrderVoucher, OrderInvoice, OrderStore, OrderPlatform
-} from '../../../_models';
+} from '@app/_models';
 import { ModalService } from '../../../shared/modal/modal.service';
 import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
@@ -526,11 +526,12 @@ export class ETicketOrderComponent implements OnInit {
   }
 
   ngOnInit() {
-    /** 避免輸入鍵盤擋到輸入框 */
-    $('input').on('focus', (e) => {
-      const target = $('input').index(e.currentTarget);
-      document.body.scrollTop = ($('input').eq(target)[0].scrollHeight - 50);
-    });
+  }
+
+  /** 避免手機輸入鍵盤擋到輸入框 */
+  @HostListener('window: focusin', ['$event'])
+  awayFromKeyboard(event: FocusEvent) {
+    document.body.scrollTop = (event.composedPath()[0] as HTMLElement).scrollHeight - 50;
   }
 
 }

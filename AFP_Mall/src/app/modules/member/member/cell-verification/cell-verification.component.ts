@@ -1,7 +1,7 @@
 import { NgForm } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { Model_ShareData, Request_AFPVerifyCode, Response_AFPVerifyCode } from '../../../../_models';
+import { Model_ShareData, Request_AFPVerifyCode, Response_AFPVerifyCode } from '@app/_models';
 import { ModalService } from '../../../../shared/modal/modal.service';
 import { MemberService } from '../../member.service';
 import { Router, ActivatedRoute } from '@angular/router';

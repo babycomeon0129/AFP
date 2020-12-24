@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppService } from 'src/app/app.service';
-import { AFP_MemberOrder, Model_ShareData } from '../../../_models';
+import { Model_ShareData } from '@app/_models';
 import { CookieService } from 'ngx-cookie-service';
 import { Meta, Title } from '@angular/platform-browser';
 
@@ -16,20 +16,22 @@ export class OrderCompleteComponent implements OnInit {
   public PayOrderNo = 0;
   /** 綁卡資訊 */
   public BindData = '';
+  /** 例外狀況處理 timer */
   public countdown;
-  public MainHidden = true;
-
   /** 回傳結果 */
-  public ResponseModel: Response_OrderComplete = new Response_OrderComplete();
+  public ResponseModel: Response_OrderComplete;
+
   constructor(private route: ActivatedRoute, public appService: AppService, private router: Router, private cookieService: CookieService,
               private meta: Meta, private title: Title) {
-                // tslint:disable: max-line-length
     this.title.setTitle('付款成功｜線上商城 - Mobii!');
     this.meta.updateTag({name : 'description', content: ''});
     this.meta.updateTag({content: '付款成功｜線上商城 - Mobii!', property: 'og:title'});
     this.meta.updateTag({content: '', property: 'og:description'});
 
     this.appService.isApp = 1;
+  }
+
+  ngOnInit() {
     this.route.queryParams.subscribe(params => {
       if (typeof params.PayOrderNo !== 'undefined') {
         this.PayOrderNo = Number(params.PayOrderNo);
@@ -52,24 +54,23 @@ export class OrderCompleteComponent implements OnInit {
       if (data.IsApp === 0) {
         this.appService.isApp = null;
       }
-      this.MainHidden = false;
     });
 
-    //  例外狀況處理
+    //  例外狀況處理（例: API沒回應）
     this.countdown = setTimeout(() => {
-      this.MainHidden = false;
+      if (this.ResponseModel === undefined) {
+        this.ResponseModel = new Response_OrderComplete();
+      }
     }, 3000);
   }
 
+  /** 前往商城首頁 */
   GoECIndex(): void {
     if (this.appService.isApp != null) {
       location.href = '/Shopping';
     } else {
       this.router.navigate(['/Shopping']);
     }
-  }
-
-  ngOnInit() {
   }
 
 }

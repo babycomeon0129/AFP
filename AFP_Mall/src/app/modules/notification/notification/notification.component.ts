@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { Request_MemberMsg, Response_MemberMsg, AFP_MemberMsgTitle, AFP_IMessage } from '../../../_models';
+import { Request_MemberMsg, Response_MemberMsg, AFP_MemberMsgTitle, AFP_IMessage } from '@app/_models';
 import { Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 
@@ -78,7 +78,6 @@ export class NotificationComponent implements OnInit, OnDestroy {
    */
   goOrder(msg: AFP_IMessage) {
     if (msg.IMessage_OrderNo != null) {
-      // this.router.navigate(['/MemberFunction/MyOrderDetail', msg.IMessage_OrderNo]);
       if (msg.IMessage_OrderType === 21) {
         this.router.navigate(['/MemberFunction/ETicketOrderDetail', msg.IMessage_OrderNo]);
       } else {

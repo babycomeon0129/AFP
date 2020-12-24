@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AppService } from 'src/app/app.service';
-import {
-  AFP_ECStore, AFP_MemberOrder, AFP_ItemInfoPart, AFP_UserFavourite
-  , Model_ShareData, AFP_Services, AFP_UserReport, AFP_DealInfo
-} from '../../../_models';
+import { AFP_ECStore, AFP_MemberOrder, AFP_ItemInfoPart, AFP_UserFavourite, Model_ShareData,
+        AFP_Services, AFP_UserReport, AFP_DealInfo
+        } from '@app/_models';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-return-detail',
   templateUrl: './return-detail.component.html',
-  styleUrls: ['../../../../dist/style/member.min.css', '../../../../dist/style/shopping-index.min.css']
+  styleUrls: ['../../../../dist/style/member.min.css',
+              '../../../../dist/style/member-function.min.css',
+              '../../../../dist/style/shopping-index.min.css']
 })
 export class ReturnDetailComponent implements OnInit {
   /** 客服單編號 */
@@ -143,8 +144,9 @@ export class ReturnDetailComponent implements OnInit {
 
   /** 前往對話 */
   goToDialog(): void {
-    this.router.navigate(['/Return/ReturnDialog', this.ServiceModel.Services_TableNo
-    , { ECStoreName: this.ECStore.ECStore_ShowName, HandleState: this.ServiceModel.Services_HandleState }]);
+    this.router.navigate(['/Return/ReturnDialog', this.ServiceModel.Services_TableNo],
+      {queryParams: { ECStoreName: this.ECStore.ECStore_ShowName, HandleState: this.ServiceModel.Services_HandleState }}
+    );
   }
 
   ngOnInit() {

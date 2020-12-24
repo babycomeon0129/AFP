@@ -1,8 +1,8 @@
-import { environment } from 'src/environments/environment';
+import { environment } from '@env/environment';
 import { Component, OnInit, AfterViewInit, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Request_ECCart, Response_ECCart, AFP_Cart, CartStoreList, ProductInfo } from '../../../_models';
+import { Request_ECCart, Response_ECCart, AFP_Cart, CartStoreList, ProductInfo } from '@app/_models';
 import { CookieService } from 'ngx-cookie-service';
 import { ModalService } from '../../../shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
@@ -367,7 +367,7 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit, DoCheck {
    * 回上一頁(若在結帳未完成時按回上一頁被導至此，回上一頁導至商城首頁)
    */
   conditionBack() {
-    if (this.route.snapshot.params.referrer === undefined) {
+    if (this.route.snapshot.queryParams.referrer === undefined) {
       history.back();
     } else {
       this.router.navigate(['Shopping']);
@@ -380,8 +380,9 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit, DoCheck {
   }
 
   ngAfterViewInit(): void {
-    // footer coupon
+    // footer coupon TODO: 改為以CSS判斷
     $('.shopping-coupon').addClass('fixed-bottom').slideDown(2000);
+
   }
 
   ngDoCheck(): void {

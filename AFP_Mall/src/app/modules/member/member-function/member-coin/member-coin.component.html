@@ -4,7 +4,7 @@
     <div class="lineargradient-purple pb-3">
       <div class="title-box">
         <div class="item icon-btn">
-          <button [hidden]="appService.isApp !== null && !showBackBtn" class="btn px-0 text-white" onclick="history.back();" data-toggle="tooltip" data-placement="bottom"
+          <button [hidden]="appService.isApp !== null && !showBack" class="btn px-0 text-white" onclick="history.back();" data-toggle="tooltip" data-placement="bottom"
             title="回上一頁">
             <i class="material-icons">&#xe314;</i>
           </button>
@@ -181,4 +181,5 @@
   </div>
 </div>
 
+<!-- <app-pc-footer></app-pc-footer> -->
 <app-mobile-footer></app-mobile-footer>

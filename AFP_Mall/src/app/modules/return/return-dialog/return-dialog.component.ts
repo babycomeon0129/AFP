@@ -1,10 +1,7 @@
-import { Component, OnInit, ElementRef, AfterViewInit, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AppService } from 'src/app/app.service';
-import {
-  AFP_ECStore, AFP_MemberOrder, AFP_ItemInfoPart, AFP_UserFavourite
-  , Model_ShareData, AFP_Services, AFP_UserReport, AFP_DealInfo
-} from '../../../_models';
+import { AFP_ECStore, AFP_MemberOrder, AFP_ItemInfoPart, Model_ShareData, AFP_Services, AFP_DealInfo } from '@app/_models';
 import { ResizedEvent } from 'angular-resize-event';
 
 @Component({
@@ -12,12 +9,29 @@ import { ResizedEvent } from 'angular-resize-event';
   templateUrl: './return-dialog.component.html',
   styleUrls: ['../../../../dist/style/member.min.css', '../../../../dist/style/shopping-index.min.css']
 })
-export class ReturnDialogComponent implements OnInit, AfterViewInit, AfterViewChecked {
+export class ReturnDialogComponent implements OnInit {
+  /** 客服單編號 */
+  public ServiceTableNO = 0;
+  /** 賣家名稱 */
+  public ECStoreName = '';
+  /** 客服單狀態 */
+  public HandleState = 0;
+  /** 對話紀錄ListModel */
+  public ListDealInfo: AFP_DealInfo[] = [];
+  public CostomerMsg = '';
+  public ReturnDialog: ReturnDialog[] = [];
+
+  /** 自適應調整輸入框位置 */
+  width: number;
+  height: number;
+
   constructor(private route: ActivatedRoute, public appService: AppService, public el: ElementRef) {
     this.ServiceTableNO = this.route.snapshot.params.Services_TableNo;
-    this.ECStoreName = this.route.snapshot.paramMap.get('ECStoreName');
-    this.HandleState = Number(this.route.snapshot.paramMap.get('HandleState'));
+    this.ECStoreName = this.route.snapshot.queryParams.ECStoreName;
+    this.HandleState = Number(this.route.snapshot.queryParams.HandleState);
+  }
 
+  ngOnInit() {
     const request: Request_MemberServices = {
       User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 3, // 對話紀錄
@@ -31,21 +45,6 @@ export class ReturnDialogComponent implements OnInit, AfterViewInit, AfterViewCh
       this.CombinContent();
     });
   }
-  /** 客服單編號 */
-  public ServiceTableNO = 0;
-  /** 賣家名稱 */
-  public ECStoreName = '';
-  /** 客服單狀態 */
-  public HandleState = 0;
-  /** 對話紀錄ListModel */
-  public ListDealInfo: AFP_DealInfo[] = [];
-  public CostomerMsg = '';
-
-  public ReturnDialog: ReturnDialog[] = [];
-
-  /** 自適應調整輸入框位置 */
-  width: number;
-  height: number;
 
   /** 傳送訊息 */
   sendMessage(): void {
@@ -92,23 +91,9 @@ export class ReturnDialogComponent implements OnInit, AfterViewInit, AfterViewCh
     });
   }
 
-  ngOnInit() {
-  }
-
-  ngAfterViewInit() {
-    // $('CostomerMsg').on('keypress', (e) => {
-    //   if (e.keyCode === 13) {
-    //     this.sendMessage();
-    //   }
-    // });
-  }
   onResized(event: ResizedEvent) {
     this.width = event.newWidth;
     this.height = event.newHeight;
-  }
-  ngAfterViewChecked() {
-    // this.el.nativeElement.querySelector('.service-store-footer').style = 'bottom:' +
-    // this.el.nativeElement.querySelector('#footpc').clientHeight + 'px;';
   }
 }
 

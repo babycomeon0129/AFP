@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { Model_ShareData} from '../../../../_models';
+import { Model_ShareData} from '@app/_models';
 import { AppService } from 'src/app/app.service';
 import { Meta, Title } from '@angular/platform-browser';
-import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-member-food',
   templateUrl: './member-food.component.html',
-  styleUrls: ['../../../../../dist/style/member.min.css']
+  styleUrls: ['../../../../../dist/style/member.min.css', '../../../../../dist/style/member-function.min.css']
 })
 export class MemberFoodComponent implements OnInit {
   /** 我的點餐清單 */
   public foodList: AFP_DeliveryOrder[];
    /** APP特例處理 */
-   public showBackBtn = false;
+   public showBack = false;
 
 
   constructor(public appService: AppService, private meta: Meta, private title: Title, private route: ActivatedRoute) {
@@ -27,7 +27,7 @@ export class MemberFoodComponent implements OnInit {
     this.getFoodList();
     // 從會員中心進來則隱藏返回鍵
     if (this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBackBtn = true;
+      this.showBack = true;
     }
   }
 
@@ -44,7 +44,6 @@ export class MemberFoodComponent implements OnInit {
   goLink(url: string) {
     window.open(url);
   }
-
 
 }
 

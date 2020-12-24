@@ -1,11 +1,10 @@
-import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import { AppService } from 'src/app/app.service';
-import { Request_AreaIndex, Response_AreaIndex, AreaJsonFile_ECStore, AFP_UserDefine } from '../../../_models';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AppService } from '@app/app.service';
+import { Request_AreaIndex, Response_AreaIndex, AreaJsonFile_ECStore, AFP_UserDefine } from '@app/_models';
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'ngx-useful-swiper';
 import { AgmMap } from '@agm/core';
-import { ModalService } from '../../../shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { BsModalRef } from 'ngx-bootstrap';
 
 @Component({
@@ -13,7 +12,7 @@ import { BsModalRef } from 'ngx-bootstrap';
   templateUrl: './explore-map.component.html',
   styleUrls: ['../../../../dist/style/explore.min.css']
 })
-export class ExploreMapComponent implements OnInit, AfterViewInit {
+export class ExploreMapComponent implements OnInit {
   @ViewChild('usefulSwiper', {static: false}) usefulSwiper: SwiperComponent;
   @ViewChild('AgmMap', {static: false}) agmMap: AgmMap;
   /** 緯度 */
@@ -54,7 +53,7 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
     }
   };
 
-  constructor(public appService: AppService, private route: ActivatedRoute, private modal: ModalService, private bsModalRef: BsModalRef) {
+  constructor(public appService: AppService, private modal: ModalService, private bsModalRef: BsModalRef) {
   }
 
   ngOnInit() {
@@ -88,6 +87,7 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
    * @param dirCode 目錄編碼
    */
   readAreaData(dirCode: number) {
+    this.appService.openBlock();
     this.areaMenuCode = dirCode;
     const request: Request_AreaIndex = {
       User_Code: sessionStorage.getItem('userCode'),
@@ -97,15 +97,12 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
         IndexArea_Distance: 5000
       }
     };
-
-    this.appService.openBlock();
     this.appService.toApi('Area', '1401', request, this.lat, this.lng).subscribe((data: Response_AreaIndex) => {
-      this.appService.openBlock();
+      this.appService.openBlock(); // 在畫面資料ready前顯示loader避免過早使用swiper卡住
       // 近 > 遠
       this.AreaList = data.List_AreaData[0].ECStoreData.sort((a, b) => {
         return a.ECStore_Distance - b.ECStore_Distance;
       });
-      this.appService.blockUI.stop();
       // 更新目前所選景點、景點列表、目錄列表
       if (this.AreaItem === undefined) {
         this.AreaItem = this.AreaList[0];
@@ -126,6 +123,7 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
         }
       }
       this.dirFilterOpen = false; // 關閉篩選清單
+      this.appService.blockUI.stop();
     });
   }
 
@@ -158,19 +156,4 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngAfterViewInit() {
-    // $('#map').css({ height: 'calc(100vh - ' + ($('.explore-top-box').outerHeight() + $('.card-item').outerHeight()) + 'px)' });
-
-    // // 開啟篩選清單 (使用Angular寫法不然目錄篩選後篩選清單會維持開啟)
-    // $('.filter-item1').on('click', function() {
-    //   $(this).toggleClass('active').siblings().removeClass('active');
-    //   const filter = $(this).data('filter');
-    //   $('#' + filter).toggleClass('is-open');
-    //   $('#' + filter).siblings().removeClass('is-open');
-    //   $('.mask-container').removeClass('d-block');
-    //   if ($('#' + filter).hasClass('is-open')) {
-    //       $('.mask-container').addClass('d-block');
-    //   }
-    // });
-  }
 }
