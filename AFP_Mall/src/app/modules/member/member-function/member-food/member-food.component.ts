@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Model_ShareData} from '@app/_models';
 import { AppService } from 'src/app/app.service';
 import { Meta, Title } from '@angular/platform-browser';
-import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-member-food',
@@ -44,7 +44,6 @@ export class MemberFoodComponent implements OnInit {
   goLink(url: string) {
     window.open(url);
   }
-
 
 }
 

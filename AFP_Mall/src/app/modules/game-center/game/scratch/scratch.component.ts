@@ -40,7 +40,6 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
   /** 開獎結果 */
   public prizeData: AFP_GamePart;
 
-
   constructor(public appService: AppService, public modal: ModalService, private route: ActivatedRoute) {
   }
 
@@ -52,8 +51,8 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
       this.mousedown = false;
       this.modal.show('message', { initialState: { success: false, message: '您的點數已不足或是遊玩次數已達上限!', showType: 1}});
     }
-    this.w = $('#top').width();
-    this.h = $('#top').height();
+    this.w = document.getElementById('top').offsetWidth;
+    this.h = document.getElementById('top').offsetHeight;
     this.bottomCanvas = document.querySelector('#bottom') as HTMLCanvasElement;
     this.topCanvas = document.querySelector('#top') as HTMLCanvasElement;
     this.topCanvas.width = this.bottomCanvas.width = this.w;
@@ -61,7 +60,6 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     this.ctxBot = this.bottomCanvas.getContext('2d'); // getContext(): to obtain the rendering/drawing context and its drawing functions
     this.ctxTop = this.topCanvas.getContext('2d');
     this.bottomCanvas.style.backgroundImage = 'url(' + this.gameData.AFP_Game.Game_ScratchImage + ')';
-    this.ctxBot.font = $('#top').css('font-size') + ' Microsoft YaHei';　// 筆觸大小RWD及字體
     // 上下層畫面繪製
     this.imgTop.src = '../img/mission/scratch-no.png';
     this.imgTop.onload = () => {

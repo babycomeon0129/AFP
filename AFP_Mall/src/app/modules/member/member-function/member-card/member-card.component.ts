@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Renderer2 } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { NgForm } from '@angular/forms';
 import { ModalService } from '../../../../shared/modal/modal.service';
@@ -43,7 +43,8 @@ export class MemberCardComponent implements OnInit, AfterViewInit {
   /** 卡片號碼長度是否正確(11或16碼) */
   public cardNumLength = false;
 
-  constructor(public appService: AppService, public modal: ModalService, private meta: Meta, private title: Title) {
+  constructor(public appService: AppService, public modal: ModalService, private meta: Meta, private title: Title,
+              private renderer2: Renderer2) {
     // tslint:disable: max-line-length
     this.title.setTitle('我的卡片 - Mobii!');
     this.meta.updateTag({name : 'description', content: 'Mobii! - 我的卡片。你可以新增信用卡、悠遊卡或一卡通等卡片，並在 Mobii! APP 或網頁上，使用這些卡片來購物、支付或乘車。'});
@@ -205,8 +206,14 @@ export class MemberCardComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // tslint:disable-next-line: max-line-length
-    (($('.wrap').height()) < ($(window).height())) ? ($('footer.for-pc').css('position', 'absolute')) : ($('footer.for-pc').css('position', 'relative'));
+    // TODO: 待css整理完、確認作法，會員首頁各icon頁面放上pc footer
+    // const wrapHeight = document.getElementById('theWrap').offsetHeight;
+    // const pcFooter = document.getElementById('footpc');
+    // if (wrapHeight < window.innerHeight) {
+    //   this.renderer2.setStyle(pcFooter, 'position', 'absolute');
+    // } else {
+    //   this.renderer2.setStyle(pcFooter, 'position', 'relative');
+    // }
   }
 
 }
