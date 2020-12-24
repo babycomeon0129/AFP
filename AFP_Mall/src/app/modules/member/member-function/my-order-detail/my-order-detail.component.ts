@@ -11,7 +11,7 @@ import { Meta, Title } from '@angular/platform-browser';
   templateUrl: './my-order-detail.component.html',
   styleUrls: ['../../member/member.scss',
               '../../member-function/member-order/member-order.scss',
-              '../../../../../styles/shopping-index.min.css']
+              '../../../shopping/shopping/shopping.scss']
 })
 export class MyOrderDetailComponent implements OnInit, OnDestroy {
   /** 訂單編號 */

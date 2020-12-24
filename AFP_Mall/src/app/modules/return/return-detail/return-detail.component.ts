@@ -9,9 +9,9 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-return-detail',
   templateUrl: './return-detail.component.html',
-  styleUrls: ['../../../../styles/member.min.css',
+  styleUrls: ['../../member/member/member.scss',
               '../../member/member-function/member-order/member-order.scss',
-              '../../../../styles/shopping-index.min.css']
+              '../../shopping/shopping/shopping.scss']
 })
 export class ReturnDetailComponent implements OnInit {
   /** 客服單編號 */

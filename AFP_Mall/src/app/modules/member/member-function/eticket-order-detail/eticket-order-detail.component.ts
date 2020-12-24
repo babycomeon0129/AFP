@@ -10,8 +10,8 @@ import { Meta, Title } from '@angular/platform-browser';
   selector: 'app-eticket-order-detail',
   templateUrl: './eticket-order-detail.component.html',
   styleUrls: ['../../member/member.scss',
-              '../../member-function/member-order/member-order.scss',
-              '../../../../../styles/shopping-index.min.css',
+              '../../../order/shopping-order/shopping-order.scss',
+              '../../../order/shopping-payment/shopping-payment.scss',
               '../../../return/return/return.scss']
 })
 export class ETicketOrderDetailComponent implements OnInit {

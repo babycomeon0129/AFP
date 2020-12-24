@@ -13,7 +13,7 @@ import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-explore-detail',
   templateUrl: './explore-detail.component.html',
-  styleUrls: ['./explore-detail.scss', '../../shopping/product-list/product-list.scss']
+  styleUrls: ['./explore-detail.scss', '../../shopping/product-list/product-list.scss', '../../../../styles/layer/shopping-footer.scss']
 })
 export class ExploreDetailComponent implements OnInit, DoCheck {
   @ViewChild('kvSwiper', { static: false }) kvSwiper: SwiperComponent;
