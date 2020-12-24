@@ -401,9 +401,9 @@
             </ul>
           </swiper>
           <!-- Tab panes -->
-          <div class="tab-content w-100 mt-2">
+          <div id="tabContentWrap" class="tab-content w-100 mt-2">
             <div *ngFor="let item of hitTravel;let blFirst=first;" id="Code{{item.UserDefine_Code}}" role="tabpanel"
-              class="tab-pane" [ngClass]="{'show': blFirst, 'active': blFirst}">
+              class="tab-pane hitTravel" [ngClass]="{'show': blFirst, 'active': blFirst}">
               <div class="travel-featuredboxlist">
                 <div class="row">
                   <div class="col-6" *ngFor="let inside of item.TravelData">

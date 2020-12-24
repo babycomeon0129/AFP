@@ -1,11 +1,8 @@
-import { Component, OnInit, AfterViewInit, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
-import { AppService } from 'src/app/app.service';
-import { ModalService } from '../../shared/modal/modal.service';
-import {
-  Response_Home, AFP_ADImg, Model_AreaJsonFile, AFP_Function, Model_TravelJsonFile,
-  Model_ShareData, Model_MemberProfile, AFP_UserFavourite, Request_Home, AFP_ChannelProduct, AFP_ChannelVoucher,
-  Request_OtherInfo
-} from '@app/_models';
+import { Component, OnInit, AfterViewInit, DoCheck, KeyValueDiffer, KeyValueDiffers, Renderer2 } from '@angular/core';
+import { AppService } from '@app/app.service';
+import { ModalService } from '@app/shared/modal/modal.service';
+import { Response_Home, AFP_ADImg, Model_AreaJsonFile, AFP_Function, Model_TravelJsonFile,
+  Model_ShareData, Model_MemberProfile, AFP_UserFavourite, Request_Home, AFP_ChannelProduct, AFP_ChannelVoucher, Request_OtherInfo } from '@app/_models';
 import { SwiperOptions } from 'swiper';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
@@ -239,9 +236,12 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   private serviceDiffer: KeyValueDiffer<string, any>;
   /** 關閉下載APP動畫控制 */
   public animationMoveUpOut = false;
+  /** 當前所選本月旅遊主打頁籤索引 */
+  public activeTravelIndex = 0;
 
   constructor(public appService: AppService, public modal: ModalService, private router: Router, private differs: KeyValueDiffers,
-              private meta: Meta, private title: Title, private cookieService: CookieService, public route: ActivatedRoute) {
+              private meta: Meta, private title: Title, private cookieService: CookieService, public route: ActivatedRoute,
+              private renderer2: Renderer2 ) {
     this.serviceDiffer = this.differs.find({}).create();
     // tslint:disable: max-line-length
     this.title.setTitle('Mobii!｜綠色城市優惠平台');
@@ -511,6 +511,14 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
    * @param channelCode 頻道編號
    */
   readSheet(mode: number, index: number, menuCode: number, channelCode?: number): void {
+    // if mode === 5, get the height of the current pane and set it to the wrap (to avoid jumping caused by height difference)
+    if (mode === 5) {
+      const travelPane = document.getElementsByClassName('hitTravel tab-pane');
+      this.renderer2.setStyle(document.getElementById('tabContentWrap'), 'minHeight', travelPane[this.activeTravelIndex].scrollHeight + 'px');
+    }
+    // update the index
+    this.activeTravelIndex = index;
+
     const request: Request_OtherInfo = {
       User_Code: sessionStorage.getItem('userCode'),
       SelectMode: mode,
