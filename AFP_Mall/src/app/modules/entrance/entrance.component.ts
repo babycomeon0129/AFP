@@ -520,7 +520,6 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
       }
     };
 
-    // 若該目錄下資料length為0才去call API
     switch (mode) {
       case 1:
         this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
