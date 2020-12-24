@@ -1,5 +1,5 @@
 import { environment } from '@env/environment';
-import { Component, OnInit, AfterViewInit, AfterViewChecked } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from './shared/modal/modal.service';
@@ -13,7 +13,7 @@ import { slideInAnimation } from './animations';
   templateUrl: './app.component.html',
   animations: [slideInAnimation]
 })
-export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
+export class AppComponent implements OnInit {
   /** 裝置系統或瀏覽器版本是否過舊 */
   public isOld: boolean;
   /** 需更新項目 */
@@ -160,24 +160,4 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
     }
   }
 
-  ngAfterViewInit(): void {
-    const $window = $(window);
-
-    $window.on('scroll', () => {
-      if ($window.scrollTop() > 100) {
-        $('.scroll-top-wrapper').addClass('show');
-      } else if ($window.scrollTop() < 200) {
-        $('.tag-topbox').removeClass('fixed-top container');
-        $('.nav-tabs-box').removeClass('tag-top');
-      }
-    });
-
-  }
-
-  ngAfterViewChecked() {
-    // 隱藏抓不到src的圖片(例: 類型為線上商店的優惠券icon)
-    $('img').on('stalled', function() {
-      $(this).hide();
-    });
-  }
 }

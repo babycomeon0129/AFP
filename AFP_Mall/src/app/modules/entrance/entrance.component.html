@@ -3,7 +3,7 @@
     <div class="d-flex">
       <img src="img/index/AppLogo.png" class="item AppLogo">
       <div class="item">
-        <p>Mobii! 城市生活服務平台</p>
+        <p>Mobii! 綠色城市優惠平台</p>
         <small>立刻下載App,開始驚奇旅程</small>
       </div>
       <div class="item appNotifyBtn">
@@ -175,7 +175,7 @@
       </div>
     </div>
     <!-- 現領優惠券 -->
-    <div class="offers-list container my-2 px-3" *ngIf="nowVoucher?.length > 0">
+    <div class="offers-list container my-2 px-3">
       <h6>現領優惠券</h6>
       <div class="afp-tab-box">
         <div class="afp-tab mb-3">
@@ -183,8 +183,8 @@
             <!-- Nav tabs -->
             <ul id="nav-tab-member" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
               <li role="presentation" class="swiper-slide"
-                *ngFor="let item of nowVoucher; let blFirst=first; let i = index"
-                (click)="getMoreData(2, i, item?.UserDefine_Code, item?.UserDefine_ChannelID)"
+                *ngFor="let item of nowVoucher; let i = index; let blFirst = first"
+                (click)="readSheet(2, i, item?.UserDefine_Code, item?.UserDefine_ChannelID)"
                 [ngClass]="{'active': blFirst}">
                 <a href="#Code{{item.UserDefine_Code}}" class="tablist-link show" [ngClass]="{'active': blFirst}"
                   attr.aria-controls="Code{{item.UserDefine_Code}}" role="tab" data-toggle="tab"
@@ -232,15 +232,16 @@
     </div>
 
     <!-- 主打店家 -->
-    <div *ngIf="hitArea?.length > 0" class="explore-block container px-3 pb-3">
+    <div class="explore-block container px-3 pb-3">
       <h6>主打店家</h6>
       <div class="afp-tab-box">
         <div class="afp-tab">
           <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs">
             <!-- Nav tabs -->
             <ul id="nav-tab-hitArea" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
-              <li role="presentation" class="swiper-slide" *ngFor="let item of hitArea; let blFirst=first;"
-                [ngClass]="{'active': blFirst}">
+              <li  *ngFor="let item of hitArea; let i = index; let blFirst = first;"
+                (click)="readSheet(3, i, item?.UserDefine_Code, item?.UserDefine_ChannelID)"
+                [ngClass]="{'active': blFirst}" role="presentation" class="swiper-slide">
                 <a href="#Code{{item.UserDefine_Code}}" class="tablist-link show" [ngClass]="{'active': blFirst}"
                   attr.aria-controls="Code{{item.UserDefine_Code}}" role="tab" data-toggle="tab"
                   [attr.aria-selected]="blFirst">{{item.UserDefine_Name}}</a>
@@ -279,15 +280,16 @@
       </div>
     </div>
     <!-- 本月外送主打 -->
-    <div *ngIf="deliveryArea?.length > 0" class="explore-block container px-3 pb-3">
+    <div class="explore-block container px-3 pb-3">
       <h6>本月外送主打</h6>
       <div class="afp-tab-box">
         <div class="afp-tab">
           <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs">
             <!-- Nav tabs -->
             <ul id="nav-tab-deliveryArea" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
-              <li role="presentation" class="swiper-slide" *ngFor="let item of deliveryArea;let blFirst=first;"
-                [hidden]="item?.ECStoreData.length == 0" [ngClass]="{'active': blFirst}">
+              <li *ngFor="let item of deliveryArea; let i = index; let blFirst=first;"
+                (click)="readSheet(4, i, item?.UserDefine_Code, item?.UserDefine_ChannelID)"
+                [ngClass]="{'active': blFirst}" role="presentation" class="swiper-slide" >
                 <a href="#Code{{item.UserDefine_Code}}" class="tablist-link show" [ngClass]="{'active': blFirst}"
                   attr.aria-controls="Code{{item.UserDefine_Code}}" role="tab" data-toggle="tab"
                   [attr.aria-selected]="blFirst">{{item.UserDefine_Name}}</a>
@@ -326,7 +328,7 @@
       </div>
     </div>
     <!-- 特賣商品 -->
-    <div *ngIf="popProducts?.length > 0" class="onsale-list container my-2 px-3">
+    <div class="onsale-list container my-2 px-3">
       <h6>特賣商品</h6>
       <div class="afp-tab-box">
         <div class="afp-tab mb-3">
@@ -334,7 +336,7 @@
             <!-- Nav tabs -->
             <ul id="nav-tab-member" class="swiper-wrapper nav nav-tabs nav-line mb-2" role="tablist">
               <li *ngFor="let tab of popProducts; let i = index; let theFirst = first"
-                (click)="getMoreData(1, i, tab?.UserDefine_Code, tab?.UserDefine_ChannelID)" role="presentation"
+                (click)="readSheet(1, i, tab?.UserDefine_Code, tab?.UserDefine_ChannelID)" role="presentation"
                 class="swiper-slide">
                 <a href="#onsale-tab-{{i}}" class="tablist-link show" [ngClass]="{'active': theFirst}"
                   attr.aria-controls="onsale-tab-{{i}}" role="tab" data-toggle="tab"
@@ -379,7 +381,7 @@
       </div>
     </div>
     <!-- 本月旅遊主打 -->
-    <div *ngIf="hitTravel?.length > 0" class="travel-featuredlist container px-3 pb-3">
+    <div class="travel-featuredlist container px-3 pb-3">
       <h6>本月旅遊主打</h6>
       <!-- tab content -->
       <div class="afp-tab-box">
@@ -387,8 +389,9 @@
           <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs">
             <!-- Nav tabs -->
             <ul id="nav-tab-featured" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
-              <li role="presentation" class="swiper-slide" *ngFor="let item of hitTravel; let blFirst=first;"
-                [ngClass]="{'active': blFirst}">
+              <li *ngFor="let item of hitTravel; let i = index; let blFirst=first;"
+                (click)="readSheet(5, i, item?.UserDefine_Code, item?.UserDefine_ChannelID)"
+                [ngClass]="{'active': blFirst}" role="presentation" class="swiper-slide" >
                 <a href="#Code{{item.UserDefine_Code}}" class="tablist-link show" [ngClass]="{'active': blFirst} "
                   attr.aria-controls="Code{{item.UserDefine_Code}}" role="tab" data-toggle="tab"
                   [attr.aria-selected]="blFirst">{{item.UserDefine_Name}}</a>
@@ -396,9 +399,9 @@
             </ul>
           </swiper>
           <!-- Tab panes -->
-          <div class="tab-content w-100 mt-2">
+          <div id="tabContentWrap" class="tab-content w-100 mt-2">
             <div *ngFor="let item of hitTravel;let blFirst=first;" id="Code{{item.UserDefine_Code}}" role="tabpanel"
-              class="tab-pane" [ngClass]="{'show': blFirst, 'active': blFirst}">
+              class="tab-pane hitTravel" [ngClass]="{'show': blFirst, 'active': blFirst}">
               <div class="travel-featuredboxlist">
                 <div class="row">
                   <div class="col-6" *ngFor="let inside of item.TravelData">

@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Model_ShareData } from '@app/_models';
 import { ModalService } from '../../../shared/modal/modal.service';
@@ -13,7 +13,7 @@ import { Meta, Title } from '@angular/platform-browser';
   styleUrls: ['./member.scss'],
   animations: [slideInAnimation]
 })
-export class MemberComponent implements OnInit, AfterViewInit {
+export class MemberComponent implements OnInit {
 
   constructor(public appService: AppService, public modal: ModalService, public router: Router, public memberService: MemberService,
               private meta: Meta, private title: Title) {
@@ -33,19 +33,6 @@ export class MemberComponent implements OnInit, AfterViewInit {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation;
   }
 
-  ngAfterViewInit(): void {
-    /** 避免灰屏 */
-    // $('.modal-backdrop').on('click', () => {
-    //   this.appService.backLayer();
-    //   this.appService.backsortLayer();
-    //   $('.modal-backdrop').remove();
-    // });
-
-    // footer.pc
-    // tslint:disable-next-line: max-line-length
-    (($('.wrap').height()) < ($(window).height())) ? ($('footer.for-pc').css('position', 'absolute')) : ($('footer.for-pc').css('position', 'relative'));
-
-  }
 }
 
 // 會員中心會共用的Model

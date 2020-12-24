@@ -1,7 +1,7 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Request_MemberUserVoucher, AFP_Voucher, Model_DictionaryShort, Response_MemberUserVoucher } from '@app/_models';
-import { AppService } from 'src/app/app.service';
-import { ModalService } from '../../../../shared/modal/modal.service';
+import { AppService } from '@app/app.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 import { ModalOptions } from 'ngx-bootstrap';
@@ -12,7 +12,7 @@ import { ModalOptions } from 'ngx-bootstrap';
   templateUrl: './member-discount.component.html',
   styleUrls: ['../../member/member.scss']
 })
-export class MemberDiscountComponent implements OnInit, AfterViewInit {
+export class MemberDiscountComponent implements OnInit {
   /** 優惠券列表(原始名單) */
   public voucherListOrig: AFP_Voucher[];
   /** 優惠券列表 */
@@ -44,7 +44,7 @@ export class MemberDiscountComponent implements OnInit, AfterViewInit {
   /** 重置按鈕開啟 */
   public resetOpen = false;
   /** APP特例處理 */
-  public showBackBtn = false;
+  public showBack = false;
 
 
   constructor(public appService: AppService, public modal: ModalService, public router: Router, private route: ActivatedRoute,
@@ -60,7 +60,7 @@ export class MemberDiscountComponent implements OnInit, AfterViewInit {
     this.readVoucher();
     // 從會員中心進來則隱藏返回鍵
     if (this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBackBtn = true;
+      this.showBack = true;
     }
   }
 
@@ -233,12 +233,5 @@ export class MemberDiscountComponent implements OnInit, AfterViewInit {
       }
     }
   }
-
-
-  ngAfterViewInit() {
-    // tslint:disable-next-line: max-line-length
-    (($('.wrap').height()) < ($(window).height())) ? ($('footer.for-pc').css('position', 'absolute')) : ($('footer.for-pc').css('position', 'relative'));
-  }
-
 
 }

@@ -1,7 +1,8 @@
 import { Component, OnInit, AfterViewChecked } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Request_MemberMsg, Response_MemberMsg, AFP_MemberMsgTitle, AFP_IMessage } from '@app/_models';
+import { Meta, Title } from '@angular/platform-browser';
 import { ModalService } from '../../../shared/modal/modal.service';
 
 @Component({
@@ -18,7 +19,8 @@ export class NotificationDetailComponent implements OnInit, AfterViewChecked {
   /** 分享至社群時顯示的文字 */
   public textForShare: string;
 
-  constructor(public appService: AppService, private router: Router, private route: ActivatedRoute, public modal: ModalService) {
+  constructor(public appService: AppService, private router: Router, private route: ActivatedRoute, public modal: ModalService,
+    private meta: Meta, private title: Title) {
     this.msgCode = Number(this.route.snapshot.params.IMessage_Code);
   }
 
@@ -35,20 +37,38 @@ export class NotificationDetailComponent implements OnInit, AfterViewChecked {
       this.msgContent = data.AFP_IMessage;
       this.textForShare = `嘿！我發現了一個超棒的活動要跟你分享喔！趕快進來看看吧！這是「${this.msgContent.IMessage_Title}」，快來跟我一起了解一下吧！
       ${location.href}`;
+      this.title.setTitle(`${data.AFP_IMessage.IMessage_Title}｜${data.AFP_IMessage.IMessage_MsgCategoryName} - Mobii!`);
+      this.meta.updateTag({
+        name: 'description',
+        content: `${data.AFP_IMessage.IMessage_Desc}`
+      });
+      this.meta.updateTag({
+        content: `${data.AFP_IMessage.IMessage_Title}｜${data.AFP_IMessage.IMessage_MsgCategoryName} - Mobii!`,
+        property: 'og:title'
+      });
+      this.meta.updateTag({
+        content: `${data.AFP_IMessage.IMessage_Desc}`,
+        property: 'og:description'
+      });
+      this.meta.updateTag({
+        content: `${data.AFP_IMessage.IMessage_SmallImg}`,
+        property: 'og:image'
+      });
     });
   }
 
   /** 前往通知頁並打開該分類列表layer */
   goCateList() {
     this.router.navigate(['/Notification/NotificationList'],
-    {state:
       {
-        data: {
-          cateName: this.msgContent.IMessage_MsgCategoryName,
-          cateCode: this.msgContent.IMessage_MsgCategoryCode
+        state:
+        {
+          data: {
+            cateName: this.msgContent.IMessage_MsgCategoryName,
+            cateCode: this.msgContent.IMessage_MsgCategoryCode
+          }
         }
-      }
-    });
+      });
   }
 
   /** 回上一頁
@@ -77,7 +97,7 @@ export class NotificationDetailComponent implements OnInit, AfterViewChecked {
     if (vedioview[0] !== undefined) {
       this.vedioCheck = true;
     }
-    vedioview.forEach( vedio => {
+    vedioview.forEach(vedio => {
       vedio.attributes[1].nodeValue = '';
       vedio.classList.add('ifrwd');
     });

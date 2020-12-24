@@ -1,11 +1,8 @@
-import { Component, OnInit, AfterViewInit, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
-import { AppService } from 'src/app/app.service';
-import { ModalService } from '../../shared/modal/modal.service';
-import {
-  Response_Home, AFP_ADImg, Model_AreaJsonFile, AFP_Function, Model_TravelJsonFile,
-  Model_ShareData, Model_MemberProfile, AFP_UserFavourite, Request_Home, AFP_ChannelProduct, AFP_ChannelVoucher,
-  Request_OtherInfo
-} from '@app/_models';
+import { Component, OnInit, AfterViewInit, DoCheck, KeyValueDiffer, KeyValueDiffers, Renderer2 } from '@angular/core';
+import { AppService } from '@app/app.service';
+import { ModalService } from '@app/shared/modal/modal.service';
+import { Response_Home, AFP_ADImg, Model_AreaJsonFile, AFP_Function, Model_TravelJsonFile,
+  Model_ShareData, Model_MemberProfile, AFP_UserFavourite, Request_Home, AFP_ChannelProduct, AFP_ChannelVoucher, Request_OtherInfo } from '@app/_models';
 import { SwiperOptions } from 'swiper';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
@@ -239,14 +236,17 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   private serviceDiffer: KeyValueDiffer<string, any>;
   /** 關閉下載APP動畫控制 */
   public animationMoveUpOut = false;
+  /** 當前所選本月旅遊主打頁籤索引 */
+  public activeTravelIndex = 0;
 
   constructor(public appService: AppService, public modal: ModalService, private router: Router, private differs: KeyValueDiffers,
-              private meta: Meta, private title: Title, private cookieService: CookieService, public route: ActivatedRoute) {
+              private meta: Meta, private title: Title, private cookieService: CookieService, public route: ActivatedRoute,
+              private renderer2: Renderer2 ) {
     this.serviceDiffer = this.differs.find({}).create();
     // tslint:disable: max-line-length
-    this.title.setTitle('Mobii!｜城市生活服務平台');
+    this.title.setTitle('Mobii!｜綠色城市優惠平台');
     this.meta.updateTag({ name: 'description', content: '使用 Mobii! APP，讓你的移動總是驚喜。乘車、購物、美食、景點、旅行資訊全都包，使用就享點數回饋，每日登入再領 M Points，會員再享獨家彩蛋大禮包。先下載 Mobii APP 看看裡面有什麼好玩的吧？' });
-    this.meta.updateTag({ content: 'Mobii!｜城市生活服務平台', property: 'og:title' });
+    this.meta.updateTag({ content: 'Mobii!｜綠色城市優惠平台', property: 'og:title' });
     this.meta.updateTag({ content: '使用 Mobii! APP，讓你的移動總是驚喜。乘車、購物、美食、景點、旅行資訊全都包，使用就享點數回饋，每日登入再領 M Points，會員再享獨家彩蛋大禮包。先下載 Mobii APP 看看裡面有什麼好玩的吧？', property: 'og:description' });
   }
 
@@ -325,45 +325,45 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   /** 讀取首頁資料（目前未使用，以拆分過的readUp及readDown取代）
    * @param mode 讀取時機 1: 進入此頁 2: 在此頁登入時
    */
-  readHome(mode: number): void {
-    const request: Request_Home = {
-      User_Code: sessionStorage.getItem('userCode'),
-      SearchModel: {
-        IndexArea_Code: 100001,
-        IndexTravel_Code: 21001,
-        UserInfo_Code: null,
-        IndexChannel_Code: 10000001,
-        IndexDelivery_Code: 300001
-      }
-    };
-    this.appService.openBlock();
-    this.appService.toApi('Home', '1011', request).subscribe((data: Response_Home) => {
-      switch (mode) {
-        case 1:
-          this.adTop = data.ADImg_Top;
-          this.adMid4 = data.ADImg_Activity;
-          this.adMid = data.ADImg_Theme;
-          this.hitArea = data.List_AreaData;
-          this.hitTravel = data.List_TravelData;
-          this.popProducts = data.List_ProductData;
-          this.userPoint = data.TotalPoint;
-          this.userVoucherCount = data.VoucherCount;
-          this.deliveryArea = data.List_DeliveryData;
-          this.nowVoucher = data.List_Voucher;
-          this.adIndex = data.ADImg_Approach;
-          // 只有一張廣告圖時不輪播
-          if (this.adIndex.length === 1) {
-            this.adIndexOption.loop = false;
-          }
-          break;
-        case 2:
-          this.userName = sessionStorage.getItem('userName');
-          this.userPoint = data.TotalPoint;
-          this.userVoucherCount = data.VoucherCount;
-          break;
-      }
-    });
-  }
+  // readHome(mode: number): void {
+  //   const request: Request_Home = {
+  //     User_Code: sessionStorage.getItem('userCode'),
+  //     SearchModel: {
+  //       IndexArea_Code: 100001,
+  //       IndexTravel_Code: 21001,
+  //       UserInfo_Code: null,
+  //       IndexChannel_Code: 10000001,
+  //       IndexDelivery_Code: 300001
+  //     }
+  //   };
+  //   this.appService.openBlock();
+  //   this.appService.toApi('Home', '1011', request).subscribe((data: Response_Home) => {
+  //     switch (mode) {
+  //       case 1:
+  //         this.adTop = data.ADImg_Top;
+  //         this.adMid4 = data.ADImg_Activity;
+  //         this.adMid = data.ADImg_Theme;
+  //         this.hitArea = data.List_AreaData;
+  //         this.hitTravel = data.List_TravelData;
+  //         this.popProducts = data.List_ProductData;
+  //         this.userPoint = data.TotalPoint;
+  //         this.userVoucherCount = data.VoucherCount;
+  //         this.deliveryArea = data.List_DeliveryData;
+  //         this.nowVoucher = data.List_Voucher;
+  //         this.adIndex = data.ADImg_Approach;
+  //         // 只有一張廣告圖時不輪播
+  //         if (this.adIndex.length === 1) {
+  //           this.adIndexOption.loop = false;
+  //         }
+  //         break;
+  //       case 2:
+  //         this.userName = sessionStorage.getItem('userName');
+  //         this.userPoint = data.TotalPoint;
+  //         this.userVoucherCount = data.VoucherCount;
+  //         break;
+  //     }
+  //   });
+  // }
 
   /** 判斷首頁進場廣告開啟 */
   adIndexChenck(): void {
@@ -505,36 +505,54 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
   }
 
   /** 取得「現領優惠券」、「特賣商品」頁籤資訊（點擊時）
-   * @param mode SelectMode: 1 商品 2 優惠券
+   * @param mode SelectMode: 1 特賣商品 2 現領優惠券 3 主打店家 4 外送店家 5 旅遊主打
    * @param index 索引
    * @param menuCode 目錄編碼
-   * @param prodChannelCode 商品頻道編號
+   * @param channelCode 頻道編號
    */
-  getMoreData(mode: number, index: number, menuCode: number, prodChannelCode?: number): void {
+  readSheet(mode: number, index: number, menuCode: number, channelCode?: number): void {
+    // if mode === 5, get the height of the current pane and set it to the wrap (to avoid jumping caused by height difference)
+    if (mode === 5) {
+      const travelPane = document.getElementsByClassName('hitTravel tab-pane');
+      this.renderer2.setStyle(document.getElementById('tabContentWrap'), 'minHeight', travelPane[this.activeTravelIndex].scrollHeight + 'px');
+    }
+    // update the index
+    this.activeTravelIndex = index;
+
     const request: Request_OtherInfo = {
       User_Code: sessionStorage.getItem('userCode'),
       SelectMode: mode,
       SearchModel: {
         UserDefineCode: menuCode,
-        IndexChannel_Code: prodChannelCode
+        IndexChannel_Code: channelCode
       }
     };
 
-    // 若該目錄下資料length為0才去call API
     switch (mode) {
       case 1:
-        if (this.popProducts[index].ProductData.length === 0) {
-          this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
-            this.popProducts[index].ProductData = data.List_ProductData[0].ProductData;
-          });
-        }
+        this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
+          this.popProducts[index].ProductData = data.List_ProductData[0].ProductData;
+        });
         break;
       case 2:
-        if (this.nowVoucher[index].VoucherData.length === 0) {
-          this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
-            this.nowVoucher[index].VoucherData = data.List_Voucher[0].VoucherData;
-          });
-        }
+        this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
+          this.nowVoucher[index].VoucherData = data.List_Voucher[0].VoucherData;
+        });
+        break;
+      case 3:
+        this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
+          this.hitArea[index].ECStoreData = data.List_AreaData[0].ECStoreData;
+        });
+        break;
+      case 4:
+        this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
+          this.deliveryArea[index].ECStoreData = data.List_DeliveryData[0].ECStoreData;
+        });
+        break;
+      case 5:
+        this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
+          this.hitTravel[index].TravelData = data.List_TravelData[0].TravelData;
+        });
         break;
     }
   }

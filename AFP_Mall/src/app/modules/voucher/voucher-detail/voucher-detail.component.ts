@@ -39,7 +39,7 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
   private serviceDiffer: KeyValueDiffer<string, any>;
   /** 分享至社群時顯示的文字 */
   public textForShare: string;
-  public showBackBtn = false; // APP特例處理
+  public showBack = false; // APP特例處理
 
   constructor(public appService: AppService, private route: ActivatedRoute, private router: Router, public modal: ModalService,
               private differs: KeyValueDiffers, private meta: Meta, private title: Title) {
@@ -52,7 +52,7 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
     }
     // APP特例處理: 若是從會員進來則顯示返回鍵
     if (this.route.snapshot.queryParams.showBack !== undefined && this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBackBtn = true;
+      this.showBack = true;
     }
   }
 

@@ -26,7 +26,7 @@ export class MissionComponent implements OnInit, DoCheck {
   /** 變化追蹤 */
   private serviceDiffer: KeyValueDiffer<string, any>;
 
-  public showBackBtn = false; // APP特例處理
+  public showBack = false; // APP特例處理
 
   constructor(public appService: AppService, public modal: ModalService, private differs: KeyValueDiffers
             , private router: Router, private route: ActivatedRoute, private meta: Meta, private title: Title) {
@@ -39,7 +39,7 @@ export class MissionComponent implements OnInit, DoCheck {
     this.serviceDiffer = this.differs.find({}).create();
     // 從會員中心進來則隱藏返回鍵
     if (this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBackBtn = true;
+      this.showBack = true;
     }
     this.readData();
     // 若有登入顯示會員名稱

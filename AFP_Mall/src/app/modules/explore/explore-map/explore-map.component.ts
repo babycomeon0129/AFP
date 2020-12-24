@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AppService } from '@app/app.service';
 import { Request_AreaIndex, Response_AreaIndex, AreaJsonFile_ECStore, AFP_UserDefine } from '@app/_models';
 import { SwiperOptions } from 'swiper';
@@ -12,7 +12,7 @@ import { BsModalRef } from 'ngx-bootstrap';
   templateUrl: './explore-map.component.html',
   styleUrls: ['./explore-map.scss']
 })
-export class ExploreMapComponent implements OnInit, AfterViewInit {
+export class ExploreMapComponent implements OnInit {
   @ViewChild('usefulSwiper', {static: false}) usefulSwiper: SwiperComponent;
   @ViewChild('AgmMap', {static: false}) agmMap: AgmMap;
   /** 緯度 */
@@ -156,19 +156,4 @@ export class ExploreMapComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngAfterViewInit() {
-    // $('#map').css({ height: 'calc(100vh - ' + ($('.explore-top-box').outerHeight() + $('.card-item').outerHeight()) + 'px)' });
-
-    // // 開啟篩選清單 (使用Angular寫法不然目錄篩選後篩選清單會維持開啟)
-    // $('.filter-item1').on('click', function() {
-    //   $(this).toggleClass('active').siblings().removeClass('active');
-    //   const filter = $(this).data('filter');
-    //   $('#' + filter).toggleClass('is-open');
-    //   $('#' + filter).siblings().removeClass('is-open');
-    //   $('.mask-container').removeClass('d-block');
-    //   if ($('#' + filter).hasClass('is-open')) {
-    //       $('.mask-container').addClass('d-block');
-    //   }
-    // });
-  }
 }

@@ -15,7 +15,7 @@ export class MemberCoinComponent implements OnInit {
   public info: Response_MemberPoint = new Response_MemberPoint();
   public pointHistory: AFP_UserPoint[] = [];
   public pointType = 0;
-  public showBackBtn = false; // APP特例處理
+  public showBack = false; // APP特例處理
 
   /** 活動分類導覽 */
   public boxTabs: SwiperOptions = {
@@ -45,6 +45,14 @@ export class MemberCoinComponent implements OnInit {
     this.meta.updateTag({content: 'Mobii Point - Mobii!', property: 'og:title'});
     this.meta.updateTag({content: 'Mobii! - M Points。這裡會顯示 Mobii! 用戶擁有的 M Points 點數與歷史使用紀錄。點數累積的方式包括每日登入、玩遊戲、購物、乘車等回饋。', property: 'og:description'});
 
+    // 從會員中心或任務牆進來則隱藏返回鍵
+    if (this.route.snapshot.queryParams.showBack === 'true') {
+      this.showBack = true;
+    }
+  }
+
+  ngOnInit() {
+    this.appService.openBlock();
     const getInfo: Request_MemberPoint = {
       User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 4,
@@ -57,11 +65,8 @@ export class MemberCoinComponent implements OnInit {
     });
     // 從會員中心或任務牆進來則隱藏返回鍵
     if (this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBackBtn = true;
+      this.showBack = true;
     }
-  }
-
-  ngOnInit() {
   }
 
   getHistory(): void {
