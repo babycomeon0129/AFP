@@ -10,7 +10,7 @@ import { Meta, Title } from '@angular/platform-browser';
   selector: 'app-my-order-detail',
   templateUrl: './my-order-detail.component.html',
   styleUrls: ['../../member/member.scss',
-              '../../../../../styles/member-function.min.css',
+              '../../member-function/member-order/member-order.scss',
               '../../../../../styles/shopping-index.min.css']
 })
 export class MyOrderDetailComponent implements OnInit, OnDestroy {

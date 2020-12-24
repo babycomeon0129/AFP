@@ -7,7 +7,7 @@ import { ModalService } from '../../../shared/modal/modal.service';
 @Component({
   selector: 'app-notification-detail',
   templateUrl: './notification-detail.component.html',
-  styleUrls: ['../../../../styles/notify.min.css']
+  styleUrls: ['./notification-detail.scss']
 })
 export class NotificationDetailComponent implements OnInit, AfterViewChecked {
   /** 訊息編碼 */

@@ -1,0 +1,107 @@
+@import '../../../../styles/module/variable';
+
+
+/* products-list (no masonry) */
+.products-listbox-nom {
+  background: $gray-light8;
+  padding: .5em 0 .5em .5em;
+  margin: 0 auto;
+  position: relative;
+  .products-item {
+      padding: .5em;
+      .products-title {
+          color: $blue-dark;
+          font-weight: bold;
+          font-size: .95em;
+          padding: 0 0.5em;
+          p{
+              height: 47px;
+              overflow: hidden;
+          }
+      }
+      .products-price {
+          padding: 0 0.5em;
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          // -webkit-box-pack: justify;
+          // -ms-flex-pack: justify;
+          // justify-content: space-between;
+          align-items: center;
+          .price-asking {
+              color: tomato;
+              font-weight: bold;
+              font-size: 1.1em;
+          }
+          .price-original {
+              color: gray;
+              text-decoration: line-through;
+              text-align: bottom;
+              font-size: 0.8em;
+              padding-left: .5em;
+          }
+      }
+  }
+}
+
+/* products-list & explore-datail (masonry) */
+.products-listbox {
+  background: $gray-light8;
+  padding-top: 1em;
+  padding-left: 4%;
+  margin: 0 auto;
+  position: relative;
+  .products-item {
+      width: 31.3%;
+      background-color: #fff;
+      margin-bottom: 12px;
+      .products-title {
+          color: $blue-dark;
+          font-weight: bold;
+          font-size: .95em;
+          padding: 0 0.5em;
+          p{
+              height: 47px;
+              overflow: hidden;
+          }
+      }
+      .products-price {
+          padding: 0 0.5em;
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          // -webkit-box-pack: justify;
+          // -ms-flex-pack: justify;
+          // justify-content: space-between;
+          align-items: center;
+          .price-asking {
+              color: tomato;
+              font-weight: bold;
+              font-size: 1.1em;
+          }
+          .price-original {
+              color: gray;
+              text-decoration: line-through;
+              text-align: bottom;
+              font-size: 0.8em;
+              padding-left: .5em;
+          }
+      }
+  }
+}
+@media (max-width:767px) {
+  .products-listbox {
+      padding-left: 4%;
+      .products-item {
+          width: 30%;
+      }
+  }
+}
+@media (max-width:480px) {
+  .products-listbox {
+      padding-left: 1em;
+      .products-item {
+          width: 47%;
+      }
+  }
+}

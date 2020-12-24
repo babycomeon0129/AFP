@@ -9,7 +9,7 @@ import { AppService } from 'src/app/app.service';
 @Component({
   selector: 'app-receipt-modal',
   templateUrl: './receipt-modal.component.html',
-  styleUrls: ['../../../../styles/receipt.min.css']
+  styleUrls: ['./receipt-modal.scss']
 })
 export class ReceiptModalComponent implements OnInit {
   /** 訂單及收據資訊 */

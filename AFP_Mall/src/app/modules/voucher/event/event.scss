@@ -1,0 +1,30 @@
+@import '../../../../styles/module/variable';
+
+
+/* progress */
+.card-text{
+  .offers-progress{
+      border-radius: 5em;
+      background: #FFCFB3;
+      .progress-bar{
+          background: $index-default;
+      }
+      .offers-progress-txt{
+          color: white;
+          position: absolute;
+          text-align: center;
+          width: 100%;
+          align-items: center;
+          align-self: center;
+          left: 0;
+      }
+  }
+  &.unable{
+      .offers-progress{
+          background: $gray-color;
+          .progress-bar{
+              background: $gray-color;
+          }
+      }
+  }
+}

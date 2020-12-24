@@ -1,0 +1,353 @@
+@import '../../../../styles/module/variable';
+
+/* payment */
+.choice-method-list{
+  li{
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 15px;
+      border-bottom: 1px #eee solid;
+      &.choice-credit-card{
+          border-bottom: none;
+      }
+      .credit-card-list{
+          width: 100%;
+          padding-left: 45px;
+          &.has-choice{
+              .card-item{
+                  opacity: .3;
+              }
+              .is-check{
+                  opacity: 1;
+                  .item-check{
+                      opacity: 1;
+                  }
+              }
+          }
+          li{
+              margin-right: -15px;
+              .item-img{
+                  margin-right: 15px;
+                  img{
+                      vertical-align: middle;
+                  }
+              }
+              .item-check{
+                  margin-left: 20px;
+                  opacity: 0;
+                  .material-icons{
+                      vertical-align: sub;
+                      color: #FD5F00;
+                  }
+              }
+              &.ticket-slider{
+                  img{
+                      width: auto;
+                      height: 70px;
+                  }
+              }
+          }
+      }
+      .item-img{
+          margin-right: 15px;
+          img{
+              height: 30px;
+          }
+      }
+  }
+  .main-list{
+      border-top: 1px $gray-light solid;
+      color:$blue-dark;
+      >li{
+          a{
+              display: flex;
+              align-items: center;
+              flex-wrap: wrap;
+              padding: 15px;
+              color:$blue-dark;
+              &.collapsed{
+                  .material-icons{
+                      transform: rotate(180deg);
+                  }
+              }
+          }
+          .item-img, .item-icon{
+              width: 32px;
+              margin-right: 15px;
+              img{
+                  vertical-align: sub;
+                  max-width: 32px;
+              }
+          }
+          .item-icon{
+              width: 26px;
+              height: 26px;
+              border: 1px #ccc dotted;
+              text-align: center;
+              border-radius: 2px;
+              .material-icons{
+                  font-size: 18px;
+                  vertical-align: text-top;
+              }
+          }
+          .card-type{
+              flex: 1;
+          }
+          .item-card-num{
+              margin-right: 10px;
+          }
+          .item-default{
+              min-width: 40px;
+              color: $member-default;
+              font-size: small;
+              text-align: right;
+          }
+          .sub-list{
+              flex: none;
+              width: 100%;
+              padding-left: 42px;
+              li{
+                  display: flex;
+                  flex-wrap: wrap;
+                  align-items: center;
+                  padding: 15px 15px 15px 0;
+                  border-top: 1px $gray-light solid;
+                  // &:last-child{
+                  //     border-bottom: 1px $gray-light solid;
+                  // }
+                  .item-dates{
+                      flex: none;
+                      width: 100%;
+                      display: flex;
+                      .item-date{
+                          flex: 1;
+                          padding-left: 45px;
+                      }
+                  }
+              }
+          }
+          div.item-default:not(.active){
+              visibility: hidden;
+          }
+      }
+  }
+  .setting-default{
+      border-top: 1px $gray-light solid;
+      border-bottom: 1px $gray-light solid;
+  }
+  .bank-swiper{
+      overflow: hidden;
+      position: relative;
+      padding-left: 40px;
+  }
+}
+.input-number-box{
+  //margin-top: 62px;
+  padding: 30px;
+  border-bottom: 1px #eee solid;
+  .input-type{
+      margin-bottom: 15px;
+      p{
+          font-size: 13px;
+          color: $blue-dark;
+          margin-bottom: 5px;
+      }
+      input{
+          border: 1px #818181 solid;
+          width: 100%;
+          padding: 10px;
+          border-radius: 10px;
+      }
+  }
+  .default-setting{
+      padding: 0;
+      margin-bottom: 15px;
+      .checkbox{
+          label{
+              &:before{
+                  position: absolute;
+                  top: -15px;
+              }
+              &:after{
+                  top: -16px;
+                  left: 0;
+              }
+          }
+      }
+  }
+}
+
+.newebPay{
+  padding-top: 50px;
+  img{
+      display: block;
+      margin: 15px auto;
+      width: 70%;
+      max-width: 200px;
+  }
+}
+
+/* 選擇優惠券或輸入折扣碼 */
+.shopping-discount{
+  color: $blue-dark;
+  .fs-16{
+      font-size: 16px !important;
+  }
+  .input-box{
+      padding: 15px;
+      display: flex;
+      input{
+          flex: 1;
+          margin-right: 5px;
+          background: rgba(142, 142, 147, 0.12);
+          border-radius: 10px;
+          border: none;
+          padding: 5px;
+      }
+      button{
+          flex: none;
+          width: 60px;
+          color: #fff;
+          border: none;
+          background: #13334C;
+          border-radius: 30px;
+          font-size: small;
+      }
+  }
+  .or-box{
+      position: relative;
+      width: 100%;
+      text-align: center;
+      span{
+          display: inline-block;
+          position: relative;
+          &:before, &:after{
+              content: '';
+              display: block;
+              width: 100px;
+              height: 1px;
+              background-color: #000;
+              position: absolute;
+              top: 50%;
+              transform: translateY(-50%);
+          }
+          &:before{
+              left: 50px;
+          }
+          &:after{
+              right: 50px;
+          }
+      }
+  }
+
+  .canuse-discount-txt{
+      text-align: center;
+      padding: 15px;
+      margin-top: 15px;
+      border-bottom: 1px #eee solid;
+      border-top: 1px #eee solid;
+  }
+  .can-use-discount-list{
+      .can-use-title{
+          font-size: small;
+          border-bottom: 1px #eee solid;
+          padding: 10px 15px;
+          text-align: left;
+      }
+      .can-use-date{
+          font-size: 13px;
+      }
+      ul{
+          border-bottom: 5px #eee solid;
+      }
+      li{
+          display: flex;
+          padding: 15px;
+          border-bottom: 1px #eee solid;
+          .item-img{
+              flex: none;
+              width: 80px;
+              height: 80px;
+              padding: 5px;
+              border: 1px #eee solid;
+              display: flex;
+              align-items: center;
+              img{
+                  width: 100%;
+              }
+          }
+          .item-middle{
+              flex: 1;
+              margin: 0 10px;
+              text-align: left;
+              p{
+                  &:first-child{
+                      font-weight: 700;
+                  }
+                  &:last-child{
+                      width: 100%;
+                      font-size: x-small;
+                      color: $gray-color;
+                  }
+                  .material-icons{
+                      font-size: small;
+                  }
+              }
+          }
+          .item-see-more{
+              align-self: center;
+              color: $blue;
+              a{
+                  color: $blue;
+              }
+              .material-icons{
+                  color: #333;
+              }
+          }
+      }
+  }
+
+  .total-price-box{
+      .total-header{
+          padding: 15px;
+          border-bottom: 1px #eee solid;
+      }
+      .total-body{
+          padding: 10px 15px;
+          .item-group{
+              font-weight: 700;
+          }
+      }
+      .total-footer{
+          //padding: 20px 0;
+          .item{
+              flex: 1;
+              margin: 15px;
+              button{
+                  width: 100%;
+                  padding: 6px 12px;
+                  margin: 0;
+                  box-shadow: none;
+                  border-radius: 100px;
+                  border: 2px $onlineshopping-default solid;
+                  &.cancel-btn{
+                      color: $onlineshopping-default;
+                  }
+                  &.submit-btn{
+                      background-color: $onlineshopping-default;
+                      color: #fff;
+                  }
+              }
+          }
+      }
+      .item-group{
+          display: flex;
+          justify-content: space-between;
+      }
+  }
+  .auto-left{
+      margin-left: auto;
+      text-align: right;
+  }
+}

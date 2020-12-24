@@ -10,7 +10,7 @@ import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   templateUrl: './shopping.component.html',
-  styleUrls: ['../../../../styles/shopping-home.min.css', '../../../../styles/shopping-index.min.css']
+  styleUrls: ['./shopping.scss']
 })
 export class ShoppingComponent implements OnInit, AfterViewInit, DoCheck {
   public userName: string;

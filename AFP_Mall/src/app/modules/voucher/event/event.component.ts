@@ -8,7 +8,7 @@ import { ModalService } from '../../../shared/modal/modal.service';
 @Component({
   selector: 'app-event',
   templateUrl: './event.component.html',
-  styleUrls: ['../../../../styles/offers.min.css']
+  styleUrls: ['./event.scss']
 })
 export class EventComponent implements OnInit, DoCheck {
   /** 置頂圖片 */

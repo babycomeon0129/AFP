@@ -10,7 +10,7 @@ import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-shopping-cart',
   templateUrl: './shopping-cart.component.html',
-  styleUrls: ['../../../../styles/shopping-index.min.css']
+  styleUrls: ['./shopping-cart.scss']
 })
 export class ShoppingCartComponent implements OnInit, AfterViewInit, DoCheck {
   /** 購物車編碼 */

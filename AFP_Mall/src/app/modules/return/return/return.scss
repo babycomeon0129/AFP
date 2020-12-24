@@ -1,0 +1,56 @@
+
+@import '../../../../styles/module/variable';
+
+/** 退貨returns */
+.upload-dot{
+  border: 2px;
+  border-color: $index-default;
+  border-style:dashed;
+  border-radius: 5px;
+  width: 100px;
+  height: 100px;
+  color: $index-default;
+  .add-txt{
+      position: absolute;
+      top: 65%;
+      left: 50%;
+      transform: translate(-50%, 0);
+      white-space: nowrap;
+  }
+  .add-btn img{
+      width: 40px;
+  }
+}
+.uploadimg{
+  height: 100px;
+  border-radius: 5px;
+  border: 1px solid #eee;
+}
+
+/* member return */
+.return-box{
+  .reason-list{
+      color: $blue-dark;
+      li{
+          border-bottom: 1px solid #eee;
+          padding: .5em 1em;
+          &:first-child{
+              border-top: 1px solid #eee;
+          }
+          &.active{
+              color: $index-default;
+              &:after{
+                  content:"✔";
+                  float: right;
+              }
+          }
+      }
+  }
+}
+.returnInfo{
+  p{
+      font-size:small;
+      padding: 1em;
+  }
+}
+

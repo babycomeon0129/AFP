@@ -1,0 +1,90 @@
+@import '../../../../styles/module/variable';
+
+ul.notifylist{
+    color: $blue-dark;
+    width: 100%;
+    li{
+        width: 100%;
+        border-bottom: 1px solid #eee;
+        padding: 1em;
+        display: inline-flex;
+        .item{
+            width: calc(100% - 24px);
+        }
+        label{
+            font-weight: bold;
+            font-size: 1.1em;
+            width: 100%;
+        }
+        .auto-left{
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+        }
+    }
+}
+.newnotify{
+    color: $blue-dark;
+    background: #f8f8f8;
+    padding: .5em 1em;
+    font-weight: bold;
+}
+ul.newlist{
+    color: $blue-dark;
+    width: 100%;
+    li{
+        width: 100%;
+        border-bottom: 1px solid #eee;
+        padding: 1em;
+        .newinfo{
+            width: calc(100% - 90px);
+            display: inline-flex;
+            .auto-left{
+                margin-left: auto;
+                display: flex;
+                align-items: center;
+            }
+            .newinfo-body{
+                width: calc(100% - 24px);
+            }
+            .moreBtn{
+                padding: .5em .25em;
+                width: 100%;
+                text-align: right;
+                button{
+                    font-size: .9em;
+                }
+            }
+        }
+        label{
+            font-weight: bold;
+            font-size: 1em;
+            width: 100%;
+        }
+        .item-date{
+            color: gray;
+            font-size: xx-small;
+        }
+        .newbody{
+            width:auto;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+             -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            // height: -webkit-fill-available;
+            height: 47px;
+        }
+        &.active{
+            .material-icons{
+                transform: rotate(180deg);
+            }
+            .newbody{
+                display: hidden;
+            }
+            .auto-left{
+                align-items: center;
+            }
+        }
+    }
+}

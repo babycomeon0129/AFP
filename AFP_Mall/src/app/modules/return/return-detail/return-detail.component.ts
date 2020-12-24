@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   selector: 'app-return-detail',
   templateUrl: './return-detail.component.html',
   styleUrls: ['../../../../styles/member.min.css',
-              '../../../../styles/member-function.min.css',
+              '../../member/member-function/member-order/member-order.scss',
               '../../../../styles/shopping-index.min.css']
 })
 export class ReturnDetailComponent implements OnInit {

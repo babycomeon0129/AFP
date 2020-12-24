@@ -7,7 +7,7 @@ import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 @Component({
   selector: 'app-member-food',
   templateUrl: './member-food.component.html',
-  styleUrls: ['../../member/member.scss', '../../../../../styles/member-function.min.css']
+  styleUrls: ['../../member/member.scss']
 })
 export class MemberFoodComponent implements OnInit {
   /** 我的點餐清單 */

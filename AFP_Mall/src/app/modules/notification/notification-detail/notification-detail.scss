@@ -1,0 +1,45 @@
+@import '../../../../styles/module/variable';
+
+.onImgbar{
+    padding: .5em;
+    width: -webkit-fill-available;
+    position: absolute;
+    top: 1%;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+.nDimgbox{
+    overflow: hidden;
+    max-height: 48vh;
+    min-height: 120px;
+    background: #eee;
+    text-align: -webkit-center;
+    .img-fluid{
+        height: auto;
+    }
+    @media (min-width: 992px) {
+        min-height: 394px;
+    }
+}
+.nDcontent{
+    .item-title{
+        font-weight: bold;
+        font-size: 1.1em;
+        padding: .5em 0;
+    }
+    .item-date{
+        color: $gray-color;
+        font-size: 0.9em;
+        padding-bottom: 1em;
+    }
+    .item-content{
+        p{
+            padding: .5em 0 1em 0;
+        }
+    }
+    img {
+        max-width: 100%;
+    }
+}

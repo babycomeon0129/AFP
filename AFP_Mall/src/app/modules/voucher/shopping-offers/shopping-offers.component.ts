@@ -8,7 +8,7 @@ import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-shopping-offers',
   templateUrl: './shopping-offers.component.html',
-  styleUrls: ['../../../../styles/shopping-index.min.css']
+  styleUrls: ['./shopping-offers.scss']
 })
 export class ShoppingOffersComponent implements OnInit, DoCheck {
   /** 購物車內商品數 */

@@ -10,7 +10,7 @@ import CaptchaMini from 'captcha-mini';
 @Component({
   selector: 'app-member-card',
   templateUrl: './member-card.component.html',
-  styleUrls: ['../../member/member.scss', '../../../../../styles/member-function.min.css'],
+  styleUrls: ['../../member/member.scss', './member-card.scss'],
   animations: [layerAnimation]
 })
 export class MemberCardComponent implements OnInit, AfterViewInit {

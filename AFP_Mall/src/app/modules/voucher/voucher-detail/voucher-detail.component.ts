@@ -12,7 +12,7 @@ import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-voucher-detail',
   templateUrl: './voucher-detail.component.html',
-  styleUrls: ['../../../../styles/offers.min.css']
+  styleUrls: ['./voucher-detail.scss']
 })
 export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
   /** UUID */

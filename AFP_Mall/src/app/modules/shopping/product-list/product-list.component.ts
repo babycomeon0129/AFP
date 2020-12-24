@@ -10,7 +10,7 @@ import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
-  styleUrls: ['../../../../styles/shopping-index.min.css']
+  styleUrls: ['./product-list.scss']
 })
 export class ProductListComponent implements OnInit {
   /** 購物車編碼 */

@@ -12,7 +12,7 @@ import { NgForm } from '@angular/forms';
 @Component({
   selector: 'app-eticket-order',
   templateUrl: './eticket-order.component.html',
-  styleUrls: ['../../../../styles/shopping-index.min.css']
+  styleUrls: ['../../order/shopping-order/shopping-order.scss', '../../order/shopping-payment/shopping-payment.scss']
 })
 export class ETicketOrderComponent implements OnInit {
   /** 票券結帳頁資訊整合 */

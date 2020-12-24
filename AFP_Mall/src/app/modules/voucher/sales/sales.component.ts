@@ -8,7 +8,7 @@ import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
-  styleUrls: ['../../../../styles/shopping-index.min.css', '../../../../styles/offers.min.css']
+  styleUrls: ['../shopping-offers/shopping-offers.scss', '../offers/offers.scss']
 })
 export class SalesComponent implements OnInit, DoCheck, OnDestroy {
   /** 置頂廣告 */

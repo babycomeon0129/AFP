@@ -1,0 +1,24 @@
+@import '../../../../../styles/module/variable';
+
+/** 我的卡片 */
+.btn-img{
+  img{
+      height: 24px;
+  }
+}
+.cardnum-title{
+  text-align: center;
+  background: $gray-light8;
+  padding: .5em;
+}
+.cardnum{
+  padding: 1em;
+  text-align: center;
+  color: $index-default;
+  img{
+      width: 300px;
+      @media (max-width: 480px) {
+          width: 200px;
+      }
+  }
+}
