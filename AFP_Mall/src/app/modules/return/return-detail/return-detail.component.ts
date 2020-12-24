@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   templateUrl: './return-detail.component.html',
   styleUrls: ['../../member/member/member.scss',
               '../../member/member-function/member-order/member-order.scss',
-              '../../shopping/shopping/shopping.scss']
+              '../../order/shopping-order/shopping-order.scss']
 })
 export class ReturnDetailComponent implements OnInit {
   /** 客服單編號 */

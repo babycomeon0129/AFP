@@ -13,7 +13,7 @@ import { NgForm } from '@angular/forms';
   templateUrl: './return.component.html',
   styleUrls: ['../../member/member/member.scss',
               '../../member/member-function/member-order/member-order.scss',
-              '../../shopping/shopping/shopping.scss',
+              '../../order/shopping-order/shopping-order.scss',
               './return.scss']
 })
 export class ReturnComponent implements OnInit {
