@@ -52,6 +52,8 @@ export class ProductDetailComponent implements OnInit {
       prevEl: '.shopping-productsimgbox .swiper-button-prev',
     }
   };
+  /** APP特例處理  */
+  public showBack = false;
   // 關於商品3個標籤
   @ViewChild('tag01', { static: false }) tag01: ElementRef;
   @ViewChild('tag02', { static: false }) tag02: ElementRef;
@@ -115,6 +117,10 @@ export class ProductDetailComponent implements OnInit {
     // 若有登入則顯示我的收藏
     if (this.appService.loginState === true) {
       this.appService.showFavorites();
+    }
+    // APP從會員中心→我的收藏→商品詳細→購物車要顯示返回鍵（目前為購物車處理）
+    if (this.route.snapshot.queryParams.showBack === 'true') {
+      this.showBack = true;
     }
   }
 
