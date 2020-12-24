@@ -31,6 +31,8 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit, DoCheck {
   public productsToUpdate: AFP_Cart[] = [];
   /** 變動偵測（登入狀態） */
   private serviceDiffer: KeyValueDiffer<string, any>;
+  /** APP特例處理  */
+  public showBack = false;
 
   constructor(public appService: AppService, public modal: ModalService, private cookieService: CookieService, private router: Router,
               private route: ActivatedRoute, private differs: KeyValueDiffers, private meta: Meta, private title: Title) {
@@ -46,6 +48,10 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit, DoCheck {
     this.cartCode = Number(this.cookieService.get('cart_code'));
     this.cartCount = Number(this.cookieService.get('cart_count_Mobii'));
     this.showCartData();
+    // APP從會員中心→我的收藏→商品詳細→購物車要顯示返回鍵
+    if (this.route.snapshot.queryParams.showBack === 'true') {
+      this.showBack = true;
+    }
   }
 
   /** 讀取、整理、顯示購物車資料 */
