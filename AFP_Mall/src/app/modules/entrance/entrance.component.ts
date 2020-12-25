@@ -1,8 +1,9 @@
-import { Component, OnInit, AfterViewInit, DoCheck, KeyValueDiffer, KeyValueDiffers, Renderer2 } from '@angular/core';
+import { Component, OnInit, DoCheck, KeyValueDiffer, KeyValueDiffers, Renderer2 } from '@angular/core';
 import { AppService } from '@app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Response_Home, AFP_ADImg, Model_AreaJsonFile, AFP_Function, Model_TravelJsonFile,
-  Model_ShareData, Model_MemberProfile, AFP_UserFavourite, Request_Home, AFP_ChannelProduct, AFP_ChannelVoucher, Request_OtherInfo } from '@app/_models';
+         Model_ShareData, Model_MemberProfile, AFP_UserFavourite, Request_Home, AFP_ChannelProduct,
+         AFP_ChannelVoucher, Request_OtherInfo } from '@app/_models';
 import { SwiperOptions } from 'swiper';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
@@ -16,7 +17,7 @@ declare var $: any;
   templateUrl: './entrance.component.html',
   styleUrls: ['./entrance.scss', '../travel/travel.scss']
 })
-export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
+export class EntranceComponent implements OnInit, DoCheck {
   public userProfile: Model_MemberProfile = new Model_MemberProfile();
 
   /** 進場廣告swiper */
@@ -289,6 +290,7 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
           if (this.adIndex.length === 1) {
             this.adIndexOption.loop = false;
           }
+          this.adIndexChenck();
           break;
         case 2:
           // 會員資訊
@@ -614,12 +616,6 @@ export class EntranceComponent implements OnInit, AfterViewInit, DoCheck {
       this.appService.showAPPHint = false;
     }, 500);
     this.animationMoveUpOut = true;
-  }
-
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.adIndexChenck();
-    }, 2000);
   }
 
   ngDoCheck(): void {
