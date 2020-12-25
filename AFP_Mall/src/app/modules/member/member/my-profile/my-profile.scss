@@ -12,18 +12,6 @@
   .img-box{
       margin: auto;
   }
-  .nextBtnFixed{
-      position: fixed;
-      width: 75%;
-      bottom: 0;
-      margin-bottom: 1em;
-      left: 50%;
-      -o-transform: translateX(-50%);
-      -webkit-transform: translateX(-50%);
-      -moz-transform: translateX(-50%);
-      -ms-transform: translateX(-50%);
-      transform: translateX(-50%);
-  }
 }
 
 /** my-profile照片確認 */
