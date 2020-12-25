@@ -4,7 +4,7 @@ import { AppService } from 'src/app/app.service';
 import { ModalService } from '../../../shared/modal/modal.service';
 import { Router, NavigationExtras } from '@angular/router';
 import { Model_ShareData, AFP_CSPayment, AFP_UserFavourite, OrderInvoice } from '@app/_models';
-import { NgForm } from '@angular/forms';
+import { Form, NgForm } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
 declare var $: any;
 
@@ -118,7 +118,7 @@ export class ShoppingPaymentComponent implements OnInit {
 
   addCardPayment(): void {
     if (this.reqData.CardNo !== '' && this.reqData.CardDate !== '' && this.reqData.CVC !== '') {
-      $('#postPayment').submit();
+      (document.getElementById('postPayment') as HTMLFormElement).submit();
     } else {
       this.modal.show('message', { initialState: { success: false, message: '資料未完整填寫!', showType: 1 } });
     }
@@ -126,7 +126,7 @@ export class ShoppingPaymentComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     this.appService.openBlock();
-    $('#postPayment').submit();
+    (document.getElementById('postPayment') as HTMLFormElement).submit();
   }
 
   ngOnInit() {
