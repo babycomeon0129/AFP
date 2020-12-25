@@ -1,8 +1,8 @@
 import { environment } from '@env/environment';
 import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { ModalService } from '../../../shared/modal/modal.service';
-import { Router, NavigationExtras } from '@angular/router';
+import { ModalService } from '@app/shared/modal/modal.service';
+import { Router } from '@angular/router';
 import { Model_ShareData, AFP_CSPayment, AFP_UserFavourite, OrderInvoice } from '@app/_models';
 import { NgForm } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
@@ -29,13 +29,16 @@ export class ShoppingPaymentComponent implements OnInit {
   };
   public maskCardDate = { mask: [/\d/, /\d/, '/', /\d/, /\d/] };
   public maskCardCSC = { mask: [/\d/, /\d/, /\d/] };
+
   constructor(public appService: AppService, public modal: ModalService, private router: Router, private meta: Meta, private title: Title) {
     // tslint:disable: max-line-length
     this.title.setTitle('付款方式｜線上商城 - Mobii!');
     this.meta.updateTag({name : 'description', content: ''});
     this.meta.updateTag({content: '付款方式｜線上商城 - Mobii!', property: 'og:title'});
     this.meta.updateTag({content: '', property: 'og:description'});
+  }
 
+  ngOnInit() {
     if (history.state.data !== undefined && sessionStorage.getItem('invoice') !== null) {
       const invoice: OrderInvoice = JSON.parse(sessionStorage.getItem('invoice'));
       const getPayment = new Request_GetPayment();
@@ -118,7 +121,7 @@ export class ShoppingPaymentComponent implements OnInit {
 
   addCardPayment(): void {
     if (this.reqData.CardNo !== '' && this.reqData.CardDate !== '' && this.reqData.CVC !== '') {
-      $('#postPayment').submit();
+      (document.getElementById('postPayment') as HTMLFormElement).submit();
     } else {
       this.modal.show('message', { initialState: { success: false, message: '資料未完整填寫!', showType: 1 } });
     }
@@ -126,10 +129,7 @@ export class ShoppingPaymentComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     this.appService.openBlock();
-    $('#postPayment').submit();
-  }
-
-  ngOnInit() {
+    (document.getElementById('postPayment') as HTMLFormElement).submit();
   }
 
 }
