@@ -39,6 +39,8 @@ export class ProductDetailComponent implements OnInit {
   public cartAttrValueName = '';
   /** 所選商品數量（預設1） */
   public prodAmount = 1;
+  /** 購買按鈕文字  */
+  public buybtnTxt = '加入購物車';
   /** 分享至社群時顯示的文字 */
   public textForShare: string;
   /** 上方商品圖片輪播 swiper */
@@ -88,6 +90,17 @@ export class ProductDetailComponent implements OnInit {
       this.voucherData = data.AFP_VoucherData;
       this.attrList = data.List_Attribute;
       this.productDirCode = data.AFP_Product.Product_UserDefineCode; // 以回傳資料取代
+      switch(this.productInfo.Product_Type) {
+        case 2:
+          this.buybtnTxt = '前往購買';
+          break;
+        case 21:
+          this.buybtnTxt = '直接購買';
+          break;
+        default:
+          this.buybtnTxt = '加入購物車';
+          break;
+      }
 
       // 更新購物車數量
       this.cartCount = data.Cart_Count;
