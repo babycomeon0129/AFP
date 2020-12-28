@@ -4,14 +4,14 @@ import { NgForm } from '@angular/forms';
 import { ModalService } from '../../../../shared/modal/modal.service';
 import { Model_ShareData, AFP_UserFavourite, AFP_UserReport } from '@app/_models';
 import { Meta, Title } from '@angular/platform-browser';
-import { layerAnimation } from '../../../../animations';
+import { layerAnimation,  layerAnimationUp} from '../../../../animations';
 import CaptchaMini from 'captcha-mini';
 
 @Component({
   selector: 'app-member-card',
   templateUrl: './member-card.component.html',
   styleUrls: ['../../member/member.scss', './member-card.scss'],
-  animations: [layerAnimation]
+  animations: [layerAnimation, layerAnimationUp]
 })
 export class MemberCardComponent implements OnInit, AfterViewInit {
   /** 卡片列表 */
@@ -42,6 +42,9 @@ export class MemberCardComponent implements OnInit, AfterViewInit {
   public captchaCorrect = false;
   /** 卡片號碼長度是否正確(11或16碼) */
   public cardNumLength = false;
+  /** 同頁滑動切換 */
+  public layerTrig = 0;
+  public layerTrigUp = 0;
 
   constructor(public appService: AppService, public modal: ModalService, private meta: Meta, private title: Title,
               private renderer2: Renderer2) {
@@ -79,13 +82,21 @@ export class MemberCardComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /** 同頁滑動切換 */
+  layerToggle(e) {
+    this.layerTrig = e;
+  }
+  layerToggleUp(e){
+    this.layerTrigUp = e;
+  }
+
   /** 開啟「新增會員卡」 */
   showAddCard() {
     // 繪製圖形驗證
     this.captcha1.draw(document.querySelector('#captcha1'), r => {
       this.captchaAns = r;
     });
-    this.appService.callLayer('.mycardadd');
+    // this.appService.callLayer('.mycardadd');
   }
 
   /** 檢查卡片號碼長度(須為11或16碼) */
@@ -128,7 +139,8 @@ export class MemberCardComponent implements OnInit, AfterViewInit {
     this.appService.toApi('Member', '1507', request).subscribe((data: Response_MemberMyCard) => {
       // const msg = (this.requestCard.UserFavourite_ID > 0) ? '修改完成' : '綁定成功';
       this.readCardList();
-      this.appService.backLayer();
+      this.layerTrig = 0;
+      // this.appService.backLayer();
       // this.modal.show('message', { initialState: { success: true, message: msg, showType: 1}});
       if (this.requestCard.UserFavourite_ID > 0) {
         this.modal.show('message', { initialState: { success: true, message: '修改完成', showType: 1}});
@@ -143,7 +155,7 @@ export class MemberCardComponent implements OnInit, AfterViewInit {
   toUpdateCard(card) {
     this.requestCard.UserFavourite_ID = card.UserFavourite_ID;
     this.onReadCardDetail();
-    this.appService.callLayer('.mycardedit');
+    // this.appService.callLayer('.mycardedit');
   }
 
   /** 讀取卡片詳細 */
@@ -190,7 +202,8 @@ export class MemberCardComponent implements OnInit, AfterViewInit {
         };
         this.appService.toApi('Member', '1507', request).subscribe((data: Response_MemberMyCard) => {
           this.readCardList();
-          this.appService.backLayer();
+          this.layerTrig = 0;
+          // this.appService.backLayer();
           this.modal.show('message', { initialState: { success: true, message: '卡片已刪除', showType: 1}});
           this.requestCard = new AFP_UserFavourite(); // 重置此筆資料避免刪除後無法立即新增卡片(卡號會無法輸入&上方一樣會是修改)
           form.resetForm(); // 重置form避免刪除卡片後立刻按新增會出現舊卡片的資料
