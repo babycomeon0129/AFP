@@ -586,7 +586,7 @@ export class EntranceComponent implements OnInit, DoCheck {
             this.router.navigate([Link.Function_URL], { queryParams: { isApp: this.appService.isApp } });
           } else {
             this.router.navigate([Link.Function_URL]);
-            this.appService.tLayer = []; // 清空tLayer避免前往頁面也有callLayer時會失效
+            // this.appService.tLayer = []; // 清空tLayer避免前往頁面也有callLayer時會失效
           }
         }
       }
