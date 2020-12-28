@@ -906,20 +906,19 @@
     min-height:100vh;
     height:100%;
     z-index: 1;
-    // div.headerbox{
-    //   animation-name: TopIn;
-    //   animation-duration: 1s;
-    //   animation-fill-mode: both;
-    // }
-  //   @keyframes TopIn {
-  //     0% {
-  //       top: -100px;
-  //       opacity: 0;}
-  //     100% {
-  //       top: 0;
-  //       opacity: 1;
-  //     }
-  //  }
+  }
+  .layerTrig{
+    position: fixed;
+    overflow-x:hidden;
+    overflow-y:auto;
+    background-color:#fff;
+    min-height:100vh;
+    height:100%;
+    width: 100%;
+    z-index: 1040;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
   }
   .sortlayer,
   .uplayer{
