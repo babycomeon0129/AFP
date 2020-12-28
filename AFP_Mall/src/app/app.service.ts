@@ -490,7 +490,7 @@ export class AppService {
 
   // 開啟側邊功能
   // multilayer animateCss
-  callLayer(nextLayer, callback:()=>void) {
+  callLayer(nextLayer) {
     const animationStard = ['slideInRight','animated','d-block','container','faster'];
     const target = document.querySelector(nextLayer);
     const targetParent = document.querySelector('.multilayer');
