@@ -130,7 +130,7 @@
                 </a>
               </div>
               <div class="link-item">
-                <a href="javascript:;" (click)="appService.callLayer('.setting');editFunction=false">
+                <a href="javascript:;" (click)="layerToggle()">
                   <div class="img-box">
                     <img src="img/index/icons/category3_more.png" alt="">
                   </div>
@@ -462,12 +462,11 @@
     <div class="modal-backdrop"></div>
   </div>
 
-
-  <div class="multilayer">
+  <div class="layerTrig" [@layerTrigger] *ngIf="editFunction === true">
     <div class="setting" [ngClass]="{'edit-mode': editFunction}">
       <div class="aside-header">
         <div>
-          <button class="btn px-0 close-btn" (click)="appService.backLayer()" data-toggle="tooltip"
+          <button class="btn px-0 close-btn" (click)="layerToggle()" data-toggle="tooltip"
             data-placement="bottom" title="回上一頁">
             <i class="material-icons">&#xe314;</i>
           </button>
