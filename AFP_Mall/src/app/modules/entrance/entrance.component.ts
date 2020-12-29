@@ -252,9 +252,12 @@ export class EntranceComponent implements OnInit, DoCheck {
     this.meta.updateTag({ content: 'Mobii!｜綠色城市優惠平台', property: 'og:title' });
     this.meta.updateTag({ content: '使用 Mobii! APP，讓你的移動總是驚喜。乘車、購物、美食、景點、旅行資訊全都包，使用就享點數回饋，每日登入再領 M Points，會員再享獨家彩蛋大禮包。先下載 Mobii APP 看看裡面有什麼好玩的吧？', property: 'og:description' });
   }
+
+  /** 同頁滑動切換 */
   layerToggle() {
     this.editFunction = !this.editFunction;
   }
+
   ngOnInit() {
     // 從route resolver取得首頁資料
     // this.route.data.subscribe((data: { homeData: Response_Home }) => {
@@ -583,7 +586,7 @@ export class EntranceComponent implements OnInit, DoCheck {
             this.router.navigate([Link.Function_URL], { queryParams: { isApp: this.appService.isApp } });
           } else {
             this.router.navigate([Link.Function_URL]);
-            this.appService.tLayer = []; // 清空tLayer避免前往頁面也有callLayer時會失效
+            // this.appService.tLayer = []; // 清空tLayer避免前往頁面也有callLayer時會失效
           }
         }
       }

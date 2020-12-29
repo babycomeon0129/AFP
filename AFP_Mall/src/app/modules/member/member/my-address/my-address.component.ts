@@ -29,6 +29,8 @@ export class MyAddressComponent implements OnInit {
   public districtList: AFP_UserReport[] = [];
   /** 地址詳細開啟狀態 */
   public showDetail = false;
+  /** 同頁滑動切換 */
+  public layerTrig = 0;
 
   constructor(public appService: AppService, public modal: ModalService, private meta: Meta, private title: Title) {
     // tslint:disable: max-line-length
@@ -167,4 +169,8 @@ export class MyAddressComponent implements OnInit {
     });
   }
 
+  /** 同頁滑動切換 */
+  layerToggle(e) {
+    this.layerTrig = e;
+  }
 }

@@ -3,11 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { Request_MemberTicket, Response_MemberTicket, AFP_UserTicket } from '@app/_models';
+import { layerAnimation } from '../../../../animations';
 
 @Component({
   selector: 'app-member-ticket',
   templateUrl: './member-ticket.component.html',
-  styleUrls: ['../../member/member.scss']
+  styleUrls: ['../../member/member.scss'],
+  animations: [ layerAnimation ]
 })
 export class MemberTicketComponent implements OnInit {
   /** 票券列表 */
@@ -16,6 +18,8 @@ export class MemberTicketComponent implements OnInit {
   public searchText;
   /** 當前所選使用狀態列表 1: 可用, 2: 歷史 （歷史票券不可前往詳細） */
   public listType: number;
+  /** 同頁滑動切換 */
+  public layerTrig = 0;
 
   constructor(public appService: AppService, private router: Router, private meta: Meta, private title: Title) {
     // tslint:disable: max-line-length
@@ -54,4 +58,8 @@ export class MemberTicketComponent implements OnInit {
     }
   }
 
+  /** 同頁滑動切換 */
+  layerToggle(e) {
+    this.layerTrig = e;
+  }
 }

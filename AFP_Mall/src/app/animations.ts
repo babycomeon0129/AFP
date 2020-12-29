@@ -46,6 +46,17 @@ trigger('layerTrigger', [
   ]),
   transition(':leave', [
     style({position: 'absolute', top:'0', left: '100%', width: '100%'}),
-    animate('500ms ease-out', style({position: 'absolute', top:'0', left: '100%', width: '100%', opacity: '0.1'}))
+    animate('500ms ease-out', style({position: 'absolute', top:'0', left: '200%', width: '100%', opacity: '0.1'}))
+  ])
+]);
+export const layerAnimationUp =
+trigger('layerTriggerUp', [
+  transition(':enter', [
+    style({position: 'absolute', top:'0', width: '100%'}),
+    animate('500ms ease-in'), style({position: 'absolute', top:'0', width: '100%'})
+  ]),
+  transition(':leave', [
+    style({position: 'absolute',  top:'0',  width: '100%'}),
+    animate('500ms ease-out', style({position: 'absolute', top:'100%', width: '100%', opacity: '0.1'}))
   ])
 ]);
