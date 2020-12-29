@@ -7,12 +7,8 @@ import { layerAnimation} from '../../../../animations';
 @Component({
   selector: 'app-eticket-detail',
   templateUrl: './eticket-detail.component.html',
-<<<<<<< HEAD
   styleUrls: ['../../member/member.scss', './eticket-detail.scss'],
   animations: [layerAnimation]
-=======
-  styleUrls: ['../../member/member.scss', './eticket-detail.scss']
->>>>>>> developer
 })
 export class ETicketDetailComponent implements OnInit {
   /** 票券編碼 */

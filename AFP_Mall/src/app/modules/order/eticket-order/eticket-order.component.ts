@@ -8,11 +8,13 @@ import { ModalService } from '../../../shared/modal/modal.service';
 import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { NgForm } from '@angular/forms';
+import { layerAnimation,  layerAnimationUp} from '../../../animations';
 
 @Component({
   selector: 'app-eticket-order',
   templateUrl: './eticket-order.component.html',
-  styleUrls: ['../../order/shopping-order/shopping-order.scss', '../../order/shopping-payment/shopping-payment.scss']
+  styleUrls: ['../../order/shopping-order/shopping-order.scss', '../../order/shopping-payment/shopping-payment.scss'],
+  animations: [layerAnimation, layerAnimationUp]
 })
 export class ETicketOrderComponent implements OnInit {
   /** 票券結帳頁資訊整合 */
@@ -27,6 +29,9 @@ export class ETicketOrderComponent implements OnInit {
   public voucher: Response_GetUserVoucher;
   /** 優惠券整理資訊 */
   public userVouchers: AFP_UserVoucher[] = [];
+  /** 同頁滑動切換 */
+  public layerTrig = 0;
+  public layerTrigUp = 0;
 
   constructor(public modal: ModalService, private router: Router, public appService: AppService) {
     if (history.state.data !== undefined) {
@@ -110,7 +115,7 @@ export class ETicketOrderComponent implements OnInit {
     });
     this.info.platform.preVoucher = JSON.parse(JSON.stringify(this.info.platform.voucher));
     this.discount = this.info.totalDiscount;
-    this.appService.callLayer('.shopping-discount');
+    this.layerTrig = 1;
   }
 
   /** 重設優惠券選項(刪除所有已選) */
@@ -311,7 +316,7 @@ export class ETicketOrderComponent implements OnInit {
             this.info.voucherInfo.push(this.info.platform.voucher);
           }
           this.recalculate();
-          this.appService.backLayer();
+          this.layerTrig = 0;
         } else {
           this.modal.show('message', { initialState: { success: false, message: data.ErrorMsg, showType: 1 } });
         }
@@ -319,7 +324,7 @@ export class ETicketOrderComponent implements OnInit {
     } else {
       //  可不選擇優惠券
       // this.modal.show('message', { initialState: { success: false, message: '請選擇至少一張優惠券!', showType: 1 } });
-      this.appService.backLayer();
+      this.layerTrig = 0;
     }
   }
 
@@ -331,11 +336,11 @@ export class ETicketOrderComponent implements OnInit {
     switch (type) {
       // 選擇發票
       case 0:
-        this.appService.callLayer('.shopping-invoice');
+        this.layerTrig = 2;
         break;
       // 選擇收據
       case 1:
-        this.appService.callLayer('.shopping-receipt');
+        this.layerTrig = 3;
         break;
     }
   }
@@ -348,7 +353,7 @@ export class ETicketOrderComponent implements OnInit {
         } else {
           this.info.invoice = this.info.preInvoice;
           this.info.invoice.message = '三聯式發票 ' + this.info.invoice.invoiceTitle + '/' + this.info.invoice.invoiceTaxID;
-          this.appService.backLayer();
+          this.layerTrig = 0;
         }
         break;
       }
@@ -358,7 +363,7 @@ export class ETicketOrderComponent implements OnInit {
         } else {
           this.info.invoice = this.info.preInvoice;
           this.info.invoice.message = '發票捐贈 愛心碼:' + this.info.invoice.loveCode;
-          this.appService.backLayer();
+          this.layerTrig = 0;
         }
         break;
       }
@@ -366,7 +371,7 @@ export class ETicketOrderComponent implements OnInit {
         this.info.invoice = this.info.preInvoice;
         this.info.invoice.carrierType = 3;
         this.info.invoice.message = '會員載具';
-        this.appService.backLayer();
+        this.layerTrig = 0;
         break;
       }
       case 5: { // 手機載具
@@ -376,7 +381,7 @@ export class ETicketOrderComponent implements OnInit {
           this.info.invoice = this.info.preInvoice;
           this.info.invoice.carrierType = 1;
           this.info.invoice.message = '手機條碼載具 ' + this.info.invoice.carrierCode;
-          this.appService.backLayer();
+          this.layerTrig = 0;
         }
         break;
       }
@@ -386,14 +391,14 @@ export class ETicketOrderComponent implements OnInit {
         } else {
           this.info.invoice = this.info.preInvoice;
           this.info.invoice.message = '收據 ' + this.info.invoice.invoiceTitle + '/' + this.info.invoice.invoiceTaxID;
-          this.appService.backLayer();
+          this.layerTrig = 0;
         }
         break;
       }
       case 7: { // 收據但不需抬頭與統編
         this.info.invoice = this.info.preInvoice;
         this.info.invoice.message = '收據（不需抬頭與統編）';
-        this.appService.backLayer();
+        this.layerTrig = 0;
         break;
       }
       default: {
@@ -534,6 +539,13 @@ export class ETicketOrderComponent implements OnInit {
     document.body.scrollTop = (event.composedPath()[0] as HTMLElement).scrollHeight - 50;
   }
 
+  /** 同頁滑動切換 */
+  layerToggle(e) {
+    this.layerTrig = e;
+  }
+  layerToggleUp(e){
+    this.layerTrigUp = e;
+  }
 }
 
 export interface Request_GetTCheckout extends Model_ShareData {
