@@ -19,7 +19,7 @@ export class AppleModalComponent implements OnInit, OnDestroy {
     AppleID.auth.init({
       clientId: 'com.eyesmedia.mobii',
       scope: 'email name',
-      redirectURI: 'https://www.mobii.ai', // TODO: 正式/測試站, 結尾無"/" + environment.sit的api url
+      redirectURI: 'https://www-uat.mobii.ai/', // TODO: 正式/測試站, 結尾無"/" + environment.sit的api url
       state: 'Mobii Apple Login',
       usePopup : true
     });
