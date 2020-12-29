@@ -572,13 +572,12 @@ export class EntranceComponent implements OnInit, DoCheck {
               setTimeout(() => { this.router.navigate(['/ForApp/AppDownload']); }, 25);
             }
           });
-        } else if (Link.Function_URL.indexOf('http') !== -1) {
-          window.open(Link.Function_URL, Link.Function_URLTarget);
         } else {
           if (this.appService.isApp !== null) {
             this.router.navigate([Link.Function_URL], { queryParams: { isApp: this.appService.isApp } });
           } else {
-            this.router.navigate([Link.Function_URL]);
+           // this.router.navigate([Link.Function_URL]);
+            window.open(Link.Function_URL, Link.Function_URLTarget);
             this.appService.tLayer = []; // 清空tLayer避免前往頁面也有callLayer時會失效
           }
         }
