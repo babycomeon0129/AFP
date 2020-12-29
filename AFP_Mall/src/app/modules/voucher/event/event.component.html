@@ -88,7 +88,7 @@
         </div>
       </div>
       <ng-template #elseBlock>
-        <div class="no-data">
+        <div class="no-data" *ngIf="voucherList?.length === 0">
           <img src="../img/share/Overdue.png">
           <p>Oops！可惜晚了一步...</p>
         </div>
