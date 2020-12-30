@@ -97,10 +97,12 @@
         </div>
       </div>
     </div>
-    <div class="no-data" *ngIf="voucherList?.length === 0" #elseBlock>
+    <ng-template #elseBlock>
+    <div class="no-data" *ngIf="voucherList?.length === 0">
       <img src="../img/share/Overdue.png">
       <p>Oops！可惜晚了一步...</p>
     </div>
+  </ng-template>
     <div class="addheight"></div>
     <div class="h-50 d-inline-block"></div>
   </main>
