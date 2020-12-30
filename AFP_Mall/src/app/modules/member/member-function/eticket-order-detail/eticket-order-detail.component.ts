@@ -12,7 +12,8 @@ import { layerAnimation } from '../../../../animations';
   templateUrl: './eticket-order-detail.component.html',
   styleUrls: ['../../member/member.scss',
               '../../member-function/member-order/member-order.scss',
-              '../../../order/shopping-order/shopping-order.scss'],
+              '../../../order/shopping-order/shopping-order.scss',
+              '../../../return/return/return.scss'],
   animations: [layerAnimation]
 })
 export class ETicketOrderDetailComponent implements OnInit {
