@@ -9,11 +9,15 @@ import { SwiperComponent } from 'ngx-useful-swiper';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ModalService } from '../../../shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
+import { layerAnimation } from '../../../animations';
 
 @Component({
   selector: 'app-explore-detail',
   templateUrl: './explore-detail.component.html',
-  styleUrls: ['./explore-detail.scss', '../../shopping/product-list/product-list.scss', '../../../../styles/layer/shopping-footer.scss']
+  styleUrls: ['./explore-detail.scss',
+              '../../shopping/product-list/product-list.scss',
+              '../../../../styles/layer/shopping-footer.scss'],
+  animations: [ layerAnimation ]
 })
 export class ExploreDetailComponent implements OnInit, DoCheck {
   @ViewChild('kvSwiper', { static: false }) kvSwiper: SwiperComponent;
@@ -62,6 +66,8 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
   public showBack = false;
   /** 確認資料是否下載完畢  */
   public dataLoad = false;
+  /** 同頁滑動切換 */
+  public layerTrig = 0;
 
   constructor(public appService: AppService, private router: Router, private route: ActivatedRoute, public modal: ModalService,
               private differs: KeyValueDiffers, private meta: Meta, private title: Title) {
@@ -250,6 +256,10 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
     }
   }
 
+  /** 同頁滑動切換 */
+  layerToggle(e) {
+    this.layerTrig = e;
+  }
 }
 
 interface siteObj {

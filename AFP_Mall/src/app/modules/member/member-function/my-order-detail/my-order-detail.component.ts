@@ -5,13 +5,15 @@ import { Request_MemberOrder, Response_MemberOrder, AFP_MemberOrder, AFP_ECStore
   Model_ShareData, Request_MemberCheckStatus, Response_MemberCheckStatus, AFP_UserReport } from '@app/_models';
 import { ModalService } from '../../../../shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
+import { layerAnimation } from '../../../../animations';
 
 @Component({
   selector: 'app-my-order-detail',
   templateUrl: './my-order-detail.component.html',
   styleUrls: ['../../member/member.scss',
               '../../member-function/member-order/member-order.scss',
-              '../../../order/shopping-order/shopping-order.scss']
+              '../../../order/shopping-order/shopping-order.scss'],
+  animations: [layerAnimation]
 })
 export class MyOrderDetailComponent implements OnInit, OnDestroy {
   /** 訂單編號 */
@@ -36,6 +38,8 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
   public timer3Mins;
   /** UserReport (地址對照顯示) */
   public userReport: AFP_UserReport[];
+  /** 同頁滑動切換 */
+  public layerTrig = 0;
 
   constructor(private route: ActivatedRoute, public appService: AppService, private modal: ModalService,
               private meta: Meta, private title: Title) {
@@ -100,7 +104,7 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
           // 將訂單詳情狀態顯示為「完成」
           this.orderInfo.OrderState = 3;
           this.orderInfo.Order_AppreciationDate = data.AFP_MemberOrder.Order_AppreciationDate;
-          this.appService.backLayer();
+          this.layerTrig = 0;
           // tslint:disable-next-line: max-line-length
           this.modal.show('message', { initialState: { success: true, message: '收貨愉快!', showType: 1, note: '提醒您，如有退貨需求，請於商品猶豫期內提出申請。'}});
           return false;
@@ -112,14 +116,14 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
     this.timer3Mins = setTimeout(() => {
       this.modal.show('message', { initialState: { success: false, message: '連線逾時，請重新操作。', showType: 1}});
       clearInterval(this.checkTimer);
-      this.appService.backLayer();
+      this.layerTrig = 0;
     }, 180000);
   }
 
   // 按「回上一頁」時也要clearTimeout(this.checkTimer);
   stopClaim() {
     clearInterval(this.checkTimer);
-    this.appService.backLayer();
+    this.layerTrig = 0;
     clearTimeout(this.timer3Mins);
   }
 
@@ -128,4 +132,8 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
     clearTimeout(this.timer3Mins);
   }
 
+  /** 同頁滑動切換 */
+  layerToggle(e) {
+    this.layerTrig = e;
+  }
 }
