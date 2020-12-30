@@ -119,7 +119,7 @@
     <div class="mycoinrecord">
       <div class="title-box">
         <div class="item icon-btn">
-          <button class="btn px-0" (click)="layerToggle();" data-toggle="tooltip" data-placement="bottom"
+          <button class="btn px-0" (click)="layerToggle(0);" data-toggle="tooltip" data-placement="bottom"
             title="回上一頁">
             <i class="material-icons">&#xe314;</i>
           </button>
@@ -135,7 +135,7 @@
           </div>
           <div class="item one text-right">
             <!--前去Mission頁時將appService.tLayer清空，避免callLayer失效-->
-            <button class="btn-outline-white small-80" [routerLink]="['/Mission']" (click)="layerToggle()">
+            <button class="btn-outline-white small-80" [routerLink]="['/Mission']" (click)="layerToggle(0)">
               賺取點數
             </button>
           </div>

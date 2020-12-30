@@ -129,7 +129,7 @@
       <div id="open-pagebox" class="city">
           <div class="open-page-title flex-inline-between">
               <div class="title-icon">
-                  <button class="btn" (click)="layerToggle();">
+                  <button class="btn" (click)="layerToggle(0);">
                       <i class="material-icons">&#xe314;</i>
                   </button>
               </div>
@@ -173,7 +173,7 @@
             <li class="flex-inline-between" *ngFor="let district of districtList"
               [ngClass]="{'active' : requestAddress.UserFavourite_Number2 == district.UserReport_ItemCode}"
               [hidden]="district.UserReport_UpItemCode != requestAddress.UserFavourite_Number1"
-              (click)="requestAddress.UserFavourite_Number2 = district.UserReport_ItemCode; layerToggle(); ">
+              (click)="requestAddress.UserFavourite_Number2 = district.UserReport_ItemCode; layerToggle(0); ">
                 <div class="item">
                   {{district.UserReport_ItemName}}
                 </div>

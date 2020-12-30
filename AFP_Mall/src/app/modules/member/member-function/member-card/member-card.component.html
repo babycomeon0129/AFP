@@ -58,7 +58,7 @@
       <div class="mycardadd">
         <div class="title-box">
           <div class="item icon-btn">
-              <button class="btn px-0" (click)="layerToggle(); formAddCard.resetForm()" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+              <button class="btn px-0" (click)="layerToggle(0); formAddCard.resetForm()" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
                   <i class="material-icons">&#xe314;</i>
               </button>
           </div>
@@ -137,7 +137,7 @@
        <div class="mycardedit">
           <div class="title-box">
               <div class="item icon-btn">
-                  <button class="btn px-0" (click)="layerToggle(); formUpdateCard.resetForm();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                  <button class="btn px-0" (click)="layerToggle(0); formUpdateCard.resetForm();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
                       <i class="material-icons">&#xe314;</i>
                   </button>
               </div>
@@ -187,7 +187,7 @@
               <img src="../img/member/mycardPrompt1.png">
               <p>一卡通聯名卡</p>
               <img src="../img/member/mycardPrompt2.png">
-              <button type="button" class="btn index-outline-btn w-100 mt-4 masklayer-close" (click)="layerToggleUp()">關閉</button>
+              <button type="button" class="btn index-outline-btn w-100 mt-4 masklayer-close" (click)="layerToggleUp(0)">關閉</button>
           </div>
       </div>
   </div>
