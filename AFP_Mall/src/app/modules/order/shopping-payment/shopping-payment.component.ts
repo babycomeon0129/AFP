@@ -6,14 +6,18 @@ import { Router } from '@angular/router';
 import { Model_ShareData, AFP_CSPayment, AFP_UserFavourite, OrderInvoice } from '@app/_models';
 import { NgForm } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
+import { layerAnimation} from '../../../animations';
 declare var $: any;
 
 @Component({
   selector: 'app-shopping-payment',
   templateUrl: './shopping-payment.component.html',
-  styleUrls: ['./shopping-payment.scss', '../shopping-order/shopping-order.scss']
+  styleUrls: ['./shopping-payment.scss', '../shopping-order/shopping-order.scss'],
+  animations: [layerAnimation]
 })
 export class ShoppingPaymentComponent implements OnInit {
+  /** 同頁滑動切換 */
+  public layerTrig = 0;
   public apiUrl = environment.apiUrl;
   public ablePayment = false;
   public payWays: Response_GetPayment = new Response_GetPayment();
@@ -108,7 +112,7 @@ export class ShoppingPaymentComponent implements OnInit {
     this.reqData.CSPayment_ID = payWay.CSPayment_ID;
     this.reqData.CSPaymentPart_ID = payWay.List_CSPaymentPart[0].CSPaymentPart_ID;
     this.reqData.UserFavourite_ID = null;
-    this.appService.callLayer('.shopping-cardnum');
+    this.layerTrig = 1;
   }
 
   agreeFastCard(e: any): void {
@@ -132,6 +136,10 @@ export class ShoppingPaymentComponent implements OnInit {
     (document.getElementById('postPayment') as HTMLFormElement).submit();
   }
 
+  /** 同頁滑動切換 */
+  layerToggle(e) {
+    this.layerTrig = e;
+  }
 }
 
 export class Request_GetPayment extends Model_ShareData { }

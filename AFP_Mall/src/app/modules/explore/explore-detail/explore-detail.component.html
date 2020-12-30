@@ -173,7 +173,7 @@
                                           篩選與排序
                                       </button>
                                   </div>
-                                  <div class="sub-img" onclick="callsortLayer('.productslistsort');">
+                                  <div class="sub-img" onclick="layerToggle(1);">
                                       <button class="btn px-0"><i class="material-icons">&#xE152;</i></button>
                                   </div>
                               </div>
@@ -261,149 +261,147 @@
   </main>
 
   <!--篩選-->
-  <div class="sortlayer">
-      <div class="productslistsort">
-          <div id="open-pagebox">
-              <div class="open-page-title flex-inline-between">
-                  <div class="title-icon">
-                      <button class="btn" onclick="backsortLayer();">
-                          <i class="material-icons">&#xe314;</i>
-                      </button>
-                  </div>
-                  <div class="title-txt">
-                      篩選與排序
-                  </div>
-                  <div class="title-txt">
-                  </div>
-              </div>
-              <ul class="open-page-ul">
-                  <label>篩選</label>
-                  <li class="flex-inline-between active" onclick="callsortLayer('.productslistsort1');">
-                      <div class="">
-                          商品分類
-                      </div>
-                      <div class="">
-                          手機殼/手機套<i class="material-icons">&#xe315;</i>
-                      </div>
-                  </li>
-                  <li class="flex-inline-between">
-                      <div class="">
-                          免運費
-                      </div>
-                      <div class="">
-                          全部顯示<i class="material-icons">&#xe315;</i>
-                      </div>
-                  </li>
-                  <li class="flex-inline-between">
-                      <div class="">
-                          材質
-                      </div>
-                      <div class="">
-                          全部顯示<i class="material-icons">&#xe315;</i>
-                      </div>
-                  </li>
-              </ul>
-              <ul class="open-page-ul">
-                  <label>排序</label>
-                  <li class="flex-inline-between">
-                      <div class="">
-                          最新上架優先
-                      </div>
-                      <div class="">
-                      </div>
-                  </li>
-                  <li class="flex-inline-between active">
-                      <div class="">
-                          熱門程度優先
-                      </div>
-                      <div class="">
-                          <i class="material-icons done">&#xe876;</i>
-                      </div>
-                  </li>
-                  <li class="flex-inline-between">
-                      <div class="">
-                          價格由低而高
-                      </div>
-                      <div class="">
-                      </div>
-                  </li>
-                  <li class="flex-inline-between">
-                      <div class="">
-                          價格由高而低
-                      </div>
-                      <div class="">
-                      </div>
-                  </li>
-              </ul>
-              <button class="btn all-reset">
-                  全部重設
-              </button>
-          </div>
-      </div>
-      <div class="productslistsort1">
-          <div id="open-pagebox1">
-              <div class="open-page-title flex-inline-between">
-                  <div class="close-btn">
-                      <button class="btn" onclick="backsortLayer();">
-                          <i class="material-icons">&#xe314;</i>
-                      </button>
-                  </div>
-                  <div class="title-txt">
-                      商品分類
-                  </div>
-                  <div class="title-txt">
-                  </div>
-              </div>
-              <ul class="open-page-ul">
-                  <li class="flex-inline-between active">
-                      <div class="">
-                          <i class="material-icons done">&#xe876;</i> 全部顯示
-                      </div>
-                      <div class="">
-                      </div>
-                  </li>
-                  <li class="flex-inline-between">
-                      <div class="">
-                          手機殼/手機套
-                      </div>
-                      <div class="">
-                          13274
-                      </div>
-                  </li>
-                  <li class="flex-inline-between">
-                      <div class="">
-                          平板/電腦保護殼
-                      </div>
-                      <div class="">
-                          1231
-                      </div>
-                  </li>
-                  <li class="flex-inline-between">
-                      <div class="">
-                          耳機
-                      </div>
-                      <div class="">
-                          274
-                      </div>
-                  </li>
-                  <li class="flex-inline-between">
-                      <div class="">
-                          USB隨身碟
-                      </div>
-                      <div class="">
-                          1374
-                      </div>
-                  </li>
-                  <li class="flex-inline-between">
-                      <div class="">
-                          行動電源
-                      </div>
-                      <div class="">
-                          1327
-                      </div>
-                  </li>
-              </ul>
-          </div>
-      </div>
+  <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="this.layerTrig === 1">
+    <div id="open-pagebox" class="productslistsort">
+        <div class="open-page-title flex-inline-between">
+            <div class="title-icon">
+                <button class="btn" onclick="layerToggle();">
+                    <i class="material-icons">&#xe314;</i>
+                </button>
+            </div>
+            <div class="title-txt">
+                篩選與排序
+            </div>
+            <div class="title-txt">
+            </div>
+        </div>
+        <ul class="open-page-ul">
+            <label>篩選</label>
+            <li class="flex-inline-between active" onclick="layerToggle(2);">
+                <div class="">
+                    商品分類
+                </div>
+                <div class="">
+                    手機殼/手機套<i class="material-icons">&#xe315;</i>
+                </div>
+            </li>
+            <li class="flex-inline-between">
+                <div class="">
+                    免運費
+                </div>
+                <div class="">
+                    全部顯示<i class="material-icons">&#xe315;</i>
+                </div>
+            </li>
+            <li class="flex-inline-between">
+                <div class="">
+                    材質
+                </div>
+                <div class="">
+                    全部顯示<i class="material-icons">&#xe315;</i>
+                </div>
+            </li>
+        </ul>
+        <ul class="open-page-ul">
+            <label>排序</label>
+            <li class="flex-inline-between">
+                <div class="">
+                    最新上架優先
+                </div>
+                <div class="">
+                </div>
+            </li>
+            <li class="flex-inline-between active">
+                <div class="">
+                    熱門程度優先
+                </div>
+                <div class="">
+                    <i class="material-icons done">&#xe876;</i>
+                </div>
+            </li>
+            <li class="flex-inline-between">
+                <div class="">
+                    價格由低而高
+                </div>
+                <div class="">
+                </div>
+            </li>
+            <li class="flex-inline-between">
+                <div class="">
+                    價格由高而低
+                </div>
+                <div class="">
+                </div>
+            </li>
+        </ul>
+        <button class="btn all-reset">
+            全部重設
+        </button>
+    </div>
+  </div>
+  <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="this.layerTrig === 2">
+    <div id="open-pagebox1" class="productslistsort1">
+        <div class="open-page-title flex-inline-between">
+            <div class="close-btn">
+                <button class="btn" onclick="layerToggle(1);">
+                    <i class="material-icons">&#xe314;</i>
+                </button>
+            </div>
+            <div class="title-txt">
+                商品分類
+            </div>
+            <div class="title-txt">
+            </div>
+        </div>
+        <ul class="open-page-ul">
+            <li class="flex-inline-between active">
+                <div class="">
+                    <i class="material-icons done">&#xe876;</i> 全部顯示
+                </div>
+                <div class="">
+                </div>
+            </li>
+            <li class="flex-inline-between">
+                <div class="">
+                    手機殼/手機套
+                </div>
+                <div class="">
+                    13274
+                </div>
+            </li>
+            <li class="flex-inline-between">
+                <div class="">
+                    平板/電腦保護殼
+                </div>
+                <div class="">
+                    1231
+                </div>
+            </li>
+            <li class="flex-inline-between">
+                <div class="">
+                    耳機
+                </div>
+                <div class="">
+                    274
+                </div>
+            </li>
+            <li class="flex-inline-between">
+                <div class="">
+                    USB隨身碟
+                </div>
+                <div class="">
+                    1374
+                </div>
+            </li>
+            <li class="flex-inline-between">
+                <div class="">
+                    行動電源
+                </div>
+                <div class="">
+                    1327
+                </div>
+            </li>
+        </ul>
+    </div>
   </div>
 </div>

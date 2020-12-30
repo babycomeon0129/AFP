@@ -162,14 +162,14 @@
       </footer>
   </form>
 
-  <div class="multilayer">
+  <div class="layerTrig container" [@layerTrigger] *ngIf="this.layerTrig === 1">
       <!-- 選擇優惠券 -->
       <div class="shopping-discount">
           <header>
               <div class="header-secondary container linebt-row">
                   <div class="index-flex justify-content-between">
                       <div class="item one">
-                          <div class="close-btn" (click)="appService.backLayer()">
+                          <div class="close-btn" (click)="layerToggle()">
                               <i class="material-icons">&#xe314;</i>
                           </div>
                       </div>
@@ -302,7 +302,7 @@
                     <div class="total-footer">
                       <div class="item-group">
                         <div class="item">
-                          <button type="button" class="cancel-btn" (click)="appService.backLayer();">取消</button>
+                          <button type="button" class="cancel-btn" (click)="layerToggle();">取消</button>
                         </div>
                         <div class="item">
                           <button type="button" class="submit-btn" (click)="confirmVoucher()">確定</button>
@@ -317,13 +317,15 @@
               </div>
           </div>
       </div>
+  </div>
+  <div class="layerTrig container" [@layerTrigger] *ngIf="this.layerTrig === 2">
       <!-- 發票選取 -->
       <div class="shopping-invoice">
         <header>
           <div class="header-secondary container linebt-row">
             <div class="index-flex justify-content-between">
                 <div class="item two">
-                  <div class="close-btn" (click)="appService.backLayer();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                  <div class="close-btn" (click)="layerToggle();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
                   <i class="material-icons">&#xe314;</i>
                 </div>
                 </div>
@@ -352,7 +354,7 @@
                       <input type="text" name="loveCode" placeholder="請輸入愛心碼" class="heartcode"
                         [(ngModel)]="info.preInvoice.loveCode">
                     </div>
-                    <div class="item search-txt pl-2" (click)="appService.callsortLayer('.hcode');">
+                    <div class="item search-txt pl-2" (click)="layerToggle(4);">
                       查詢<i class="material-icons">&#xe315;</i>
                     </div>
                   </div>
@@ -400,13 +402,15 @@
           </footer>
         </form>
       </div>
+  </div>
+  <div class="layerTrig container" [@layerTrigger] *ngIf="this.layerTrig === 3">
       <!-- 收據選取 -->
       <div class="shopping-receipt">
         <header>
             <div class="header-secondary container linebt-row">
                 <div class="index-flex justify-content-between">
                     <div class="item two">
-                        <div class="close-btn" (click)="appService.backLayer();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                        <div class="close-btn" (click)="layerToggle();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
                             <i class="material-icons">&#xe314;</i>
                         </div>
                     </div>
@@ -458,67 +462,63 @@
   </div>
 
 
-  <div class="sortlayer">
-
+  <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="this.layerTrig === 4">
       <!-- 愛心碼選單 -->
-      <div class="hcode">
-          <div id="open-pagebox">
-              <div class="open-page-title flex-inline-between">
-                  <div class="title-icon">
-                      <button class="btn" (click)="appService.backsortLayer();">
-                          <i class="material-icons">&#xe314;</i>
-                      </button>
-                  </div>
-                  <div class="title-txt">
-                      查詢愛心碼
-                  </div>
-                  <div class="title-txt">
-                  </div>
+      <div class="hcode" id="open-pagebox">
+          <div class="open-page-title flex-inline-between">
+              <div class="title-icon">
+                  <button class="btn" (click)="layerToggle();">
+                      <i class="material-icons">&#xe314;</i>
+                  </button>
               </div>
-              <ul class="open-page-ul" id="queryhcode" (click)="appService.backsortLayer();">
-                  <li class="flex-inline-between" value="119">
-                      <div class="item">
-                          社團法人台灣流浪動物希望協會
-                      </div>
-                      <div class="item">
-                          119
-                      </div>
-                  </li>
-                  <li class="flex-inline-between" value="0095">
-                      <div class="item">
-                          財團法人法鼓山文教基金會
-                      </div>
-                      <div class="item">
-                          0095
-                      </div>
-                  </li>
-                  <li class="flex-inline-between" value="172">
-                      <div class="item">
-                          流浪貓保護協會
-                      </div>
-                      <div class="item">
-                          172
-                      </div>
-                  </li>
-                  <li class="flex-inline-between" value="0528">
-                      <div class="item">
-                          中華民國流浪動物花園協會
-                      </div>
-                      <div class="item">
-                          0528
-                      </div>
-                  </li>
-                  <li class="flex-inline-between" value="529">
-                      <div class="item">
-                          社團法人高雄市關懷流浪動物協會
-                      </div>
-                      <div class="item">
-                          529
-                      </div>
-                  </li>
-              </ul>
+              <div class="title-txt">
+                  查詢愛心碼
+              </div>
+              <div class="title-txt">
+              </div>
           </div>
+          <ul class="open-page-ul" id="queryhcode" (click)="layerToggle();">
+              <li class="flex-inline-between" value="119">
+                  <div class="item">
+                      社團法人台灣流浪動物希望協會
+                  </div>
+                  <div class="item">
+                      119
+                  </div>
+              </li>
+              <li class="flex-inline-between" value="0095">
+                  <div class="item">
+                      財團法人法鼓山文教基金會
+                  </div>
+                  <div class="item">
+                      0095
+                  </div>
+              </li>
+              <li class="flex-inline-between" value="172">
+                  <div class="item">
+                      流浪貓保護協會
+                  </div>
+                  <div class="item">
+                      172
+                  </div>
+              </li>
+              <li class="flex-inline-between" value="0528">
+                  <div class="item">
+                      中華民國流浪動物花園協會
+                  </div>
+                  <div class="item">
+                      0528
+                  </div>
+              </li>
+              <li class="flex-inline-between" value="529">
+                  <div class="item">
+                      社團法人高雄市關懷流浪動物協會
+                  </div>
+                  <div class="item">
+                      529
+                  </div>
+              </li>
+          </ul>
       </div>
-
   </div>
 </div>

@@ -15,7 +15,7 @@ import { ETicketDetailComponent } from './eticket-detail/eticket-detail.componen
 import { ETicketOrderDetailComponent } from './eticket-order-detail/eticket-order-detail.component';
 
 const routes: Routes = [
-  { path: 'MemberCard', canActivate: [SessionAliveGuard], component: MemberCardComponent},
+  { path: 'MemberCard', canActivate: [SessionAliveGuard], component: MemberCardComponent, data: {animation: 'MemberCard'}},
   { path: 'MemberTicket', canActivate: [SessionAliveGuard], component: MemberTicketComponent},
   { path: 'MemberCoin', canActivate: [SessionAliveGuard], component: MemberCoinComponent},
   { path: 'MemberDiscount', component: MemberDiscountComponent, data: {animation: 'MemberDiscount'}},

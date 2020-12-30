@@ -3,11 +3,13 @@ import { Component, OnInit, Input, AfterViewInit, OnDestroy } from '@angular/cor
 import { AppService } from 'src/app/app.service';
 import { Response_Games, Request_Games, AFP_GamePart } from '@app/_models';
 import { ModalService } from '../../../../shared/modal/modal.service';
+import { layerAnimation,  layerAnimationUp} from '../../../../animations';
 
 @Component({
   selector: 'app-scratch',
   templateUrl: './scratch.component.html',
-  styleUrls: ['./scratch.scss']
+  styleUrls: ['./scratch.scss'],
+  animations: [layerAnimation, layerAnimationUp]
 })
 export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
   /** 遊戲資料（遊戲名稱、類型、格數、上方圖片、規則、遊玩一次所需點數、刮刮樂圖片。每次玩完不更新） */
@@ -39,6 +41,9 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
   public imgTop = new Image();
   /** 開獎結果 */
   public prizeData: AFP_GamePart;
+  /** 同頁滑動切換 */
+  public layerTrig = 0;
+  public layerTrigUp = 0;
 
   constructor(public appService: AppService, public modal: ModalService, private route: ActivatedRoute) {
   }
@@ -128,14 +133,14 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
         this.prizeData = data.GameReward;
         this.ctxTop.globalCompositeOperation = 'destination-over';
         this.ctxTop.canvas.style.opacity = '0'; // 上層canvas變透明
-        this.appService.callLayerUp('.winmsg');
+        this.layerTrigUp = 1;
       });
     }
   }
 
   /** 再玩一次 */
   playAgain() {
-    this.appService.backLayerUp();
+    this.layerTrigUp = 0;
     // this.drawBot(); // imgBot沒有設src，iOS會報錯，而實際底層的圖是用bottomCanvas的background-image了，也不需要再繪圖一次
     this.drawTop();
     if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
@@ -228,14 +233,22 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.appService.tLayerUp.includes('.winmsg')) {
-      this.appService.backLayerUp();
-    }
+    // if (this.appService.tLayerUp.includes('.winmsg')) {
+    //   this.appService.backLayerUp();
+    // }
     this.topCanvas.removeEventListener('touchstart', (e) => { });
     this.topCanvas.removeEventListener('touchend', (e) => { });
     this.topCanvas.removeEventListener('touchmove', (e) => { });
     this.topCanvas.removeEventListener('mousedown', (e) => { });
     document.removeEventListener('mouseup', (e) => { });
     this.topCanvas.removeEventListener('mousemove', (e) => { });
+  }
+
+  /** 同頁滑動切換 */
+  layerToggle(e) {
+    this.layerTrig = e;
+  }
+  layerToggleUp(e){
+    this.layerTrigUp = e;
   }
 }

@@ -1,100 +1,107 @@
 <div class="wrap container">
 
   <header>
-      <div class="header-secondary container">
-          <div class="index-flex justify-content-between">
-              <div class="item two">
-                  <div class="close-btn">
-                      <button [hidden]="appService.isApp !== null" class="btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
-                          <i class="material-icons">&#xe314;</i>
-                      </button>
-                  </div>
-              </div>
-              <div class="item three text-center">
-                  <div class="title-name">1元搶購優惠</div>
-              </div>
-              <div class="item two">
-              </div>
+    <div class="header-secondary container">
+      <div class="index-flex justify-content-between">
+        <div class="item two">
+          <div class="close-btn">
+            <button [hidden]="appService.isApp !== null" class="btn" onclick="history.back();" data-toggle="tooltip"
+              data-placement="bottom" title="回上一頁">
+              <i class="material-icons">&#xe314;</i>
+            </button>
           </div>
+        </div>
+        <div class="item three text-center">
+          <div class="title-name">1元搶購優惠</div>
+        </div>
+        <div class="item two">
+        </div>
       </div>
+    </div>
   </header>
 
 
   <main>
-      <!-- Swiper for kv banner-->
-      <div class="kvbn-box">
-        <swiper class="shoppingkv swiper-container" [config]="adTop">
-          <div class="swiper-wrapper">
-              <div *ngFor="let cover of coverImg" class="swiper-slide">
-                  <a [href]="(cover?.ADImg_URL === '/')? 'javascript:;' : cover.ADImg_URL" [target]="cover?.ADImg_URLTarget" rel="noopener noreferrer">
-                    <div [lazyLoad]="cover?.ADImg_Img" [defaultImage] ="appService.defaultImage" class="kvbn-img"></div>
-                  </a>
-              </div>
+    <!-- Swiper for kv banner-->
+    <div class="kvbn-box">
+      <swiper class="shoppingkv swiper-container" [config]="adTop">
+        <div class="swiper-wrapper">
+          <div *ngFor="let cover of coverImg" class="swiper-slide">
+            <a [href]="(cover?.ADImg_URL === '/')? 'javascript:;' : cover.ADImg_URL" [target]="cover?.ADImg_URLTarget"
+              rel="noopener noreferrer">
+              <div [lazyLoad]="cover?.ADImg_Img" [defaultImage]="appService.defaultImage" class="kvbn-img"></div>
+            </a>
           </div>
-        </swiper>
-      </div>
-      <div class="d-block">
+        </div>
+      </swiper>
+    </div>
+    <div class="d-block">
       <!-- content -->
       <div *ngIf="voucherList?.length > 0; else elseBlock" class="mycoin-couponbox card-columns one p-3">
         <div *ngFor="let dir of voucherList">
           <div *ngFor="let voucher of dir.VoucherData" class="card border-radius5">
-              <div class="card-body">
+            <div class="card-body">
               <div class="card-text">
-                  <div class="member-flex">
-                      <div [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', voucher?.Voucher_Code] : ['/Voucher/VoucherDetail', voucher?.Voucher_UserVoucherCode]" class="item one">
-                          <div [lazyLoad]="voucher?.Voucher_Image" [defaultImage] ="appService.defaultImage" class="rwdimg logo-img"></div>
-                      </div>
-                      <div class="item three px-2">
-                          <p>{{voucher?.Voucher_Title}}</p>
-                          <p>{{voucher?.Voucher_ExtName}}</p>
-                          <p>{{voucher?.Voucher_UsedOnDate | date: 'yyyy/MM/dd'}} ~ {{voucher?.Voucher_UsedOffDate | date: 'yyyy/MM/dd'}}</p>
-                      </div>
-                      <div class="item one">
-                        <button (click)="toVoucher(voucher)"
-                          [disabled]="appService.loginState === true && (voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3 || voucher.Voucher_IsFreq === 4)"
-                          [ngClass]="{'gray-obtn': voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3 || voucher.Voucher_IsFreq === 4,
+                <div class="member-flex">
+                  <div
+                    [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', voucher?.Voucher_Code] : ['/Voucher/VoucherDetail', voucher?.Voucher_UserVoucherCode]"
+                    class="item one">
+                    <div [lazyLoad]="voucher?.Voucher_Image" [defaultImage]="appService.defaultImage"
+                      class="rwdimg logo-img"></div>
+                  </div>
+                  <div class="item three px-2">
+                    <p>{{voucher?.Voucher_Title}}</p>
+                    <p>{{voucher?.Voucher_ExtName}}</p>
+                    <p>{{voucher?.Voucher_UsedOnDate | date: 'yyyy/MM/dd'}} ~ {{voucher?.Voucher_UsedOffDate | date:
+                      'yyyy/MM/dd'}}</p>
+                  </div>
+                  <div class="item one">
+                    <button (click)="toVoucher(voucher)"
+                      [disabled]="appService.loginState === true && (voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3 || voucher.Voucher_IsFreq === 4)"
+                      [ngClass]="{'gray-obtn': voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3 || voucher.Voucher_IsFreq === 4,
                                       'index-btn': voucher.Voucher_IsFreq === 1,
                                       'index-outline-btn': voucher.Voucher_IsFreq === 2 || voucher.Voucher_IsFreq === 5}"
-                          class="btn index-btn small-80 sendval">
-                          {{appService.loginState === false? '兌換' : voucher.Voucher_FreqName}}
-                        </button>
-                        <div *ngIf="voucher.Voucher_DedPoint > 0" class="m-quantity small pl-1">
-                          <img src="../img/share/mobiicoin_red.png" class="coinimg-m">
-                          {{voucher.Voucher_SpecialPoint > 0? voucher.Voucher_SpecialPoint : voucher.Voucher_DedPoint | currency: '':'':'1.0-2'}}
-                        </div>
-                      </div>
+                      class="btn index-btn small-80 sendval">
+                      {{appService.loginState === false? '兌換' : voucher.Voucher_FreqName}}
+                    </button>
+                    <div *ngIf="voucher.Voucher_DedPoint > 0" class="m-quantity small pl-1">
+                      <img src="../img/share/mobiicoin_red.png" class="coinimg-m">
+                      {{voucher.Voucher_SpecialPoint > 0? voucher.Voucher_SpecialPoint : voucher.Voucher_DedPoint |
+                      currency: '':'':'1.0-2'}}
+                    </div>
                   </div>
-                  <div class="offers-progress progress">
-                      <div class="progress-bar" role="progressbar" [style.width]="voucher?.Voucher_IssuanceLimit == -1? 0 : (voucher?.Voucher_ReleasedCount / voucher?.Voucher_IssuanceLimit) * 100 +'%'"></div>
-                      <div class="offers-progress-txt">{{voucher?.Voucher_ReleasedCount}} 已兌換</div>
+                </div>
+                <div class="offers-progress progress">
+                  <div class="progress-bar" role="progressbar"
+                    [style.width]="voucher?.Voucher_IssuanceLimit == -1? 0 : (voucher?.Voucher_ReleasedCount / voucher?.Voucher_IssuanceLimit) * 100 +'%'">
                   </div>
+                  <div class="offers-progress-txt">{{voucher?.Voucher_ReleasedCount}} 已兌換</div>
+                </div>
               </div>
-              </div>
-              <div class="card-footer bg-cardfooter pt-2 pb-0">
+            </div>
+            <div class="card-footer bg-cardfooter pt-2 pb-0">
               <div class="member-flex small-80">
-                  <div class="item one text-nowrap">
-                      <img src="../img/share/{{voucher?.Voucher_ShowType}}_w.png" class="nearbyimg" alt="">{{voucher?.Voucher_ShowTypeName}}
-                  </div>
-                  <!-- <div class="item three txt-line-clamp1 text-center">
+                <div class="item one text-nowrap">
+                  <img src="../img/share/{{voucher?.Voucher_ShowType}}_w.png" class="nearbyimg"
+                    alt="">{{voucher?.Voucher_ShowTypeName}}
+                </div>
+                <!-- <div class="item three txt-line-clamp1 text-center">
                       近高雄巨蛋捷運站
                   </div>
                   <div class="item two text-right">
                       距離33km
                   </div> -->
               </div>
-              </div>
             </div>
           </div>
         </div>
       </div>
-      <ng-template #elseBlock>
-        <div class="no-data">
-          <img src="../img/share/Overdue.png">
-          <p>Oops！可惜晚了一步...</p>
-        </div>
-      </ng-template>
-
-      <div class="addheight"></div>
-      <div class="h-50 d-inline-block"></div>
+    </div>
+    <div class="no-data" *ngIf="voucherList?.length === 0" #elseBlock>
+      <img src="../img/share/Overdue.png">
+      <p>Oops！可惜晚了一步...</p>
+    </div>
+    <div class="addheight"></div>
+    <div class="h-50 d-inline-block"></div>
   </main>
 </div>

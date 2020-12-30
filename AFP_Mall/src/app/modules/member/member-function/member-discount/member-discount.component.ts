@@ -5,12 +5,14 @@ import { ModalService } from '@app/shared/modal/modal.service';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 import { ModalOptions } from 'ngx-bootstrap';
+import { layerAnimation,  layerAnimationUp} from '../../../../animations';
 
 
 @Component({
   selector: 'app-member-discount',
   templateUrl: './member-discount.component.html',
-  styleUrls: ['../../member/member.scss']
+  styleUrls: ['../../member/member.scss'],
+  animations: [layerAnimation, layerAnimationUp]
 })
 export class MemberDiscountComponent implements OnInit {
   /** 優惠券列表(原始名單) */
@@ -45,7 +47,8 @@ export class MemberDiscountComponent implements OnInit {
   public resetOpen = false;
   /** APP特例處理 */
   public showBack = false;
-
+  /** 同頁滑動切換 */
+  public layerTrig = 0;
 
   constructor(public appService: AppService, public modal: ModalService, public router: Router, private route: ActivatedRoute,
               private meta: Meta, private title: Title) {
@@ -62,6 +65,11 @@ export class MemberDiscountComponent implements OnInit {
     if (this.route.snapshot.queryParams.showBack === 'true') {
       this.showBack = true;
     }
+  }
+
+  /** 同頁滑動切換 */
+  layerToggle(e) {
+    this.layerTrig = e;
   }
 
   /** 讀取優惠券 */

@@ -6,11 +6,13 @@ import { ActivatedRoute } from '@angular/router';
 // import { NgxMasonryOptions } from 'ngx-masonry';
 import { CookieService } from 'ngx-cookie-service';
 import { Meta, Title } from '@angular/platform-browser';
+import { layerAnimation, layerAnimationUp } from '../../../animations';
 
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.scss']
+  styleUrls: ['./product-list.scss'],
+  animations: [ layerAnimation ]
 })
 export class ProductListComponent implements OnInit {
   /** 購物車編碼 */
@@ -39,6 +41,8 @@ export class ProductListComponent implements OnInit {
   public attrValueMap: Map<number, Map<number, string>> = new Map();
   /** 目錄篩選開啟狀態 */
   public showDirMenu = false;
+  /** 同頁滑動切換 */
+  public layerTrig = 0;
 
   constructor(public appService: AppService, private route: ActivatedRoute, private cookieService: CookieService
             , private meta: Meta, private title: Title) {
@@ -110,7 +114,7 @@ export class ProductListComponent implements OnInit {
         this.attrValuesList = item.List_AttributeValue;
       }
     }
-    this.appService.callsortLayer('.productslistsort1');
+    this.layerTrig = 2;
   }
 
   /** 選取規格值
@@ -173,7 +177,7 @@ export class ProductListComponent implements OnInit {
       this.attrValueStrList.push(attrVStr);
     });
     this.readProducts();
-    this.appService.backsortLayer();
+    this.layerTrig = 0;
     this.attrValueStrList = [];
   }
 
@@ -183,6 +187,11 @@ export class ProductListComponent implements OnInit {
     this.attrValueStrList = [];
     this.sorting = 1;
     this.readProducts();
-    this.appService.backsortLayer();
+    this.layerTrig = 0;
+  }
+
+  /** 同頁滑動切換 */
+  layerToggle(e) {
+    this.layerTrig = e;
   }
 }
