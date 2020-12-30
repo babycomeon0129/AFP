@@ -65,7 +65,7 @@
           <div class="fixed-btn container">
             <!-- 狀態未開通或已開通才可使用 -->
               <button *ngIf="userTicket?.UserTicket_UsedState === 0 || userTicket?.UserTicket_UsedState === 1"
-              (click)="appService.callLayer('.useticket')"
+              (click)="layerToggle(1)"
                 type="button" class="btn index-btn w-100 msg-open" data-toggle="modal" data-target="#messageModal" data-dismiss="modal" aria-label="Close">
                 使用
               </button>
@@ -74,17 +74,17 @@
   </div>
 
 
-  <div class="multilayer">
+  <div class="layerTrig container" [@layerTrigger] *ngIf="this.layerTrig === 1">
     <div class="useticket">
       <div class="title-box">
           <div class="item icon-btn">
-              <button class="btn px-0" (click)="appService.backLayer();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+              <button class="btn px-0" (click)="layerToggle()" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
                   <i class="material-icons">&#xe314;</i>
               </button>
           </div>
           <div class="item title-name">使用票券</div>
           <div class="item icon-btn">
-              <button class="btn bluedk-outline-btn bt-small" (click)="appService.backLayer();">票券詳情</button>
+              <button class="btn bluedk-outline-btn bt-small" (click)="layerToggle()">票券詳情</button>
           </div>
       </div>
       <div class="text-bluedk text-center">

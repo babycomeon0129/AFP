@@ -5,13 +5,15 @@ import { Request_MemberOrder, Response_MemberOrder, AFP_MemberOrder, AFP_ECStore
   Model_ShareData, AFP_Services, Request_MemberServices, Response_MemberServices } from '@app/_models';
 import { ModalService } from '../../../../shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
+import { layerAnimation } from '../../../../animations';
 
 @Component({
   selector: 'app-eticket-order-detail',
   templateUrl: './eticket-order-detail.component.html',
   styleUrls: ['../../member/member.scss',
               '../../member-function/member-order/member-order.scss',
-              '../../../order/shopping-order/shopping-order.scss']
+              '../../../order/shopping-order/shopping-order.scss'],
+  animations: [layerAnimation]
 })
 export class ETicketOrderDetailComponent implements OnInit {
   /** 訂單編號 */
@@ -28,6 +30,8 @@ export class ETicketOrderDetailComponent implements OnInit {
   public originalTotal: number;
   /** 客服單 */
   public servicesModel: AFP_Services = new AFP_Services();
+  /** 同頁滑動切換 */
+  public layerTrig = 0;
 
   constructor(private route: ActivatedRoute, public appService: AppService, public modal: ModalService,
               private router: Router, private meta: Meta, private title: Title) {
@@ -91,7 +95,7 @@ export class ETicketOrderDetailComponent implements OnInit {
               this.appService.toApi('Member', '1515', serviceRequest).subscribe((serviceData: Response_MemberServices) => {
                 // 塞入客服單單號
                 this.servicesModel.Services_TableNo = serviceData.AFP_Services.Services_TableNo;
-                this.appService.callLayer('.returnReason');
+                this.layerTrig = 1;
               });
             }
           });

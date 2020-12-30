@@ -3,11 +3,14 @@ import { AppService } from 'src/app/app.service';
 import { Request_MemberMsg, Response_MemberMsg, AFP_MemberMsgTitle, AFP_IMessage } from '@app/_models';
 import { Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
+import { layerAnimation} from '../../../animations';
 
 @Component({
   selector: 'app-notification',
   templateUrl: './notification.component.html',
-  styleUrls: ['./notification.scss']
+  styleUrls: ['./notification.scss'],
+  animations: [layerAnimation]
+
 })
 export class NotificationComponent implements OnInit, OnDestroy {
   /** 主頁：通知分類 */
@@ -18,6 +21,8 @@ export class NotificationComponent implements OnInit, OnDestroy {
   public SCategoryName: string;
   /** 次頁：所選通知分類列表容器 */
   public SCategoryList: AFP_IMessage[];
+  /** 同頁滑動切換 */
+  public layerTrig = 0;
 
   public JustkaUrl = '';
 
@@ -68,7 +73,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
 
     this.appService.toApi('Member', '1517', request).subscribe((data: Response_MemberMsg) => {
       this.SCategoryList = data.List_Message;
-      this.appService.callLayer('.topic');
+      this.layerTrig = 1;
     });
   }
 
@@ -96,7 +101,11 @@ export class NotificationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.appService.tLayer = []; // 避免此頁callLayer後會直接到別的頁面會造成callLayer失效
+    this.layerTrig = 0; // 避免此頁callLayer後會直接到別的頁面會造成callLayer失效
   }
 
+  /** 同頁滑動切換 */
+  layerToggle(e) {
+    this.layerTrig = e;
+  }
 }

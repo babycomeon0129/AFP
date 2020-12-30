@@ -3,11 +3,13 @@ import { AppService } from 'src/app/app.service';
 import { Response_Games, Request_Games, AFP_GamePart } from '@app/_models';
 import { ModalService } from '../../../../shared/modal/modal.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { layerAnimation,  layerAnimationUp} from '../../../../animations';
 
 @Component({
   selector: 'app-luckyspin',
   templateUrl: './luckyspin.component.html',
-  styleUrls: ['./luckyspin.scss']
+  styleUrls: ['./luckyspin.scss'],
+  animations: [layerAnimation, layerAnimationUp]
 })
 export class LuckyspinComponent implements OnInit, AfterViewInit, OnDestroy {
   /** 遊戲資料（遊戲名稱、類型、格數、上方圖片、規則、遊玩一次所需點數。每次玩完不更新） */
@@ -27,6 +29,9 @@ export class LuckyspinComponent implements OnInit, AfterViewInit, OnDestroy {
   /** 本頁url */
   private currentUrl: string;
   public hideBackBtn = false; // APP特例處理
+  /** 同頁滑動切換 */
+  public layerTrig = 0;
+  public layerTrigUp = 0;
 
   constructor(public appService: AppService, public modal: ModalService, private router: Router, private route: ActivatedRoute,
               private renderer2: Renderer2) {
@@ -68,9 +73,9 @@ export class LuckyspinComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.appService.tLayerUp.includes('.winmsg')) {
-      this.appService.backLayerUp();
-    }
+    // if (this.appService.tLayerUp.includes('.winmsg')) {
+    //   this.appService.backLayerUp();
+    // }
   }
 
   /** 開始遊玩 */
@@ -116,7 +121,7 @@ export class LuckyspinComponent implements OnInit, AfterViewInit, OnDestroy {
             if (this.router.url === this.currentUrl) {
               // 更新總點數
               this.totalPoints = data.TotalPoint;
-              this.appService.callLayerUp('.winmsg');
+              this.layerTrigUp = 1;
               this.playingStatus = false;
             }
           });
@@ -127,7 +132,7 @@ export class LuckyspinComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /** 再玩一次 */
   playAgain() {
-    this.appService.backLayerUp();
+    this.layerTrigUp = 0;
     this.prizesArr.forEach(contbox => this.renderer2.removeClass(contbox, 'opacity5')); // 移除中獎項目動畫
   }
 
@@ -157,4 +162,11 @@ export class LuckyspinComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  /** 同頁滑動切換 */
+  layerToggle(e) {
+    this.layerTrig = e;
+  }
+  layerToggleUp(e){
+    this.layerTrigUp = e;
+  }
 }
