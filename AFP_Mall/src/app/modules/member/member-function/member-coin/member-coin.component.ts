@@ -5,17 +5,21 @@ import { Model_ShareData, AFP_Game, AFP_UserPoint, AFP_ChannelVoucher, Request_M
         Response_MemberUserVoucher, AFP_Voucher } from 'src/app/_models';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
+import { layerAnimation} from '../../../../animations';
 
 @Component({
   selector: 'app-member-coin',
   templateUrl: './member-coin.component.html',
-  styleUrls: ['../../member/member.scss', './member-coin.scss']
+  styleUrls: ['../../member/member.scss', './member-coin.scss'],
+  animations: [layerAnimation]
 })
 export class MemberCoinComponent implements OnInit {
   public info: Response_MemberPoint = new Response_MemberPoint();
   public pointHistory: AFP_UserPoint[] = [];
   public pointType = 0;
   public showBack = false; // APP特例處理
+  /** 同頁滑動切換 */
+  public layerTrig = 0;
 
   /** 活動分類導覽 */
   public boxTabs: SwiperOptions = {
@@ -104,6 +108,10 @@ export class MemberCoinComponent implements OnInit {
     }
   }
 
+  /** 同頁滑動切換 */
+  layerToggle(e) {
+    this.layerTrig = e;
+  }
 }
 
 export class Request_MemberPoint extends Model_ShareData {

@@ -19,7 +19,7 @@
                   <p>快加入指定會員卡，可提升會員等級，還有一堆好禮優惠可以拿喔～</p>
               </div>
               <div class="py-3 text-center">
-                  <label class="custom-file-upload" (click)="showAddCard()">
+                  <label class="custom-file-upload" (click)="showAddCard(); layerToggle(1);">
                       <div class="upload-box">
                           <img class="add-btnbg" src="../img/member/mycard.png">
                       </div>
@@ -39,7 +39,7 @@
                       <p class="info-bc align-self-center txt-line-clamp1">{{card?.UserFavourite_Text1}}</p>
                       <p class="info-bb mt-auto ml-auto">{{card?.UserFavourite_Text2.substring(card?.UserFavourite_Text2.length-4)}}</p>
                   </div>
-                  <img class="uploadphoto" src="../img/member/uploadphoto.png" (click)="toUpdateCard(card)">
+                  <img class="uploadphoto" src="../img/member/uploadphoto.png" (click)="toUpdateCard(card); layerToggle(2);">
               </div>
               <!-- <div class="small-80 pt-3 px-2 text-bluedk">＊如需記名服務，請至一卡通官網申請<a href="https://www.i-pass.com.tw/Miss" target="_blank" rel="noopener noreferrer"><span class="text-index">申請記名</span></a></div> -->
               <!-- 還未給連結 d-flex d-inline 暫不放入外層div class -->
@@ -53,13 +53,12 @@
   </div>
 
   <!--次頁-->
-  <div class="multilayer">
-
+  <div class="layerTrig container" [@layerTrigger] *ngIf="this.layerTrig === 1">
       <!--新增卡片2-->
       <div class="mycardadd">
         <div class="title-box">
           <div class="item icon-btn">
-              <button class="btn px-0" (click)="appService.backLayer(); formAddCard.resetForm()" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+              <button class="btn px-0" (click)="layerToggle(); formAddCard.resetForm()" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
                   <i class="material-icons">&#xe314;</i>
               </button>
           </div>
@@ -91,7 +90,7 @@
                           <div *ngIf="(!cardNumber.errors?.required) && (!cardNumLength || cardNumber.invalid) && formAddCard.submitted"
                             class="item text-danger numMK">卡號長度錯誤</div>
                           <div class="small-end text-right ml-auto">
-                              <span class="text-org cursor-pointer" (click)="appService.callLayerUp('.mycardprompt');">不知道卡片號碼在哪裡？</span>
+                              <span class="text-org cursor-pointer" (click)="layerToggleUp(1);">不知道卡片號碼在哪裡？</span>
                           </div>
                       </li>
                       <li>
@@ -129,15 +128,16 @@
               <div class="fixed-btn container">
                   <button type="submit" class="btn next-btn w-100">確認</button>
               </div>
-              <div class="modal-backdrop fade show d-none"></div>
           </form>
         </div>
       </div>
+  </div>
+  <div class="layerTrig container" [@layerTrigger] *ngIf="this.layerTrig === 2">
        <!--修改卡片2-->
        <div class="mycardedit">
           <div class="title-box">
               <div class="item icon-btn">
-                  <button class="btn px-0" (click)="appService.backLayer(); formUpdateCard.resetForm();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                  <button class="btn px-0" (click)="layerToggle(); formUpdateCard.resetForm();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
                       <i class="material-icons">&#xe314;</i>
                   </button>
               </div>
@@ -179,15 +179,15 @@
   </div>
 
   <!--卡片圖示-->
-  <div class="uplayer">
-      <div class="mycardprompt">
+  <div class="layerTrigUp container" [@layerTriggerUp] *ngIf="this.layerTrigUp === 1">
+      <div class="mycardprompt slideInUp animated slow">
           <div class="cardnum-title">卡片號碼位置</div>
           <div class="cardnum">
               <p>一卡通</p>
               <img src="../img/member/mycardPrompt1.png">
               <p>一卡通聯名卡</p>
               <img src="../img/member/mycardPrompt2.png">
-              <button type="button" class="btn index-outline-btn w-100 mt-4 masklayer-close" (click)="appService.backLayerUp();">關閉</button>
+              <button type="button" class="btn index-outline-btn w-100 mt-4 masklayer-close" (click)="layerToggleUp()">關閉</button>
           </div>
       </div>
   </div>

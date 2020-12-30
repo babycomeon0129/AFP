@@ -13,7 +13,7 @@
                   <div class="title-name">{{gameData?.AFP_Game?.Game_ExtName}}</div>
               </div>
               <div class="item two">
-                  <button type="button" class="btn bluedk-outline-btn bt-small" (click)="appService.callsortLayer('.luckspin-rules')">活動規則</button>
+                  <button type="button" class="btn bluedk-outline-btn bt-small" (click)="layerToggle(1)">活動規則</button>
               </div>
           </div>
       </div>
@@ -73,29 +73,27 @@
 
 
   <!-- 規則 -->
-  <div class="sortlayer">
-      <div class="luckspin-rules">
-          <div id="open-pagebox">
-              <div class="open-page-title index-flex">
-                  <div class="item one title-icon">
-                      <button class="btn" (click)="appService.backsortLayer();">
-                          <i class="material-icons">&#xe314;</i>
-                      </button>
-                  </div>
-                  <div class="item two title-txt text-center">
-                      活動規則
-                  </div>
-                  <div class="item one title-txt">
-                  </div>
-              </div>
-              <div class="rulescontext" [innerHTML]="gameData?.AFP_Game?.Game_RuleText"></div>
+  <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="this.layerTrig === 1">
+    <div id="open-pagebox" class="luckspin-rules">
+        <div class="open-page-title index-flex">
+          <div class="item one title-icon">
+              <button class="btn" (click)="layerToggle()">
+                  <i class="material-icons">&#xe314;</i>
+              </button>
           </div>
-      </div>
+          <div class="item two title-txt text-center">
+              活動規則
+          </div>
+          <div class="item one title-txt">
+          </div>
+        </div>
+        <div class="rulescontext px-4 py-3" [innerHTML]="gameData?.AFP_Game?.Game_RuleText"></div>
+    </div>
   </div>
   <!-- 中奬 -->
-  <div class="uplayer">
+  <div class="layerTrigUp container" [@layerTriggerUp] *ngIf="this.layerTrigUp === 1">
       <div class="winmsg">
-        <button type="button" class="btn winbtn" (click)="playAgain()">×</button>
+        <button type="button" class="btn winbtn" (click)="playAgain();">×</button>
           <div class="winbox w-100">
               <div class="wincontbox">
                   <img [lazyLoad]="prizeData?.GamePart_State === 0? '/img/mission/thanks.png' : prizeData?.GamePart_ItemImage" [defaultImage]="appService.defaultImage">
@@ -105,7 +103,7 @@
           <div *ngIf="prizeData?.GamePart_State === 1" class="text-mission pb-3">{{prizeResponse()?.msg}}</div>
           <div class="d-flex d-inline justify-content-center">
             <button type="button" class="btn index-outline-btn w-50 mx-2" (click)="playAgain()">再玩一次</button>
-            <button type="button" class="btn index-btn w-50 mx-2" [hidden]="prizeData?.GamePart_State === 0" [routerLink]="[prizeResponse()?.page]" (click)="appService.backLayerUp()">前往查看</button>
+            <button type="button" class="btn index-btn w-50 mx-2" [hidden]="prizeData?.GamePart_State === 0" [routerLink]="[prizeResponse()?.page]" (click)="layerToggleUp()">前往查看</button>
           </div>
       </div>
   </div>
