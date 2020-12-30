@@ -8,11 +8,13 @@ import { Request_GetCheckout, Response_GetCheckout, Request_GetUserVoucher, Resp
         OrderVoucher, OrderInvoice, OrderStore, OrderPlatform } from '@app/_models';
 import { NgForm } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
+import { layerAnimation} from '../../../animations';
 
 @Component({
   selector: 'app-shopping-order',
   templateUrl: './shopping-order.component.html',
-  styleUrls: ['./shopping-order.scss', '../shopping-payment/shopping-payment.scss']
+  styleUrls: ['./shopping-order.scss', '../shopping-payment/shopping-payment.scss'],
+  animations: [layerAnimation]
 })
 export class ShoppingOrderComponent implements OnInit {
   /** 結帳頁資訊整合 */
@@ -41,6 +43,8 @@ export class ShoppingOrderComponent implements OnInit {
   public requestAddress: AFP_UserFavourite = new AFP_UserFavourite();
   /** 是否正在設定預設地址 (控制進入頁面正在設置時不呼叫callLayer()) */
   private settingAddress = true;
+  /** 同頁滑動切換 */
+  public layerTrig = 0;
 
   constructor(public appService: AppService, public modal: ModalService, private router: Router, private meta: Meta, private title: Title) {
     // tslint:disable: max-line-length
@@ -159,7 +163,7 @@ export class ShoppingOrderComponent implements OnInit {
     });
     this.info.platform.preVoucher = JSON.parse(JSON.stringify(this.info.platform.voucher));
     this.discount = this.info.totalDiscount;
-    this.appService.callLayer('.shopping-discount');
+    this.layerTrig = 5;
   }
 
   /** 重設優惠券選項(刪除所有已選) */
@@ -369,7 +373,7 @@ export class ShoppingOrderComponent implements OnInit {
             this.info.voucherInfo.push(this.info.platform.voucher);
           }
           this.recalculate();
-          this.appService.backLayer();
+          this.layerTrig = 0;
         } else {
           this.modal.show('message', { initialState: { success: false, message: data.ErrorMsg, showType: 1 } });
         }
@@ -377,7 +381,7 @@ export class ShoppingOrderComponent implements OnInit {
     } else {
       //  可不選擇優惠券
       // this.modal.show('message', { initialState: { success: false, message: '請選擇至少一張優惠券!', showType: 1 } });
-      this.appService.backLayer();
+      this.layerTrig = 0;
     }
   }
 
@@ -415,7 +419,7 @@ export class ShoppingOrderComponent implements OnInit {
       }
     });
     if (!this.settingAddress) {
-      this.appService.callLayer('.shopping-send');
+      this.layerTrig = 6;
     }
   }
 
@@ -494,13 +498,13 @@ export class ShoppingOrderComponent implements OnInit {
     this.holdStore.dwSelected = this.choiceNum;
     this.recalculate('freight');
     if (!this.settingAddress) {
-      this.appService.backLayer();
+      this.layerTrig = 0;
     }
   }
 
   toInvoice(): void {
     this.info.preInvoice = JSON.parse(JSON.stringify(this.info.invoice));
-    this.appService.callLayer('.shopping-invoice');
+    this.layerTrig = 7;
   }
 
   confirmInvoice(): void {
@@ -516,7 +520,7 @@ export class ShoppingOrderComponent implements OnInit {
           } else {
             this.info.invoice = this.info.preInvoice;
             this.info.invoice.message = '三聯式發票 ' + this.info.invoice.invoiceTitle + '/' + this.info.invoice.invoiceTaxID;
-            this.appService.backLayer();
+            this.layerTrig = 0;
           }
         }
         break;
@@ -527,7 +531,7 @@ export class ShoppingOrderComponent implements OnInit {
         } else {
           this.info.invoice = this.info.preInvoice;
           this.info.invoice.message = '發票捐贈 愛心碼:' + this.info.invoice.loveCode;
-          this.appService.backLayer();
+          this.layerTrig = 0;
         }
         break;
       }
@@ -535,7 +539,7 @@ export class ShoppingOrderComponent implements OnInit {
         this.info.invoice = this.info.preInvoice;
         this.info.invoice.carrierType = 3;
         this.info.invoice.message = '會員載具';
-        this.appService.backLayer();
+        this.layerTrig = 0;
         break;
       }
       case 5: { // 手機載具
@@ -550,7 +554,7 @@ export class ShoppingOrderComponent implements OnInit {
             this.info.invoice = this.info.preInvoice;
             this.info.invoice.carrierType = 1;
             this.info.invoice.message = '手機條碼載具 ' + this.info.invoice.carrierCode;
-            this.appService.backLayer();
+            this.layerTrig = 0;
           }
         }
         break;
@@ -660,7 +664,7 @@ export class ShoppingOrderComponent implements OnInit {
       // 將資料放入「地址列表」中
       this.addressList.push(JSON.parse(JSON.stringify(this.requestAddress)));
       // 回到上一頁(「地址列表」)
-      this.appService.backLayer();
+      this.layerTrig = 0;
       // 將「新增地址」的input清空
       form.resetForm();
       this.requestAddress = new AFP_UserFavourite();
@@ -717,6 +721,10 @@ export class ShoppingOrderComponent implements OnInit {
     }
   }
 
+  /** 同頁滑動切換 */
+  layerToggle(e) {
+    this.layerTrig = e;
+  }
 }
 
 export class OrderInfo {

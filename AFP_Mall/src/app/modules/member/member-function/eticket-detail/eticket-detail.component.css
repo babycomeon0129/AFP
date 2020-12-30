@@ -1,0 +1,80 @@
+@import '../../../../../styles/module/variable';
+
+/* ticket */
+.main-ticket-box{
+    position: relative;
+    padding: 1em;
+    a{
+        color: $blue-dark;
+        cursor: pointer;
+    }
+    .ticket-top-bg{
+        height: 26px;
+        background: #D9A77A;
+        box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.25);
+        border-radius: 5px;
+        padding: 8px;
+        margin: 0 -10px;
+        .line{
+            height: 10px;
+            background: #828282;
+            border-radius: 5px;
+        }
+    }
+    .ticket-content{
+        margin-top: -12px;
+        background-color: $default-white;
+        border-radius: 5px;
+        box-shadow: 0px 0px 5px rgba(0,0,0,.2);
+        padding: 0;
+        position: relative;
+        .circle{
+            color: #fff;
+            position: absolute;
+            width: 100%;
+            bottom: -13px;
+            background-image: url("https://mobii.ai/img/member/circle.svg");
+            background-repeat: repeat-x;
+        }
+        .img-box {
+            padding: 1em;
+            img{
+                width: 100%;
+                border: 1px solid #eee;
+            }
+        }
+        .ticket-mark{
+            position: absolute;
+            top: 1em;
+            left: 1em;
+            background: radial-gradient(50% 50% at 50% 50%, #E44D26 0%, #F06428 100%);
+            padding: 2px 5px;
+            color: $default-white;
+            &:before, &:after{
+                content: '';
+                display: block;
+                position: absolute;
+                width: 0;
+                height: 0;
+                border-style: solid;
+                right: -10px;
+            }
+            &:before{
+                border-width: 14px 10px 0 0;
+                border-color: #F06428 transparent transparent transparent;
+                top: 0;
+            }
+            &:after{
+                border-width: 14px 0 0 10px;
+                border-color: transparent transparent transparent #F06428;
+                bottom: 0;
+            }
+        }
+        .ticket-detailrow{
+            color: $blue-dark;
+            border-top: 1px solid #eee;
+            font-size: 1em;
+        }
+    }
+}
+

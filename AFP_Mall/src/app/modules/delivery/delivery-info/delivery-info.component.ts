@@ -4,11 +4,13 @@ import { AppService } from 'src/app/app.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { AFP_UserReport, Model_ShareData } from '@app/_models';
+import { layerAnimation } from '../../../animations';
 
 @Component({
   selector: 'app-delivery-info',
   templateUrl: './delivery-info.component.html',
-  styleUrls: ['../../member/member/member.scss']
+  styleUrls: ['../../member/member/member.scss'],
+  animations: [ layerAnimation ]
 })
 
 export class DeliveryInfoComponent implements OnInit {
@@ -25,6 +27,8 @@ export class DeliveryInfoComponent implements OnInit {
   public deliveryClick = false;
   /** 我同意checkbox核取狀態 */
   public agreeCheck = false;
+  /** 同頁滑動切換 */
+  public layerTrig = 0;
 
 
   constructor(public appService: AppService, private route: ActivatedRoute, private meta: Meta, private title: Title) {
@@ -112,6 +116,10 @@ export class DeliveryInfoComponent implements OnInit {
     });
   }
 
+  /** 同頁滑動切換 */
+  layerToggle(e) {
+    this.layerTrig = e;
+  }
 }
 
 /** 外送單MODEL */

@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Request_MemberTicket, Response_MemberTicket, AFP_UserTicket, AFP_Product } from '@app/_models';
 import { ActivatedRoute } from '@angular/router';
 import { AppService } from 'src/app/app.service';
+import { layerAnimation} from '../../../../animations';
 
 @Component({
   selector: 'app-eticket-detail',
   templateUrl: './eticket-detail.component.html',
-  styleUrls: ['../../member/member.scss', './eticket-detail.scss']
+  styleUrls: ['../../member/member.scss', './eticket-detail.scss'],
+  animations: [layerAnimation]
 })
 export class ETicketDetailComponent implements OnInit {
   /** 票券編碼 */
@@ -16,6 +18,8 @@ export class ETicketDetailComponent implements OnInit {
   /** 票券商品 */
   public ticketProd: AFP_Product;
   public showBack = false; // APP特例處理
+  /** 同頁滑動切換 */
+  public layerTrig = 0;
 
   constructor(private route: ActivatedRoute, public appService: AppService) {
     this.ticketCode = this.route.snapshot.params.UserTicket_Code;
@@ -44,4 +48,8 @@ export class ETicketDetailComponent implements OnInit {
     });
   }
 
+  /** 同頁滑動切換 */
+  layerToggle(e) {
+    this.layerTrig = e;
+  }
 }

@@ -8,11 +8,13 @@ import { CookieService } from 'ngx-cookie-service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { SwiperOptions } from 'swiper';
 import { Meta, Title } from '@angular/platform-browser';
+import { layerAnimationUp } from '../../../animations';
 
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
-  styleUrls: ['../shopping/shopping.scss', './product-detail.scss']
+  styleUrls: ['../shopping/shopping.scss', './product-detail.scss'],
+  animations: [ layerAnimationUp ]
 })
 export class ProductDetailComponent implements OnInit {
   /** 購物車編碼 */
@@ -62,6 +64,8 @@ export class ProductDetailComponent implements OnInit {
   @ViewChild('tag03', { static: false }) tag03: ElementRef;
   /** 目前所在區塊 0 不在詳細內容 1 關於商品 2 訂購須知 3運送須知 */
   currentSec = 0;
+  /** 同頁滑動切換 */
+  public layerTrigUp = 0;
 
   constructor(public appService: AppService, private router: Router, private route: ActivatedRoute, public modal: ModalService,
               private cookieService: CookieService, private meta: Meta, private title: Title) {
@@ -334,4 +338,8 @@ export class ProductDetailComponent implements OnInit {
     this.router.navigate(['/Explore/ExploreDetail', this.productInfo.Product_ECStoreCode], navigationExtras);
   }
 
+  /** 同頁滑動切換 */
+  layerToggleUp(e){
+    this.layerTrigUp = e;
+  }
 }

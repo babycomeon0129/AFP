@@ -6,7 +6,7 @@ import { Model_ShareData, AFP_UserFavourite } from '@app/_models';
 import { Response_MemberProfile, Request_MemberProfile } from '../member.component';
 import { ModalService } from '../../../../shared/modal/modal.service';
 import { MemberService } from '../../member.service';
-import { layerAnimation } from '../../../../animations';
+import { layerAnimation, layerAnimationUp } from '../../../../animations';
 import { Meta, Title } from '@angular/platform-browser';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 
@@ -15,7 +15,7 @@ import { BsLocaleService } from 'ngx-bootstrap/datepicker';
   selector: 'app-my-profile',
   templateUrl: './my-profile.component.html',
   styleUrls: ['../member.scss', './my-profile.scss'],
-  animations: [layerAnimation]
+  animations: [layerAnimation, layerAnimationUp]
 })
 export class MyProfileComponent implements OnInit {
   /** 我的檔案編輯模式 */
@@ -35,6 +35,8 @@ export class MyProfileComponent implements OnInit {
   /** 判斷是否有上傳檔案 */
   public isUpload = false;
   public today: Date = new Date();
+  /** 同頁滑動切換 */
+  public layerTrigUp = 0;
 
   constructor(public appService: AppService, public modal: ModalService, public memberService: MemberService,
               private meta: Meta, private title: Title, private localeService: BsLocaleService) {
@@ -196,6 +198,10 @@ export class MyProfileComponent implements OnInit {
     }
   }
 
+  /** 同頁滑動切換 */
+  layerToggleUp(e){
+    this.layerTrigUp = e;
+  }
 
 }
 

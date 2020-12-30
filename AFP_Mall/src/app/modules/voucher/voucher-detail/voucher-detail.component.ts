@@ -8,11 +8,13 @@ import { AppService } from 'src/app/app.service';
 import { Router, NavigationExtras } from '@angular/router';
 import { ModalService } from '../../../shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
+import { layerAnimation } from '../../../animations';
 
 @Component({
   selector: 'app-voucher-detail',
   templateUrl: './voucher-detail.component.html',
-  styleUrls: ['./voucher-detail.scss']
+  styleUrls: ['./voucher-detail.scss'],
+  animations: [ layerAnimation ]
 })
 export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
   /** UUID */
@@ -40,6 +42,8 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
   /** 分享至社群時顯示的文字 */
   public textForShare: string;
   public showBack = false; // APP特例處理
+  /** 同頁滑動切換 */
+  public layerTrig = 0;
 
   constructor(public appService: AppService, private route: ActivatedRoute, private router: Router, public modal: ModalService,
               private differs: KeyValueDiffers, private meta: Meta, private title: Title) {
@@ -190,7 +194,7 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
         case 5:
           // 使用
           this.appService.tLayer = []; // APP 特例處理(APP QRCode的返回鍵是history.back()不是backLayer())
-          this.appService.callLayer('.useoffers');
+          this.layerTrig = 1;
           this.checkWritenOff();
           break;
       }
@@ -223,7 +227,7 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
           // 更新已使用次數
           this.voucherData.VoucherUseCount = usedTimes + 1;
           clearTimeout(this.timer3Mins);
-          this.appService.backLayer();
+          this.layerTrig = 0;
           // showType: 999核銷成功後顯示廣告圖片
           this.modal.show('message', { initialState: { success: true, message: data.AFP_UserVoucher.VoucherUsedMessage, showType: 999, adImgList: data.List_ADImg, voucherName: data.AFP_UserVoucher.Voucher_Name } });
           return false;
@@ -235,13 +239,13 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
     this.timer3Mins = setTimeout(() => {
       this.modal.show('message', { initialState: { success: false, message: '連線逾時，請重新操作。', showType: 1 } });
       clearInterval(this.checkTimer);
-      this.appService.backLayer();
+      this.layerTrig = 0;
     }, 180000);
   }
 
   /** 關閉顯示QR Code */
   closeQRCode() {
-    this.appService.backLayer();
+    this.layerTrig = 0;
     clearInterval(this.checkTimer);
     clearTimeout(this.timer3Mins);
   }
@@ -271,6 +275,10 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
     clearTimeout(this.timer3Mins);
   }
 
+  /** 同頁滑動切換 */
+  layerToggle(e) {
+    this.layerTrig = e;
+  }
 }
 
 export interface Request_ECVoucherDetail extends Model_ShareData {

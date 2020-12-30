@@ -63,7 +63,7 @@
                             <div class="filter-box">
                                 <button class="btn px-0 item-search"><i class="material-icons">&#xe8b6;</i></button>
                             </div>
-                            <div class="filter-box d-none" (click)="appService.callsortLayer('.sortpage1');">
+                            <div class="filter-box d-none" (click)="layerToggle(1);">
                                 <button class="btn px-0"><i class="material-icons">&#xE152;</i></button>
                             </div>
                         </div>
@@ -149,77 +149,75 @@
 
 
   <!-- 篩選（暫無此功能）-->
-  <div class="sortlayer">
-      <div class="sortpage1">
-          <div id="open-pagebox">
-              <div class="open-page-title flex-inline-between">
-                  <button class="btn" onclick="backsortLayer();">
-                      <i class="material-icons">&#xe314;</i>
-                  </button>
-                  <div class="title-txt">
-                      商品分類
-                  </div>
-                  <button class="btn" onclick="backsortLayer();">
-                      確定
-                  </button>
-              </div>
-              <ul class="open-page-ul">
-                  <li class="flex-inline-between">
-                      <div class="">
-                          全部顯示
-                      </div>
-                      <div class="">
-                          <i class="material-icons done">&#xe876;</i>
-                      </div>
-                  </li>
-                  <li class="flex-inline-between">
-                      <div class="">
-                          內容文字
-                      </div>
-                      <div class="">
-                          <span>3</span>
-                          <i class="material-icons done">&#xe876;</i>
-                      </div>
-                  </li>
-                  <li class="flex-inline-between">
-                      <div class="">
-                          內容文字
-                      </div>
-                      <div class="">
-                          <span>51</span>
-                          <i class="material-icons done">&#xe876;</i>
-                      </div>
-                  </li>
-                  <li class="flex-inline-between">
-                      <div class="">
-                          內容文字
-                      </div>
-                      <div class="">
-                          <span>121</span>
-                          <i class="material-icons done">&#xe876;</i>
-                      </div>
-                  </li>
-                  <li class="flex-inline-between">
-                      <div class="">
-                          內容文字
-                      </div>
-                      <div class="">
-                          <span>1</span>
-                          <i class="material-icons done">&#xe876;</i>
-                      </div>
-                  </li>
-                  <li class="flex-inline-between active">
-                      <div class="">
-                          內容文字
-                      </div>
-                      <div class="">
-                          <span>1</span>
-                          <i class="material-icons done">&#xe876;</i>
-                      </div>
-                  </li>
-              </ul>
-          </div>
-      </div>
+  <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="this.layerTrig === 1">
+    <div id="open-pagebox" class="sortpage1">
+        <div class="open-page-title flex-inline-between">
+            <button class="btn" onclick="backsortLayer();">
+                <i class="material-icons">&#xe314;</i>
+            </button>
+            <div class="title-txt">
+                商品分類
+            </div>
+            <button class="btn" onclick="backsortLayer();">
+                確定
+            </button>
+        </div>
+        <ul class="open-page-ul">
+            <li class="flex-inline-between">
+                <div class="">
+                    全部顯示
+                </div>
+                <div class="">
+                    <i class="material-icons done">&#xe876;</i>
+                </div>
+            </li>
+            <li class="flex-inline-between">
+                <div class="">
+                    內容文字
+                </div>
+                <div class="">
+                    <span>3</span>
+                    <i class="material-icons done">&#xe876;</i>
+                </div>
+            </li>
+            <li class="flex-inline-between">
+                <div class="">
+                    內容文字
+                </div>
+                <div class="">
+                    <span>51</span>
+                    <i class="material-icons done">&#xe876;</i>
+                </div>
+            </li>
+            <li class="flex-inline-between">
+                <div class="">
+                    內容文字
+                </div>
+                <div class="">
+                    <span>121</span>
+                    <i class="material-icons done">&#xe876;</i>
+                </div>
+            </li>
+            <li class="flex-inline-between">
+                <div class="">
+                    內容文字
+                </div>
+                <div class="">
+                    <span>1</span>
+                    <i class="material-icons done">&#xe876;</i>
+                </div>
+            </li>
+            <li class="flex-inline-between active">
+                <div class="">
+                    內容文字
+                </div>
+                <div class="">
+                    <span>1</span>
+                    <i class="material-icons done">&#xe876;</i>
+                </div>
+            </li>
+        </ul>
+    </div>
   </div>
 
 </div>

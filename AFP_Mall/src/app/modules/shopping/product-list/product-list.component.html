@@ -36,7 +36,7 @@
                 </div>
             </div>
             <!-- 篩選鈕（規格值篩選及排序） -->
-            <div class="filter-box" (click)="appService.callsortLayer('.productslistsort');">
+            <div class="filter-box" (click)="layerToggle(1);">
                 <button class="btn px-0">
                   <i class="material-icons">&#xE152;</i>
                 </button>
@@ -87,83 +87,81 @@
       </main >
   </div>
   <!-- 篩選清單 -->
-  <div class="sortlayer">
-      <div class="productslistsort">
-          <div id="open-pagebox">
-              <div class="open-page-title flex-inline-between">
-                  <div class="title-icon">
-                      <button class="btn px-0" (click)="appService.backsortLayer();">
-                          <i class="material-icons">&#xe314;</i>
-                      </button>
-                  </div>
-                  <div class="title-txt">
-                      篩選與排序
-                  </div>
-                  <button (click)="filter()" class="btn px-0">確定</button>
-              </div>
-              <ul class="open-page-ul">
-                  <label>篩選</label>
-                  <li *ngFor="let attr of dirAttrList" (click)="showAttrValues(attr.Attribute_Code);" class="flex-inline-between">
-                      <div>{{attr.Attribute_ShowName}}</div>
-                      <div [ngClass]="{'active': attrValueMap?.has(attr.Attribute_Code)}">
-                        {{attrText(attr)}}<i class="material-icons">&#xe315;</i>
-                      </div>
-                  </li>
-              </ul>
-              <ul class="open-page-ul">
-                  <label>排序</label>
-                  <li (click)="onSelectSort(1)" [ngClass]="{'active': sorting === 1}" class="flex-inline-between">
-                      <div>最新上架優先</div>
-                      <div>
-                        <i class="material-icons done">&#xe876;</i>
-                      </div>
-                  </li>
-                  <!-- 暫無熱門篩選 -->
-                  <li [ngClass]="{'active': sorting === 2}" class="flex-inline-between d-none">
-                      <div> 熱門程度優先</div>
-                      <div>
-                        <i class="material-icons done">&#xe876;</i>
-                      </div>
-                  </li>
-                  <li (click)="onSelectSort(3)" [ngClass]="{'active': sorting === 3}" class="flex-inline-between">
-                      <div>價格由低而高</div>
-                      <div>
-                        <i class="material-icons done">&#xe876;</i>
-                      </div>
-                  </li>
-                  <li (click)="onSelectSort(4)" [ngClass]="{'active': sorting === 4}" class="flex-inline-between">
-                      <div>價格由高而低</div>
-                      <div>
-                        <i class="material-icons done">&#xe876;</i>
-                      </div>
-                  </li>
-              </ul>
-              <button (click)="resetAll()" class="btn all-reset">
-                  全部重設
+  <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="this.layerTrig === 1">
+    <div id="open-pagebox" class="productslistsort">
+      <div class="open-page-title flex-inline-between">
+          <div class="title-icon">
+              <button class="btn px-0" (click)="layerToggle();">
+                  <i class="material-icons">&#xe314;</i>
               </button>
           </div>
-      </div>
-      <div class="productslistsort1">
-          <div id="open-pagebox1">
-              <div class="open-page-title flex-inline-between">
-                  <div class="close-btn">
-                      <button class="btn px-0" (click)="appService.backsortLayer();">
-                          <i class="material-icons">&#xe314;</i>
-                      </button>
-                  </div>
-                  <div class="title-txt">商品分類</div>
-                  <div class="title-txt"></div>
-              </div>
-              <ul class="open-page-ul">
-                  <li *ngFor="let attrValue of attrValuesList" (click)="toggleAttrValue(attrValue)"
-                    [ngClass]="{'active': attrValueMap?.get(attrValue.AttributeValue_Code)?.has(attrValue.AttributeValue_AttributeCode)}"
-                    class="flex-inline-between">
-                      <div>{{attrValue.AttributeValue_ShowName}}</div>
-                      <div hidden>{{attrValue.AttributeValue_Count}}</div>
-                  </li>
-              </ul>
+          <div class="title-txt">
+              篩選與排序
           </div>
+          <button (click)="filter()" class="btn px-0">確定</button>
       </div>
+      <ul class="open-page-ul">
+          <label>篩選</label>
+          <li *ngFor="let attr of dirAttrList" (click)="showAttrValues(attr.Attribute_Code);" class="flex-inline-between">
+              <div>{{attr.Attribute_ShowName}}</div>
+              <div [ngClass]="{'active': attrValueMap?.has(attr.Attribute_Code)}">
+                {{attrText(attr)}}<i class="material-icons">&#xe315;</i>
+              </div>
+          </li>
+      </ul>
+      <ul class="open-page-ul">
+          <label>排序</label>
+          <li (click)="onSelectSort(1)" [ngClass]="{'active': sorting === 1}" class="flex-inline-between">
+              <div>最新上架優先</div>
+              <div>
+                <i class="material-icons done">&#xe876;</i>
+              </div>
+          </li>
+          <!-- 暫無熱門篩選 -->
+          <li [ngClass]="{'active': sorting === 2}" class="flex-inline-between d-none">
+              <div> 熱門程度優先</div>
+              <div>
+                <i class="material-icons done">&#xe876;</i>
+              </div>
+          </li>
+          <li (click)="onSelectSort(3)" [ngClass]="{'active': sorting === 3}" class="flex-inline-between">
+              <div>價格由低而高</div>
+              <div>
+                <i class="material-icons done">&#xe876;</i>
+              </div>
+          </li>
+          <li (click)="onSelectSort(4)" [ngClass]="{'active': sorting === 4}" class="flex-inline-between">
+              <div>價格由高而低</div>
+              <div>
+                <i class="material-icons done">&#xe876;</i>
+              </div>
+          </li>
+      </ul>
+      <button (click)="resetAll()" class="btn all-reset">
+          全部重設
+      </button>
+    </div>
+  </div>
+  <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="this.layerTrig === 2">
+    <div id="open-pagebox1" class="productslistsort1">
+        <div class="open-page-title flex-inline-between">
+            <div class="close-btn">
+                <button class="btn px-0" (click)="layerToggle(1);">
+                    <i class="material-icons">&#xe314;</i>
+                </button>
+            </div>
+            <div class="title-txt">商品分類</div>
+            <div class="title-txt"></div>
+        </div>
+        <ul class="open-page-ul">
+            <li *ngFor="let attrValue of attrValuesList" (click)="toggleAttrValue(attrValue)"
+              [ngClass]="{'active': attrValueMap?.get(attrValue.AttributeValue_Code)?.has(attrValue.AttributeValue_AttributeCode)}"
+              class="flex-inline-between">
+                <div>{{attrValue.AttributeValue_ShowName}}</div>
+                <div hidden>{{attrValue.AttributeValue_Count}}</div>
+            </li>
+        </ul>
+    </div>
   </div>
 
 </div>
