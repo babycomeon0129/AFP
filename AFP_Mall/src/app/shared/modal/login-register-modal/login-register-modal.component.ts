@@ -78,7 +78,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
         this.thirdRequest.JsonData = JSON.stringify(this.thirdUser);
         this.toThirdLogin();
       }
-      this.regClick = false;
+     //  this.regClick = false;
     });
 
     // Apple 登入初始化 (會將按鈕樣式改為Apple設定的)
