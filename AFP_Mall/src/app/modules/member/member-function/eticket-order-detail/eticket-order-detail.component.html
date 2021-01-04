@@ -79,7 +79,7 @@
             <div class="small text-danger text-right w-100 status1">退款完成</div>
           </li> -->
           <p *ngIf="productsData[0]?.UserTicket_UsedState === 0 || productsData[0]?.UserTicket_UsedState === 1" class="text-right">
-            <a [routerLink]="['/MemberFunction/ETicketOrderDetail', productsData[0]?.ItemInfoPart_OtherCode]"><small>前往使用</small></a>
+            <a [routerLink]="['/MemberFunction/ETicketDetail', productsData[0]?.ItemInfoPart_OtherCode]"><small>前往使用</small></a>
           </p>
       </ul>
   </div>
