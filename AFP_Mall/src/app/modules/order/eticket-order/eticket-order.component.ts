@@ -29,9 +29,8 @@ export class ETicketOrderComponent implements OnInit {
   public voucher: Response_GetUserVoucher;
   /** 優惠券整理資訊 */
   public userVouchers: AFP_UserVoucher[] = [];
-  /** 同頁滑動切換 */
+  /** 同頁滑動切換 0: 原頁 1: 使用優惠券、折扣碼 3:收據選取 4: 愛心碼選單 */
   public layerTrig = 0;
-  public layerTrigUp = 0;
 
   constructor(public modal: ModalService, private router: Router, public appService: AppService) {
     if (history.state.data !== undefined) {
@@ -539,12 +538,11 @@ export class ETicketOrderComponent implements OnInit {
     document.body.scrollTop = (event.composedPath()[0] as HTMLElement).scrollHeight - 50;
   }
 
-  /** 同頁滑動切換 */
-  layerToggle(e: number) {
-    this.layerTrig = e;
-  }
-  layerToggleUp(e: number){
-    this.layerTrigUp = e;
+  /** 同頁滑動切換
+   * @param index 0: 原頁 1: 使用優惠券、折扣碼 3:收據選取 4: 愛心碼選單
+   */
+  layerToggle(index: number) {
+    this.layerTrig = index;
   }
 }
 

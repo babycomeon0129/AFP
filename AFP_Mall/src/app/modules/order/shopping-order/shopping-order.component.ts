@@ -175,6 +175,7 @@ export class ShoppingOrderComponent implements OnInit {
     });
     this.discount = 0;
     this.info.totalDiscount = 0;
+    this.info.voucherInfo = [];
     this.info.platform.preVoucher = new OrderVoucher();
     this.info.platform.topFreightStore = new OrderStore();
   }
@@ -721,9 +722,11 @@ export class ShoppingOrderComponent implements OnInit {
     }
   }
 
-  /** 同頁滑動切換 */
-  layerToggle(e: number) {
-    this.layerTrig = e;
+  /** 同頁滑動切換
+   * @param index 0: 原頁 1: 行政區選單 2: 縣市選單 3:愛心碼選單 4:新增地址 5: 選擇優惠券 6:寄送方式 7: 發票選取
+   */
+  layerToggle(index: number) {
+    this.layerTrig = index;
   }
 }
 

@@ -1,11 +1,14 @@
 import { environment } from '@env/environment';
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from './shared/modal/modal.service';
 import { CookieService } from 'ngx-cookie-service';
 import { RouterOutlet } from '@angular/router';
 import { slideInAnimation } from './animations';
+import { filter } from 'rxjs/operators';
+
+declare var AppJSInterface: any;
 
 @Component({
   // tslint:disable-next-line
@@ -78,11 +81,26 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.router.events.subscribe((evt) => {
-      window.scrollTo(0, 0);
-    });
+    this.router.events.pipe(filter(event => event instanceof NavigationEnd))
+                      .subscribe(evt => {
+                                    window.scrollTo(0, 0);
+                                    this.appShowMobileFooter(false);
+                                  });
     this.detectOld();
     this.appService.initPush();
+  }
+
+   /** 通知APP是否開啟BottomBar */
+   appShowMobileFooter(isOpen: boolean): void {
+    if (this.appService.isApp !== null) {
+      if (navigator.userAgent.match(/android/i)) {
+        //  Android
+        AppJSInterface.showBottomBar(isOpen);
+      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+        //  IOS
+        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showBottomBar', isShow: isOpen });
+      }
+    }
   }
 
   /** 獲取這個 outlet 指令的值（透過 #outlet="outlet"），並根據當前活動路由的自訂資料返回一個表示動畫狀態的字串值。用此資料來控制各個路由之間該執行哪個轉場 */
