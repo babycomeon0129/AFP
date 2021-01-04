@@ -276,7 +276,7 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   /** 同頁滑動切換 */
-  layerToggle(e) {
+  layerToggle(e: number) {
     this.layerTrig = e;
   }
 }

@@ -8,7 +8,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { SwiperOptions } from 'swiper';
 import { Meta, Title } from '@angular/platform-browser';
-import { layerAnimationUp } from '../../../animations';
+import smoothscroll from 'smoothscroll-polyfill';
+import { layerAnimationUp } from '@app/animations';
 
 @Component({
   selector: 'app-product-detail',
@@ -94,7 +95,7 @@ export class ProductDetailComponent implements OnInit {
       this.voucherData = data.AFP_VoucherData;
       this.attrList = data.List_Attribute;
       this.productDirCode = data.AFP_Product.Product_UserDefineCode; // 以回傳資料取代
-      switch(this.productInfo.Product_Type) {
+      switch (this.productInfo.Product_Type) {
         case 2:
           this.buybtnTxt = '前往購買';
           break;
@@ -143,13 +144,9 @@ export class ProductDetailComponent implements OnInit {
   /** 滑動至指定區域 */
   scrollTo(sectionId: number): void {
     this.currentSec = sectionId;
-    // TODO: IOS不支援ScrollToOptions，document沒有smooth，如要移除jq但又要實現scroll功能需尋找合適的package
-    $('html,body').animate({ scrollTop: $('#tag0' + sectionId).offset().top - 50 }, 1000);
-    // iOS doesn't support ScrollToOptions
-    // window.scrollTo({
-    //   top: this[sectionName].nativeElement.offsetTop - 50,
-    //   behavior: 'smooth'
-    // });
+    // iOS不支援ScrollToOptions，document沒有smooth，因此使用套件
+    const targetSec =  (document.querySelector('#tag0' + sectionId) as HTMLElement);
+    window.scroll({ top: targetSec.offsetTop - 50, left: 0, behavior: 'smooth' });
   }
 
   /** 滑動時對應區塊標籤 */
@@ -339,7 +336,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   /** 同頁滑動切換 */
-  layerToggleUp(e){
+  layerToggleUp(e: number) {
     this.layerTrigUp = e;
   }
 }
