@@ -11,6 +11,8 @@ import { Meta, Title } from '@angular/platform-browser';
 import smoothscroll from 'smoothscroll-polyfill';
 import { layerAnimationUp } from '@app/animations';
 
+smoothscroll.polyfill(); // kick off the polyfill!
+
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
