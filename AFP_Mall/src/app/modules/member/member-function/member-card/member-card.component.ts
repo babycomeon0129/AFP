@@ -83,10 +83,10 @@ export class MemberCardComponent implements OnInit, AfterViewInit {
   }
 
   /** 同頁滑動切換 */
-  layerToggle(e) {
+  layerToggle(e: number) {
     this.layerTrig = e;
   }
-  layerToggleUp(e){
+  layerToggleUp(e: number){
     this.layerTrigUp = e;
   }
 

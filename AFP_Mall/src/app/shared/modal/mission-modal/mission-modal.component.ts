@@ -9,6 +9,7 @@ import { AppService } from 'src/app/app.service';
   templateUrl: './mission-modal.component.html'
 })
 export class MissionModalComponent  {
+  public layerTrigUp = 0;
   currentPage = this.router.url;
   missionArr: Model_MissionDetail[];
 
@@ -27,7 +28,7 @@ export class MissionModalComponent  {
       this.closeModal();
       // 帶離當前頁面前先確認有關閉已打開的uplayer (e.g.遊戲頁: 若按馬上領的當下有開獎的黑幕時)
       if (this.appService.tLayerUp.length > 0) {
-        this.appService.backLayerUp();
+        this.layerTrigUp = 0;
       }
       this.router.navigate(['/Mission']);
     }

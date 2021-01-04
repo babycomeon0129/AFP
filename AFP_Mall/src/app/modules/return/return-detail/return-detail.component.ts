@@ -28,8 +28,10 @@ export class ReturnDetailComponent implements OnInit {
   public allETicket = false;
   /** 退款Title */
   public StrTitle = '退貨';
-   /** 退款SubTitle */
-   public StrSubTitle = '退貨申請中，商店將盡快回覆您！';
+  /** 退款SubTitle */
+  public StrSubTitle = '退貨申請中，商店將盡快回覆您！';
+  /** 同頁滑動切換 */
+  public layerTrig = 0;
 
   constructor(private route: ActivatedRoute, public appService: AppService, private router: Router) {
     this.ServiceTableNO = this.route.snapshot.params.Services_TableNo;
@@ -149,6 +151,10 @@ export class ReturnDetailComponent implements OnInit {
     );
   }
 
+  /** 同頁滑動切換 */
+  layerToggle(e: number) {
+    this.layerTrig = e;
+  }
   ngOnInit() {
   }
 

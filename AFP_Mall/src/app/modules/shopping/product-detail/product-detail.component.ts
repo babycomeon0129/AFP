@@ -339,7 +339,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   /** 同頁滑動切換 */
-  layerToggleUp(e){
+  layerToggleUp(e: number){
     this.layerTrigUp = e;
   }
 }

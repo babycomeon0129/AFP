@@ -187,7 +187,7 @@
     <div class="myaddressadd">
       <div class="title-box">
         <div class="item icon-btn">
-          <button class="btn px-0" onclick="backLayer();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+          <button class="btn px-0" onclick="layerToggle(0);" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
             <i class="material-icons">&#xe314;</i>
           </button>
         </div>
@@ -329,7 +329,7 @@
     <div id="open-pagebox" class="returnInfo">
       <div class="open-page-title flex-inline-between">
         <div class="title-icon">
-          <button class="btn" (click)="appService.backsortLayer();">
+          <button class="btn" (click)="layerToggle(0);">
             <i class="material-icons">&#xe314;</i>
           </button>
         </div>

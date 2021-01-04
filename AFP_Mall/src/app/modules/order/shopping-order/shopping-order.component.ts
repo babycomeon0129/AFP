@@ -722,7 +722,7 @@ export class ShoppingOrderComponent implements OnInit {
   }
 
   /** 同頁滑動切換 */
-  layerToggle(e) {
+  layerToggle(e: number) {
     this.layerTrig = e;
   }
 }
