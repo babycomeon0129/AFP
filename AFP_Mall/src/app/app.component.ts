@@ -81,10 +81,11 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.router.events.pipe(filter( event => event instanceof NavigationEnd)).subscribe( evt => {
-      window.scrollTo(0, 0);
-      this.appShowMobileFooter(false);
-    });
+    this.router.events.pipe(filter(event => event instanceof NavigationEnd))
+                      .subscribe(evt => {
+                                    window.scrollTo(0, 0);
+                                    this.appShowMobileFooter(false);
+                                  });
     this.detectOld();
     this.appService.initPush();
   }
