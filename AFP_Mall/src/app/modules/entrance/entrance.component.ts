@@ -241,6 +241,8 @@ export class EntranceComponent implements OnInit, DoCheck {
   public animationMoveUpOut = false;
   /** 當前所選本月旅遊主打頁籤索引 */
   public activeTravelIndex = 0;
+  /** 同頁滑動切換 0: 原頁 1: 我的服務 */
+  public layerTrig = 0;
 
   constructor(public appService: AppService, public modal: ModalService, private router: Router, private differs: KeyValueDiffers,
               private meta: Meta, private title: Title, private cookieService: CookieService, public route: ActivatedRoute,
@@ -251,11 +253,6 @@ export class EntranceComponent implements OnInit, DoCheck {
     this.meta.updateTag({ name: 'description', content: '使用 Mobii! APP，讓你的移動總是驚喜。乘車、購物、美食、景點、旅行資訊全都包，使用就享點數回饋，每日登入再領 M Points，會員再享獨家彩蛋大禮包。先下載 Mobii APP 看看裡面有什麼好玩的吧？' });
     this.meta.updateTag({ content: 'Mobii!｜綠色城市優惠平台', property: 'og:title' });
     this.meta.updateTag({ content: '使用 Mobii! APP，讓你的移動總是驚喜。乘車、購物、美食、景點、旅行資訊全都包，使用就享點數回饋，每日登入再領 M Points，會員再享獨家彩蛋大禮包。先下載 Mobii APP 看看裡面有什麼好玩的吧？', property: 'og:description' });
-  }
-
-  /** 同頁滑動切換 */
-  layerToggle() {
-    this.editFunction = !this.editFunction;
   }
 
   ngOnInit() {
