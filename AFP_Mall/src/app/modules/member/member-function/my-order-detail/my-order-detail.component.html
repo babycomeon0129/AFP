@@ -175,7 +175,7 @@
   </div>
   <div class="addheight"></div>
 
-  <div class="multilayer">
+  <div class="layerTrig container" [@layerTrigger] *ngIf="this.layerTrig === 1">
       <div class="useoffers">
           <div class="title-box">
               <div class="item icon-btn">
@@ -204,7 +204,7 @@
   <ul>
       <li>
           <div class="item pick">
-              <button type="button" class="btn index-btn w-100" (click)="claimOrder(); appService.callLayer('.useoffers')">取貨</button>
+              <button type="button" class="btn index-btn w-100" (click)="claimOrder(); layerToggle(1)">取貨</button>
           </div>
       </li>
   </ul>

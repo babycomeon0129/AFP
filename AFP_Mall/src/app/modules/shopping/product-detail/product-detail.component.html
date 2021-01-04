@@ -81,7 +81,7 @@
                   <div class="products-title text-nowrap">
                       商品規格
                   </div>
-                  <div class="products-norm text-right" (click)="appService.callLayerUp('.productsformat');">
+                  <div class="products-norm text-right" (click)="layerToggleUp(1);">
                       <span class="active">{{cartAttrValueName}}<i class="material-icons">&#xe315;</i></span>
                   </div>
               </div>
@@ -106,7 +106,7 @@
               </div>
               <div class="item shopping-flex onbuy" [ngClass]="{'fixed-bottom container shopping-cartfooter py-3 px-3': currentSec > 0}">
                   <div class="item products-btn-buynow pt-0">
-                      <button (click)="onAddToCart()" type="button" class="btn index-btn w-100">{{productInfo?.Product_Type === 21 || productInfo?.Product_Type === 2 ? '直接購買' : '加入購物車'}}</button>
+                      <button (click)="onAddToCart()" type="button" class="btn index-btn w-100">{{buybtnTxt}}</button>
                   </div>
               </div>
           </div>
@@ -180,28 +180,28 @@
 
   <div class="modal-backdrop fade show d-none"></div>
   <!-- shopping up-menu (open-pageupbox) -->
-  <div class="uplayer">
-      <div class="productsformat">
-          <div class="open-page-title text-center">
-              選擇商品規格
-          </div>
-          <div class="open-page-body">
-              <!-- 用label+input(radio)達成僅可單選 -->
-              <div *ngFor="let attr of attrList" class="attrBlock">
-                <h6 class="attrName">{{attr.Attribute_ShowName}}</h6>
-                <div class="d-flex flex-wrap">
-                  <div *ngFor="let attrValue of attr?.List_AttributeValue; let First = first" class="px-1">
-                      <input type="radio" id="{{attrValue?.AttributeValue_AttributeCode}}" name="{{attr?.Attribute_ShowName}}"
-                      value="{{attrValue?.AttributeValue_ShowName}}" [checked]="First">
-                      <label for="{{attrValue?.AttributeValue_AttributeCode}}">
-                        {{attrValue?.AttributeValue_ShowName}}
-                      </label>
-                  </div>
-                </div>
-              </div>
-              <button type="submit" (click)="appService.backLayerUp(); onConfirmAttrValue()" class="btn index-btn msg-open w-100 my-3" value="msg-noselected" data-toggle="modal" data-target="#messageModal">確定</button>
-          </div>
+  <div class="layerTrigUp container" [@layerTriggerUp] *ngIf="this.layerTrigUp === 1">
+    <div class="productsformat">
+      <div class="open-page-title text-center">
+          選擇商品規格
       </div>
+      <div class="open-page-body">
+          <!-- 用label+input(radio)達成僅可單選 -->
+          <div *ngFor="let attr of attrList" class="attrBlock">
+            <h6 class="attrName">{{attr.Attribute_ShowName}}</h6>
+            <div class="d-flex flex-wrap">
+              <div *ngFor="let attrValue of attr?.List_AttributeValue; let First = first" class="px-1">
+                  <input type="radio" id="{{attrValue?.AttributeValue_AttributeCode}}" name="{{attr?.Attribute_ShowName}}"
+                  value="{{attrValue?.AttributeValue_ShowName}}" [checked]="First">
+                  <label for="{{attrValue?.AttributeValue_AttributeCode}}">
+                    {{attrValue?.AttributeValue_ShowName}}
+                  </label>
+              </div>
+            </div>
+          </div>
+          <button type="submit" (click)="layerToggleUp(0); onConfirmAttrValue()" class="btn index-btn msg-open w-100 my-3" value="msg-noselected" data-toggle="modal" data-target="#messageModal">確定</button>
+      </div>
+    </div>
   </div>
 
-  </div>
+</div>

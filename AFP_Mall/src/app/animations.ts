@@ -41,11 +41,22 @@ export const slideInAnimation =
 export const layerAnimation =
 trigger('layerTrigger', [
   transition(':enter', [
-    style({position: 'absolute', left: '200%', opacity: '0.8'}),
-    animate('400ms ease-in'), style({left: '0'})
+    style({position: 'absolute', top: '0', left: '100%', width: '100%'}),
+    animate('500ms ease-in'), style({position: 'absolute', top: '0', left: '0', width: '100%'})
   ]),
   transition(':leave', [
-    style({position: 'absolute', left: '0', opacity: '0.8'}),
-    animate('400ms ease-out', style({left: '200%'}))
+    style({position: 'absolute', top: '0', left: '100%', width: '100%'}),
+    animate('500ms ease-out', style({position: 'absolute', top: '0', left: '200%', width: '100%', opacity: '0.1'}))
+  ])
+]);
+export const layerAnimationUp =
+trigger('layerTriggerUp', [
+  transition(':enter', [
+    style({position: 'absolute', top: '0', width: '100%'}),
+    animate('500ms ease-in'), style({position: 'absolute', top: '0', width: '100%'})
+  ]),
+  transition(':leave', [
+    style({position: 'absolute',  top: '0',  width: '100%'}),
+    animate('500ms ease-out', style({position: 'absolute', top: '100%', width: '100%', opacity: '0.1'}))
   ])
 ]);

@@ -31,6 +31,8 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit, DoCheck {
   public productsToUpdate: AFP_Cart[] = [];
   /** 變動偵測（登入狀態） */
   private serviceDiffer: KeyValueDiffer<string, any>;
+  /** 空購物車圖示顯示 */
+  public nocartShow: boolean;
   /** APP特例處理  */
   public showBack = false;
 
@@ -64,12 +66,13 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit, DoCheck {
         Cart_Code: this.cartCode // 購物車Code
       }
     };
-
     this.appService.toApi('EC', '1204', request).subscribe((data: Response_ECCart) => {
       // 若在此頁登入：登入前若購物車有商品，則先清空購物車。
       // 將購物車更新為登入後的資料後，再將登入前有勾選的商家和商品勾選起來，再將登入前有更改數量的商品數量更新（都只變更前端資料）。
       if (this.cartList.length > 0) {
         this.cartList = [];
+      } else {
+        this.nocartShow = true;
       }
 
       // loop後端傳來的每樣商品資訊

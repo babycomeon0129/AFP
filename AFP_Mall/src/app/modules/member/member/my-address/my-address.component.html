@@ -75,7 +75,7 @@
           </li>
           <li>
             <div class="item">縣市</div>
-            <div class="item auto-left citydefault" (click)="appService.callsortLayer('.city');">
+            <div class="item auto-left citydefault" (click)="layerToggle(1);">
               {{requestAddress.UserFavourite_Number1 | convert:'UR': UserReoprtList:21}}<i class="material-icons">&#xe315;</i>
             </div>
           </li>
@@ -84,7 +84,7 @@
               行政區
               <small class="text-danger d-block" *ngIf="addressDistrict.invalid && formAddAddress.submitted">行政區及郵遞區號為必填</small>
             </div>
-            <div class="item auto-left distdefault" (click)="appService.callsortLayer('.dist');">
+            <div class="item auto-left distdefault" (click)="layerToggle(2);">
               {{requestAddress.UserFavourite_Number2 | convert:'UR': UserReoprtList:22:21:requestAddress.UserFavourite_Number1}}<i class="material-icons">&#xe315;</i>
             </div>
             <input type="hidden" name="addressDistrict" #addressDistrict="ngModel"
@@ -125,65 +125,63 @@
   </div>
 
   <!-- 縣市/行政區選單 -->
-  <div class="sortlayer">
-    <div class="city">
-        <div id="open-pagebox">
-            <div class="open-page-title flex-inline-between">
-                <div class="title-icon">
-                    <button class="btn" (click)="appService.backsortLayer();">
-                        <i class="material-icons">&#xe314;</i>
-                    </button>
+    <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="this.layerTrig === 1">
+      <div id="open-pagebox" class="city">
+          <div class="open-page-title flex-inline-between">
+              <div class="title-icon">
+                  <button class="btn" (click)="layerToggle(0);">
+                      <i class="material-icons">&#xe314;</i>
+                  </button>
+              </div>
+              <div class="title-txt">
+                  縣市
+              </div>
+              <div class="title-txt">
+              </div>
+          </div>
+          <ul class="open-page-ul" id="citylist">
+            <!-- 縣市 -->
+            <li *ngFor="let city of cityList" class="flex-inline-between"
+              [ngClass]="{'active' : requestAddress.UserFavourite_Number1 == city.UserReport_ItemCode}"
+              (click)="requestAddress.UserFavourite_Number1 = city.UserReport_ItemCode;layerToggle(2);">
+                <div class="item">
+                    {{city.UserReport_ItemName}}
                 </div>
-                <div class="title-txt">
-                    縣市
+                <div class="item">
+                    <i class="material-icons done">&#xe876;</i>
                 </div>
-                <div class="title-txt">
-                </div>
-            </div>
-            <ul class="open-page-ul" id="citylist">
-              <!-- 縣市 -->
-              <li *ngFor="let city of cityList" class="flex-inline-between"
-                [ngClass]="{'active' : requestAddress.UserFavourite_Number1 == city.UserReport_ItemCode}"
-                (click)="requestAddress.UserFavourite_Number1 = city.UserReport_ItemCode;appService.callsortLayer('.dist');">
-                  <div class="item">
-                      {{city.UserReport_ItemName}}
-                  </div>
-                  <div class="item">
-                      <i class="material-icons done">&#xe876;</i>
-                  </div>
-              </li>
-            </ul>
-        </div>
+            </li>
+          </ul>
+      </div>
     </div>
-    <div class="dist">
-        <div id="open-pagebox1">
-            <div class="open-page-title flex-inline-between">
-                <div class="close-btn">
-                    <button class="btn" (click)="appService.backsortLayer();">
-                        <i class="material-icons">&#xe314;</i>
-                    </button>
+    <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="this.layerTrig === 2">
+      <div id="open-pagebox1" class="dist">
+          <div class="open-page-title flex-inline-between">
+              <div class="close-btn">
+                  <button class="btn" (click)="layerToggle(1);">
+                      <i class="material-icons">&#xe314;</i>
+                  </button>
+              </div>
+              <div class="title-txt">
+                  行政區
+              </div>
+              <div class="title-txt">
+              </div>
+          </div>
+          <ul class="open-page-ul" id="distlist">
+            <!-- 行政區 -->
+            <li class="flex-inline-between" *ngFor="let district of districtList"
+              [ngClass]="{'active' : requestAddress.UserFavourite_Number2 == district.UserReport_ItemCode}"
+              [hidden]="district.UserReport_UpItemCode != requestAddress.UserFavourite_Number1"
+              (click)="requestAddress.UserFavourite_Number2 = district.UserReport_ItemCode; layerToggle(0); ">
+                <div class="item">
+                  {{district.UserReport_ItemName}}
                 </div>
-                <div class="title-txt">
-                    行政區
+                <div class="item">
+                    <i class="material-icons done">&#xe876;</i>
                 </div>
-                <div class="title-txt">
-                </div>
-            </div>
-            <ul class="open-page-ul" id="distlist">
-              <!-- 行政區 -->
-              <li class="flex-inline-between" *ngFor="let district of districtList"
-                [ngClass]="{'active' : requestAddress.UserFavourite_Number2 == district.UserReport_ItemCode}"
-                [hidden]="district.UserReport_UpItemCode != requestAddress.UserFavourite_Number1"
-                (click)="requestAddress.UserFavourite_Number2 = district.UserReport_ItemCode; appService.backsortLayer(); appService.backsortLayer(); ">
-                  <div class="item">
-                    {{district.UserReport_ItemName}}
-                  </div>
-                  <div class="item">
-                      <i class="material-icons done">&#xe876;</i>
-                  </div>
-              </li>
-            </ul>
-        </div>
+            </li>
+          </ul>
+      </div>
     </div>
-  </div>
 </div>

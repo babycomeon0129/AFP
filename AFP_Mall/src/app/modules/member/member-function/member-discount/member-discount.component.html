@@ -57,7 +57,7 @@
                 <div class="s-btn div-switch" [ngClass]="{'d-none': !cancelIsOpen}">
                   <button class="btn w-100" (click)="searchText = null; cancelIsOpen = false;">取消</button>
                 </div>
-                <div class="filter-box div-switch " (click)="appService.callsortLayer('.productsOpensort'); searchText = null;" [ngClass]="{'d-none': cancelIsOpen}">
+                <div class="filter-box div-switch " (click)="layerToggle(1); searchText = null;" [ngClass]="{'d-none': cancelIsOpen}">
                   <button class="btn px-1"><i class="material-icons">&#xE152;</i></button>
                 </div>
               </div>
@@ -76,7 +76,7 @@
                   <button class="btn px-0 item-search" (click)="searchIsOpen = !searchIsOpen ; listIsOpen = false"><i
                       class="material-icons">&#xe8b6;</i></button>
                 </div>
-                <div class="filter-box" (click)="appService.callsortLayer('.sortpage1');">
+                <div class="filter-box" (click)="layerToggle(2);">
                   <button class="btn px-0"><i class="material-icons">&#xE152;</i></button>
                 </div>
               </div>
@@ -158,7 +158,7 @@
   </div>
 
   <!-- 規格篩選視窗 -->
-  <div class="sortlayer">
+  <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="this.layerTrig === 1">
     <div class="productsOpensort">
       <div id="open-sortbox">
         <div class="open-sort-cont">
@@ -193,7 +193,7 @@
         <div class="open-sort-title">
           <div class="flex-inline-between">
             <div class="title-icon">
-              <button class="btn" (click)="appService.backsortLayer();">
+              <button class="btn" (click)="layerToggle(0);">
                 <i class="material-icons">&#xe314;</i>
               </button>
             </div>

@@ -13,7 +13,7 @@
         </div>
         <div class="item two text-right">
           <button type="button" class="btn bluedk-outline-btn bt-small mr-1"
-            (click)="appService.callsortLayer('.returnInfo')">退貨說明</button>
+            (click)="layerToggle(1)">退貨說明</button>
         </div>
       </div>
     </div>
@@ -62,7 +62,7 @@
               </div>
             </div>
           </li>
-          <li class="index-flex" (click)="appService.callLayer('.returnReason')">
+          <li class="index-flex" (click)="layerToggle(2)">
             <div class="item one">原因</div>
             <div class="item two item-right d-flex d-inline">
               <span class="reason-txt w-100">{{showReason(servicesModel.Services_Reason)}}</span>
@@ -75,7 +75,7 @@
               <input type="text" placeholder="補充更多退款/退貨的原因" [(ngModel)]="servicesModel.Services_OtherMsg">
             </div>
           </li>
-          <li class="index-flex" (click)="readMemberAddress(); appService.callLayer('.myaddress');">
+          <li class="index-flex" (click)="readMemberAddress(); layerToggle(3);">
             <div class="item">取件地址</div>
             <div class="item-group item-right d-flex d-inline">
               <span class="item small w-100">
@@ -106,12 +106,12 @@
     </div>
   </div>
   <!--次頁-->
-  <div class="multilayer">
+  <div class="layerTrig container" [@layerTrigger] *ngIf="this.layerTrig === 2">
     <!-- 退貨原因 -->
     <div class="returnReason">
       <div class="title-box">
         <div class="item icon-btn">
-          <button class="btn px-0" (click)="appService.backLayer();" data-toggle="tooltip" data-placement="bottom"
+          <button class="btn px-0" (click)="layerToggle(0);" data-toggle="tooltip" data-placement="bottom"
             title="回上一頁">
             <i class="material-icons">&#xe314;</i>
           </button>
@@ -140,12 +140,13 @@
         <div class="addheight"></div>
       </div>
     </div>
-
+  </div>
+  <div class="layerTrig container" [@layerTrigger] *ngIf="this.layerTrig === 3">
     <!--寄送方式-->
     <div class="myaddress">
       <div class="title-box">
         <div class="item icon-btn">
-          <button class="btn px-0" (click)="appService.backLayer();" data-toggle="tooltip" data-placement="bottom"
+          <button class="btn px-0" (click)="layerToggle(0);" data-toggle="tooltip" data-placement="bottom"
             title="回上一頁">
             <i class="material-icons">&#xe314;</i>
           </button>
@@ -171,15 +172,17 @@
           </li>
         </ul>
         <div class="add-address-btn">
-          <button class="btn px-0" (click)="appService.callLayer('.myaddressadd');">
+          <button class="btn px-0" (click)="layerToggle(4);">
             新增地址<i class="material-icons">&#xE145;</i>
           </button>
         </div>
       </div>
       <div class="fixed-btn container">
-        <button class="btn next-btn w-100" (click)="appService.backLayer();">確認</button>
+        <button class="btn next-btn w-100" (click)="layerToggle(0);">確認</button>
       </div>
     </div>
+  </div>
+  <div class="layerTrig container" [@layerTrigger] *ngIf="this.layerTrig === 4">
     <!--新增地址3-->
     <div class="myaddressadd">
       <div class="title-box">
@@ -212,14 +215,14 @@
             </li>
             <li>
               <div class="item">縣市</div>
-              <div class="item auto-left citydefault" (click)="appService.callsortLayer('.city');">
+              <div class="item auto-left citydefault" (click)="layerToggle(5);">
                 {{requestAddress.UserFavourite_Number1 | convert:'UR': userReport:21}}<i
                   class="material-icons">&#xe315;</i>
               </div>
             </li>
             <li>
               <div class="item">行政區</div>
-              <div class="item auto-left distdefault" (click)="appService.callsortLayer('.dist');">
+              <div class="item auto-left distdefault" (click)="layerToggle(6);">
                 {{requestAddress.UserFavourite_Number2 | convert:'UR': userReport:22:21:requestAddress.UserFavourite_Number1}}
                 <i class="material-icons">&#xe315;</i>
               </div>
@@ -261,101 +264,98 @@
         </div>
       </form>
     </div>
-
   </div>
 
-  <div class="sortlayer">
+  <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="this.layerTrig === 5">
     <!-- 縣市/行政區選單 -->
-    <div class="city">
-      <div id="open-pagebox">
-        <div class="open-page-title flex-inline-between">
-          <div class="title-icon">
-            <button class="btn" onclick="backsortLayer();">
-              <i class="material-icons">&#xe314;</i>
-            </button>
-          </div>
-          <div class="title-txt">
-            縣市
-          </div>
-          <div class="title-txt">
-          </div>
+    <div id="open-pagebox" class="city">
+      <div class="open-page-title flex-inline-between">
+        <div class="title-icon">
+          <button class="btn" onclick="layerToggle(4);">
+            <i class="material-icons">&#xe314;</i>
+          </button>
         </div>
-        <ul class="open-page-ul" id="citylist">
-          <li *ngFor="let city of userReport" [hidden]="city.UserReport_CategoryCode != 21" class="flex-inline-between"
-            [ngClass]="{'active' : requestAddress.UserFavourite_Number1 == city.UserReport_ItemCode}"
-            (click)="requestAddress.UserFavourite_Number1 = city.UserReport_ItemCode;appService.callsortLayer('.dist');">
-            <div class="item">
-              {{city?.UserReport_ItemName}}
-            </div>
-            <div class="item">
-              <i class="material-icons done">&#xe876;</i>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="dist">
-      <div id="open-pagebox1">
-        <div class="open-page-title flex-inline-between">
-          <div class="close-btn">
-            <button class="btn" onclick="backsortLayer();">
-              <i class="material-icons">&#xe314;</i>
-            </button>
-          </div>
-          <div class="title-txt">
-            行政區
-          </div>
-          <div class="title-txt">
-          </div>
+        <div class="title-txt">
+          縣市
         </div>
-        <ul class="open-page-ul" id="distlist">
-          <li class="flex-inline-between" *ngFor="let district of userReport"
-            [ngClass]="{'active' : requestAddress.UserFavourite_Number2 == district.UserReport_ItemCode}"
-            [hidden]="district.UserReport_UpItemCode != requestAddress.UserFavourite_Number1"
-            (click)="requestAddress.UserFavourite_Number2 = district.UserReport_ItemCode; appService.backsortLayer(); appService.backsortLayer(); ">
-            <div class="item">
-              {{district?.UserReport_ItemName}}
-            </div>
-            <div class="item">
-              <i class="material-icons done">&#xe876;</i>
-            </div>
-          </li>
-        </ul>
+        <div class="title-txt">
+        </div>
       </div>
+      <ul class="open-page-ul" id="citylist">
+        <li *ngFor="let city of userReport" [hidden]="city.UserReport_CategoryCode != 21" class="flex-inline-between"
+          [ngClass]="{'active' : requestAddress.UserFavourite_Number1 == city.UserReport_ItemCode}"
+          (click)="requestAddress.UserFavourite_Number1 = city.UserReport_ItemCode;layerToggle(6);">
+          <div class="item">
+            {{city?.UserReport_ItemName}}
+          </div>
+          <div class="item">
+            <i class="material-icons done">&#xe876;</i>
+          </div>
+        </li>
+      </ul>
     </div>
+  </div>
+  <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="this.layerTrig === 6">
+    <div id="open-pagebox1" class="dist">
+      <div class="open-page-title flex-inline-between">
+        <div class="close-btn">
+          <button class="btn" onclick="layerToggle(5);">
+            <i class="material-icons">&#xe314;</i>
+          </button>
+        </div>
+        <div class="title-txt">
+          行政區
+        </div>
+        <div class="title-txt">
+        </div>
+      </div>
+      <ul class="open-page-ul" id="distlist">
+        <li class="flex-inline-between" *ngFor="let district of userReport"
+          [ngClass]="{'active' : requestAddress.UserFavourite_Number2 == district.UserReport_ItemCode}"
+          [hidden]="district.UserReport_UpItemCode != requestAddress.UserFavourite_Number1"
+          (click)="requestAddress.UserFavourite_Number2 = district.UserReport_ItemCode; layerToggle(4);">
+          <div class="item">
+            {{district?.UserReport_ItemName}}
+          </div>
+          <div class="item">
+            <i class="material-icons done">&#xe876;</i>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="this.layerTrig === 1">
     <!-- 退貨說明 -->
-    <div class="returnInfo">
-      <div id="open-pagebox">
-        <div class="open-page-title flex-inline-between">
-          <div class="title-icon">
-            <button class="btn" (click)="appService.backsortLayer();">
-              <i class="material-icons">&#xe314;</i>
-            </button>
-          </div>
-          <div class="title-txt">
-            退貨說明
-          </div>
-          <div class="title-txt">
-          </div>
+    <div id="open-pagebox" class="returnInfo">
+      <div class="open-page-title flex-inline-between">
+        <div class="title-icon">
+          <button class="btn" (click)="appService.backsortLayer();">
+            <i class="material-icons">&#xe314;</i>
+          </button>
         </div>
-        <div class="p-3 text-bluedk">
-          <h6>【退貨原則】</h6>
-          <p>
-            會員所購買的商品均享有商品猶豫期。退回之商品必須於猶豫期內寄回。 <br>
-            辦理退貨時，商品必須是全新狀態與完整包裝(請注意保持商品本體、配件、贈品、保證書、原廠包裝及所有附隨文件或資料的完整性，切勿缺漏任何配件或損毀原廠外盒)。退回商品無法回復原狀者，恐將影響退貨權益或需負擔部分費用。
-          </p>
-          <h6>【商品猶豫期計算】</h6>
-          <p>
-            宅配商品之猶豫期為商店出貨日+20天，例：商店出貨日為2020/4/1，則商品猶豫期計算至2020/4/21止，超過期限將不提供退貨服務。<br>
-            自取商品之猶豫期為取貨期限+7天，例：取貨期限為2020/4/1，則商品猶豫期計算至2020/4/8止，超過期限將不提供退貨服務。
-          </p>
+        <div class="title-txt">
+          退貨說明
+        </div>
+        <div class="title-txt">
+        </div>
+      </div>
+      <div class="p-3 text-bluedk">
+        <h6>【退貨原則】</h6>
+        <p>
+          會員所購買的商品均享有商品猶豫期。退回之商品必須於猶豫期內寄回。 <br>
+          辦理退貨時，商品必須是全新狀態與完整包裝(請注意保持商品本體、配件、贈品、保證書、原廠包裝及所有附隨文件或資料的完整性，切勿缺漏任何配件或損毀原廠外盒)。退回商品無法回復原狀者，恐將影響退貨權益或需負擔部分費用。
+        </p>
+        <h6>【商品猶豫期計算】</h6>
+        <p>
+          宅配商品之猶豫期為商店出貨日+20天，例：商店出貨日為2020/4/1，則商品猶豫期計算至2020/4/21止，超過期限將不提供退貨服務。<br>
+          自取商品之猶豫期為取貨期限+7天，例：取貨期限為2020/4/1，則商品猶豫期計算至2020/4/8止，超過期限將不提供退貨服務。
+        </p>
 
-          <h6>【退貨處理】</h6>
-          <p>
-            貨運司機將於退貨申請確認後3~7天內與你聯繫取件，請保持手機暢通以利聯絡，請將你所訂購之完整商品、配件、贈品、原包裝置入原外包裝箱內，以利後續退貨作業。<br>
-            退款方式：確認退貨後，款項將退至原信用卡帳戶中。
-          </p>
-        </div>
+        <h6>【退貨處理】</h6>
+        <p>
+          貨運司機將於退貨申請確認後3~7天內與你聯繫取件，請保持手機暢通以利聯絡，請將你所訂購之完整商品、配件、贈品、原包裝置入原外包裝箱內，以利後續退貨作業。<br>
+          退款方式：確認退貨後，款項將退至原信用卡帳戶中。
+        </p>
       </div>
     </div>
   </div>

@@ -103,14 +103,14 @@
     </form>
   </footer>
 
-  <div class="multilayer">
+  <div class="layerTrig container" [@layerTrigger] *ngIf="this.layerTrig === 1">
     <div class="shopping-cardnum">
       <header class="container">
         <!-- header top -->
         <div class="header-secondary container linebt-row">
           <div class="index-flex justify-content-between">
             <div class="item two">
-              <div class="close-btn" (click)="ablePayment = false; appService.backLayer();" data-toggle="tooltip" data-placement="bottom"
+              <div class="close-btn" (click)="ablePayment = false; layerToggle(0);" data-toggle="tooltip" data-placement="bottom"
                 title="回上一頁">
                 <i class="material-icons">&#xe314;</i>
               </div>

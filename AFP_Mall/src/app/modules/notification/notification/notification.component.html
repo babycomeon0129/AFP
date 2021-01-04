@@ -57,13 +57,12 @@
 
 
 <!--次頁-->
-<div class="multilayer" style="overflow-y: auto;">
-
+<div class="layerTrig container" [@layerTrigger] *ngIf="this.layerTrig === 1">
   <!--類別列表-->
   <div class="topic">
     <div class="headerbox container title-box linebt-row">
           <div class="item icon-btn">
-              <button class="btn px-0" (click)="appService.backLayer();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+              <button class="btn px-0" (click)="layerToggle(0)" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
                   <i class="material-icons">&#xe314;</i>
               </button>
           </div>

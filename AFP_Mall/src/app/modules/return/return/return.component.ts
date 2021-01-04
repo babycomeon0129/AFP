@@ -7,6 +7,7 @@ import {
 } from '@app/_models';
 import { ModalService } from '../../../shared/modal/modal.service';
 import { NgForm } from '@angular/forms';
+import { layerAnimation } from '../../../animations';
 
 @Component({
   selector: 'app-return',
@@ -14,7 +15,8 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['../../member/member/member.scss',
               '../../member/member-function/member-order/member-order.scss',
               '../../order/shopping-order/shopping-order.scss',
-              './return.scss']
+              './return.scss'],
+  animations: [ layerAnimation ]
 })
 export class ReturnComponent implements OnInit {
   public orderNo: number;
@@ -28,6 +30,8 @@ export class ReturnComponent implements OnInit {
   public choiceDelivery = -1;
   /** 我的收藏 - 地址 */
   public requestAddress: AFP_UserFavourite = new AFP_UserFavourite();
+  /** 同頁滑動切換 */
+  public layerTrig = 0;
 
   constructor(private route: ActivatedRoute, public appService: AppService, private modal: ModalService, private router: Router) {
     this.orderNo = this.route.snapshot.params.Order_TableNo;
@@ -108,7 +112,7 @@ export class ReturnComponent implements OnInit {
   ChoiceReson(reasonNo: number): void {
     if (typeof reasonNo !== 'undefined') {
       this.servicesModel.Services_Reason = reasonNo;
-      this.appService.backLayer();
+      this.layerTrig = 0;
     }
   }
 
@@ -167,7 +171,7 @@ export class ReturnComponent implements OnInit {
       // 將資料放入「地址列表」中
       this.addressList.push(JSON.parse(JSON.stringify(this.requestAddress)));
       // 回到上一頁(「地址列表」)
-      this.appService.backLayer();
+      this.layerTrig = 0;
       // 將「新增地址」的input清空
       form.resetForm();
       this.requestAddress = new AFP_UserFavourite();
@@ -203,6 +207,10 @@ export class ReturnComponent implements OnInit {
     }
   }
 
+  /** 同頁滑動切換 */
+  layerToggle(e) {
+    this.layerTrig = e;
+  }
 
   ngOnInit() {
   }

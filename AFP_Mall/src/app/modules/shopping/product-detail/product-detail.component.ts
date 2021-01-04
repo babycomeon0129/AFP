@@ -9,11 +9,13 @@ import { ModalService } from '@app/shared/modal/modal.service';
 import { SwiperOptions } from 'swiper';
 import { Meta, Title } from '@angular/platform-browser';
 import smoothscroll from 'smoothscroll-polyfill';
+import { layerAnimationUp } from '../../../animations';
 
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
-  styleUrls: ['../shopping/shopping.scss', './product-detail.scss']
+  styleUrls: ['../shopping/shopping.scss', './product-detail.scss'],
+  animations: [ layerAnimationUp ]
 })
 export class ProductDetailComponent implements OnInit {
   /** 購物車編碼 */
@@ -40,6 +42,8 @@ export class ProductDetailComponent implements OnInit {
   public cartAttrValueName = '';
   /** 所選商品數量（預設1） */
   public prodAmount = 1;
+  /** 購買按鈕文字  */
+  public buybtnTxt = '加入購物車';
   /** 分享至社群時顯示的文字 */
   public textForShare: string;
   /** 上方商品圖片輪播 swiper */
@@ -61,6 +65,8 @@ export class ProductDetailComponent implements OnInit {
   @ViewChild('tag03', { static: false }) tag03: ElementRef;
   /** 目前所在區塊 0 不在詳細內容 1 關於商品 2 訂購須知 3運送須知 */
   currentSec = 0;
+  /** 同頁滑動切換 */
+  public layerTrigUp = 0;
 
   constructor(public appService: AppService, private router: Router, private route: ActivatedRoute, public modal: ModalService,
               private cookieService: CookieService, private meta: Meta, private title: Title) {
@@ -89,6 +95,17 @@ export class ProductDetailComponent implements OnInit {
       this.voucherData = data.AFP_VoucherData;
       this.attrList = data.List_Attribute;
       this.productDirCode = data.AFP_Product.Product_UserDefineCode; // 以回傳資料取代
+      switch (this.productInfo.Product_Type) {
+        case 2:
+          this.buybtnTxt = '前往購買';
+          break;
+        case 21:
+          this.buybtnTxt = '直接購買';
+          break;
+        default:
+          this.buybtnTxt = '加入購物車';
+          break;
+      }
 
       // 更新購物車數量
       this.cartCount = data.Cart_Count;
@@ -112,8 +129,7 @@ export class ProductDetailComponent implements OnInit {
       this.meta.updateTag({ name: 'description', content: this.productInfo.Product_Depiction.replace(/<[^>]*>/g, '') });
       this.meta.updateTag({ content: this.productInfo.Product_ExtName + '｜產品資訊 - Mobii!', property: 'og:title' });
       this.meta.updateTag({ content: this.productInfo.Product_Depiction.replace(/<[^>]*>/g, ''), property: 'og:description' });
-      this.textForShare = `嘿！我有好物要跟你分享喔！趕快進來看看吧！這是「${this.productInfo.Product_ExtName}」，快來跟我一起買東西吧！
-      ${location.href}`;
+      this.textForShare = `嘿！我有好物要跟你分享喔！趕快進來看看吧！這是「${this.productInfo.Product_ExtName}」，快來跟我一起買東西吧！`;
     });
     // 若有登入則顯示我的收藏
     if (this.appService.loginState === true) {
@@ -319,4 +335,8 @@ export class ProductDetailComponent implements OnInit {
     this.router.navigate(['/Explore/ExploreDetail', this.productInfo.Product_ECStoreCode], navigationExtras);
   }
 
+  /** 同頁滑動切換 */
+  layerToggleUp(e) {
+    this.layerTrigUp = e;
+  }
 }

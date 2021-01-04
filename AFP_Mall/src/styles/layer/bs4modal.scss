@@ -506,7 +506,7 @@
   // .sortlayer{ position: fixed; }
   // .sortlayer>div{ position: absolute; } = productsOpensort
   .productsOpensort{
-    width: 80vw;
+    width: 80%;
     right: 0;
     @media (min-width: 992px) {
       width: 650px;
@@ -906,20 +906,6 @@
     min-height:100vh;
     height:100%;
     z-index: 1;
-    // div.headerbox{
-    //   animation-name: TopIn;
-    //   animation-duration: 1s;
-    //   animation-fill-mode: both;
-    // }
-  //   @keyframes TopIn {
-  //     0% {
-  //       top: -100px;
-  //       opacity: 0;}
-  //     100% {
-  //       top: 0;
-  //       opacity: 1;
-  //     }
-  //  }
   }
   .sortlayer,
   .uplayer{
@@ -958,6 +944,62 @@
     @media (min-width: 768px) {
       max-height:45vh;
       padding-bottom: 60px;
+    }
+  }
+
+  /* layerToggleUp(0) and layerTrigger */
+  .layerTrig{
+    position: fixed;
+    overflow-x:hidden;
+    overflow-y:auto;
+    background-color:#fff;
+    min-height:100vh;
+    height:100%;
+    width: 100%;
+    z-index: 1040;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    &.Trigsort{
+      background-color:rgba(0, 0, 0, 0.6);
+      >div{
+        position: absolute;
+        overflow-x:hidden;
+        overflow-y:auto;
+        background-color:transparent;
+        min-height:100vh;
+        width: 80%;
+        li.active>div{
+            color: $onlineshopping-default;
+        }
+      }
+    }
+  }
+  .layerTrigUp{
+    position: fixed;
+    width:100%;
+    height:100%;
+    min-height:100vh;
+    top: 0;
+    padding:0;
+    overflow:hidden;
+    background-color:rgba(0, 0, 0, 0.6);
+    z-index:1041;
+  }
+  .layerTrigUp>div{
+    position: absolute;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color:#fff;
+    width: 100%;
+    height: auto;
+    bottom: 0;
+    border-top-left-radius: .5em;
+    border-top-right-radius: .5em;
+    padding-bottom: 60px;
+    @media (min-width: 768px) {
+      max-height:45vh;
+      // padding-bottom: 60px;
     }
   }
 
