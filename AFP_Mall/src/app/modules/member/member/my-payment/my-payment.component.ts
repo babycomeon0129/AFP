@@ -59,7 +59,7 @@ export class MyPaymentComponent implements OnInit {
         };
         this.appService.toApi('Member', '1504', request).subscribe(() => {
           this.onGetPaymentList();
-          this.appService.backLayer();
+          this.shownLayer = 0;
         });
       }
     });

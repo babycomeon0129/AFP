@@ -12,7 +12,7 @@
                   <div class="title-name">退貨詳情</div>
               </div>
               <div class="item two text-right">
-                  <button type="button" class="btn bluedk-outline-btn bt-small mr-1" (click)="appService.callsortLayer('.returnInfo')">退貨說明</button>
+                  <button type="button" class="btn bluedk-outline-btn bt-small mr-1" (click)="layerToggle(1);">退貨說明</button>
               </div>
           </div>
       </div>
@@ -107,45 +107,40 @@
   </div>
   <div class="addheight"></div>
 
-  <div class="multilayer">
-  </div>
-
   <!-- 退貨說明 -->
-  <div class="sortlayer">
-      <div class="returnInfo">
-          <div id="open-pagebox">
-              <div class="open-page-title flex-inline-between">
-                  <div class="title-icon">
-                      <button class="btn" (click)="appService.backsortLayer();">
-                          <i class="material-icons">&#xe314;</i>
-                      </button>
-                  </div>
-                  <div class="title-txt">
-                      退貨說明
-                  </div>
-                  <div class="title-txt">
-                  </div>
-              </div>
-              <div class="p-3 text-bluedk">
-                  <h6>【退貨原則】</h6>
-                  <p>
-                      會員所購買的商品均享有商品猶豫期。退回之商品必須於猶豫期內寄回。 <br>
-                      辦理退貨時，商品必須是全新狀態與完整包裝(請注意保持商品本體、配件、贈品、保證書、原廠包裝及所有附隨文件或資料的完整性，切勿缺漏任何配件或損毀原廠外盒)。退回商品無法回復原狀者，恐將影響退貨權益或需負擔部分費用。
-                  </p>
-                  <h6>【商品猶豫期計算】</h6>
-                  <p>
-                      宅配商品之猶豫期為商店出貨日+20天，例：商店出貨日為2020/4/1，則商品猶豫期計算至2020/4/21止，超過期限將不提供退貨服務。<br>
-                      自取商品之猶豫期為取貨期限+7天，例：取貨期限為2020/4/1，則商品猶豫期計算至2020/4/8止，超過期限將不提供退貨服務。
-                  </p>
+  <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="this.layerTrig === 1">
+    <div id="open-pagebox" class="returnInfo">
+        <div class="open-page-title flex-inline-between">
+            <div class="title-icon">
+                <button class="btn" (click)="layerToggle(0);">
+                    <i class="material-icons">&#xe314;</i>
+                </button>
+            </div>
+            <div class="title-txt">
+                退貨說明
+            </div>
+            <div class="title-txt">
+            </div>
+        </div>
+        <div class="p-3 text-bluedk">
+            <h6>【退貨原則】</h6>
+            <p>
+                會員所購買的商品均享有商品猶豫期。退回之商品必須於猶豫期內寄回。 <br>
+                辦理退貨時，商品必須是全新狀態與完整包裝(請注意保持商品本體、配件、贈品、保證書、原廠包裝及所有附隨文件或資料的完整性，切勿缺漏任何配件或損毀原廠外盒)。退回商品無法回復原狀者，恐將影響退貨權益或需負擔部分費用。
+            </p>
+            <h6>【商品猶豫期計算】</h6>
+            <p>
+                宅配商品之猶豫期為商店出貨日+20天，例：商店出貨日為2020/4/1，則商品猶豫期計算至2020/4/21止，超過期限將不提供退貨服務。<br>
+                自取商品之猶豫期為取貨期限+7天，例：取貨期限為2020/4/1，則商品猶豫期計算至2020/4/8止，超過期限將不提供退貨服務。
+            </p>
 
-                  <h6>【退貨處理】</h6>
-                  <p>
-                      貨運司機將於退貨申請確認後3~7天內與你聯繫取件，請保持手機暢通以利聯絡，請將你所訂購之完整商品、配件、贈品、原包裝置入原外包裝箱內，以利後續退貨作業。<br>
-                      退款方式：確認退貨後，款項將退至原信用卡帳戶中。
-                  </p>
-              </div>
-          </div>
-      </div>
+            <h6>【退貨處理】</h6>
+            <p>
+                貨運司機將於退貨申請確認後3~7天內與你聯繫取件，請保持手機暢通以利聯絡，請將你所訂購之完整商品、配件、贈品、原包裝置入原外包裝箱內，以利後續退貨作業。<br>
+                退款方式：確認退貨後，款項將退至原信用卡帳戶中。
+            </p>
+        </div>
+    </div>
   </div>
 </div>
 <footer [hidden]="allETicket" class="shopping-cartfooter container fixed-bottom">

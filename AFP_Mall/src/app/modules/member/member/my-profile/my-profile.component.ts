@@ -193,13 +193,13 @@ export class MyProfileComponent implements OnInit {
           this.isUpload = true;
         });
         this.showFileDetail = 2;
-        this.appService.backLayerUp();
+        this.layerTrigUp = 0;
       }
     }
   }
 
   /** 同頁滑動切換 */
-  layerToggleUp(e){
+  layerToggleUp(e: number){
     this.layerTrigUp = e;
   }
 
