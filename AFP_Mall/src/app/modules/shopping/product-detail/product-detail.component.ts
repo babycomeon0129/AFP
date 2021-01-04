@@ -9,7 +9,7 @@ import { ModalService } from '@app/shared/modal/modal.service';
 import { SwiperOptions } from 'swiper';
 import { Meta, Title } from '@angular/platform-browser';
 import smoothscroll from 'smoothscroll-polyfill';
-import { layerAnimationUp } from '../../../animations';
+import { layerAnimationUp } from '@app/animations';
 
 @Component({
   selector: 'app-product-detail',
@@ -336,7 +336,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   /** 同頁滑動切換 */
-  layerToggleUp(e) {
+  layerToggleUp(e: number) {
     this.layerTrigUp = e;
   }
 }
