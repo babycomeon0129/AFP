@@ -58,9 +58,9 @@ export class AppService {
   /** 首頁進場廣告是否開啟 (要再確認過瀏覽器版本後打開) */
   public adIndexOpen = false;
   /** 滑動layer */
-  public tmpLayer = [];
-  public tmpLayerSort = [];
-  public tmpLayerUp = [];
+  // public tmpLayer = [];
+  // public tmpLayerSort = [];
+  // public tmpLayerUp = [];
 
   @BlockUI() blockUI: NgBlockUI;
   constructor(private http: HttpClient, private bsModal: BsModalService, public modal: ModalService, private router: Router,
