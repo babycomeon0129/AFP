@@ -175,7 +175,6 @@ export class ShoppingOrderComponent implements OnInit {
     });
     this.discount = 0;
     this.info.totalDiscount = 0;
-    this.info.voucherInfo = [];
     this.info.platform.preVoucher = new OrderVoucher();
     this.info.platform.topFreightStore = new OrderStore();
   }
@@ -295,6 +294,13 @@ export class ShoppingOrderComponent implements OnInit {
 
   /** 確認選擇的優惠券 */
   confirmVoucher(): void {
+
+    // if (this.info.totalDiscount === 0 ) {
+    //   this.info.voucherInfo = [];
+    //   this.userVouchers = [];
+    //   this.recalculate('discount');
+    // }
+
     const userVouchers = [];
 
     this.info.stores.forEach(store => {
