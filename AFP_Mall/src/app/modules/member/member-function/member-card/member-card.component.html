@@ -58,7 +58,7 @@
       <div class="mycardadd">
         <div class="title-box">
           <div class="item icon-btn">
-              <button class="btn px-0" (click)="layerToggle(0); formAddCard.resetForm()" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+              <button class="btn px-0" (click)="layerToggle(0); formAddCard.resetForm(); appService.appShowMobileFooter(true);" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
                   <i class="material-icons">&#xe314;</i>
               </button>
           </div>

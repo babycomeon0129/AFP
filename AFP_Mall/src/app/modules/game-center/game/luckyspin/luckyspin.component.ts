@@ -162,11 +162,13 @@ export class LuckyspinComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  /** 同頁滑動切換 */
-  layerToggle(e: number) {
-    this.layerTrig = e;
+  /** 同頁滑動切換 0: 本頁 1: 活動規則 */
+  layerToggle(index: number) {
+    this.layerTrig = index;
   }
-  layerToggleUp(e: number){
-    this.layerTrigUp = e;
+
+  /** 同頁滑動切換 0: 本頁 1: 開獎資訊 */
+  layerToggleUp(index: number) {
+    this.layerTrigUp = index;
   }
 }
