@@ -488,6 +488,19 @@ export class AppService {
     });
   }
 
+   /** 通知APP是否開啟BottomBar */
+   appShowMobileFooter(isOpen: boolean): void {
+    if (this.isApp !== null) {
+      if (navigator.userAgent.match(/android/i)) {
+        //  Android
+        AppJSInterface.showBottomBar(isOpen);
+      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+        //  IOS
+        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showBottomBar', isShow: isOpen });
+      }
+    }
+  }
+
   // 開啟側邊功能
   // multilayer animateCss
   // callLayer(nextLayer) {

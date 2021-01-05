@@ -22,7 +22,7 @@ export class MobileFooterComponent implements OnInit {
 
   ngOnInit() {
     this.currentUrl = this.router.url;
-    this.appShowMobileFooter(true);
+    this.appService.appShowMobileFooter(true);
   }
 
   /** 前往頁面前判斷登入狀態 */
@@ -31,19 +31,6 @@ export class MobileFooterComponent implements OnInit {
       this.router.navigate(['/Notification/NotificationList']);
     } else {
       this.appService.loginPage();
-    }
-  }
-
-  /** 通知APP是否開啟BottomBar */
-  appShowMobileFooter(isOpen: boolean): void {
-    if (this.appService.isApp !== null) {
-      if (navigator.userAgent.match(/android/i)) {
-        //  Android
-        AppJSInterface.showBottomBar(isOpen);
-      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-        //  IOS
-        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showBottomBar', isShow: isOpen });
-      }
     }
   }
 
