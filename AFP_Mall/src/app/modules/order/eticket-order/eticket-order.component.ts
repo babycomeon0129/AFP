@@ -51,10 +51,10 @@ export class ETicketOrderComponent implements OnInit {
       };
       this.appService.toApi('Checkout', '1609', getTCheckout).subscribe((data: Response_GetTCheckout) => {
         this.checkout = data;
-        // // TODO: 帶入會員資訊 (姓名、手機、email)
-        // this.info.name = this.checkout.UserInfo_Name;
-        // this.info.phone = this.checkout.UserProfile_Mobile;
-        // this.info.email = this.checkout.UserProfile_Email;
+        // 帶入會員資訊 (姓名、手機、email)
+        this.info.name = this.checkout.UserInfo_Name;
+        this.info.phone = this.checkout.UserProfile_Mobile;
+        this.info.email = this.checkout.UserProfile_Email;
         // 取得使用者優惠券
         const getVoucher: Request_GetUserVoucher = {
           SelectMode: 4, // 查詢
@@ -557,6 +557,9 @@ export interface Request_GetTCheckout extends Model_ShareData {
 export interface Response_GetTCheckout extends Model_ShareData {
   List_ECStore: AFP_ECStore[];
   List_Cart: AFP_Cart[];
+  UserInfo_Name: string;
+  UserProfile_Email: string;
+  UserProfile_Mobile: string;
 }
 
 export class OrderInfo {
