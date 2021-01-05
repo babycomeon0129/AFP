@@ -502,7 +502,7 @@ export class AppService {
   }
 
   /** 分享功能 */
-  shareContent(sharedContent) {
+  shareContent(sharedContent: string) {
     if (this.isApp === null) {
       // web
       this.modal.show('msgShare', { initialState: {sharedText: sharedContent} });
@@ -510,10 +510,11 @@ export class AppService {
       // APP: 呼叫APP分享功能
       if (navigator.userAgent.match(/android/i)) {
         //  Android
-        AppJSInterface.appShare({ content: sharedContent });
+        AppJSInterface.appShare(sharedContent);
       } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
         //  IOS
-        (window as any).webkit.messageHandlers.AppJSInterface.appShare({ content: sharedContent });
+        // (window as any).webkit.messageHandlers.AppJSInterface.appShare({ content: sharedContent });
+        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showBottomBar', isShow: true });
       }
     }
   }
