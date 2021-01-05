@@ -73,11 +73,11 @@
 
 
   <!-- 規則 -->
-  <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="this.layerTrig === 1">
+  <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="layerTrig === 1">
     <div id="open-pagebox" class="luckspin-rules">
         <div class="open-page-title index-flex">
           <div class="item one title-icon">
-              <button class="btn" (click)="layerToggleUp(0)">
+              <button class="btn" (click)="layerToggle(0)">
                   <i class="material-icons">&#xe314;</i>
               </button>
           </div>
@@ -91,7 +91,7 @@
     </div>
   </div>
   <!-- 中奬 -->
-  <div class="layerTrigUp container" [@layerTriggerUp] *ngIf="this.layerTrigUp === 1">
+  <div class="layerTrigUp container" [@layerTriggerUp] *ngIf="layerTrigUp === 1">
       <div class="winmsg">
         <button type="button" class="btn winbtn" (click)="playAgain();">×</button>
           <div class="winbox w-100">
