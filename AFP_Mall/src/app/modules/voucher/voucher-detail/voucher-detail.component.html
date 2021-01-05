@@ -25,7 +25,7 @@
       </div>
       <div class="ticket-content">
         <div [hidden]="selectMode === 5" class="add-sharebox">
-          <button (click)="modal.show('msgShare', { initialState: {sharedText: textForShare} })"
+          <button (click)="appService.shareContent(textForShare)"
             class="btn add-share msg-open" type="button" value="msg-share"><img src="../img/share/icon_share.png"
               class="imgicon"></button>
         </div>
