@@ -28,9 +28,11 @@ export class LuckyspinComponent implements OnInit, AfterViewInit, OnDestroy {
   public playingStatus: boolean;
   /** 本頁url */
   private currentUrl: string;
-  public hideBackBtn = false; // APP特例處理
-  /** 同頁滑動切換 */
+  /**  APP特例處理 */
+  public hideBackBtn = false;
+  /** 同頁滑動切換 0: 本頁 1: 活動規則 */
   public layerTrig = 0;
+  /** 提示視窗(向上) 0: 本頁 1: 開獎資訊 */
   public layerTrigUp = 0;
 
   constructor(public appService: AppService, public modal: ModalService, private router: Router, private route: ActivatedRoute,
@@ -162,11 +164,13 @@ export class LuckyspinComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  /** 同頁滑動切換 */
-  layerToggle(e: number) {
-    this.layerTrig = e;
+  /** 同頁滑動切換 0: 本頁 1: 活動規則 */
+  layerToggle(index: number) {
+    this.layerTrig = index;
   }
-  layerToggleUp(e: number){
-    this.layerTrigUp = e;
+
+  /** 提示視窗(向上) 0: 本頁 1: 開獎資訊 */
+  layerToggleUp(index: number) {
+    this.layerTrigUp = index;
   }
 }

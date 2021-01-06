@@ -216,6 +216,7 @@ export interface Response_AreaDetail extends Model_ShareData {
   List_Product: AFP_Product[];
   AFP_UserReport: AFP_UserReport[];
   Model_ECStoreExtType: AFP_ECStoreExtType;
+  AppShareUrl: string;
 }
 
 export class AFP_ECStoreExtType {
@@ -504,6 +505,7 @@ export interface Response_ECProductDetail extends Model_ShareData {
   AFP_VoucherData: AFP_Voucher;
   List_Attribute: AFP_Attribute[];
   List_ECLogistics: AFP_ECLogistics[];
+  AppShareUrl: string;
 }
 
 export interface AFP_ProductImg {
@@ -1323,6 +1325,7 @@ export class Response_MemberMsg extends Model_ShareData {
   List_Message: AFP_IMessage[];
   /** 訊息詳情 */
   AFP_IMessage: AFP_IMessage;
+  AppShareUrl: string;
 }
 
 export interface AFP_MemberMsgTitle {

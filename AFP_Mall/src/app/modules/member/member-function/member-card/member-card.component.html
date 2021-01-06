@@ -19,7 +19,7 @@
                   <p>快加入指定會員卡，可提升會員等級，還有一堆好禮優惠可以拿喔～</p>
               </div>
               <div class="py-3 text-center">
-                  <label class="custom-file-upload" (click)="showAddCard(); layerToggle(1);">
+                  <label class="custom-file-upload" (click)="layerToggle(1);this.appService.appShowMobileFooter(false);">
                       <div class="upload-box">
                           <img class="add-btnbg" src="../img/member/mycard.png">
                       </div>
@@ -53,12 +53,12 @@
   </div>
 
   <!--次頁-->
-  <div class="layerTrig container" [@layerTrigger] *ngIf="this.layerTrig === 1">
+  <div class="layerTrig container" [@layerTrigger] *ngIf="layerTrig === 1" (@layerTrigger.done)="showAddCard()">
       <!--新增卡片2-->
       <div class="mycardadd">
         <div class="title-box">
           <div class="item icon-btn">
-              <button class="btn px-0" (click)="layerToggle(0); formAddCard.resetForm()" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+              <button class="btn px-0" (click)="layerToggle(0); formAddCard.resetForm(); appService.appShowMobileFooter(true);" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
                   <i class="material-icons">&#xe314;</i>
               </button>
           </div>
@@ -132,7 +132,7 @@
         </div>
       </div>
   </div>
-  <div class="layerTrig container" [@layerTrigger] *ngIf="this.layerTrig === 2">
+  <div class="layerTrig container" [@layerTrigger] *ngIf="layerTrig === 2">
        <!--修改卡片2-->
        <div class="mycardedit">
           <div class="title-box">
@@ -179,7 +179,7 @@
   </div>
 
   <!--卡片圖示-->
-  <div class="layerTrigUp container" [@layerTriggerUp] *ngIf="this.layerTrigUp === 1">
+  <div class="layerTrigUp container" [@layerTriggerUp] *ngIf="layerTrigUp === 1">
       <div class="mycardprompt slideInUp animated slow">
           <div class="cardnum-title">卡片號碼位置</div>
           <div class="cardnum">

@@ -51,6 +51,10 @@ export class ETicketOrderComponent implements OnInit {
       };
       this.appService.toApi('Checkout', '1609', getTCheckout).subscribe((data: Response_GetTCheckout) => {
         this.checkout = data;
+        // 帶入會員資訊 (姓名、手機、email)
+        this.info.name = this.checkout.UserInfo_Name;
+        this.info.phone = this.checkout.UserProfile_Mobile;
+        this.info.email = this.checkout.UserProfile_Email;
         // 取得使用者優惠券
         const getVoucher: Request_GetUserVoucher = {
           SelectMode: 4, // 查詢
@@ -538,9 +542,7 @@ export class ETicketOrderComponent implements OnInit {
     document.body.scrollTop = (event.composedPath()[0] as HTMLElement).scrollHeight - 50;
   }
 
-  /** 同頁滑動切換
-   * @param index 0: 原頁 1: 使用優惠券、折扣碼 3:收據選取 4: 愛心碼選單
-   */
+  /** 同頁滑動切換 0: 原頁 1: 使用優惠券、折扣碼 3:收據選取 4: 愛心碼選單 */
   layerToggle(index: number) {
     this.layerTrig = index;
   }
@@ -553,6 +555,9 @@ export interface Request_GetTCheckout extends Model_ShareData {
 export interface Response_GetTCheckout extends Model_ShareData {
   List_ECStore: AFP_ECStore[];
   List_Cart: AFP_Cart[];
+  UserInfo_Name: string;
+  UserProfile_Email: string;
+  UserProfile_Mobile: string;
 }
 
 export class OrderInfo {

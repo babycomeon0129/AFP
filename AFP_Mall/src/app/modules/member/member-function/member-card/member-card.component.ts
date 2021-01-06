@@ -1,10 +1,10 @@
 import { Component, OnInit, AfterViewInit, Renderer2 } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { NgForm } from '@angular/forms';
-import { ModalService } from '../../../../shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { Model_ShareData, AFP_UserFavourite, AFP_UserReport } from '@app/_models';
 import { Meta, Title } from '@angular/platform-browser';
-import { layerAnimation,  layerAnimationUp} from '../../../../animations';
+import { layerAnimation,  layerAnimationUp} from '@app/animations';
 import CaptchaMini from 'captcha-mini';
 
 @Component({
@@ -19,7 +19,7 @@ export class MemberCardComponent implements OnInit, AfterViewInit {
   /** 新增/修改卡片 ngForm request */
   public requestCard: AFP_UserFavourite = new AFP_UserFavourite();
   /** captcha 圖形驗證配置 */
-  public captcha1: CaptchaMini = new CaptchaMini(
+  public captcha1 = new CaptchaMini(
     {
       lineWidth: 1, // 線條寬度
       lineNum: 3, // 線條數量
@@ -42,8 +42,9 @@ export class MemberCardComponent implements OnInit, AfterViewInit {
   public captchaCorrect = false;
   /** 卡片號碼長度是否正確(11或16碼) */
   public cardNumLength = false;
-  /** 同頁滑動切換 */
+  /** 同頁滑動切換 0:本頁 1:新增會員卡 2:修改會員卡 */
   public layerTrig = 0;
+  /** 提示視窗(往上) 0:本頁 1:提示卡片號碼位置 */
   public layerTrigUp = 0;
 
   constructor(public appService: AppService, public modal: ModalService, private meta: Meta, private title: Title,
@@ -82,21 +83,25 @@ export class MemberCardComponent implements OnInit, AfterViewInit {
     });
   }
 
-  /** 同頁滑動切換 */
-  layerToggle(e: number) {
-    this.layerTrig = e;
-  }
-  layerToggleUp(e: number){
-    this.layerTrigUp = e;
+  /** 同頁滑動切換 0:本頁 1:新增會員卡 2:修改會員卡 */
+  layerToggle(index: number) {
+    this.layerTrig = index;
   }
 
-  /** 開啟「新增會員卡」 */
+  /** 提示視窗(往上) 0:本頁 1:提示卡片號碼位置 */
+  layerToggleUp(index: number) {
+    this.layerTrigUp = index;
+  }
+
+  /** 開啟「新增會員卡」; layerTrigger動畫完成後,再開啟showAddCard */
   showAddCard() {
+    this.captcha1 = new CaptchaMini();
     // 繪製圖形驗證
     this.captcha1.draw(document.querySelector('#captcha1'), r => {
       this.captchaAns = r;
     });
     // this.appService.callLayer('.mycardadd');
+   // this.appService.appShowMobileFooter(false);
   }
 
   /** 檢查卡片號碼長度(須為11或16碼) */

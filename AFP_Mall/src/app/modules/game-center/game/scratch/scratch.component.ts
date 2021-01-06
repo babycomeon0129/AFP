@@ -41,8 +41,9 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
   public imgTop = new Image();
   /** 開獎結果 */
   public prizeData: AFP_GamePart;
-  /** 同頁滑動切換 */
+  /** 同頁滑動切換 0: 本頁 1: 活動規則 */
   public layerTrig = 0;
+  /** 視窗滑動切換(往上) 0: 本頁 1: 開獎資訊 */
   public layerTrigUp = 0;
 
   constructor(public appService: AppService, public modal: ModalService, private route: ActivatedRoute) {
@@ -244,11 +245,13 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     this.topCanvas.removeEventListener('mousemove', (e) => { });
   }
 
-  /** 同頁滑動切換 */
-  layerToggle(e: number) {
-    this.layerTrig = e;
+  /** 同頁滑動切換 0: 本頁 1: 活動規則 */
+  layerToggle(index: number) {
+    this.layerTrig = index;
   }
-  layerToggleUp(e: number){
-    this.layerTrigUp = e;
+
+  /** 視窗滑動切換(往上) 0: 本頁 1: 開獎資訊 */
+  layerToggleUp(index: number) {
+    this.layerTrigUp = index;
   }
 }

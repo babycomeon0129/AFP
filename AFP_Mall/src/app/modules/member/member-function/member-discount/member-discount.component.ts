@@ -47,7 +47,7 @@ export class MemberDiscountComponent implements OnInit {
   public resetOpen = false;
   /** APP特例處理 */
   public showBack = false;
-  /** 同頁滑動切換 */
+  /** 同頁滑動切換 0:本頁 1:排序清單 */
   public layerTrig = 0;
 
   constructor(public appService: AppService, public modal: ModalService, public router: Router, private route: ActivatedRoute,
@@ -67,9 +67,9 @@ export class MemberDiscountComponent implements OnInit {
     }
   }
 
-  /** 同頁滑動切換 */
-  layerToggle(e: number) {
-    this.layerTrig = e;
+  /** 同頁滑動切換 0:本頁 1:排序清單 */
+  layerToggle(index: number) {
+    this.layerTrig = index;
   }
 
   /** 讀取優惠券 */
