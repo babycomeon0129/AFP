@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Renderer2, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Renderer2 } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { NgForm } from '@angular/forms';
 import { ModalService } from '../../../../shared/modal/modal.service';
@@ -74,16 +74,12 @@ export class MemberCardComponent implements OnInit, AfterViewInit {
   layerToggle(e: number) {
     this.layerTrig = e;
   }
-  layerToggleUp(e: number){
+  layerToggleUp(e: number) {
     this.layerTrigUp = e;
   }
 
-  /** layerTrigger動畫完成後開啟showAddCard */
-  animEnd(){
-    this.showAddCard();
-  };
 
-  /** 開啟「新增會員卡」 */
+  /** 開啟「新增會員卡」; layerTrigger動畫完成後,再開啟showAddCard */
   showAddCard() {
     /** captcha 圖形驗證配置 */
     this.captcha1 = new CaptchaMini(

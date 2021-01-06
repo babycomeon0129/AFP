@@ -53,7 +53,7 @@
   </div>
 
   <!--次頁-->
-  <div class="layerTrig container" [@layerTrigger] *ngIf="this.layerTrig === 1" (@layerTrigger.done)="animEnd($event)">
+  <div class="layerTrig container" [@layerTrigger] *ngIf="this.layerTrig === 1" (@layerTrigger.done)="showAddCard()">
       <!--新增卡片2-->
       <div class="mycardadd">
         <div class="title-box">
