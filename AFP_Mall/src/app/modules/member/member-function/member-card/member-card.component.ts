@@ -70,18 +70,22 @@ export class MemberCardComponent implements OnInit, AfterViewInit {
     });
   }
 
-  /** 同頁滑動切換 */
+  /** layerTrigger同頁滑動切換 */
   layerToggle(e: number) {
     this.layerTrig = e;
   }
   layerToggleUp(e: number){
     this.layerTrigUp = e;
   }
+
+  /** layerTrigger動畫完成後開啟showAddCard */
   animEnd(){
     this.showAddCard();
   };
+
   /** 開啟「新增會員卡」 */
   showAddCard() {
+    /** captcha 圖形驗證配置 */
     this.captcha1 = new CaptchaMini(
       {
         lineWidth: 1, // 線條寬度
