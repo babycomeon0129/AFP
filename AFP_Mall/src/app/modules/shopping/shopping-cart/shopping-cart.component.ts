@@ -32,7 +32,7 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit, DoCheck {
   /** 變動偵測（登入狀態） */
   private serviceDiffer: KeyValueDiffer<string, any>;
   /** 空購物車圖示顯示 */
-  public nocartShow: boolean;
+  public nocartShow = false;
   /** APP特例處理  */
   public showBack = false;
 
