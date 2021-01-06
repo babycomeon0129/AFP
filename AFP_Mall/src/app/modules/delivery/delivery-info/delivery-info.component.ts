@@ -27,7 +27,7 @@ export class DeliveryInfoComponent implements OnInit {
   public deliveryClick = false;
   /** 我同意checkbox核取狀態 */
   public agreeCheck = false;
-  /** 同頁滑動切換 */
+  /** 同頁滑動切換 0:本頁 1:縣市選單 2:行政區選單 */
   public layerTrig = 0;
 
 
@@ -116,10 +116,6 @@ export class DeliveryInfoComponent implements OnInit {
     });
   }
 
-  /** 同頁滑動切換 */
-  layerToggle(e: number) {
-    this.layerTrig = e;
-  }
 }
 
 /** 外送單MODEL */

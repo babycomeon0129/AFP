@@ -17,8 +17,9 @@ export class MemberCoinComponent implements OnInit {
   public info: Response_MemberPoint = new Response_MemberPoint();
   public pointHistory: AFP_UserPoint[] = [];
   public pointType = 0;
-  public showBack = false; // APP特例處理
-  /** 同頁滑動切換 */
+  /** APP特例處理 */
+  public showBack = false;
+  /** 同頁滑動切換 0:本頁 1:點數紀錄 */
   public layerTrig = 0;
 
   /** 活動分類導覽 */
@@ -108,9 +109,9 @@ export class MemberCoinComponent implements OnInit {
     }
   }
 
-  /** 同頁滑動切換 */
-  layerToggle(e: number) {
-    this.layerTrig = e;
+  /** 同頁滑動切換 0:本頁 1:點數紀錄 */
+  layerToggle(index: number) {
+    this.layerTrig = index;
   }
 }
 

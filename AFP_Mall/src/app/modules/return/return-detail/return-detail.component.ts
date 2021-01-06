@@ -30,7 +30,7 @@ export class ReturnDetailComponent implements OnInit {
   public StrTitle = '退貨';
   /** 退款SubTitle */
   public StrSubTitle = '退貨申請中，商店將盡快回覆您！';
-  /** 同頁滑動切換 */
+  /** 同頁滑動切換 0:本頁 1:退貨說明 */
   public layerTrig = 0;
 
   constructor(private route: ActivatedRoute, public appService: AppService, private router: Router) {
@@ -151,9 +151,9 @@ export class ReturnDetailComponent implements OnInit {
     );
   }
 
-  /** 同頁滑動切換 */
-  layerToggle(e: number) {
-    this.layerTrig = e;
+  /** 同頁滑動切換 0:本頁 1:退貨說明 */
+  layerToggle(index: number) {
+    this.layerTrig = index;
   }
   ngOnInit() {
   }

@@ -29,7 +29,7 @@ export class MyAddressComponent implements OnInit {
   public districtList: AFP_UserReport[] = [];
   /** 地址詳細開啟狀態 */
   public showDetail = false;
-  /** 同頁滑動切換 */
+  /** 同頁滑動切換 0: 本頁 1:縣市區  2:行政區 */
   public layerTrig = 0;
 
   constructor(public appService: AppService, public modal: ModalService, private meta: Meta, private title: Title) {
@@ -169,8 +169,8 @@ export class MyAddressComponent implements OnInit {
     });
   }
 
-  /** 同頁滑動切換 */
-  layerToggle(e: number) {
-    this.layerTrig = e;
+  /** 同頁滑動切換 0: 本頁 1:縣市區  2:行政區 */
+  layerToggle(index: number) {
+    this.layerTrig = index;
   }
 }

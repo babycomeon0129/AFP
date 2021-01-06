@@ -67,7 +67,7 @@ export class ProductDetailComponent implements OnInit {
   @ViewChild('tag03', { static: false }) tag03: ElementRef;
   /** 目前所在區塊 0 不在詳細內容 1 關於商品 2 訂購須知 3運送須知 */
   currentSec = 0;
-  /** 同頁滑動切換 */
+  /** 同頁滑動切換 0:本頁 1:選擇商品規格 */
   public layerTrigUp = 0;
 
   constructor(public appService: AppService, private router: Router, private route: ActivatedRoute, public modal: ModalService,
@@ -337,8 +337,8 @@ export class ProductDetailComponent implements OnInit {
     this.router.navigate(['/Explore/ExploreDetail', this.productInfo.Product_ECStoreCode], navigationExtras);
   }
 
-  /** 同頁滑動切換 */
-  layerToggleUp(e: number) {
-    this.layerTrigUp = e;
+  /** 同頁滑動切換 0:本頁 1:選擇商品規格 */
+  layerToggleUp(index: number) {
+    this.layerTrigUp = index;
   }
 }

@@ -43,7 +43,7 @@ export class ShoppingOrderComponent implements OnInit {
   public requestAddress: AFP_UserFavourite = new AFP_UserFavourite();
   /** 是否正在設定預設地址 (控制進入頁面正在設置時不呼叫callLayer()) */
   private settingAddress = true;
-  /** 同頁滑動切換 */
+  /** 同頁滑動切換 0: 原頁 1: 行政區選單 2: 縣市選單 3:愛心碼選單 4:新增地址 5: 選擇優惠券 6:寄送方式 7: 發票選取 */
   public layerTrig = 0;
 
   constructor(public appService: AppService, public modal: ModalService, private router: Router, private meta: Meta, private title: Title) {
@@ -726,9 +726,7 @@ export class ShoppingOrderComponent implements OnInit {
     }
   }
 
-  /** 同頁滑動切換
-   * @param index 0: 原頁 1: 行政區選單 2: 縣市選單 3:愛心碼選單 4:新增地址 5: 選擇優惠券 6:寄送方式 7: 發票選取
-   */
+  /** 同頁滑動切換 0: 原頁 1: 行政區選單 2: 縣市選單 3:愛心碼選單 4:新增地址 5: 選擇優惠券 6:寄送方式 7: 發票選取 */
   layerToggle(index: number) {
     this.layerTrig = index;
   }

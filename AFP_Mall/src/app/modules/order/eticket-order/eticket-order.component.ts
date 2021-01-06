@@ -542,9 +542,7 @@ export class ETicketOrderComponent implements OnInit {
     document.body.scrollTop = (event.composedPath()[0] as HTMLElement).scrollHeight - 50;
   }
 
-  /** 同頁滑動切換
-   * @param index 0: 原頁 1: 使用優惠券、折扣碼 3:收據選取 4: 愛心碼選單
-   */
+  /** 同頁滑動切換 0: 原頁 1: 使用優惠券、折扣碼 3:收據選取 4: 愛心碼選單 */
   layerToggle(index: number) {
     this.layerTrig = index;
   }

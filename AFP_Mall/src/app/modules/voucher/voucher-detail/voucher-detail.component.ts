@@ -41,8 +41,9 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
   private serviceDiffer: KeyValueDiffer<string, any>;
   /** 分享至社群時顯示的文字 */
   public textForShare: string;
-  public showBack = false; // APP特例處理
-  /** 同頁滑動切換 */
+  /** APP特例處理 */
+  public showBack = false;
+  /** 同頁滑動切換 0:本頁 1:使用優惠券 */
   public layerTrig = 0;
 
   constructor(public appService: AppService, private route: ActivatedRoute, private router: Router, public modal: ModalService,
@@ -275,9 +276,9 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
     clearTimeout(this.timer3Mins);
   }
 
-  /** 同頁滑動切換 */
-  layerToggle(e: number) {
-    this.layerTrig = e;
+  /** 同頁滑動切換 0:本頁 1:使用優惠券 */
+  layerToggle(index: number) {
+    this.layerTrig = index;
   }
 }
 
