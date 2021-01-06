@@ -501,6 +501,23 @@ export class AppService {
     }
   }
 
+  /** 分享功能 */
+  shareContent(sharedContent: string) {
+    if (this.isApp === null) {
+      // web
+      this.modal.show('msgShare', { initialState: {sharedText: sharedContent} });
+    } else {
+      // APP: 呼叫APP分享功能
+      if (navigator.userAgent.match(/android/i)) {
+        //  Android
+        AppJSInterface.appShare(sharedContent);
+      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+        //  IOS
+        (window as any).webkit.messageHandlers.AppJSInterface.appShare({ content: sharedContent });
+      }
+    }
+  }
+
   // 開啟側邊功能
   // multilayer animateCss
   // callLayer(nextLayer) {

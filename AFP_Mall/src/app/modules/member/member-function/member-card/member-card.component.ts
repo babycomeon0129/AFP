@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Renderer2 } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Renderer2, OnDestroy } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { NgForm } from '@angular/forms';
 import { ModalService } from '../../../../shared/modal/modal.service';
@@ -6,6 +6,8 @@ import { Model_ShareData, AFP_UserFavourite, AFP_UserReport } from '@app/_models
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation,  layerAnimationUp} from '../../../../animations';
 import CaptchaMini from 'captcha-mini';
+import { CanvasRenderer } from 'html2canvas/dist/types/render/canvas/canvas-renderer';
+import { CanvasElementContainer } from 'html2canvas/dist/types/dom/replaced-elements/canvas-element-container';
 
 @Component({
   selector: 'app-member-card',
@@ -19,21 +21,7 @@ export class MemberCardComponent implements OnInit, AfterViewInit {
   /** 新增/修改卡片 ngForm request */
   public requestCard: AFP_UserFavourite = new AFP_UserFavourite();
   /** captcha 圖形驗證配置 */
-  public captcha1: CaptchaMini = new CaptchaMini(
-    {
-      lineWidth: 1, // 線條寬度
-      lineNum: 3, // 線條數量
-      dotR: 1, // 點的半徑
-      dotNum: 8, // 點的數量
-      preGroundColor: [10, 80], // 前景色區間
-      backGroundColor: [150, 250], // 背景色區間
-      fontSize: 30, // 字體大小
-      fontFamily: ['Georgia', 'Helvetica', 'System'], // 字體類型
-      fontStyle: 'fill', // 字體繪製方法，有fill和stroke
-      content: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', // 驗證碼內容
-      length: 4 // 驗證碼長度
-    }
-  );
+  public captcha1: any;
   /** captcha 驗證碼 */
   public captchaAns: string;
   /** captcha 使用者輸入 */
@@ -89,9 +77,27 @@ export class MemberCardComponent implements OnInit, AfterViewInit {
   layerToggleUp(e: number){
     this.layerTrigUp = e;
   }
-
+  animEnd(){
+    this.showAddCard();
+  };
   /** 開啟「新增會員卡」 */
   showAddCard() {
+    this.captcha1 = new CaptchaMini(
+      {
+        lineWidth: 1, // 線條寬度
+        lineNum: 3, // 線條數量
+        dotR: 1, // 點的半徑
+        dotNum: 8, // 點的數量
+        preGroundColor: [10, 80], // 前景色區間
+        backGroundColor: [150, 250], // 背景色區間
+        fontSize: 30, // 字體大小
+        fontFamily: ['Georgia', 'Helvetica', 'System'], // 字體類型
+        fontStyle: 'fill', // 字體繪製方法，有fill和stroke
+        content: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', // 驗證碼內容
+        length: 4 // 驗證碼長度
+      }
+    );
+
     // 繪製圖形驗證
     this.captcha1.draw(document.querySelector('#captcha1'), r => {
       this.captchaAns = r;
@@ -217,6 +223,7 @@ export class MemberCardComponent implements OnInit, AfterViewInit {
   drawCaptcha() {
     this.captcha1.clear();
     this.captcha1.draw();
+    console.log(this.captcha1);
   }
 
   ngAfterViewInit() {
