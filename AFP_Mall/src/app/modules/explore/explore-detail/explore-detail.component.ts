@@ -15,9 +15,9 @@ import { layerAnimation } from '../../../animations';
   selector: 'app-explore-detail',
   templateUrl: './explore-detail.component.html',
   styleUrls: ['./explore-detail.scss',
-              '../../shopping/product-list/product-list.scss',
-              '../../../../styles/layer/shopping-footer.scss'],
-  animations: [ layerAnimation ]
+    '../../shopping/product-list/product-list.scss',
+    '../../../../styles/layer/shopping-footer.scss'],
+  animations: [layerAnimation]
 })
 export class ExploreDetailComponent implements OnInit, DoCheck {
   @ViewChild('kvSwiper', { static: false }) kvSwiper: SwiperComponent;
@@ -66,7 +66,7 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
   public showBack = false;
   /** 確認資料是否下載完畢  */
   public dataLoad = false;
-  /** 同頁滑動切換 */
+  /** 同頁滑動切換 0:本頁 1:篩選清單 2:篩選-商品分類 */
   public layerTrig = 0;
 
   constructor(public appService: AppService, private router: Router, private route: ActivatedRoute, public modal: ModalService,
@@ -137,13 +137,13 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
           this.branchList = data.List_ECStore;
           // 顯示網站判定
           if (data.Model_ECStore.ECStore_WebURL !== null && data.Model_ECStore.ECStore_WebURL.trim() !== '') {
-            this.websitesArr.push({siteName: '官方網站', siteUrl: data.Model_ECStore.ECStore_WebURL});
+            this.websitesArr.push({ siteName: '官方網站', siteUrl: data.Model_ECStore.ECStore_WebURL });
           }
           if (data.Model_ECStore.ECStore_FBURL !== null && data.Model_ECStore.ECStore_FBURL.trim() !== '') {
-            this.websitesArr.push({siteName: 'Facebook', siteUrl: data.Model_ECStore.ECStore_FBURL});
+            this.websitesArr.push({ siteName: 'Facebook', siteUrl: data.Model_ECStore.ECStore_FBURL });
           }
           if (data.Model_ECStore.ECStore_IGURL !== null && data.Model_ECStore.ECStore_IGURL.trim() !== '') {
-            this.websitesArr.push({siteName: 'Instagram', siteUrl: data.Model_ECStore.ECStore_IGURL});
+            this.websitesArr.push({ siteName: 'Instagram', siteUrl: data.Model_ECStore.ECStore_IGURL });
           }
           // 確認類型後顯示類型文字、定義分享文字
           let typeText = '';
@@ -159,7 +159,7 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
           this.title.setTitle(this.siteInfo.ECStore_ShowName + '｜' + typeText + '介紹 - Mobii!');
           this.meta.updateTag({ name: 'description', content: this.siteInfo.ECStore_Features });
           this.meta.updateTag({ content: this.siteInfo.ECStore_ShowName + '｜' + typeText + '介紹 - Mobii!', property: 'og:title' });
-          this.meta.updateTag({ content: this.siteInfo.ECStore_Features , property: 'og:description' });
+          this.meta.updateTag({ content: this.siteInfo.ECStore_Features, property: 'og:description' });
           break;
         }
         //  優惠券
@@ -252,10 +252,6 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
     }
   }
 
-  /** 同頁滑動切換 */
-  layerToggle(e: number) {
-    this.layerTrig = e;
-  }
 }
 
 interface siteObj {

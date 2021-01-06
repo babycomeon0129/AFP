@@ -35,8 +35,7 @@ export class NotificationDetailComponent implements OnInit, AfterViewChecked {
 
     this.appService.toApi('Member', '1517', request).subscribe((data: Response_MemberMsg) => {
       this.msgContent = data.AFP_IMessage;
-      this.textForShare = `嘿！我發現了一個超棒的活動要跟你分享喔！趕快進來看看吧！這是「${this.msgContent.IMessage_Title}」，快來跟我一起了解一下吧！
-      ${location.href}`;
+      this.textForShare = `嘿！我發現了一個超棒的活動要跟你分享喔！趕快進來看看吧！這是「${this.msgContent.IMessage_Title}」，快來跟我一起了解一下吧！`;
       this.title.setTitle(`${data.AFP_IMessage.IMessage_Title}｜${data.AFP_IMessage.IMessage_MsgCategoryName} - Mobii!`);
       this.meta.updateTag({
         name: 'description',

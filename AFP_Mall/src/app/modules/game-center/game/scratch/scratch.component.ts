@@ -41,8 +41,9 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
   public imgTop = new Image();
   /** 開獎結果 */
   public prizeData: AFP_GamePart;
-  /** 同頁滑動切換 */
+  /** 同頁滑動切換 0: 本頁 1: 活動規則 */
   public layerTrig = 0;
+  /** 視窗滑動切換(往上) 0: 本頁 1: 開獎資訊 */
   public layerTrigUp = 0;
 
   constructor(public appService: AppService, public modal: ModalService, private route: ActivatedRoute) {
@@ -249,7 +250,7 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     this.layerTrig = index;
   }
 
-  /** 同頁滑動切換 0: 本頁 1: 開獎資訊 */
+  /** 視窗滑動切換(往上) 0: 本頁 1: 開獎資訊 */
   layerToggleUp(index: number) {
     this.layerTrigUp = index;
   }

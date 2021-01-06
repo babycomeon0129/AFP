@@ -53,7 +53,7 @@
   </div>
 
   <!--次頁-->
-  <div class="layerTrig container" [@layerTrigger] *ngIf="this.layerTrig === 1" (@layerTrigger.done)="showAddCard()">
+  <div class="layerTrig container" [@layerTrigger] *ngIf="layerTrig === 1" (@layerTrigger.done)="showAddCard()">
       <!--新增卡片2-->
       <div class="mycardadd">
         <div class="title-box">
@@ -132,7 +132,7 @@
         </div>
       </div>
   </div>
-  <div class="layerTrig container" [@layerTrigger] *ngIf="this.layerTrig === 2">
+  <div class="layerTrig container" [@layerTrigger] *ngIf="layerTrig === 2">
        <!--修改卡片2-->
        <div class="mycardedit">
           <div class="title-box">
@@ -179,7 +179,7 @@
   </div>
 
   <!--卡片圖示-->
-  <div class="layerTrigUp container" [@layerTriggerUp] *ngIf="this.layerTrigUp === 1">
+  <div class="layerTrigUp container" [@layerTriggerUp] *ngIf="layerTrigUp === 1">
       <div class="mycardprompt slideInUp animated slow">
           <div class="cardnum-title">卡片號碼位置</div>
           <div class="cardnum">

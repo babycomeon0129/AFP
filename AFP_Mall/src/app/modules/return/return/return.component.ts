@@ -30,7 +30,7 @@ export class ReturnComponent implements OnInit {
   public choiceDelivery = -1;
   /** 我的收藏 - 地址 */
   public requestAddress: AFP_UserFavourite = new AFP_UserFavourite();
-  /** 同頁滑動切換 */
+  /** 同頁滑動切換 0:本頁 1:退貨說明 2:退貨原因 3:寄送方式 4:新增地址 5: 縣市清單 6:行政區清單 */
   public layerTrig = 0;
 
   constructor(private route: ActivatedRoute, public appService: AppService, private modal: ModalService, private router: Router) {
@@ -207,9 +207,9 @@ export class ReturnComponent implements OnInit {
     }
   }
 
-  /** 同頁滑動切換 */
-  layerToggle(e: number) {
-    this.layerTrig = e;
+  /** 同頁滑動切換 0:本頁 1:退貨說明 2:退貨原因 3:寄送方式 4:新增地址 5: 縣市清單 6:行政區清單 */
+  layerToggle(index: number) {
+    this.layerTrig = index;
   }
 
   ngOnInit() {

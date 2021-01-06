@@ -41,7 +41,7 @@ export class ProductListComponent implements OnInit {
   public attrValueMap: Map<number, Map<number, string>> = new Map();
   /** 目錄篩選開啟狀態 */
   public showDirMenu = false;
-  /** 同頁滑動切換 */
+  /** 同頁滑動切換 0:本頁 1:篩選清單 2: 商品分類 */
   public layerTrig = 0;
 
   constructor(public appService: AppService, private route: ActivatedRoute, private cookieService: CookieService
@@ -190,8 +190,8 @@ export class ProductListComponent implements OnInit {
     this.layerTrig = 0;
   }
 
-  /** 同頁滑動切換 */
-  layerToggle(e: number) {
-    this.layerTrig = e;
+  /** 同頁滑動切換 0:本頁 1:篩選清單 2: 商品分類 */
+  layerToggle(index: number) {
+    this.layerTrig = index;
   }
 }

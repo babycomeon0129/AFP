@@ -21,7 +21,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
   public SCategoryName: string;
   /** 次頁：所選通知分類列表容器 */
   public SCategoryList: AFP_IMessage[];
-  /** 同頁滑動切換 */
+  /** 同頁滑動切換 0:本頁 1:次頁 */
   public layerTrig = 0;
 
   public JustkaUrl = '';
@@ -104,8 +104,8 @@ export class NotificationComponent implements OnInit, OnDestroy {
     this.layerTrig = 0; // 避免此頁callLayer後會直接到別的頁面會造成callLayer失效
   }
 
-  /** 同頁滑動切換 */
-  layerToggle(e: number) {
-    this.layerTrig = e;
+  /** 同頁滑動切換 0:本頁 1:次頁 */
+  layerToggle(index: number) {
+    this.layerTrig = index;
   }
 }
