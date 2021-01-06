@@ -100,8 +100,6 @@ export class MemberCardComponent implements OnInit, AfterViewInit {
     this.captcha1.draw(document.querySelector('#captcha1'), r => {
       this.captchaAns = r;
     });
-    // this.appService.callLayer('.mycardadd');
-   // this.appService.appShowMobileFooter(false);
   }
 
   /** 檢查卡片號碼長度(須為11或16碼) */
