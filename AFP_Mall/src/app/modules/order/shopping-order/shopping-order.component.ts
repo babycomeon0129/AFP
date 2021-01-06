@@ -175,6 +175,9 @@ export class ShoppingOrderComponent implements OnInit {
     });
     this.discount = 0;
     this.info.totalDiscount = 0;
+    this.info.voucherInfo = [];
+    this.userVouchers = [];
+    this.recalculate();
     this.info.platform.preVoucher = new OrderVoucher();
     this.info.platform.topFreightStore = new OrderStore();
   }
@@ -228,6 +231,7 @@ export class ShoppingOrderComponent implements OnInit {
     }
   }
 
+  /** 選擇平台優惠券 */
   choicePlatformVoucher(voucher: OrderVoucher, e: any): void {
     let result = { success: false, message: '' };
     let topFreightStore: OrderStore; // 最高的運費的店家(折扣後)
@@ -294,12 +298,6 @@ export class ShoppingOrderComponent implements OnInit {
 
   /** 確認選擇的優惠券 */
   confirmVoucher(): void {
-
-    // if (this.info.totalDiscount === 0 ) {
-    //   this.info.voucherInfo = [];
-    //   this.userVouchers = [];
-    //   this.recalculate('discount');
-    // }
 
     const userVouchers = [];
 
