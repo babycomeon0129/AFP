@@ -16,7 +16,7 @@ declare var $: any;
   animations: [layerAnimation]
 })
 export class ShoppingPaymentComponent implements OnInit {
-  /** 同頁滑動切換 */
+  /** 同頁滑動切換 0:本頁 1:輸入卡號 */
   public layerTrig = 0;
   public apiUrl = environment.apiUrl;
   public ablePayment = false;
@@ -136,9 +136,9 @@ export class ShoppingPaymentComponent implements OnInit {
     (document.getElementById('postPayment') as HTMLFormElement).submit();
   }
 
-  /** 同頁滑動切換 */
-  layerToggle(e: number) {
-    this.layerTrig = e;
+  /** 同頁滑動切換 0:本頁 1:輸入卡號 */
+  layerToggle(index: number) {
+    this.layerTrig = index;
   }
 }
 

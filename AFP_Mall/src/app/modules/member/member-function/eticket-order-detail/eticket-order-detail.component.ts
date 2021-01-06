@@ -31,7 +31,7 @@ export class ETicketOrderDetailComponent implements OnInit {
   public originalTotal: number;
   /** 客服單 */
   public servicesModel: AFP_Services = new AFP_Services();
-  /** 同頁滑動切換 */
+  /** 同頁滑動切換 0:本頁 1:退貨原因 */
   public layerTrig = 0;
 
   constructor(private route: ActivatedRoute, public appService: AppService, public modal: ModalService,

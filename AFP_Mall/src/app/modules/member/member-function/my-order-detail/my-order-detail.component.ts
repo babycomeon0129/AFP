@@ -38,7 +38,7 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
   public timer3Mins;
   /** UserReport (地址對照顯示) */
   public userReport: AFP_UserReport[];
-  /** 同頁滑動切換 */
+  /** 同頁滑動切換 0:本頁 1:取貨提醒 */
   public layerTrig = 0;
 
   constructor(private route: ActivatedRoute, public appService: AppService, private modal: ModalService,
@@ -120,7 +120,7 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
     }, 180000);
   }
 
-  // 按「回上一頁」時也要clearTimeout(this.checkTimer);
+  /** 按「回上一頁」時也要clearTimeout(this.checkTimer); */
   stopClaim() {
     clearInterval(this.checkTimer);
     this.layerTrig = 0;
@@ -132,8 +132,8 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
     clearTimeout(this.timer3Mins);
   }
 
-  /** 同頁滑動切換 */
-  layerToggle(e: number) {
-    this.layerTrig = e;
+  /** 同頁滑動切換 0:本頁 1:取貨提醒 */
+  layerToggle(index: number) {
+    this.layerTrig = index;
   }
 }
