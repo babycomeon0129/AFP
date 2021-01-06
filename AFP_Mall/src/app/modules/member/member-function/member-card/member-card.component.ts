@@ -1,13 +1,11 @@
 import { Component, OnInit, AfterViewInit, Renderer2 } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { NgForm } from '@angular/forms';
-import { ModalService } from '../../../../shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { Model_ShareData, AFP_UserFavourite, AFP_UserReport } from '@app/_models';
 import { Meta, Title } from '@angular/platform-browser';
-import { layerAnimation,  layerAnimationUp} from '../../../../animations';
+import { layerAnimation,  layerAnimationUp} from '@app/animations';
 import CaptchaMini from 'captcha-mini';
-import { CanvasRenderer } from 'html2canvas/dist/types/render/canvas/canvas-renderer';
-import { CanvasElementContainer } from 'html2canvas/dist/types/dom/replaced-elements/canvas-element-container';
 
 @Component({
   selector: 'app-member-card',
