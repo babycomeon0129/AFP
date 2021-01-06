@@ -503,6 +503,7 @@ export class AppService {
 
   /** 分享功能 */
   shareContent(sharedContent: string) {
+    const currentUrl = location.href; // APP要另外加上頁面url
     if (this.isApp === null) {
       // web
       this.modal.show('msgShare', { initialState: {sharedText: sharedContent} });
@@ -513,7 +514,7 @@ export class AppService {
         AppJSInterface.appShare(sharedContent);
       } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
         //  IOS
-        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'appShare', content: sharedContent });
+        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'appShare', content: sharedContent + '\n' + currentUrl });
       }
     }
   }
