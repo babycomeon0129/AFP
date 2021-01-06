@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import {
   Response_AreaDetail, AFP_ECStore, Request_AreaDetail, AFP_Voucher, AFP_Product,
   Request_MemberUserVoucher, Response_MemberUserVoucher, AFP_ECStoreExtType
@@ -7,9 +7,9 @@ import {
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'ngx-useful-swiper';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ModalService } from '../../../shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
-import { layerAnimation } from '../../../animations';
+import { layerAnimation } from '@app/animations';
 
 @Component({
   selector: 'app-explore-detail',
@@ -40,6 +40,8 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
   public ecStoreExtType: AFP_ECStoreExtType = new AFP_ECStoreExtType();
   /** JustKa連結 */
   public JustKaUrl: string;
+  /** APP分享使用的url */
+  public APPShareUrl: string;
   /** 上方大圖 swiper */
   public imgSwiper: SwiperOptions = {
     effect: 'fade',
@@ -154,6 +156,7 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
             typeText = '周邊';
             this.textForShare = `嘿！我發現新地方要跟你分享喔！趕快進來看看吧！這是「${this.siteInfo.ECStore_ShowName}」，快來跟我一起了解一下吧！`;
           }
+          this.APPShareUrl = data.AppShareUrl;
           this.JustKaUrl = data.JustKaUrl;
           // 設置meta
           this.title.setTitle(this.siteInfo.ECStore_ShowName + '｜' + typeText + '介紹 - Mobii!');

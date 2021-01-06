@@ -29,7 +29,7 @@
                               <button type="button" onclick="history.back();" #clickbtn data-toggle="tooltip" data-placement="top" title="回上一頁" [hidden]="appService.isApp !== null && !showBack"><img src="../img/share/icon_back.png" class="imgicon"></button>
                           </div>
                           <div class="ml-auto d-flex d-inline align-items-center">
-                            <button class="btn add-share" type="button" (click)="appService.shareContent(textForShare)"><img src="../img/share/icon_share.png" class="imgicon"></button>
+                            <button class="btn add-share" type="button" (click)="appService.shareContent(textForShare, APPShareUrl)"><img src="../img/share/icon_share.png" class="imgicon"></button>
                             <div class="add-favorite">
                               <button (click)="appService.favToggle((appService.userFavCodes.includes(siteCode)? 2 : 1), siteInfo?.ECStore_Type < 2000? 52 : 53, siteCode)"
                                 [ngClass]="{'active': appService.userFavCodes.includes(siteCode)}"

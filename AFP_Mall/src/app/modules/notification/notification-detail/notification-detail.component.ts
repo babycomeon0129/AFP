@@ -1,9 +1,9 @@
 import { Component, OnInit, AfterViewChecked } from '@angular/core';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Request_MemberMsg, Response_MemberMsg, AFP_MemberMsgTitle, AFP_IMessage } from '@app/_models';
+import { Request_MemberMsg, Response_MemberMsg, AFP_IMessage } from '@app/_models';
 import { Meta, Title } from '@angular/platform-browser';
-import { ModalService } from '../../../shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 
 @Component({
   selector: 'app-notification-detail',
@@ -18,9 +18,11 @@ export class NotificationDetailComponent implements OnInit, AfterViewChecked {
   public vedioCheck = false;
   /** 分享至社群時顯示的文字 */
   public textForShare: string;
+  /** APP分享使用的url */
+  public APPShareUrl: string;
 
   constructor(public appService: AppService, private router: Router, private route: ActivatedRoute, public modal: ModalService,
-    private meta: Meta, private title: Title) {
+              private meta: Meta, private title: Title) {
     this.msgCode = Number(this.route.snapshot.params.IMessage_Code);
   }
 
@@ -36,6 +38,7 @@ export class NotificationDetailComponent implements OnInit, AfterViewChecked {
     this.appService.toApi('Member', '1517', request).subscribe((data: Response_MemberMsg) => {
       this.msgContent = data.AFP_IMessage;
       this.textForShare = `嘿！我發現了一個超棒的活動要跟你分享喔！趕快進來看看吧！這是「${this.msgContent.IMessage_Title}」，快來跟我一起了解一下吧！`;
+      this.APPShareUrl = data.AppShareUrl;
       this.title.setTitle(`${data.AFP_IMessage.IMessage_Title}｜${data.AFP_IMessage.IMessage_MsgCategoryName} - Mobii!`);
       this.meta.updateTag({
         name: 'description',

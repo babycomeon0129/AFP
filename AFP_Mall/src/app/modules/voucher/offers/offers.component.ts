@@ -77,6 +77,7 @@ export class OffersComponent implements OnInit, DoCheck, OnDestroy {
 
   /** 讀取資料 */
   readData() {
+    this.appService.openBlock();
     const request: Request_ECVouFlashSale = {
       User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 4,

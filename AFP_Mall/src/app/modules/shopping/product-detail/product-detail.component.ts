@@ -48,6 +48,8 @@ export class ProductDetailComponent implements OnInit {
   public buybtnTxt = '加入購物車';
   /** 分享至社群時顯示的文字 */
   public textForShare: string;
+  /** APP分享使用的url */
+  public APPShareUrl: string;
   /** 上方商品圖片輪播 swiper */
   public productImgs: SwiperOptions = {
     pagination: {
@@ -132,6 +134,7 @@ export class ProductDetailComponent implements OnInit {
       this.meta.updateTag({ content: this.productInfo.Product_ExtName + '｜產品資訊 - Mobii!', property: 'og:title' });
       this.meta.updateTag({ content: this.productInfo.Product_Depiction.replace(/<[^>]*>/g, ''), property: 'og:description' });
       this.textForShare = `嘿！我有好物要跟你分享喔！趕快進來看看吧！這是「${this.productInfo.Product_ExtName}」，快來跟我一起買東西吧！`;
+      this.APPShareUrl = data.AppShareUrl;
     });
     // 若有登入則顯示我的收藏
     if (this.appService.loginState === true) {
