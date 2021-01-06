@@ -513,7 +513,7 @@ export class AppService {
         AppJSInterface.appShare(sharedContent);
       } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
         //  IOS
-        (window as any).webkit.messageHandlers.AppJSInterface.appShare({ content: sharedContent });
+        (window as any).webkit.messageHandlers.AppJSInterface.appShare({ action: 'appShare', content: sharedContent });
       }
     }
   }
