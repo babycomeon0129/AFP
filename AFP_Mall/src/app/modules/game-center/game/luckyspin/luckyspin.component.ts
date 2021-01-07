@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit, OnDestroy, Renderer2 } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, Renderer2 } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Response_Games, Request_Games, AFP_GamePart } from '@app/_models';
 import { ModalService } from '../../../../shared/modal/modal.service';
@@ -11,7 +11,7 @@ import { layerAnimation,  layerAnimationUp} from '../../../../animations';
   styleUrls: ['./luckyspin.scss'],
   animations: [layerAnimation, layerAnimationUp]
 })
-export class LuckyspinComponent implements OnInit, AfterViewInit, OnDestroy {
+export class LuckyspinComponent implements OnInit, AfterViewInit {
   /** 遊戲資料（遊戲名稱、類型、格數、上方圖片、規則、遊玩一次所需點數。每次玩完不更新） */
   @Input() gameData: Response_Games;
   /** 總點數（每玩完一次即更新） */
@@ -74,11 +74,6 @@ export class LuckyspinComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
-    // if (this.appService.tLayerUp.includes('.winmsg')) {
-    //   this.appService.backLayerUp();
-    // }
-  }
 
   /** 開始遊玩 */
   play() {
@@ -95,7 +90,9 @@ export class LuckyspinComponent implements OnInit, AfterViewInit, OnDestroy {
             const sec = i - (0.95 * i);
             if (item.classList.contains(i.toString())) {
               item.classList.add('opacity5');
+            //  this.renderer2.addClass(item, 'opacity5');
               item.setAttribute('style', 'animation-delay:' + sec + 's');
+             // this.renderer2.removeStyle(item, `animation-delay:${sec}s`);
             }
           }
         });
@@ -164,13 +161,4 @@ export class LuckyspinComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  /** 同頁滑動切換 0: 本頁 1: 活動規則 */
-  layerToggle(index: number) {
-    this.layerTrig = index;
-  }
-
-  /** 提示視窗(向上) 0: 本頁 1: 開獎資訊 */
-  layerToggleUp(index: number) {
-    this.layerTrigUp = index;
-  }
 }
