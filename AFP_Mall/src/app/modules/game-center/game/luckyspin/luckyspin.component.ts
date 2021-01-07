@@ -44,7 +44,7 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
     this.totalPoints = this.gameData.TotalPoint;
     this.playTimes = this.gameData.AFP_Game.Game_PlayCount;
     this.prizeList = this.gameData.List_GamePart;
-    // 若可玩次數 === 0或是所剩點數不夠遊完一次則阻擋遊玩
+    // 若可玩次數 === 0或是所剩點數不夠遊玩一次則阻擋遊玩
     if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
       this.modal.show('message', { initialState: { success: false, message: '您的點數已不足或是遊玩次數已達上限!', showType: 1 } });
     }

@@ -60,4 +60,4 @@ import { PasswordUpdateComponent } from './password-update/password-update.compo
     MemberService
   ]
 })
-export class MemeberModule {}
+export class MemberModule {}
