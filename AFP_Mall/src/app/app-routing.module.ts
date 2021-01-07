@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'Info', loadChildren: () => import('./modules/info/info.module').then(m => m.InfoModule)},
   { path: 'Mission', loadChildren: () => import('./modules/mission/mission.module').then(m => m.MissionModule)},
   { path: 'Travel', loadChildren: () => import('./modules/travel/travel.module').then(m => m.TravelModule)},
-  { path: 'Member', loadChildren: () => import('./modules/member/member/member.module').then(m => m.MemeberModule)},
+  { path: 'Member', loadChildren: () => import('./modules/member/member/member.module').then(m => m.MemberModule)},
   { path: 'MemberFunction', loadChildren: () => import('./modules/member/member-function/member-function.module').then(m => m.MemberFunctionModule)},
   { path: 'Delivery', loadChildren: () => import('./modules/delivery/delivery.module').then(m => m.DeliveryModule)},
   { path: 'ForApp', loadChildren: () => import('./modules/for-app/for-app.module').then(m => m.ForAppModule)},
