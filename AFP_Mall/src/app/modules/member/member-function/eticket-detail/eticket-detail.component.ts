@@ -18,7 +18,7 @@ export class ETicketDetailComponent implements OnInit {
   /** 票券商品 */
   public ticketProd: AFP_Product;
   public showBack = false; // APP特例處理
-  /** 同頁滑動切換 */
+  /** 同頁滑動切換 0: 本頁 1:使用票券 */
   public layerTrig = 0;
 
   constructor(private route: ActivatedRoute, public appService: AppService) {
@@ -48,8 +48,8 @@ export class ETicketDetailComponent implements OnInit {
     });
   }
 
-  /** 同頁滑動切換 */
-  layerToggle(e: number) {
-    this.layerTrig = e;
+  /** 同頁滑動切換 0: 本頁 1:使用票券 */
+  layerToggle(index: number) {
+    this.layerTrig = index;
   }
 }

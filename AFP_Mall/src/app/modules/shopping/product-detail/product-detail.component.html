@@ -35,7 +35,7 @@
               <div class="shopping-productsdetailbox container">
                 <div class="d-flex position-absolute w-100 z-index2">
                     <div class="ml-auto d-flex d-inline align-items-center">
-                        <button class="btn add-share" type="button" (click)="appService.shareContent(textForShare)"><img src="../img/share/icon_share.png" class="imgicon"></button>
+                        <button class="btn add-share" type="button" (click)="appService.shareContent(textForShare, APPShareUrl)"><img src="../img/share/icon_share.png" class="imgicon"></button>
                         <div class="add-favorite">
                           <button (click)="appService.favToggle(appService.userFavCodes.includes(productInfo?.Product_Code) ? 2 : 1, 51, productInfo.Product_Code)"
                           [ngClass]="{'active' : appService.userFavCodes.includes(productInfo?.Product_Code) == true}"
@@ -180,7 +180,7 @@
 
   <div class="modal-backdrop fade show d-none"></div>
   <!-- shopping up-menu (open-pageupbox) -->
-  <div class="layerTrigUp container" [@layerTriggerUp] *ngIf="this.layerTrigUp === 1">
+  <div class="layerTrigUp container" [@layerTriggerUp] *ngIf="layerTrigUp === 1">
     <div class="productsformat">
       <div class="open-page-title text-center">
           選擇商品規格

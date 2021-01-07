@@ -29,7 +29,7 @@
                               <button type="button" onclick="history.back();" #clickbtn data-toggle="tooltip" data-placement="top" title="回上一頁" [hidden]="appService.isApp !== null && !showBack"><img src="../img/share/icon_back.png" class="imgicon"></button>
                           </div>
                           <div class="ml-auto d-flex d-inline align-items-center">
-                            <button class="btn add-share" type="button" (click)="appService.shareContent(textForShare)"><img src="../img/share/icon_share.png" class="imgicon"></button>
+                            <button class="btn add-share" type="button" (click)="appService.shareContent(textForShare, APPShareUrl)"><img src="../img/share/icon_share.png" class="imgicon"></button>
                             <div class="add-favorite">
                               <button (click)="appService.favToggle((appService.userFavCodes.includes(siteCode)? 2 : 1), siteInfo?.ECStore_Type < 2000? 52 : 53, siteCode)"
                                 [ngClass]="{'active': appService.userFavCodes.includes(siteCode)}"
@@ -173,7 +173,7 @@
                                           篩選與排序
                                       </button>
                                   </div>
-                                  <div class="sub-img" onclick="layerToggle(1);">
+                                  <div class="sub-img" (click)="layerTrig = 1">
                                       <button class="btn px-0"><i class="material-icons">&#xE152;</i></button>
                                   </div>
                               </div>
@@ -261,11 +261,11 @@
   </main>
 
   <!--篩選-->
-  <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="this.layerTrig === 1">
+  <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="layerTrig === 1">
     <div id="open-pagebox" class="productslistsort">
         <div class="open-page-title flex-inline-between">
             <div class="title-icon">
-                <button class="btn" onclick="layerToggle(0);">
+                <button class="btn" (click)="layerTrig = 0">
                     <i class="material-icons">&#xe314;</i>
                 </button>
             </div>
@@ -277,7 +277,7 @@
         </div>
         <ul class="open-page-ul">
             <label>篩選</label>
-            <li class="flex-inline-between active" onclick="layerToggle(2);">
+            <li class="flex-inline-between active" (click)="layerTrig = 2">
                 <div class="">
                     商品分類
                 </div>
@@ -339,11 +339,11 @@
         </button>
     </div>
   </div>
-  <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="this.layerTrig === 2">
+  <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="layerTrig === 2">
     <div id="open-pagebox1" class="productslistsort1">
         <div class="open-page-title flex-inline-between">
             <div class="close-btn">
-                <button class="btn" onclick="layerToggle(1);">
+                <button class="btn" (click)="layerTrig = 1">
                     <i class="material-icons">&#xe314;</i>
                 </button>
             </div>

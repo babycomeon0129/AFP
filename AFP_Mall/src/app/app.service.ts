@@ -501,8 +501,11 @@ export class AppService {
     }
   }
 
-  /** 分享功能 */
-  shareContent(sharedContent: string) {
+  /** 分享功能
+   * @param sharedContent 分享內容文案
+   * @param APPShareUrl APP分享時使用的url（直接抓當前url在APP中會帶入使用者相關資訊因此不使用）
+   */
+  shareContent(sharedContent: string, APPShareUrl: string) {
     if (this.isApp === null) {
       // web
       this.modal.show('msgShare', { initialState: {sharedText: sharedContent} });
@@ -510,10 +513,10 @@ export class AppService {
       // APP: 呼叫APP分享功能
       if (navigator.userAgent.match(/android/i)) {
         //  Android
-        AppJSInterface.appShare(sharedContent);
+        AppJSInterface.appShare(sharedContent + '\n' + APPShareUrl);
       } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
         //  IOS
-        (window as any).webkit.messageHandlers.AppJSInterface.appShare({ action: 'appShare', content: sharedContent });
+        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'appShare', content: sharedContent + '\n' + APPShareUrl });
       }
     }
   }

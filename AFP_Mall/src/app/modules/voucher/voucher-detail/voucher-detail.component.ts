@@ -41,8 +41,11 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
   private serviceDiffer: KeyValueDiffer<string, any>;
   /** 分享至社群時顯示的文字 */
   public textForShare: string;
-  public showBack = false; // APP特例處理
-  /** 同頁滑動切換 */
+  /** APP分享使用的url */
+  public APPShareUrl: string;
+  /** APP特例處理 */
+  public showBack = false;
+  /** 同頁滑動切換 0:本頁 1:使用優惠券 */
   public layerTrig = 0;
 
   constructor(public appService: AppService, private route: ActivatedRoute, private router: Router, public modal: ModalService,
@@ -91,6 +94,7 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
       this.meta.updateTag({ content: this.voucherData.Voucher_ExtName + ' - Mobii!', property: 'og:title' });
       this.meta.updateTag({ content: this.voucherData.Voucher_Content, property: 'og:description' });
       this.textForShare = `嘿！我有好康優會要跟你分享喔！趕快進來看看吧！這是「${this.voucherData.Voucher_ExtName}」，趕快去領不然被領光就沒得領囉！`;
+      this.APPShareUrl = data.AppShareUrl;
     });
   }
 
@@ -275,9 +279,9 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
     clearTimeout(this.timer3Mins);
   }
 
-  /** 同頁滑動切換 */
-  layerToggle(e: number) {
-    this.layerTrig = e;
+  /** 同頁滑動切換 0:本頁 1:使用優惠券 */
+  layerToggle(index: number) {
+    this.layerTrig = index;
   }
 }
 
@@ -294,5 +298,6 @@ export interface Response_ECVoucherDetail extends Model_ShareData {
   AFP_Voucher: AFP_Voucher;
   AFP_UserVoucher: AFP_UserVoucher;
   List_ECStore: AFP_ECStore[];
+  AppShareUrl: string;
 }
 

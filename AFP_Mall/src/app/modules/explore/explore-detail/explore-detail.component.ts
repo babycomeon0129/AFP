@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import {
   Response_AreaDetail, AFP_ECStore, Request_AreaDetail, AFP_Voucher, AFP_Product,
   Request_MemberUserVoucher, Response_MemberUserVoucher, AFP_ECStoreExtType
@@ -7,17 +7,17 @@ import {
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'ngx-useful-swiper';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ModalService } from '../../../shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
-import { layerAnimation } from '../../../animations';
+import { layerAnimation } from '@app/animations';
 
 @Component({
   selector: 'app-explore-detail',
   templateUrl: './explore-detail.component.html',
   styleUrls: ['./explore-detail.scss',
-              '../../shopping/product-list/product-list.scss',
-              '../../../../styles/layer/shopping-footer.scss'],
-  animations: [ layerAnimation ]
+    '../../shopping/product-list/product-list.scss',
+    '../../../../styles/layer/shopping-footer.scss'],
+  animations: [layerAnimation]
 })
 export class ExploreDetailComponent implements OnInit, DoCheck {
   @ViewChild('kvSwiper', { static: false }) kvSwiper: SwiperComponent;
@@ -40,6 +40,8 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
   public ecStoreExtType: AFP_ECStoreExtType = new AFP_ECStoreExtType();
   /** JustKa連結 */
   public JustKaUrl: string;
+  /** APP分享使用的url */
+  public APPShareUrl: string;
   /** 上方大圖 swiper */
   public imgSwiper: SwiperOptions = {
     effect: 'fade',
@@ -66,7 +68,7 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
   public showBack = false;
   /** 確認資料是否下載完畢  */
   public dataLoad = false;
-  /** 同頁滑動切換 */
+  /** 同頁滑動切換 0:本頁 1:篩選清單 2:篩選-商品分類 */
   public layerTrig = 0;
 
   constructor(public appService: AppService, private router: Router, private route: ActivatedRoute, public modal: ModalService,
@@ -137,13 +139,13 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
           this.branchList = data.List_ECStore;
           // 顯示網站判定
           if (data.Model_ECStore.ECStore_WebURL !== null && data.Model_ECStore.ECStore_WebURL.trim() !== '') {
-            this.websitesArr.push({siteName: '官方網站', siteUrl: data.Model_ECStore.ECStore_WebURL});
+            this.websitesArr.push({ siteName: '官方網站', siteUrl: data.Model_ECStore.ECStore_WebURL });
           }
           if (data.Model_ECStore.ECStore_FBURL !== null && data.Model_ECStore.ECStore_FBURL.trim() !== '') {
-            this.websitesArr.push({siteName: 'Facebook', siteUrl: data.Model_ECStore.ECStore_FBURL});
+            this.websitesArr.push({ siteName: 'Facebook', siteUrl: data.Model_ECStore.ECStore_FBURL });
           }
           if (data.Model_ECStore.ECStore_IGURL !== null && data.Model_ECStore.ECStore_IGURL.trim() !== '') {
-            this.websitesArr.push({siteName: 'Instagram', siteUrl: data.Model_ECStore.ECStore_IGURL});
+            this.websitesArr.push({ siteName: 'Instagram', siteUrl: data.Model_ECStore.ECStore_IGURL });
           }
           // 確認類型後顯示類型文字、定義分享文字
           let typeText = '';
@@ -154,12 +156,13 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
             typeText = '周邊';
             this.textForShare = `嘿！我發現新地方要跟你分享喔！趕快進來看看吧！這是「${this.siteInfo.ECStore_ShowName}」，快來跟我一起了解一下吧！`;
           }
+          this.APPShareUrl = data.AppShareUrl;
           this.JustKaUrl = data.JustKaUrl;
           // 設置meta
           this.title.setTitle(this.siteInfo.ECStore_ShowName + '｜' + typeText + '介紹 - Mobii!');
           this.meta.updateTag({ name: 'description', content: this.siteInfo.ECStore_Features });
           this.meta.updateTag({ content: this.siteInfo.ECStore_ShowName + '｜' + typeText + '介紹 - Mobii!', property: 'og:title' });
-          this.meta.updateTag({ content: this.siteInfo.ECStore_Features , property: 'og:description' });
+          this.meta.updateTag({ content: this.siteInfo.ECStore_Features, property: 'og:description' });
           break;
         }
         //  優惠券
@@ -252,10 +255,6 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
     }
   }
 
-  /** 同頁滑動切換 */
-  layerToggle(e: number) {
-    this.layerTrig = e;
-  }
 }
 
 interface siteObj {

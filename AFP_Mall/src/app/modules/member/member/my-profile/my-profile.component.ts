@@ -35,7 +35,7 @@ export class MyProfileComponent implements OnInit {
   /** 判斷是否有上傳檔案 */
   public isUpload = false;
   public today: Date = new Date();
-  /** 同頁滑動切換 */
+  /** 同頁滑動切換 0:本頁 1:開啟瀏覽檔案上傳  */
   public layerTrigUp = 0;
 
   constructor(public appService: AppService, public modal: ModalService, public memberService: MemberService,
@@ -198,9 +198,9 @@ export class MyProfileComponent implements OnInit {
     }
   }
 
-  /** 同頁滑動切換 */
-  layerToggleUp(e: number){
-    this.layerTrigUp = e;
+  /** 同頁滑動切換 0:本頁 1:開啟瀏覽檔案上傳  */
+  layerToggleUp(index: number) {
+    this.layerTrigUp = index;
   }
 
 }
