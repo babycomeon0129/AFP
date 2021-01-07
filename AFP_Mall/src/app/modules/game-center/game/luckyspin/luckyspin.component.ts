@@ -65,10 +65,10 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
     this.prizesArr.forEach((elem, index) => {
       switch (this.gameData.AFP_Game.Game_TypeSpace) {
         case 8:
-          elem.classList.add((order8[index].toString()));
+          this.renderer2.addClass(elem, order8[index].toString());
           break;
         case 12:
-          elem.classList.add((order12[index].toString()));
+          this.renderer2.addClass(elem, order12[index].toString());
           break;
       }
     });
@@ -89,10 +89,8 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
           for (let i = 1; i <= this.prizesArr.length; i++) {
             const sec = i - (0.95 * i);
             if (item.classList.contains(i.toString())) {
-              item.classList.add('opacity5');
-            //  this.renderer2.addClass(item, 'opacity5');
-              item.setAttribute('style', 'animation-delay:' + sec + 's');
-             // this.renderer2.removeStyle(item, `animation-delay:${sec}s`);
+              this.renderer2.addClass(item, 'opacity5');
+              this.renderer2.setStyle(item, 'animation-delay', `${sec}s`);
             }
           }
         });
@@ -113,7 +111,7 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
             // 讓動畫僅停留在中獎項目
             this.prizesArr.forEach(i => {
               if (i.id !== this.prizeData.GamePart_ID.toString()) {
-                i.classList.remove('opacity5');
+                this.renderer2.removeClass(i, 'opacity5');
               }
             });
             // 顯示中獎結果(若還在本頁/無前往任務牆領取獎勵)

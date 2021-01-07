@@ -198,11 +198,6 @@ export class MyProfileComponent implements OnInit {
     }
   }
 
-  /** 同頁滑動切換 0:本頁 1:開啟瀏覽檔案上傳  */
-  layerToggleUp(index: number) {
-    this.layerTrigUp = index;
-  }
-
 }
 
 class Request_MemberCertificate extends Model_ShareData {
