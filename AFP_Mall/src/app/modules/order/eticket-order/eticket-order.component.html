@@ -48,7 +48,7 @@
                       <div class="item one">手機號碼<span style="color: red;">*</span></div>
                       <div class="item three">
                           <input type="tel" class="form-control" placeholder="請輸入" name="consumerPhone" #consumerPhone="ngModel"
-                          [(ngModel)]="info.phone" required pattern="^[0-9\*]{0,10}$" maxlength="10">
+                          [(ngModel)]="info.phone" required pattern="^09\d{8}$" maxlength="10">
                       </div>
                   </li>
                   <li class="index-flex">
