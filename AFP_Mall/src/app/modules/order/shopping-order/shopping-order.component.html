@@ -446,7 +446,7 @@
           </li>
         </ul>
         <div class="addheight mb-5"></div>
-        <footer class="success-mode container">
+        <footer class="success-mode container fixed-bottom">
           <div class="small-80 text-gray text-center w-100" [ngClass]="{'d-none': tempOrder.Order_ECLogisticsID > 0}">
             ＊所選地址不在商店配送範圍，請重新選擇</div>
           <button type="button" [ngClass]="tempOrder.Order_ECLogisticsID > 0 ? 'btn-ok' : 'btn gray-btn'"
@@ -539,7 +539,7 @@
           </div>
         </main>
 
-        <footer class="success-mode container">
+        <footer class="success-mode container fixed-bottom">
           <button type="submit" class="btn-ok">完成</button>
         </footer>
       </form>
@@ -623,7 +623,7 @@
             </ul>
           </div>
         </main>
-        <footer class="success-mode container">
+        <footer class="success-mode container fixed-bottom">
           <button type="button" [ngClass]="info.preInvoice.invoiceMode > 0 ? 'btn-ok' : 'btn gray-btn'"
             (click)="info.preInvoice.invoiceMode > 0 && confirmInvoice();">確認</button>
         </footer>

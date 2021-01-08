@@ -396,7 +396,7 @@
               </ul>
             </div>
           </main>
-          <footer class="success-mode container">
+          <footer class="success-mode container fixed-bottom">
             <button type="button" [ngClass]="info.preInvoice.invoiceMode > 0 ? 'btn-ok' : 'btn gray-btn'"
               (click)="info.preInvoice.invoiceMode > 0 && confirmInvoice();">確認</button>
           </footer>
@@ -451,7 +451,7 @@
                     <div class="addheight"></div>
                 </div>
             </main>
-            <footer class="success-mode container">
+            <footer class="success-mode container fixed-bottom">
                 <button [ngClass]="info.preInvoice.invoiceMode > 0 ? 'btn-ok' : 'btn gray-btn'"
                   (click)="info.preInvoice.invoiceMode > 0 && confirmInvoice();" type="button">
                   確認
