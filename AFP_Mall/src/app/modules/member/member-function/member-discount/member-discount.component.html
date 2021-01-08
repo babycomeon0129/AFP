@@ -57,7 +57,7 @@
                 <div class="s-btn div-switch" [ngClass]="{'d-none': !cancelIsOpen}">
                   <button class="btn w-100" (click)="searchText = null; cancelIsOpen = false;">取消</button>
                 </div>
-                <div class="filter-box div-switch " (click)="layerToggle(1); searchText = null;" [ngClass]="{'d-none': cancelIsOpen}">
+                <div class="filter-box div-switch " (click)="layerTrig = 1; searchText = null;" [ngClass]="{'d-none': cancelIsOpen}">
                   <button class="btn px-1"><i class="material-icons">&#xE152;</i></button>
                 </div>
               </div>
@@ -76,7 +76,7 @@
                   <button class="btn px-0 item-search" (click)="searchIsOpen = !searchIsOpen ; listIsOpen = false"><i
                       class="material-icons">&#xe8b6;</i></button>
                 </div>
-                <div class="filter-box" (click)="layerToggle(2);">
+                <div class="filter-box" (click)="layerTrig = 2">
                   <button class="btn px-0"><i class="material-icons">&#xE152;</i></button>
                 </div>
               </div>
@@ -193,7 +193,7 @@
         <div class="open-sort-title">
           <div class="flex-inline-between">
             <div class="title-icon">
-              <button class="btn" (click)="layerToggle(0);">
+              <button class="btn" (click)="layerTrig = 0">
                 <i class="material-icons">&#xe314;</i>
               </button>
             </div>
