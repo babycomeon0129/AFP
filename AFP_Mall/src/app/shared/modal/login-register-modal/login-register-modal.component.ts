@@ -1,5 +1,5 @@
-import { environment } from '@env/environment';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { environment } from '@env/environment';
 import { BsModalRef } from 'ngx-bootstrap';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from '../modal.service';
@@ -85,7 +85,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
     AppleID.auth.init({
       clientId: 'com.eyesmedia.mobii',
       scope: 'email name',
-      redirectURI: 'https://www-uat.mobii.ai', // 正式/測試站, 結尾無"/" + environment.sit的api url
+      redirectURI: environment.AppleSignInURI,
       state: 'Mobii Apple Login',
       usePopup : true
     });

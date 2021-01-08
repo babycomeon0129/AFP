@@ -155,7 +155,9 @@
                       <p class="mobi" hidden>此筆訂單可賺<span class="order-mobi" value="69">69</span>魔幣</p>
                   </div>
                   <div class="col-4 col-lg-3 pl-0">
-                      <button type="submit" class="btn index-btn mt-2 py-1 w-100 cart-next">去結帳</button>
+                      <button type="submit"
+                        [disabled]="formCheckout.invalid" [ngClass]="{'unable': formCheckout.invalid}"
+                        class="btn index-btn mt-2 py-1 w-100 cart-next">去結帳</button>
                   </div>
               </div>
           </div>
@@ -396,7 +398,7 @@
               </ul>
             </div>
           </main>
-          <footer class="success-mode container">
+          <footer class="success-mode container fixed-bottom">
             <button type="button" [ngClass]="info.preInvoice.invoiceMode > 0 ? 'btn-ok' : 'btn gray-btn'"
               (click)="info.preInvoice.invoiceMode > 0 && confirmInvoice();">確認</button>
           </footer>
@@ -451,7 +453,7 @@
                     <div class="addheight"></div>
                 </div>
             </main>
-            <footer class="success-mode container">
+            <footer class="success-mode container fixed-bottom">
                 <button [ngClass]="info.preInvoice.invoiceMode > 0 ? 'btn-ok' : 'btn gray-btn'"
                   (click)="info.preInvoice.invoiceMode > 0 && confirmInvoice();" type="button">
                   確認
