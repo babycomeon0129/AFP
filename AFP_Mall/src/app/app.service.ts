@@ -410,10 +410,10 @@ export class AppService {
 
   /** 初始化推播 (註冊firebase、取得token、產生/取得deviceCode、傳送給後端並取得新消費者包) */
   initPush() {
-    if (environment.production) {
+    if (environment.firebaseActivate) {
       // 不重複初始化
       if (!firebase.apps.length) {
-        firebase.initializeApp(environment.firebase);
+        firebase.initializeApp(environment.firebaseConfig);
         const messaging = firebase.messaging();
         navigator.serviceWorker.ready.then(registration => {
           if (
