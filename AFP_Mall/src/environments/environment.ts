@@ -9,7 +9,9 @@ export const environment = {
   GoogleApiKey: '260499247538-ctoucp9t09ufdpgqmd4ac368lfpgmorm.apps.googleusercontent.com',
   cookieDomain: 'localhost',
   cookieSecure: false,
-  firebase: {
+  /** 是否啟用firebase（推播服務） */
+  firebaseActivate: false,
+  firebaseConfig: {
     apiKey: 'AIzaSyCjtBdCm4T5SdndyaCGHN-S7LJQaLxftsE',
     authDomain: 'afp-consumer-sit.firebaseapp.com',
     databaseURL: 'https://afp-consumer-sit.firebaseio.com',
