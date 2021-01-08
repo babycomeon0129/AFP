@@ -133,16 +133,17 @@
 .bearservice-lg {
   border-left: 1px solid #ccc;
   border-right: 1px solid #ccc;
-  height: calc(100vh - 63px);
-  @media (max-width: 767px) {
-    height: calc(100vh - 79px);
-  }
-  @media (max-width: 375px) {
-    height: calc(100vh - 63px);
-  }
-  @media (min-width: 768px) {
-    height: calc(100vh - 170px);
-  }
+  height: 100vh;
+  // height: calc(100vh - 63px);
+  // @media (max-width: 767px) {
+  //   height: calc(100vh - 79px);
+  // }
+  // @media (max-width: 375px) {
+  //   height: calc(100vh - 63px);
+  // }
+  // @media (min-width: 768px) {
+  //   height: calc(100vh - 170px);
+  // }
   .chat-box {
     //overflow: hidden;
     background-color: #ffffff;
@@ -228,15 +229,15 @@
     min-width: 320px;
     padding: .5em;
     bottom: 0px;
-    @media (max-width: 767px) {
-      bottom: 79px;
-    }
-    @media (max-width: 375px) {
-      bottom: 63px;
-    }
-    @media (min-width: 768px) {
-      bottom: 170px;
-    }
+    // @media (max-width: 767px) {
+    //   bottom: 79px;
+    // }
+    // @media (max-width: 375px) {
+    //   bottom: 63px;
+    // }
+    // @media (min-width: 768px) {
+    //   bottom: 170px;
+    // }
     input{
       border: 1px solid #ccc;
       border-radius: 16px;
