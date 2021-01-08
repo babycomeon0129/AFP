@@ -59,6 +59,7 @@
       </div>
   </div>
   <!-- 規則 -->
+  <div class="modal-backdrop fade show container" *ngIf="layerTrig === 1"></div>
   <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="layerTrig === 1">
     <div id="open-pagebox" class="scratch-rules">
       <div class="open-page-title index-flex">
@@ -77,6 +78,7 @@
     </div>
   </div>
   <!-- 開獎訊息 -->
+  <div class="modal-backdrop fade show container" *ngIf="layerTrigUp === 1"></div>
   <div class="layerTrigUp container" [@layerTriggerUp] *ngIf="layerTrigUp === 1">
       <div class="winmsg">
         <button type="button" class="btn winbtn" (click)="playAgain()">×</button>

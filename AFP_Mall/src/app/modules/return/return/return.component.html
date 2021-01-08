@@ -266,6 +266,7 @@
     </div>
   </div>
 
+  <div class="modal-backdrop fade show container" *ngIf="layerTrig === 5"></div>
   <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="layerTrig === 5">
     <!-- 縣市/行政區選單 -->
     <div id="open-pagebox" class="city">
@@ -295,6 +296,7 @@
       </ul>
     </div>
   </div>
+  <div class="modal-backdrop fade show container" *ngIf="layerTrig === 6"></div>
   <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="layerTrig === 6">
     <div id="open-pagebox1" class="dist">
       <div class="open-page-title flex-inline-between">
@@ -324,6 +326,7 @@
       </ul>
     </div>
   </div>
+  <div class="modal-backdrop fade show container" *ngIf="layerTrig === 1"></div>
   <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="layerTrig === 1">
     <!-- 退貨說明 -->
     <div id="open-pagebox" class="returnInfo">

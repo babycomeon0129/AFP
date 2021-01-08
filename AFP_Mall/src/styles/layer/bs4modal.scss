@@ -964,14 +964,14 @@
     left: 50%;
     transform: translateX(-50%);
     &.Trigsort{
-      background-color:rgba(0, 0, 0, 0.6);
+      background-color: transparent;
       >div{
-        position: absolute;
-        overflow-x:hidden;
-        overflow-y:auto;
-        background-color:transparent;
-        min-height:100vh;
-        width: 80%;
+        // position: absolute;
+        // overflow-x:hidden;
+        // overflow-y:auto;
+        // background-color:transparent;
+        // min-height:100vh;
+        // width: 80%;
         li.active>div{
             color: $onlineshopping-default;
         }
@@ -986,7 +986,7 @@
     top: 0;
     padding:0;
     overflow:hidden;
-    background-color:rgba(0, 0, 0, 0.6);
+    background-color:transparent;
     z-index:1041;
   }
   .layerTrigUp>div{

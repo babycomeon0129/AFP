@@ -108,6 +108,7 @@
   <div class="addheight"></div>
 
   <!-- 退貨說明 -->
+  <div class="modal-backdrop fade show container" *ngIf="layerTrig === 1"></div>
   <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="layerTrig === 1">
     <div id="open-pagebox" class="returnInfo">
         <div class="open-page-title flex-inline-between">

@@ -178,8 +178,9 @@
       <div id="loginhtml"></div>
   </main>
 
-  <div class="modal-backdrop fade show d-none"></div>
+  <!-- <div class="modal-backdrop fade show d-none"></div> -->
   <!-- shopping up-menu (open-pageupbox) -->
+  <div class="modal-backdrop fade show container" *ngIf="layerTrigUp === 1"></div>
   <div class="layerTrigUp container" [@layerTriggerUp] *ngIf="layerTrigUp === 1">
     <div class="productsformat">
       <div class="open-page-title text-center">
