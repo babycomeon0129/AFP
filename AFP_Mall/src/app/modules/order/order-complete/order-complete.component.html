@@ -43,7 +43,7 @@
         <p class="order-success text-center">訂購完成!</p>
         <div class="container">
           <div class="row">
-            <div class="col-6">
+            <div [ngClass]="{'col-6': appService.isApp == null, 'col-12': appService.isApp !== null}">
               <button class="btn index-outline-btn w-100" [routerLink]="['/MemberFunction/MemberOrder']" [queryParams]="{referrer: 'OrderComplete'}">查看訂單</button>
             </div>
             <div class="col-6" *ngIf="appService.isApp == null">
