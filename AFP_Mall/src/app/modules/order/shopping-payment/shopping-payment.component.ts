@@ -136,10 +136,6 @@ export class ShoppingPaymentComponent implements OnInit {
     (document.getElementById('postPayment') as HTMLFormElement).submit();
   }
 
-  /** 同頁滑動切換 0:本頁 1:輸入卡號 */
-  layerToggle(index: number) {
-    this.layerTrig = index;
-  }
 }
 
 export class Request_GetPayment extends Model_ShareData { }

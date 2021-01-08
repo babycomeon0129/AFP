@@ -279,10 +279,6 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
     clearTimeout(this.timer3Mins);
   }
 
-  /** 同頁滑動切換 0:本頁 1:使用優惠券 */
-  layerToggle(index: number) {
-    this.layerTrig = index;
-  }
 }
 
 export interface Request_ECVoucherDetail extends Model_ShareData {
