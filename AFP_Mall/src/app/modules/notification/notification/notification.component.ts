@@ -104,8 +104,4 @@ export class NotificationComponent implements OnInit, OnDestroy {
     this.layerTrig = 0; // 避免此頁callLayer後會直接到別的頁面會造成callLayer失效
   }
 
-  /** 同頁滑動切換 0:本頁 1:次頁 */
-  layerToggle(index: number) {
-    this.layerTrig = index;
-  }
 }
