@@ -5,6 +5,8 @@ export const environment = {
   GoogleApiKey: '260499247538-0gafabuvc5n9d2881ufjgefeo71p51q5.apps.googleusercontent.com',
   cookieDomain: 'mobii.ai',
   cookieSecure: true,
+  /** Apple登入redirectURI */
+  AppleSignInURI: 'https://www.mobii.ai',
   /** 是否啟用firebase（推播服務） */
   firebaseActivate: true,
   firebaseConfig: {

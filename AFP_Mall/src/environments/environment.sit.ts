@@ -10,6 +10,8 @@ export const environment = {
   GoogleApiKey: '260499247538-ctoucp9t09ufdpgqmd4ac368lfpgmorm.apps.googleusercontent.com',
   cookieDomain: '54.150.124.230',
   cookieSecure: false,
+  /** Apple登入redirectURI */
+  AppleSignInURI: 'https://www-uat.mobii.ai',
   /** 是否啟用firebase（推播服務） */
   firebaseActivate: false,
   firebaseConfig: {
