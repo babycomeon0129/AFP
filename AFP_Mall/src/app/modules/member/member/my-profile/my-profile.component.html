@@ -1,250 +1,257 @@
 <div class="wrap container">
-  <div [@layerTrigger] *ngIf="showFileDetail === 1" class="w-100">
-    <div class="headerbox container title-box">
-      <div class="item icon-btn">
-        <button *ngIf="!editMode" type="button" class="btn px-0 back-btn" onclick="history.back()" data-toggle="tooltip"
-          data-placement="bottom" title="回上一頁">
-          <i class="material-icons">&#xe314;</i>
-        </button>
-        <button *ngIf="editMode" class="btn clear-btn d-block"
-          (click)="editMode = false; memberService.readProfileData();">取消</button>
+  <div [@layerTrigger] class="layerTrig container" *ngIf="showFileDetail === 1">
+    <div class="w-100">
+      <div class="headerbox container title-box">
+        <div class="item icon-btn">
+          <button *ngIf="!editMode" type="button" class="btn px-0 back-btn" onclick="history.back()"
+            data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+            <i class="material-icons">&#xe314;</i>
+          </button>
+          <button *ngIf="editMode" class="btn clear-btn d-block"
+            (click)="editMode = false; memberService.readProfileData();">取消</button>
+        </div>
+        <div class="item title-name">我的檔案</div>
+        <div class="item ctrl-btn">
+          <button class="btn submit-btn d-block" *ngIf="editMode"
+            (click)="formProfile.form.valid && onProfileSubmit(formProfile); editMode = false">確定</button>
+          <button class="btn d-block" *ngIf="!editMode" (click)="editMode = true">編輯</button>
+        </div>
       </div>
-      <div class="item title-name">我的檔案</div>
-      <div class="item ctrl-btn">
-        <button class="btn submit-btn d-block" *ngIf="editMode"
-          (click)="formProfile.form.valid && onProfileSubmit(formProfile); editMode = false">確定</button>
-        <button class="btn d-block" *ngIf="!editMode" (click)="editMode = true">編輯</button>
-      </div>
-    </div>
-    <div>
-      <div class="my-info-box p-3">
-        <div class="info-box info-img mr-0">
-          <div class="info-item">
-            <img src="https://picsum.photos/300/300/?random=1">
+      <div>
+        <div class="my-info-box p-3">
+          <div class="info-box info-img mr-0">
+            <div class="info-item">
+              <img src="https://picsum.photos/300/300/?random=1">
+            </div>
+          </div>
+          <div class="info-box info-email">
+            UUID：{{memberService.userProfile.UUID}}
           </div>
         </div>
-        <div class="info-box info-email">
-          UUID：{{memberService.userProfile.UUID}}
-        </div>
-      </div>
-      <div class="my-list-box">
-        <ul>
-          <form #formProfile="ngForm" (ngSubmit)="formProfile.form.valid && onProfileSubmit(formProfile)">
-            <li>
-              <div class="item">帳號</div>
-              <div class="item input-box">
-                {{memberService.userProfile.UserAccount}}
-              </div>
-            </li>
-            <li>
-              <div class="item">姓名</div>
-              <div class="item input-box">
-                <input type="text" name="UserName" [placeholder]="editMode=== true? '請輸入' : ''" #UserName="ngModel"
-                  [(ngModel)]="memberService.userProfile.UserProfile_Name" [readOnly]="editMode === false">
-              </div>
-            </li>
-            <li>
-              <div class="item">暱稱</div>
-              <div class="item input-box">
-                <input type="text" name="UserNickname" [placeholder]="editMode=== true? '請輸入' : ''"
-                  #UserNickname="ngModel" [(ngModel)]="memberService.userProfile.User_NickName" maxlength="10"
-                  [readOnly]="editMode === false">
-              </div>
-            </li>
-            <li>
-              <div class="item">生日</div>
-              <div class="item input-box">
-                <div class="input-group">
-                  <input id="bdayinput" #UserBirth="ngModel" name="UserBirth"
-                    [ngModel]="memberService.userProfile.UserProfile_Birthday"
-                    (ngModelChange)="memberService.userProfile.UserProfile_Birthday = $event"
-                    [disabled]="!editMode || (UserBirth.pristine && memberService.userProfile?.UserProfile_Birthday !== null)"
-                    [isDisabled]="!editMode || (UserBirth.pristine && memberService.userProfile?.UserProfile_Birthday !== null)"
-                    bsDatepicker #dp="bsDatepicker"
-                    [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD', containerClass: 'theme-orange' }" [maxDate]="today"
-                    [ngClass]="{'text-secondary': UserBirth.pristine && memberService.userProfile?.UserProfile_Birthday !== null}"
-                    type="text" placeholder="Datepicker" class="form-control"
-                    [placeholder]="editMode=== true? 'YYYY/MM/DD（設定後無法更改）' : ''" triggers="dblclick:click">
-                  <div (click)="dp.toggle()" [attr.aria-expanded]="dp.isOpen"
-                    [hidden]="!editMode || UserBirth.pristine && memberService.userProfile?.UserProfile_Birthday !== null"
-                    class="input-group-append ml-2 icon-birth">
-                    <img src="/img/member/ic_date_range.png" class="img-fluid">
+        <div class="my-list-box">
+          <ul>
+            <form #formProfile="ngForm" (ngSubmit)="formProfile.form.valid && onProfileSubmit(formProfile)">
+              <li>
+                <div class="item">帳號</div>
+                <div class="item input-box">
+                  {{memberService.userProfile.UserAccount}}
+                </div>
+              </li>
+              <li>
+                <div class="item">姓名</div>
+                <div class="item input-box">
+                  <input type="text" name="UserName" [placeholder]="editMode=== true? '請輸入' : ''" #UserName="ngModel"
+                    [(ngModel)]="memberService.userProfile.UserProfile_Name" [readOnly]="editMode === false">
+                </div>
+              </li>
+              <li>
+                <div class="item">暱稱</div>
+                <div class="item input-box">
+                  <input type="text" name="UserNickname" [placeholder]="editMode=== true? '請輸入' : ''"
+                    #UserNickname="ngModel" [(ngModel)]="memberService.userProfile.User_NickName" maxlength="10"
+                    [readOnly]="editMode === false">
+                </div>
+              </li>
+              <li>
+                <div class="item">生日</div>
+                <div class="item input-box">
+                  <div class="input-group">
+                    <input id="bdayinput" #UserBirth="ngModel" name="UserBirth"
+                      [ngModel]="memberService.userProfile.UserProfile_Birthday"
+                      (ngModelChange)="memberService.userProfile.UserProfile_Birthday = $event"
+                      [disabled]="!editMode || (UserBirth.pristine && memberService.userProfile?.UserProfile_Birthday !== null)"
+                      [isDisabled]="!editMode || (UserBirth.pristine && memberService.userProfile?.UserProfile_Birthday !== null)"
+                      bsDatepicker #dp="bsDatepicker"
+                      [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD', containerClass: 'theme-orange' }" [maxDate]="today"
+                      [ngClass]="{'text-secondary': UserBirth.pristine && memberService.userProfile?.UserProfile_Birthday !== null}"
+                      type="text" placeholder="Datepicker" class="form-control"
+                      [placeholder]="editMode=== true? 'YYYY/MM/DD（設定後無法更改）' : ''" triggers="dblclick:click">
+                    <div (click)="dp.toggle()" [attr.aria-expanded]="dp.isOpen"
+                      [hidden]="!editMode || UserBirth.pristine && memberService.userProfile?.UserProfile_Birthday !== null"
+                      class="input-group-append ml-2 icon-birth">
+                      <img src="/img/member/ic_date_range.png" class="img-fluid">
+                    </div>
+                  </div>
+                </div>
+                <small *ngIf="UserBirth.value > today" class="text-danger px-4">生日不可設在未來</small>
+              </li>
+              <li>
+                <div class="item">性別</div>
+                <div class="item input-box div-switch" [ngClass]="{'d-none': !editMode}">
+                  <select class="form-control" id="sexSelect" name="UserSex" #UserSex="ngModel"
+                    [(ngModel)]="memberService.userProfile.UserProfile_Sex">
+                    <option value="null" hidden>請選擇</option>
+                    <option value="1">男</option>
+                    <option value="2">女</option>
+                    <option value="3">不透露</option>
+                  </select>
+                </div>
+                <div class="item auto-left div-switch" [ngClass]="{'d-none': editMode}">
+                  {{sexTSstring(memberService.userProfile.UserProfile_Sex)}}</div>
+              </li>
+              <li>
+                <div class="item">手機號碼</div>
+                <div class="item input-box">
+                  <input *ngIf="memberService.userProfile?.UserProfile_Mobile !== null" type="tel" name="UserMobile"
+                    #UserMobile="ngModel" [(ngModel)]="memberService.userProfile.UserProfile_Mobile"
+                    placeholder="請至「手機驗證」新增" class="text-secondary" readOnly>
+                  <small *ngIf="memberService.userProfile?.UserProfile_Mobile === null"
+                    [routerLink]="['/Member/CellVerification']" class="text-primary cursor-pointer">請至「手機驗證」新增</small>
+                </div>
+              </li>
+              <li>
+                <div class="item">E-mail </div>
+                <div class="item input-box">
+                  <input type="email" name="UserEmail" [placeholder]="editMode? '請輸入' : ''" class="txt-line-clamp1"
+                    #UserEmail="ngModel" [(ngModel)]="memberService.userProfile.UserProfile_Email"
+                    [readOnly]="editMode === false" pattern="[a-z0-9\*._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                </div>
+                <small class="ml-3 text-danger" *ngIf="UserEmail.invalid">E-mail格式有誤</small>
+              </li>
+            </form>
+            <!-- 上傳護照（暫不顯示） -->
+            <li (click)="readCertificate(1); showFileDetail = 2" hidden>
+              <div class="item w-100">
+                <div class="flex-inline-between">
+                  <div>上傳護照 </div>
+                  <div class="text-right">
+                    <span *ngIf="memberService.userProfile?.UserProfile_PassPort">已上傳</span>
+                    <i class="material-icons"
+                      *ngIf="memberService.userProfile?.UserProfile_PassPort != true">&#xe315;</i>
                   </div>
                 </div>
               </div>
-              <small *ngIf="UserBirth.value > today" class="text-danger px-4">生日不可設在未來</small>
             </li>
-            <li>
-              <div class="item">性別</div>
-              <div class="item input-box div-switch" [ngClass]="{'d-none': !editMode}">
-                <select class="form-control" id="sexSelect" name="UserSex" #UserSex="ngModel"
-                  [(ngModel)]="memberService.userProfile.UserProfile_Sex">
-                  <option value="null" hidden>請選擇</option>
-                  <option value="1">男</option>
-                  <option value="2">女</option>
-                  <option value="3">不透露</option>
-                </select>
-              </div>
-              <div class="item auto-left div-switch" [ngClass]="{'d-none': editMode}">
-                {{sexTSstring(memberService.userProfile.UserProfile_Sex)}}</div>
-            </li>
-            <li>
-              <div class="item">手機號碼</div>
-              <div class="item input-box">
-                <input *ngIf="memberService.userProfile?.UserProfile_Mobile !== null" type="tel" name="UserMobile"
-                  #UserMobile="ngModel" [(ngModel)]="memberService.userProfile.UserProfile_Mobile"
-                  placeholder="請至「手機驗證」新增" class="text-secondary" readOnly>
-                <small *ngIf="memberService.userProfile?.UserProfile_Mobile === null"
-                  [routerLink]="['/Member/CellVerification']" class="text-primary cursor-pointer">請至「手機驗證」新增</small>
-              </div>
-            </li>
-            <li>
-              <div class="item">E-mail </div>
-              <div class="item input-box">
-                <input type="email" name="UserEmail" [placeholder]="editMode? '請輸入' : ''" class="txt-line-clamp1"
-                  #UserEmail="ngModel" [(ngModel)]="memberService.userProfile.UserProfile_Email"
-                  [readOnly]="editMode === false" pattern="[a-z0-9\*._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
-              </div>
-              <small class="ml-3 text-danger" *ngIf="UserEmail.invalid">E-mail格式有誤</small>
-            </li>
-          </form>
-          <!-- 上傳護照（暫不顯示） -->
-          <li (click)="readCertificate(1); showFileDetail = 2" hidden>
-            <div class="item w-100">
-              <div class="flex-inline-between">
-                <div>上傳護照 </div>
-                <div class="text-right">
-                  <span *ngIf="memberService.userProfile?.UserProfile_PassPort">已上傳</span>
-                  <i class="material-icons" *ngIf="memberService.userProfile?.UserProfile_PassPort != true">&#xe315;</i>
+            <!-- 上傳台胞證（暫不顯示） -->
+            <li (click)="readCertificate(2); showFileDetail = 2" hidden>
+              <div class="item w-100">
+                <div class="flex-inline-between">
+                  <div>上傳台胞證</div>
+                  <div class="text-right">
+                    <span *ngIf="memberService.userProfile?.UserProfile_MTPs">已上傳</span>
+                    <i class="material-icons  mr-auto"
+                      *ngIf="memberService.userProfile?.UserProfile_MTPs != true">&#xe315;</i>
+                  </div>
                 </div>
               </div>
-            </div>
-          </li>
-          <!-- 上傳台胞證（暫不顯示） -->
-          <li (click)="readCertificate(2); showFileDetail = 2" hidden>
-            <div class="item w-100">
-              <div class="flex-inline-between">
-                <div>上傳台胞證</div>
-                <div class="text-right">
-                  <span *ngIf="memberService.userProfile?.UserProfile_MTPs">已上傳</span>
-                  <i class="material-icons  mr-auto"
-                    *ngIf="memberService.userProfile?.UserProfile_MTPs != true">&#xe315;</i>
+            </li>
+            <!-- 上傳學生證-->
+            <li (click)="readCertificate(11); showFileDetail = 2 ;">
+              <div class="item w-100">
+                <div class="flex-inline-between">
+                  <div>上傳學生證</div>
+                  <div class="text-right">
+                    <span *ngIf="memberService.userProfile?.UserProfile_StudentID">已上傳</span>
+                    <i class="material-icons mr-auto"
+                      *ngIf="memberService.userProfile?.UserProfile_StudentID != true">&#xe315;</i>
+                  </div>
                 </div>
               </div>
-            </div>
-          </li>
-          <!-- 上傳學生證-->
-          <li (click)="readCertificate(11); showFileDetail = 2 ;">
-            <div class="item w-100">
-              <div class="flex-inline-between">
-                <div>上傳學生證</div>
-                <div class="text-right">
-                  <span *ngIf="memberService.userProfile?.UserProfile_StudentID">已上傳</span>
-                  <i class="material-icons mr-auto"
-                    *ngIf="memberService.userProfile?.UserProfile_StudentID != true">&#xe315;</i>
+            </li>
+            <!-- 上傳教職員證-->
+            <li (click)="readCertificate(12); showFileDetail = 2">
+              <div class="item w-100">
+                <div class="flex-inline-between">
+                  <div>上傳教職員證</div>
+                  <div class="text-right">
+                    <span *ngIf="memberService.userProfile?.UserProfile_TeacherID">已上傳</span>
+                    <i class="material-icons mr-auto"
+                      *ngIf="memberService.userProfile?.UserProfile_TeacherID != true">&#xe315;</i>
+                  </div>
                 </div>
               </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 上傳證件詳細頁 -->
+  <div [@layerTrigger] class="layerTrig container" *ngIf="showFileDetail === 2">
+    <div class="mypassport w-100">
+      <div class="headerbox container title-box">
+        <div class="item icon-btn">
+          <button type="button" class="btn px-0" (click)="showFileDetail = 1" data-toggle="tooltip"
+            data-placement="bottom" title="回上一頁">
+            <i class="material-icons">&#xe314;</i>
+          </button>
+        </div>
+        <div class="item title-name">上傳{{CertificateName}}</div>
+        <div class="item ctrl-btn">
+          <button class="btn px-0" (click)="onUpdateCertificate();" data-toggle="tooltip" data-placement="bottom"
+            *ngIf="isUpload" title="儲存">
+            儲存
+          </button>
+        </div>
+      </div>
+      <div class="my-info-box">
+        <label class="custom-file-upload">
+          <div class="upload-box" (click)="showFileDetail = 3">
+            <img [lazyLoad]="CertificatePic" [defaultImage]="appService.defaultImage">
+            <div class="add-btn" *ngIf="userCertificate.UserFavourite_TypeCode === null">
+              <img src="../../img/member/uploadphoto.svg">
             </div>
-          </li>
-          <!-- 上傳教職員證-->
-          <li (click)="readCertificate(12); showFileDetail = 2">
-            <div class="item w-100">
-              <div class="flex-inline-between">
-                <div>上傳教職員證</div>
-                <div class="text-right">
-                  <span *ngIf="memberService.userProfile?.UserProfile_TeacherID">已上傳</span>
-                  <i class="material-icons mr-auto"
-                    *ngIf="memberService.userProfile?.UserProfile_TeacherID != true">&#xe315;</i>
-                </div>
-              </div>
+            <div class="change-btn" *ngIf="userCertificate.UserFavourite_TypeCode !== null">
+              變更
             </div>
+          </div>
+        </label>
+        <div class="passport-status">
+          <span *ngIf="!userCertificate.UserFavourite_TypeCode" class="text-muted">未上傳</span>
+          <span *ngIf="userCertificate.UserFavourite_TypeCode">
+            <i class="material-icons">&#xE5CA;</i>已上傳
+          </span>
+        </div>
+      </div>
+      <!-- 護照、學生證、教職員證不須驗證有效期限 -->
+      <div class="my-list-box edit-list" *ngIf="userCertificate.UserFavourite_Number1 === 2">
+        <ul>
+          <li>
+            <div class="item">有效期限</div>
+            <div class="item input-box">
+              <input type="text" name="passportExpiration" [ngModel]="userCertificate.UserFavourite_Date"
+                (ngModelChange)="userCertificate.UserFavourite_Date = $event" bsDatepicker #dp="bsDatepicker"
+                [maxDate]="today" [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD', containerClass: 'theme-orange' }"
+                placeholder="YYYY/MM/DD" triggers="dblclick:click">
+            </div>
+            <div class="item auto-left"></div>
           </li>
         </ul>
       </div>
     </div>
   </div>
-  <!-- 上傳證件詳細頁 -->
-  <div [@layerTrigger] *ngIf="showFileDetail === 2;" class="mypassport w-100">
-    <div class="headerbox container title-box">
-      <div class="item icon-btn">
-        <button type="button" class="btn px-0" (click)="showFileDetail = 1" data-toggle="tooltip" data-placement="bottom"
-          title="回上一頁">
-          <i class="material-icons">&#xe314;</i>
-        </button>
-      </div>
-      <div class="item title-name">上傳{{CertificateName}}</div>
-      <div class="item ctrl-btn">
-        <button class="btn px-0" (click)="onUpdateCertificate();" data-toggle="tooltip" data-placement="bottom"
-          *ngIf="isUpload" title="儲存">
-          儲存
-        </button>
-      </div>
-    </div>
-    <div class="my-info-box">
-      <label class="custom-file-upload">
-        <div class="upload-box" (click)="showFileDetail = 3">
-          <img [lazyLoad]="CertificatePic" [defaultImage]="appService.defaultImage">
-          <div class="add-btn" *ngIf="userCertificate.UserFavourite_TypeCode === null">
-            <img src="../../img/member/uploadphoto.svg">
-          </div>
-          <div class="change-btn" *ngIf="userCertificate.UserFavourite_TypeCode !== null">
-            變更
-          </div>
-        </div>
-      </label>
-      <div class="passport-status">
-        <span *ngIf="!userCertificate.UserFavourite_TypeCode" class="text-muted">未上傳</span>
-        <span *ngIf="userCertificate.UserFavourite_TypeCode">
-          <i class="material-icons">&#xE5CA;</i>已上傳
-        </span>
-      </div>
-    </div>
-    <!-- 護照、學生證、教職員證不須驗證有效期限 -->
-    <div class="my-list-box edit-list" *ngIf="userCertificate.UserFavourite_Number1 === 2">
-      <ul>
-        <li>
-          <div class="item">有效期限</div>
-          <div class="item input-box">
-            <input type="text" name="passportExpiration" [ngModel]="userCertificate.UserFavourite_Date"
-              (ngModelChange)="userCertificate.UserFavourite_Date = $event" bsDatepicker #dp="bsDatepicker"
-              [maxDate]="today" [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD', containerClass: 'theme-orange' }"
-              placeholder="YYYY/MM/DD" triggers="dblclick:click">
-          </div>
-          <div class="item auto-left"></div>
-        </li>
-      </ul>
-    </div>
-  </div>
-
   <!-- 上傳證件提示 -->
-  <div [@layerTrigger] class="mymtpsnote w-100" *ngIf="showFileDetail === 3">
-    <div class="container title-box">
-      <div class="item ctrl-btn">
-        <button class="btn px-3" data-toggle="tooltip" data-placement="bottom" title="關閉" (click)="showFileDetail = 2">
-          關閉
-        </button>
+  <div [@layerTrigger] class="layerTrig container" *ngIf="showFileDetail === 3">
+    <div class="mymtpsnote w-100">
+      <div class="container title-box">
+        <div class="item ctrl-btn">
+          <button class="btn px-3" data-toggle="tooltip" data-placement="bottom" title="關閉"
+            (click)="showFileDetail = 2">
+            關閉
+          </button>
+        </div>
+        <div class="item title-name"></div>
+        <div class="item ctrl-btn"></div>
       </div>
-      <div class="item title-name"></div>
-      <div class="item ctrl-btn"></div>
-    </div>
-    <div class="upload-passport-noti">
-      <div class="noti-text">
-        <strong>提示：</strong>
-        <p>對準{{CertificateName}}的資料頁面拍攝，請注意內容是否清晰</p>
-        <small>備註：{{CertificateName}}資料僅供核對使用，圖片大小限4MB以下。</small>
-      </div>
-      <div class="img-box">
-        <img src="../img/member/passport-noti.svg" alt="">
-      </div>
-      <div class="btn next-btn open-overlay-choice container" (click)="layerToggleUp(1)">
-        下一步
-      </div>
+      <div class="upload-passport-noti">
+        <div class="noti-text">
+          <strong>提示：</strong>
+          <p>對準{{CertificateName}}的資料頁面拍攝，請注意內容是否清晰</p>
+          <small>備註：{{CertificateName}}資料僅供核對使用，圖片大小限4MB以下。</small>
+        </div>
+        <div class="img-box">
+          <img src="../img/member/passport-noti.svg" alt="">
+        </div>
+        <div class="btn next-btn open-overlay-choice container" (click)="layerTrigUp = 1">
+          下一步
+        </div>
 
 
+      </div>
     </div>
   </div>
-
   <!--瀏覽上傳-->
+  <div class="modal-backdrop fade show container" *ngIf="layerTrigUp === 1"></div>
   <div class="layerTrigUp container" [@layerTriggerUp] *ngIf="layerTrigUp === 1">
     <div class="overlay-choice p-3 bg-tr">
       <div class="choice-list">
@@ -264,7 +271,7 @@
           </li>
         </ul>
       </div>
-      <div class="choice-status close-overlay-choice" (click)="layerToggleUp(0)">
+      <div class="choice-status close-overlay-choice" (click)="layerTrigUp = 0">
         取消
       </div>
     </div>

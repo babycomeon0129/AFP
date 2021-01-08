@@ -190,8 +190,4 @@ export class ProductListComponent implements OnInit {
     this.layerTrig = 0;
   }
 
-  /** 同頁滑動切換 0:本頁 1:篩選清單 2: 商品分類 */
-  layerToggle(index: number) {
-    this.layerTrig = index;
-  }
 }
