@@ -11,7 +11,7 @@ import { ShoppingComponent } from './shopping/shopping.component';
 const routes: Routes = [
   { path: '', canActivate: [SessionAliveGuard], component: ShoppingComponent },
   { path: 'ProductList/:ProductDir_Code', canActivate: [SessionAliveGuard], component: ProductListComponent },
-  { path: 'ProductDetail/:ProductDir_Code/:Product_Code', canActivate: [SessionAliveGuard], component: ProductDetailComponent },
+  { path: 'ProductDetail/:ProductDir_Code/:Product_Code', canActivate: [SessionAliveGuard], component: ProductDetailComponent, data: {animation: 'ProductDetail'} },
   { path: 'ShoppingCart', canActivate: [SessionAliveGuard], component: ShoppingCartComponent }
 ];
 
