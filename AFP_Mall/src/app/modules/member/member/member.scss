@@ -374,16 +374,6 @@ ul{
   }
 }
 
-/** uplayer */
-.uplayer>div.mycardprompt {
-  overflow: hidden;
-  max-height: 82vh;
-  padding-bottom: 60px;
-  @media (min-width: 768px){
-      max-height: 65vh;
-  }
-}
-
 /** mycard, my-profile shared */
 .my-info-box{
   display: flex;
