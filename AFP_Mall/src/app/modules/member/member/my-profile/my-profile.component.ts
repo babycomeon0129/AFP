@@ -1,9 +1,8 @@
-import { async } from '@angular/core/testing';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AppService } from 'src/app/app.service';
 import { Model_ShareData, AFP_UserFavourite } from '@app/_models';
-import { Response_MemberProfile, Request_MemberProfile } from '../member.component';
+import { Response_MemberProfile } from '../member.component';
 import { ModalService } from '../../../../shared/modal/modal.service';
 import { MemberService } from '../../member.service';
 import { layerAnimation, layerAnimationUp } from '../../../../animations';
