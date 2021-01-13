@@ -10,7 +10,7 @@ import { Model_ShareData } from '@app/_models';
 })
 export class AuthUserGuard implements CanActivate {
   constructor(private appService: AppService, private bsModal: BsModalService, private router: Router) { }
-
+  // 註：這個guard原本在大多route都有加上，但在APP裡或在web間不是走router有時會被擋下來(好像是因為參數遺失)，所以後來移除未使用
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
