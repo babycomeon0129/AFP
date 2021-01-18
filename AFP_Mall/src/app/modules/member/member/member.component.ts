@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { Model_ShareData } from '@app/_models';
-import { ModalService } from '../../../shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { Router, RouterOutlet } from '@angular/router';
-import { slideInAnimation } from '../../../animations';
-import { MemberService } from '../member.service';
+import { slideInAnimation } from '@app/animations';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
@@ -15,7 +14,7 @@ import { Meta, Title } from '@angular/platform-browser';
 })
 export class MemberComponent implements OnInit {
 
-  constructor(public appService: AppService, public modal: ModalService, public router: Router, public memberService: MemberService,
+  constructor(public appService: AppService, public modal: ModalService, public router: Router,
               private meta: Meta, private title: Title) {
     // tslint:disable: max-line-length
     this.title.setTitle('我的 - Mobii!');

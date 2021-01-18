@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { AFP_ECStore, AFP_MemberOrder, AFP_ItemInfoPart, Model_ShareData, AFP_Services, AFP_DealInfo } from '@app/_models';
-import { ResizedEvent } from 'angular-resize-event';
+
 
 @Component({
   selector: 'app-return-dialog',
@@ -91,10 +91,6 @@ export class ReturnDialogComponent implements OnInit {
     });
   }
 
-  onResized(event: ResizedEvent) {
-    this.width = event.newWidth;
-    this.height = event.newHeight;
-  }
 }
 
 export class Request_MemberServices extends Model_ShareData {

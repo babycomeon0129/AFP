@@ -17,7 +17,6 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { TextMaskModule } from 'angular2-text-mask';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AngularResizedEventModule } from 'angular-resize-event';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { SortablejsModule } from 'ngx-sortablejs';
 
@@ -109,7 +108,6 @@ export function provideConfig() {
     BrowserAnimationsModule,
     BsDatepickerModule.forRoot(),
     LazyLoadImageModule,
-    AngularResizedEventModule,
     SortablejsModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],

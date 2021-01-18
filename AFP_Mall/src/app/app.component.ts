@@ -40,6 +40,7 @@ export class AppComponent implements OnInit {
       if (typeof params.loginType !== 'undefined') {
         // tslint:disable-next-line: triple-equals
         if (params.loginType == 1) {
+          // APP 為登入狀態則將該 webview 也同步為登入
           if (typeof params.customerInfo !== 'undefined' && typeof params.userCode !== 'undefined'
             && typeof params.userName !== 'undefined') {
             sessionStorage.setItem('CustomerInfo', encodeURIComponent(params.customerInfo));
@@ -55,6 +56,7 @@ export class AppComponent implements OnInit {
           }
           // tslint:disable-next-line: triple-equals
         } else if (params.loginType == 2) {
+          // APP 為登出狀態但該 webview 登入狀態被cache住還是登入則將其改為登出
           sessionStorage.clear();
           this.cookieService.deleteAll();
           this.appService.loginState = false;
