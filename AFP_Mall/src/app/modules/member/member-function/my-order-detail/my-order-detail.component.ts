@@ -52,6 +52,7 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.appService.openBlock();
     const request: Request_MemberOrder = {
       User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 2, // 詳細查詢
