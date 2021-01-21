@@ -98,6 +98,7 @@ export class ETicketOrderDetailComponent implements OnInit {
     if (this.servicesModel.Services_Reason === undefined) {
       this.modal.show('message', { initialState: { success: false, message: '請選擇退款原因', showType: 1}});
     } else {
+      this.appService.openBlock();
       // 系統收回票券（未開通或已開通但未使用才會成功）
       const request: Request_MemberTicketRefund = {
         User_Code: sessionStorage.getItem('userCode'),
@@ -107,7 +108,7 @@ export class ETicketOrderDetailComponent implements OnInit {
         }
       };
       this.appService.toApi('Member', '1520', request).subscribe((data: Response_MemberTicketRefund) => {
-        this.modal.confirm({ initialState: { showCancel: false, message: '票券已收回! 請選擇退款原因以進行退款作業。' } }).subscribe(ans => {
+        this.modal.confirm({ initialState: { showCancel: false, message: '票券已收回！將會為您進行退款作業。' } }).subscribe(ans => {
           if (ans) {
             // 產生客服單 (with selected reason )
             const serviceRequest: Request_MemberServices = {
