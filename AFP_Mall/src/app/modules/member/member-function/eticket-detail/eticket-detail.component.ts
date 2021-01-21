@@ -47,9 +47,4 @@ export class ETicketDetailComponent implements OnInit {
       this.ticketProd = data.AFP_Product;
     });
   }
-
-  /** 同頁滑動切換 0: 本頁 1:使用票券 */
-  layerToggle(index: number) {
-    this.layerTrig = index;
-  }
 }

@@ -76,7 +76,6 @@ export class ReturnComponent implements OnInit {
 
   /**
    *  顯示退貨理由
-   *
    * @param reasonNo 理由代碼
    */
   showReason(reasonNo: number): string {
@@ -118,7 +117,6 @@ export class ReturnComponent implements OnInit {
 
   /**
    *  地址組合
-   *
    * @param  city  縣市編碼
    * @param  area  行政區編碼
    * @param  address  地址
@@ -207,10 +205,6 @@ export class ReturnComponent implements OnInit {
     }
   }
 
-  /** 同頁滑動切換 0:本頁 1:退貨說明 2:退貨原因 3:寄送方式 4:新增地址 5: 縣市清單 6:行政區清單 */
-  layerToggle(index: number) {
-    this.layerTrig = index;
-  }
 
   ngOnInit() {
   }

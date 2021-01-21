@@ -93,6 +93,7 @@
 
 
   <!-- 縣市/行政區選單 -->
+  <div class="modal-backdrop fade show container" *ngIf="layerTrig === 1"></div>
   <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="layerTrig === 1">
     <div id="open-pagebox" class="city">
         <div class="open-page-title flex-inline-between">
@@ -117,6 +118,7 @@
         </ul>
     </div>
   </div>
+  <div class="modal-backdrop fade show container" *ngIf="layerTrig === 2"></div>
   <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="layerTrig === 2">
     <div id="open-pagebox1" class="dist">
         <div class="open-page-title flex-inline-between">

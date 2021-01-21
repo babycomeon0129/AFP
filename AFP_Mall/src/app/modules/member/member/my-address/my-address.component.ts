@@ -168,9 +168,4 @@ export class MyAddressComponent implements OnInit {
       }
     });
   }
-
-  /** 同頁滑動切換 0: 本頁 1:縣市區  2:行政區 */
-  layerToggle(index: number) {
-    this.layerTrig = index;
-  }
 }
