@@ -81,7 +81,7 @@
                   <div class="products-title text-nowrap">
                       商品規格
                   </div>
-                  <div class="products-norm text-right" (click)="layerToggleUp(1);">
+                  <div class="products-norm text-right" (click)="layerTrigUp = 1">
                       <span class="active">{{cartAttrValueName}}<i class="material-icons">&#xe315;</i></span>
                   </div>
               </div>
@@ -178,8 +178,9 @@
       <div id="loginhtml"></div>
   </main>
 
-  <div class="modal-backdrop fade show d-none"></div>
+  <!-- <div class="modal-backdrop fade show d-none"></div> -->
   <!-- shopping up-menu (open-pageupbox) -->
+  <div class="modal-backdrop fade show container" *ngIf="layerTrigUp === 1"></div>
   <div class="layerTrigUp container" [@layerTriggerUp] *ngIf="layerTrigUp === 1">
     <div class="productsformat">
       <div class="open-page-title text-center">
@@ -199,7 +200,7 @@
               </div>
             </div>
           </div>
-          <button type="submit" (click)="layerToggleUp(0); onConfirmAttrValue()" class="btn index-btn msg-open w-100 my-3" value="msg-noselected" data-toggle="modal" data-target="#messageModal">確定</button>
+          <button type="submit" (click)="layerTrigUp = 0 ; onConfirmAttrValue()" class="btn index-btn msg-open w-100 my-3" value="msg-noselected" data-toggle="modal" data-target="#messageModal">確定</button>
       </div>
     </div>
   </div>

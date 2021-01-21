@@ -41,17 +41,17 @@ export class ShoppingOrderComponent implements OnInit {
   public userVouchers: AFP_UserVoucher[] = [];
   /** 新增地址用 */
   public requestAddress: AFP_UserFavourite = new AFP_UserFavourite();
-  /** 是否正在設定預設地址 (控制進入頁面正在設置時不呼叫callLayer()) */
+  /** 是否正在設定預設地址 (控制進入頁面正在設置時不呼叫layerTrig) */
   private settingAddress = true;
   /** 同頁滑動切換 0: 原頁 1: 行政區選單 2: 縣市選單 3:愛心碼選單 4:新增地址 5: 選擇優惠券 6:寄送方式 7: 發票選取 */
   public layerTrig = 0;
 
   constructor(public appService: AppService, public modal: ModalService, private router: Router, private meta: Meta, private title: Title) {
-    // tslint:disable: max-line-length
     this.title.setTitle('確定訂單｜線上商城 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! 線上商城購物車 - 確認訂單。 如果你有在 Mobii! 平台購物，這裡就會看到你的訂單訊息。請登入註冊 Mobii! 帳號以看到完整內容。' });
     this.meta.updateTag({ content: '確定訂單｜線上商城 - Mobii!', property: 'og:title' });
-    this.meta.updateTag({ content: 'Mobii! 線上商城購物車 - 確認訂單。 如果你有在 Mobii! 平台購物，這裡就會看到你的訂單訊息。請登入註冊 Mobii! 帳號以看到完整內容。', property: 'og:description' });
+    this.meta.updateTag({ content: 'Mobii! 線上商城購物車 - 確認訂單。 如果你有在 Mobii! 平台購物，這裡就會看到你的訂單訊息。請登入註冊 Mobii! 帳號以看到完整內容。',
+                          property: 'og:description' });
   }
 
   ngOnInit() {
@@ -726,10 +726,6 @@ export class ShoppingOrderComponent implements OnInit {
     }
   }
 
-  /** 同頁滑動切換 0: 原頁 1: 行政區選單 2: 縣市選單 3:愛心碼選單 4:新增地址 5: 選擇優惠券 6:寄送方式 7: 發票選取 */
-  layerToggle(index: number) {
-    this.layerTrig = index;
-  }
 }
 
 export class OrderInfo {

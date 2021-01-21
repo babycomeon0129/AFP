@@ -12,7 +12,7 @@
         <div class="item title-name text-white">M Points</div>
         <div class="item">
           <button class="btn btn-outline-white text-white small-80 py-0"
-            (click)="getHistory(); layerToggle(1);">
+            (click)="getHistory(); layerTrig = 1">
             歷史紀錄
           </button>
         </div>
@@ -119,7 +119,7 @@
     <div class="mycoinrecord">
       <div class="title-box">
         <div class="item icon-btn">
-          <button class="btn px-0" (click)="layerToggle(0);" data-toggle="tooltip" data-placement="bottom"
+          <button class="btn px-0" (click)="layerTrig = 0" data-toggle="tooltip" data-placement="bottom"
             title="回上一頁">
             <i class="material-icons">&#xe314;</i>
           </button>
@@ -135,7 +135,7 @@
           </div>
           <div class="item one text-right">
             <!--前去Mission頁時將appService.tLayer清空，避免callLayer失效-->
-            <button class="btn-outline-white small-80" [routerLink]="['/Mission']" (click)="layerToggle(0)">
+            <button class="btn-outline-white small-80" [routerLink]="['/Mission']" (click)="layerTrig = 0;">
               賺取點數
             </button>
           </div>

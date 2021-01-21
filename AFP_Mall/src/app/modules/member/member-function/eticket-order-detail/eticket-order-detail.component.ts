@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { Request_MemberOrder, Response_MemberOrder, AFP_MemberOrder, AFP_ECStore, AFP_ItemInfoPart, AFP_Voucher,
-  Model_ShareData, AFP_Services, Request_MemberServices, Response_MemberServices } from '@app/_models';
-import { ModalService } from '../../../../shared/modal/modal.service';
+          Model_ShareData, AFP_Services, Request_MemberServices, Response_MemberServices } from '@app/_models';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
-import { layerAnimation } from '../../../../animations';
+import { layerAnimation } from '@app/animations';
 
 @Component({
   selector: 'app-eticket-order-detail',
@@ -72,37 +72,18 @@ export class ETicketOrderDetailComponent implements OnInit {
 
   /** 提出退款 */
   toRefund() {
-    this.modal.confirm({ initialState:
-      { title: '確認提交退款申請？', message: 'Mobii!將審核您的退款申請，票券如經使用或逾期將無法退款，點選「確認」後無法取消。' } }).subscribe(res => {
-      if (res) {
-        // 系統收回票券（未開通或已開通但未使用才會成功）
-        const request: Request_MemberTicketRefund = {
-          User_Code: sessionStorage.getItem('userCode'),
-          SelectMode: 1,
-          SearchModel: {
-            Order_TableNo: this.orderInfo.Order_TableNo
-          }
-        };
-        this.appService.toApi('Member', '1520', request).subscribe((data: Response_MemberTicketRefund) => {
-          this.modal.confirm({ initialState: { showCancel: false, message: '票券已收回! 請選擇退款原因以進行退款作業。' } }).subscribe(ans => {
-            if (ans) {
-              // 成功收回票券後先直接產生客服單 (reason 傳 0)
-              this.servicesModel.Services_Reason = 0;
-              const serviceRequest: Request_MemberServices = {
-                SelectMode: 1,
-                User_Code: sessionStorage.getItem('userCode'),
-                AFP_Services: this.servicesModel
-              };
-              this.appService.toApi('Member', '1515', serviceRequest).subscribe((serviceData: Response_MemberServices) => {
-                // 塞入客服單單號
-                this.servicesModel.Services_TableNo = serviceData.AFP_Services.Services_TableNo;
-                this.layerTrig = 1;
-              });
-            }
-          });
-        });
-      }
-    });
+    // 確認是否已使用或已逾期
+    if (this.productsData[0].UserTicket_UsedState === 0) {
+      this.modal.confirm({ initialState:
+        { title: '確認提交退款申請？', message: 'Mobii!將審核您的退款申請，票券如經使用或逾期將無法退款，點選「確認」後無法取消。' } }).subscribe(res => {
+        if (res) {
+          // 選擇退款原因
+          this.layerTrig = 1;
+        }
+      });
+    } else {
+      this.modal.show('message', { initialState: { success: false, message: '票券已使用或逾期，無法申請退款。', showType: 1}});
+    }
   }
 
   /** 選擇退貨理由 */
@@ -114,17 +95,37 @@ export class ETicketOrderDetailComponent implements OnInit {
 
   /** 送出退款理由 */
   sendReason() {
-    // update the service table with new reason (6-10)
-    const serviceRequest: Request_MemberServices = {
-      SelectMode: 5,
-      User_Code: sessionStorage.getItem('userCode'),
-      AFP_Services: this.servicesModel
-    };
-    this.appService.toApi('Member', '1515', serviceRequest).subscribe((serviceData: Response_MemberServices) => {
-      this.appService.tLayer = [];
-      // 導去退貨詳細
-      this.router.navigate(['/Return/ReturnDetail', this.servicesModel.Services_TableNo]);
-    });
+    if (this.servicesModel.Services_Reason === undefined) {
+      this.modal.show('message', { initialState: { success: false, message: '請選擇退款原因', showType: 1}});
+    } else {
+      this.appService.openBlock();
+      // 系統收回票券（未開通或已開通但未使用才會成功）
+      const request: Request_MemberTicketRefund = {
+        User_Code: sessionStorage.getItem('userCode'),
+        SelectMode: 1,
+        SearchModel: {
+          Order_TableNo: this.orderInfo.Order_TableNo
+        }
+      };
+      this.appService.toApi('Member', '1520', request).subscribe((data: Response_MemberTicketRefund) => {
+        this.modal.confirm({ initialState: { showCancel: false, message: '票券已收回！將會為您進行退款作業。' } }).subscribe(ans => {
+          if (ans) {
+            // 產生客服單 (with selected reason )
+            const serviceRequest: Request_MemberServices = {
+              SelectMode: 1,
+              User_Code: sessionStorage.getItem('userCode'),
+              AFP_Services: this.servicesModel
+            };
+            this.appService.toApi('Member', '1515', serviceRequest).subscribe((serviceData: Response_MemberServices) => {
+              // 塞入客服單單號
+              this.servicesModel.Services_TableNo = serviceData.AFP_Services.Services_TableNo;
+              // 導去退貨詳細
+              this.router.navigate(['/Return/ReturnDetail', this.servicesModel.Services_TableNo]);
+            });
+          }
+        });
+      });
+    }
   }
 
 }

@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AppService } from 'src/app/app.service';
-import { Request_MemberOrder, Response_MemberOrder, AFP_MemberOrder, AFP_ECStore, AFP_ItemInfoPart, AFP_Voucher,
-  Model_ShareData, Request_MemberCheckStatus, Response_MemberCheckStatus, AFP_UserReport } from '@app/_models';
+import { Request_MemberOrder, Response_MemberOrder, AFP_MemberOrder, AFP_ECStore, AFP_ItemInfoPart, AFP_Voucher
+        , Request_MemberCheckStatus, Response_MemberCheckStatus, AFP_UserReport } from '@app/_models';
 import { ModalService } from '../../../../shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation } from '../../../../animations';
@@ -52,6 +52,7 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.appService.openBlock();
     const request: Request_MemberOrder = {
       User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 2, // 詳細查詢
@@ -132,8 +133,4 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
     clearTimeout(this.timer3Mins);
   }
 
-  /** 同頁滑動切換 0:本頁 1:取貨提醒 */
-  layerToggle(index: number) {
-    this.layerTrig = index;
-  }
 }

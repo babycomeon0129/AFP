@@ -12,7 +12,7 @@
                   <div class="title-name">退貨詳情</div>
               </div>
               <div class="item two text-right">
-                  <button type="button" class="btn bluedk-outline-btn bt-small mr-1" (click)="layerToggle(1);">退貨說明</button>
+                  <button type="button" class="btn bluedk-outline-btn bt-small mr-1" (click)="layerTrig = 1">退貨說明</button>
               </div>
           </div>
       </div>
@@ -108,11 +108,12 @@
   <div class="addheight"></div>
 
   <!-- 退貨說明 -->
+  <div class="modal-backdrop fade show container" *ngIf="layerTrig === 1"></div>
   <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="layerTrig === 1">
     <div id="open-pagebox" class="returnInfo">
         <div class="open-page-title flex-inline-between">
             <div class="title-icon">
-                <button class="btn" (click)="layerToggle(0);">
+                <button class="btn" (click)="layerTrig = 0">
                     <i class="material-icons">&#xe314;</i>
                 </button>
             </div>
