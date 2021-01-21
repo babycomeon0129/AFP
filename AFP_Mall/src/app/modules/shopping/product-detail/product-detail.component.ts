@@ -340,8 +340,4 @@ export class ProductDetailComponent implements OnInit {
     this.router.navigate(['/Explore/ExploreDetail', this.productInfo.Product_ECStoreCode], navigationExtras);
   }
 
-  /** 同頁滑動切換 0:本頁 1:選擇商品規格 */
-  layerToggleUp(index: number) {
-    this.layerTrigUp = index;
-  }
 }

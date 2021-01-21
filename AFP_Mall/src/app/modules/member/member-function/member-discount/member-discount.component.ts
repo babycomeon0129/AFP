@@ -67,11 +67,6 @@ export class MemberDiscountComponent implements OnInit {
     }
   }
 
-  /** 同頁滑動切換 0:本頁 1:排序清單 */
-  layerToggle(index: number) {
-    this.layerTrig = index;
-  }
-
   /** 讀取優惠券 */
   readVoucher(): void {
     const request: Request_MemberUserVoucher = {
