@@ -261,6 +261,7 @@
   </main>
 
   <!--篩選-->
+  <div class="modal-backdrop fade show container" *ngIf="layerTrig === 1"></div>
   <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="layerTrig === 1">
     <div id="open-pagebox" class="productslistsort">
         <div class="open-page-title flex-inline-between">
@@ -339,6 +340,7 @@
         </button>
     </div>
   </div>
+  <div class="modal-backdrop fade show container" *ngIf="layerTrig === 2"></div>
   <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="layerTrig === 2">
     <div id="open-pagebox1" class="productslistsort1">
         <div class="open-page-title flex-inline-between">

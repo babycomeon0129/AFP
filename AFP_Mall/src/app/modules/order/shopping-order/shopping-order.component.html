@@ -197,7 +197,7 @@
       <div class="header-secondary container linebt-row">
         <div class="index-flex justify-content-between">
           <div class="item one">
-            <div class="close-btn" (click)="layerToggle(0);">
+            <div class="close-btn" (click)="layerTrig = 0">
               <i class="material-icons">&#xe314;</i>
             </div>
           </div>
@@ -334,7 +334,7 @@
             <div class="total-footer">
               <div class="item-group">
                 <div class="item">
-                  <button type="button" class="cancel-btn" (click)="layerToggle(0);">取消</button>
+                  <button type="button" class="cancel-btn" (click)="layerTrig = 0">取消</button>
                 </div>
                 <div class="item">
                   <button type="button" class="submit-btn" (click)="confirmVoucher()">確定</button>
@@ -358,7 +358,7 @@
         <div class="header-secondary container linebt-row">
           <div class="index-flex justify-content-between">
               <div class="item two">
-                <div class="close-btn" (click)="layerToggle(0);">
+                <div class="close-btn" (click)="layerTrig = 0">
                   <i class="material-icons">&#xe314;</i>
                 </div>
               </div>
@@ -405,7 +405,7 @@
                   </li>
                 </ul>
               </div>
-              <div class="add-address-box text-center" (click)="layerToggle(4)">
+              <div class="add-address-box text-center" (click)="layerTrig = 4">
                 新增地址<i class="material-icons">&#xE145;</i>
               </div>
             </div>
@@ -461,7 +461,7 @@
         <div class="header-secondary container linebt-row">
           <div class="index-flex justify-content-between">
               <div class="item two">
-                <div class="close-btn" (click)="layerToggle(0);">
+                <div class="close-btn" (click)="layerTrig = 6">
                   <i class="material-icons">&#xe314;</i>
                 </div>
               </div>
@@ -494,14 +494,14 @@
               </li>
               <li>
                 <div class="item">縣市</div>
-                <div class="item auto-left citydefault" (click)="layerToggle(2);">
+                <div class="item auto-left citydefault" (click)="layerTrig = 2">
                   {{requestAddress.UserFavourite_Number1 | convert:'UR': checkout.List_UserReport:21}}<i
                     class="material-icons">&#xe315;</i>
                 </div>
               </li>
               <li>
                 <div class="item">行政區</div>
-                <div class="item auto-left distdefault" (click)="layerToggle(1);">
+                <div class="item auto-left distdefault" (click)="layerTrig = 1">
                   {{requestAddress.UserFavourite_Number2 | convert:'UR': checkout.List_UserReport:22:21:requestAddress.UserFavourite_Number1}}
                   <i class="material-icons">&#xe315;</i>
                 </div>
@@ -552,7 +552,7 @@
         <div class="header-secondary container linebt-row">
           <div class="index-flex justify-content-between">
               <div class="item two">
-                <div class="close-btn" (click)="layerToggle(0);" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                <div class="close-btn" (click)="layerTrig = 0" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
                 <i class="material-icons">&#xe314;</i>
               </div>
               </div>
@@ -581,7 +581,7 @@
                     <input type="text" name="loveCode" placeholder="請輸入愛心碼" class="heartcode"
                       [(ngModel)]="info.preInvoice.loveCode">
                   </div>
-                  <div class="item search-txt pl-2" (click)="layerToggle(3);">
+                  <div class="item search-txt pl-2" (click)="layerTrig = 3">
                     查詢<i class="material-icons">&#xe315;</i>
                   </div>
                 </div>
@@ -631,12 +631,13 @@
     </div>
   </div>
 
+  <div class="modal-backdrop fade show container" *ngIf="layerTrig === 2"></div>
   <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="this.layerTrig === 2">
     <!-- 縣市選單 -->
     <div class="city" id="open-pagebox">
       <div class="open-page-title flex-inline-between">
         <div class="title-icon">
-          <button class="btn" (click)="layerToggle(4);">
+          <button class="btn" (click)="layerTrig = 4">
             <i class="material-icons">&#xe314;</i>
           </button>
         </div>
@@ -651,7 +652,7 @@
         <li *ngFor="let city of checkout.List_UserReport" [hidden]="city.UserReport_CategoryCode != 21"
           class="flex-inline-between"
           [ngClass]="{'active' : requestAddress.UserFavourite_Number1 == city.UserReport_ItemCode}"
-          (click)="requestAddress.UserFavourite_Number1 = city.UserReport_ItemCode;layerToggle(1);">
+          (click)="requestAddress.UserFavourite_Number1 = city.UserReport_ItemCode;layerTrig = 1">
           <div class="item">
             {{city.UserReport_ItemName}}
           </div>
@@ -663,12 +664,13 @@
 
     </div>
   </div>
+  <div class="modal-backdrop fade show container" *ngIf="layerTrig === 1"></div>
   <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="layerTrig === 1">
     <!-- 行政區選單 -->
     <div id="open-pagebox1" class="dist">
       <div class="open-page-title flex-inline-between">
         <div class="close-btn">
-          <button class="btn" (click)="layerToggle(0);">
+          <button class="btn" (click)="layerTrig = 4">
             <i class="material-icons">&#xe314;</i>
           </button>
         </div>
@@ -683,7 +685,7 @@
         <li class="flex-inline-between" *ngFor="let district of checkout.List_UserReport"
           [ngClass]="{'active' : requestAddress.UserFavourite_Number2 == district.UserReport_ItemCode}"
           [hidden]="district.UserReport_UpItemCode != requestAddress.UserFavourite_Number1"
-          (click)="requestAddress.UserFavourite_Number2 = district.UserReport_ItemCode; layerToggle(4);">
+          (click)="requestAddress.UserFavourite_Number2 = district.UserReport_ItemCode; layerTrig = 4">
           <div class="item">
             {{district.UserReport_ItemName}}
           </div>
@@ -694,12 +696,13 @@
       </ul>
     </div>
   </div>
+  <div class="modal-backdrop fade show container" *ngIf="layerTrig === 3"></div>
   <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="layerTrig === 3">
     <!-- 愛心碼選單 -->
     <div id="open-pagebox" class="hcode">
       <div class="open-page-title flex-inline-between">
         <div class="title-icon">
-          <button class="btn" (click)="layerToggle(0);">
+          <button class="btn" (click)="layerTrig = 7">
             <i class="material-icons">&#xe314;</i>
           </button>
         </div>
@@ -709,7 +712,7 @@
         <div class="title-txt">
         </div>
       </div>
-      <ul class="open-page-ul" id="queryhcode" (click)="layerToggle(7);">
+      <ul class="open-page-ul" id="queryhcode" (click)="layerTrig = 7">
         <li class="flex-inline-between" value="119">
           <div class="item">
             社團法人台灣流浪動物希望協會
