@@ -83,16 +83,6 @@ export class MemberCardComponent implements OnInit, AfterViewInit {
     });
   }
 
-  /** 同頁滑動切換 0:本頁 1:新增會員卡 2:修改會員卡 */
-  layerToggle(index: number) {
-    this.layerTrig = index;
-  }
-
-  /** 提示視窗(往上) 0:本頁 1:提示卡片號碼位置 */
-  layerToggleUp(index: number) {
-    this.layerTrigUp = index;
-  }
-
   /** 開啟「新增會員卡」; layerTrigger動畫完成後,再開啟showAddCard */
   showAddCard() {
     this.captcha1 = new CaptchaMini();

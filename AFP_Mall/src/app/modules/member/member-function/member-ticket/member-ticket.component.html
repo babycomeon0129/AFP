@@ -63,7 +63,7 @@
                             <div class="filter-box">
                                 <button class="btn px-0 item-search"><i class="material-icons">&#xe8b6;</i></button>
                             </div>
-                            <div class="filter-box d-none" (click)="layerToggle(1);">
+                            <div class="filter-box d-none" (click)="layerTrig = 1">
                                 <button class="btn px-0"><i class="material-icons">&#xE152;</i></button>
                             </div>
                         </div>
@@ -149,16 +149,17 @@
 
 
   <!-- 篩選（暫無此功能）-->
-  <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="this.layerTrig === 1">
+  <div class="modal-backdrop fade show container" *ngIf="layerTrig === 1"></div>
+  <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="layerTrig === 1">
     <div id="open-pagebox" class="sortpage1">
         <div class="open-page-title flex-inline-between">
-            <button class="btn" onclick="layerToggle(0);">
+            <button class="btn" (click)="layerTrig = 0">
                 <i class="material-icons">&#xe314;</i>
             </button>
             <div class="title-txt">
                 商品分類
             </div>
-            <button class="btn" onclick="layerToggle(0);">
+            <button class="btn" (click)="layerTrig = 0">
                 確定
             </button>
         </div>

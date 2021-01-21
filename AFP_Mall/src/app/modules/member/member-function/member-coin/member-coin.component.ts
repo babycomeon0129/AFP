@@ -108,11 +108,6 @@ export class MemberCoinComponent implements OnInit {
       }
     }
   }
-
-  /** 同頁滑動切換 0:本頁 1:點數紀錄 */
-  layerToggle(index: number) {
-    this.layerTrig = index;
-  }
 }
 
 export class Request_MemberPoint extends Model_ShareData {

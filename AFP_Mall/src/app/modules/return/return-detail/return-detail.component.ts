@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AppService } from 'src/app/app.service';
-import { AFP_ECStore, AFP_MemberOrder, AFP_ItemInfoPart, AFP_UserFavourite, Model_ShareData,
-        AFP_Services, AFP_UserReport, AFP_DealInfo
-        } from '@app/_models';
+import { AFP_ECStore, AFP_MemberOrder, AFP_ItemInfoPart, Model_ShareData, AFP_Services, AFP_DealInfo } from '@app/_models';
 import { Router } from '@angular/router';
+import { layerAnimation } from '../../../animations';
 
 @Component({
   selector: 'app-return-detail',
   templateUrl: './return-detail.component.html',
   styleUrls: ['../../member/member/member.scss',
               '../../member/member-function/member-order/member-order.scss',
-              '../../order/shopping-order/shopping-order.scss']
+              '../../order/shopping-order/shopping-order.scss'],
+  animations: [ layerAnimation ]
 })
 export class ReturnDetailComponent implements OnInit {
   /** 客服單編號 */
@@ -151,10 +151,6 @@ export class ReturnDetailComponent implements OnInit {
     );
   }
 
-  /** 同頁滑動切換 0:本頁 1:退貨說明 */
-  layerToggle(index: number) {
-    this.layerTrig = index;
-  }
   ngOnInit() {
   }
 

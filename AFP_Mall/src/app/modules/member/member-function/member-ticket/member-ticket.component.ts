@@ -18,7 +18,7 @@ export class MemberTicketComponent implements OnInit {
   public searchText;
   /** 當前所選使用狀態列表 1: 可用, 2: 歷史 （歷史票券不可前往詳細） */
   public listType: number;
-  /** 同頁滑動切換 */
+  /** 同頁滑動切換 0: 本頁 1: 篩選清單（暫無此功能） */
   public layerTrig = 0;
 
   constructor(public appService: AppService, private router: Router, private meta: Meta, private title: Title) {
@@ -56,10 +56,5 @@ export class MemberTicketComponent implements OnInit {
     if (this.listType === 1) {
       this.router.navigate(['/MemberFunction/ETicketDetail', code]);
     }
-  }
-
-  /** 同頁滑動切換 */
-  layerToggle(e: number) {
-    this.layerTrig = e;
   }
 }

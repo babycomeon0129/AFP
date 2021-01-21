@@ -7,10 +7,10 @@ import { PrivacyComponent } from './privacy/privacy.component';
 import { TrafficComponent } from './traffic/traffic.component';
 
 const routes: Routes = [
-  { path: 'QA', component: QAComponent },
-  { path: 'Terms', component: TermsComponent },
-  { path: 'Privacy', component: PrivacyComponent },
-  { path: 'Traffic', component: TrafficComponent },
+  { path: 'QA', component: QAComponent, data: {animation: 'QA'} },
+  { path: 'Terms', component: TermsComponent, data: {animation: 'Terms'}  },
+  { path: 'Privacy', component: PrivacyComponent, data: {animation: 'Privacy'}  },
+  { path: 'Traffic', component: TrafficComponent, data: {animation: 'Traffic'}  },
   { path: '', redirectTo: '/' }
 ];
 

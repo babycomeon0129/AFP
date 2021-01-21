@@ -244,14 +244,4 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     document.removeEventListener('mouseup', (e) => { });
     this.topCanvas.removeEventListener('mousemove', (e) => { });
   }
-
-  /** 同頁滑動切換 0: 本頁 1: 活動規則 */
-  layerToggle(index: number) {
-    this.layerTrig = index;
-  }
-
-  /** 視窗滑動切換(往上) 0: 本頁 1: 開獎資訊 */
-  layerToggleUp(index: number) {
-    this.layerTrigUp = index;
-  }
 }
