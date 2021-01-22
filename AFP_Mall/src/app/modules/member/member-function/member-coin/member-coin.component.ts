@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AppService } from 'src/app/app.service';
-import { SwiperOptions } from 'swiper';
-import { Model_ShareData, AFP_Game, AFP_UserPoint, AFP_ChannelVoucher, Request_MemberUserVoucher,
-        Response_MemberUserVoucher, AFP_Voucher } from 'src/app/_models';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
+import { AppService } from '@app/app.service';
+import { ModalService } from '@app/shared/modal/modal.service';
+import { SwiperOptions } from 'swiper';
+import { Model_ShareData, AFP_Game, AFP_UserPoint, AFP_ChannelVoucher, AFP_Voucher } from '@app/_models';
 import { Meta, Title } from '@angular/platform-browser';
-import { layerAnimation} from '../../../../animations';
+import { layerAnimation} from '@app/animations';
 
 @Component({
   selector: 'app-member-coin',
@@ -42,7 +42,7 @@ export class MemberCoinComponent implements OnInit {
     }
   };
 
-  constructor(public appService: AppService, private route: ActivatedRoute, public router: Router,
+  constructor(public appService: AppService, private route: ActivatedRoute, public router: Router, public modal: ModalService,
               private meta: Meta, private title: Title) {
     // tslint:disable: max-line-length
     this.title.setTitle('Mobii Point - Mobii!');
@@ -85,6 +85,30 @@ export class MemberCoinComponent implements OnInit {
     this.appService.toApi('Member', '1509', getHistory).subscribe((point: Response_MemberPoint) => {
       this.pointHistory = point.List_UserPoint;
     });
+  }
+
+  /** 前往遊戲
+   * @param gameType 遊戲類型
+   * @param gameCode 遊戲編碼
+   * @param gameExtName 遊戲名稱
+   * @param gamePoint 遊戲扣除點數
+   */
+  goGame(gameType: number, gameCode: number, gameExtName: string, gamePoint: number) {
+    // 如果是刮刮樂，要先跳扣除提醒
+    if ( gameType === 1) {
+      this.modal.confirm({
+        initialState: {
+          title: `重要提醒`,
+          message: `遊玩「${gameExtName}」需要扣除 Mobii! Points ${gamePoint} 點，請確定是否繼續？`
+        }
+      }).subscribe( res => {
+        if (res) {
+          this.router.navigate(['/GameCenter/Game', gameCode], {queryParams: { hideBackBtn: false}});
+        }
+      });
+    } else {
+      this.router.navigate(['/GameCenter/Game', gameCode], {queryParams: { hideBackBtn: false}});
+    }
   }
 
   /** 前往優惠券詳細
