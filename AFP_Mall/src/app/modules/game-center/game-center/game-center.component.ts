@@ -37,27 +37,27 @@ export class GameCenterComponent implements OnInit {
   }
 
   /** 前往遊戲
-   * @param GameCode 就是GameCode
-   * @param GameType 遊戲類型，1:刮刮樂 2:大轉盤
-   * @param GamePoint 領取扣除點數
-   * @param GameExtName 遊戲外部名稱
+   * @param gameCode 就是GameCode
+   * @param gameType 遊戲類型，1:刮刮樂 2:大轉盤
+   * @param gamePoint 遊玩扣除點數
+   * @param gameExtName 遊戲外部名稱
    */
-  GoGame(GameCode: number, GameType: number, GamePoint: number, GameExtName: string): void {
+  goGame(gameCode: number, gameType: number, gamePoint: number, gameExtName: string): void {
     if (this.appService.loginState === true) {
-      // 如果是刮刮樂，要先跳扣除提醒
-      if ( GameType === 1) {
+      // 如果是刮刮樂且將消耗點數，要先跳扣除提醒
+      if ( gameType === 1 && gamePoint > 0) {
         this.modal.confirm({
           initialState: {
             title: `重要提醒`,
-            message: `遊玩「${GameExtName}」需要扣除 Mobii! Points ${GamePoint} 點，請確定是否繼續？`
+            message: `遊玩「${gameExtName}」需要扣除 Mobii! Points ${gamePoint} 點，請確定是否繼續？`
           }
         }).subscribe( res => {
           if (res) {
-            this.router.navigate(['/GameCenter/Game', GameCode]);
+            this.router.navigate(['/GameCenter/Game', gameCode]);
           }
         });
       } else {
-        this.router.navigate(['/GameCenter/Game', GameCode]);
+        this.router.navigate(['/GameCenter/Game', gameCode]);
       }
     } else {
       this.appService.loginPage();

@@ -83,7 +83,6 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
   }
 
   ngOnInit() {
-    this.readTabData(2); // 暫時需以優惠券數量判斷是否顯示優惠券tab
     this.readTabData(1);
 
     // 從外部進來指定分頁
@@ -152,6 +151,9 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
           if (this.siteInfo.ECStore_Type < 2000) {
             typeText = '店家';
             this.textForShare = `嘿！我有好店要跟你分享喔！趕快進來看看吧！這是「${this.siteInfo.ECStore_ShowName}」，快來跟我一起進來逛逛吧！`;
+            // TODO: 暫時需以優惠券數量判斷是否顯示優惠券tab
+            this.readTabData(2);
+            this.tabNo = 1;
           } else {
             typeText = '周邊';
             this.textForShare = `嘿！我發現新地方要跟你分享喔！趕快進來看看吧！這是「${this.siteInfo.ECStore_ShowName}」，快來跟我一起了解一下吧！`;
