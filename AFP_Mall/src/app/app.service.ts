@@ -64,8 +64,8 @@ export class AppService {
 
   @BlockUI() blockUI: NgBlockUI;
   constructor(private http: HttpClient, private bsModal: BsModalService, public modal: ModalService, private router: Router,
-              private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService,
-              private swPush: SwPush) {
+    private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService,
+    private swPush: SwPush) {
     // 取得前一頁面url
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -115,7 +115,7 @@ export class AppService {
             this.blockUI.stop();
             return JSON.parse(data.Data);
           case 9998: // user資料不完整，讓使用者登出
-            this.modal.show('message', { initialState: { success: false, message: '請先登入', showType: 1}});
+            this.modal.show('message', { initialState: { success: false, message: '請先登入', showType: 1 } });
             this.onLogout();
             break;
           default: // 其他錯誤
@@ -488,8 +488,8 @@ export class AppService {
     });
   }
 
-   /** 通知APP是否開啟BottomBar */
-   appShowMobileFooter(isOpen: boolean): void {
+  /** 通知APP是否開啟BottomBar */
+  appShowMobileFooter(isOpen: boolean): void {
     if (this.isApp !== null) {
       if (navigator.userAgent.match(/android/i)) {
         //  Android
@@ -501,6 +501,30 @@ export class AppService {
     }
   }
 
+  /** 通知App關閉Web view 的關閉按鈕 (true : 關閉) */
+  appWebViewbutton(isOpen: boolean): void {
+    if (this.isApp !== null) {
+      if (navigator.userAgent.match(/android/i)) {
+        //  Android
+        AppJSInterface.showCloseButton(isOpen);
+      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+        //  IOS
+        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showCloseButton', isShow: isOpen });
+      }
+    }
+  }
+
+  /** 通知會員中心打開原生頁 0: 我的卡片 1: 我的車票 2: 我的點餐 3: 我的優惠券 4: 我的收藏 5: 我的訂單 6: M Point */
+  appShowMemberPage(pageCode: number): void {
+    if (navigator.userAgent.match(/android/i)) {
+      //  Android
+      AppJSInterface.goAppPage(pageCode);
+    } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+      //  IOS
+      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'goAppPage', page: pageCode });
+    }
+  }
+
   /** 分享功能
    * @param sharedContent 分享內容文案
    * @param APPShareUrl APP分享時使用的url（直接抓當前url在APP中會帶入使用者相關資訊因此不使用）
@@ -508,7 +532,7 @@ export class AppService {
   shareContent(sharedContent: string, APPShareUrl: string) {
     if (this.isApp === null) {
       // web
-      this.modal.show('msgShare', { initialState: {sharedText: sharedContent} });
+      this.modal.show('msgShare', { initialState: { sharedText: sharedContent } });
     } else {
       // APP: 呼叫APP分享功能
       if (navigator.userAgent.match(/android/i)) {

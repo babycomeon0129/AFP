@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { Request_MemberQuestion, Response_MemberQuestion, AFP_QuestionCategory, AFP_QuestionContent } from '@app/_models';
 import { Meta, Title } from '@angular/platform-browser';
-import { layerAnimation } from '../../../animations';
+import { layerAnimation } from '@app/animations';
 declare var AppJSInterface: any;
 
 @Component({
@@ -14,12 +14,12 @@ declare var AppJSInterface: any;
 export class QAComponent implements OnInit {
   /** 是否從APP登入頁進入（若從APP登入頁進入則按回上一頁時APP把此頁關掉） */
   public fromAppLogin: boolean;
-  /** 常見問題資料集（類別包問題） */
+  /** 常見問題資料集（render 用） */
   public qaData: AFP_QuestionCategory[];
+  /** 常見問題資料集（保留原始檔供篩選用） */
+  public qaDataCopy: AFP_QuestionCategory[];
   /** 搜尋目標字串 */
   public searchTarget = '';
-  /** 原始常見問題資料集 */
-  public qaDataCopy: AFP_QuestionCategory[];
 
   constructor(public appService: AppService, private meta: Meta, private title: Title) {
     // tslint:disable: max-line-length
@@ -54,9 +54,13 @@ export class QAComponent implements OnInit {
 
   /** 搜尋輸入字串 */
   search(): void {
+    // 產生完整原始檔
     const newQa = JSON.parse(JSON.stringify(this.qaDataCopy));
+    // 針對問題的標題跟內容(移除掉 html tags 後)做篩選，return 有符合結果的分類做渲染
     this.qaData = newQa.filter((cate: AFP_QuestionCategory) => {
-      const newCate = cate.List_QuestionContent.filter((q: AFP_QuestionContent) => q.QuestionContent_Title.includes(this.searchTarget) || q.QuestionContent_Body.includes(this.searchTarget));
+      const newCate = cate.List_QuestionContent.filter((q: AFP_QuestionContent) =>
+        q.QuestionContent_Title.includes(this.searchTarget) || q.QuestionContent_Body.replace(/<(.|\n)*?>/g, '').includes(this.searchTarget)
+      );
       cate.List_QuestionContent = newCate;
       return newCate.length > 0;
     });
