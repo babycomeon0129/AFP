@@ -88,7 +88,7 @@
         <div class="order-method-box">
           <ul class="method-list">
             <!-- 寄送方式 - 選擇寄送方式 -->
-            <li class="index-flex" [hidden]="store.order.Order_DeliveryWays > 0" (click)="clickDeliveryWay(store)">
+            <li class="index-flex" [hidden]="store.order.Order_DeliveryWays > 0" (click)="clickDeliveryWay(store);appService.appWebViewbutton(true);">
               <div class="item"><i class="material-icons">&#xE558;</i>寄送方式</div>
               <div class="item delivery-txt text-right"><span>請選擇寄送方式</span><i class="material-icons">&#xe315;</i></div>
             </li>
@@ -129,13 +129,13 @@
       <div class="order-box">
         <div class="order-method-box">
           <ul class="method-list">
-            <li class="index-flex" (click)="toChoiceVoucher()">
+            <li class="index-flex" (click)="toChoiceVoucher(); appService.appWebViewbutton(true);">
               <div class="item three"><i class="material-icons reverse">&#xE54E;</i>使用優惠券、折扣碼</div>
               <div class="item one discount-price text-right"><span
                   class="store1-discount-price">-{{info.totalDiscount | currency: 'TWD':'$':'1.0-2'}}</span><i
                   class="material-icons">&#xe315;</i></div>
             </li>
-            <li class="index-flex" (click)="toInvoice()">
+            <li class="index-flex" (click)="toInvoice(); appService.appWebViewbutton(true);">
               <div class="item d-flex d-inline">
                 <div class="invo-box"><i class="material-icons">&#xE8B0;</i></div>電子發票
               </div>
@@ -197,7 +197,7 @@
       <div class="header-secondary container linebt-row">
         <div class="index-flex justify-content-between">
           <div class="item one">
-            <div class="close-btn" (click)="layerTrig = 0">
+            <div class="close-btn" (click)="layerTrig = 0; appService.appWebViewbutton(false);">
               <i class="material-icons">&#xe314;</i>
             </div>
           </div>
@@ -358,7 +358,7 @@
         <div class="header-secondary container linebt-row">
           <div class="index-flex justify-content-between">
               <div class="item two">
-                <div class="close-btn" (click)="layerTrig = 0">
+                <div class="close-btn" (click)="layerTrig = 0; appService.appWebViewbutton(false);">
                   <i class="material-icons">&#xe314;</i>
                 </div>
               </div>
@@ -552,7 +552,7 @@
         <div class="header-secondary container linebt-row">
           <div class="index-flex justify-content-between">
               <div class="item two">
-                <div class="close-btn" (click)="layerTrig = 0" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                <div class="close-btn" (click)="layerTrig = 0; appService.appWebViewbutton(false);" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
                 <i class="material-icons">&#xe314;</i>
               </div>
               </div>

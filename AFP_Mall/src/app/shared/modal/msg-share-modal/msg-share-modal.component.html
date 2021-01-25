@@ -4,7 +4,7 @@
   <span aria-hidden="true">&times;&ensp;</span>
 </button>
 <div class="modal-body">
-  <div id="msg-share">
+  <div id="msg-share" class="container">
     <div class="mb-5">
         <h6 class="dataTit p-2">分享給好友</h6>
         <!-- fb post -->
@@ -12,11 +12,11 @@
           <button class="btn bg-fb border-radius30 small-80 w-80 text-white m-2" type="button"><img src="../img/share/facebook-w.png" class="h24 mx-2">用 Facebook 分享</button>
         </a>
         <!-- fb messenger for PC -->
-        <a href="http://www.facebook.com/dialog/send?app_id={{FBAppID}}&amp;link={{pageUrl}}&amp;redirect_uri={{pageUrl}}" class="for-pc">
+        <a href="http://www.facebook.com/dialog/send?app_id={{FBAppID}}&amp;link={{pageUrl}}&amp;redirect_uri={{pageUrl}}" class="d-none d-lg-block">
           <button class="btn bg-mess border-radius30 small-80 w-80 text-white m-2" type="button"><img src="../img/share/messenger-w.png" class="h24 mx-2">用 Messenger 傳送</button>
         </a>
         <!-- fb messenger for mobile -->
-        <a [href]="'fb-messenger://share/?link=' + pageUrl | Safe: 'url'" class="for-mobile">
+        <a [href]="'fb-messenger://share/?link=' + pageUrl | Safe: 'url'" class="d-lg-none">
           <button class="btn bg-mess border-radius30 small-80 w-80 text-white m-2" type="button"><img src="../img/share/messenger-w.png" class="h24 mx-2">用 Messenger 傳送</button>
         </a>
         <!-- LINE -->

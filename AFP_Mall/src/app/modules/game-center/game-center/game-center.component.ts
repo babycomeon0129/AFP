@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Model_ShareData, AFP_ADImg, AFP_Game } from '@app/_models';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { Router } from '@angular/router';
-import { ModalService } from '../../../shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
@@ -22,7 +22,9 @@ export class GameCenterComponent implements OnInit {
     this.meta.updateTag({content: '遊戲 - Mobii!', property: 'og:title'});
     this.meta.updateTag({content: 'Mobii! - 遊戲。這裡會顯示 Mobii! 用戶在Mobii! 平台上可以玩的遊戲。遊戲通常會含優惠券、商城的特惠商品以及意想不到的大禮驚喜！趕快註冊登入成為會員吧！',
                          property: 'og:description'});
+  }
 
+  ngOnInit() {
     this.appService.openBlock();
     const request: Request_GameIndex = {
       User_Code: sessionStorage.getItem('userCode'),
@@ -51,18 +53,15 @@ export class GameCenterComponent implements OnInit {
           }
         }).subscribe( res => {
           if (res) {
-            this.router.navigate(['/GameCenter/Game', GameCode], {queryParams: { isApp: this.appService.isApp}});
+            this.router.navigate(['/GameCenter/Game', GameCode]);
           }
         });
       } else {
-        this.router.navigate(['/GameCenter/Game', GameCode], {queryParams: { isApp: this.appService.isApp}});
+        this.router.navigate(['/GameCenter/Game', GameCode]);
       }
     } else {
       this.appService.loginPage();
     }
-  }
-
-  ngOnInit() {
   }
 
 }
