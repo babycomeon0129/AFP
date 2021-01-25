@@ -8,7 +8,6 @@ import { QRCodeModule } from 'angularx-qrcode';
 
 import { VoucherRoutingModule } from './voucher-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { ForAppModule } from '../for-app/for-app.module';
 
 import { EventComponent } from './event/event.component';
 import { OffersComponent } from './offers/offers.component';
@@ -38,7 +37,6 @@ import { VoucherDetailComponent } from './voucher-detail/voucher-detail.componen
     LazyLoadImageModule,
     NgxUsefulSwiperModule,
     SharedModule,
-    ForAppModule,
     QRCodeModule
   ]
 })

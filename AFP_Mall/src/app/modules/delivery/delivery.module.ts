@@ -7,7 +7,6 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 import { DeliveryRoutingModule } from './delivery-routing.module';
-import { ForAppModule } from '../for-app/for-app.module';
 
 import { DeliveryInfoComponent } from './delivery-info/delivery-info.component';
 
@@ -24,8 +23,7 @@ import { DeliveryInfoComponent } from './delivery-info/delivery-info.component';
     DeliveryRoutingModule,
     LazyLoadImageModule,
     SharedModule,
-    ForAppModule,
-    FormsModule,
+    FormsModule
   ]
 })
 export class DeliveryModule {}

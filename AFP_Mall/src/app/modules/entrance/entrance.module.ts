@@ -9,7 +9,6 @@ import { SortablejsModule } from 'ngx-sortablejs';
 
 import { EntranceRoutingModule } from './entrance-routing.module';
 import { SharedModule } from '../../shared/shared.module';
-import { ForAppModule } from '../for-app/for-app.module';
 
 import { EntranceComponent } from './entrance.component';
 
@@ -25,8 +24,7 @@ import { EntranceComponent } from './entrance.component';
     LazyLoadImageModule,
     NgxUsefulSwiperModule,
     SharedModule,
-    SortablejsModule,
-    ForAppModule
+    SortablejsModule
   ],
   exports: [
     EntranceComponent

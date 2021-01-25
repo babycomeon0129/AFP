@@ -7,7 +7,6 @@ import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 
 import { TravelRoutingModule } from './travel-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { ForAppModule } from '../for-app/for-app.module';
 
 import { TravelComponent } from './travel.component';
 
@@ -24,8 +23,7 @@ import { TravelComponent } from './travel.component';
     TravelRoutingModule,
     LazyLoadImageModule,
     NgxUsefulSwiperModule,
-    SharedModule,
-    ForAppModule
+    SharedModule
   ]
 })
 export class TravelModule {}

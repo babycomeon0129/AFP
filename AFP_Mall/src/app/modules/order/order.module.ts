@@ -9,7 +9,6 @@ import { TextMaskModule } from 'angular2-text-mask';
 
 import { OrderRoutingModule } from './order-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { ForAppModule } from '../for-app/for-app.module';
 
 import { ShoppingOrderComponent } from './shopping-order/shopping-order.component';
 import { ETicketOrderComponent } from './eticket-order/eticket-order.component';
@@ -37,8 +36,7 @@ import { ShoppingPaymentComponent } from './shopping-payment/shopping-payment.co
     LazyLoadImageModule,
     NgxUsefulSwiperModule,
     TextMaskModule,
-    SharedModule,
-    ForAppModule
+    SharedModule
   ]
 })
 export class OrderModule {}

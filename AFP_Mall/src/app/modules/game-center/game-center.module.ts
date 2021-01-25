@@ -6,7 +6,6 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 import { GameCenterRoutingModule } from './game-center-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { ForAppModule } from '../for-app/for-app.module';
 
 import { GameComponent } from './game/game.component';
 import { GameCenterComponent } from './game-center/game-center.component';
@@ -31,8 +30,7 @@ import { ScratchComponent } from './game/scratch/scratch.component';
     RouterModule,
     GameCenterRoutingModule,
     LazyLoadImageModule,
-    SharedModule,
-    ForAppModule
+    SharedModule
   ]
 })
 export class GameCenterModule {}
