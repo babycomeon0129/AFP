@@ -113,7 +113,7 @@ export class HomeComponent implements OnInit, DoCheck {
       if (page === '0') {
         this.modal.show('message', { initialState: { success: true, message: '敬請期待!', showType: 1 } });
       } else {
-        switch(pageCode) {
+        switch (pageCode) {
           case 3:
             this.appService.isApp !== null ?　this.appService.appShowMemberPage(3) : this.routerForApp(page);
             break;
