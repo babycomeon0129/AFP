@@ -83,12 +83,8 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
   }
 
   ngOnInit() {
+    this.readTabData(2); // 暫時需以優惠券數量判斷是否顯示優惠券tab
     this.readTabData(1);
-
-    // 若是登入狀態下則顯示收藏狀態
-    if (this.appService.loginState === true) {
-      this.appService.showFavorites();
-    }
 
     // 從外部進來指定分頁
     this.route.queryParams.subscribe(params => {
@@ -107,6 +103,10 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
         this.readTabData(1);
       }
     });
+    // 若是登入狀態下則顯示收藏狀態
+    if (this.appService.loginState) {
+      this.appService.showFavorites();
+    }
   }
 
   // tslint:disable: max-line-length
