@@ -11,7 +11,6 @@ const routes: Routes = [
   { path: 'ExploreList/:AreaMenu_Code', canActivate: [SessionAliveGuard], component: ExploreListComponent },
   { path: 'ExploreList', canActivate: [SessionAliveGuard], component: ExploreListComponent },
   { path: 'ExploreDetail/:ECStore_Code', canActivate: [SessionAliveGuard], component: ExploreDetailComponent },
-  { path: ':ECStore_Code', redirectTo:'ExploreDetail/:ECStore_Code' }, // 供module拆分前的舊網址結構'mobii.ai/ExploreDetail/:ECStore_Code'前往
   { path: '', redirectTo: 'ExploreMap' }
 ];
 @NgModule({

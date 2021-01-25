@@ -7,7 +7,6 @@ import { AppLogoutComponent } from './app-logout/app-logout.component';
 import { AppRedirectComponent } from './app-redirect/app-redirect.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/ForApp/AppDownload'}, // 供module拆分前的舊網址結構'mobii.ai/AppDownload'前往
   { path: 'AppRedirect', component: AppRedirectComponent},
   { path: 'AppGoPayment', component: AppGoPaymentComponent },
   { path: 'AppLogout', component: AppLogoutComponent },
