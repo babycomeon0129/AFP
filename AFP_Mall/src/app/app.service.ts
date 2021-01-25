@@ -515,13 +515,13 @@ export class AppService {
   }
 
   /** 通知會員中心打開原生頁 0: 我的卡片 1: 我的車票 2: 我的點餐 3: 我的優惠券 4: 我的收藏 5: 我的訂單 6: M Point */
-  appShowMemberPage(page: number): void {
+  appShowMemberPage(pageCode: number): void {
     if (navigator.userAgent.match(/android/i)) {
       //  Android
-      AppJSInterface.goAppPage(page);
+      AppJSInterface.goAppPage(pageCode);
     } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
       //  IOS
-      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'goAppPage', page: page });
+      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'goAppPage', page: pageCode });
     }
   }
 
