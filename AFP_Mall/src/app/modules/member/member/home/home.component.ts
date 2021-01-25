@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit, DoCheck {
   private serviceDiffer: KeyValueDiffer<string, any>;
 
   constructor(public appService: AppService, private router: Router, public modal: ModalService,
-    private differs: KeyValueDiffers, public memberService: MemberService, private authService: AuthService) {
+              private differs: KeyValueDiffers, public memberService: MemberService, private authService: AuthService) {
     this.serviceDiffer = this.differs.find({}).create();
   }
 
@@ -113,18 +113,28 @@ export class HomeComponent implements OnInit, DoCheck {
       if (page === '0') {
         this.modal.show('message', { initialState: { success: true, message: '敬請期待!', showType: 1 } });
       } else {
-        if (this.appService.isApp !== null) {
-          this.appService.appShowMemberPage(pageCode);
-        } else {
-          //  APP 特例處理
-          this.router.navigate([page], {
-            queryParams: {
-              showBack: true
-            }
-          });
+        switch(pageCode) {
+          case 4:
+            this.appService.isApp !== null ?　this.appService.appShowMemberPage(4) : this.routerForApp(page);
+            break;
+          case 5:
+            this.appService.isApp !== null ?　this.appService.appShowMemberPage(5) : this.routerForApp(page);
+            break;
+          default:
+            this.routerForApp(page);
+            break;
         }
       }
     }
+  }
+
+  /** App 特例處理router */
+  routerForApp(page: string): void {
+    this.router.navigate([page], {
+      queryParams: {
+        showBack: true
+      }
+    });
   }
 
   ngDoCheck(): void {
