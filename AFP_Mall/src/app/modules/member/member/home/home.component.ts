@@ -104,22 +104,37 @@ export class HomeComponent implements OnInit, DoCheck {
 
   /** 前往主頁面(依是否登入判定)
    * @param page 頁面相對路徑（「敬請期待」傳'0'）
+   * @param pageCode 通知原生開啟頁面 0: 我的卡片 1: 我的車票 2: 我的點餐 3: 我的優惠券 4: 我的收藏 5: 我的訂單 6: M Point
    */
-  pageRoute(page: string) {
+  pageRoute(page: string, pageCode: number) {
     if (this.appService.loginState === false) {
       this.appService.loginPage();
     } else {
       if (page === '0') {
         this.modal.show('message', { initialState: { success: true, message: '敬請期待!', showType: 1 } });
       } else {
-        //  APP 特例處理
-        this.router.navigate([page], {
-          queryParams: {
-            showBack: true
-          }
-        });
+        switch(pageCode) {
+          case 3:
+            this.appService.isApp !== null ?　this.appService.appShowMemberPage(3) : this.routerForApp(page);
+            break;
+          case 4:
+            this.appService.isApp !== null ?　this.appService.appShowMemberPage(4) : this.routerForApp(page);
+            break;
+          default:
+            this.routerForApp(page);
+            break;
+        }
       }
     }
+  }
+
+  /** App 特例處理router */
+  routerForApp(page: string): void {
+    this.router.navigate([page], {
+      queryParams: {
+        showBack: true
+      }
+    });
   }
 
   ngDoCheck(): void {
