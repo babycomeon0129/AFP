@@ -75,7 +75,7 @@
                       </div>
                       <div class="item one">
                         <button
-                          (click)="appService.onVoucher(voucher)"
+                          (click)="toVoucher(voucher)"
                           [disabled]="voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3"
                           [ngClass]="{'gray-obtn': voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3,
                                       'index-btn': voucher?.Voucher_IsFreq === 1,
