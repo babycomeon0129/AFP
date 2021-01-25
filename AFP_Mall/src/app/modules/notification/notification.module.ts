@@ -7,7 +7,6 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 import { NotificationRoutingModule } from './notification-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { ForAppModule } from '../for-app/for-app.module';
 
 import { NotificationComponent } from './notification/notification.component';
 import { NotificationDetailComponent } from './notification-detail/notification-detail.component';
@@ -27,8 +26,7 @@ import { NotificationDetailComponent } from './notification-detail/notification-
     NotificationRoutingModule,
     FormsModule,
     LazyLoadImageModule,
-    SharedModule,
-    ForAppModule
+    SharedModule
   ]
 })
 

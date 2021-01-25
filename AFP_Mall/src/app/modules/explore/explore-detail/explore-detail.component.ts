@@ -72,7 +72,7 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
   public layerTrig = 0;
 
   constructor(public appService: AppService, private router: Router, private route: ActivatedRoute, public modal: ModalService,
-              private differs: KeyValueDiffers, private meta: Meta, private title: Title) {
+    private differs: KeyValueDiffers, private meta: Meta, private title: Title) {
     this.serviceDiffer = this.differs.find({}).create();
     // 取得商家/景點編碼
     this.siteCode = Number(this.route.snapshot.params.ECStore_Code);
@@ -84,11 +84,6 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
 
   ngOnInit() {
     this.readTabData(1);
-
-    // 若是登入狀態下則顯示收藏狀態
-    if (this.appService.loginState === true) {
-      this.appService.showFavorites();
-    }
 
     // 從外部進來指定分頁
     this.route.queryParams.subscribe(params => {
@@ -107,6 +102,10 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
         this.readTabData(1);
       }
     });
+    // 若是登入狀態下則顯示收藏狀態
+    if (this.appService.loginState) {
+      this.appService.showFavorites();
+    }
   }
 
   // tslint:disable: max-line-length
@@ -152,6 +151,9 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
           if (this.siteInfo.ECStore_Type < 2000) {
             typeText = '店家';
             this.textForShare = `嘿！我有好店要跟你分享喔！趕快進來看看吧！這是「${this.siteInfo.ECStore_ShowName}」，快來跟我一起進來逛逛吧！`;
+            // TODO: 暫時需以優惠券數量判斷是否顯示優惠券tab
+            this.readTabData(2);
+            this.tabNo = 1;
           } else {
             typeText = '周邊';
             this.textForShare = `嘿！我發現新地方要跟你分享喔！趕快進來看看吧！這是「${this.siteInfo.ECStore_ShowName}」，快來跟我一起了解一下吧！`;
@@ -181,43 +183,29 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
     });
   }
 
-  /**
-   * 優惠券按鈕行為
-   * @param voucher 所選優惠券資訊
-   * @param storeCode 優惠券所屬店編碼
-   * Voucher_FreqName: 0「已兌換」(平台), 1「兌換」, 2「前往商店」, 3「已使用」, 5「去使用」
+  /** 兌換優惠券
+   * @param voucher 優惠券詳細
    */
-  onVoucher(voucher: AFP_Voucher) {
-    if (this.appService.loginState === true) {
-      switch (voucher.Voucher_IsFreq) {
-        case 1:
-          // 加入到「我的優惠券」
-          const request: Request_MemberUserVoucher = {
-            User_Code: sessionStorage.getItem('userCode'),
-            SelectMode: 1,
-            Voucher_Code: voucher.Voucher_Code,
-            Voucher_ActivityCode: null,
-            SearchModel: {
-              SelectMode: null
-            }
+  toVoucher(voucher: AFP_Voucher): void {
+    if (voucher.Voucher_DedPoint > 0 && voucher.Voucher_IsFreq === 1) {
+      this.modal.confirm({
+        initialState: {
+          message: `請確定是否扣除 Mobii! Points ${voucher.Voucher_DedPoint} 點兌換「${voucher.Voucher_ExtName}」？`
+        }
+      }).subscribe(res => {
+        if (res) {
+          this.appService.onVoucher(voucher);
+        } else {
+          const initialState = {
+            success: true,
+            type: 1,
+            message: `<div class="no-data"><img src="../../../../img/shopping/payment-failed.png"><p>兌換失敗！</p></div>`
           };
-          this.appService.toApi('Member', '1510', request).subscribe((data: Response_MemberUserVoucher) => {
-            // 按鈕顯示改變
-            voucher.Voucher_IsFreq = data.Model_Voucher.Voucher_IsFreq;
-            voucher.Voucher_FreqName = data.Model_Voucher.Voucher_FreqName;
-          });
-          break;
-        case 2:
-          // 導去商品tab
-          this.readTabData(3);
-          break;
-        case 5:
-          // 前往優惠券詳細
-          this.router.navigate(['/Voucher/VoucherDetail', voucher.Voucher_Code]);
-          break;
-      }
+          this.modal.show('message', { initialState });
+        }
+      });
     } else {
-      this.appService.loginPage();
+      this.appService.onVoucher(voucher);
     }
   }
 

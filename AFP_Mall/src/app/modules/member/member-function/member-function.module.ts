@@ -10,7 +10,6 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { MemberFunctionRoutingModule } from './member-function-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MemberService } from '../member.service';
-import { ForAppModule } from '../../for-app/for-app.module';
 
 import { ETicketDetailComponent } from './eticket-detail/eticket-detail.component';
 import { ETicketOrderDetailComponent } from './eticket-order-detail/eticket-order-detail.component';
@@ -56,7 +55,6 @@ import { MyOrderDetailComponent } from './my-order-detail/my-order-detail.compon
     LazyLoadImageModule,
     NgxUsefulSwiperModule,
     SharedModule,
-    ForAppModule,
     QRCodeModule
   ],
   providers: [

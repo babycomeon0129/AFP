@@ -219,7 +219,7 @@
                                               <p>{{voucher.Voucher_UsedOnDate | date: 'yyyy/MM/dd' }} ~ {{voucher.Voucher_UsedOffDate | date: 'yyyy/MM/dd' }}</p>
                                           </div>
                                           <div class="item one">
-                                              <button (click)="appService.onVoucher(voucher)"
+                                              <button (click)="toVoucher(voucher)"
                                                 [disabled]="appService.loginState === true && (voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3)"
                                                 [ngClass]="{'gray-obtn': voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3,
                                                             'index-btn': voucher.Voucher_IsFreq === 1,

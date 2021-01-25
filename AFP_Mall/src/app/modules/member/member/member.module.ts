@@ -10,7 +10,6 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
 import { MemberRoutingModule } from './member-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MemberService } from '../member.service';
-import { ForAppModule } from '../../for-app/for-app.module';
 
 import { MemberComponent } from './member.component';
 import { HomeComponent } from './home/home.component';
@@ -53,7 +52,6 @@ import { PasswordUpdateComponent } from './password-update/password-update.compo
     LazyLoadImageModule,
     NgxUsefulSwiperModule,
     SharedModule,
-    ForAppModule,
     BsDatepickerModule
   ],
   providers: [

@@ -7,7 +7,6 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
 
 import { MissionRoutingModule } from './mission-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { ForAppModule } from '../for-app/for-app.module';
 
 import { MissionComponent } from './mission.component';
 
@@ -24,7 +23,6 @@ import { MissionComponent } from './mission.component';
     MissionRoutingModule,
     LazyLoadImageModule,
     SharedModule,
-    ForAppModule,
     NgCircleProgressModule
   ]
 })

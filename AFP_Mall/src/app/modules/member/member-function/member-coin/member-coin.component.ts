@@ -91,11 +91,11 @@ export class MemberCoinComponent implements OnInit {
    * @param gameType 遊戲類型
    * @param gameCode 遊戲編碼
    * @param gameExtName 遊戲名稱
-   * @param gamePoint 遊戲扣除點數
+   * @param gamePoint 遊玩扣除點數
    */
   goGame(gameType: number, gameCode: number, gameExtName: string, gamePoint: number) {
-    // 如果是刮刮樂，要先跳扣除提醒
-    if ( gameType === 1) {
+    // 如果是刮刮樂且將消耗點數，要先跳扣除提醒
+    if ( gameType === 1 && gamePoint > 0) {
       this.modal.confirm({
         initialState: {
           title: `重要提醒`,
@@ -131,6 +131,32 @@ export class MemberCoinComponent implements OnInit {
         this.router.navigate(['/Voucher/VoucherDetail', code], navigationExtras);
       }
     }
+  }
+
+  /** 兌換優惠券
+   * @param voucher 優惠券詳細
+   */
+  toVoucher(voucher: AFP_Voucher): void {
+      if (voucher.Voucher_DedPoint > 0 && voucher.Voucher_IsFreq === 1) {
+        this.modal.confirm({
+          initialState: {
+            message: `請確定是否扣除 Mobii! Points ${voucher.Voucher_DedPoint} 點兌換「${voucher.Voucher_ExtName}」？`
+          }
+        }).subscribe(res => {
+          if (res) {
+            this.appService.onVoucher(voucher);
+          } else {
+            const initialState = {
+              success: true,
+              type: 1,
+              message: `<div class="no-data"><img src="../../../../img/shopping/payment-failed.png"><p>兌換失敗！</p></div>`
+            };
+            this.modal.show('message', { initialState });
+          }
+        });
+      } else {
+        this.appService.onVoucher(voucher);
+      }
   }
 }
 
