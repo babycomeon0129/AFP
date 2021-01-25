@@ -7,7 +7,8 @@ import { NotificationComponent } from './notification/notification.component';
 const routes: Routes = [
   { path: '', redirectTo: 'NotificationList' },
   { path: 'NotificationList', component: NotificationComponent },
-  { path: 'NotificationDetail/:IMessage_Code', component: NotificationDetailComponent }
+  { path: 'NotificationDetail/:IMessage_Code', component: NotificationDetailComponent },
+  { path: ':IMessage_Code', redirectTo: 'NotificationDetail/:IMessage_Code' } // 供module拆分前的舊網址前往
 ];
 
 @NgModule({
