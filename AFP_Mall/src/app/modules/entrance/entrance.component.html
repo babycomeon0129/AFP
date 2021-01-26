@@ -142,91 +142,49 @@
         </div>
       </div>
     </div>
-    <!-- 去哪玩連結/中間四格 -->
-    <div class="container go-where-link px-3 my-3">
-      <swiper class="index-gowhere swiper-container" [config]="boxGoWhere">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide" *ngFor="let item of adMid4">
-            <div class="item">
-              <a class="link-item" (click)="adRoute(item?.ADImg_URL, item?.ADImg_URLTarget)">
-                <img [src]="item?.ADImg_Img" [alt]="item?.ADImg_Title">
-              </a>
-            </div>
-          </div>
-        </div>
-      </swiper>
+    <!--【app-swiper-content參數設定】
+          swiperOption: swiper設定
+          slides: 資料源
+          aClass: <a>使用class
+          slideClass: swiper-slide使用class
+          pagination: 左右分頁 顯示true/隱藏false
+          arrows: 下方分頁 顯示true/隱藏false
+          contImg: 圖片以img 顯示true/隱藏false
+          contBackground: 圖片以Background顯示時用的class (與contImg擇一使用) -->
+          <!-- 去哪玩連結/中間四格 -->
+    <div class="go-where-link container px-3 my-3">
+      <app-swiper-content [swiperOption]="boxGoWhere" [slides]="adMid4" class="index-gowhere"
+                          [aClass]="'link-item'" [slideClass]="'item'" [pagination]="false" [arrows]="false"
+                          [contImg]="true" [contBackground]="''"
+                          ></app-swiper-content>
     </div>
+
     <!-- 中間大廣告 ad banner -->
-    <div *ngIf="adMid?.length > 0" class="ad-box">
-      <div class="container px-3">
-        <!-- Swiper -->
-        <swiper class="swiper-container" [config]="boxAD">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide" *ngFor="let item of adMid">
-              <a [href]="item?.ADImg_URL == '/'? null : item?.ADImg_URL" [target]="item?.ADImg_URLTarget"
-                rel="noopener noreferrer">
-                <div class="rwdimg-cover h37" [style.background-image]="'url('+item?.ADImg_Img+')'"></div>
-              </a>
-            </div>
-          </div>
-          <!-- Add Pagination -->
-          <div class="swiper-pagination"></div>
-        </swiper>
-      </div>
+    <div *ngIf="adMid?.length > 0" class="ad-box container px-3">
+      <app-swiper-content [swiperOption]="boxAD" [slides]="adMid"
+                          [aClass]="''" [slideClass]="''" [pagination]="true" [arrows]="false"
+                          [contImg]="false" [contBackground]="'rwdimg-cover h37'"
+                          ></app-swiper-content>
     </div>
+
+    <!--【app-swiper-nav參數設定】
+          swiperOptionNav: swiper設定
+          slidesNav: 資料源
+          readSheetMode: 1 特賣商品 2 現領優惠券 3 主打店家 4 外送店家 5 旅遊主打
+          readSheetNav: 輸出參數
+        【app-swiper-panes參數設定】
+          swiperOptionPanes: swiper設定
+          slidesPanes: 資料源
+          readSheetMode: 1 特賣商品 2 現領優惠券 3 主打店家 4 外送店家 5 旅遊主打 -->
     <!-- 現領優惠券 -->
     <div *ngIf="nowVoucher?.length > 0" class="offers-list container my-2 px-3">
       <h6>現領優惠券</h6>
       <div class="afp-tab-box">
         <div class="afp-tab mb-3">
-          <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs">
-            <!-- Nav tabs -->
-            <ul id="nav-tab-member" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
-              <li role="presentation" class="swiper-slide"
-                *ngFor="let item of nowVoucher; let i = index; let blFirst = first"
-                (click)="readSheet(2, i, item?.UserDefine_Code, item?.UserDefine_ChannelID)"
-                [ngClass]="{'active': blFirst}">
-                <a href="#Code{{item.UserDefine_Code}}" class="tablist-link show" [ngClass]="{'active': blFirst}"
-                  attr.aria-controls="Code{{item.UserDefine_Code}}" role="tab" data-toggle="tab"
-                  [attr.aria-selected]="blFirst">{{item.UserDefine_Name}}</a>
-              </li>
-            </ul>
-          </swiper>
-          <!-- Tab panes -->
-          <div class="tab-content w-100">
-            <div role="tabpanel" class="tab-pane active" *ngFor="let item of nowVoucher; let blFirst=first;"
-              id="Code{{item.UserDefine_Code}}" [ngClass]="{'show': blFirst, 'active': blFirst}">
-              <swiper class="onsale-products swiper-container" [config]="boxTFeature">
-                <div class="swiper-wrapper">
-                  <div class="swiper-slide" *ngFor="let inside of item.VoucherData">
-                    <div class="products-item bg-FFF6F1 border-radius5"
-                      [routerLink]="inside?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', inside?.Voucher_Code] : ['/Voucher/VoucherDetail', inside?.Voucher_UserVoucherCode]">
-                      <div class="p-2">
-                        <div class="products-img">
-                          <div class="img-box">
-                            <div class="rwdimg" [lazyLoad]="inside.Voucher_Image"
-                              [defaultImage]="appService.defaultImage"></div>
-                          </div>
-                        </div>
-                        <div class="products-title h24">
-                          <p class="txt-line-clamp1">{{inside.Voucher_Title}}</p>
-                        </div>
-                        <div class="products-sub">
-                          <p class="txt-line-clamp1">{{inside.Voucher_ExtName}}</p>
-                          <p class="hr-g"></p>
-                        </div>
-                        <div class="products-offers small-80">
-                          <div class="price-offersTxt h24"><span *ngIf="inside?.Voucher_DedPoint> 0">扣除<img
-                                src="img/share/mobiicoin_red.png"
-                                class="coinimg-m mb-1">{{inside?.Voucher_DedPoint}}</span></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </swiper>
-            </div>
-          </div>
+          <nav>
+            <app-swiper-nav [swiperOptionNav]="boxTabs" [slidesNav]="nowVoucher" [readSheetMode]="2" (readSheetNav)="readSheetPanes($event)"></app-swiper-nav>
+          </nav>
+          <app-swiper-panes [swiperOptionPanes]="boxTFeature" [slidesPanes]="nowVoucher" [readSheetMode]="2"></app-swiper-panes>
         </div>
       </div>
     </div>
@@ -236,150 +194,40 @@
       <h6>主打店家</h6>
       <div class="afp-tab-box">
         <div class="afp-tab">
-          <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs">
-            <!-- Nav tabs -->
-            <ul id="nav-tab-hitArea" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
-              <li  *ngFor="let item of hitArea; let i = index; let blFirst = first;"
-                (click)="readSheet(3, i, item?.UserDefine_Code, item?.UserDefine_ChannelID)"
-                [ngClass]="{'active': blFirst}" role="presentation" class="swiper-slide">
-                <a href="#Code{{item.UserDefine_Code}}" class="tablist-link show" [ngClass]="{'active': blFirst}"
-                  attr.aria-controls="Code{{item.UserDefine_Code}}" role="tab" data-toggle="tab"
-                  [attr.aria-selected]="blFirst">{{item.UserDefine_Name}}</a>
-              </li>
-            </ul>
-          </swiper>
-          <div class="row mt-2">
-            <!-- Tab panes -->
-            <div class="tab-content w-100">
-              <div *ngFor="let item of hitArea; let blFirst=first;" role="tabpanel" class="tab-pane"
-                id="Code{{item.UserDefine_Code}}" [ngClass]="{'show': blFirst, 'active': blFirst}">
-                <swiper class="travel-featuredbox" [config]="boxTFeature">
-                  <div class="swiper-wrapper content-list">
-                    <div class="swiper-slide" *ngFor="let inside of item.ECStoreData">
-                      <div class="products-item">
-                        <a [routerLink]="['/Explore/ExploreDetail', inside.ECStore_Code]" class="content-item">
-                          <div class="img-box">
-                            <img [lazyLoad]="inside.ECStore_Image1" [defaultImage]="appService.defaultImage"
-                              alt="{{inside.ECStore_ShowName}}" class="rwdimg">
-                          </div>
-                          <div class="item-title">
-                            {{inside.ECStore_ShowName}}
-                          </div>
-                          <ul class="tag-list">
-                            <li *ngFor="let attrData of inside.AttrbuteData">{{attrData.AttributeValue_Name}}</li>
-                          </ul>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </swiper>
-              </div>
-            </div>
-          </div>
+          <nav>
+            <app-swiper-nav [swiperOptionNav]="boxTabs" [slidesNav]="hitArea" [readSheetMode]="3" (readSheetNav)="readSheetPanes($event)"></app-swiper-nav>
+          </nav>
+          <app-swiper-panes [swiperOptionPanes]="boxTFeature" [slidesPanes]="hitArea" [readSheetMode]="3"></app-swiper-panes>
         </div>
       </div>
     </div>
+
     <!-- 本月外送主打 -->
     <div *ngIf="deliveryArea?.length > 0" class="explore-block container px-3 pb-3">
       <h6>本月外送主打</h6>
       <div class="afp-tab-box">
         <div class="afp-tab">
-          <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs">
-            <!-- Nav tabs -->
-            <ul id="nav-tab-deliveryArea" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
-              <li *ngFor="let item of deliveryArea; let i = index; let blFirst=first;"
-                (click)="readSheet(4, i, item?.UserDefine_Code, item?.UserDefine_ChannelID)"
-                [ngClass]="{'active': blFirst}" role="presentation" class="swiper-slide" >
-                <a href="#Code{{item.UserDefine_Code}}" class="tablist-link show" [ngClass]="{'active': blFirst}"
-                  attr.aria-controls="Code{{item.UserDefine_Code}}" role="tab" data-toggle="tab"
-                  [attr.aria-selected]="blFirst">{{item.UserDefine_Name}}</a>
-              </li>
-            </ul>
-          </swiper>
-          <div class="row mt-2">
-            <!-- Tab panes -->
-            <div class="tab-content w-100">
-              <div *ngFor="let item of deliveryArea; let blFirst=first;" role="tabpanel" class="tab-pane"
-                id="Code{{item.UserDefine_Code}}" [ngClass]="{'show': blFirst, 'active': blFirst}">
-                <swiper class="travel-featuredbox" [config]="boxTFeature" [hidden]="item?.ECStoreData.length == 0">
-                  <div class="swiper-wrapper content-list">
-                    <div class="swiper-slide" *ngFor="let inside of item.ECStoreData">
-                      <div class="products-item">
-                        <a [routerLink]="['/Explore/ExploreDetail', inside.ECStore_Code]" class="content-item">
-                          <div class="img-box">
-                            <img [lazyLoad]="inside.ECStore_Image1" [defaultImage]="appService.defaultImage"
-                              alt="{{inside.ECStore_ShowName}}" class="rwdimg">
-                          </div>
-                          <div class="item-title">
-                            {{inside.ECStore_ShowName}}
-                          </div>
-                          <ul class="tag-list">
-                            <li *ngFor="let attrData of inside.AttrbuteData">{{attrData.AttributeValue_Name}}</li>
-                          </ul>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </swiper>
-              </div>
-            </div>
-          </div>
+          <nav>
+            <app-swiper-nav [swiperOptionNav]="boxTabs" [slidesNav]="deliveryArea" [readSheetMode]="4" (readSheetNav)="readSheetPanes($event)"></app-swiper-nav>
+          </nav>
+          <app-swiper-panes [swiperOptionPanes]="boxTFeature" [slidesPanes]="deliveryArea" [readSheetMode]="4"></app-swiper-panes>
         </div>
       </div>
     </div>
+
     <!-- 特賣商品 -->
     <div *ngIf="popProducts?.length > 0" class="onsale-list container my-2 px-3">
       <h6>特賣商品</h6>
       <div class="afp-tab-box">
-        <div class="afp-tab mb-3">
-          <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="prodTabs">
-            <!-- Nav tabs -->
-            <ul id="nav-tab-member" class="swiper-wrapper nav nav-tabs nav-line mb-2" role="tablist">
-              <li *ngFor="let tab of popProducts; let i = index; let theFirst = first"
-                (click)="readSheet(1, i, tab?.UserDefine_Code, tab?.UserDefine_ChannelID)" role="presentation"
-                class="swiper-slide">
-                <a href="#onsale-tab-{{i}}" class="tablist-link show" [ngClass]="{'active': theFirst}"
-                  attr.aria-controls="onsale-tab-{{i}}" role="tab" data-toggle="tab"
-                  [attr.aria-selected]="theFirst">{{tab?.UserDefine_Name}}</a>
-              </li>
-            </ul>
-          </swiper>
-          <!-- Tab panes -->
-          <div class="tab-content">
-            <div *ngFor="let item of popProducts; let i = index; let theFirst = first" id="onsale-tab-{{i}}"
-              role="tabpanel" class="tab-pane" [ngClass]="{'active': theFirst, 'show': theFirst}">
-              <swiper class="onsale-products swiper-container" [config]="onsaleProd">
-                <div class="swiper-wrapper">
-                  <div *ngFor="let product of item?.ProductData" class="swiper-slide">
-                    <div class="products-item">
-                      <a [routerLink]="['/Shopping/ProductDetail', item?.UserDefine_Code, product?.Product_Code]">
-                        <div class="products-img">
-                          <div class="img-box">
-                            <div class="rwdimg" [lazyLoad]="product.Product_PrimeImage"
-                              [defaultImage]="appService.defaultImage"></div>
-                          </div>
-                        </div>
-                        <div class="products-title">
-                          <p class="txt-line-clamp2">{{product?.Product_ExtName}}</p>
-                        </div>
-                        <div class="products-price">
-                          <div class="price-original">
-                            {{product.Product_SpecialPrice > 0? (product.Product_SellPrice | currency: 'TWD':'$':'1.0-2') : ' ' }}
-                          </div>
-                          <div class="price-asking">
-                            {{product.Product_SpecialPrice > 0? (product.Product_SpecialPrice | currency: 'TWD':'$':'1.0-2') : (product.Product_SellPrice | currency: 'TWD':'$':'1.0-0')}}
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </swiper>
-            </div>
-          </div>
+        <div class="afp-tab">
+          <nav>
+            <app-swiper-nav [swiperOptionNav]="prodTabs" [slidesNav]="popProducts" [readSheetMode]="1" (readSheetNav)="readSheetPanes($event)"></app-swiper-nav>
+          </nav>
+          <app-swiper-panes [swiperOptionPanes]="onsaleProd" [slidesPanes]="popProducts" [readSheetMode]="1"></app-swiper-panes>
         </div>
       </div>
     </div>
+
     <!-- 本月旅遊主打 -->
     <div  *ngIf="hitTravel?.length > 0" class="travel-featuredlist container px-3 pb-3">
       <h6>本月旅遊主打</h6>

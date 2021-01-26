@@ -29,6 +29,11 @@ import { PCFooterComponent } from './widget/pc-footer/pc-footer.component';
 import { MobileFooterComponent } from './widget/mobile-footer/mobile-footer.component';
 // Third-Party Plugin
 import { LazyLoadImageModule } from 'ng-lazyload-image';
+// swiper
+import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
+import { SwiperContentComponent } from './swiper/swiper-content/swiper-content.component';
+import { SwiperNavComponent } from './swiper/swiper-nav/swiper-nav.component';
+import { SwiperPanesComponent } from './swiper/swiper-panes/swiper-panes.component'
 
 @NgModule({
   declarations: [
@@ -52,7 +57,10 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
     DigitOnlyDirective,
     KeyControllerDirective,
     PCFooterComponent,
-    MobileFooterComponent
+    MobileFooterComponent,
+    SwiperContentComponent,
+    SwiperNavComponent,
+    SwiperPanesComponent,
   ],
   exports: [
     SafePipe,
@@ -75,14 +83,18 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
     DigitOnlyDirective,
     KeyControllerDirective,
     PCFooterComponent,
-    MobileFooterComponent
+    MobileFooterComponent,
+    SwiperContentComponent,
+    SwiperNavComponent,
+    SwiperPanesComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-    LazyLoadImageModule
+    LazyLoadImageModule,
+    NgxUsefulSwiperModule
   ],
   entryComponents: [
     ForgetModalComponent,
