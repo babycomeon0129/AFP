@@ -1,4 +1,5 @@
-import { Component, OnInit, DoCheck, KeyValueDiffer, KeyValueDiffers, Renderer2 } from '@angular/core';
+import { ModalOptions } from 'ngx-bootstrap';
+import { Component, OnInit, DoCheck, KeyValueDiffer, KeyValueDiffers, Renderer2, Input } from '@angular/core';
 import { AppService } from '@app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Response_Home, AFP_ADImg, Model_AreaJsonFile, AFP_Function, Model_TravelJsonFile,
@@ -67,7 +68,12 @@ export class EntranceComponent implements OnInit, DoCheck {
   public boxGoWhere: SwiperOptions = {
     slidesPerView: 4,
     spaceBetween: 15,
-    freeMode: true
+    freeMode: true,
+    breakpoints: {
+      768: {
+        slidesPerView: 4,
+      }
+    },
   };
 
   /** 中間大廣告 swiper */
@@ -119,11 +125,11 @@ export class EntranceComponent implements OnInit, DoCheck {
 
   /** 現領優惠券、主打店家、本月外送主打、本月旅遊主打 tab swiper */
   public boxTabs: SwiperOptions = {
-    slidesPerView: 5,
+    slidesPerView: 4,
     spaceBetween: 10,
     breakpoints: {
       768: {
-        slidesPerView: 8,
+        slidesPerView: 5,
         spaceBetween: 10,
       },
       1024: {
@@ -246,7 +252,7 @@ export class EntranceComponent implements OnInit, DoCheck {
 
   constructor(public appService: AppService, public modal: ModalService, private router: Router, private differs: KeyValueDiffers,
               private meta: Meta, private title: Title, private cookieService: CookieService, public route: ActivatedRoute,
-              private renderer2: Renderer2 ) {
+              private renderer2: Renderer2) {
     this.serviceDiffer = this.differs.find({}).create();
     // tslint:disable: max-line-length
     this.title.setTitle('Mobii!｜綠色城市優惠平台');
@@ -263,6 +269,7 @@ export class EntranceComponent implements OnInit, DoCheck {
     this.readUp(1);
     this.getHomeservice();
     this.readDown();
+
     // this.readHome(1);
     // this.getHomeservice();
     // 若有登入則顯示名字、M Points及優惠券資訊（手機版）、我的收藏
@@ -271,6 +278,7 @@ export class EntranceComponent implements OnInit, DoCheck {
       this.appService.showFavorites();
     }
   }
+
   /** 讀取首頁上方資料（皆為廣告及會員資料，我的服務除外）
    * @param mode 讀取時機 1: 進入此頁 2: 在此頁登入時
    */
@@ -510,6 +518,21 @@ export class EntranceComponent implements OnInit, DoCheck {
     }
   }
 
+
+  /** 取得swiper-nav output Param（點擊時）
+   * @param mode SelectMode: 1 特賣商品 2 現領優惠券 3 主打店家 4 外送店家 5 旅遊主打
+   * @param idx 索引
+   * @param code 目錄編碼
+   * @param id 頻道編號
+   */
+  readSheetPanes(param: tabParam){
+    let mode = param.Mode;
+    let idx = param.Idx;
+    let code = param.Code;
+    let id = param.Id;
+    this.readSheet(mode, idx, code, id);
+  }
+
   /** 取得「現領優惠券」、「特賣商品」頁籤資訊（點擊時）
    * @param mode SelectMode: 1 特賣商品 2 現領優惠券 3 主打店家 4 外送店家 5 旅遊主打
    * @param index 索引
@@ -658,4 +681,11 @@ class Request_AFPUpdateUserService extends Model_ShareData {
 
 class Response_AFPUpdateUserService extends Model_ShareData {
 
+}
+
+interface tabParam {
+  Mode: number;
+  Idx: number;
+  Code: number;
+  Id: number;
 }

@@ -72,14 +72,17 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
   public layerTrig = 0;
 
   constructor(public appService: AppService, private router: Router, private route: ActivatedRoute, public modal: ModalService,
-    private differs: KeyValueDiffers, private meta: Meta, private title: Title) {
+              private differs: KeyValueDiffers, private meta: Meta, private title: Title) {
     this.serviceDiffer = this.differs.find({}).create();
     // 取得商家/景點編碼
     this.siteCode = Number(this.route.snapshot.params.ECStore_Code);
     // APP從會員中心進來則隱藏返回鍵
-    if (this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBack = true;
-    }
+    // if (this.route.snapshot.queryParams.showBack === 'true') {
+    //   this.showBack = true;
+    // }
+    this.route.queryParams.subscribe(params => {
+       this.showBack = params.showBack;
+    });
   }
 
   ngOnInit() {

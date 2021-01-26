@@ -1,0 +1,65 @@
+@import '../../../../styles/module/variable';
+.tab-content {
+  min-height: 165px;
+  @media (max-width: 767px) {
+    min-height: 230px;
+  }
+  @media (max-width: 480px) {
+    min-height: 165px;
+  }
+  @media (min-width: 768px) {
+    min-height: 230px;
+  }
+}
+
+.travel-featuredbox{
+  // .content-item {
+  //   display: block;
+  //   &:nth-child(2n) {
+  //     margin-left: 2%;
+  //   }
+  // }
+  .img-box {
+    height: 0;
+    padding-bottom: 60%;
+    border-radius: 5px;
+    overflow: hidden;
+    img {
+      width: 100%;
+    }
+  }
+  .item-title {
+    color: $blue-dark;
+    font-size: .9em;
+    overflow: hidden;
+  }
+  .price-asking {
+    font-size: medium;
+    color: tomato;
+    font-weight: bold;
+    text-align: right;
+  }
+  .price-original {
+      color: gray;
+      text-decoration: line-through;
+      text-align: bottom;
+      font-size: 0.75em;
+      text-align: right;
+  }
+  .tag-list {
+    overflow: hidden;
+    li {
+      float: left;
+      color: #22C2D3;
+      border: 1px #22C2D3 solid;
+      border-radius: 3px;
+      padding: 0 3px;
+      font-size: .7em;
+      margin-right: 5px;
+      margin-bottom: 5px;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}

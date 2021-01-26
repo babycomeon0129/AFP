@@ -1,0 +1,74 @@
+<div class="tab-content w-100">
+  <div *ngFor="let item of slidesPanes; let blFirst=first; let i=index"
+    role="tabpanel" class="tab-pane fade"  [ngClass]="{'show active': blFirst}"
+    [attr.aria-labelledby]="'T'+item.UserDefine_Code" id="Code{{item.UserDefine_Code}}" >
+      <swiper class="swiper-container" [config]="swiperOptionPanes"
+      [ngClass]="{'onsale-products': readSheetMode === 1 || readSheetMode === 2, 'travel-featuredbox': readSheetMode === 3 || readSheetMode === 4}">
+        <div class="swiper-wrapper">
+          <!-- 現領優惠券 -->
+          <div class="swiper-slide" *ngFor="let inside of item.VoucherData">
+            <div class="products-item bg-FFF6F1 border-radius5"
+            [routerLink]="inside?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', inside?.Voucher_Code] : ['/Voucher/VoucherDetail', inside?.Voucher_UserVoucherCode]">
+              <div class="p-2">
+                <div class="products-img">
+                  <div class="img-box">
+                    <div class="rwdimg" [lazyLoad]="inside.Voucher_Image"
+                      [defaultImage]="appService.defaultImage"></div>
+                  </div>
+                </div>
+                <div class="products-title h24">
+                  <p class="txt-line-clamp1">{{inside.Voucher_Title}}</p>
+                </div>
+                <div class="products-sub">
+                  <p class="txt-line-clamp1">{{inside.Voucher_ExtName}}</p>
+                  <p class="hr-g"></p>
+                </div>
+                <div class="products-offers small-80">
+                  <div class="price-offersTxt h24"><span *ngIf="inside?.Voucher_DedPoint> 0">扣除<img
+                        src="img/share/mobiicoin_red.png"
+                        class="coinimg-m mb-1">{{inside?.Voucher_DedPoint}}</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 主打店家 &  本月外送主打 -->
+          <div class="swiper-slide" *ngFor="let inside of item.ECStoreData">
+            <div class="products-item"  [routerLink]="['/Explore/ExploreDetail', inside.ECStore_Code]" class="content-item">
+                <div class="img-box">
+                  <img [lazyLoad]="inside.ECStore_Image1" [defaultImage]="appService.defaultImage"
+                    alt="{{inside.ECStore_ShowName}}" class="rwdimg">
+                </div>
+                <div class="item-title">
+                  {{inside.ECStore_ShowName}}
+                </div>
+                <ul class="tag-list">
+                  <li *ngFor="let attrData of inside.AttrbuteData">{{attrData.AttributeValue_Name}}</li>
+                </ul>
+            </div>
+          </div>
+          <!-- 特賣商品 -->
+          <div class="swiper-slide" *ngFor="let product of item?.ProductData">
+            <div class="products-item" [routerLink]="['/Shopping/ProductDetail', item?.UserDefine_Code, product?.Product_Code]">
+                <div class="products-img">
+                  <div class="img-box">
+                    <div class="rwdimg" [lazyLoad]="product.Product_PrimeImage"
+                      [defaultImage]="appService.defaultImage"></div>
+                  </div>
+                </div>
+                <div class="products-title">
+                  <p class="txt-line-clamp2">{{product?.Product_ExtName}}</p>
+                </div>
+                <div class="products-price">
+                  <div class="price-original">
+                    {{product.Product_SpecialPrice > 0? (product.Product_SellPrice | currency: 'TWD':'$':'1.0-2') : ' ' }}
+                  </div>
+                  <div class="price-asking">
+                    {{product.Product_SpecialPrice > 0? (product.Product_SpecialPrice | currency: 'TWD':'$':'1.0-2') : (product.Product_SellPrice | currency: 'TWD':'$':'1.0-0')}}
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </swiper>
+  </div>
+</div>

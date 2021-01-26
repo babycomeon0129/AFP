@@ -1,0 +1,16 @@
+<swiper class="swiper-container" [config]="swiperOption">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide" *ngFor="let item of slides; let i=index" [ngClass]="slideClass">
+      <a  [href]="item?.ADImg_URL == '/'? null : item?.ADImg_URL" [target]="item?.ADImg_URLTarget" rel="noopener noreferrer"
+      (click)="i" [ngClass]="aClass">
+        <img *ngIf="contImg" [src]="item?.ADImg_Img" [alt]="item?.ADImg_Title">
+        <div *ngIf="!contImg" [ngClass]="contBackground" [style.background-image]="'url('+item?.ADImg_Img+')'"></div>
+      </a>
+    </div>
+  </div>
+  <!-- Add Pagination -->
+  <div *ngIf="pagination" class="swiper-pagination"></div>
+  <!-- Add Arrows -->
+  <div *ngIf="arrows" class="swiper-button-next"></div>
+  <div *ngIf="arrows" class="swiper-button-prev"></div>
+</swiper>

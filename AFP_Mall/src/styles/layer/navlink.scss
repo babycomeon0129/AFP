@@ -2,6 +2,7 @@
 
 /* afp-tab-box nav-link*/
 .afp-tab-box {
+    ul.nav-swiper,
     #nav-tab,
     #nav-tab-hitArea,
     #nav-tab-deliveryArea,
@@ -151,9 +152,6 @@
   }
   /* all tablist-link */
   .afp-tab-box{
-    .tab-pane{
-      min-height: 50px;
-    }
     a.tablist-link{
       display: inline-table;
       width: 100%;
