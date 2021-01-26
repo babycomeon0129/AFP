@@ -45,8 +45,8 @@ trigger('layerTrigger', [
     animate('500ms ease-in'), style({position: 'fixed', top: '0', left: '0', width: '100%'})
   ]),
   transition(':leave', [
-    style({position: 'fixed', top: '0', right: '80%', width: '100%'}),
-    animate('500ms ease-out', style({position: 'fixed', top: '0', left: '120%', width: '100%', opacity: '0.1'}))
+    style({position: 'fixed', top: '0', left: '50%', width: '100%'}),
+    animate('500ms ease-out', style({position: 'fixed', top: '0', left: '100%', width: '100%', opacity: '0.1'}))
   ])
 ]);
 export const layerAnimationUp =
