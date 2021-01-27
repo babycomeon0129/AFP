@@ -327,7 +327,7 @@
           <div class="header-secondary container linebt-row">
             <div class="index-flex justify-content-between">
                 <div class="item two">
-                  <div class="close-btn" (click)="layerTrig = 0" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                  <div class="close-btn" (click)="layerTrig = 0; appService.appWebViewbutton(false);" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
                   <i class="material-icons">&#xe314;</i>
                 </div>
                 </div>
@@ -400,7 +400,7 @@
           </main>
           <footer class="success-mode container fixed-bottom">
             <button type="button" [ngClass]="info.preInvoice.invoiceMode > 0 ? 'btn-ok' : 'btn gray-btn'"
-              (click)="info.preInvoice.invoiceMode > 0 && confirmInvoice();">確認</button>
+              (click)="info.preInvoice.invoiceMode > 0 && confirmInvoice();appService.appWebViewbutton(false);">確認</button>
           </footer>
         </form>
       </div>
@@ -479,7 +479,7 @@
               <div class="title-txt">
               </div>
           </div>
-          <ul class="open-page-ul" id="queryhcode" (click)="layerTrig = 0">
+          <ul class="open-page-ul" id="queryhcode" (click)="layerTrig = 0;appService.appWebViewbutton(false);">
               <li class="flex-inline-between" value="119">
                   <div class="item">
                       社團法人台灣流浪動物希望協會
