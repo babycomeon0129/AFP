@@ -159,6 +159,11 @@ export class ReturnComponent implements OnInit {
     this.requestAddress.UserFavourite_State = 1;
     this.requestAddress.UserFavourite_SyncState = 0;
 
+    // 未勾選該欄位時，該欄位為undefined，需先賦值，不勾選的情況預設為0
+    if (this.requestAddress.UserFavourite_IsDefault === undefined) {
+      this.requestAddress.UserFavourite_IsDefault = 0;
+    }
+
     const request: Request_MemberAddress = {
       SelectMode: 1,
       User_Code: sessionStorage.getItem('userCode'),
