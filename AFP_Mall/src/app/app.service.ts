@@ -503,6 +503,7 @@ export class AppService {
 
   /** 通知App關閉Web view 的關閉按鈕 (true : 關閉) */
   appWebViewbutton(isOpen: boolean): void {
+    console.log(isOpen);
     if (this.isApp !== null) {
       if (navigator.userAgent.match(/android/i)) {
         //  Android

@@ -304,10 +304,10 @@
                     <div class="total-footer">
                       <div class="item-group">
                         <div class="item">
-                          <button type="button" class="cancel-btn" (click)="layerTrig = 0">取消</button>
+                          <button type="button" class="cancel-btn" (click)="layerTrig = 0;appService.appWebViewbutton(false);">取消</button>
                         </div>
                         <div class="item">
-                          <button type="button" class="submit-btn" (click)="confirmVoucher()">確定</button>
+                          <button type="button" class="submit-btn" (click)="confirmVoucher();appService.appWebViewbutton(false);">確定</button>
                         </div>
                       </div>
                     </div>
@@ -455,7 +455,7 @@
             </main>
             <footer class="success-mode container fixed-bottom">
                 <button [ngClass]="info.preInvoice.invoiceMode > 0 ? 'btn-ok' : 'btn gray-btn'"
-                  (click)="info.preInvoice.invoiceMode > 0 && confirmInvoice();" type="button">
+                  (click)="info.preInvoice.invoiceMode > 0 && confirmInvoice();appService.appWebViewbutton(false);" type="button">
                   確認
                 </button>
             </footer>
