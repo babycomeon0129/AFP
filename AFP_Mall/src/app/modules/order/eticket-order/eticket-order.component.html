@@ -304,10 +304,10 @@
                     <div class="total-footer">
                       <div class="item-group">
                         <div class="item">
-                          <button type="button" class="cancel-btn" (click)="layerTrig = 0">取消</button>
+                          <button type="button" class="cancel-btn" (click)="layerTrig = 0;appService.appWebViewbutton(false);">取消</button>
                         </div>
                         <div class="item">
-                          <button type="button" class="submit-btn" (click)="confirmVoucher()">確定</button>
+                          <button type="button" class="submit-btn" (click)="confirmVoucher();appService.appWebViewbutton(false);">確定</button>
                         </div>
                       </div>
                     </div>
@@ -327,7 +327,7 @@
           <div class="header-secondary container linebt-row">
             <div class="index-flex justify-content-between">
                 <div class="item two">
-                  <div class="close-btn" (click)="layerTrig = 0" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                  <div class="close-btn" (click)="layerTrig = 0; appService.appWebViewbutton(false);" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
                   <i class="material-icons">&#xe314;</i>
                 </div>
                 </div>
@@ -400,7 +400,7 @@
           </main>
           <footer class="success-mode container fixed-bottom">
             <button type="button" [ngClass]="info.preInvoice.invoiceMode > 0 ? 'btn-ok' : 'btn gray-btn'"
-              (click)="info.preInvoice.invoiceMode > 0 && confirmInvoice();">確認</button>
+              (click)="info.preInvoice.invoiceMode > 0 && confirmInvoice();appService.appWebViewbutton(false);">確認</button>
           </footer>
         </form>
       </div>
@@ -455,7 +455,7 @@
             </main>
             <footer class="success-mode container fixed-bottom">
                 <button [ngClass]="info.preInvoice.invoiceMode > 0 ? 'btn-ok' : 'btn gray-btn'"
-                  (click)="info.preInvoice.invoiceMode > 0 && confirmInvoice();" type="button">
+                  (click)="info.preInvoice.invoiceMode > 0 && confirmInvoice();appService.appWebViewbutton(false);" type="button">
                   確認
                 </button>
             </footer>
@@ -479,7 +479,7 @@
               <div class="title-txt">
               </div>
           </div>
-          <ul class="open-page-ul" id="queryhcode" (click)="layerTrig = 0">
+          <ul class="open-page-ul" id="queryhcode" (click)="layerTrig = 0;appService.appWebViewbutton(false);">
               <li class="flex-inline-between" value="119">
                   <div class="item">
                       社團法人台灣流浪動物希望協會
