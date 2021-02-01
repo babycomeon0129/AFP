@@ -1,12 +1,12 @@
 import { environment } from '@env/environment';
 import { Component, OnInit } from '@angular/core';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Router } from '@angular/router';
 import { Model_ShareData, AFP_CSPayment, AFP_UserFavourite, OrderInvoice } from '@app/_models';
 import { NgForm } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
-import { layerAnimation} from '../../../animations';
+import { layerAnimation} from '@app/animations';
 declare var $: any;
 
 @Component({
@@ -19,9 +19,14 @@ export class ShoppingPaymentComponent implements OnInit {
   /** 同頁滑動切換 0:本頁 1:輸入卡號 */
   public layerTrig = 0;
   public apiUrl = environment.apiUrl;
+  /** 是否可進行付款 */
   public ablePayment = false;
+  /** 支付方式 */
   public payWays: Response_GetPayment = new Response_GetPayment();
+  /** 付款資訊 */
   public reqData: Request_CheckPay = new Request_CheckPay();
+  /** 是否已執行付款動作 */
+  public paymentProcessed = false;
   public maskCardNo = {
     showMask: false,
     mask: [
@@ -35,7 +40,6 @@ export class ShoppingPaymentComponent implements OnInit {
   public maskCardCSC = { mask: [/\d/, /\d/, /\d/] };
 
   constructor(public appService: AppService, public modal: ModalService, private router: Router, private meta: Meta, private title: Title) {
-    // tslint:disable: max-line-length
     this.title.setTitle('付款方式｜線上商城 - Mobii!');
     this.meta.updateTag({name : 'description', content: ''});
     this.meta.updateTag({content: '付款方式｜線上商城 - Mobii!', property: 'og:title'});
@@ -126,14 +130,17 @@ export class ShoppingPaymentComponent implements OnInit {
   addCardPayment(): void {
     if (this.reqData.CardNo !== '' && this.reqData.CardDate !== '' && this.reqData.CVC !== '') {
       (document.getElementById('postPayment') as HTMLFormElement).submit();
+      this.paymentProcessed = true;
+      this.appService.openBlock();
     } else {
       this.modal.show('message', { initialState: { success: false, message: '資料未完整填寫!', showType: 1 } });
     }
   }
 
   onSubmit(form: NgForm) {
-    this.appService.openBlock();
     (document.getElementById('postPayment') as HTMLFormElement).submit();
+    this.paymentProcessed = true;
+    this.appService.openBlock();
   }
 
 }
