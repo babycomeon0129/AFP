@@ -160,8 +160,8 @@
   <!-- 規格篩選視窗 -->
   <div class="modal-backdrop fade show container" *ngIf="layerTrig === 1"></div>
   <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="layerTrig === 1">
-    <div class="productsOpensort">
-      <div id="open-sortbox">
+    <div class="productsOpensort container">
+      <div id="open-sortbox" class="w-100">
         <div class="open-sort-cont">
           <label>排序</label>
           <div class="d-flex sortGroup flex-column">
@@ -201,7 +201,7 @@
             <div class="title-txt">
               篩選與排序
             </div>
-            <div></div>
+            <div class="title-right"></div>
           </div>
           <div class="open-sort-num">
             符合項目的優惠券 共 {{voucherCount}} 張
