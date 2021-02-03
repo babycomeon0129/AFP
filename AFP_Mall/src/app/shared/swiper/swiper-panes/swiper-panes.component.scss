@@ -1,4 +1,4 @@
-@import '../../../../styles/module/variable';
+@import "../../../../styles/module/variable";
 .tab-content {
   min-height: 165px;
   @media (max-width: 767px) {
@@ -12,7 +12,7 @@
   }
 }
 
-.travel-featuredbox{
+.travel-featuredbox {
   // .content-item {
   //   display: block;
   //   &:nth-child(2n) {
@@ -30,7 +30,7 @@
   }
   .item-title {
     color: $blue-dark;
-    font-size: .9em;
+    font-size: 0.9em;
     overflow: hidden;
   }
   .price-asking {
@@ -40,26 +40,97 @@
     text-align: right;
   }
   .price-original {
-      color: gray;
-      text-decoration: line-through;
-      text-align: bottom;
-      font-size: 0.75em;
-      text-align: right;
+    color: gray;
+    text-decoration: line-through;
+    text-align: bottom;
+    font-size: 0.75em;
+    text-align: right;
   }
   .tag-list {
     overflow: hidden;
     li {
       float: left;
-      color: #22C2D3;
-      border: 1px #22C2D3 solid;
+      color: #22c2d3;
+      border: 1px #22c2d3 solid;
       border-radius: 3px;
       padding: 0 3px;
-      font-size: .7em;
+      font-size: 0.7em;
       margin-right: 5px;
       margin-bottom: 5px;
       &:last-child {
         margin-right: 0;
       }
+    }
+  }
+}
+
+.onsale-products {
+  .swiper-wrapper{
+    padding-bottom: .2em;
+  }
+  overflow: hidden;
+  width: auto;
+  .products-item {
+    display: block;
+  }
+  .products-img .img-box {
+    border-radius: 0.5em;
+    border: 1px solid $gray-light;
+    background: rgba(255, 255, 255, 0.2);
+    resize: none;
+    .rwdimg {
+      border-radius: 0.5em;
+    }
+  }
+  .products-title {
+    color: $blue-dark;
+    font-weight: bold;
+    padding: 0 0.5em;
+    height: 48px;
+    width: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    @media (min-width: 768px) {
+      -webkit-line-clamp: 1;
+      height: 24px;
+      .txt-line-clamp2 {
+        -webkit-line-clamp: 1;
+      }
+    }
+    &.h24 {
+      height: 24px;
+    }
+  }
+  .products-sub {
+    color: $index-default;
+    font-size: 0.9em;
+    padding-bottom: 0.5em;
+  }
+  .products-sub,
+  .products-offers {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+  .products-price {
+    padding: 0 0.5em;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-direction: column;
+    .price-asking {
+      color: tomato;
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+    .price-original {
+      color: gray;
+      text-decoration: line-through;
+      text-align: bottom;
+      font-size: 0.8em;
+      height: 1em;
     }
   }
 }
