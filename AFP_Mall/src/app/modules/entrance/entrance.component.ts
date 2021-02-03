@@ -525,11 +525,11 @@ export class EntranceComponent implements OnInit, DoCheck {
    * @param code 目錄編碼
    * @param id 頻道編號
    */
-  readSheetPanes(param: tabParam){
-    let mode = param.Mode;
-    let idx = param.Idx;
-    let code = param.Code;
-    let id = param.Id;
+  readSheetPanes(param: tabParam) {
+    const mode = param.Mode;
+    const idx = param.Idx;
+    const code = param.Code;
+    const id = param.Id;
     this.readSheet(mode, idx, code, id);
   }
 
