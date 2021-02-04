@@ -179,7 +179,7 @@
           <nav>
             <app-swiper-nav [swiperOptionNav]="boxTabs" [slidesNav]="nowVoucher" [readSheetMode]="2" (readSheetNav)="readSheetPanes($event)"></app-swiper-nav>
           </nav>
-          <app-swiper-panes [swiperOptionPanes]="boxTFeature" [slidesPanes]="nowVoucher" [readSheetMode]="2"></app-swiper-panes>
+          <app-swiper-panes [swiperOptionPanes]="boxOffer" [slidesPanes]="nowVoucher" [readSheetMode]="2"></app-swiper-panes>
         </div>
       </div>
     </div>
@@ -218,7 +218,7 @@
           <nav>
             <app-swiper-nav [swiperOptionNav]="prodTabs" [slidesNav]="popProducts" [readSheetMode]="1" (readSheetNav)="readSheetPanes($event)"></app-swiper-nav>
           </nav>
-          <app-swiper-panes [swiperOptionPanes]="onsaleProd" [slidesPanes]="popProducts" [readSheetMode]="1"></app-swiper-panes>
+          <app-swiper-panes [swiperOptionPanes]="boxOffer" [slidesPanes]="popProducts" [readSheetMode]="1"></app-swiper-panes>
         </div>
       </div>
     </div>
@@ -249,7 +249,7 @@
                 <div class="row">
                   <div class="col-6" *ngFor="let inside of item.TravelData">
                     <div class="item-body">
-                      <a class="item-img rwdimg-cover h65" [lazyLoad]="inside.Travel_Img"
+                      <a class="item-img rwdimg-cover h65 border-radius5" [lazyLoad]="inside.Travel_Img"
                         [defaultImage]="appService.defaultImage" [href]="inside.Travel_URL | Safe: 'url'"
                         [target]="inside.Travel_URLTarget" rel="noopener noreferrer"></a>
                       <div class="item-favorite">

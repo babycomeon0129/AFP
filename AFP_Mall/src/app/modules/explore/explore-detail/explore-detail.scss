@@ -220,6 +220,7 @@
   .store-tab-box {
       color: $explore-default;
       .nav-tabs {
+          border-bottom: 0px;
           display: flex;
           .nav-item {
               flex: 1;
