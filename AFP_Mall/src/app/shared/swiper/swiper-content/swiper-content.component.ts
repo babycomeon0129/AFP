@@ -26,7 +26,7 @@ export class SwiperContentComponent implements OnInit {
   ngOnInit() {
   }
 
-  AfterViewInit(){
+  AfterViewInit() {
   }
 
 }
