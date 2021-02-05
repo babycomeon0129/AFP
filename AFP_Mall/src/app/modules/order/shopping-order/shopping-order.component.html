@@ -42,7 +42,8 @@
             <div class="item one">姓名<span style="color: red;">*</span></div>
             <div class="item three">
               <input type="text" class="form-control" placeholder="請輸入" name="consumerName" #consumerName="ngModel"
-                [(ngModel)]="info.name" required />
+                [(ngModel)]="info.name" required minlength="2" maxlength="10"/>
+                <small class="d-flex justify-content-end text-danger" *ngIf="(consumerName.touched || consumerName.dirty) && consumerName.invalid">姓名格式有誤</small>
             </div>
           </li>
           <li class="index-flex">
@@ -50,6 +51,7 @@
             <div class="item three">
               <input type="tel" class="form-control" placeholder="請輸入" name="consumerPhone" #consumerPhone="ngModel"
                 [(ngModel)]="info.phone" required pattern="^09\d{8}$" maxlength="10"/>
+                <small class="d-flex justify-content-end text-danger" *ngIf="(consumerPhone.touched || consumerPhone.dirty) && consumerPhone.invalid">手機格式有誤</small>
             </div>
           </li>
           <li class="index-flex">
