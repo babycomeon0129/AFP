@@ -80,7 +80,7 @@
                           <li *ngIf="siteInfo?.ECStore_Type < 2000 && siteInfo?.ECStore_Type !== 1100" class="nav-item">
                               <a [routerLink]="['/Explore/ExploreDetail', siteCode]" [queryParams]="{ navNo: 3, showBack: this.showBack }" [ngClass]="{'active' : tabNo == 3}" class="nav-link" id="shop-tab" data-toggle="tab" href="#shop" role="tab" aria-controls="shop" aria-selected="false">所有商品</a>
                           </li>
-                          <li  *ngIf="siteInfo?.ECStore_Type < 2000 && voucherList?.length > 0" class="nav-item">
+                          <li  *ngIf="siteInfo?.ECStore_Type < 2000" class="nav-item">
                               <a [routerLink]="['/Explore/ExploreDetail', siteCode]" [queryParams]="{ navNo: 2, showBack: this.showBack }" [ngClass]="{'active' : tabNo == 2}" class="nav-link" id="ticket-tab" data-toggle="tab" href="#ticket" role="tab" aria-controls="ticket" aria-selected="false">優惠券</a>
                           </li>
                       </ul>
