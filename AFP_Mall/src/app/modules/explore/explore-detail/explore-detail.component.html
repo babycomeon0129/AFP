@@ -47,7 +47,7 @@
                       <div class="item three">
                           <div class="shopping-storebox d-flex flex-row d-inline-block">
                               <div *ngIf="siteInfo?.ECStore_Type < 2000 && siteInfo?.ECStore_Logo !== null" class="img-box mr-2">
-                                  <div [lazyLoad]="siteInfo?.ECStore_Logo" [defaultImage]="appService.defaultImage" class="rwdimg logo-img"></div>
+                                  <div [lazyLoad]="siteInfo?.ECStore_Logo" [defaultImage]="appService.defaultImage" class="rwdimg"></div>
                               </div>
                               <div class="store-title center-v">{{siteInfo?.ECStore_ShowName}}</div>
                           </div>
@@ -185,7 +185,7 @@
                                           <a [routerLink]="['/Shopping/ProductDetail', product.Product_UserDefineCode, product.Product_Code]">
                                               <div class="products-img">
                                                   <div class="productimg-box">
-                                                      <div class="rwdimg" [lazyLoad]="product.Product_PrimeImage" [defaultImage] ="appService.defaultImage"></div>
+                                                      <div class="rwdimg-cover" [lazyLoad]="product.Product_PrimeImage" [defaultImage] ="appService.defaultImage"></div>
                                                   </div>
                                               </div>
                                               <div class="products-title">
@@ -211,7 +211,7 @@
                                   <div class="card-text">
                                       <div class="member-flex">
                                           <div [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', voucher.Voucher_Code] : ['/Voucher/VoucherDetail', voucher.Voucher_UserVoucherCode]" [queryParams]="{showBack: this.showBack}" class="item one">
-                                              <div [lazyLoad]="voucher.Voucher_Image" [defaultImage] = "appService.defaultImage" class="rwdimg logo-img"></div>
+                                              <div [lazyLoad]="voucher.Voucher_Image" [defaultImage] = "appService.defaultImage" class="rwdimg-cover logo-img"></div>
                                           </div>
                                           <div class="item three px-2">
                                               <p>{{siteInfo?.ECStore_ShowName}}</p>
