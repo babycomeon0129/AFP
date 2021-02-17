@@ -118,6 +118,9 @@
   }
 
   .store-tab-box{
+    .nav-tabs {
+      border-bottom: 0px;
+    }
     li {
       color: #8E8E93;
       text-decoration: none;

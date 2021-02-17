@@ -30,7 +30,7 @@
   }
   .img-fluid {
       background-color: #f8f8f8;
-      background-size: contain;
+      background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
       height: 100%;
@@ -220,6 +220,7 @@
   .store-tab-box {
       color: $explore-default;
       .nav-tabs {
+          border-bottom: 0px;
           display: flex;
           .nav-item {
               flex: 1;

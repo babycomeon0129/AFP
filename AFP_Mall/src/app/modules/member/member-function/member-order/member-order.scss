@@ -1,43 +1,43 @@
 @import '../../../../../styles/module/variable';
 
 /* member order */
-.wait-pay-list{
-  li{
+.wait-pay-list {
+  li {
       width: 100%;
       display: flex;
       padding: 15px;
       border-bottom: 1px #eee solid;
   }
-  .item{
+  .item {
       display: flex;
       flex-direction: column;
       flex: initial;
-      &:nth-of-type(2){
+      &:nth-of-type(2) {
           flex: 1;
       }
-      &:nth-of-type(3){
+      &:nth-of-type(3) {
           flex: initial;
       }
   }
-  .item-info{
-      p{
-          &:nth-of-type(1){
+  .item-info {
+      p {
+          &:nth-of-type(1) {
               font-weight: 700;
               color: $blue-dark;
           }
-          &:nth-of-type(2){
+          &:nth-of-type(2) {
               &.price-asking{
                   color: tomato;
                   font-weight: 700;
               }
           }
-          &:nth-of-type(3){
+          &:nth-of-type(3) {
               font-size: small;
           }
       }
   }
-  .item-type{
-      p{
+  .item-type {
+      p {
           color: $blue-dark;
           font-size: small;
           &:last-child{
@@ -49,25 +49,25 @@
       }
   }
 }
-.order-status{
+.order-status {
   padding: 5em 15px 15px 15px;
   background-color: $blue-dark;
   color: $default-white;
   overflow: hidden;
   display: flex;
   flex-direction: inherit;
-  .item:first-child{
+  .item:first-child {
       margin-right: 5px;
   }
-  span{
+  span {
       color: tomato;
   }
 }
-.small-expired{
+.small-expired {
   color: $blue-dark;
   font-size: xx-small;
   text-align: center;
-  &.unable{
+  &.unable {
       color: $gray-color;
   }
 }
@@ -83,17 +83,17 @@
 }
 
 /* receipt 電子票券 */
-.receiptiframe{
+.receiptiframe {
   width: 100%;
   min-height: 400px;
   @media (min-width: 480px) {
       min-height: 680px;
   }
 }
-.order-tabSubox{
+.order-tabSubox {
   padding: 1em;
   overflow: hidden;
-  .nav-tabSub{
+  .nav-tabSub {
       text-align: center;
       width: max-content;
       li{

@@ -41,7 +41,8 @@
                       <div class="item one">姓名<span style="color: red;">*</span></div>
                       <div class="item three">
                           <input type="text" class="form-control" placeholder="請輸入" name="consumerName" #consumerName="ngModel"
-                          [(ngModel)]="info.name" required>
+                          [(ngModel)]="info.name" minlength="2" maxlength="10"/>
+                          <small class="d-flex justify-content-end text-danger" *ngIf="(consumerName.touched || consumerName.dirty) && consumerName.invalid">姓名格式有誤</small>
                       </div>
                   </li>
                   <li class="index-flex">
@@ -49,13 +50,15 @@
                       <div class="item three">
                           <input type="tel" class="form-control" placeholder="請輸入" name="consumerPhone" #consumerPhone="ngModel"
                           [(ngModel)]="info.phone" required pattern="^09\d{8}$" maxlength="10">
+                          <small class="d-flex justify-content-end text-danger" *ngIf="(consumerPhone.touched || consumerPhone.dirty) && consumerPhone.invalid">手機格式有誤</small>
                       </div>
                   </li>
                   <li class="index-flex">
                       <div class="item one">Email<span style="color: red;">*</span></div>
                       <div class="item three">
-                          <input type="email" class="form-control" placeholder="請輸入" name="consumerEmail" #consumerPhone="ngModel"
-                          [(ngModel)]="info.email" required>
+                          <input type="email" class="form-control" placeholder="請輸入" name="consumerEmail" #consumerEmail="ngModel"
+                          [(ngModel)]="info.email" pattern="[a-z0-9\*._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required />
+                          <small class="d-flex justify-content-end text-danger" *ngIf="(consumerEmail.touched || consumerEmail.dirty) && consumerEmail.invalid">E-mail格式有誤</small>
                       </div>
                   </li>
               </ul>
@@ -71,7 +74,7 @@
               <ul class="order-shop-list">
                   <li *ngFor="let ticket of store.products">
                       <div class="item rwdimgbox-80">
-                          <div [lazyLoad]="ticket?.Show_ProductImg" [defaultImage]="appService.defaultImage" class="rwdimg"></div>
+                          <div [lazyLoad]="ticket?.Show_ProductImg" [defaultImage]="appService.defaultImage" class="rwdimg-cover"></div>
                       </div>
                       <div class="item item-txt">
                           <p>{{ticket?.Show_ProductName}}</p>
