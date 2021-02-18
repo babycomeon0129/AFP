@@ -48,7 +48,7 @@
           <li *ngFor="let inside of exAreadata" [routerLink]="['/Explore/ExploreDetail', inside.ECStore_Code]">
             <div class="card-item" id="{{inside.ECStore_Code}}">
               <div class="img-box rwdimgbox-80">
-                <div class="rwdimg" [lazyLoad]="inside.ECStore_Image1" [defaultImage]="appService.defaultImage"></div>
+                <div class="rwdimg-cover" [lazyLoad]="inside.ECStore_Image1" [defaultImage]="appService.defaultImage"></div>
               </div>
               <div class="info-box">
                 <ul class="info-list">

@@ -51,7 +51,7 @@
                   <div *ngFor="let spot of AreaList" class="swiper-slide">
                       <div class="card-item sm">
                           <div class="img-box rwdimgbox-60">
-                              <div [lazyLoad]="spot?.ECStore_Image1" [defaultImage] ="appService.defaultImage" [routerLink]="['/Explore/ExploreDetail', spot?.ECStore_Code]" class="rwdimg"></div>
+                              <div [lazyLoad]="spot?.ECStore_Image1" [defaultImage] ="appService.defaultImage" [routerLink]="['/Explore/ExploreDetail', spot?.ECStore_Code]" class="rwdimg-cover"></div>
                           </div>
                           <div class="info-box">
                               <ul class="info-list">

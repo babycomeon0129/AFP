@@ -94,8 +94,8 @@
               <div *ngFor="let voucher of voucherList[0].VoucherData;" class="col-sm-12 col-md-6 discount-box">
                   <div class="discount-item">
                       <div class="item">
-                          <div [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', voucher.Voucher_Code] : ['/Voucher/VoucherDetail', voucher.Voucher_UserVoucherCode]" class="img-box">
-                            <img [lazyLoad]="voucher?.Voucher_Image" [defaultImage] ="appService.defaultImage" alt="">
+                          <div [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', voucher.Voucher_Code] : ['/Voucher/VoucherDetail', voucher.Voucher_UserVoucherCode]" class="rwdimgbox-80">
+                            <div class="rwdimg-cover" [lazyLoad]="voucher?.Voucher_Image" [defaultImage]="appService.defaultImage"></div>
                           </div>
                       </div>
                       <div class="item discount-text">
@@ -138,7 +138,7 @@
                         <a [routerLink]="['/Shopping/ProductDetail', dir.UserDefine_Code, product.Product_Code]">
                               <div class="products-img">
                                   <div class="img-box">
-                                      <div class="rwdimg" [lazyLoad]="product.Product_PrimeImage" [defaultImage] ="appService.defaultImage"></div>
+                                      <div class="rwdimg-cover" [lazyLoad]="product.Product_PrimeImage" [defaultImage] ="appService.defaultImage"></div>
                                   </div>
                               </div>
                               <div class="products-title">
@@ -167,7 +167,7 @@
                           <a [routerLink]="['/Shopping/ProductDetail', product.Product_UserDefineCode, product.Product_Code]">
                               <div class="products-img">
                                   <div class="img-box">
-                                      <div class="rwdimg" [lazyLoad]="product?.Product_PrimeImage" [defaultImage] ="appService.defaultImage"></div>
+                                      <div class="rwdimg-cover" [lazyLoad]="product?.Product_PrimeImage" [defaultImage] ="appService.defaultImage"></div>
                                   </div>
                               </div>
                               <div class="products-title">
