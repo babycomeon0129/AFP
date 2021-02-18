@@ -56,33 +56,39 @@
             <li>
               <div class="item w-84">
                 <p>姓名 / 公司名稱</p>
-                <small class="text-danger" *ngIf="addressTitle.invalid && formAddAddress.submitted">地址名稱為必填</small>
+                <small class="text-danger"
+                  *ngIf="addressTitle.invalid && (addressTitle.touched || addressTitle.dirty)">地址名稱為必填</small>
               </div>
               <div class="item auto-left">
                 <input type="text" placeholder="請輸入" name="addressTitle" #addressTitle="ngModel"
-                  [(ngModel)]="requestAddress.UserFavourite_Text1" maxlength="100" required>
+                  [(ngModel)]="requestAddress.UserFavourite_Text1" required minlength="2" maxlength="100">
               </div>
             </li>
             <li>
               <div class="item w-84">
                 <p>手機號碼</p>
-                <small class="text-danger" *ngIf="addressMobile.invalid && formAddAddress.submitted">手機號碼格式有誤</small>
+                <small class="text-danger"
+                  *ngIf="addressMobile.invalid && (addressMobile.touched || addressMobile.dirty)">手機號碼格式有誤</small>
               </div>
               <div class="item auto-left">
                 <input type="text" placeholder="請輸入" name="addressMobile" #addressMobile="ngModel"
-                  [(ngModel)]="requestAddress.UserFavourite_Text2" pattern="^09\d{8}$" maxlength="12" required>
-              </div>
-            </li>
-            <li>
-              <div class="item">縣市</div>
-              <div class="item auto-left citydefault" (click)="layerTrig = 1">
-                {{requestAddress.UserFavourite_Number1 | convert:'UR': UserReoprtList:21}}<i
-                  class="material-icons">&#xe315;</i>
+                  [(ngModel)]="requestAddress.UserFavourite_Text2" required pattern="^09\d{8}$"  maxlength="12">
               </div>
             </li>
             <li>
               <div class="item">
-                行政區
+                <p>縣市</p>
+                <small class="text-danger"
+                  *ngIf="!requestAddress.UserFavourite_Number1 && formAddAddress.submitted">縣市為必填</small>
+              </div>
+              <div class="item auto-left citydefault" (click)="layerTrig = 1">
+                {{requestAddress.UserFavourite_Number1 | convert:'UR': UserReoprtList:21}}
+                <i class="material-icons">&#xe315;</i>
+              </div>
+            </li>
+            <li>
+              <div class="item">
+                <p>行政區</p>
                 <small class="text-danger d-block"
                   *ngIf="addressDistrict.invalid && formAddAddress.submitted">行政區及郵遞區號為必填</small>
               </div>
@@ -108,7 +114,7 @@
               </div>
               <div class="item auto-left">
                 <input type="text" placeholder="請輸入地址" name="addressDetail" #addressDetail="ngModel"
-                  [(ngModel)]="requestAddress.UserFavourite_Text3" maxlength="500" required>
+                  [(ngModel)]="requestAddress.UserFavourite_Text3" required minlength="2" maxlength="500">
               </div>
             </li>
           </ul>
@@ -125,7 +131,8 @@
         </div>
         <div class="addheight"></div>
         <div class="fixed-btn container">
-          <button type="submit" class="btn next-btn w-100">確認</button>
+          <button type="button" class="btn next-btn unable w-100" *ngIf="formAddAddress.invalid">確認</button>
+          <button type="submit" class="btn next-btn w-100" *ngIf="!formAddAddress.invalid">確認</button>
         </div>
       </form>
     </div>

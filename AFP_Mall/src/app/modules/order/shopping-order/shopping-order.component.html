@@ -4,7 +4,8 @@
     <div class="header-secondary container linebt-row">
       <div class="index-flex justify-content-between">
         <div class="item two">
-          <div  [hidden]="appService.isApp !== null" class="close-btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+          <div [hidden]="appService.isApp !== null" class="close-btn" onclick="history.back();" data-toggle="tooltip"
+            data-placement="bottom" title="回上一頁">
             <i class="material-icons">&#xe314;</i>
           </div>
         </div>
@@ -42,16 +43,18 @@
             <div class="item one">姓名<span style="color: red;">*</span></div>
             <div class="item three">
               <input type="text" class="form-control" placeholder="請輸入" name="consumerName" #consumerName="ngModel"
-                [(ngModel)]="info.name" required minlength="2" maxlength="10"/>
-                <small class="d-flex justify-content-end text-danger" *ngIf="(consumerName.touched || consumerName.dirty) && consumerName.invalid">姓名格式有誤</small>
+                [(ngModel)]="info.name" required minlength="2" maxlength="10" />
+              <small class="d-flex justify-content-end text-danger"
+                *ngIf="(consumerName.touched || consumerName.dirty) && consumerName.invalid">姓名格式有誤</small>
             </div>
           </li>
           <li class="index-flex">
             <div class="item one">手機號碼<span style="color: red;">*</span></div>
             <div class="item three">
               <input type="tel" class="form-control" placeholder="請輸入" name="consumerPhone" #consumerPhone="ngModel"
-                [(ngModel)]="info.phone" required pattern="^09\d{8}$" maxlength="10"/>
-                <small class="d-flex justify-content-end text-danger" *ngIf="(consumerPhone.touched || consumerPhone.dirty) && consumerPhone.invalid">手機格式有誤</small>
+                [(ngModel)]="info.phone" required pattern="^09\d{8}$" maxlength="10" />
+              <small class="d-flex justify-content-end text-danger"
+                *ngIf="(consumerPhone.touched || consumerPhone.dirty) && consumerPhone.invalid">手機格式有誤</small>
             </div>
           </li>
           <li class="index-flex">
@@ -59,7 +62,8 @@
             <div class="item three">
               <input type="email" class="form-control" placeholder="請輸入" name="consumerEmail" #consumerEmail="ngModel"
                 [(ngModel)]="info.email" pattern="[a-z0-9\*._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required />
-              <small class="d-flex justify-content-end text-danger" *ngIf="(consumerEmail.touched || consumerEmail.dirty) && consumerEmail.invalid">E-mail格式有誤</small>
+              <small class="d-flex justify-content-end text-danger"
+                *ngIf="(consumerEmail.touched || consumerEmail.dirty) && consumerEmail.invalid">E-mail格式有誤</small>
             </div>
           </li>
         </ul>
@@ -75,7 +79,8 @@
         <ul class="order-shop-list">
           <li *ngFor="let product of store.products">
             <div class="item rwdimgbox-80">
-              <div class="rwdimg-cover" [lazyLoad]="product?.Show_ProductImg" [defaultImage]="appService.defaultImage"></div>
+              <div class="rwdimg-cover" [lazyLoad]="product?.Show_ProductImg" [defaultImage]="appService.defaultImage">
+              </div>
             </div>
             <div class="item item-txt">
               <p>{{product.Show_ProductName}}</p>
@@ -90,19 +95,23 @@
         <div class="order-method-box">
           <ul class="method-list">
             <!-- 寄送方式 - 選擇寄送方式 -->
-            <li class="index-flex" [hidden]="store.order.Order_DeliveryWays > 0" (click)="clickDeliveryWay(store);appService.appWebViewbutton(true);">
+            <li class="index-flex" [hidden]="store.order.Order_DeliveryWays > 0"
+              (click)="clickDeliveryWay(store);appService.appWebViewbutton(true);">
               <div class="item"><i class="material-icons">&#xE558;</i>寄送方式</div>
               <div class="item delivery-txt text-right"><span>請選擇寄送方式</span><i class="material-icons">&#xe315;</i></div>
             </li>
             <!-- 寄送方式 - 選擇後 -->
-            <li class="index-flex" [hidden]="!(store.order.Order_DeliveryWays > 0)" (click)="clickDeliveryWay(store);appService.appWebViewbutton(true);">
+            <li class="index-flex" [hidden]="!(store.order.Order_DeliveryWays > 0)"
+              (click)="clickDeliveryWay(store);appService.appWebViewbutton(true);">
               <div class="item"><i class="material-icons">&#xE558;</i>寄送方式</div>
               <div class="item delivery-txt text-right delivery-price">
                 {{store.order.Order_DeliveryWays === 1 ? '宅配' : '自取'}}
                 {{store.order.Order_ShippingAmount | currency:'TWD':'$':'1.0-2'}}</div>
               <div class="item-group">
                 <div class="item item-address">{{store.order.Order_RecCityArea}}
-                  {{store.order.Order_RecCity | convert:'UR':checkout.List_UserReport:21}}{{store.order.Order_RecCityArea | convert:'UR':checkout.List_UserReport:22:21:store.order.Order_RecCity}}{{store.order.Order_RecAddress}}
+                  {{store.order.Order_RecCity |
+                  convert:'UR':checkout.List_UserReport:21}}{{store.order.Order_RecCityArea |
+                  convert:'UR':checkout.List_UserReport:22:21:store.order.Order_RecCity}}{{store.order.Order_RecAddress}}
                 </div>
                 <div class="item item-date" hidden>預計到貨日期 12月5日～12月9日</div>
               </div>
@@ -133,9 +142,8 @@
           <ul class="method-list">
             <li class="index-flex" (click)="toChoiceVoucher(); appService.appWebViewbutton(true);">
               <div class="item three"><i class="material-icons reverse">&#xE54E;</i>使用優惠券、折扣碼</div>
-              <div class="item one discount-price text-right"><span
-                  class="store1-discount-price">-{{info.totalDiscount | currency: 'TWD':'$':'1.0-2'}}</span><i
-                  class="material-icons">&#xe315;</i></div>
+              <div class="item one discount-price text-right"><span class="store1-discount-price">-{{info.totalDiscount
+                  | currency: 'TWD':'$':'1.0-2'}}</span><i class="material-icons">&#xe315;</i></div>
             </li>
             <li class="index-flex" (click)="toInvoice(); appService.appWebViewbutton(true);">
               <div class="item d-flex d-inline">
@@ -183,8 +191,7 @@
             <p class="mobi" hidden>此筆訂單可賺<span class="order-mobi" value="69">69</span>M Points</p>
           </div>
           <div class="col-4 col-lg-3 pl-0">
-            <button type="submit"
-              [disabled]="formCheckout.invalid" [ngClass]="{'unable': formCheckout.invalid}"
+            <button type="submit" [disabled]="formCheckout.invalid" [ngClass]="{'unable': formCheckout.invalid}"
               class="btn index-btn mt-2 py-1 w-100 cart-next">去結帳</button>
           </div>
         </div>
@@ -196,23 +203,23 @@
     <!-- 選擇優惠券 -->
     <div class="shopping-discount">
       <header>
-      <div class="header-secondary container linebt-row">
-        <div class="index-flex justify-content-between">
-          <div class="item one">
-            <div class="close-btn" (click)="layerTrig = 0; appService.appWebViewbutton(false);">
-              <i class="material-icons">&#xe314;</i>
+        <div class="header-secondary container linebt-row">
+          <div class="index-flex justify-content-between">
+            <div class="item one">
+              <div class="close-btn" (click)="layerTrig = 0; appService.appWebViewbutton(false);">
+                <i class="material-icons">&#xe314;</i>
+              </div>
             </div>
-          </div>
-          <div class="item three text-center">
-            <div class="title-name text-nowrap">選擇優惠券
-              <!-- 或輸入折扣碼 -->
+            <div class="item three text-center">
+              <div class="title-name text-nowrap">選擇優惠券
+                <!-- 或輸入折扣碼 -->
+              </div>
             </div>
-          </div>
-          <div class="item one text-right">
-            <div class="close-btn"></div>
+            <div class="item one text-right">
+              <div class="close-btn"></div>
+            </div>
           </div>
         </div>
-      </div>
       </header>
       <div>
         <div class="input-box" hidden>
@@ -224,7 +231,8 @@
         </div>
         <div class="text-center" [ngClass]="this.info.visibleVouchers ? 'd-block': 'd-none'">
           <p class="canuse-discount-txt font-bold">可使用的優惠券
-            <input type="reset" value="重設" class="float-right btn" (click)="resetVoucher()"></p>
+            <input type="reset" value="重設" class="float-right btn" (click)="resetVoucher()">
+          </p>
           <!-- 可使用的優惠券 -->
           <form>
             <div *ngFor="let store of info.stores" [hidden]="!(store.vouchers.length > 0)"
@@ -236,7 +244,8 @@
               <ul>
                 <li class="checkedli" *ngFor="let voucher of store.vouchers">
                   <div class="item rwdimgbox-80">
-                    <div [lazyLoad]="voucher?.Voucher_Image" [defaultImage]="appService.defaultImage" class="rwdimg-cover">
+                    <div [lazyLoad]="voucher?.Voucher_Image" [defaultImage]="appService.defaultImage"
+                      class="rwdimg-cover">
                     </div>
                   </div>
                   <div class="item discount-text item-middle">
@@ -262,7 +271,8 @@
               <ul>
                 <li class="checkedli" *ngFor="let voucher of info.platform.vouchers">
                   <div class="item rwdimgbox-80">
-                    <div [lazyLoad]="voucher?.Voucher_Image" [defaultImage]="appService.defaultImage" class="rwdimg-cover">
+                    <div [lazyLoad]="voucher?.Voucher_Image" [defaultImage]="appService.defaultImage"
+                      class="rwdimg-cover">
                     </div>
                   </div>
                   <div class="item discount-text item-middle">
@@ -336,10 +346,12 @@
             <div class="total-footer">
               <div class="item-group">
                 <div class="item">
-                  <button type="button" class="cancel-btn" (click)="layerTrig = 0;appService.appWebViewbutton(false);">取消</button>
+                  <button type="button" class="cancel-btn"
+                    (click)="layerTrig = 0;appService.appWebViewbutton(false);">取消</button>
                 </div>
                 <div class="item">
-                  <button type="button" class="submit-btn" (click)="confirmVoucher();appService.appWebViewbutton(false);">確定</button>
+                  <button type="button" class="submit-btn"
+                    (click)="confirmVoucher();appService.appWebViewbutton(false);">確定</button>
                 </div>
               </div>
             </div>
@@ -359,17 +371,17 @@
       <header>
         <div class="header-secondary container linebt-row">
           <div class="index-flex justify-content-between">
-              <div class="item two">
-                <div class="close-btn" (click)="layerTrig = 0; appService.appWebViewbutton(false);">
-                  <i class="material-icons">&#xe314;</i>
-                </div>
+            <div class="item two">
+              <div class="close-btn" (click)="layerTrig = 0; appService.appWebViewbutton(false);">
+                <i class="material-icons">&#xe314;</i>
               </div>
-              <div class="item three text-center">
-                <div class="title-name">寄送方式</div>
-              </div>
-              <div class="item two text-right">
-                <div class="close-btn"></div>
-              </div>
+            </div>
+            <div class="item three text-center">
+              <div class="title-name">寄送方式</div>
+            </div>
+            <div class="item two text-right">
+              <div class="close-btn"></div>
+            </div>
           </div>
         </div>
       </header>
@@ -397,7 +409,9 @@
                         <p>{{address.UserFavourite_Text1}}</p>
                         <p class="tel">{{address.UserFavourite_Text2}}</p>
                         <p class="address">
-                          {{address.UserFavourite_Number1 | convert:'UR':checkout.List_UserReport:21}}{{address.UserFavourite_Number2 | convert:'UR':checkout.List_UserReport:22:21:address.UserFavourite_Number1}}{{address.UserFavourite_Text3}}
+                          {{address.UserFavourite_Number1 |
+                          convert:'UR':checkout.List_UserReport:21}}{{address.UserFavourite_Number2 |
+                          convert:'UR':checkout.List_UserReport:22:21:address.UserFavourite_Number1}}{{address.UserFavourite_Text3}}
                         </p>
                         <input type="radio" name="delivery" (click)="choiceAddress(address, num)"
                           [checked]="tempOrder.Order_DeliveryWays === 1 && choiceNum === num">
@@ -434,7 +448,9 @@
                         <p>{{store.ECStore_OpenTime}}</p>
                         <p class="tel">{{store.ECStore_Tel}}</p>
                         <p class="address">{{store.ECStore_PickCityArea}}
-                          {{store.ECStore_PickCity | convert:'UR':checkout.List_UserReport:21}}{{store.ECStore_PickCityArea | convert:'UR':checkout.List_UserReport:22:21:store.ECStore_PickCity}}{{store.ECStore_PickAddress}}
+                          {{store.ECStore_PickCity |
+                          convert:'UR':checkout.List_UserReport:21}}{{store.ECStore_PickCityArea |
+                          convert:'UR':checkout.List_UserReport:22:21:store.ECStore_PickCity}}{{store.ECStore_PickAddress}}
                         </p>
                         <input type="radio" name="pickself" (click)="choicePickSelf(store, num)"
                           [checked]="tempOrder.Order_DeliveryWays === 2 && choiceNum === num">
@@ -462,17 +478,17 @@
       <header>
         <div class="header-secondary container linebt-row">
           <div class="index-flex justify-content-between">
-              <div class="item two">
-                <div class="close-btn" (click)="layerTrig = 6">
-                  <i class="material-icons">&#xe314;</i>
-                </div>
+            <div class="item two">
+              <div class="close-btn" (click)="layerTrig = 6">
+                <i class="material-icons">&#xe314;</i>
               </div>
-              <div class="item three text-center">
-                <div class="title-name">新增地址</div>
-              </div>
-              <div class="item two text-right">
-                <div class="close-btn"></div>
-              </div>
+            </div>
+            <div class="item three text-center">
+              <div class="title-name">新增地址</div>
+            </div>
+            <div class="item two text-right">
+              <div class="close-btn"></div>
+            </div>
           </div>
         </div>
       </header>
@@ -484,29 +500,38 @@
                 <div class="item one">姓名/公司名稱</div>
                 <div class="item two auto-left">
                   <input type="text" placeholder="請輸入" name="addressTitle" #addressTitle="ngModel"
-                    [(ngModel)]="requestAddress.UserFavourite_Text1" required>
+                    [(ngModel)]="requestAddress.UserFavourite_Text1" required minlength="2" maxlength="100">
                 </div>
+                <div *ngIf="(addressTitle.touched || addressTitle.dirty) && addressTitle.invalid"
+                  class="text-danger w-100 text-left small">姓名/公司名稱為必填</div>
               </li>
               <li class="index-flex">
                 <div class="item one">手機號碼</div>
                 <div class="item two auto-left">
                   <input type="text" placeholder="請輸入" name="addressMobile" #addressMobile="ngModel"
-                    [(ngModel)]="requestAddress.UserFavourite_Text2" required pattern="^[0-9\*]{0,10}$">
+                    [(ngModel)]="requestAddress.UserFavourite_Text2" required pattern="^09\d{8}$" maxlength="12" >
                 </div>
+                <div *ngIf="(addressMobile.touched || addressMobile.dirty) && addressMobile.invalid"
+                  class="text-danger w-100 text-left small">手機號碼格式有誤</div>
               </li>
               <li>
                 <div class="item">縣市</div>
                 <div class="item auto-left citydefault" (click)="layerTrig = 2">
-                  {{requestAddress.UserFavourite_Number1 | convert:'UR': checkout.List_UserReport:21}}<i
-                    class="material-icons">&#xe315;</i>
+                  {{requestAddress.UserFavourite_Number1 | convert:'UR': checkout.List_UserReport:21}}
+                  <i class="material-icons">&#xe315;</i>
                 </div>
+                <div *ngIf="!requestAddress.UserFavourite_Number1 && formAddAddress.submitted"
+                  class="text-danger w-100 text-left small">縣市為必填</div>
               </li>
               <li>
                 <div class="item">行政區</div>
                 <div class="item auto-left distdefault" (click)="layerTrig = 1">
-                  {{requestAddress.UserFavourite_Number2 | convert:'UR': checkout.List_UserReport:22:21:requestAddress.UserFavourite_Number1}}
+                  {{requestAddress.UserFavourite_Number2 | convert:'UR':
+                  checkout.List_UserReport:22:21:requestAddress.UserFavourite_Number1}}
                   <i class="material-icons">&#xe315;</i>
                 </div>
+                <div *ngIf="!requestAddress.UserFavourite_Number2 && formAddAddress.submitted"
+                  class="text-danger w-100 text-left small">行政區及郵遞區號為必填</div>
               </li>
               <li class="index-flex">
                 <div class="item one">郵遞區號</div>
@@ -518,8 +543,10 @@
                 <div class="item">詳細地址<small>里道路或街名，巷弄號</small></div>
                 <div class="item w-100 auto-left">
                   <input type="text" placeholder="請輸入地址" name="addressDetail" #addressDetail="ngModel"
-                    [(ngModel)]="requestAddress.UserFavourite_Text3" required>
+                    [(ngModel)]="requestAddress.UserFavourite_Text3" required minlength="2" maxlength="500">
                 </div>
+                <div *ngIf="(addressDetail.touched || addressDetail.dirty) && addressDetail.invalid"
+                  class="text-danger w-100 text-left small">詳細地址為必填</div>
               </li>
             </ul>
             <div class="default-setting index-flex note-box">
@@ -542,7 +569,10 @@
         </main>
 
         <footer class="success-mode container fixed-bottom">
-          <button type="submit" class="btn-ok">完成</button>
+          <button type="button" class="btn next-btn unable"
+            *ngIf="formAddAddress.invalid">完成</button>
+            <button type="submit" class="btn next-btn"
+              *ngIf="!formAddAddress.invalid">完成</button>
         </footer>
       </form>
     </div>
@@ -553,17 +583,18 @@
       <header>
         <div class="header-secondary container linebt-row">
           <div class="index-flex justify-content-between">
-              <div class="item two">
-                <div class="close-btn" (click)="layerTrig = 0; appService.appWebViewbutton(false);" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+            <div class="item two">
+              <div class="close-btn" (click)="layerTrig = 0; appService.appWebViewbutton(false);" data-toggle="tooltip"
+                data-placement="bottom" title="回上一頁">
                 <i class="material-icons">&#xe314;</i>
               </div>
-              </div>
-              <div class="item three text-center">
-                <div class="title-name">電子發票</div>
-              </div>
-              <div class="item two text-right">
-                <div class="close-btn"></div>
-              </div>
+            </div>
+            <div class="item three text-center">
+              <div class="title-name">電子發票</div>
+            </div>
+            <div class="item two text-right">
+              <div class="close-btn"></div>
+            </div>
           </div>
         </div>
       </header>
