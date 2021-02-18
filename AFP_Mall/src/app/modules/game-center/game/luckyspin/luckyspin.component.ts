@@ -1,20 +1,14 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  AfterViewInit,
-  Renderer2,
-} from "@angular/core";
-import { AppService } from "src/app/app.service";
-import { Response_Games, Request_Games, AFP_GamePart } from "@app/_models";
-import { ModalService } from "../../../../shared/modal/modal.service";
-import { Router, ActivatedRoute } from "@angular/router";
-import { layerAnimation, layerAnimationUp } from "../../../../animations";
+import { Component, OnInit, Input, AfterViewInit, Renderer2 } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+import { Response_Games, Request_Games, AFP_GamePart } from '@app/_models';
+import { ModalService } from '../../../../shared/modal/modal.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { layerAnimation, layerAnimationUp } from '../../../../animations';
 
 @Component({
-  selector: "app-luckyspin",
-  templateUrl: "./luckyspin.component.html",
-  styleUrls: ["./luckyspin.scss"],
+  selector: 'app-luckyspin',
+  templateUrl: './luckyspin.component.html',
+  styleUrls: ['./luckyspin.scss'],
   animations: [layerAnimation, layerAnimationUp],
 })
 export class LuckyspinComponent implements OnInit, AfterViewInit {
@@ -56,20 +50,11 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
     this.playTimes = this.gameData.AFP_Game.Game_PlayCount;
     this.prizeList = this.gameData.List_GamePart;
     // 若可玩次數 === 0或是所剩點數不夠遊玩一次則阻擋遊玩
-    if (
-      this.playTimes === 0 ||
-      this.gameData.AFP_Game.Game_DedPoint > this.totalPoints
-    ) {
-      this.modal.show("message", {
-        initialState: {
-          success: false,
-          message: "您的點數已不足或是遊玩次數已達上限!",
-          showType: 1,
-        },
-      });
+    if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
+      this.noticeAlert();
     }
     // APP從M Points或進來則顯示返回鍵
-    if (this.route.snapshot.queryParams.hideBackBtn === "false") {
+    if (this.route.snapshot.queryParams.hideBackBtn === 'false') {
       this.hideBackBtn = false;
     } else {
       this.hideBackBtn = true;
@@ -81,7 +66,7 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
     const order8 = [1, 2, 3, 8, 4, 7, 6, 5];
     const order12 = [1, 2, 3, 4, 12, 5, 11, 6, 10, 9, 8, 7];
     // 動態將發亮順序加上
-    this.prizesArr = Array.from(document.getElementsByClassName("contbox"));
+    this.prizesArr = Array.from(document.getElementsByClassName('contbox'));
     this.prizesArr.forEach((elem, index) => {
       switch (this.gameData.AFP_Game.Game_TypeSpace) {
         case 8:
@@ -97,7 +82,7 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
   /** 按下play鍵 */
   play() {
     // 若須扣除點數跳出確認提示
-    if (this.gameData.AFP_Game.Game_DedPoint > 0) {
+    if (this.playTimes !== 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
       this.modal
         .confirm({
           initialState: {
@@ -116,35 +101,40 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
 
   /** 開始遊戲 */
   startGame() {
-    this.playingStatus = true;
-    // 閃亮效果
-    this.prizesArr.forEach((item, index) => {
-      for (let i = 1; i <= this.prizesArr.length; i++) {
-        const sec = i - 0.95 * i;
-        if (item.classList.contains(i.toString())) {
-          this.renderer2.addClass(item, "opacity5");
-          this.renderer2.setStyle(item, "animation-delay", `${sec}s`);
+    if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
+      this.noticeAlert();
+    } else {
+      this.playingStatus = true;
+      // 閃亮效果
+      this.prizesArr.forEach(item => {
+        for (let i = 1; i <= this.prizesArr.length; i++) {
+          const sec = i - 0.95 * i;
+          if (item.classList.contains(i.toString())) {
+            this.renderer2.addClass(item, 'opacity5');
+            this.renderer2.setStyle(item, 'animation-delay', `${sec}s`);
+          }
         }
-      }
-    });
-    // call api 取得開獎結果
-    const request: Request_Games = {
-      User_Code: sessionStorage.getItem("userCode"),
-      SelectMode: 1,
-      Game_Code: this.gameData.AFP_Game.Game_Code,
-      SearchModel: {
-        Game_Code: null,
-      },
-    };
-    setTimeout(() => {
-      this.appService.toApi("Games", "1701", request).subscribe((data: Response_Games) => {
+      });
+      // call api 取得開獎結果
+      const request: Request_Games = {
+        User_Code: sessionStorage.getItem('userCode'),
+        SelectMode: 1,
+        Game_Code: this.gameData.AFP_Game.Game_Code,
+        SearchModel: {
+          Game_Code: null,
+        },
+      };
+      setTimeout(() => {
+        this.appService.toApi('Games', '1701', request).subscribe((data: Response_Games) => {
           // 更新可玩次數、中獎結果
-          this.playTimes = data.AFP_Game.Game_PlayCount;
+          if (this.playTimes > 0) {
+            this.playTimes--;
+          }
           this.prizeData = data.GameReward;
           // 讓動畫僅停留在中獎項目
           this.prizesArr.forEach((i) => {
             if (i.id !== this.prizeData.GamePart_ID.toString()) {
-              this.renderer2.removeClass(i, "opacity5");
+              this.renderer2.removeClass(i, 'opacity5');
             }
           });
           // 顯示中獎結果(若還在本頁/無前往任務牆領取獎勵)
@@ -155,14 +145,15 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
             this.playingStatus = false;
           }
         });
-    }, 2500);
+      }, 2500);
+    }
   }
 
   /** 再玩一次 */
   playAgain() {
     this.layerTrigUp = 0;
     this.prizesArr.forEach((contbox) =>
-      this.renderer2.removeClass(contbox, "opacity5")
+      this.renderer2.removeClass(contbox, 'opacity5')
     ); // 移除中獎項目動畫
   }
 
@@ -173,22 +164,32 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
         case 1:
           // 點數
           return {
-            msg: "已發送至您的會員帳戶。",
-            page: "/MemberFunction/MemberCoin",
+            msg: '已發送至您的會員帳戶。',
+            page: '/MemberFunction/MemberCoin',
           };
         case 2:
           // 優惠券
           return {
-            msg: "已發送至您的票券夾，請注意使用期限。",
-            page: "/MemberFunction/MemberDiscount",
+            msg: '已發送至您的票券夾，請注意使用期限。',
+            page: '/MemberFunction/MemberDiscount',
           };
         case 3:
           // 贈品
           return {
-            msg: "中獎通知已發送至您的會員帳戶。",
-            page: "/Notification/NotificationList",
+            msg: '中獎通知已發送至您的會員帳戶。',
+            page: '/Notification/NotificationList',
           };
       }
     }
+  }
+
+  /** 您的點數已不足或是遊玩次數已達上限的提示視窗  */
+  noticeAlert() {
+    const initialState = {
+      success: true,
+      type: 1,
+      message: `<div class="no-data"><img src="../../../../../img/shopping/payment-failure.png"><p>Oops！你的點數不足或已達遊玩次數上限囉！</p></div>`
+    };
+    this.modal.show('message', { initialState });
   }
 }
