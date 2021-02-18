@@ -7,6 +7,7 @@ import { TravelComponent } from './travel.component';
 
 const routes: Routes = [
   { path: '', canActivate: [SessionAliveGuard], component: TravelComponent },
+  { path: 'test', canActivate: [SessionAliveGuard], component: TravelComponent } // 測試routing疑似快取現象
 ];
 
 @NgModule({
