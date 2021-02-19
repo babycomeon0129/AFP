@@ -61,7 +61,7 @@
               </div>
               <div class="item auto-left">
                 <input type="text" placeholder="請輸入" name="addressTitle" #addressTitle="ngModel"
-                  [(ngModel)]="requestAddress.UserFavourite_Text1" required minlength="2" maxlength="100">
+                  [(ngModel)]="requestAddress.UserFavourite_Text1" required minlength="2" maxlength="10">
               </div>
             </li>
             <li>
@@ -72,14 +72,14 @@
               </div>
               <div class="item auto-left">
                 <input type="text" placeholder="請輸入" name="addressMobile" #addressMobile="ngModel"
-                  [(ngModel)]="requestAddress.UserFavourite_Text2" required pattern="^09\d{8}$"  maxlength="12">
+                  [(ngModel)]="requestAddress.UserFavourite_Text2" required pattern="^09\d{8}$" maxlength="10">
               </div>
             </li>
             <li>
               <div class="item">
                 <p>縣市</p>
                 <small class="text-danger"
-                  *ngIf="!requestAddress.UserFavourite_Number1 && formAddAddress.submitted">縣市為必填</small>
+                  *ngIf="addressDetail.touched && !requestAddress.UserFavourite_Number1">縣市為必填</small>
               </div>
               <div class="item auto-left citydefault" (click)="layerTrig = 1">
                 {{requestAddress.UserFavourite_Number1 | convert:'UR': UserReoprtList:21}}
@@ -90,14 +90,12 @@
               <div class="item">
                 <p>行政區</p>
                 <small class="text-danger d-block"
-                  *ngIf="addressDistrict.invalid && formAddAddress.submitted">行政區及郵遞區號為必填</small>
+                  *ngIf="addressDetail.touched && !requestAddress.UserFavourite_Number2">行政區及郵遞區號為必填</small>
               </div>
               <div class="item auto-left distdefault" (click)="layerTrig =2">
                 {{requestAddress.UserFavourite_Number2 | convert:'UR':
                 UserReoprtList:22:21:requestAddress.UserFavourite_Number1}}<i class="material-icons">&#xe315;</i>
               </div>
-              <input type="hidden" name="addressDistrict" #addressDistrict="ngModel"
-                [(ngModel)]="requestAddress.UserFavourite_Number2" required>
             </li>
             <li class="index-flex">
               <div class="item one">郵遞區號</div>
@@ -131,8 +129,10 @@
         </div>
         <div class="addheight"></div>
         <div class="fixed-btn container">
-          <button type="button" class="btn next-btn unable w-100" *ngIf="formAddAddress.invalid">確認</button>
-          <button type="submit" class="btn next-btn w-100" *ngIf="!formAddAddress.invalid">確認</button>
+          <!-- <button type="button" class="btn next-btn unable w-100" *ngIf="formAddAddress.invalid">確認</button> -->
+          <button type="submit" [disabled]="formAddAddress.invalid || !requestAddress.UserFavourite_Number1 || !requestAddress.UserFavourite_Number2"
+            [ngClass]="{'unable': formAddAddress.invalid || !requestAddress.UserFavourite_Number1 || !requestAddress.UserFavourite_Number2}"
+            class="btn next-btn w-100">確認</button>
         </div>
       </form>
     </div>
