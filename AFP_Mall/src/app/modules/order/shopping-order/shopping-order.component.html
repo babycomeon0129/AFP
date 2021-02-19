@@ -421,7 +421,7 @@
                   </li>
                 </ul>
               </div>
-              <div class="add-address-box text-center" (click)="layerTrig = 4">
+              <div class="add-address-box text-center" (click)="layerTrig = 4; requestAddress.UserFavourite_Number1 = 1">
                 新增地址<i class="material-icons">&#xE145;</i>
               </div>
             </div>
@@ -500,7 +500,7 @@
                 <div class="item one">姓名/公司名稱</div>
                 <div class="item two auto-left">
                   <input type="text" placeholder="請輸入" name="addressTitle" #addressTitle="ngModel"
-                    [(ngModel)]="requestAddress.UserFavourite_Text1" required minlength="2" maxlength="100">
+                    [(ngModel)]="requestAddress.UserFavourite_Text1" required minlength="2" maxlength="10">
                 </div>
                 <div *ngIf="(addressTitle.touched || addressTitle.dirty) && addressTitle.invalid"
                   class="text-danger w-100 text-left small">姓名/公司名稱為必填</div>
@@ -509,7 +509,7 @@
                 <div class="item one">手機號碼</div>
                 <div class="item two auto-left">
                   <input type="text" placeholder="請輸入" name="addressMobile" #addressMobile="ngModel"
-                    [(ngModel)]="requestAddress.UserFavourite_Text2" required pattern="^09\d{8}$" maxlength="12" >
+                    [(ngModel)]="requestAddress.UserFavourite_Text2" required pattern="^09\d{8}$" maxlength="10">
                 </div>
                 <div *ngIf="(addressMobile.touched || addressMobile.dirty) && addressMobile.invalid"
                   class="text-danger w-100 text-left small">手機號碼格式有誤</div>
@@ -520,7 +520,7 @@
                   {{requestAddress.UserFavourite_Number1 | convert:'UR': checkout.List_UserReport:21}}
                   <i class="material-icons">&#xe315;</i>
                 </div>
-                <div *ngIf="!requestAddress.UserFavourite_Number1 && formAddAddress.submitted"
+                <div *ngIf="addressDetail.touched && !requestAddress.UserFavourite_Number1"
                   class="text-danger w-100 text-left small">縣市為必填</div>
               </li>
               <li>
@@ -530,7 +530,7 @@
                   checkout.List_UserReport:22:21:requestAddress.UserFavourite_Number1}}
                   <i class="material-icons">&#xe315;</i>
                 </div>
-                <div *ngIf="!requestAddress.UserFavourite_Number2 && formAddAddress.submitted"
+                <div *ngIf="addressDetail.touched && !requestAddress.UserFavourite_Number2"
                   class="text-danger w-100 text-left small">行政區及郵遞區號為必填</div>
               </li>
               <li class="index-flex">
@@ -569,10 +569,12 @@
         </main>
 
         <footer class="success-mode container fixed-bottom">
-          <button type="button" class="btn next-btn unable"
-            *ngIf="formAddAddress.invalid">完成</button>
-            <button type="submit" class="btn next-btn"
-              *ngIf="!formAddAddress.invalid">完成</button>
+          <button type="submit"
+            [disabled]="formAddAddress.invalid || !requestAddress.UserFavourite_Number1 || !requestAddress.UserFavourite_Number2"
+            [ngClass]="{'unable': formAddAddress.invalid || !requestAddress.UserFavourite_Number1 || !requestAddress.UserFavourite_Number2}"
+            class="btn next-btn">
+            完成
+          </button>
         </footer>
       </form>
     </div>
