@@ -64,8 +64,8 @@ export class AppService {
 
   @BlockUI() blockUI: NgBlockUI;
   constructor(private http: HttpClient, private bsModal: BsModalService, public modal: ModalService, private router: Router,
-    private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService,
-    private swPush: SwPush) {
+              private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService,
+              private swPush: SwPush) {
     // 取得前一頁面url
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -522,6 +522,17 @@ export class AppService {
     } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
       //  IOS
       (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'goAppPage', page: pageCode });
+    }
+  }
+
+  /** 如果是app，開啟商家詳細頁時導到原生商家詳細頁 */
+  goAppExploreDetail(code: string): void {
+    if (navigator.userAgent.match(/android/i)) {
+      //  Android
+      AppJSInterface.goAppExploreDetail(code);
+    } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+      //  IOS
+      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'goAppExploreDetail', storeId: code });
     }
   }
 
