@@ -70,8 +70,12 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     // 上下層畫面繪製
     // this.imgTop.src = '../img/mission/scratch-no.png';
     // 為避免canvas CROS問題，設置crossOrigin及在src加上時間戳記
-    this.imgTop.crossOrigin = 'Anonymous';
-    this.imgTop.src = `${this.gameData.AFP_Game.Game_ScratchItemImage}?temp=${(new Date()).valueOf()}`;
+    if (this.gameData.AFP_Game.Game_ScratchItemImage) {
+      this.imgTop.crossOrigin = 'Anonymous';
+      this.imgTop.src = `${this.gameData.AFP_Game.Game_ScratchItemImage}?temp=${(new Date()).valueOf()}`;
+    } else {
+      this.imgTop.src = '../img/mission/scratch-win.png';
+    }
     this.imgTop.onload = () => {
       this.drawTop();
     };
@@ -138,7 +142,7 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
         };
         this.appService.toApi('Games', '1701', request).subscribe((data: Response_Games) => {
           this.totalPoints = data.TotalPoint;
-          if (this.playTimes > 0 ) {
+          if (this.playTimes > 0) {
             this.playTimes--;
           }
           this.prizeData = data.GameReward;
