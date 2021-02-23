@@ -4,11 +4,11 @@ import {
   Request_GetUserVoucher, Response_GetUserVoucher, Request_CheckUserVoucher, Response_CheckUserVoucher,
   AFP_UserVoucher, AFP_VoucherLimit, OrderVoucher, OrderInvoice, OrderStore, OrderPlatform
 } from '@app/_models';
-import { ModalService } from '../../../shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { NgForm } from '@angular/forms';
-import { layerAnimation,  layerAnimationUp} from '../../../animations';
+import { layerAnimation,  layerAnimationUp} from '@app/animations';
 
 @Component({
   selector: 'app-eticket-order',

@@ -42,7 +42,11 @@
                       <div class="item three">
                           <input type="text" class="form-control" placeholder="請輸入" name="consumerName" #consumerName="ngModel"
                           [(ngModel)]="info.name" required minlength="2" maxlength="10"/>
-                          <small class="d-flex justify-content-end text-danger" *ngIf="(consumerName.touched || consumerName.dirty) && consumerName.invalid">姓名格式有誤</small>
+                          <small class="d-flex justify-content-end text-danger"
+                            *ngIf="(consumerName.pristine && (consumerName.errors?.minlength || consumerName.errors?.maxlength)) ||
+                            ((consumerName.touched || consumerName.dirty) && consumerName.invalid)">
+                            姓名格式有誤
+                          </small>
                       </div>
                   </li>
                   <li class="index-flex">
@@ -50,7 +54,12 @@
                       <div class="item three">
                           <input type="tel" class="form-control" placeholder="請輸入" name="consumerPhone" #consumerPhone="ngModel"
                           [(ngModel)]="info.phone" required pattern="^09\d{8}$" maxlength="10">
-                          <small class="d-flex justify-content-end text-danger" *ngIf="(consumerPhone.touched || consumerPhone.dirty) && consumerPhone.invalid">手機格式有誤</small>
+                          <!-- pattern同時驗證了maxlength因此下方錯誤提示只使用pattern判斷 -->
+                          <small class="d-flex justify-content-end text-danger"
+                            *ngIf="(consumerPhone.pristine && consumerPhone.errors?.pattern) ||
+                            ((consumerPhone.touched || consumerPhone.dirty) && consumerPhone.invalid)">
+                            手機格式有誤
+                          </small>
                       </div>
                   </li>
                   <li class="index-flex">
@@ -58,7 +67,11 @@
                       <div class="item three">
                           <input type="email" class="form-control" placeholder="請輸入" name="consumerEmail" #consumerEmail="ngModel"
                           [(ngModel)]="info.email" pattern="[A-Za-z0-9\*._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required />
-                          <small class="d-flex justify-content-end text-danger" *ngIf="(consumerEmail.touched || consumerEmail.dirty) && consumerEmail.invalid">E-mail格式有誤</small>
+                          <small class="d-flex justify-content-end text-danger"
+                            *ngIf="(consumerEmail.pristine && consumerEmail.errors?.pattern) ||
+                            ((consumerEmail.touched || consumerEmail.dirty) && consumerEmail.invalid)">
+                            E-mail格式有誤
+                          </small>
                       </div>
                   </li>
               </ul>
