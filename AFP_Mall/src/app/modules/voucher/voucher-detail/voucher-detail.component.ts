@@ -260,7 +260,7 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
       this.appService.goAppExploreDetail(ECStore_Code);
     } else {
       const navigationExtras: NavigationExtras = {
-        queryParams: { showBack: this.route.snapshot.queryParams.showBack }
+        queryParams: { showBack: this.route.snapshot.queryParams.showBack, navNo: 2 }
       };
       this.router.navigate(['/Explore/ExploreDetail', ECStore_Code], navigationExtras);
     }
