@@ -57,7 +57,7 @@
               <div class="item w-84">
                 <p>姓名 / 公司名稱</p>
                 <small class="text-danger"
-                  *ngIf="addressTitle.invalid && (addressTitle.touched || addressTitle.dirty)">地址名稱為必填</small>
+                  *ngIf="addressTitle.invalid && (addressTitle.touched || addressTitle.dirty)">姓名格式有誤（請輸入2至10字元）</small>
               </div>
               <div class="item auto-left">
                 <input type="text" placeholder="請輸入" name="addressTitle" #addressTitle="ngModel"
@@ -108,7 +108,7 @@
                 <p>詳細地址</p>
                 <p class="small-70">里道路或街名，巷弄號</p>
                 <small class="text-danger d-block"
-                  *ngIf="addressDetail.touched && addressDetail.invalid">詳細地址為必填</small>
+                  *ngIf="addressDetail.touched && addressDetail.invalid">詳細地址格式有誤</small>
               </div>
               <div class="item auto-left">
                 <input type="text" placeholder="請輸入地址" name="addressDetail" #addressDetail="ngModel"

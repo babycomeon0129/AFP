@@ -45,7 +45,7 @@
                           <small class="d-flex justify-content-end text-danger"
                             *ngIf="(consumerName.pristine && (consumerName.errors?.minlength || consumerName.errors?.maxlength)) ||
                             ((consumerName.touched || consumerName.dirty) && consumerName.invalid)">
-                            姓名格式有誤
+                            姓名格式有誤（請輸入2至10字元）
                           </small>
                       </div>
                   </li>
@@ -58,7 +58,7 @@
                           <small class="d-flex justify-content-end text-danger"
                             *ngIf="(consumerPhone.pristine && consumerPhone.errors?.pattern) ||
                             ((consumerPhone.touched || consumerPhone.dirty) && consumerPhone.invalid)">
-                            手機格式有誤
+                            手機號碼格式有誤
                           </small>
                       </div>
                   </li>
