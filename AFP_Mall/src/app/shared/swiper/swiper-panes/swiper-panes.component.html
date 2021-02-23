@@ -1,4 +1,4 @@
-<div class="tab-content w-100">
+<div class="tab-content w-100 pt-2">
   <div *ngFor="let item of slidesPanes; let blFirst=first; let i=index"
     role="tabpanel" class="tab-pane fade"  [ngClass]="{'show active': blFirst}"
     [attr.aria-labelledby]="'T'+item.UserDefine_Code" id="Code{{item.UserDefine_Code}}" >
