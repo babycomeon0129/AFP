@@ -129,7 +129,9 @@ export function provideConfig() {
 export class AppModule {
   constructor(swUpdate: SwUpdate) {
     if (swUpdate.isEnabled) {
+      console.log('服務工作者被允許運作。');
       swUpdate.available.subscribe((event) => {
+        console.log(`服務工作者偵測到有可供使用的新版本。目前版本：${event.current}，可供使用的新版本：${event.available}，頁面將自動重整。`);
         window.location.reload();
       });
     }
