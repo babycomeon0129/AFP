@@ -11,9 +11,7 @@
           "/favicon.ico",
           "/index.html",
           "/manifest.json",
-          "/*.css",
-          "/*.map",
-          "/*.js"
+          "/*.css"
         ]
       }
     }, {
