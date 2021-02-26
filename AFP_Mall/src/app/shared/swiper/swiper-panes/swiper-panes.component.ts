@@ -9,8 +9,8 @@ import { AppService } from '@app/app.service';
 export class SwiperPanesComponent implements OnInit {
 
   @Input() slidesPanes: any;
-  @Input() swiperOptionPanes: String;
-  @Input() swiperStyle: String;
+  @Input() swiperOptionPanes: string;
+  @Input() swiperStyle: string;
   @Input() readSheetMode: any;
 
 

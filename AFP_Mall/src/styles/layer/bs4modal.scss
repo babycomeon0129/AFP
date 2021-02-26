@@ -507,10 +507,7 @@
   // .sortlayer>div{ position: absolute; } = productsOpensort
   .productsOpensort{
     right: 0;
-    width: 80%;
-    @media (min-width: 992px) {
-      width: 650px;
-    }
+    width: 100%;
   }
   #open-sortbox{
     background: $gray-light;
@@ -526,14 +523,13 @@
       border-top-left-radius: 20px;
       height: 3em;
       border-bottom: 1px #C4C2C2 solid;
-      width: 80%;
-      .flex-inline-between{
-        width: 80%;
-      }
       .title-txt {
         font-size: 1.1em;
         align-self: center;
         font-weight: bold;
+      }
+      .title-right{
+        width: 62px;
       }
       button{
         margin-right: .75em;
@@ -602,10 +598,31 @@
       text-align: center;
     }
     .open-sort-title, .open-sort-footer, .open-sort-cont{
-      width: 100%;
-      @media (min-width: 992px) {
-        width: 650px;
+      @media (max-width: 767px) {
+        width: 432px;
       }
+      @media (max-width: 576px) {
+        width: 460px;
+      }
+      @media (max-width: 480px) {
+        width: 382px;
+      }
+      @media (max-width: 375px) {
+        width: 100%;
+      }
+      @media (max-width: 320px) {
+        width: 256px;
+      }
+      @media (min-width: 768px) and (max-width: 991px) {
+        width: 576px;
+      }
+      @media (min-width: 992px) {
+        width: 768px;
+      }
+      @media (min-width: 1200px) {
+        width: 912px;
+      }
+
     }
   }
   #open-pagebox1,

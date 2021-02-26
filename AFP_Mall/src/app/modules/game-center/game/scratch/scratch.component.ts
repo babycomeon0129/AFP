@@ -3,7 +3,7 @@ import { Component, OnInit, Input, AfterViewInit, OnDestroy } from '@angular/cor
 import { AppService } from 'src/app/app.service';
 import { Response_Games, Request_Games, AFP_GamePart } from '@app/_models';
 import { ModalService } from '../../../../shared/modal/modal.service';
-import { layerAnimation,  layerAnimationUp} from '../../../../animations';
+import { layerAnimation, layerAnimationUp } from '../../../../animations';
 
 @Component({
   selector: 'app-scratch',
@@ -16,9 +16,10 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() gameData: Response_Games;
   /** 總點數（每玩完一次即更新） */
   public totalPoints: number;
-  /** 會員所剩可玩次數（每玩完一次即更新；須注意為"-1"/不限次數的情況） */
+  /** 會員總可玩次數（每玩完一次即更新；須注意為"-1"/不限次數的情況） */
   public playTimes: number;
-  public hideBackBtn = false; // APP特例處理
+  /** APP特例處理 */
+  public hideBackBtn = false;
 
   // 刮刮樂繪製所需變數
   /** mousedown event，為true時使用者才可進行繪製 */
@@ -55,7 +56,7 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     // 若可玩次數 === 0或是所剩點數不夠遊完一次則阻擋使用者繪製動作
     if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
       this.mousedown = false;
-      this.modal.show('message', { initialState: { success: false, message: '您的點數已不足或是遊玩次數已達上限!', showType: 1}});
+      this.noticeAlert();
     }
     this.w = document.getElementById('top').offsetWidth;
     this.h = document.getElementById('top').offsetHeight;
@@ -65,15 +66,22 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     this.topCanvas.height = this.bottomCanvas.height = this.h;
     this.ctxBot = this.bottomCanvas.getContext('2d'); // getContext(): to obtain the rendering/drawing context and its drawing functions
     this.ctxTop = this.topCanvas.getContext('2d');
-    this.bottomCanvas.style.backgroundImage = 'url(' + this.gameData.AFP_Game.Game_ScratchImage + ')';
+    this.bottomCanvas.style.backgroundImage = `url(${this.gameData.AFP_Game.Game_ScratchImage})`;
     // 上下層畫面繪製
-    this.imgTop.src = '../img/mission/scratch-no.png';
+    // this.imgTop.src = '../img/mission/scratch-no.png';
+    // 為避免canvas CROS問題，設置crossOrigin及在src加上時間戳記
+    if (this.gameData.AFP_Game.Game_ScratchItemImage) {
+      this.imgTop.crossOrigin = 'Anonymous';
+      this.imgTop.src = `${this.gameData.AFP_Game.Game_ScratchItemImage}?temp=${(new Date()).valueOf()}`;
+    } else {
+      this.imgTop.src = '../img/mission/scratch-win.png';
+    }
     this.imgTop.onload = () => {
-        this.drawTop();
+      this.drawTop();
     };
     // this.imgBot.src = this.gameData.AFP_Game.Game_ScratchImage ; // 顯示不出來，用backgroundImage代替
     this.imgBot.onload = () => {
-        this.drawBot();
+      this.drawBot();
     };
 
     // APP從M Points或進來則顯示返回鍵
@@ -88,14 +96,14 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
   drawBot() {
     // 清除區域，為了點擊再來一次進行頁面重繪
     this.ctxBot.canvas.style.opacity = '1';
-    this.ctxBot.drawImage(this.imgBot, 0 , 0 , this.w , this.h);
+    this.ctxBot.drawImage(this.imgBot, 0, 0, this.w, this.h);
     this.ctxBot.clearRect(0, 0, this.w, this.h);
   }
 
   /** 刮刮樂上層畫面繪製 */
   drawTop() {
     this.ctxTop.canvas.style.opacity = '1';
-    this.ctxTop.drawImage(this.imgTop , 0 , 0 , this.w , this.h);
+    this.ctxTop.drawImage(this.imgTop, 0, 0, this.w, this.h);
 
     // 判斷當前是否為第一次刮開，不是則清除上一次區域
     if (this.ctxTop.globalCompositeOperation !== 'destination-out') {
@@ -108,34 +116,41 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /** 開獎結果 */
   alertInfo() {
-    const ctxTopData = this.ctxTop.getImageData(0, 0, this.w, this.h).data;
-    let n = 0 ; // 已刮開的面積比例
-    for (const i of ctxTopData) {
-      if (ctxTopData[i] === 0) {
-          n ++;
-      }
-    }
-    // 判斷刮開區域大於50%時
-    if (n >= ctxTopData.length * 0.5) {
-      // 先阻止使用者繪製行為，以避免n繼續加乘並觸發多次API
-      this.mousedown = false;
-      // call api 取得開獎結果、總點數、可玩次數
-      const request: Request_Games = {
-        User_Code: sessionStorage.getItem('userCode'),
-        SelectMode: 1,
-        Game_Code: this.gameData.AFP_Game.Game_Code,
-        SearchModel: {
-          Game_Code: null
+    // this.gameData.AFP_Game.Game_PlayCount -1 為次數無限制
+    if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
+      this.noticeAlert();
+    } else {
+      const ctxTopData = this.ctxTop.getImageData(0, 0, this.w, this.h).data;
+      let n = 0; // 已刮開的面積比例
+      for (const i of ctxTopData) {
+        if (ctxTopData[i] === 0) {
+          n++;
         }
-      };
-      this.appService.toApi('Games', '1701', request).subscribe((data: Response_Games) => {
-        this.totalPoints = data.TotalPoint;
-        this.playTimes = data.AFP_Game.Game_PlayCount;
-        this.prizeData = data.GameReward;
-        this.ctxTop.globalCompositeOperation = 'destination-over';
-        this.ctxTop.canvas.style.opacity = '0'; // 上層canvas變透明
-        this.layerTrigUp = 1;
-      });
+      }
+      // 判斷刮開區域大於50%時
+      if (n >= ctxTopData.length * 0.5) {
+        // 先阻止使用者繪製行為，以避免n繼續加乘並觸發多次API
+        this.mousedown = false;
+        // call api 取得開獎結果、總點數、可玩次數
+        const request: Request_Games = {
+          User_Code: sessionStorage.getItem('userCode'),
+          SelectMode: 1,
+          Game_Code: this.gameData.AFP_Game.Game_Code,
+          SearchModel: {
+            Game_Code: null
+          }
+        };
+        this.appService.toApi('Games', '1701', request).subscribe((data: Response_Games) => {
+          this.totalPoints = data.TotalPoint;
+          if (this.playTimes > 0) {
+            this.playTimes--;
+          }
+          this.prizeData = data.GameReward;
+          this.ctxTop.globalCompositeOperation = 'destination-over';
+          this.ctxTop.canvas.style.opacity = '0'; // 上層canvas變透明
+          this.layerTrigUp = 1;
+        });
+      }
     }
   }
 
@@ -145,7 +160,7 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.drawBot(); // imgBot沒有設src，iOS會報錯，而實際底層的圖是用bottomCanvas的background-image了，也不需要再繪圖一次
     this.drawTop();
     if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
-      this.modal.show('message', { initialState: { success: false, message: '您的點數已不足或是遊玩次數已達上限!', showType: 1}});
+      this.noticeAlert();
     }
   }
 
@@ -176,9 +191,9 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   eventUp(ev) {
-      // ev = ev || event;
-      ev.preventDefault();
-      this.mousedown = false;
+    // ev = ev || event;
+    ev.preventDefault();
+    this.mousedown = false;
   }
 
   eventMove(ev) {
@@ -186,7 +201,7 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     ev.preventDefault();
     if (this.mousedown) {
       if (ev.changedTouches) {
-          ev = ev.changedTouches[ev.changedTouches.length - 1];
+        ev = ev.changedTouches[ev.changedTouches.length - 1];
       }
       const x = ev.pageX - this.topCanvas.offsetLeft;
       const y = ev.pageY - this.topCanvas.offsetTop;
@@ -198,7 +213,7 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /** 獎項顯示訊息及前往路徑 */
-  prizeResponse(): {msg: string, page: string} {
+  prizeResponse(): { msg: string, page: string } {
     if (this.prizeData !== undefined) {
       switch (this.prizeData.GamePart_Type) {
         case 1:
@@ -223,6 +238,16 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  /** 您的點數已不足或是遊玩次數已達上限的提示視窗  */
+  noticeAlert() {
+    const initialState = {
+      success: true,
+      type: 1,
+      message: `<div class="no-data"><img src="../../../../../img/shopping/payment-failure.png"><p>Oops！你的點數不足或已達遊玩次數上限囉！</p></div>`
+    };
+    this.modal.show('message', { initialState });
+  }
+
   ngAfterViewInit() {
     // 鼠標移動開始刮圖層
     this.topCanvas.addEventListener('touchstart', (e) => { this.eventDetect(0, e); });
@@ -234,9 +259,6 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // if (this.appService.tLayerUp.includes('.winmsg')) {
-    //   this.appService.backLayerUp();
-    // }
     this.topCanvas.removeEventListener('touchstart', (e) => { });
     this.topCanvas.removeEventListener('touchend', (e) => { });
     this.topCanvas.removeEventListener('touchmove', (e) => { });

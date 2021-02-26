@@ -255,11 +255,15 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   /** 前往ExploreDetail(App特例處理，從會員中心進來顯示返回鍵) */
-  goExploreDetail( ECStore_Code: string): void {
-    const navigationExtras: NavigationExtras = {
-      queryParams: { showBack: this.route.snapshot.queryParams.showBack }
-    };
-    this.router.navigate(['/Explore/ExploreDetail', ECStore_Code], navigationExtras);
+  goExploreDetail( ECStore_Code: string ): void {
+    if (this.appService.isApp !== null) {
+      this.appService.goAppExploreDetail(ECStore_Code);
+    } else {
+      const navigationExtras: NavigationExtras = {
+        queryParams: { showBack: this.route.snapshot.queryParams.showBack }
+      };
+      this.router.navigate(['/Explore/ExploreDetail', ECStore_Code], navigationExtras);
+    }
   }
 
   ngDoCheck(): void {

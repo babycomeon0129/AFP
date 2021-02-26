@@ -1,14 +1,14 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
-import { ModalService } from '../../../shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { Request_GetCheckout, Response_GetCheckout, Request_GetUserVoucher, Response_GetUserVoucher,
         Request_CheckUserVoucher, Response_CheckUserVoucher, Request_MemberAddress, AFP_Cart, AFP_ECStore,
         AFP_UserFavourite, AFP_UserVoucher, AFP_VoucherLimit, AFP_Order, Model_ShareData,
         OrderVoucher, OrderInvoice, OrderStore, OrderPlatform } from '@app/_models';
 import { NgForm } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
-import { layerAnimation} from '../../../animations';
+import { layerAnimation} from '@app/animations';
 
 @Component({
   selector: 'app-shopping-order',
@@ -399,30 +399,33 @@ export class ShoppingOrderComponent implements OnInit {
     this.tempOrder = JSON.parse(JSON.stringify(store.order));
     this.choiceNum = store.dwSelected;
     this.storePickSelf = this.checkout.Pick_ECStore.filter(x => x.ECStore_CompanyCode === store.ECStore_CompanyCode);
-    this.addressList.forEach((address, index) => {
-      if (address.UserFavourite_IsDefault === 1) {
-        let pairSuccess = false;
-        this.checkout.List_ECLogistics.forEach(logistics => {
-          const pair = logistics.List_ECLogisticsPart.find(x => x.ECLogisticsPart_Country === 886 &&
-            x.ECLogisticsPart_City === address.UserFavourite_Number1);
-          if (pair !== undefined) { // 匹配到物流資訊時擷取運費
-            pairSuccess = true;
-            this.tempOrder.Order_ECLogisticsID = logistics.ECLogistics_ID;
-            this.tempOrder.Order_ShippingAmount = logistics.ECLogistics_Amount;
-            return false; // 跳出物流資訊 forEach
+    // 若已有選擇寄送方式則再次開啟時不再將寄方式設為預設地址
+    if (this.holdStore.dwSelected === undefined) {
+      this.addressList.forEach((address, index) => {
+        if (address.UserFavourite_IsDefault === 1) {
+          let pairSuccess = false;
+          this.checkout.List_ECLogistics.forEach(logistics => {
+            const pair = logistics.List_ECLogisticsPart.find(x => x.ECLogisticsPart_Country === 886 &&
+              x.ECLogisticsPart_City === address.UserFavourite_Number1);
+            if (pair !== undefined) { // 匹配到物流資訊時擷取運費
+              pairSuccess = true;
+              this.tempOrder.Order_ECLogisticsID = logistics.ECLogistics_ID;
+              this.tempOrder.Order_ShippingAmount = logistics.ECLogistics_Amount;
+              return false; // 跳出物流資訊 forEach
+            }
+          });
+          if (pairSuccess) {
+            this.choiceNum = index;
+            this.tempOrder.Order_DeliveryWays = 1;
+            this.tempOrder.Order_RecCountry = 886;
+            this.tempOrder.Order_RecCity = address.UserFavourite_Number1;
+            this.tempOrder.Order_RecCityArea = address.UserFavourite_Number2;
+            this.tempOrder.Order_RecAddress = address.UserFavourite_Text3;
+            return false; // 跳出地址 forEach
           }
-        });
-        if (pairSuccess) {
-          this.choiceNum = index;
-          this.tempOrder.Order_DeliveryWays = 1;
-          this.tempOrder.Order_RecCountry = 886;
-          this.tempOrder.Order_RecCity = address.UserFavourite_Number1;
-          this.tempOrder.Order_RecCityArea = address.UserFavourite_Number2;
-          this.tempOrder.Order_RecAddress = address.UserFavourite_Text3;
-          return false; // 跳出地址 forEach
         }
-      }
-    });
+      });
+    }
     if (!this.settingAddress) {
       this.layerTrig = 6;
     }
@@ -666,8 +669,13 @@ export class ShoppingOrderComponent implements OnInit {
     };
 
     this.appService.toApi('Member', '1503', request).subscribe(() => {
+      const newAddress = JSON.parse(JSON.stringify(this.requestAddress));
       // 將資料放入「地址列表」中
-      this.addressList.push(JSON.parse(JSON.stringify(this.requestAddress)));
+      this.addressList.push(newAddress);
+      // 將此新地址設為此次訂購寄送方式
+      this.clickDeliveryWay(this.holdStore);
+      this.choiceAddress(newAddress, this.addressList.length - 1);
+      this.confirmDeliveryWay();
       // 回到上一頁(「地址列表」)
       this.layerTrig = 0;
       // 將「新增地址」的input清空

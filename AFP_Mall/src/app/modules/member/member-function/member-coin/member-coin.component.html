@@ -65,7 +65,7 @@
                     <div class="member-flex">
                       <div class="item one">
                         <div [lazyLoad]="voucher.Voucher_Image" [defaultImage]="appService.defaultImage"
-                          (click)="goDetail(voucher)" class="rwdimg logo-img">
+                          (click)="goDetail(voucher)" class="rwdimg-cover logo-img">
                         </div>
                       </div>
                       <div class="item three px-2">
@@ -159,7 +159,7 @@
             </ul>
           </div>
           <!-- Tab panes -->
-          <div class="tab-content border-t pt-2 mb-5">
+          <div class="tab-content pt-2 mb-5">
             <div role="tabpanel" class="tab-pane fade active show w-100">
               <div *ngFor="let item of pointHistory" class="member-flex border-b p-3">
                 <div class="item three">

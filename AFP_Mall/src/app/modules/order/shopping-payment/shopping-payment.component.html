@@ -99,7 +99,7 @@
       <input type="hidden" name="InvoiceAddress" [value]="reqData.InvoiceAddress" />
       <input type="hidden" name="xEyes_CustomerInfo" [value]="reqData.xEyes_CustomerInfo" />
       <input type="hidden" name="User_Code" [value]="reqData.User_Code" />
-      <button type="submit" [ngClass]="ablePayment ? 'btn-ok' : 'btn gray-btn'" [disabled]="!ablePayment">付款</button>
+      <button type="submit" [ngClass]="{'btn gray-btn': !ablePayment || paymentProcessed}" [disabled]="!ablePayment || paymentProcessed" class="btn index-btn">付款</button>
     </form>
   </footer>
 
@@ -163,7 +163,10 @@
                 </div>
               </div>
               <div class="col-12">
-                <button type="button" (click)="addCardPayment()" class="btn index-btn w-100">付款</button>
+                <button type="button" (click)="addCardPayment()" [disabled]="paymentProcessed" [ngClass]="{'gray-btn': paymentProcessed}"
+                  class="btn index-btn w-100">
+                    付款
+                </button>
               </div>
             </div>
           </div>

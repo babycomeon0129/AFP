@@ -1037,8 +1037,10 @@ export class AFP_Game {
   Game_RuleText: string;
   /** 圖片 */
   Game_Image: string;
-  /** 刮刮樂圖案 */
+  /** 刮刮樂背景底圖 */
   Game_ScratchImage: string;
+  /** 刮刮樂銀漆圖案 */
+  Game_ScratchItemImage: string;
   /** 上方廣告 */
   Game_ADImage: string;
   /** 領取扣除點數 */

@@ -32,7 +32,7 @@ export class PCFooterComponent implements OnInit {
       this.modal.show('justka',
       { initialState:
         { justkaUrl:
-          'https://biz.eyesmedia.com.tw/webapp/?q=a2d422f6-b4bc-4e1d-9ca0-7b4db3258f35&a=d3f53a60-db70-11e9-8a34-2a2ae2dbcce4' }},
+          'https://biz.justka.ai/webapp/home?q=a2d422f6-b4bc-4e1d-9ca0-7b4db3258f35&a=d3f53a60-db70-11e9-8a34-2a2ae2dbcce4' }},
           this.bsModalRef);
     } else {
       this.modal.closeModal1();

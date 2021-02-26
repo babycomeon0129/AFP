@@ -47,7 +47,7 @@
                     [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', voucher?.Voucher_Code] : ['/Voucher/VoucherDetail', voucher?.Voucher_UserVoucherCode]"
                     class="item one">
                     <div [lazyLoad]="voucher?.Voucher_Image" [defaultImage]="appService.defaultImage"
-                      class="rwdimg logo-img"></div>
+                      class="rwdimg-cover logo-img"></div>
                   </div>
                   <div class="item three px-2">
                     <p>{{voucher?.Voucher_Title}}</p>

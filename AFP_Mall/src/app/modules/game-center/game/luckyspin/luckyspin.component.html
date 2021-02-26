@@ -35,6 +35,7 @@
               <!-- 每次花費點數 -->
               <div class="d-flex align-items-center dedpoint">
                 玩一次消耗&ensp;<span class="mobiicoin-num">{{gameData?.AFP_Game?.Game_DedPoint}}</span>&ensp;點
+                <ng-container *ngIf="playTimes >= 0">，尚可玩&ensp;<span class="mobiicoin-num">{{playTimes}}</span>&ensp;次</ng-container>
             </div>
           </div>
       </div>

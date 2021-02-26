@@ -118,6 +118,9 @@
   }
 
   .store-tab-box{
+    .nav-tabs {
+      border-bottom: 0px;
+    }
     li {
       color: #8E8E93;
       text-decoration: none;
@@ -180,3 +183,23 @@
         width: 100%;
       }
   }
+  .nav-tabs-box {
+    margin-bottom: .25em;
+  }
+
+// .nav-tabs-box:after{
+//   content: '';
+//   display: block;
+//   height: 1px;
+//   width: 100%;
+//   background-color: #ccc;
+//   position: relative;
+//   left: 0;
+//   // top: -1px;
+// }
+// .nav-tabs-box.tablist-swiper{
+//   line-height: 1.3em;
+//   &:after{
+//     top: -0.8em;
+//   }
+// }

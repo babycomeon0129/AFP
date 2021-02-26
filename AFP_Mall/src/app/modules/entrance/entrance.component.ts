@@ -139,7 +139,28 @@ export class EntranceComponent implements OnInit, DoCheck {
     }
   };
 
-  /** 現領優惠券、主打店家、本月旅遊主打內容 swiper */
+  /** 現領優惠券, 特賣商品內容內容 swiper */
+  public boxOffer: SwiperOptions = {
+    slidesPerView: 2.5,
+    spaceBetween: 10,
+    breakpoints: {
+      768: {
+        slidesPerView: 3,
+        spaceBetween: 20,
+      },
+      1024: {
+        slidesPerView: 3,
+        spaceBetween: 20,
+      }
+    },
+    loop: false,
+    observer: true,
+    observeParents: true,
+    preloadImages: true,
+    updateOnImagesReady: true
+  };
+
+  /** 主打店家、本月旅遊主打內容 swiper */
   public boxTFeature: SwiperOptions = {
     slidesPerView: 1.7,
     spaceBetween: 10,
@@ -160,17 +181,6 @@ export class EntranceComponent implements OnInit, DoCheck {
     updateOnImagesReady: true
   };
 
-  /** 特賣商品內容 swiper */
-  public onsaleProd: SwiperOptions = {
-    observer: true,
-    observeParents: true,
-    slidesPerView: 3,
-    spaceBetween: 10,
-    loop: false,
-    // updateOnWindowResize: false,
-    preloadImages: true,
-    updateOnImagesReady: true
-  };
   /** 首頁進場廣告 */
   public adIndex: AFP_ADImg[] = [];
   /** 首頁進場廣告開始時間確認 */
@@ -525,11 +535,11 @@ export class EntranceComponent implements OnInit, DoCheck {
    * @param code 目錄編碼
    * @param id 頻道編號
    */
-  readSheetPanes(param: tabParam){
-    let mode = param.Mode;
-    let idx = param.Idx;
-    let code = param.Code;
-    let id = param.Id;
+  readSheetPanes(param: tabParam) {
+    const mode = param.Mode;
+    const idx = param.Idx;
+    const code = param.Code;
+    const id = param.Id;
     this.readSheet(mode, idx, code, id);
   }
 
