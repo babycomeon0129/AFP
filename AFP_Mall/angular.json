@@ -31,7 +31,9 @@
               "src/favicon.ico",
               "src/manifest.json",
               "src/img",
-              "src/assets"
+              "src/assets",
+              "src/sitemap.xml",
+              "src/google74b45d0284996f7b.html"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
