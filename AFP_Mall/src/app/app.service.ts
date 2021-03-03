@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, filter } from 'rxjs/operators';
 import {
   Response_APIModel, Request_MemberFavourite, Response_MemberFavourite, AFP_Voucher,
   Request_MemberUserVoucher, Response_MemberUserVoucher, Request_ECCart, Response_ECCart, Model_ShareData
@@ -57,22 +57,18 @@ export class AppService {
   public firebaseToken: string;
   /** 首頁進場廣告是否開啟 (要再確認過瀏覽器版本後打開) */
   public adIndexOpen = false;
-  /** 滑動layer */
-  // public tmpLayer = [];
-  // public tmpLayerSort = [];
-  // public tmpLayerUp = [];
 
   @BlockUI() blockUI: NgBlockUI;
   constructor(private http: HttpClient, private bsModal: BsModalService, public modal: ModalService, private router: Router,
               private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService,
               private swPush: SwPush) {
     // 取得前一頁面url
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
+    router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
         this.prevUrl = this.currentUrl;
         this.currentUrl = event.url;
-      }
-    });
+      });
   }
 
   toApi(ctrl: string, command: string, request: any, lat: number = null, lng: number = null, deviceCode?: string): Observable<any> {
@@ -556,152 +552,8 @@ export class AppService {
     }
   }
 
-  // 開啟側邊功能
-  // multilayer animateCss
-  // callLayer(nextLayer) {
-  //   const animationStard = ['slideInRight','animated','d-block','container','faster'];
-  //   const target = document.querySelector(nextLayer);
-  //   const targetParent = document.querySelector('.multilayer');
-  //   this.tmpLayer.push(nextLayer);
-  //   if(targetParent.getAttribute('class').length == 10){
-  //     for (var i = 0; i < animationStard.length; ++i) {
-  //       targetParent.classList.add(animationStard[i]);
-  //       target.classList.add(animationStard[i]);
-  //     }
-  //   }else{
-  //     for (var i = 0; i < animationStard.length; ++i) {
-  //       target.classList.add(animationStard[i]);
-  //     }
-  //   }
-  // }
-  // backLayer() {
-  //   const animationEnd = ['slideOutRight','animated','d-block','container','faster'];
-  //   const target = document.querySelector(this.tmpLayer.pop());
-  //   const targetParent = document.querySelector('.multilayer');
-  //   targetParent.classList.replace('slideInRight','slideOutRight');
-  //   target.classList.replace('slideInRight','slideOutRight');
-  //   if(this.tmpLayer.length == 0){
-  //     setTimeout(()=>{
-  //       for (var i = 0; i < animationEnd.length; ++i) {
-  //         targetParent.classList.remove(animationEnd[i]);
-  //         target.classList.remove(animationEnd[i]);
-  //       }
-  //     },1000);
-  //   }else{
-  //     setTimeout(()=>{
-  //       for (var i = 0; i < animationEnd.length; ++i) {
-  //         target.classList.remove(animationEnd[i]);
-  //       }
-  //     },1000);
-  //   };
-  // }
-
-  // sortlayer animateCss
-  // callsortLayer(nextLayer) {
-  //   const animationStard = ['slideInRight','animated','d-block','container','faster'];
-  //   const target = document.querySelector(nextLayer);
-  //   const targetParent = document.querySelector('.sortlayer');
-  //   this.tmpLayerSort.push(nextLayer);
-  //   let mask = document.createElement("div");
-  //   let maskbox = document.createElement("a");
-  //   mask.className = 'masklayer w-100 h-100';
-  //   maskbox.className = 'modal-backdrop container';
-  //   if(targetParent.getAttribute('class').length == 9){
-  //     document.body.prepend(maskbox);
-  //     maskbox.prepend(mask);
-  //     for (var i = 0; i < animationStard.length; ++i) {
-  //       targetParent.classList.add(animationStard[i]);
-  //       target.classList.add(animationStard[i]);
-  //     }
-  //   }else{
-  //     for (var i = 0; i < animationStard.length; ++i) {
-  //       target.classList.add(animationStard[i]);
-  //     }
-  //   }
-  // }
-  // backsortLayer() {
-  //   const animationEnd = ['slideOutRight','animated','d-block','container','faster'];
-  //   const target = document.querySelector(this.tmpLayerSort.pop());
-  //   const targetParent = document.querySelector('.sortlayer');
-  //   const maskbox = document.querySelector('.modal-backdrop');
-  //   targetParent.classList.replace('slideInRight','slideOutRight');
-  //   target.classList.replace('slideInRight','slideOutRight');
-  //   if(this.tmpLayerSort.length == 0){
-  //     maskbox.remove();
-  //     setTimeout(()=>{
-  //       for (var i = 0; i < animationEnd.length; ++i) {
-  //         targetParent.classList.remove(animationEnd[i]);
-  //         target.classList.remove(animationEnd[i]);
-  //       }
-  //     },1000);
-  //   }else{
-  //     setTimeout(()=>{
-  //       for (var i = 0; i < animationEnd.length; ++i) {
-  //         target.classList.remove(animationEnd[i]);
-  //       }
-  //     },1000);
-  //   };
-  // }
-
-  // uplayer animateCss
-  // callLayerUp(nextLayer) {
-  //   const animationStard = ['slideInUp','animated','d-block','container','faster'];
-  //   const target = document.querySelector(nextLayer);
-  //   const targetParent = document.querySelector('.uplayer');
-  //   this.tmpLayerUp.push(nextLayer);
-  //   let mask = document.createElement("div");
-  //   let maskbox = document.createElement("a");
-  //   mask.className = 'masklayer w-100 h-100';
-  //   maskbox.className = 'modal-backdrop container';
-  //   if(targetParent.getAttribute('class').length == 7){
-  //     targetParent.before(maskbox);
-  //     maskbox.prepend(mask);
-  //     for (var i = 0; i < animationStard.length; ++i) {
-  //       targetParent.classList.add(animationStard[i]);
-  //       target.classList.add(animationStard[i]);
-  //     }
-  //   }else{
-  //     for (var i = 0; i < animationStard.length; ++i) {
-  //       target.classList.add(animationStard[i]);
-  //     }
-  //   }
-  // }
-  // backLayerUp() {
-  //   const animationEnd = ['slideOutDown','animated','d-block','container','faster'];
-  //   const target = document.querySelector(this.tmpLayerUp.pop());
-  //   const targetParent = document.querySelector('.uplayer');
-  //   const maskbox = document.querySelector('a.modal-backdrop');
-  //   targetParent.classList.replace('slideInUp','slideOutDown');
-  //   target.classList.replace('slideInUp','slideOutDown');
-  //   maskbox.remove();
-  //   setTimeout(()=>{
-  //     for (var i = 0; i < animationEnd.length; ++i) {
-  //       targetParent.classList.remove(animationEnd[i]);
-  //       target.classList.remove(animationEnd[i]);
-  //     }
-  //   },1000);
-  // }
 }
 
-// tslint:disable-next-line: class-name
-// export interface jQuery {
-//   animateCss(): void;
-// }
-
-// jQuery.prototype.animateCss = function(animationName: string, anotherCss: string, callback: () => void): void {
-//   const animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
-//   const isAdd = anotherCss.substr(0, 1);
-//   const addCss = anotherCss.substr(1);
-//   if (isAdd === '+' || isAdd === '-') {
-//     this.addClass('animated ' + animationName + ' ' + addCss).bind(animationEnd, function() {
-//       if (isAdd === '+') { $(this).addClass(addCss); }
-//       if (isAdd === '-') { $(this).removeClass(addCss); }
-//       $(this).removeClass('animated ' + animationName);
-//       if (callback) { callback(); }
-//     });
-//   }
-//   return this;
-// };
 
 interface Request_AFPPushToken extends Model_ShareData {
   Token: string;

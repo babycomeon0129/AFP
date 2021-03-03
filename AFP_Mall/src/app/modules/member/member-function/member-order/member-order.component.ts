@@ -4,6 +4,7 @@ import { AppService } from '@app/app.service';
 import { SwiperOptions } from 'swiper';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
+import { MemberService } from '../../member.service';
 
 @Component({
   selector: 'app-member-order',
@@ -26,24 +27,43 @@ export class MemberOrderComponent implements OnInit {
     observeParents: true,
     freeMode: false
   };
-  public showBack = false; // APP特例處理
+  /** APP特例處理 */
+  public showBack = false;
+
 
   constructor(public appService: AppService, private router: Router, private route: ActivatedRoute,
-              private meta: Meta, private title: Title) {
+              private meta: Meta, private title: Title, public memberService: MemberService) {
     // tslint:disable: max-line-length
     this.title.setTitle('我的訂單 - Mobii!');
-    this.meta.updateTag({name : 'description', content: 'Mobii! - 我的訂單。這裡會顯示 Mobii! 用戶在 Mobii! 平台上購物的訂單，包括訂單出貨及收貨進度。請先登入註冊以開啟功能。'});
-    this.meta.updateTag({content: '我的訂單 - Mobii!', property: 'og:title'});
-    this.meta.updateTag({content: 'Mobii! - 我的訂單。這裡會顯示 Mobii! 用戶在 Mobii! 平台上購物的訂單，包括訂單出貨及收貨進度。請先登入註冊以開啟功能。', property: 'og:description'});
+    this.meta.updateTag({ name: 'description', content: 'Mobii! - 我的訂單。這裡會顯示 Mobii! 用戶在 Mobii! 平台上購物的訂單，包括訂單出貨及收貨進度。請先登入註冊以開啟功能。' });
+    this.meta.updateTag({ content: '我的訂單 - Mobii!', property: 'og:title' });
+    this.meta.updateTag({ content: 'Mobii! - 我的訂單。這裡會顯示 Mobii! 用戶在 Mobii! 平台上購物的訂單，包括訂單出貨及收貨進度。請先登入註冊以開啟功能。', property: 'og:description' });
 
     // 從會員中心進來則隱藏返回鍵
     if (this.route.snapshot.queryParams.showBack === 'true') {
       this.showBack = true;
     }
+
+
   }
 
   ngOnInit() {
-    this.showList(21, 1);
+    if ( this.appService.prevUrl.includes('MyOrderDetail')) {
+      // 如果上一頁是我的訂單詳細，第一個tab切到購物商城
+      this.memberService.tabSwitch = 1;
+    } else if ( this.appService.prevUrl.includes('ETicketOrderDetail')) {
+      // 如果上一頁是電子票券詳細，第一個tab切到訂單詳細
+      this.memberService.tabSwitch = 21;
+    } else if ( this.appService.prevUrl.includes('ReturnDetail') ) {
+      // 如果上一頁是退單頁，第一個tab跟訂單狀態保持上一次狀態
+      this.memberService.tabSwitch = this.memberService.tabSwitch;
+      this.memberService.statusSwitch = this.memberService.statusSwitch;
+    } else {
+      // 上一頁如果是上述三頁以外，tab到購物商城、訂單狀態切至處理中(初始狀態)
+      this.memberService.tabSwitch = 1;
+      this.memberService.statusSwitch = 1;
+    }
+    this.showList(this.memberService.tabSwitch, this.memberService.statusSwitch);
   }
 
   /** 顯示各狀態訂單列表
@@ -51,7 +71,8 @@ export class MemberOrderComponent implements OnInit {
    * @param state 訂單狀態（一般訂單 1:處理中, 2: 待收貨, 3: 已完成；電子票證 1: 已付款 2: 已出貨 3: 已到貨 4: 退換貨）
    */
   showList(type: number, state: number) {
-    // this.selectedState = state;
+    this.memberService.tabSwitch = type;
+    this.memberService.statusSwitch = state;
     switch (type) {
       case 1:
         this.Common_selectedState = state;
@@ -100,14 +121,14 @@ export class MemberOrderComponent implements OnInit {
         if (this.Common_selectedState === 4) {
           this.router.navigate(['/Return/ReturnDetail', order.ServiceTableNo]);
         } else {
-          this.router.navigate(['/MemberFunction/MyOrderDetail', order.Order_TableNo], {queryParams: {orderState: this.Common_selectedState}});
+          this.router.navigate(['/MemberFunction/MyOrderDetail', order.Order_TableNo], { queryParams: { orderState: this.Common_selectedState } });
         }
         break;
       case 21:
         if (this.ETicket_selectedState === 4) {
           this.router.navigate(['/Return/ReturnDetail', order.ServiceTableNo]);
         } else {
-          this.router.navigate(['/MemberFunction/ETicketOrderDetail', order.Order_TableNo], {queryParams: {orderState: this.ETicket_selectedState}});
+          this.router.navigate(['/MemberFunction/ETicketOrderDetail', order.Order_TableNo], { queryParams: { orderState: this.ETicket_selectedState } });
         }
         break;
     }
