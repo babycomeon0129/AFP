@@ -28,7 +28,7 @@ export class OrderCompleteComponent implements OnInit {
     this.meta.updateTag({content: '付款成功｜線上商城 - Mobii!', property: 'og:title'});
     this.meta.updateTag({content: '', property: 'og:description'});
 
-    this.appService.isApp = 1;
+    // this.appService.isApp = 1;
   }
 
   ngOnInit() {
