@@ -103,17 +103,14 @@
                 {{requestAddress.UserFavourite_Number2}}
               </div>
             </li>
-            <li>
-              <div class="item w-84">
-                <p>詳細地址</p>
-                <p class="small-70">里道路或街名，巷弄號</p>
-                <small class="text-danger d-block"
-                  *ngIf="addressDetail.touched && addressDetail.invalid">詳細地址格式有誤</small>
-              </div>
-              <div class="item auto-left">
+            <li class="flex-column">
+              <div class="item w-100">詳細地址 <span class="small text-a8">里道路或街名，巷弄號</span></div>
+              <div class="item w-100 auto-left">
                 <input type="text" placeholder="請輸入地址" name="addressDetail" #addressDetail="ngModel"
                   [(ngModel)]="requestAddress.UserFavourite_Text3" required minlength="2" maxlength="500">
               </div>
+              <div *ngIf="addressDetail.touched && addressDetail.invalid" class="text-danger w-100 text-left small">
+                詳細地址格式有誤</div>
             </li>
           </ul>
           <div class="flex-inline-between note-box">
@@ -130,7 +127,8 @@
         <div class="addheight"></div>
         <div class="fixed-btn container">
           <!-- <button type="button" class="btn next-btn unable w-100" *ngIf="formAddAddress.invalid">確認</button> -->
-          <button type="submit" [disabled]="formAddAddress.invalid || !requestAddress.UserFavourite_Number1 || !requestAddress.UserFavourite_Number2"
+          <button type="submit"
+            [disabled]="formAddAddress.invalid || !requestAddress.UserFavourite_Number1 || !requestAddress.UserFavourite_Number2"
             [ngClass]="{'unable': formAddAddress.invalid || !requestAddress.UserFavourite_Number1 || !requestAddress.UserFavourite_Number2}"
             class="btn next-btn w-100">確認</button>
         </div>
