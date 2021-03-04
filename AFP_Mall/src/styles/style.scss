@@ -1239,7 +1239,10 @@ img.nearbyimg{
 /* no data and error page */
 .no-data,
 .no-order{
-  padding: 3em;
+  padding-top: 30%;
+  padding-bottom: 30%;
+  padding-left: 3em;
+  padding-right: 3em;
   text-align: center;
   h4{
     padding-top: 1.5em;
@@ -1247,7 +1250,7 @@ img.nearbyimg{
   }
   p{
       margin-top: 20px;
-      font-weight: 700;
+      font-weight: 500;
       font-size: 1em;
       color: $blue-dark;
       &.dfBK{
