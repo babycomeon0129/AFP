@@ -312,6 +312,10 @@ export interface AFP_Product {
   Product_SellUnitName: string;
   Product_UserDefineCode?: number;
   Product_UserDefineName?: string;
+  Product_IsBuy?: boolean;
+  Product_UsedOnDate: Date;
+  Product_UsedOffDate: Date;
+
 }
 
 export interface Response_ECHome extends Model_ShareData {

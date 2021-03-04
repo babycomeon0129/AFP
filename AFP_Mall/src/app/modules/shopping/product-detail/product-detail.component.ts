@@ -1,8 +1,10 @@
 import { environment } from '@env/environment';
 import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { AppService } from '@app/app.service';
-import { Request_ECProductDetail, Response_ECProductDetail, AFP_Product, AFP_ECStore, AFP_Attribute, Request_ECCart,
-        Response_ECCart, AFP_Voucher, AFP_ProductImg, CartStoreList } from '@app/_models';
+import {
+  Request_ECProductDetail, Response_ECProductDetail, AFP_Product, AFP_ECStore, AFP_Attribute, Request_ECCart,
+  Response_ECCart, AFP_Voucher, AFP_ProductImg, CartStoreList
+} from '@app/_models';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { ModalService } from '@app/shared/modal/modal.service';
@@ -17,7 +19,7 @@ smoothscroll.polyfill(); // kick off the polyfill!
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
   styleUrls: ['../shopping/shopping.scss', './product-detail.scss'],
-  animations: [ layerAnimationUp ]
+  animations: [layerAnimationUp]
 })
 export class ProductDetailComponent implements OnInit {
   /** 購物車編碼 */
@@ -73,7 +75,7 @@ export class ProductDetailComponent implements OnInit {
   public layerTrigUp = 0;
 
   constructor(public appService: AppService, private router: Router, private route: ActivatedRoute, public modal: ModalService,
-              private cookieService: CookieService, private meta: Meta, private title: Title) {
+    private cookieService: CookieService, private meta: Meta, private title: Title) {
     this.productCode = parseInt(this.route.snapshot.params.Product_Code, 10);
     this.productDirCode = parseInt(this.route.snapshot.params.ProductDir_Code, 10);
     this.cartCode = Number(this.cookieService.get('cart_code'));
@@ -99,16 +101,20 @@ export class ProductDetailComponent implements OnInit {
       this.voucherData = data.AFP_VoucherData;
       this.attrList = data.List_Attribute;
       this.productDirCode = data.AFP_Product.Product_UserDefineCode; // 以回傳資料取代
-      switch (this.productInfo.Product_Type) {
-        case 2:
-          this.buybtnTxt = '前往購買';
-          break;
-        case 21:
-          this.buybtnTxt = '直接購買';
-          break;
-        default:
-          this.buybtnTxt = '加入購物車';
-          break;
+      if (this.productInfo.Product_IsBuy) {
+        switch (this.productInfo.Product_Type) {
+          case 2:
+            this.buybtnTxt = '前往購買';
+            break;
+          case 21:
+            this.buybtnTxt = '直接購買';
+            break;
+          default:
+            this.buybtnTxt = '加入購物車';
+            break;
+        }
+      } else {
+        this.buybtnTxt = '銷售一空';
       }
 
       // 更新購物車數量
@@ -150,7 +156,7 @@ export class ProductDetailComponent implements OnInit {
   scrollTo(sectionId: number): void {
     this.currentSec = sectionId;
     // iOS不支援ScrollToOptions，document沒有smooth，因此使用套件
-    const targetSec =  (document.querySelector('#tag0' + sectionId) as HTMLElement);
+    const targetSec = (document.querySelector('#tag0' + sectionId) as HTMLElement);
     window.scroll({ top: targetSec.offsetTop - 50, left: 0, behavior: 'smooth' });
   }
 
@@ -211,122 +217,82 @@ export class ProductDetailComponent implements OnInit {
 
   /** 加入購物車 */
   onAddToCart() {
-    if (this.productInfo.Product_Type === 21 && !this.appService.loginState) { // 電子票券: 先確認已登入
-      this.appService.loginPage();
-    } else if (this.productInfo.Product_Type === 2) { // 外部商品直接外連到外部頁面
-      window.open(this.productInfo.Product_URL);
-    } else {  // 一般商品 & 電子票券(已登入) 走以下流程
-      const request: Request_ECCart = {
-        User_Code: sessionStorage.getItem('userCode'),
-        SelectMode: 1,
-        Cart_Count: this.cartCount,
-        SearchModel: {
-          Cart_Code: this.cartCode
-        },
-        AFP_Cart: {
-          Cart_ID: null,
-          Cart_Code: this.cartCode,
-          Cart_UserInfoCode: null,
-          Cart_ECStoreCode: this.productInfo.Product_ECStoreCode,
-          Cart_ECStoreName: this.vendorInfo.ECStore_ShowName,
-          Cart_ProductCode: this.productInfo.Product_Code,
-          Cart_AttributeValueCode: this.cartAttrValueCode,
-          Cart_AttributeValueName: this.cartAttrValueName,
-          Cart_UserDefineCode: this.productDirCode,
-          Cart_UserDefineName: null,
-          Cart_Quantity: this.prodAmount,
-          Cart_Amount: null // 交易單價(後端回填)
-        }
-      };
+    if (this.productInfo.Product_IsBuy) {
+      if (this.productInfo.Product_Type === 21 && !this.appService.loginState) { // 電子票券: 先確認已登入
+        this.appService.loginPage();
+      } else if (this.productInfo.Product_Type === 2) { // 外部商品直接外連到外部頁面
+        window.open(this.productInfo.Product_URL);
+      } else {  // 一般商品 & 電子票券(已登入) 走以下流程
+        const request: Request_ECCart = {
+          User_Code: sessionStorage.getItem('userCode'),
+          SelectMode: 1,
+          Cart_Count: this.cartCount,
+          SearchModel: {
+            Cart_Code: this.cartCode
+          },
+          AFP_Cart: {
+            Cart_ID: null,
+            Cart_Code: this.cartCode,
+            Cart_UserInfoCode: null,
+            Cart_ECStoreCode: this.productInfo.Product_ECStoreCode,
+            Cart_ECStoreName: this.vendorInfo.ECStore_ShowName,
+            Cart_ProductCode: this.productInfo.Product_Code,
+            Cart_AttributeValueCode: this.cartAttrValueCode,
+            Cart_AttributeValueName: this.cartAttrValueName,
+            Cart_UserDefineCode: this.productDirCode,
+            Cart_UserDefineName: null,
+            Cart_Quantity: this.prodAmount,
+            Cart_Amount: null // 交易單價(後端回填)
+          }
+        };
 
-      this.appService.toApi('EC', '1204', request).subscribe((data: Response_ECCart) => {
-        switch (this.productInfo.Product_Type) {
-          case 21: // 電子票券: 直接將購物車資訊帶到確認訂單頁
-            const EcartList: CartStoreList[] = [];
-            const storeInfo: CartStoreList = {
-              StoreCode: data.AFP_Cart.Cart_ECStoreCode,
-              StoreName: data.AFP_Cart.Cart_ECStoreName,
-              CheckedStatus: true,
-              EditMode: true,
-              ProductList: [
-                {
-                  CartId: data.AFP_Cart.Cart_ID,
-                  DirCode: data.AFP_Cart.Cart_UserDefineCode,
-                  DirName: null,
-                  ProductCode: data.AFP_Cart.Cart_ProductCode,
-                  ProductName: null,
-                  ProductAttrValues: data.AFP_Cart.Cart_AttributeValueName,
-                  ProductQty: 1,
-                  ProductPrice: null,
-                  ProductImg: null,
-                  CheckedStatus: true
+        this.appService.toApi('EC', '1204', request).subscribe((data: Response_ECCart) => {
+          switch (this.productInfo.Product_Type) {
+            case 21: // 電子票券: 直接將購物車資訊帶到確認訂單頁
+              const EcartList: CartStoreList[] = [];
+              const storeInfo: CartStoreList = {
+                StoreCode: data.AFP_Cart.Cart_ECStoreCode,
+                StoreName: data.AFP_Cart.Cart_ECStoreName,
+                CheckedStatus: true,
+                EditMode: true,
+                ProductList: [
+                  {
+                    CartId: data.AFP_Cart.Cart_ID,
+                    DirCode: data.AFP_Cart.Cart_UserDefineCode,
+                    DirName: null,
+                    ProductCode: data.AFP_Cart.Cart_ProductCode,
+                    ProductName: null,
+                    ProductAttrValues: data.AFP_Cart.Cart_AttributeValueName,
+                    ProductQty: 1,
+                    ProductPrice: null,
+                    ProductImg: null,
+                    CheckedStatus: true
+                  }
+                ]
+              };
+              EcartList.push(storeInfo);
+              this.router.navigate(['/Order/ETicketOrder'], {
+                state: {
+                  data: { checkoutList: EcartList }
                 }
-              ]
-            };
-            EcartList.push(storeInfo);
-            this.router.navigate(['/Order/ETicketOrder'], {
-              state: {
-                data: { checkoutList: EcartList }
+              });
+              break;
+            default: // 一般商品
+              // 若沒有購物車碼，則取得後端產生的並設在cookie裡
+              if (this.cartCode === 0) {
+                this.cookieService.set('cart_code', data.AFP_Cart.Cart_Code.toString(), 90, '/', environment.cookieDomain,
+                  environment.cookieSecure, 'Lax');
+                this.cartCode = Number(this.cookieService.get('cart_code'));
               }
-            });
-            break;
-          default: // 一般商品
-            // 若沒有購物車碼，則取得後端產生的並設在cookie裡
-            if (this.cartCode === 0) {
-              this.cookieService.set('cart_code', data.AFP_Cart.Cart_Code.toString(), 90, '/', environment.cookieDomain,
+              // 把購物車商品數設到 cookie
+              this.cookieService.set('cart_count_Mobii', data.Cart_Count.toString(), 90, '/', environment.cookieDomain,
                 environment.cookieSecure, 'Lax');
-              this.cartCode = Number(this.cookieService.get('cart_code'));
-            }
-            // 把購物車商品數設到 cookie
-            this.cookieService.set('cart_count_Mobii', data.Cart_Count.toString(), 90, '/', environment.cookieDomain,
-              environment.cookieSecure, 'Lax');
-            this.cartCount = data.Cart_Count;
-            this.modal.show('message', { initialState: { success: true, message: '加入購物車成功!', showType: 1 } });
-            break;
-        }
-        // if (this.productInfo.Product_Type !== 21) {
-        //   // 若沒有購物車碼，則取得後端產生的並設在cookie裡
-        //   if (this.cartCode === 0) {
-        //     this.cookieService.set('cart_code', data.AFP_Cart.Cart_Code.toString(), 90, '/', environment.cookieDomain,
-        //     environment.cookieSecure, 'Lax');
-        //     this.cartCode = Number(this.cookieService.get('cart_code'));
-        //   }
-        //   // 把購物車商品數設到 cookie
-        //   this.cookieService.set('cart_count_Mobii', data.Cart_Count.toString(), 90, '/', environment.cookieDomain,
-        //     environment.cookieSecure, 'Lax');
-        //   this.cartCount = data.Cart_Count;
-        //   this.modal.show('message', { initialState: { success: true, message: '加入購物車成功!', showType: 1 } });
-        // } else {
-        //   // 電子票券: 直接將購物車資訊帶到確認訂單頁
-        //   const EcartList: CartStoreList[] = [];
-        //   const storeInfo: CartStoreList = {
-        //     StoreCode: data.AFP_Cart.Cart_ECStoreCode,
-        //     StoreName: data.AFP_Cart.Cart_ECStoreName,
-        //     CheckedStatus: true,
-        //     EditMode: true,
-        //     ProductList: [
-        //       {
-        //         CartId: data.AFP_Cart.Cart_ID,
-        //         DirCode: data.AFP_Cart.Cart_UserDefineCode,
-        //         DirName: null,
-        //         ProductCode: data.AFP_Cart.Cart_ProductCode,
-        //         ProductName: null,
-        //         ProductAttrValues: data.AFP_Cart.Cart_AttributeValueName,
-        //         ProductQty: 1,
-        //         ProductPrice: null,
-        //         ProductImg: null,
-        //         CheckedStatus: true
-        //       }
-        //     ]
-        //   };
-        //   EcartList.push(storeInfo);
-        //   this.router.navigate(['/Order/ETicketOrder'], {
-        //     state: {
-        //       data: { checkoutList: EcartList }
-        //     }
-        //   });
-        // }
-      });
+              this.cartCount = data.Cart_Count;
+              this.modal.show('message', { initialState: { success: true, message: '加入購物車成功!', showType: 1 } });
+              break;
+          }
+        });
+      }
     }
   }
 

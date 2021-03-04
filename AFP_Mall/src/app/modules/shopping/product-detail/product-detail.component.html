@@ -106,7 +106,7 @@
               </div>
               <div class="item shopping-flex onbuy" [ngClass]="{'fixed-bottom container shopping-cartfooter py-3 px-3': currentSec > 0}">
                   <div class="item products-btn-buynow pt-0">
-                      <button (click)="onAddToCart()" type="button" class="btn index-btn w-100">{{buybtnTxt}}</button>
+                      <button (click)="onAddToCart()" type="button" class="btn index-btn w-100" [ngClass]="{'gray-btn': !productInfo?.Product_IsBuy}" [disabled]="!productInfo?.Product_IsBuy">{{buybtnTxt}}</button>
                   </div>
               </div>
           </div>
