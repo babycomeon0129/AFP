@@ -257,6 +257,7 @@ export interface AFP_ECStore {
   ECStore_IGURL?: string;
   ECStore_Justka: string;
   ECStore_Demo?: string;
+  ECStore_State?: boolean;
 }
 
 export interface Response_AreaMap {
@@ -927,6 +928,7 @@ export interface AFP_ItemInfoPart {
   ItemInfoPart_ReceiptText: string;
   /** 收據金額(單價) */
   ItemInfoPart_ReceiptPrice: number;
+  Product_State?: boolean;
 }
 
 export class Request_MemberAddress extends Model_ShareData {
