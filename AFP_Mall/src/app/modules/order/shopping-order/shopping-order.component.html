@@ -68,7 +68,7 @@
             <div class="item one">Email<span style="color: red;">*</span></div>
             <div class="item three">
               <input type="email" class="form-control" placeholder="請輸入" name="consumerEmail" #consumerEmail="ngModel"
-                [(ngModel)]="info.email" pattern="[A-Za-z0-9\*._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required />
+                [(ngModel)]="info.email" pattern="[A-Za-z0-9\*._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$" required />
               <small class="d-flex justify-content-end text-danger"
                 *ngIf="(consumerEmail.pristine && consumerEmail.errors?.pattern) ||
                 ((consumerEmail.touched || consumerEmail.dirty) && consumerEmail.invalid)">

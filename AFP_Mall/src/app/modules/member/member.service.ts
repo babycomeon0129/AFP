@@ -24,6 +24,7 @@ export class MemberService {
 
   /** 讀取我的檔案（會員首頁、我的檔案、手機驗證皆會使用） */
   readProfileData() {
+    this.appService.openBlock();
     const request: Request_MemberProfile = {
       SelectMode: 4,
       User_Code: sessionStorage.getItem('userCode')
