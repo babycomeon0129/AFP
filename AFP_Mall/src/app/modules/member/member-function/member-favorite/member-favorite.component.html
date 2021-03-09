@@ -27,26 +27,26 @@
               <div class="afp-tab">
                   <div class="nav-tabs-box">
                       <!-- Nav tabs -->
-                      <ul class="nav-tab-list nav nav-tabs nav-line d-flex justify-content-around" role="tablist">
-                          <li role="presentation" class="active">
-                              <a href="#favoritetag01" (click)="onFavList(53);" class="tablist-link active" aria-controls="favoritetag01" role="tab" data-toggle="tab" aria-selected="true">探索周邊</a>
+                      <ul class="nav-tab-list nav nav-tabs nav-line d-flex justify-content-around">
+                          <li role="presentation">
+                              <a (click)="onFavList(53);" class="tablist-link"  [ngClass]="{'active': selectedType === 53}">探索周邊</a>
                           </li>
                           <li role="presentation">
-                              <a href="#favoritetag03" (click)="onFavList(51);" class="tablist-link" aria-controls="favoritetag03" role="tab" data-toggle="tab" aria-selected="false">按讚好物</a>
+                              <a (click)="onFavList(51);" class="tablist-link" [ngClass]="{'active': selectedType === 51}">按讚好物</a>
                           </li>
                           <li role="presentation">
-                              <a href="#favoritetag04" (click)="onFavList(52);" class="tablist-link" aria-controls="favoritetag04" role="tab" data-toggle="tab" aria-selected="false">收藏商店</a>
+                              <a (click)="onFavList(52);" class="tablist-link" [ngClass]="{'active': selectedType === 52}">收藏商店</a>
                           </li>
                           <li role="presentation">
-                              <a href="#favoritetag02" (click)="onFavList(54);" class="tablist-link" aria-controls="favoritetag02" role="tab" data-toggle="tab" aria-selected="false">旅遊行程</a>
+                              <a (click)="onFavList(54);" class="tablist-link" [ngClass]="{'active': selectedType === 54}">旅遊行程</a>
                           </li>
                       </ul>
                       <div class="tab-line w-100"></div>
                   </div>
                   <!-- Tab panes -->
-                  <div class="tab-content" *ngIf="selectedType?.length > 0; else noFavBlock">
+                  <div class="tab-content">
                     <!-- 探索周邊 -->
-                    <div role="tabpanel" class="tab-pane fade w-100 active show" id="favoritetag01">
+                    <div role="tabpanel" class="tab-pane fade w-100" id="favoritetag01" [ngClass]="{'active show': selectedType === 53}">
                       <!-- 選擇分類、篩選暫時隱藏 -->
                         <div class="choice-filter-box py-1 d-none">
                             <div class="flex-inline-between">
@@ -62,8 +62,8 @@
                         <div class="filter-outbox">
                             <div class="filter-main">
                                 <div class="mask-container d-none w-100 h-100"></div>
-                                <div class="favorite-explore p-0">
-                                  <div *ngFor="let item of selectedType" id="{{item.ECStore_Code}}" class="d-flex" [ngClass]="{'brightness': !item.ECStore_IsOnline}">
+                                <div class="favorite-explore p-0" *ngIf="listArea?.length > 0 else noFavBlock">
+                                  <div *ngFor="let item of listArea" id="{{item.ECStore_Code}}" class="d-flex" [ngClass]="{'brightness': !item.ECStore_IsOnline}">
                                     <a (click)="goToDetail(item?.ECStore_IsOnline, '/Explore/ExploreDetail', item?.ECStore_Code)" class="d-flex align-items-start w-100">
                                         <div class="item-explore">
                                           <div class="img-box rwdimgbox-80">
@@ -91,7 +91,7 @@
                                             </div>
                                         </div>
                                     </a>
-                                    <div (click)="onDelFav(53, item.ECStore_Code)" *ngIf="editMode === true" class="item-del ml-auto">
+                                    <div (click)="onDelFav(listArea, 53, item.ECStore_Code)" *ngIf="editMode === true" class="item-del ml-auto">
                                         刪除
                                     </div>
                                   </div>
@@ -154,9 +154,9 @@
 
                     </div>
                     <!-- 按讚好物 -->
-                    <div role="tabpanel" class="tab-pane fade w-100" id="favoritetag03">
-                        <div class="favorite-explore p-0">
-                          <div *ngFor="let item of selectedType" id="{{item.Product_Code}}" class="d-flex" [ngClass]="{'brightness': !item.Product_IsOnline}">
+                    <div role="tabpanel" class="tab-pane fade w-100" id="favoritetag03" [ngClass]="{'active show': selectedType === 51}">
+                        <div class="favorite-explore p-0" *ngIf="listProduct?.length > 0 else noFavBlock">
+                          <div *ngFor="let item of listProduct" id="{{item.Product_Code}}" class="d-flex" [ngClass]="{'brightness': !item.Product_IsOnline}">
                               <a (click)="goToDetail(item?.Product_IsOnline, '/Shopping/ProductDetail', item?.Product_UserDefineCode, item?.Product_Code)" class="d-flex w-100">
                                 <a class="item-explore">
                                   <div class="img-box rwdimgbox-80">
@@ -175,16 +175,16 @@
                                     </div>
                                 </a>
                               </a>
-                              <div (click)="onDelFav(51, item.Product_Code)" *ngIf="editMode === true" class="item-del">
+                              <div (click)="onDelFav(listProduct, 51, item.Product_Code)" *ngIf="editMode === true" class="item-del">
                                 刪除
                               </div>
                           </div>
                         </div>
                     </div>
                       <!-- 線上商店 -->
-                    <div role="tabpanel" class="tab-pane fade w-100" id="favoritetag04">
-                        <div class="favorite-explore p-0">
-                            <div *ngFor="let item of selectedType" id="{{item.ECStore_Code}}" class="d-flex" [ngClass]="{'brightness': !item.ECStore_IsOnline}">
+                    <div role="tabpanel" class="tab-pane fade w-100" id="favoritetag04" [ngClass]="{'active show': selectedType === 52}">
+                        <div class="favorite-explore p-0" *ngIf="listEcstore?.length > 0 else noFavBlock">
+                            <div *ngFor="let item of listEcstore" id="{{item.ECStore_Code}}" class="d-flex" [ngClass]="{'brightness': !item.ECStore_IsOnline}">
                               <a (click)="goToDetail(item?.ECStore_IsOnline, '/Explore/ExploreDetail', item.ECStore_Code)" class="d-flex w-100">
                                 <a class="item-explore">
                                   <div class="img-box rwdimgbox-80">
@@ -200,16 +200,16 @@
                                     </div>
                                 </a>
                               </a>
-                              <div (click)="onDelFav(52, item.ECStore_Code)" *ngIf="editMode === true" class="item-del">
+                              <div (click)="onDelFav(listEcstore, 52, item.ECStore_Code)" *ngIf="editMode === true" class="item-del">
                                 刪除
                               </div>
                             </div>
                         </div>
                     </div>
                     <!-- 旅遊行程 -->
-                    <div role="tabpanel" class="tab-pane fade w-100" id="favoritetag02">
-                        <div class="favorite-explore p-0">
-                          <div *ngFor="let item of selectedType" id="{{item.Travel_Code}}" class="d-flex">
+                    <div role="tabpanel" class="tab-pane fade w-100" id="favoritetag02" [ngClass]="{'active show': selectedType === 54}">
+                        <div class="favorite-explore p-0" *ngIf="listTravel?.length > 0 else noFavBlock">
+                          <div *ngFor="let item of listTravel" id="{{item.Travel_Code}}" class="d-flex">
                               <a (click)="goToTour(item)" class="d-flex align-items-start w-100">
                                   <div class="item-explore">
                                     <div class="img-box rwdimgbox-80">
@@ -236,7 +236,7 @@
                                       </div>
                                   </div>
                               </a>
-                              <div (click)="onDelFav(54, item.Travel_Code)" *ngIf="editMode === true" class="item-del ml-auto">
+                              <div (click)="onDelFav(listTravel, 54, item.Travel_Code)" *ngIf="editMode === true" class="item-del ml-auto">
                                     刪除
                               </div>
                           </div>

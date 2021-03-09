@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { Request_MemberFavourite, Response_MemberFavourite, TravelJsonFile_Travel } from '@app/_models';
+import { Request_MemberFavourite, Response_MemberFavourite, TravelJsonFile_Travel, AreaJsonFile_ECStore, AFP_ECStore, AFP_Product } from '@app/_models';
 import { ModalService } from '../../../../shared/modal/modal.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
@@ -13,9 +13,18 @@ import { Meta, Title } from '@angular/platform-browser';
 export class MemberFavoriteComponent implements OnInit {
   /** 編輯模式 */
   public editMode = false;
-  /** 目前所選收藏類型資料容器 */
-  public selectedType = [];
-  public showBack = false; // APP特例處理
+  /** 選擇TAG  53: 探索周邊 51:按讚好物 52: 收藏商店 54: 旅遊行程 */
+  public selectedType = 53;
+  /** 探索周邊列表 */
+  public listArea: AreaJsonFile_ECStore[] = [];
+  /** 按讚好物 */
+  public listProduct: AFP_Product[] = [];
+  /** 收藏商店 */
+  public listEcstore: AFP_ECStore[] = [];
+  /** 旅遊行程 */
+  public listTravel: TravelJsonFile_Travel[] = [];
+  /** APP特例處理 */
+  public showBack = false;
 
   constructor(public appService: AppService, public modal: ModalService, private route: ActivatedRoute, private router: Router,
               private meta: Meta, private title: Title) {
@@ -39,6 +48,7 @@ export class MemberFavoriteComponent implements OnInit {
    * @param favType 51 商品, 52 商家, 53 周邊, 54 行程
    */
   onFavList(favType: number) {
+    this.selectedType = favType;
     this.editMode = false;
     this.appService.openBlock();
     const request: Request_MemberFavourite = {
@@ -56,26 +66,27 @@ export class MemberFavoriteComponent implements OnInit {
     this.appService.toApi('Member', '1511', request).subscribe((data: Response_MemberFavourite) => {
         switch (favType) {
           case 51:
-            this.selectedType = data.List_Product;
+            this.listProduct = data.List_Product;
             break;
           case 52:
-            this.selectedType = data.List_ECStore;
+            this.listEcstore = data.List_ECStore;
             break;
           case 53:
-            this.selectedType = data.List_Area;
+            this.listArea = data.List_Area;
             break;
           case 54:
-            this.selectedType = data.List_Travel;
+            this.listTravel = data.List_Travel;
             break;
         }
     });
   }
 
   /** 刪除收藏
+   * @param showList 列表
    * @param favType 51 商品, 52 商家, 53 周邊, 54 行程
    * @param favCode 商品/商家/周邊/行程編碼
    */
-  onDelFav(favType: number, favCode: number) {
+  onDelFav(showList, favType: number, favCode: number) {
     this.modal.confirm({initialState: {message: '確認要刪除這個收藏嗎?'}}).subscribe(res => {
       const request: Request_MemberFavourite = {
         SelectMode: 2,
@@ -97,7 +108,7 @@ export class MemberFavoriteComponent implements OnInit {
           // get new favorites and push to array
           this.appService.showFavorites();
           // remove the data (also disappear from DOM)
-          this.selectedType.every((item, index) => {
+          showList.every((item, index) => {
             let delState = false;
             switch (favType) {
               case 51:
@@ -119,7 +130,7 @@ export class MemberFavoriteComponent implements OnInit {
             }
 
             if (delState) {
-              this.selectedType.splice(index, 1);
+              showList.splice(index, 1);
               return false; // 迴圈中止
             }
             return true;

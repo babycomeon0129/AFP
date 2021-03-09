@@ -115,6 +115,7 @@ export interface AreaJsonFile_ECStore {
   ECStore_Lat?: number;
   ECStore_Distance?: number;
   AttrbuteData?: AreaJsonFile_Attrbute[];
+  ECStore_IsOnline: boolean;
 }
 
 export interface AreaJsonFile_Attrbute {
@@ -258,6 +259,7 @@ export interface AFP_ECStore {
   ECStore_Justka: string;
   ECStore_Demo?: string;
   ECStore_State?: boolean;
+  ECStore_IsOnline?: boolean;
 }
 
 export interface Response_AreaMap {
