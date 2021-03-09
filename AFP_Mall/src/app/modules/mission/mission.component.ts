@@ -56,6 +56,7 @@ export class MissionComponent implements OnInit, DoCheck {
     };
 
     this.appService.toApi('Member', '1518', request).subscribe((data: Response_MemberMission) => {
+      console.log(data);
       this.userPoint = data.TotalPoint;
       this.dailyMission = data.List_DailyMission;
       this.advancedMission = data.List_AdvancedMission;
@@ -125,7 +126,7 @@ export class MissionComponent implements OnInit, DoCheck {
     } else {
       switch (mission.Mission_ClickState) {
         case 2:
-          if (mission.Mission_CurrentURL.indexOf('eyesmedia.com.tw/feedback') > 0) {
+          if (mission.Mission_CurrentURL.indexOf('/feedback/?') > 0) {
             const strUser = '?customerInfo=' + sessionStorage.getItem('CustomerInfo') + '&userCode=' + sessionStorage.getItem('userCode') + '&userName=' + sessionStorage.getItem('userName') + '&loginType=1';
             const device = {system : '', isApp: this.appService.isApp !== null ? strUser + '&isApp=1' : ''};
             //  Justka特別處理
