@@ -56,7 +56,6 @@ export class MissionComponent implements OnInit, DoCheck {
     };
 
     this.appService.toApi('Member', '1518', request).subscribe((data: Response_MemberMission) => {
-      console.log(data);
       this.userPoint = data.TotalPoint;
       this.dailyMission = data.List_DailyMission;
       this.advancedMission = data.List_AdvancedMission;
