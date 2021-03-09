@@ -46,10 +46,12 @@
           <div class="item title-name">
             {{(addressId > 0) ? '修改地址' : '新增地址'}}
           </div>
-          <div class="item ctrl-btn" *ngIf="addressId == 0"></div>
-          <div class="item del-btn" *ngIf="addressId > 0">
-            <button type="button" class="btn msg-open" (click)="onDeleteAddress()">刪除</button>
-          </div>
+          <div class="item ctrl-btn" *ngIf="addressId == 0 ; else delBtn"></div>
+          <ng-template #delBtn>
+            <div class="item del-btn" *ngIf="addressId > 0">
+              <button type="button" class="btn msg-open" (click)="onDeleteAddress()">刪除</button>
+            </div>
+          </ng-template>
         </div>
         <div class="my-address-list ">
           <ul>
