@@ -23,9 +23,9 @@ export class OrderCompleteComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, public appService: AppService, private router: Router, private cookieService: CookieService,
               private meta: Meta, private title: Title) {
-    this.title.setTitle('付款成功｜線上商城 - Mobii!');
+    this.title.setTitle('付款確認中｜線上商城 - Mobii!');
     this.meta.updateTag({name : 'description', content: ''});
-    this.meta.updateTag({content: '付款成功｜線上商城 - Mobii!', property: 'og:title'});
+    this.meta.updateTag({content: '付款確認中｜線上商城 - Mobii!', property: 'og:title'});
     this.meta.updateTag({content: '', property: 'og:description'});
   }
 
@@ -50,6 +50,14 @@ export class OrderCompleteComponent implements OnInit {
     this.appService.toApi('Member', '1604', request).subscribe((data: Response_OrderComplete) => {
       this.ResponseModel = data;
       this.appService.isApp = data.IsApp;
+      if (this.ResponseModel.Success) {
+        this.title.setTitle('付款成功｜線上商城 - Mobii!');
+        this.meta.updateTag({content: '付款成功｜線上商城 - Mobii!', property: 'og:title'});
+      } else {
+        this.title.setTitle('付款失敗｜線上商城 - Mobii!');
+        this.meta.updateTag({content: '付款失敗｜線上商城 - Mobii!', property: 'og:title'});
+      }
+      // 使用 web
       if (data.IsApp === 0) {
         this.appService.isApp = null;
       }
@@ -59,6 +67,8 @@ export class OrderCompleteComponent implements OnInit {
     this.countdown = setTimeout(() => {
       if (this.ResponseModel === undefined) {
         this.ResponseModel = new Response_OrderComplete();
+        this.title.setTitle('付款失敗｜線上商城 - Mobii!');
+        this.meta.updateTag({content: '付款失敗｜線上商城 - Mobii!', property: 'og:title'});
       }
     }, 3000);
   }
