@@ -27,8 +27,6 @@ export class OrderCompleteComponent implements OnInit {
     this.meta.updateTag({name : 'description', content: ''});
     this.meta.updateTag({content: '付款成功｜線上商城 - Mobii!', property: 'og:title'});
     this.meta.updateTag({content: '', property: 'og:description'});
-
-    this.appService.isApp = 1;
   }
 
   ngOnInit() {
@@ -51,6 +49,7 @@ export class OrderCompleteComponent implements OnInit {
     this.appService.openBlock();
     this.appService.toApi('Member', '1604', request).subscribe((data: Response_OrderComplete) => {
       this.ResponseModel = data;
+      this.appService.isApp = data.IsApp;
       if (data.IsApp === 0) {
         this.appService.isApp = null;
       }

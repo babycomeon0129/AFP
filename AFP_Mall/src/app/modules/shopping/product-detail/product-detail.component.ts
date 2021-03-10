@@ -301,7 +301,7 @@ export class ProductDetailComponent implements OnInit {
    */
   onGoToStore(fragment: number) {
     const navigationExtras: NavigationExtras = {
-      queryParams: { navNo: fragment }
+      queryParams: { navNo: fragment, showBack: this.showBack }
     };
     this.router.navigate(['/Explore/ExploreDetail', this.productInfo.Product_ECStoreCode], navigationExtras);
   }

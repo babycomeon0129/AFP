@@ -80,7 +80,7 @@
                 <div class="item input-box div-switch" [ngClass]="{'d-none': !editMode}">
                   <select class="form-control" id="sexSelect" name="UserSex" #UserSex="ngModel"
                     [(ngModel)]="memberService.userProfile.UserProfile_Sex">
-                    <option value="null" hidden>請選擇</option>
+                    <option value="null" hidden disabled>請選擇</option>
                     <option value="1">男</option>
                     <option value="2">女</option>
                     <option value="3">不透露</option>
