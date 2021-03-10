@@ -113,7 +113,6 @@ export class AppService {
           case 9998: // user資料不完整，讓使用者登出
             this.modal.show('message', { initialState: { success: false, message: '請先登入', showType: 1 } });
             this.onLogout();
-            this.blockUI.stop();
             break;
           default: // 其他錯誤
             this.bsModal.show(MessageModalComponent
