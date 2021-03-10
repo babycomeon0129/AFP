@@ -142,7 +142,7 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
    */
   goToProductDetail(UserDefineCode: number, ItemCode: number, Product_State: boolean): void {
     if (Product_State) {
-      this.router.navigate(['/Shopping/ProductDetail', UserDefineCode, ItemCode]);
+      this.router.navigate(['/Shopping/ProductDetail', UserDefineCode, ItemCode], { queryParams: { showBack: this.showBack } });
     } else {
       this.modal.show('message', { initialState: { success: false, message: 'Oops！該商品已全部銷售完畢囉！', showType: 1}});
     }
