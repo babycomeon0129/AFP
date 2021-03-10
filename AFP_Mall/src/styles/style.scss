@@ -1239,11 +1239,13 @@ img.nearbyimg{
 /* no data and error page */
 .no-data,
 .no-order{
-  padding-top: 20%;
-  padding-bottom: 20%;
+  transform: translateY(35%);
   padding-left: 3em;
   padding-right: 3em;
   text-align: center;
+  & .transform10px {
+    transform: translateY(10px);
+  }
   h4{
     padding-top: 1.5em;
     font-weight: bold;
