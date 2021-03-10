@@ -635,11 +635,10 @@ export class EntranceComponent implements OnInit, DoCheck {
 
   /** 立即下載 APP */
   toDownloadAPP(): void {
-    // 若瀏覽器為 Safari 9 以上，此鈕只做導去APP Store的動作
-    // (因iOS有做Universal Link，若已有下載APP，Safari上方會出現banner，版本9以上點擊會直接開啟APP，9以下則以Safari開啟網頁)
+    // 若系統為 iOS 9 以上且瀏覽器為 Safari，此鈕只做導去APP Store的動作
+    // (因iOS有做Universal Link，若已有下載APP，Safari上方會出現banner，iOS 9以上點擊會直接開啟APP，9以下則以Safari開啟網頁)
     const ua = navigator.userAgent;
-    if ((ua.includes('Safari') && !ua.includes('Chrome')) && parseInt(ua.match(/Safari\/([0-9]+)\./)[1], 10) >= 9) {
-      console.log('Safari > 9');
+    if ((ua.match(/iPhone|iPad|iPod/i) !== null && parseInt(ua.match(/OS\s([0-9\.]*)/i)[1], 10) >= 9) && (ua.includes('Safari') && !ua.includes('Chrome'))) {
       location.href = 'https://itunes.apple.com/app/id1512321552';
     } else {
       window.location.href = 'mobii://';
