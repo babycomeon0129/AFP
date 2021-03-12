@@ -243,7 +243,7 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     const initialState = {
       success: true,
       type: 1,
-      message: `<div class="no-data"><img src="../../../../../img/shopping/payment-failure.png"><p>Oops！你的點數不足或已達遊玩次數上限囉！</p></div>`
+      message: `<div class="no-data no-transform"><img src="../../../../../img/shopping/payment-failure.png"><p>Oops！你的點數不足或已達遊玩次數上限囉！</p></div>`
     };
     this.modal.show('message', { initialState });
   }

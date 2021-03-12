@@ -322,7 +322,7 @@ export class AppService {
               const initialState = {
                 success: true,
                 type: 1,
-                message: `<div class="no-data"><img src="../../../../img/shopping/payment-ok.png"><p>兌換成功！</p></div>`
+                message: `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-ok.png"><p>兌換成功！</p></div>`
               };
               this.modal.show('message', { initialState });
             }
