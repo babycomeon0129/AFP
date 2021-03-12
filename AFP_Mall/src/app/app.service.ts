@@ -484,7 +484,9 @@ export class AppService {
     });
   }
 
-  /** 通知APP是否開啟BottomBar */
+  /** 通知APP是否開啟BottomBar
+   * @param isOpen true: 開 , false: 關
+   * */
   appShowMobileFooter(isOpen: boolean): void {
     if (this.isApp !== null) {
       if (navigator.userAgent.match(/android/i)) {
