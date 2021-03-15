@@ -570,6 +570,7 @@ export interface AFP_Cart {
   Show_ProductImg?: string;
   Show_ProductDiscountCoin?: number;
   Cart_ProdReceiptPrice?: number;
+  Cart_ProductState?: boolean;
 }
 
 export interface Response_ECCart extends Model_ShareData {
@@ -1164,6 +1165,7 @@ export interface ProductInfo {
   ProductPrice: number;
   ProductImg: string;
   CheckedStatus: boolean;
+  Cart_ProductState: boolean;
 }
 
 /**

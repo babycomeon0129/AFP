@@ -266,7 +266,8 @@ export class ProductDetailComponent implements OnInit {
                     ProductQty: 1,
                     ProductPrice: null,
                     ProductImg: null,
-                    CheckedStatus: true
+                    CheckedStatus: true,
+                    Cart_ProductState: null
                   }
                 ]
               };

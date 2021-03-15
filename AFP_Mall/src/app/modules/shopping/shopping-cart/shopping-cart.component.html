@@ -58,13 +58,13 @@
                             </button>
                         </div>
                     </li>
-                    <li *ngFor="let product of store.ProductList" attr.data-cartId="{{product.CartId}}">
+                    <li *ngFor="let product of store.ProductList" attr.data-cartId="{{product.CartId}}" [ngClass]="{'bg-gary': !product.Cart_ProductState}">
                         <div class="row">
                             <div class="col-9 col-lg-11">
                                 <div class="products-sitem d-flex align-items-start bd-highlight">
                                     <div class="sitem-checkbox">
                                         <div class="icheck-material-blue">
-                                            <input id="{{product.CartId}}" [checked]="product.CheckedStatus === true" (change)="onToggleProduct(store, product)" type="checkbox">
+                                            <input id="{{product.CartId}}" [checked]="product.CheckedStatus === true" (change)="onToggleProduct(store, product)" type="checkbox" [disabled]="!product.Cart_ProductState">
                                             <label for="{{product.CartId}}" class="p-0"></label>
                                         </div>
                                     </div>
