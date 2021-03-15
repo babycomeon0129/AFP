@@ -116,6 +116,7 @@ export interface AreaJsonFile_ECStore {
   ECStore_Distance?: number;
   AttrbuteData?: AreaJsonFile_Attrbute[];
   ECStore_IsOnline: boolean;
+  ECStore_State: boolean;
 }
 
 export interface AreaJsonFile_Attrbute {
@@ -317,6 +318,7 @@ export interface AFP_Product {
   Product_IsBuy?: boolean;
   Product_UsedOnDate: Date;
   Product_UsedOffDate: Date;
+  Product_State: boolean;
 
 }
 
