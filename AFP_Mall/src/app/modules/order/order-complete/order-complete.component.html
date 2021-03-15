@@ -20,7 +20,18 @@
   <main [ngSwitch]="ResponseModel?.Success">
     <!-- 確認中 -->
     <ng-template [ngSwitchCase]="undefined">
-      <div class="order-confirming-box text-center py-3">請稍後</div>
+      <div class="order-processing-box">
+        <div class="container">
+          <div class="row">
+            <div class="col-12 text-center">
+              <div class="order-processing">
+                <img src="../img/shopping/payment-processing.png" alt="付款處理中">
+              </div>
+              <p class="order-processing text-center">付款處理中，請稍後...</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </ng-template>
     <!-- 付款成功 -->
     <ng-template [ngSwitchCase]="true">
@@ -38,7 +49,7 @@
           </ol>
         </div>
         <div class="order-ok mt-3">
-          <img src="../img/shopping/payment-ok.png" alt="">
+          <img src="../img/shopping/payment-ok.png" alt="付款成功">
         </div>
         <p class="order-success text-center">訂購完成!</p>
         <div class="container">
@@ -60,7 +71,7 @@
           <div class="row">
             <div class="col-12 text-center">
               <div class="order-error">
-                <img src="../img/shopping/payment-failed.png" alt="">
+                <img src="../img/shopping/payment-failed.png" alt="付款失敗">
               </div>
               <p class="order-success text-center">{{ResponseModel.ErrorMsg}}</p>
             </div>
