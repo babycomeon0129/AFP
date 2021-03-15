@@ -28,6 +28,7 @@ input[type=number]::-webkit-outer-spin-button {
                 }
                 .sitem-img {
                     width: 80px;
+                    margin-left: .2em;
                 }
                 .sitem-title {
                     width: 70%;
@@ -113,6 +114,25 @@ input[type=number]::-webkit-outer-spin-button {
     }
 }
 
-.bg-gary {
-  background-color: #6c757d;
+
+.shopping-brightness{
+  position: relative;
+  &:before{
+    color: #fff;
+    content: '已下架';
+    font-size: x-small;
+    display: block;
+    position: absolute;
+    left: 0;
+    transform: translate(150%, 200%);
+    z-index: 1;
+  }
+  .sitem-img{
+    position: relative;
+    filter: brightness(0.4);
+  }
+  .products-sitem, .price-asking{
+    filter: grayscale(100%);
+    opacity: .55;
+  }
 }
