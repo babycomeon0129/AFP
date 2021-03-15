@@ -1239,15 +1239,22 @@ img.nearbyimg{
 /* no data and error page */
 .no-data,
 .no-order{
-  padding: 3em;
+  transform: translateY(35%);
+  padding-left: 3em;
+  padding-right: 3em;
   text-align: center;
+  &.no-transform {
+    transform: none;
+    padding-top: 2em;
+    padding-bottom: 2em;
+  }
   h4{
     padding-top: 1.5em;
     font-weight: bold;
   }
   p{
       margin-top: 20px;
-      font-weight: 700;
+      font-weight: 500;
       font-size: 1em;
       color: $blue-dark;
       &.dfBK{

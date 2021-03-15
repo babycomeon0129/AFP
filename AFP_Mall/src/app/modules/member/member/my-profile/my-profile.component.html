@@ -80,7 +80,7 @@
                 <div class="item input-box div-switch" [ngClass]="{'d-none': !editMode}">
                   <select class="form-control" id="sexSelect" name="UserSex" #UserSex="ngModel"
                     [(ngModel)]="memberService.userProfile.UserProfile_Sex">
-                    <option value="null" hidden>請選擇</option>
+                    <option value="null" hidden disabled>請選擇</option>
                     <option value="1">男</option>
                     <option value="2">女</option>
                     <option value="3">不透露</option>
@@ -104,7 +104,7 @@
                 <div class="item input-box">
                   <input type="email" name="UserEmail" [placeholder]="editMode? '請輸入' : ''" class="txt-line-clamp1"
                     #UserEmail="ngModel" [(ngModel)]="memberService.userProfile.UserProfile_Email"
-                    [readOnly]="editMode === false" pattern="[A-Za-z0-9\*._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                    [readOnly]="editMode === false" pattern="[A-Za-z0-9\*._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$">
                 </div>
                 <small class="ml-3 text-danger" *ngIf="UserEmail.invalid">E-mail格式有誤</small>
               </li>

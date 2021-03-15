@@ -115,6 +115,7 @@ export interface AreaJsonFile_ECStore {
   ECStore_Lat?: number;
   ECStore_Distance?: number;
   AttrbuteData?: AreaJsonFile_Attrbute[];
+  ECStore_IsOnline: boolean;
 }
 
 export interface AreaJsonFile_Attrbute {
@@ -257,6 +258,8 @@ export interface AFP_ECStore {
   ECStore_IGURL?: string;
   ECStore_Justka: string;
   ECStore_Demo?: string;
+  ECStore_State?: boolean;
+  ECStore_IsOnline?: boolean;
 }
 
 export interface Response_AreaMap {
@@ -311,6 +314,10 @@ export interface AFP_Product {
   Product_SellUnitName: string;
   Product_UserDefineCode?: number;
   Product_UserDefineName?: string;
+  Product_IsBuy?: boolean;
+  Product_UsedOnDate: Date;
+  Product_UsedOffDate: Date;
+
 }
 
 export interface Response_ECHome extends Model_ShareData {
@@ -927,6 +934,7 @@ export interface AFP_ItemInfoPart {
   ItemInfoPart_ReceiptText: string;
   /** 收據金額(單價) */
   ItemInfoPart_ReceiptPrice: number;
+  Product_State?: boolean;
 }
 
 export class Request_MemberAddress extends Model_ShareData {

@@ -15,11 +15,16 @@ export class MemberService {
   public AppleThird: AFP_UserThird;
   /** 第三方資訊類型：1 FB, 3 Google */
   public bindMode = 0;
+  /** 標籤切換 (目前用於我的訂單[MemberOrde]  21: 電子票券 1: 購物商城 */
+  public tabSwitch  = 1;
+  /** 訂單狀態切換(目前用於我的訂單[MemberOrde]  1: 處理中 2: 待收貨 3:已完成 4:退貨 */
+  public statusSwitch = 1;
 
   constructor(private appService: AppService) { }
 
   /** 讀取我的檔案（會員首頁、我的檔案、手機驗證皆會使用） */
   readProfileData() {
+    this.appService.openBlock();
     const request: Request_MemberProfile = {
       SelectMode: 4,
       User_Code: sessionStorage.getItem('userCode')

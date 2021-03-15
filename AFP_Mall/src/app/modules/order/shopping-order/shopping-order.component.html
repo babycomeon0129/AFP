@@ -68,7 +68,7 @@
             <div class="item one">Email<span style="color: red;">*</span></div>
             <div class="item three">
               <input type="email" class="form-control" placeholder="請輸入" name="consumerEmail" #consumerEmail="ngModel"
-                [(ngModel)]="info.email" pattern="[A-Za-z0-9\*._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required />
+                [(ngModel)]="info.email" pattern="[A-Za-z0-9\*._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$" required />
               <small class="d-flex justify-content-end text-danger"
                 *ngIf="(consumerEmail.pristine && consumerEmail.errors?.pattern) ||
                 ((consumerEmail.touched || consumerEmail.dirty) && consumerEmail.invalid)">
@@ -489,7 +489,8 @@
         <div class="header-secondary container linebt-row">
           <div class="index-flex justify-content-between">
             <div class="item two">
-              <div class="close-btn" (click)="layerTrig = 6">
+              <div class="close-btn"
+                (click)="layerTrig = 6; formAddAddress.resetForm(); requestAddress.UserFavourite_Number1 = 1; requestAddress.UserFavourite_Number2 = undefined">
                 <i class="material-icons">&#xe314;</i>
               </div>
             </div>
@@ -512,7 +513,8 @@
                   <input type="text" placeholder="請輸入" name="addressTitle" #addressTitle="ngModel"
                     [(ngModel)]="requestAddress.UserFavourite_Text1" required minlength="2" maxlength="10">
                 </div>
-                <div *ngIf="addressTitle.touched && addressTitle.invalid"
+                <div *ngIf="(addressTitle.pristine && (addressTitle.errors?.minlength || addressTitle.errors?.maxlength)) ||
+                  (addressTitle.touched && addressTitle.invalid)"
                   class="text-danger w-100 text-left small">姓名/公司名稱格式有誤（請輸入2至10字元）</div>
               </li>
               <li class="index-flex">
@@ -521,7 +523,8 @@
                   <input type="text" placeholder="請輸入" name="addressMobile" #addressMobile="ngModel"
                     [(ngModel)]="requestAddress.UserFavourite_Text2" required pattern="^09\d{8}$" maxlength="10">
                 </div>
-                <div *ngIf="addressMobile.touched && addressMobile.invalid"
+                <div *ngIf="(addressMobile.pristine && (addressMobile.errors?.pattern || addressMobile.errors?.maxlength)) ||
+                  (addressMobile.touched && addressMobile.invalid)"
                   class="text-danger w-100 text-left small">手機號碼格式有誤</div>
               </li>
               <li>
@@ -555,7 +558,8 @@
                   <input type="text" placeholder="請輸入地址" name="addressDetail" #addressDetail="ngModel"
                     [(ngModel)]="requestAddress.UserFavourite_Text3" required minlength="2" maxlength="500">
                 </div>
-                <div *ngIf="addressDetail.touched && addressDetail.invalid"
+                <div *ngIf="(addressDetail.pristine && (addressDetail.errors?.minlength || addressDetail.errors?.maxlength)) ||
+                  (addressDetail.touched && addressDetail.invalid)"
                   class="text-danger w-100 text-left small">詳細地址格式有誤</div>
               </li>
             </ul>

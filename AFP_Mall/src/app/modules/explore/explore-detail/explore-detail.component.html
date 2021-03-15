@@ -89,9 +89,16 @@
                           <div [ngClass]="{'show active' : tabNo == 1}" class="tab-pane fade show active" id="store" role="tabpanel" aria-labelledby="store-tab">
                               <div class="store-group">
                                   <!-- 簡介文字 -->
-                                  <div *ngIf="siteInfo?.ECStore_Features !== null" class="store-item store-itemopen">
-                                      <div [innerHTML]="siteInfo?.ECStore_Features | Safe: 'html'"></div>
+                                  <div class="store-item store-itemopen">
+                                      <div *ngIf="siteInfo?.ECStore_Features !== null; else noIntroBlock"
+                                        [innerHTML]="siteInfo?.ECStore_Features | Safe: 'html'"></div>
                                       <!-- <div (click)="unfold(1)" class="open-btn ml-auto"><i class="material-icons"></i></div> -->
+                                      <ng-template #noIntroBlock>
+                                        <div class="no-data no-transform w-100">
+                                          <img src="img/explore/no-intro.png" alt="no-product">
+                                          <p>Oops!Oops!<br>你搜尋的店家目前沒有提供簡介喔！</p>
+                                        </div>
+                                      </ng-template>
                                   </div>
                                   <!-- 地址 -->
                                   <div *ngIf="siteInfo?.ECStore_Type !== 1000" class="store-item store-itemopen">
@@ -178,7 +185,7 @@
                                   </div>
                               </div>
                               <div id="products-list">
-                                  <div class="products-listbox">
+                                  <div *ngIf="productList?.length > 0; else noProductBlock" class="products-listbox">
                                     <div class="row">
                                       <div *ngFor="let product of productList" class="col-6 col-md-4">
                                         <div class="products-item">
@@ -200,51 +207,63 @@
                                       </div>
                                     </div>
                                   </div>
+                                  <ng-template #noProductBlock>
+                                    <div class="no-data no-transform">
+                                      <img src="img/explore/no-product.png" alt="no-product">
+                                      <p>Oops!<br>你搜尋的店家目前沒有販售中的商品喔！</p>
+                                    </div>
+                                  </ng-template>
                               </div>
                           </div>
                           <!-- 優惠券 -->
                           <div [ngClass]="{'show active' : tabNo == 2}" class="tab-pane fade" id="ticket" role="tabpanel" aria-labelledby="ticket-tab">
                               <!-- discout -->
-                              <div class="mycoin-couponbox card-columns px-3">
-                                <div *ngFor="let voucher of voucherList" class="card border-radius5">
-                                  <div class="card-body">
-                                  <div class="card-text">
-                                      <div class="member-flex">
-                                          <div [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', voucher.Voucher_Code] : ['/Voucher/VoucherDetail', voucher.Voucher_UserVoucherCode]" [queryParams]="{showBack: this.showBack}" class="item one">
-                                              <div [lazyLoad]="voucher.Voucher_Image" [defaultImage] = "appService.defaultImage" class="rwdimg-cover logo-img"></div>
-                                          </div>
-                                          <div class="item three px-2">
-                                              <p>{{siteInfo?.ECStore_ShowName}}</p>
-                                              <p>{{voucher.Voucher_ExtName}}</p>
-                                              <p>{{voucher.Voucher_UsedOnDate | date: 'yyyy/MM/dd' }} ~ {{voucher.Voucher_UsedOffDate | date: 'yyyy/MM/dd' }}</p>
-                                          </div>
-                                          <div class="item one">
-                                              <button (click)="toVoucher(voucher)"
-                                                [disabled]="appService.loginState === true && (voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3)"
-                                                [ngClass]="{'gray-obtn': voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3,
-                                                            'index-btn': voucher.Voucher_IsFreq === 1,
-                                                            'index-outline-btn': voucher.Voucher_IsFreq === 2 || voucher.Voucher_IsFreq === 5}"
-                                                class="btn px-2 small-80">
-                                                {{appService.loginState === false? '兌換' : voucher.Voucher_FreqName}}
-                                              </button>
-                                              <div *ngIf="voucher.Voucher_DedPoint > 0" class="m-quantity small pl-1">
-                                                <img src="../img/share/mobiicoin_red.png" class="coinimg-m">
-                                                {{voucher.Voucher_SpecialPoint > 0 ? voucher.Voucher_SpecialPoint : voucher.Voucher_DedPoint | currency: '':'':'1.0-2'}}
-                                              </div>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  </div>
-                                  <div class="card-footer bg-cardfooter pt-2 pb-0">
-                                  <div class="member-flex small-80">
-                                      <div class="item one text-nowrap">
-                                          <img src="../../img/share/{{voucher.Voucher_ShowType}}_w.png" class="nearbyimg" alt="">
-                                          {{voucher.Voucher_ShowTypeName}}
-                                      </div>
-                                  </div>
+                                <div *ngIf="voucherList?.length > 0; else noVoucherBlock" class="mycoin-couponbox card-columns px-3">
+                                  <div *ngFor="let voucher of voucherList" class="card border-radius5">
+                                    <div class="card-body">
+                                    <div class="card-text">
+                                        <div class="member-flex">
+                                            <div [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', voucher.Voucher_Code] : ['/Voucher/VoucherDetail', voucher.Voucher_UserVoucherCode]" [queryParams]="{showBack: this.showBack}" class="item one">
+                                                <div [lazyLoad]="voucher.Voucher_Image" [defaultImage] = "appService.defaultImage" class="rwdimg-cover logo-img"></div>
+                                            </div>
+                                            <div class="item three px-2">
+                                                <p>{{siteInfo?.ECStore_ShowName}}</p>
+                                                <p>{{voucher.Voucher_ExtName}}</p>
+                                                <p>{{voucher.Voucher_UsedOnDate | date: 'yyyy/MM/dd' }} ~ {{voucher.Voucher_UsedOffDate | date: 'yyyy/MM/dd' }}</p>
+                                            </div>
+                                            <div class="item one">
+                                                <button (click)="toVoucher(voucher)"
+                                                  [disabled]="appService.loginState === true && (voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3)"
+                                                  [ngClass]="{'gray-obtn': voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3,
+                                                              'index-btn': voucher.Voucher_IsFreq === 1,
+                                                              'index-outline-btn': voucher.Voucher_IsFreq === 2 || voucher.Voucher_IsFreq === 5}"
+                                                  class="btn px-2 small-80">
+                                                  {{appService.loginState === false? '兌換' : voucher.Voucher_FreqName}}
+                                                </button>
+                                                <div *ngIf="voucher.Voucher_DedPoint > 0" class="m-quantity small pl-1">
+                                                  <img src="../img/share/mobiicoin_red.png" class="coinimg-m">
+                                                  {{voucher.Voucher_SpecialPoint > 0 ? voucher.Voucher_SpecialPoint : voucher.Voucher_DedPoint | currency: '':'':'1.0-2'}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="card-footer bg-cardfooter pt-2 pb-0">
+                                    <div class="member-flex small-80">
+                                        <div class="item one text-nowrap">
+                                            <img src="../../img/share/{{voucher.Voucher_ShowType}}_w.png" class="nearbyimg" alt="">
+                                            {{voucher.Voucher_ShowTypeName}}
+                                        </div>
+                                    </div>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
+                                <ng-template #noVoucherBlock>
+                                  <div class="no-data no-transform">
+                                    <img src="img/explore/no-voucher.png" alt="no-voucher">
+                                    <p>Oops!<br>你搜尋的店家目前沒有可領取的優惠券喔！</p>
+                                  </div>
+                                </ng-template>
                           </div>
                       </div>
                   </div>

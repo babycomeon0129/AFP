@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { Request_MemberOrder, Response_MemberOrder, AFP_MemberOrder, AFP_ECStore, AFP_ItemInfoPart, AFP_Voucher
         , Request_MemberCheckStatus, Response_MemberCheckStatus, AFP_UserReport } from '@app/_models';
@@ -40,8 +40,10 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
   public userReport: AFP_UserReport[];
   /** 同頁滑動切換 0:本頁 1:取貨提醒 */
   public layerTrig = 0;
+   /** APP特例處理 */
+   public showBack = false;
 
-  constructor(private route: ActivatedRoute, public appService: AppService, private modal: ModalService,
+  constructor(private route: ActivatedRoute, public appService: AppService, private modal: ModalService, private router: Router,
               private meta: Meta, private title: Title) {
     this.title.setTitle('訂單詳情 - Mobii!');
     this.meta.updateTag({name : 'description', content: ''});
@@ -49,6 +51,10 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
     this.meta.updateTag({content: '', property: 'og:description'});
 
     this.orderNo = this.route.snapshot.params.Order_TableNo;
+    // 從會員中心進來則隱藏返回鍵
+    if (this.route.snapshot.queryParams.showBack === 'true') {
+      this.showBack = true;
+    }
   }
 
   ngOnInit() {
@@ -121,8 +127,29 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
     }, 180000);
   }
 
+  /** 前往商店詳細頁 */
+  goToECStore(): void {
+    if ( this.storeInfo.ECStore_State) {
+      this.router.navigate(['/Explore/ExploreDetail', this.storeInfo.ECStore_Code], { queryParams: { showBack: this.showBack } });
+    } else {
+      this.modal.show('message', { initialState: { success: false, message: 'Oops！該商店營運調整中！', showType: 1}});
+    }
+  }
+
+  /** 前往商品詳細頁
+   * @param UserDefineCode 目錄編碼
+   * @param ItemCode 項目編碼
+   */
+  goToProductDetail(UserDefineCode: number, ItemCode: number, Product_State: boolean): void {
+    if (Product_State) {
+      this.router.navigate(['/Shopping/ProductDetail', UserDefineCode, ItemCode], { queryParams: { showBack: this.showBack } });
+    } else {
+      this.modal.show('message', { initialState: { success: false, message: 'Oops！該商品已全部銷售完畢囉！', showType: 1}});
+    }
+  }
+
   /** 按「回上一頁」時也要clearTimeout(this.checkTimer); */
-  stopClaim() {
+  stopClaim(): void {
     clearInterval(this.checkTimer);
     this.layerTrig = 0;
     clearTimeout(this.timer3Mins);

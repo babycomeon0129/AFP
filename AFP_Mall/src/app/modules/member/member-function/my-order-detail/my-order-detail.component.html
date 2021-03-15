@@ -56,11 +56,11 @@
     </ul>
 </div>
 <div class="order-box">
-    <div [routerLink]="['/Explore/ExploreDetail', storeInfo?.ECStore_Code]" class="order-subtitle">
+    <div class="order-subtitle" (click)="goToECStore()">
         <i class="material-icons">&#xE8D1;</i><span class="store-name">{{storeInfo?.ECStore_ShowName}}</span>
     </div>
     <ul class="order-shop-list">
-        <li *ngFor="let product of productsData" [routerLink]="['/Shopping/ProductDetail', product?.ItemInfoPart_UserDefineCode, product?.ItemInfoPart_ItemCode]">
+        <li *ngFor="let product of productsData" (click)="goToProductDetail(product?.ItemInfoPart_UserDefineCode, product?.ItemInfoPart_ItemCode, product?.Product_State)">
             <div class="item rwdimgbox-80">
                 <div [lazyLoad]="product?.Product_ShowImg" [defaultImage]="appService.defaultImage" class="rwdimg-cover"></div>
             </div>

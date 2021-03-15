@@ -141,6 +141,7 @@ export class MemberCardComponent implements OnInit, AfterViewInit {
         this.modal.show('message', { initialState: { success: true, message: '綁定成功', note: '【溫馨提醒】本卡尚未完成一卡通記名作業，如需記名請至一卡通官網操作完成。', showType: 1}});
       }
       form.resetForm();
+      this.appService.appShowMobileFooter(true);
     });
   }
 
@@ -196,6 +197,7 @@ export class MemberCardComponent implements OnInit, AfterViewInit {
         this.appService.toApi('Member', '1507', request).subscribe((data: Response_MemberMyCard) => {
           this.readCardList();
           this.layerTrig = 0;
+          this.appService.appShowMobileFooter(true);
           // this.appService.backLayer();
           this.modal.show('message', { initialState: { success: true, message: '卡片已刪除', showType: 1}});
           this.requestCard = new AFP_UserFavourite(); // 重置此筆資料避免刪除後無法立即新增卡片(卡號會無法輸入&上方一樣會是修改)
