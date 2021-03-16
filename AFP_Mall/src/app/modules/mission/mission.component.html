@@ -83,8 +83,8 @@
                               </div>
                               <div class="ml-auto w80 align-self-center text-center">
                                   <button (click)="buttonAction(item)"
-                                    [disabled]="item?.Mission_ClickState === 1 || (item?.Mission_ClickState === 2 && item?.Mission_CurrentURL.trim() === '' && appService.loginState === true)"
-                                    [ngClass]="{'unable': item?.Mission_ClickState === 1 || (item?.Mission_ClickState === 2 && item?.Mission_CurrentURL.trim() === '' && appService.loginState === true), 'index-outline-btn': item?.Mission_ClickState === 0}"
+                                    [disabled]="item?.Mission_ClickState === 1 || item?.Mission_ClickState === 3 || (item?.Mission_ClickState === 2 && item?.Mission_CurrentURL.trim() === '' && appService.loginState === true)"
+                                    [ngClass]="{'unable': item?.Mission_ClickState === 1 || item?.Mission_ClickState === 3 || (item?.Mission_ClickState === 2 && item?.Mission_CurrentURL.trim() === '' && appService.loginState === true), 'index-outline-btn': item?.Mission_ClickState === 0}"
                                     type="button" class="btn index-btn">
                                     {{buttonText(item?.Mission_ClickState, item?.Mission_CurrentURL)}}
                                   </button>
@@ -106,8 +106,8 @@
                           </div>
                           <div class="ml-auto w80 align-self-center text-center">
                             <button (click)="buttonAction(item)"
-                              [disabled]="item?.Mission_ClickState === 1 || (item?.Mission_ClickState === 2 && item?.Mission_CurrentURL.trim() === '' && appService.loginState === true)"
-                              [ngClass]="{'unable': item?.Mission_ClickState === 1 || (item?.Mission_ClickState === 2 && item?.Mission_CurrentURL.trim() === '' && appService.loginState === true), 'index-outline-btn': item?.Mission_ClickState === 0}"
+                              [disabled]="item?.Mission_ClickState === 1 || item?.Mission_ClickState === 3 || (item?.Mission_ClickState === 2 && item?.Mission_CurrentURL.trim() === '' && appService.loginState === true)"
+                              [ngClass]="{'unable': item?.Mission_ClickState === 1 || item?.Mission_ClickState === 3  || (item?.Mission_ClickState === 2 && item?.Mission_CurrentURL.trim() === '' && appService.loginState === true), 'index-outline-btn': item?.Mission_ClickState === 0}"
                               type="button" class="btn index-btn">
                               {{buttonText(item?.Mission_ClickState, item?.Mission_CurrentURL)}}
                             </button>

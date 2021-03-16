@@ -99,7 +99,7 @@ export class MissionComponent implements OnInit, DoCheck {
    */
   buttonText(state: number, url: string): string {
     if (this.appService.loginState === false) {
-      return 'GO';
+      return state === 3 ? '已結束' : 'GO';
     } else {
       switch (state) {
         case 0:
@@ -107,11 +107,9 @@ export class MissionComponent implements OnInit, DoCheck {
         case 1:
           return '已領取';
         case 2:
-          if (url.trim() === '') {
-            return '未完成';
-          } else {
-            return 'GO';
-          }
+          return url.trim() === '' ? '未完成' : 'GO';
+        case 3:
+            return '已結束';
       }
     }
   }
