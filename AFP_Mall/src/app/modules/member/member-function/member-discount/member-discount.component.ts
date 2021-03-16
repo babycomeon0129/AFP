@@ -41,8 +41,6 @@ export class MemberDiscountComponent implements OnInit {
   public searchIsOpen = false;
   /** 取消按鈕切換 */
   public cancelIsOpen = false;
-  /** 分類按鈕開啟 */
-  public listIsOpen = false;
   /** 重置按鈕開啟 */
   public resetOpen = false;
   /** APP特例處理 */
@@ -69,6 +67,7 @@ export class MemberDiscountComponent implements OnInit {
 
   /** 讀取優惠券 */
   readVoucher(): void {
+    this.appService.openBlock();
     const request: Request_MemberUserVoucher = {
       User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 4, // 查詢

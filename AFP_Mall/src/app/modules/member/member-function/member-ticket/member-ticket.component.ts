@@ -37,6 +37,7 @@ export class MemberTicketComponent implements OnInit {
    * @param usedType 使用狀態 1: 可用, 2: 歷史
    */
   readTicketList(usedType: number) {
+    this.appService.openBlock();
     this.listType = usedType;
     const request: Request_MemberTicket = {
       User_Code: sessionStorage.getItem('userCode'),

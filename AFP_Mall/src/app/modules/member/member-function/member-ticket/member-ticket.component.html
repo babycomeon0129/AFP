@@ -68,7 +68,7 @@
                             </div>
                         </div>
                     </div>
-                      <div class="filter-outbox">
+                      <div *ngIf="ticketList?.length > 0; else noTicketBlock" class="filter-outbox">
                           <div class="filter-main">
                               <div class="mask-container d-none w-100 h-100"></div>
                               <div class="mycoin-couponbox card-columns px-3">
@@ -140,6 +140,12 @@
                               </ul>
                           </div>
                       </div>
+                      <ng-template #noTicketBlock>
+                        <div class="no-data">
+                          <img src="img/member/no-member-ticket.png" alt="no-member-ticket">
+                          <p>Oops!<br>你目前還沒有購買任何車票喔！</p>
+                        </div>
+                      </ng-template>
                   </div>
 
               </div>

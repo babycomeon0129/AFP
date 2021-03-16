@@ -50,6 +50,7 @@ export class MissionComponent implements OnInit, DoCheck {
 
   /** 讀取任務資料 */
   readData() {
+    this.appService.openBlock();
     const request: Request_MemberMission = {
       User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 4

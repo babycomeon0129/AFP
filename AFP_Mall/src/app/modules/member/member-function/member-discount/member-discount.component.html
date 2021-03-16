@@ -62,28 +62,8 @@
                 </div>
               </div>
             </div>
-            <!-- 分類與篩選暫不顯示 -->
-            <div class="div-switch d-none">
-              <div class="choice-filter-box py-1">
-                <div class="flex-inline-between">
-                  <div class="item center-v">輸入關鍵字搜尋店家,優惠券</div>
-                  <div class="item pr-2">
-                    <button class="btn px-0 filter-item d-none" data-filter="type" (click)="listIsOpen = !listIsOpen"
-                      [ngClass]="{'active': listIsOpen}"><i class="material-icons">&#xE313;</i></button>
-                  </div>
-                </div>
-                <div class="filter-box">
-                  <button class="btn px-0 item-search" (click)="searchIsOpen = !searchIsOpen ; listIsOpen = false"><i
-                      class="material-icons">&#xe8b6;</i></button>
-                </div>
-                <div class="filter-box" (click)="layerTrig = 2">
-                  <button class="btn px-0"><i class="material-icons">&#xE152;</i></button>
-                </div>
-              </div>
-            </div>
-            <div class="filter-outbox">
+            <div *ngIf="voucherList?.length > 0; else noVoucherBlock" class="filter-outbox">
               <div class="filter-main">
-                <div class="mask-container d-none w-100 h-100" [ngClass]="{'d-block': listIsOpen}"></div>
                 <div class="mycoin-couponbox card-columns px-3 pb-wrap">
                   <!-- 優惠券 -->
                   <div *ngFor="let voucher of voucherList | textFilter : searchText : 1" class="card border-radius5">
@@ -128,29 +108,13 @@
                   </div>
                 </div>
               </div>
-              <div id="type" class="filter-content pb-wrap is-open" [ngClass]="{'is-open': listIsOpen}">
-                <ul class="open-page-ul">
-                  <li class="flex-inline-between">
-                    <div class="">
-                     全部
-                    </div>
-                    <div class="">
-                      456
-                      <i class="material-icons done">&#xe876;</i>
-                    </div>
-                  </li>
-                  <li class="flex-inline-between">
-                    <div class="">
-                      購物
-                    </div>
-                    <div class="">
-                     456
-                      <i class="material-icons done">&#xe876;</i>
-                    </div>
-                  </li>
-                </ul>
-              </div>
             </div>
+            <ng-template #noVoucherBlock>
+              <div class="no-data">
+                <img src="img/member/no-member-voucher.png" alt="no-member-voucher">
+                <p>Oops!<br>你目前還沒有任何優惠券喔！</p>
+              </div>
+            </ng-template>
           </div>
         </div>
       </div>

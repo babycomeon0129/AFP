@@ -75,6 +75,7 @@ export class MemberCoinComponent implements OnInit {
   }
 
   getHistory(): void {
+    this.appService.openBlock();
     const getHistory: Request_MemberPoint = {
       User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 5,
