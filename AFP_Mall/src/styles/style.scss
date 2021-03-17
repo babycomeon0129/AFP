@@ -762,7 +762,8 @@ header + div,
   overflow-y:hidden;
   overflow-x:hidden;
   z-index: 1030;
-  margin: 0 auto;
+  left: 50%;
+  transform: translateX(-50%);
   @media (max-width: 767px) {
     max-width: 540px;
   }
