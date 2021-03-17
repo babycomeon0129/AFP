@@ -90,9 +90,8 @@
                               <div class="store-group">
                                   <!-- 簡介文字 -->
                                   <div class="store-item store-itemopen">
-                                      <div *ngIf="siteInfo?.ECStore_Features !== null; else noIntroBlock"
+                                      <div *ngIf="siteInfo?.ECStore_Features !== null && siteInfo?.ECStore_Features !== ''; else noIntroBlock"
                                         [innerHTML]="siteInfo?.ECStore_Features | Safe: 'html'"></div>
-                                      <!-- <div (click)="unfold(1)" class="open-btn ml-auto"><i class="material-icons"></i></div> -->
                                       <ng-template #noIntroBlock>
                                         <div class="no-data no-transform w-100">
                                           <img src="img/explore/no-intro.png" alt="no-product">
