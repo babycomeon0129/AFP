@@ -300,12 +300,13 @@
   }
 }
 
-.order-error-box{
+.order-error-box, .order-processing-box{
   //margin-top: 62px;
   padding-top: 30px;
 }
 .order-ok,
-.order-error {
+.order-error,
+.order-processing {
   width: 100%;
   display: flex;
   justify-content: center;
