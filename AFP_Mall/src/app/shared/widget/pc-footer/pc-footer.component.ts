@@ -9,9 +9,12 @@ import { ModalService } from '../../../shared/modal/modal.service';
 })
 export class PCFooterComponent implements OnInit {
 
+  /** 判斷 modal 顯示與否 */
   public show = false;
-  public justkaImg = 'img/index/icons/for-pc/icon_service.png';
-  public justShow = false;
+  /** 關閉 justKa 對話框 */
+  public closeMsg = false;
+  /** 滑動觸發 justKa icon */
+  // public justShow = false;
 
   constructor(public bsModalRef: BsModalRef, public appService: AppService, public modal: ModalService) { }
 
@@ -19,13 +22,14 @@ export class PCFooterComponent implements OnInit {
   }
 
   /** 滑動時對應區塊標籤 */
-  @HostListener('window:scroll', ['$event'])
-  onScroll(event: Event) {
-    if (window.pageYOffset > 100) {
-      this.justShow = true;
-    }
-  }
+  // @HostListener('window:scroll', ['$event'])
+  // onScroll(event: Event) {
+  //   if (window.pageYOffset > 100) {
+  //     this.justShow = true;
+  //   }
+  // }
 
+  /** modal 顯示與否 */
   toggle() {
     this.show = !this.show;
     if (this.show) {

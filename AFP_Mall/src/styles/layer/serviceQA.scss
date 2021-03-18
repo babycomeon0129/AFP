@@ -1,13 +1,58 @@
-@import 'src/styles/module/variable';
+@import "src/styles/module/variable";
 
-/* web service */
+/* justKa open effect */
+.wrap {
+  filter: none;
+}
+.modal-open {
+  .wrap {
+    filter: blur(2px);
+  }
+}
+.justka-msg {
+  position: fixed;
+  width: 200px;
+  padding: 0.75em 1em;
+  bottom: 65px;
+  right: 110px;
+  background: rgba(255, 255, 255, 0.6);
+  border-top-left-radius: 0.25em;
+  border-top-right-radius: 0.25em;
+  border-bottom-left-radius: 0.25em;
+  border: 1px solid $gray-unable;
+  @media (max-width: 767px) {
+    bottom: 105px;
+    right: 100px;
+  }
+  @media (max-width: 570px) {
+    bottom: 105px;
+    right: 80px;
+  }
+  @media (max-width: 375px) {
+    bottom: 82px;
+    right: 76px;
+  }
+  p {
+    font-size: small;
+    color: $blue-dark;
+    line-height: 1.5;
+    text-align: left;
+  }
+  button {
+    position: absolute;
+    right: 0;
+    line-height: .5em;
+  }
+}
+
+/* web service for justKa */
 .bearservice .scroll-top-wrapper {
   position: fixed;
-  opacity: 0;
-  visibility: hidden;
+  opacity: 1;
+  visibility: visible;
   overflow: hidden;
   text-align: center;
-  z-index: 99999999;
+  z-index: 1050;
   color: #eeeeee;
   width: 95px;
   height: 101px;
@@ -19,31 +64,43 @@
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   border-bottom-left-radius: 10px;
-  // -webkit-transition: all 0.5s ease-in-out;
-  // -moz-transition: all 0.5s ease-in-out;
-  // -ms-transition: all 0.5s ease-in-out;
-  // -o-transition: all 0.5s ease-in-out;
-  // transition: all 0.5s ease-in-out;
-  // background: -webkit-linear-gradient(left top,#05BDB6,#48B1BF);
-  // background: -o-linear-gradient(bottom right,#05BDB6,#48B1BF);
-  // background: -moz-linear-gradient(bottom right,#05BDB6,#48B1BF);
-  // background: linear-gradient(to bottom right,#05BDB6,#48B1BF);
-  img {
+  img.justka-img {
     width: 95px;
+    display: block;
   }
   button {
     background: transparent;
-    border:0;
-    outline:none;
+    border: 0;
+    outline: none;
+  }
+  @media (max-width: 767px) {
+    width: 75px;
+    bottom: 35px;
+    right: 30px;
+    img.justka-img {
+      width: 75px;
+    }
+  }
+  @media (max-width: 570px) {
+    width: 64px;
+    bottom: 30px;
+    right: 10px;
+    img.justka-img {
+      width: 64px;
+    }
+  }
+  @media (max-width: 375px) {
+    width: 64px;
+    bottom: 10px;
+    right: 10px;
+    img.justka-img {
+      width: 64px;
+    }
   }
 }
-.bearservice .scroll-top-wrapper.show {
-  visibility:visible;
-  cursor:pointer;
-  opacity: 1.0;
-}
 
-.bearservice{
+/* web service for popup */
+.bearservice {
   .popup-box {
     z-index: 99999999;
     overflow: hidden;
@@ -52,7 +109,7 @@
     display: none;
     height: 440px;
     position: fixed;
-    top:auto;
+    top: auto;
     right: 80px;
     bottom: 80px;
     width: 330px;
@@ -106,7 +163,7 @@
   .popup-box-on {
     display: block !important;
   }
-  .hr-100{
+  .hr-100 {
     width: 100%;
     height: 1px;
     background-color: #cccccc;
@@ -120,7 +177,7 @@
     width: 100%;
     border-radius: 16px;
     padding: 4px;
-    input{
+    input {
       border: 1px solid #ccc;
       border-radius: 16px;
       padding: 4px 8px;
@@ -198,7 +255,7 @@
   .popup-box-on {
     display: block !important;
   }
-  .hr-100{
+  .hr-100 {
     width: 100%;
     height: 1px;
     background-color: #cccccc;
@@ -212,7 +269,7 @@
     width: 100%;
     border-radius: 16px;
     padding: 4px;
-    input{
+    input {
       border: 1px solid #ccc;
       border-radius: 16px;
       padding: 4px 8px;
@@ -220,14 +277,14 @@
       margin-bottom: 0px;
     }
   }
-  .service-store-footer{
+  .service-store-footer {
     background: $gray-light;
     overflow: hidden;
     position: fixed;
     display: flex;
     width: 100%;
     min-width: 320px;
-    padding: .5em;
+    padding: 0.5em;
     bottom: 0px;
     // @media (max-width: 767px) {
     //   bottom: 79px;
@@ -238,7 +295,7 @@
     // @media (min-width: 768px) {
     //   bottom: 170px;
     // }
-    input{
+    input {
       border: 1px solid #ccc;
       border-radius: 16px;
       padding: 4px 8px;
@@ -246,22 +303,22 @@
       margin-bottom: 0px;
     }
   }
-  .service-msg{
-    background: #F6F6E9;
+  .service-msg {
+    background: #f6f6e9;
     text-align: center;
-    font-size: .9em;
-    padding: .5em 1em;
+    font-size: 0.9em;
+    padding: 0.5em 1em;
   }
-  .service-overbox{
+  .service-overbox {
     padding-bottom: 200px;
-    .service-over{
+    .service-over {
       background: #f8f8f8;
       text-align: center;
-      font-size: .9em;
-      padding: .5em 1em;
+      font-size: 0.9em;
+      padding: 0.5em 1em;
     }
   }
-  .timestamp-s{
+  .timestamp-s {
     width: 100%;
     text-align: center;
     color: gray;
@@ -270,16 +327,16 @@
     padding: 1em;
     display: inline-block;
   }
-  .direct-chat-sys{
+  .direct-chat-sys {
     width: 100%;
     text-align: center;
     display: inline-block;
-    padding: 0 .5em 1em .5em;
+    padding: 0 0.5em 1em 0.5em;
   }
 }
 
 .bearservice-lg,
-.bearservice{
+.bearservice {
   color: $blue-dark;
   .simple_round {
     background: #d1d1d1 none repeat scroll 0 0;
@@ -318,8 +375,8 @@
     overflow-y: scroll;
     padding: 0 0.5em 3em 0.5em;
     .direct-chat-text {
-      background: #E5E5EA none repeat scroll 0 0;
-      border: 1px solid #E5E5EA;
+      background: #e5e5ea none repeat scroll 0 0;
+      border: 1px solid #e5e5ea;
       border-radius: 10px;
       color: #1f2121;
     }
@@ -343,28 +400,28 @@
       margin-bottom: 10px;
       position: relative;
     }
-    ul.direct-info{
-      background: #C1DCFF none repeat scroll 0 0;
-      border: 1px solid #C1DCFF;
+    ul.direct-info {
+      background: #c1dcff none repeat scroll 0 0;
+      border: 1px solid #c1dcff;
       border-radius: 10px;
       color: #1f2121;
       margin: 5px 5px 0 0;
       text-align: center;
       line-height: 1.8em;
-      li:not(:last-child){
+      li:not(:last-child) {
         background: #fff;
-        border: 1px solid #C1DCFF;
+        border: 1px solid #c1dcff;
         padding: 2px 0px;
       }
-      li:last-child{
+      li:last-child {
         background: #fff;
-        border: 1px solid #C1DCFF;
+        border: 1px solid #c1dcff;
         padding: 2px 0px;
         border-radius: 0 0 10px 10px;
       }
     }
-    .direct-info a:visited{
-      color: #327DDE;
+    .direct-info a:visited {
+      color: #327dde;
     }
     .doted-border:after {
       background: transparent none repeat scroll 0 0 !important;
@@ -381,7 +438,7 @@
   }
   .direct-chat-text:after,
   .direct-chat-text::before {
-    border-color: transparent #E5E5EA transparent transparent;
+    border-color: transparent #e5e5ea transparent transparent;
   }
   .direct-chat-text:after,
   .direct-chat-text::before {
@@ -389,7 +446,7 @@
     -moz-border-left-colors: none;
     -moz-border-right-colors: none;
     -moz-border-top-colors: none;
-    border-color: transparent #E5E5EA transparent transparent;
+    border-color: transparent #e5e5ea transparent transparent;
     border-image: none;
     border-style: solid;
     border-width: medium;
@@ -407,15 +464,15 @@
   }
   .direct-chat-text {
     width: fit-content;
-    background: #E5E5EA none repeat scroll 0 0;
-    border: 1px solid #E5E5EA;
+    background: #e5e5ea none repeat scroll 0 0;
+    border: 1px solid #e5e5ea;
     border-radius: 10px;
     margin: 5px 30px 0 0;
     padding: 5px 10px;
     position: relative;
     min-height: 36px;
   }
-  .guests-chat-msg{
+  .guests-chat-msg {
     margin-left: auto !important;
     width: 100%;
     display: inline-grid;
@@ -423,7 +480,7 @@
   }
   .guests-chat-text:after,
   .guests-chat-text::before {
-    border-color: transparent transparent #0A86F9 transparent;
+    border-color: transparent transparent #0a86f9 transparent;
   }
   .guests-chat-text:after,
   .guests-chat-text::before {
@@ -431,7 +488,7 @@
     -moz-border-left-colors: none;
     -moz-border-right-colors: none;
     -moz-border-top-colors: none;
-    border-color: transparent transparent #0A86F9 transparent;
+    border-color: transparent transparent #0a86f9 transparent;
     border-image: none;
     border-style: solid;
     border-width: medium;
@@ -450,8 +507,8 @@
   .guests-chat-text {
     width: fit-content;
     max-width: 100%;
-    background: #0A86F9 none repeat scroll 0 0;
-    border: 1px solid #0A86F9;
+    background: #0a86f9 none repeat scroll 0 0;
+    border: 1px solid #0a86f9;
     border-radius: 10px;
     color: #fff;
     margin: 5px 0 0 30px;
