@@ -1,10 +1,12 @@
-import { ModalOptions } from 'ngx-bootstrap';
+import { ModalOptions, BsModalRef } from 'ngx-bootstrap';
 import { Component, OnInit, DoCheck, KeyValueDiffer, KeyValueDiffers, Renderer2, Input } from '@angular/core';
 import { AppService } from '@app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
-import { Response_Home, AFP_ADImg, Model_AreaJsonFile, AFP_Function, Model_TravelJsonFile,
-         Model_ShareData, Model_MemberProfile, AFP_UserFavourite, Request_Home, AFP_ChannelProduct,
-         AFP_ChannelVoucher, Request_OtherInfo } from '@app/_models';
+import {
+  Response_Home, AFP_ADImg, Model_AreaJsonFile, AFP_Function, Model_TravelJsonFile,
+  Model_ShareData, Model_MemberProfile, AFP_UserFavourite, Request_Home, AFP_ChannelProduct,
+  AFP_ChannelVoucher, Request_OtherInfo
+} from '@app/_models';
 import { SwiperOptions } from 'swiper';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
@@ -259,10 +261,14 @@ export class EntranceComponent implements OnInit, DoCheck {
   public activeTravelIndex = 0;
   /** 同頁滑動切換 0: 原頁 1: 我的服務 */
   public layerTrig = 0;
+  /** 判斷 justKa客服modal 顯示與否 */
+  public show = false;
+  /** 關閉 justKa 對話框 */
+  public closeMsg = false;
 
-  constructor(public appService: AppService, public modal: ModalService, private router: Router, private differs: KeyValueDiffers,
-              private meta: Meta, private title: Title, private cookieService: CookieService, public route: ActivatedRoute,
-              private renderer2: Renderer2) {
+  constructor(public appService: AppService, public bsModalRef: BsModalRef, public modal: ModalService, private router: Router,
+    private differs: KeyValueDiffers, private meta: Meta, private title: Title, private cookieService: CookieService,
+    public route: ActivatedRoute, private renderer2: Renderer2) {
     this.serviceDiffer = this.differs.find({}).create();
     // tslint:disable: max-line-length
     this.title.setTitle('Mobii!｜綠色城市優惠平台');
@@ -613,7 +619,7 @@ export class EntranceComponent implements OnInit, DoCheck {
           if (this.appService.isApp !== null) {
             this.router.navigate([Link.Function_URL], { queryParams: { isApp: this.appService.isApp } });
           } else {
-           // this.router.navigate([Link.Function_URL]);
+            // this.router.navigate([Link.Function_URL]);
             window.open(Link.Function_URL, Link.Function_URLTarget);
             this.appService.tLayer = []; // 清空tLayer避免前往頁面也有callLayer時會失效
           }
@@ -657,6 +663,25 @@ export class EntranceComponent implements OnInit, DoCheck {
       this.appService.showAPPHint = false;
     }, 500);
     this.animationMoveUpOut = true;
+  }
+
+  /** justKa點擊事件（justKa modal 顯示與否）*/
+  toggle() {
+    this.show = !this.show;
+    if (this.show) {
+      this.modal.show('justka',
+        {
+          initialState:
+          {
+            justkaUrl:
+              'https://biz.justka.ai/webapp/home?q=a2d422f6-b4bc-4e1d-9ca0-7b4db3258f35&a=d3f53a60-db70-11e9-8a34-2a2ae2dbcce4'
+          }
+        },
+        this.bsModalRef);
+    } else {
+      this.modal.closeModal1();
+      document.querySelector('body').classList.remove('modal-open');
+    }
   }
 
   ngDoCheck(): void {
