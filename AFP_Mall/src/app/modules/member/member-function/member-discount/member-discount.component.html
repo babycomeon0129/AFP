@@ -62,7 +62,7 @@
                 </div>
               </div>
             </div>
-            <div *ngIf="voucherList?.length > 0; else noVoucherBlock" class="filter-outbox">
+            <div *ngIf="voucherList?.length > 0 && (voucherList | textFilter : searchText : 1).length > 0; else noVoucherBlock" class="filter-outbox">
               <div class="filter-main">
                 <div class="mycoin-couponbox card-columns px-3 pb-wrap">
                   <!-- 優惠券 -->
@@ -112,7 +112,8 @@
             <ng-template #noVoucherBlock>
               <div class="no-data">
                 <img src="img/member/no-member-voucher.png" alt="no-member-voucher">
-                <p>Oops!<br>你目前還沒有任何優惠券喔！</p>
+                <p *ngIf="!searchText">Oops!<br>{{vSelectMode === 1? '你目前還沒有任何優惠券喔！' : '你沒有任何優惠券的歷史紀錄喔！'}}</p>
+                <p *ngIf="searchText && (voucherList | textFilter : searchText : 1).length === 0">Oops!<br>你沒有搜尋到任何優惠券喔！</p>
               </div>
             </ng-template>
           </div>
