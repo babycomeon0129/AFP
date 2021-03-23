@@ -76,6 +76,7 @@ export class MemberFavoriteComponent implements OnInit {
             break;
           case 54:
             this.listTravel = data.List_Travel;
+            console.log(this.listTravel);
             break;
         }
     });
@@ -147,10 +148,11 @@ export class MemberFavoriteComponent implements OnInit {
   }
 
   /** 前往行程詳細
+   * @param isOnline 是否上架
    * @param item 行程
    */
-  goToTour(item: TravelJsonFile_Travel) {
-    if (item.Travel_URL === '/') {
+  goToTour(isOnline: boolean, item: TravelJsonFile_Travel) {
+    if (item.Travel_URL === '/' || !isOnline) {
       return false;
     } else {
       window.open(item.Travel_URL, item.Travel_URLTarget);

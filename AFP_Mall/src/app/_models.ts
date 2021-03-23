@@ -166,6 +166,7 @@ export interface TravelJsonFile_Travel {
   Travel_URLTarget?: string;
   Travel_LocalTitle?: string;
   AttrbuteData?: TravelJsonFile_Attrbute[];
+  Travel_State?: boolean;
 }
 
 export interface TravelJsonFile_Attrbute {

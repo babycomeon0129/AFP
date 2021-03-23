@@ -209,8 +209,8 @@
                     <!-- 旅遊行程 -->
                     <div role="tabpanel" class="tab-pane fade w-100" id="favoritetag02" [ngClass]="{'active show': selectedType === 54}">
                         <div class="favorite-explore p-0" *ngIf="listTravel?.length > 0 else noFavBlock">
-                          <div *ngFor="let item of listTravel" id="{{item.Travel_Code}}" class="d-flex">
-                              <a (click)="goToTour(item)" class="d-flex align-items-start w-100">
+                          <div *ngFor="let item of listTravel" id="{{item.Travel_Code}}" class="d-flex" [ngClass]="{'brightness': !item.Travel_State}">
+                              <a (click)="goToTour(item.Travel_State, item)" class="d-flex align-items-start w-100">
                                   <div class="item-explore">
                                     <div class="img-box rwdimgbox-80">
                                       <div [lazyLoad]="item.Travel_Img" [defaultImage] ="appService.defaultImage" class="rwdimg-cover"></div>
