@@ -5,7 +5,7 @@ import { ModalService } from '@app/shared/modal/modal.service';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 import { ModalOptions } from 'ngx-bootstrap';
-import { layerAnimation,  layerAnimationUp} from '../../../../animations';
+import { layerAnimation,  layerAnimationUp} from '@app/animations';
 
 
 @Component({
@@ -89,7 +89,6 @@ export class MemberDiscountComponent implements OnInit {
       }
     });
   }
-
 
   /** 優惠券折扣類型使用文字顯示轉換 */
   vtypeTxt(vtype: number): string {

@@ -143,7 +143,7 @@
                       <ng-template #noTicketBlock>
                         <div class="no-data">
                           <img src="img/member/no-member-ticket.png" alt="no-member-ticket">
-                          <p>Oops!<br>你目前還沒有購買任何車票喔！</p>
+                          <p>Oops!<br>{{listType === 1? '你目前還沒有購買任何車票喔！' : '你沒有任何車票的歷史記錄喔！'}}</p>
                         </div>
                       </ng-template>
                   </div>
