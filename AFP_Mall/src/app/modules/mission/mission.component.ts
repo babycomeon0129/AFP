@@ -124,6 +124,7 @@ export class MissionComponent implements OnInit, DoCheck {
     } else {
       switch (mission.Mission_ClickState) {
         case 2:
+          // 填寫意見表特別處理
           if (mission.Mission_CurrentURL.indexOf('/feedback/?') > 0) {
             const strUser = '?customerInfo=' + sessionStorage.getItem('CustomerInfo') + '&userCode=' + sessionStorage.getItem('userCode') + '&userName=' + sessionStorage.getItem('userName') + '&loginType=1';
             const device = {system : '', isApp: this.appService.isApp !== null ? strUser + '&isApp=1' : ''};
@@ -145,7 +146,12 @@ export class MissionComponent implements OnInit, DoCheck {
               mission.Mission_CurrentURL = mission.Mission_CurrentURL + '?isApp=1';
             }
           }
-          window.open(mission.Mission_CurrentURL, mission.Mission_CurrentURLTarget);
+          // 判斷其他一般任務前往連結為絕對／相對路徑（會影響有判斷如何回上一頁的地方）
+          if (mission.Mission_CurrentURL.includes('http')) {
+            window.open(mission.Mission_CurrentURL, mission.Mission_CurrentURLTarget);
+          } else {
+            this.router.navigate([mission.Mission_CurrentURL]);
+          }
           break;
         case 0:
           this.claimPoints(mission);
