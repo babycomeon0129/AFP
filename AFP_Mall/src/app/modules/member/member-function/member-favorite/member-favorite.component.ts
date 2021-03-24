@@ -76,7 +76,6 @@ export class MemberFavoriteComponent implements OnInit {
             break;
           case 54:
             this.listTravel = data.List_Travel;
-            console.log(this.listTravel);
             break;
         }
     });

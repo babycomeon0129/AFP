@@ -1,4 +1,4 @@
-import { Component, OnInit, DoCheck, KeyValueDiffer, KeyValueDiffers, ɵConsole } from '@angular/core';
+import { Component, OnInit, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
 import { Model_ShareData } from '@app/_models';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from '../../shared/modal/modal.service';
