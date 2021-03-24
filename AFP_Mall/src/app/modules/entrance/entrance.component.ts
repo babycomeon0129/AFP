@@ -639,22 +639,15 @@ export class EntranceComponent implements OnInit, DoCheck {
     }
   }
 
-  /** 立即下載 APP */
+  /** 立即下載APP */
   toDownloadAPP(): void {
-    // 若系統為 iOS 9 以上且瀏覽器為 Safari，此鈕只做導去APP Store的動作
-    // (因iOS有做Universal Link，若已有下載APP，Safari上方會出現banner，iOS 9以上點擊會直接開啟APP，9以下則以Safari開啟網頁)
-    const ua = navigator.userAgent;
-    if ((ua.match(/iPhone|iPad|iPod/i) !== null && parseInt(ua.match(/OS\s([0-9\.]*)/i)[1], 10) >= 9) && (ua.includes('Safari') && !ua.includes('Chrome'))) {
-      location.href = 'https://itunes.apple.com/app/id1512321552';
-    } else {
-      window.location.href = 'mobii://';
-      setTimeout(() => {
-        if (document.visibilityState === 'visible') {
-          // 未成功開啟APP則前往AppDownload被引導至平台下載
-          this.router.navigate(['/ForApp/AppDownload']);
-        }
-      }, 25);
-    }
+    window.location.href = 'mobii://';
+    setTimeout(() => {
+      if (document.visibilityState === 'visible') {
+        // 未成功開啟APP則前往AppDownload被引導至平台下載
+        this.router.navigate(['/ForApp/AppDownload']);
+      }
+    }, 25);
   }
 
   /** 關閉下載APP */
