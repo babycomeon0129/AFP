@@ -486,7 +486,7 @@ export class AppService {
 
   /** 通知APP是否開啟BottomBar
    * @param isOpen true: 開 , false: 關
-   * */
+   */
   appShowMobileFooter(isOpen: boolean): void {
     if (this.isApp !== null) {
       if (navigator.userAgent.match(/android/i)) {
@@ -509,28 +509,6 @@ export class AppService {
         //  IOS
         (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showCloseButton', isShow: isOpen });
       }
-    }
-  }
-
-  /** 通知會員中心打開原生頁 0: 我的卡片 1: 我的車票 2: 我的點餐 3: 我的優惠券 4: 我的收藏 5: 我的訂單 6: M Point */
-  appShowMemberPage(pageCode: number): void {
-    if (navigator.userAgent.match(/android/i)) {
-      //  Android
-      AppJSInterface.goAppPage(pageCode);
-    } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-      //  IOS
-      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'goAppPage', page: pageCode });
-    }
-  }
-
-  /** 如果是app，開啟商家詳細頁時導到原生商家詳細頁 */
-  goAppExploreDetail(code: string): void {
-    if (navigator.userAgent.match(/android/i)) {
-      //  Android
-      AppJSInterface.goAppExploreDetail(code);
-    } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-      //  IOS
-      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'goAppExploreDetail', storeId: code });
     }
   }
 

@@ -9,6 +9,7 @@ import { Router, NavigationExtras } from '@angular/router';
 import { ModalService } from '../../../shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation } from '../../../animations';
+declare var AppJSInterface: any;
 
 @Component({
   selector: 'app-voucher-detail',
@@ -257,12 +258,23 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
   /** 前往ExploreDetail(App特例處理，從會員中心進來顯示返回鍵) */
   goExploreDetail( ECStore_Code: string ): void {
     if (this.appService.isApp !== null) {
-      this.appService.goAppExploreDetail(ECStore_Code);
+      this.goAppExploreDetail(ECStore_Code);
     } else {
       const navigationExtras: NavigationExtras = {
         queryParams: { showBack: this.route.snapshot.queryParams.showBack }
       };
       this.router.navigate(['/Explore/ExploreDetail', ECStore_Code], navigationExtras);
+    }
+  }
+
+   /** 如果是app，開啟商家詳細頁時導到原生商家詳細頁 */
+   goAppExploreDetail(code: string): void {
+    if (navigator.userAgent.match(/android/i)) {
+      //  Android
+      AppJSInterface.goAppExploreDetail(code);
+    } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+      //  IOS
+      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'goAppExploreDetail', storeId: code });
     }
   }
 
