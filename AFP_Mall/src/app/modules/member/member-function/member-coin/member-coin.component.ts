@@ -104,11 +104,11 @@ export class MemberCoinComponent implements OnInit {
         }
       }).subscribe( res => {
         if (res) {
-          this.router.navigate(['/GameCenter/Game', gameCode], {queryParams: { hideBackBtn: false}});
+          this.router.navigate(['/GameCenter/Game', gameCode], {queryParams: { showBack: false}});
         }
       });
     } else {
-      this.router.navigate(['/GameCenter/Game', gameCode], {queryParams: { hideBackBtn: false}});
+      this.router.navigate(['/GameCenter/Game', gameCode], {queryParams: { showBack: false}});
     }
   }
 

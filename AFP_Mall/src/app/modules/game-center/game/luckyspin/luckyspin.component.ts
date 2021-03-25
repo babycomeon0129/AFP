@@ -29,7 +29,7 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
   /** 本頁url */
   private currentUrl: string;
   /**  APP特例處理 */
-  public hideBackBtn = false;
+  public showBack = false;
   /** 同頁滑動切換 0: 本頁 1: 活動規則 */
   public layerTrig = 0;
   /** 提示視窗(向上) 0: 本頁 1: 開獎資訊 */
@@ -54,10 +54,10 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
       this.noticeAlert();
     }
     // APP從M Points或進來則顯示返回鍵
-    if (this.route.snapshot.queryParams.hideBackBtn === 'false') {
-      this.hideBackBtn = false;
+    if (this.route.snapshot.queryParams.showBack === 'false') {
+      this.showBack = false;
     } else {
-      this.hideBackBtn = true;
+      this.showBack = true;
     }
   }
 
