@@ -119,12 +119,12 @@ export class MissionComponent implements OnInit, DoCheck {
    * @param mission 單一項任務
    */
   buttonAction(mission: AFP_Mission) {
-    if (this.appService.loginState === false) {
-      this.appService.loginPage();
+    if (!this.appService.loginState) {
+      this.appService.loginPage(); // 需登入才能前往任務
     } else {
       switch (mission.Mission_ClickState) {
-        case 2:
-          // 填寫意見表特別處理
+        case 2: // 前往任務
+          // 填寫意見表任務特別處理
           if (mission.Mission_CurrentURL.indexOf('/feedback/?') > 0) {
             const strUser = '?customerInfo=' + sessionStorage.getItem('CustomerInfo') + '&userCode=' + sessionStorage.getItem('userCode') + '&userName=' + sessionStorage.getItem('userName') + '&loginType=1';
             const device = {system : '', isApp: this.appService.isApp !== null ? strUser + '&isApp=1' : ''};
@@ -141,19 +141,24 @@ export class MissionComponent implements OnInit, DoCheck {
 
             const query = encodeURIComponent(JSON.stringify(device)).replace(/"/g, '%22');
             mission.Mission_CurrentURL = mission.Mission_CurrentURL.replace('[a]', query);
-          } else {
-            if (this.appService.isApp != null) {
-              mission.Mission_CurrentURL = mission.Mission_CurrentURL + '?isApp=1';
-            }
-          }
-          // 判斷其他一般任務前往連結為絕對／相對路徑（會影響有判斷如何回上一頁的地方）
-          if (mission.Mission_CurrentURL.includes('http')) {
             window.open(mission.Mission_CurrentURL, mission.Mission_CurrentURLTarget);
           } else {
-            this.router.navigate([mission.Mission_CurrentURL]);
+            // 其他一般任務
+            if (this.appService.isApp != null) {
+              // APP
+              window.open(mission.Mission_CurrentURL + '?isApp=1')
+            } else {
+              // web
+              // 判斷前往連結為絕對／相對路徑（會影響有判斷如何回上一頁的地方）
+              if (mission.Mission_CurrentURL.includes('http')) {
+                window.open(mission.Mission_CurrentURL, mission.Mission_CurrentURLTarget);
+              } else {
+                this.router.navigate([mission.Mission_CurrentURL]);
+              }
+            }
           }
           break;
-        case 0:
+        case 0: // 領取點數
           this.claimPoints(mission);
           break;
       }
@@ -234,6 +239,7 @@ export interface AFP_Mission {
   Mission_Image: string;
   Mission_CurrentCount: number;
   Mission_CompleteCount: number;
+  /** 按鈕狀態 0 未領取 1 已領取 2 未完成 3 已結束 9 刪除 */
   Mission_ClickState: number;
   Mission_OnDate: Date;
   Mission_OffDate: Date;
