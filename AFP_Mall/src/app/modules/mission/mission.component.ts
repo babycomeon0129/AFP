@@ -146,7 +146,8 @@ export class MissionComponent implements OnInit, DoCheck {
             // 其他一般任務
             if (this.appService.isApp != null) {
               // APP
-              window.open(mission.Mission_CurrentURL + '?isApp=1')
+              mission.Mission_CurrentURL = mission.Mission_CurrentURL + '?isApp=1';
+              window.open(mission.Mission_CurrentURL, mission.Mission_CurrentURLTarget);
             } else {
               // web
               // 判斷前往連結為絕對／相對路徑（會影響有判斷如何回上一頁的地方）
