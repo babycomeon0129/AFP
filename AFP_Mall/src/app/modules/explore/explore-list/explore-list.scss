@@ -1,6 +1,36 @@
 @import '../../../../styles/module/variable';
 @import '../../../../styles/layer/explore-filer.scss';
 
+.explore-top-box {
+    background-color: #fff;
+    padding: 15px;
+    width: 100%;
+    min-width: 320px;
+    max-width: auto;
+    height: 124px;
+    top: 0;
+    bottom: 0;
+    position: fixed;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    z-index: 1030;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.filter-contentbox{
+  position: fixed;
+  background-color: white;
+  z-index: 1030;
+  .filter-content {
+    height: 100vh;
+    overflow-y: auto;
+  }
+}
+
+.explore-container {
+  padding-top: 125px;
+}
+
 .card-item {
   display: flex;
   padding: 15px;
