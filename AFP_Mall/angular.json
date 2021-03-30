@@ -33,8 +33,7 @@
               "src/img",
               "src/assets",
               "src/sitemap.xml",
-              "src/google74b45d0284996f7b.html",
-              "src/.well-known"
+              "src/google74b45d0284996f7b.html"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",

@@ -53,10 +53,11 @@
         <div class="my-address-list ">
           <ul>
             <li>
-              <div class="item w-84">
+              <div class="item">
                 <p>姓名 / 公司名稱</p>
                 <small class="text-danger"
-                  *ngIf="addressTitle.invalid && (addressTitle.touched || addressTitle.dirty)">姓名格式有誤（請輸入2至10字元）</small>
+                  *ngIf="((addressTitle.touched || addressTitle.dirty) && addressTitle.invalid) ||
+                    (addressTitle.pristine && (addressTitle.errors?.minlength || addressTitle.errors?.maxlength))">姓名格式有誤（請輸入2至10字元）</small>
               </div>
               <div class="item auto-left">
                 <input type="text" placeholder="請輸入" name="addressTitle" #addressTitle="ngModel"
@@ -66,8 +67,10 @@
             <li>
               <div class="item w-84">
                 <p>手機號碼</p>
+                <!-- pattern同時驗證了maxlength因此下方錯誤提示只使用pattern判斷 -->
                 <small class="text-danger"
-                  *ngIf="addressMobile.invalid && (addressMobile.touched || addressMobile.dirty)">手機號碼格式有誤</small>
+                  *ngIf="((addressMobile.touched || addressMobile.dirty) && addressMobile.invalid) ||
+                  (addressMobile.pristine && addressMobile.errors?.pattern)">手機號碼格式有誤</small>
               </div>
               <div class="item auto-left">
                 <input type="text" placeholder="請輸入" name="addressMobile" #addressMobile="ngModel"
@@ -108,7 +111,8 @@
                 <input type="text" placeholder="請輸入地址" name="addressDetail" #addressDetail="ngModel"
                   [(ngModel)]="requestAddress.UserFavourite_Text3" required minlength="2" maxlength="500">
               </div>
-              <div *ngIf="addressDetail.touched && addressDetail.invalid" class="text-danger w-100 text-left small">
+              <div *ngIf="((addressDetail.touched || addressDetail.dirty) && addressDetail.invalid) ||
+                    (addressDetail.pristine && addressDetail.errors?.minlength && addressDetail.errors?.maxlength)" class="text-danger w-100 text-left small">
                 詳細地址格式有誤</div>
             </li>
           </ul>

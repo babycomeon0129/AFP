@@ -394,8 +394,20 @@
       </div>
     </div>
   </div>
-
 </div>
-
+<!--web service (justKa)-->
+<div class="bearservice">
+  <div class="scroll-top-wrapper">
+    <span class="scroll-top-inner">
+      <button (click)="toggle();" type="button" id="webservice">
+        <img [lazyLoad]="'img/index/icons/for-pc/icon_service.png'" class="justka-img"
+          [defaultImage]="appService.defaultImage"></button>
+    </span>
+    <div class="justka-msg" [ngClass]="{'d-none': closeMsg === true }">
+      <button (click)="closeMsg = true" type="button">×</button>
+      <p>哈囉您好！有需要幫忙的地方，歡迎找我喔！</p>
+    </div>
+  </div>
+</div>
 <app-pc-footer></app-pc-footer>
 <app-mobile-footer></app-mobile-footer>

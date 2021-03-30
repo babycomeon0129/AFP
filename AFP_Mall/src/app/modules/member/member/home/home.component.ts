@@ -8,6 +8,8 @@ import { SwiperOptions } from 'swiper';
 import { MemberService } from '@app/modules/member/member.service';
 import { AuthService, SocialUser } from 'angularx-social-login';
 
+declare var AppJSInterface: any;
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -115,16 +117,27 @@ export class HomeComponent implements OnInit, DoCheck {
       } else {
         switch (pageCode) {
           case 3:
-            this.appService.isApp !== null ?　this.appService.appShowMemberPage(3) : this.routerForApp(page);
+            this.appService.isApp !== null ?　this.appShowMemberPage(3) : this.routerForApp(page);
             break;
           case 4:
-            this.appService.isApp !== null ?　this.appService.appShowMemberPage(4) : this.routerForApp(page);
+            this.appService.isApp !== null ?　this.appShowMemberPage(4) : this.routerForApp(page);
             break;
           default:
             this.routerForApp(page);
             break;
         }
       }
+    }
+  }
+
+  /** 通知會員中心打開原生頁 0: 我的卡片 1: 我的車票 2: 我的點餐 3: 我的優惠券 4: 我的收藏 5: 我的訂單 6: M Point */
+  appShowMemberPage(pageCode: number): void {
+    if (navigator.userAgent.match(/android/i)) {
+      //  Android
+      AppJSInterface.goAppPage(pageCode);
+    } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+      //  IOS
+      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'goAppPage', page: pageCode });
     }
   }
 

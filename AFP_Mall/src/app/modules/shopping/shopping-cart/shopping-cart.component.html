@@ -58,24 +58,24 @@
                             </button>
                         </div>
                     </li>
-                    <li *ngFor="let product of store.ProductList" attr.data-cartId="{{product.CartId}}">
+                    <li *ngFor="let product of store.ProductList" attr.data-cartId="{{product.CartId}}" [ngClass]="{'shopping-brightness': !product.Cart_ProductState}">
                         <div class="row">
                             <div class="col-9 col-lg-11">
                                 <div class="products-sitem d-flex align-items-start bd-highlight">
-                                    <div class="sitem-checkbox">
+                                    <div class="sitem-checkbox py-1">
                                         <div class="icheck-material-blue">
-                                            <input id="{{product.CartId}}" [checked]="product.CheckedStatus === true" (change)="onToggleProduct(store, product)" type="checkbox">
+                                            <input id="{{product.CartId}}" [checked]="product.CheckedStatus === true" (change)="onToggleProduct(store, product)" type="checkbox" [disabled]="!product.Cart_ProductState">
                                             <label for="{{product.CartId}}" class="p-0"></label>
                                         </div>
                                     </div>
-                                    <div [routerLink]="['/Shopping/ProductDetail', product.DirCode, product.ProductCode]" class="sitem-img bd-highlight py-1 pr-2">
+                                    <div [routerLink]="product.Cart_ProductState ? ['/Shopping/ProductDetail', product.DirCode, product.ProductCode]: null" class="sitem-img bd-highlight py-1 pr-2">
                                         <div class="rwdimg-cover" [lazyLoad]="product?.ProductImg" [defaultImage]="appService.defaultImage"></div>
                                     </div>
                                     <div class="sitem-title bd-highlight py-1">
                                         <p class="txt-line-clamp1">{{product.ProductName}}</p>
                                         <small class="txt-line-clamp1">規格：{{product.ProductAttrValues}}</small>
                                         <div class="products-quantity">
-                                            <div class="d-flex p-quantity products001">
+                                            <div class="p-quantity products001" [ngClass]="{'d-none': !product.Cart_ProductState, 'd-flex': product.Cart_ProductState}">
                                                 <div class="input-group-btn data-dwn" (click)="onChangeAmount(0, product)">
                                                       <button type="button" class="btn btn-default btn-outline-dark" data-dir="dwn"><i class="material-icons remove">&#xe15b;</i></button>
                                                 </div>

@@ -37,13 +37,13 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit, DoCheck {
   public showBack = false;
 
   constructor(public appService: AppService, public modal: ModalService, private cookieService: CookieService, private router: Router,
-              private route: ActivatedRoute, private differs: KeyValueDiffers, private meta: Meta, private title: Title) {
+    private route: ActivatedRoute, private differs: KeyValueDiffers, private meta: Meta, private title: Title) {
     this.serviceDiffer = this.differs.find({}).create();
     // tslint:disable: max-line-length
     this.title.setTitle('購物車｜線上商城 - Mobii!');
-    this.meta.updateTag({name : 'description', content: 'Mobii! 線上商城購物車。你是不是…還有商品在購物車裡忘了結帳？趕快結帳把購物車清空，賺取 Mobii! M Points 回饋點數吧！我 OK，你先買！'});
-    this.meta.updateTag({content: '購物車｜線上商城 - Mobii!', property: 'og:title'});
-    this.meta.updateTag({content: 'Mobii! 線上商城購物車。你是不是…還有商品在購物車裡忘了結帳？趕快結帳把購物車清空，賺取 Mobii! M Points 回饋點數吧！我 OK，你先買！', property: 'og:description'});
+    this.meta.updateTag({ name: 'description', content: 'Mobii! 線上商城購物車。你是不是…還有商品在購物車裡忘了結帳？趕快結帳把購物車清空，賺取 Mobii! M Points 回饋點數吧！我 OK，你先買！' });
+    this.meta.updateTag({ content: '購物車｜線上商城 - Mobii!', property: 'og:title' });
+    this.meta.updateTag({ content: 'Mobii! 線上商城購物車。你是不是…還有商品在購物車裡忘了結帳？趕快結帳把購物車清空，賺取 Mobii! M Points 回饋點數吧！我 OK，你先買！', property: 'og:description' });
   }
 
   ngOnInit() {
@@ -74,7 +74,6 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit, DoCheck {
       } else {
         this.nocartShow = true;
       }
-
       // loop後端傳來的每樣商品資訊
       for (const store of data.List_Cart) {
         const storeInfo: CartStoreList = {
@@ -94,7 +93,8 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit, DoCheck {
           ProductQty: store.Cart_Quantity,
           ProductPrice: store.Cart_Amount,
           ProductImg: store.Show_ProductImg,
-          CheckedStatus: false
+          CheckedStatus: false,
+          Cart_ProductState: store.Cart_ProductState
         };
 
         // 若cartList中無此商店編碼，則push該商店資訊
@@ -158,8 +158,11 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit, DoCheck {
     // 若勾選此商家，其下商品也都勾選起來、放入陣列
     if (store.CheckedStatus) {
       store.ProductList.forEach(product => {
-        product.CheckedStatus = true;
-        this.selectedProductsList.push(product.ProductCode);
+        // 如果商品是資料有效狀態，才能放入selectedProductsList內
+        if (product.Cart_ProductState) {
+          product.CheckedStatus = true;
+          this.selectedProductsList.push(product.ProductCode);
+        }
       });
       this.selectedStoresList.push(store.StoreCode);
     } else {
@@ -180,27 +183,29 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit, DoCheck {
   onToggleProduct(store: CartStoreList, product: ProductInfo) {
     // 單選商家
     this.singleStore(store);
-
-    product.CheckedStatus = !product.CheckedStatus;
-    if (product.CheckedStatus) {
-      // product
-      this.selectedProductsList.push(product.ProductCode);
-      // store
-      if (!this.selectedStoresList.includes(store.StoreCode)) {
-        this.selectedStoresList.push(store.StoreCode);
-        store.CheckedStatus = true;
+    // 先判斷商品資料是否上架
+    if (product.Cart_ProductState) {
+      product.CheckedStatus = !product.CheckedStatus;
+      if (product.CheckedStatus) {
+        // product
+        this.selectedProductsList.push(product.ProductCode);
+        // store
+        if (!this.selectedStoresList.includes(store.StoreCode)) {
+          this.selectedStoresList.push(store.StoreCode);
+          store.CheckedStatus = true;
+        }
+      } else {
+        this.selectedProductsList.splice(this.selectedProductsList.indexOf(product.ProductCode), 1);
       }
-    } else {
-      this.selectedProductsList.splice(this.selectedProductsList.indexOf(product.ProductCode), 1);
-    }
 
-    // 若取消勾選此商品後，所屬店家已無任何勾選商品，則也取消勾選該店家
-    if (store.ProductList.every(prod => prod.CheckedStatus === false)) {
-      store.CheckedStatus = false;
-      this.selectedStoresList.splice(this.selectedStoresList.indexOf(store.StoreCode), 1);
-    }
+      // 若取消勾選此商品後，所屬店家已無任何勾選商品，則也取消勾選該店家
+      if (store.ProductList.every(prod => prod.CheckedStatus === false)) {
+        store.CheckedStatus = false;
+        this.selectedStoresList.splice(this.selectedStoresList.indexOf(store.StoreCode), 1);
+      }
 
-    this.calcSubtotal();
+      this.calcSubtotal();
+    }
   }
 
   /** 改變商品數量(改變顯示、放入陣列，按下一步前往結帳時才更新DB)

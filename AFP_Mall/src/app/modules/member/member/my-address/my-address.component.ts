@@ -74,6 +74,7 @@ export class MyAddressComponent implements OnInit {
    */
   onReadAddressDetail(addressID: number) {
     if (addressID > 0) {
+      this.appService.openBlock();
       const request: Request_MemberAddress = {
         SelectMode: 5,
         User_Code: sessionStorage.getItem('userCode'),

@@ -29,16 +29,12 @@ defineLocale('zh-cn', zhCnLocale);
 // Component
 import { AppComponent } from './app.component';
 import { MessageModalComponent } from './shared/modal/message-modal/message-modal.component';
-import { MaintenanceComponent } from './modules/maintenance/maintenance.component';
 import { Error404Component } from './modules/error404/error404.component';
 import { Error500Component } from './modules/error500/error500.component';
 import { Error503Component } from './modules/error503/error503.component';
 
 // Service Worker
 import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
-
-// 維護頁
-// import { MaintenanceRoutingModule } from './modules/maintenance/maintenance-routing.module';
 
 // 第三方登入 config
 export function provideConfig() {
@@ -63,12 +59,10 @@ export function provideConfig() {
     AppComponent,
     Error404Component,
     Error500Component,
-    Error503Component,
-    MaintenanceComponent,
+    Error503Component
   ],
   imports: [
     BrowserModule,
-    // MaintenanceRoutingModule, // 系統維護或大更新時取消「這裡」及「此routing中」的註解，並手動更新maintenance.html中的日期及時間
     SharedModule,
     AppRoutingModule,
     HttpClientModule,

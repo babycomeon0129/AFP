@@ -160,7 +160,7 @@
           </div>
           <!-- Tab panes -->
           <div class="tab-content pt-2 mb-5">
-            <div role="tabpanel" class="tab-pane fade active show w-100">
+            <div *ngIf="pointHistory?.length > 0; else noMPointsBlock" role="tabpanel" class="tab-pane fade active show w-100">
               <div *ngFor="let item of pointHistory" class="member-flex border-b p-3">
                 <div class="item three">
                   <div class="d-grid">
@@ -174,6 +174,12 @@
                 </div>
               </div>
             </div>
+            <ng-template #noMPointsBlock>
+              <div class="no-data">
+                <img src="img/member/no-mpoints.png" alt="no-mpoints">
+                <p>Oops!<br>你目前還沒有任何點數喔！</p>
+              </div>
+            </ng-template>
           </div>
         </div>
       </div>

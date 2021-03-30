@@ -135,15 +135,15 @@ i {
 }
 
 // 全站container
-.wrap {  
+.wrap {
   position: relative;
   min-width: 320px;
   height: 100%;
   margin-right: auto;
   margin-left: auto;
 }
-@media (max-width: 767px){  
-  .container{     
+@media (max-width: 767px){
+  .container{
     width: 100%;
     padding-right: 0;
     padding-left: 0;
@@ -390,7 +390,7 @@ ul, ol {
         --s: .5;
       }
     }
-  
+
 }
 
 // 上方標題 & 控制列
@@ -421,7 +421,7 @@ ul, ol {
 
       &.ctrl-btn {
           color: #13334C;
-      }      
+      }
   }
 
   .title-name {

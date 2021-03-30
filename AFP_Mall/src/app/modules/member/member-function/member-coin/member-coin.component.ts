@@ -75,6 +75,7 @@ export class MemberCoinComponent implements OnInit {
   }
 
   getHistory(): void {
+    this.appService.openBlock();
     const getHistory: Request_MemberPoint = {
       User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 5,
@@ -103,11 +104,11 @@ export class MemberCoinComponent implements OnInit {
         }
       }).subscribe( res => {
         if (res) {
-          this.router.navigate(['/GameCenter/Game', gameCode], {queryParams: { hideBackBtn: false}});
+          this.router.navigate(['/GameCenter/Game', gameCode], {queryParams: { showBack: false}});
         }
       });
     } else {
-      this.router.navigate(['/GameCenter/Game', gameCode], {queryParams: { hideBackBtn: false}});
+      this.router.navigate(['/GameCenter/Game', gameCode], {queryParams: { showBack: false}});
     }
   }
 

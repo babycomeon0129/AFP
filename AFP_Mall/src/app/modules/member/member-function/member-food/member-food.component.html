@@ -12,7 +12,7 @@
           <div class="item ctrl-btn"></div>
       </div>
       <div class="my-address-list">
-          <ul>
+          <ul *ngIf="foodList?.length > 0; else noDataBlock">
               <li class="is-default" *ngFor="let order of foodList" (click)="goLink(order.DeliveryOrder_URL)">
                   <div class="item">
                       <p>{{ order.DeliveryOrder_ECStoreName }}</p>
@@ -25,6 +25,12 @@
                   </div>
               </li>
           </ul>
+          <ng-template #noDataBlock>
+            <div class="no-data">
+              <img src="img/member/no-member-food-delivery.png" alt="no-member-food-delivery">
+              <p>Oops!<br>你目前還沒有任何點餐紀錄喔！</p>
+            </div>
+          </ng-template>
       </div>
   </div>
 

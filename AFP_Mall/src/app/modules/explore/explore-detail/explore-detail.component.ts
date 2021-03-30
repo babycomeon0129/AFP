@@ -132,7 +132,7 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
         case 1: {
           this.siteInfo = data.Model_ECStore;
           // Enter轉換行
-          if (this.siteInfo.ECStore_Features !== null) {
+          if (this.siteInfo.ECStore_Features !== null && this.siteInfo.ECStore_Features !== '') {
             this.siteInfo.ECStore_Features = this.siteInfo.ECStore_Features.replace(/(?:\r\n|\r|\n)/g, '<br/>');
           }
           if (this.siteInfo.ECStore_OpenTime !== null) {

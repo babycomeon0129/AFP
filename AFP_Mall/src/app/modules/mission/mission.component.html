@@ -69,7 +69,8 @@
                   <!-- Tab panes -->
                   <div class="tab-content pt-2 pb-5">
                       <div role="tabpanel" class="tab-pane fade active show w-100" id="missiontag01">
-                          <a *ngFor="let item of dailyMission" class="d-flex ms-item p-1">
+                          <ng-container *ngIf="dailyMission?.length > 0; else noDailyBlock">
+                            <a *ngFor="let item of dailyMission" class="d-flex ms-item p-1">
                               <div class="d-flex align-items-start w-100">
                                       <div class="progressbar p-2">
                                         <circle-progress [percent]="donePercent(item)" [title]="item.Mission_CurrentCount + '/' + item.Mission_CompleteCount"></circle-progress>
@@ -83,36 +84,51 @@
                               </div>
                               <div class="ml-auto w80 align-self-center text-center">
                                   <button (click)="buttonAction(item)"
-                                    [disabled]="item?.Mission_ClickState === 1 || (item?.Mission_ClickState === 2 && item?.Mission_CurrentURL.trim() === '' && appService.loginState === true)"
-                                    [ngClass]="{'unable': item?.Mission_ClickState === 1 || (item?.Mission_ClickState === 2 && item?.Mission_CurrentURL.trim() === '' && appService.loginState === true), 'index-outline-btn': item?.Mission_ClickState === 0}"
+                                    [disabled]="item?.Mission_ClickState === 1 || item?.Mission_ClickState === 3 || (item?.Mission_ClickState === 2 && item?.Mission_CurrentURL.trim() === '' && appService.loginState === true)"
+                                    [ngClass]="{'unable': item?.Mission_ClickState === 1 || item?.Mission_ClickState === 3 || (item?.Mission_ClickState === 2 && item?.Mission_CurrentURL.trim() === '' && appService.loginState === true), 'index-outline-btn': item?.Mission_ClickState === 0}"
                                     type="button" class="btn index-btn">
                                     {{buttonText(item?.Mission_ClickState, item?.Mission_CurrentURL)}}
                                   </button>
                               </div>
-                          </a>
+                            </a>
+                          </ng-container>
+                          <ng-template #noDailyBlock>
+                            <div class="no-data">
+                              <img src="img/mission/no-mission.png" alt="no-mission">
+                              <p>Oops!<br>現在沒有可進行的任務喔！</p>
+                            </div>
+                          </ng-template>
                       </div>
                       <div role="tabpanel" class="tab-pane" id="missiontag02">
-                        <a *ngFor="let item of advancedMission" class="d-flex ms-item p-1">
-                          <div class="d-flex align-items-start w-100">
-                                  <div class="progressbar p-2">
-                                    <circle-progress [percent]="donePercent(item)" [title]="item.Mission_CurrentCount + '/' + item.Mission_CompleteCount"></circle-progress>
-                                  </div>
-                              <div class="info-box w-100">
-                                  <ul class="info-list">
-                                      <li class="info-name">{{item?.Mission_ExtName}}</li>
-                                      <li *ngIf="item?.Mission_Value > 0" class="d-flex d-inline">獎勵：<img src="../img/share/mobiicoin_red.png" class="h20">✖{{item?.Mission_Value}}</li>
-                                  </ul>
-                              </div>
+                        <ng-container  *ngIf="advancedMission?.length > 0; else noAdvancedBlock">
+                          <a *ngFor="let item of advancedMission" class="d-flex ms-item p-1">
+                            <div class="d-flex align-items-start w-100">
+                                    <div class="progressbar p-2">
+                                      <circle-progress [percent]="donePercent(item)" [title]="item.Mission_CurrentCount + '/' + item.Mission_CompleteCount"></circle-progress>
+                                    </div>
+                                <div class="info-box w-100">
+                                    <ul class="info-list">
+                                        <li class="info-name">{{item?.Mission_ExtName}}</li>
+                                        <li *ngIf="item?.Mission_Value > 0" class="d-flex d-inline">獎勵：<img src="../img/share/mobiicoin_red.png" class="h20">✖{{item?.Mission_Value}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="ml-auto w80 align-self-center text-center">
+                              <button (click)="buttonAction(item)"
+                                [disabled]="item?.Mission_ClickState === 1 || item?.Mission_ClickState === 3 || (item?.Mission_ClickState === 2 && item?.Mission_CurrentURL.trim() === '' && appService.loginState === true)"
+                                [ngClass]="{'unable': item?.Mission_ClickState === 1 || item?.Mission_ClickState === 3  || (item?.Mission_ClickState === 2 && item?.Mission_CurrentURL.trim() === '' && appService.loginState === true), 'index-outline-btn': item?.Mission_ClickState === 0}"
+                                type="button" class="btn index-btn">
+                                {{buttonText(item?.Mission_ClickState, item?.Mission_CurrentURL)}}
+                              </button>
+                            </div>
+                          </a>
+                        </ng-container>
+                        <ng-template #noAdvancedBlock>
+                          <div class="no-data">
+                            <img src="img/mission/no-mission.png" alt="no-mission">
+                            <p>Oops!<br>現在沒有可進行的任務喔！</p>
                           </div>
-                          <div class="ml-auto w80 align-self-center text-center">
-                            <button (click)="buttonAction(item)"
-                              [disabled]="item?.Mission_ClickState === 1 || (item?.Mission_ClickState === 2 && item?.Mission_CurrentURL.trim() === '' && appService.loginState === true)"
-                              [ngClass]="{'unable': item?.Mission_ClickState === 1 || (item?.Mission_ClickState === 2 && item?.Mission_CurrentURL.trim() === '' && appService.loginState === true), 'index-outline-btn': item?.Mission_ClickState === 0}"
-                              type="button" class="btn index-btn">
-                              {{buttonText(item?.Mission_ClickState, item?.Mission_CurrentURL)}}
-                            </button>
-                          </div>
-                        </a>
+                        </ng-template>
                       </div>
                   </div>
               </div>

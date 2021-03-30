@@ -116,6 +116,7 @@ export interface AreaJsonFile_ECStore {
   ECStore_Distance?: number;
   AttrbuteData?: AreaJsonFile_Attrbute[];
   ECStore_IsOnline: boolean;
+  ECStore_State: boolean;
 }
 
 export interface AreaJsonFile_Attrbute {
@@ -165,6 +166,7 @@ export interface TravelJsonFile_Travel {
   Travel_URLTarget?: string;
   Travel_LocalTitle?: string;
   AttrbuteData?: TravelJsonFile_Attrbute[];
+  Travel_State?: boolean;
 }
 
 export interface TravelJsonFile_Attrbute {
@@ -317,6 +319,7 @@ export interface AFP_Product {
   Product_IsBuy?: boolean;
   Product_UsedOnDate: Date;
   Product_UsedOffDate: Date;
+  Product_State: boolean;
 
 }
 
@@ -568,6 +571,7 @@ export interface AFP_Cart {
   Show_ProductImg?: string;
   Show_ProductDiscountCoin?: number;
   Cart_ProdReceiptPrice?: number;
+  Cart_ProductState?: boolean;
 }
 
 export interface Response_ECCart extends Model_ShareData {
@@ -1162,6 +1166,7 @@ export interface ProductInfo {
   ProductPrice: number;
   ProductImg: string;
   CheckedStatus: boolean;
+  Cart_ProductState: boolean;
 }
 
 /**
