@@ -404,47 +404,57 @@ export class AppService {
     this.modal.show('justka', { initialState: { justkaUrl: url } });
   }
 
-  /** 初始化推播 (註冊firebase、取得token、產生/取得deviceCode、傳送給後端並取得新消費者包) */
+  /** 初始化推播
+   * (註冊 service worker、告訴 firebase.messaging 服務之後的訊息請交由此 SW 處理、取得token、產生/取得 deviceCode、傳送給後端並取得新消費者包)
+   * */
   initPush() {
-    if (environment.firebaseActivate) {
+    if (environment.swActivate) {
       // 不重複初始化
       if (!firebase.apps.length) {
         firebase.initializeApp(environment.firebaseConfig);
         const messaging = firebase.messaging();
-        navigator.serviceWorker.ready.then(registration => {
-          if (
-            !!registration &&
-            registration.active &&
-            registration.active.state &&
-            registration.active.state === 'activated'
-          ) {
-            messaging.useServiceWorker(registration);
-            if (Notification.permission !== 'denied') {
-              Notification
-                .requestPermission()
-                .then((permission) => {
-                  if (permission === 'granted') {
-                    messaging.getToken().then(token => {
-                      this.firebaseToken = token;
-                      // send token to BE
-                      // get GUID (device code) from session, or generate one if there's no
-                      if (sessionStorage.getItem('M_DeviceCode') !== null) {
-                        this.deviceCode = sessionStorage.getItem('M_DeviceCode');
-                      } else {
-                        this.deviceCode = this.guid();
-                        sessionStorage.setItem('M_DeviceCode', this.deviceCode);
-                      }
-                      this.toPushApi();
-                    });
-                  } else {
-                    console.warn('The notification permission was not granted and blocked instead');
-                  }
-                });
+        if ('serviceWorker' in navigator) {
+          // 註冊 service worker
+          navigator.serviceWorker.ready.then(registration => {
+            if (
+              !!registration &&
+              registration.active &&
+              registration.active.state &&
+              registration.active.state === 'activated'
+            ) {
+              messaging.useServiceWorker(registration); // 告訴 firebase.messaging 服務之後的訊息請交由此 SW 處理
+              if (Notification.permission !== 'denied') {
+                Notification
+                  .requestPermission()
+                  .then((permission) => {
+                    if (permission === 'granted') {
+                      // 取得token
+                      messaging.getToken().then(token => {
+                        this.firebaseToken = token;
+                        // send token to BE
+                        // get GUID (device code) from session, or generate one if there's no
+                        if (sessionStorage.getItem('M_DeviceCode') !== null) {
+                          this.deviceCode = sessionStorage.getItem('M_DeviceCode');
+                        } else {
+                          this.deviceCode = this.guid();
+                          sessionStorage.setItem('M_DeviceCode', this.deviceCode);
+                        }
+                        this.toPushApi();
+                      });
+                    } else {
+                      console.warn('The notification permission was not granted and blocked instead.');
+                    }
+                  });
+              }
+            } else {
+              console.warn('No active service worker found, not able to get firebase messaging.');
             }
-          } else {
-            console.warn('No active service worker found, not able to get firebase messaging');
-          }
-        });
+          }, (error) => {
+            console.log('Service worker registration failed:', error);
+          });
+        } else {
+          console.log('Service workers are not supported.');
+        }
       } else {
         firebase.app();
         this.toPushApi();
