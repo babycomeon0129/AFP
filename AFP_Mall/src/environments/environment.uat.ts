@@ -16,7 +16,7 @@ export const environment = {
     projectId: 'afp-consumer-sit',
     storageBucket: 'afp-consumer-sit.appspot.com',
     messagingSenderId: '571296338960',
-    appId: '1:571296338960:web:afd1efd62b8c89a970a695',
-    measurementId: 'G-0DDRXNYEBE'
+    appId: '1:571296338960:web:6fb46497c525628370a695',
+    measurementId: 'G-8GDMQFYGNG'
   }
 };
