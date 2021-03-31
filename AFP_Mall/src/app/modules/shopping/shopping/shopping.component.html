@@ -70,12 +70,12 @@
           </swiper>
       </div>
 
-      <!-- shopping-adbn use swiper 中間廣告 -->
-      <div class="container px-3 pb-3" id="shopping-adbox">
-          <swiper class="shopping-ad swiper-container" [config]="shoppingAd">
+      <!-- shopping-banner use swiper 中間廣告 -->
+      <div class="container px-3 pb-3">
+          <swiper class="shopping-banner swiper-container" [config]="shoppingAd">
               <div class="swiper-wrapper">
                 <a *ngFor="let ad of adImgActivity" href="{{ad.ADImg_URL}}" target="{{ad.ADImg_URLTarget}}" rel="noopener noreferrer" class="swiper-slide">
-                    <div class="shopping-adimgbox">
+                    <div class="shopping-bn-imgbox">
                       <div class="rwdimg-cover h37" [lazyLoad]="ad?.ADImg_Img" [defaultImage] ="appService.defaultImage"></div>
                     </div>
                 </a>

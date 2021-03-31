@@ -38,7 +38,7 @@
   </header>
   <main class="container pt-0">
     <!-- 置頂廣告 -->
-      <swiper class="swiper-container travel-ad" [config]="boxKV">
+      <swiper class="swiper-container travel-banner" [config]="boxKV">
         <div class="swiper-wrapper">
             <div *ngFor="let item of ad20001" class="swiper-slide">
               <a [href]="item.ADImg_URL" [target]="item.ADImg_URLTarget" *ngIf="item.ADImg_URL.indexOf('http') != -1" rel="noopener noreferrer">

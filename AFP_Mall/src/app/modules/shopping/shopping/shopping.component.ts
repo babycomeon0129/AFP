@@ -58,7 +58,7 @@ export class ShoppingComponent implements OnInit, DoCheck {
   /** 活動廣告(中間) swiper */
   public shoppingAd: SwiperOptions = {
     scrollbar: {
-      el: '.shopping-ad .swiper-scrollbar',
+      el: '.shopping-banner .swiper-scrollbar',
       hide: true,
     }
   };
