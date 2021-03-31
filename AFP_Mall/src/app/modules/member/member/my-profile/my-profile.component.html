@@ -52,7 +52,7 @@
                 </div>
               </li>
               <li>
-                <div class="item">生日<span class="text-org">*</span></div>
+                <div class="item">生日<span *ngIf="editMode" class="text-org">*</span></div>
                 <div class="item input-box">
                   <div class="input-group">
                     <input id="bdayinput" #UserBirth="ngModel" name="UserBirth"
@@ -76,7 +76,7 @@
                 <small *ngIf="UserBirth.value > today" class="text-danger px-4">生日不可設在未來</small>
               </li>
               <li>
-                <div class="item">性別<span class="text-org">*</span></div>
+                <div class="item">性別<span *ngIf="editMode" class="text-org">*</span></div>
                 <div class="item input-box div-switch" [ngClass]="{'d-none': !editMode}">
                   <select class="form-control sexSelect" name="UserSex" #UserSex="ngModel"
                     [(ngModel)]="memberService.userProfile.UserProfile_Sex" required
@@ -102,7 +102,7 @@
                 </div>
               </li>
               <li>
-                <div class="item">E-mail<span class="text-org">*</span></div>
+                <div class="item">E-mail<span *ngIf="editMode" class="text-org">*</span></div>
                 <div class="item input-box">
                   <input type="email" name="UserEmail" [placeholder]="editMode? '請輸入' : ''" class="txt-line-clamp1"
                     #UserEmail="ngModel" [(ngModel)]="memberService.userProfile.UserProfile_Email"
