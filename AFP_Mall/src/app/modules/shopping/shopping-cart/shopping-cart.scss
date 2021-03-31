@@ -118,22 +118,23 @@ input[type=number]::-webkit-outer-spin-button {
 
 .shopping-brightness{
   position: relative;
-  &:before{
-    color: #fff;
-    content: '已下架';
-    font-size: x-small;
-    display: block;
-    position: absolute;
-    left: 0;
-    transform: translate(150%, 200%);
-    z-index: 1;
-    @media (max-width: 480px) {
-      transform: translate(100%, 200%);
-    }
-  }
   .sitem-img{
     position: relative;
-    filter: brightness(0.4);
+    &:before{
+      color: white;
+      content: '已下架';
+      font-size: x-small;
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 45%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      white-space: nowrap;
+    }
+    > div {
+      filter: brightness(0.4);
+    }
   }
   .products-sitem, .price-asking{
     filter: grayscale(100%);
