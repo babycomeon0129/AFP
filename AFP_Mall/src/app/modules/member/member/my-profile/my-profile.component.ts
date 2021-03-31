@@ -19,8 +19,6 @@ import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 export class MyProfileComponent implements OnInit {
   /** 我的檔案編輯模式 */
   public editMode = false;
-  /** 我的檔案 ngForm request */
-  // public profileRequest: Request_MemberProfile;
   /** 證件資料容器（護照/台胞證/學生證） */
   public userCertificate: AFP_UserFavourite = new AFP_UserFavourite();
   /** 檔案（證件）資訊 */
@@ -33,6 +31,7 @@ export class MyProfileComponent implements OnInit {
   public showFileDetail = 1;
   /** 判斷是否有上傳檔案 */
   public isUpload = false;
+  /** 今日日期 */
   public today: Date = new Date();
   /** 同頁滑動切換 0:本頁 1:開啟瀏覽檔案上傳  */
   public layerTrigUp = 0;
@@ -71,10 +70,10 @@ export class MyProfileComponent implements OnInit {
     this.memberService.userProfile.SelectMode = 3;
     this.memberService.userProfile.User_Code = sessionStorage.getItem('userCode');
     if (this.memberService.userProfile.UserProfile_Birthday !== null) {
-      if (this.memberService.userProfile.UserProfile_Birthday.getMonth() < new Date().getMonth()) {
-        this.memberService.userProfile.UserProfile_Birthday =
-          new Date(this.memberService.userProfile.UserProfile_Birthday.getTime() - this.memberService.userProfile.UserProfile_Birthday.getTimezoneOffset() * 60 * 1000);
-      }
+        if (this.memberService.userProfile.UserProfile_Birthday.getMonth() < new Date().getMonth()) {
+          this.memberService.userProfile.UserProfile_Birthday =
+            new Date(this.memberService.userProfile.UserProfile_Birthday.getTime() - this.memberService.userProfile.UserProfile_Birthday.getTimezoneOffset() * 60 * 1000);
+        }
     }
     this.appService.toApi('Member', '1502', this.memberService.userProfile).subscribe((data: Response_MemberProfile) => {
       // 取得並顯示我的檔案資料

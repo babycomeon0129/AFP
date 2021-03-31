@@ -40,8 +40,8 @@
   }
   button {
     position: absolute;
-    right: 0;
-    line-height: .5em;
+    right: -3px;
+    line-height: 1em;
   }
 }
 
@@ -50,7 +50,6 @@
   position: fixed;
   opacity: 1;
   visibility: visible;
-  overflow: hidden;
   text-align: center;
   z-index: 299;
   color: #eeeeee;
