@@ -8,7 +8,7 @@
             <i class="material-icons">&#xe314;</i>
           </button>
           <button *ngIf="editMode" class="btn clear-btn d-block"
-            (click)="memberService.readProfileData(); editMode = false">取消</button>
+            (click)="memberService.readProfileData(); editMode = false; formProfile.resetForm()">取消</button>
         </div>
         <div class="item title-name">我的檔案</div>
         <div class="item ctrl-btn">
