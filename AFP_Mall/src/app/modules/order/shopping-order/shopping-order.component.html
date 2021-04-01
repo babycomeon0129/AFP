@@ -43,7 +43,7 @@
             <div class="item one">姓名<span style="color: red;">*</span></div>
             <div class="item three">
               <input type="text" class="form-control" placeholder="請輸入" name="consumerName" #consumerName="ngModel"
-                [(ngModel)]="info.name" required minlength="2" maxlength="10" />
+                [(ngModel)]="info.name" required minlength="2" maxlength="10" autofocus />
               <small class="d-flex justify-content-end text-danger"
                 *ngIf="(consumerName.pristine && (consumerName.errors?.minlength || consumerName.errors?.maxlength)) ||
                   ((consumerName.touched || consumerName.dirty) && consumerName.invalid)">
