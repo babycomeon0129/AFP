@@ -27,6 +27,8 @@ declare var AppJSInterface: any;
 export class AppService {
   /** 登入狀態 */
   public loginState = false;
+  /** 使用者暱稱 */
+  public userName: string;
   /** App訪問 */
   public isApp = null;
   /** callLayer 側邊滑入頁面 */
@@ -111,8 +113,9 @@ export class AppService {
             this.blockUI.stop();
             return JSON.parse(data.Data);
           case 9998: // user資料不完整，讓使用者登出
-            this.modal.show('message', { initialState: { success: false, message: '請先登入', showType: 1 } });
+            this.modal.show('message', { initialState: { success: false, message: '請先登入', showType: 2 } });
             this.onLogout();
+            this.blockUI.stop();
             break;
           default: // 其他錯誤
             this.bsModal.show(MessageModalComponent

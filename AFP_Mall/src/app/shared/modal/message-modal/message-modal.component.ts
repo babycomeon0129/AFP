@@ -27,14 +27,6 @@ export class MessageModalComponent implements OnInit {
   ngOnInit() {
   }
 
-  /** App關閉  */
-  AppClose(): void {
-    if (this.appService.isApp != null) {
-      this.bsModalRef.hide();
-    } else {
-      this.modal.openModal('login', this.bsModalRef);
-    }
-  }
 
   /** 關閉視窗 */
   closeModal(): void {

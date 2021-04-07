@@ -1,4 +1,4 @@
-import { Component, OnInit, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
+import { Component, OnInit, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Model_ShareData, AFP_ADImg } from '@app/_models';
 import { Request_MemberThird, Response_MemberThird } from '../member.component';
@@ -15,7 +15,7 @@ declare var AppJSInterface: any;
   templateUrl: './home.component.html',
   styleUrls: ['../member.scss', './home.scss']
 })
-export class HomeComponent implements OnInit, DoCheck {
+export class HomeComponent implements OnInit {
   // 第三方登入 User容器
   thirdUser: SocialUser;
   thirdClick = false;
@@ -148,17 +148,6 @@ export class HomeComponent implements OnInit, DoCheck {
         showBack: true
       }
     });
-  }
-
-  ngDoCheck(): void {
-    const change = this.serviceDiffer.diff(this.appService);
-    if (change) {
-      change.forEachChangedItem(item => {
-        if (item.key === 'loginState' && item.currentValue === true) {
-          this.memberService.readProfileData();　// 顯示會員暱稱及魔幣點數
-        }
-      });
-    }
   }
 
 }

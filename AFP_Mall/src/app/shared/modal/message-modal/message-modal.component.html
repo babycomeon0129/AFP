@@ -20,7 +20,7 @@
       <button type="button" *ngIf="showType === 1" class="btn btn-login px-0 w-50" (click)="closeModal()">
         確定
       </button>
-      <button type="button" *ngIf="showType === 2" class="btn btn-login px-0 w-50" (click)="AppClose()">
+      <button type="button" *ngIf="showType === 2" class="btn btn-login px-0 w-50" (click)="appService.loginPage(); closeModal()">
         重新登入
       </button>
       <button type="button" *ngIf="showType === 3" class="btn btn-login px-0 w-50" (click)="doReset()">

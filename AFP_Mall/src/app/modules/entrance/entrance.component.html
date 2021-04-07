@@ -35,7 +35,7 @@
           <!-- 電腦版 登入 -->
           <div *ngIf="appService.loginState == true" class="userbox">
             <div *ngIf="appService.loginState == true" class="txt-line-clamp1 user-hi"><a
-                [routerLink]="['/Member']">你好，{{userName}}</a> </div>
+                [routerLink]="['/Member']">你好，{{appService.userName}}</a> </div>
           </div>
           <ul *ngIf="appService.loginState == true" class="userdrop nav navbar-nav">
             <li class="dropdown">
@@ -55,7 +55,7 @@
     <!-- 手機版 上方banner -->
     <section class="mobii-bnbox">
       <div class="userbox mr-auto">
-        <div *ngIf="appService.loginState == true" class="txt-line-clamp1 user-hi">你好，{{userName}}</div>
+        <div *ngIf="appService.loginState == true" class="txt-line-clamp1 user-hi">你好，{{appService.userName}}</div>
         <ul class="m-bnbox-item">
           <li class="txt-line-clamp1">
             <img src="img/share/mobiicoin.png" alt="" class="mr-1 h20">

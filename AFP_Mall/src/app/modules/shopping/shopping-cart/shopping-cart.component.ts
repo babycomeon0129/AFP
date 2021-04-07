@@ -1,10 +1,10 @@
 import { environment } from '@env/environment';
-import { Component, OnInit, AfterViewInit, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
-import { AppService } from 'src/app/app.service';
+import { Component, OnInit, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
+import { AppService } from '@app/app.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Request_ECCart, Response_ECCart, AFP_Cart, CartStoreList, ProductInfo } from '@app/_models';
 import { CookieService } from 'ngx-cookie-service';
-import { ModalService } from '../../../shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
@@ -12,7 +12,7 @@ import { Meta, Title } from '@angular/platform-browser';
   templateUrl: './shopping-cart.component.html',
   styleUrls: ['./shopping-cart.scss']
 })
-export class ShoppingCartComponent implements OnInit, AfterViewInit, DoCheck {
+export class ShoppingCartComponent implements OnInit {
   /** 購物車編碼 */
   public cartCode: number;
   /** 購物車內商品數 */
@@ -391,23 +391,6 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit, DoCheck {
     // } else {
     //   history.back();
     // }
-  }
-
-  ngAfterViewInit(): void {
-  }
-
-  ngDoCheck(): void {
-    const change = this.serviceDiffer.diff(this.appService);
-    if (change) {
-      change.forEachChangedItem(item => {
-        // 在此頁登入後，更新購物車商品（但原先有勾選的商家及其下商品資訊要保留）
-        if (item.key === 'loginState' && item.currentValue === true) {
-          // 將購物車資料更新為全新、登入後的資料
-          // this.cartList = [];
-          this.showCartData();
-        }
-      });
-    }
   }
 
 }
