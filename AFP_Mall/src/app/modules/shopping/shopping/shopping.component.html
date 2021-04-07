@@ -10,7 +10,7 @@
                 </button>
                 <!-- 電腦版 登入 -->
                 <div *ngIf="appService.loginState == true" class="userbox">
-                  <div *ngIf="appService.loginState == true" class="txt-line-clamp1 user-hi"><a [routerLink]="['/Member']">你好，{{userName}}</a> </div>
+                  <div *ngIf="appService.loginState == true" class="txt-line-clamp1 user-hi"><a [routerLink]="['/Member']">你好，{{appService.userName}}</a> </div>
                 </div>
                 <ul *ngIf="appService.loginState == true" class="userdrop nav navbar-nav">
                     <li class="dropdown">

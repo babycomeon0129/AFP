@@ -24,7 +24,7 @@
                       <div *ngIf="appService.loginState === false" class="d-block">
                           <button type="button" class="btn white-outline-btn btw-small" (click)="appService.loginPage()">登入/註冊<img src="../img/share/forward_w.png" class="h20"></button>
                       </div>
-                      <div *ngIf="appService.loginState === true" class="small-80">哈囉！{{userName}}</div>
+                      <div *ngIf="appService.loginState === true" class="small-80">哈囉！{{appService.userName}}</div>
                   </div>
               </div>
               <div class="item coin d-flex d-inline">

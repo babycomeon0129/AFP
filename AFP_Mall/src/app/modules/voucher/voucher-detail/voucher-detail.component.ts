@@ -1,4 +1,4 @@
-import { Component, OnInit, DoCheck, KeyValueDiffer, KeyValueDiffers, OnDestroy } from '@angular/core';
+import { Component, OnInit, KeyValueDiffer, KeyValueDiffers, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   Model_ShareData, AFP_Voucher, AFP_UserVoucher, AFP_ECStore, Request_MemberUserVoucher,
@@ -6,9 +6,9 @@ import {
 } from '@app/_models';
 import { AppService } from 'src/app/app.service';
 import { Router, NavigationExtras } from '@angular/router';
-import { ModalService } from '../../../shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
-import { layerAnimation } from '../../../animations';
+import { layerAnimation } from '@app/animations';
 declare var AppJSInterface: any;
 
 @Component({
@@ -17,7 +17,7 @@ declare var AppJSInterface: any;
   styleUrls: ['./voucher-detail.scss'],
   animations: [ layerAnimation ]
 })
-export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
+export class VoucherDetailComponent implements OnInit, OnDestroy {
   /** UUID */
   public UUid: number;
   /** 優惠券編號（從會員中心進來: 會員優惠券編碼 (UserVoucher_Code)，從其他地方: 優惠券編碼 ） */
@@ -278,17 +278,6 @@ export class VoucherDetailComponent implements OnInit, DoCheck, OnDestroy {
     }
   }
 
-  ngDoCheck(): void {
-    const change = this.serviceDiffer.diff(this.appService);
-    if (change) {
-      change.forEachChangedItem(item => {
-        if (item.key === 'loginState' && item.currentValue === true) {
-          // 在此頁登入則更新優惠券資料
-          this.readVoucherData();
-        }
-      });
-    }
-  }
 
   ngOnDestroy(): void {
     clearInterval(this.checkTimer);

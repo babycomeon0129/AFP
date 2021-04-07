@@ -1,9 +1,6 @@
-import { Component, ViewChild, OnInit, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
+import { Component, ViewChild, OnInit, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
 import { AppService } from '@app/app.service';
-import {
-  Response_AreaDetail, AFP_ECStore, Request_AreaDetail, AFP_Voucher, AFP_Product,
-  Request_MemberUserVoucher, Response_MemberUserVoucher, AFP_ECStoreExtType
-} from '@app/_models';
+import { Response_AreaDetail, AFP_ECStore, Request_AreaDetail, AFP_Voucher, AFP_Product, AFP_ECStoreExtType } from '@app/_models';
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'ngx-useful-swiper';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -19,7 +16,7 @@ import { layerAnimation } from '@app/animations';
     '../../../../styles/layer/shopping-footer.scss'],
   animations: [layerAnimation]
 })
-export class ExploreDetailComponent implements OnInit, DoCheck {
+export class ExploreDetailComponent implements OnInit {
   @ViewChild('kvSwiper', { static: false }) kvSwiper: SwiperComponent;
 
   /** 商家/景點詳細編碼 */
@@ -228,18 +225,6 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
       window.open('/Delivery/DeliveryInfo/' + this.siteCode);
     } else {
       this.appService.loginPage();
-    }
-  }
-
-  ngDoCheck(): void {
-    const change = this.serviceDiffer.diff(this.appService);
-    if (change) {
-      change.forEachChangedItem(item => {
-        // 若在此頁的優惠券分頁登入則更新優惠券資料
-        if (item.key === 'loginState' && item.currentValue === true && this.tabNo === 2) {
-          this.readTabData(2);
-        }
-      });
     }
   }
 

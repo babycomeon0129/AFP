@@ -1,17 +1,17 @@
-import { Component, OnInit, OnDestroy, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
-import { AppService } from 'src/app/app.service';
+import { Component, OnInit, OnDestroy, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
+import { AppService } from '@app/app.service';
 import {AFP_VouFlashSale, Request_ECVouFlashSale, Response_ECVouFlashSale, AFP_ChannelVoucher, AFP_Voucher } from '@app/_models';
 import { SwiperOptions } from 'swiper';
 import { ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
-import { ModalService } from '../../../shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 
 @Component({
   selector: 'app-offers',
   templateUrl: './offers.component.html',
   styleUrls: ['./offers.scss']
 })
-export class OffersComponent implements OnInit, DoCheck, OnDestroy {
+export class OffersComponent implements OnInit, OnDestroy {
   /** 上方限時搶購優惠券(最多4筆) */
   public saleTop: AFP_Voucher[];
   /** 找優惠各目錄(下方) */
@@ -152,19 +152,6 @@ export class OffersComponent implements OnInit, DoCheck, OnDestroy {
         this.readData();
       }
     }, 1000);
-  }
-
-  ngDoCheck() {
-    // call api to update voucher button & points info after LOGIN
-    const change = this.serviceDiffer.diff(this.appService);
-    if (change) {
-      change.forEachChangedItem(item => {
-        if (item.key === 'loginState' && item.currentValue === true) {
-          // 在此頁登入則更新優惠券資料
-          this.readData();
-        }
-      });
-    }
   }
 
   ngOnDestroy(): void {
