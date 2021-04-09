@@ -173,9 +173,8 @@ export class AppComponent implements OnInit {
     const change = this.serviceDiffer.diff(this.appService);
     if (change) {
       change.forEachChangedItem(item => {
-        if (item.key === 'loginState' && item.currentValue === true) {
+        if (item.key === 'loginState' && item.currentValue) {
           // 登入時重新訪問目前頁面以讀取會員相關資料
-          console.log('在本頁登入');
           this.router.routeReuseStrategy.shouldReuseRoute = () => false; // 判斷是否同一路由
           this.router.onSameUrlNavigation = 'reload';
           let url = this.appService.currentUrl;
