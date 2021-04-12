@@ -17,6 +17,7 @@ export class MissionComponent implements OnInit, DoCheck {
   public tabNo = 11;
   /** M Pointss點數 */
   public userPoint: number;
+  /** 所有任務列表 */
   public allMission: Mission_Info[] = [];
   /** 每日任務列表 */
   public dailyMission: AFP_Mission[] = [];
@@ -45,11 +46,13 @@ export class MissionComponent implements OnInit, DoCheck {
       this.tabNo = typeof params.tabNo !== 'undefined' ? parseInt(params.tabNo, 10) : 11;
       this.tabChange();
     });
-    this.readData();
     // 若有登入顯示會員名稱
     if (this.appService.loginState) {
       this.userName = sessionStorage.getItem('userName');
     }
+  }
+  ngOnInit() {
+    this.readData();
   }
 
   /** 讀取任務資料 */
@@ -62,7 +65,6 @@ export class MissionComponent implements OnInit, DoCheck {
 
     this.appService.toApi('Member', '1518', request).subscribe((data: Response_MemberMission) => {
       this.allMission = data.List_AllMission;
-      console.log(this.allMission);
       this.userPoint = data.TotalPoint;
       this.tabChange();
       // 計算所有任務的未完成任務數量
@@ -205,9 +207,6 @@ export class MissionComponent implements OnInit, DoCheck {
     } else {
       this.appService.loginPage();
     }
-  }
-
-  ngOnInit() {
   }
 
   ngDoCheck() {

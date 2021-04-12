@@ -62,7 +62,7 @@
                   <div class="tab-content pt-2 pb-5">
                       <!-- 任務列表 -->
                       <div class="tab-pane fade active show w-100" id="missiontag01">
-                          <ng-container *ngIf="listMission?.length > 0; else noDailyBlock">
+                          <ng-container *ngIf="listMission?.length > 0; else noMissionBlock">
                             <a *ngFor="let item of listMission" class="d-flex ms-item p-1">
                               <div class="d-flex align-items-start w-100">
                                       <div class="progressbar p-2">
@@ -85,7 +85,7 @@
                               </div>
                             </a>
                           </ng-container>
-                          <ng-template #noDailyBlock>
+                          <ng-template #noMissionBlock>
                             <div class="no-data">
                               <img src="img/mission/no-mission.png" alt="no-mission">
                               <p>Oops!<br>現在沒有可進行的任務喔！</p>
