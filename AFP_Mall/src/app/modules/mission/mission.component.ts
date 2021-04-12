@@ -1,4 +1,4 @@
-import { Component, OnInit, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
+import { Component, OnInit, KeyValueDiffer, KeyValueDiffers, DoCheck } from '@angular/core';
 import { Model_ShareData } from '@app/_models';
 import { AppService } from '@app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
@@ -10,15 +10,11 @@ import { Meta, Title } from '@angular/platform-browser';
   templateUrl: './mission.component.html',
   styleUrls: ['./mission.scss']
 })
-<<<<<<< HEAD
 export class MissionComponent implements OnInit, DoCheck {
   /** 會員名稱 */
   public userName: string;
   /** 分頁代號 1:進階任務 11: 每日任務 14:綁卡任務 ，任務分頁可由後端新增，此為目前既有。 */
   public tabNo = 11;
-=======
-export class MissionComponent implements OnInit {
->>>>>>> develop
   /** M Pointss點數 */
   public userPoint: number;
   /** 所有任務列表 */
@@ -43,7 +39,6 @@ export class MissionComponent implements OnInit {
     this.meta.updateTag({ content: 'Mobii! - 任務。這裡會顯示 Mobii! 用戶在 Mobii! 平台上的任務，包括每日登入、每日遊戲可以拿回饋點數 M Points，三不五時會更換使用者要完成的任務。請先登入註冊以開啟功能。', property: 'og:description' });
 
     this.serviceDiffer = this.differs.find({}).create();
-<<<<<<< HEAD
     this.route.queryParams.subscribe(params => {
       // 從會員中心進來則隱藏返回鍵
       this.showBack = params.showBack === 'true';
@@ -54,21 +49,8 @@ export class MissionComponent implements OnInit {
     // 若有登入顯示會員名稱
     if (this.appService.loginState) {
       this.userName = sessionStorage.getItem('userName');
-=======
-    // 從會員中心進來則隱藏返回鍵
-    if (this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBack = true;
-    }
-    // 若有登入顯示會員名稱
-    if (this.appService.loginState === true) {
-      this.appService.userName = sessionStorage.getItem('userName');
->>>>>>> develop
     }
   }
-  ngOnInit() {
-    this.readData();
-  }
-
   ngOnInit() {
     this.readData();
   }
@@ -96,6 +78,7 @@ export class MissionComponent implements OnInit {
       this.dailyLeft = this.allMission.filter(missionlist => missionlist.TabCode === 11)[0].undoneMissionCount;
     });
   }
+
   /** 配合分頁代號tabNo切換，顯示內容 */
   tabChange() {
     if (this.allMission.length !== 0) {
@@ -227,7 +210,6 @@ export class MissionComponent implements OnInit {
     }
   }
 
-<<<<<<< HEAD
   ngDoCheck() {
     const change = this.serviceDiffer.diff(this.appService);
     if (change) {
@@ -240,8 +222,6 @@ export class MissionComponent implements OnInit {
     }
   }
 
-=======
->>>>>>> develop
 }
 
 interface Request_MemberMission extends Model_ShareData {
