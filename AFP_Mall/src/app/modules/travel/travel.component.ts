@@ -1,6 +1,6 @@
-import { Component, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
-import { AppService } from 'src/app/app.service';
-import { ModalService } from '../../shared/modal/modal.service';
+import { Component, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
+import { AppService } from '@app/app.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { Response_TravelHome, AFP_ADImg, AFP_Function, Model_TravelJsonFile, Request_TravelHome } from '@app/_models';
 import { SwiperOptions } from 'swiper';
 import { Meta, Title } from '@angular/platform-browser';
@@ -10,9 +10,7 @@ import { Meta, Title } from '@angular/platform-browser';
   templateUrl: './travel.component.html',
   styleUrls: ['./travel.scss']
 })
-export class TravelComponent implements DoCheck {
-  /** 使用者名稱 */
-  public userName: string;
+export class TravelComponent {
   /** 置頂廣告列表 */
   public ad20001: AFP_ADImg[] = [];
   /** 中間icon（使用者服務） */
@@ -126,22 +124,10 @@ export class TravelComponent implements DoCheck {
 
     // 若有登入則顯示我的收藏
     if (this.appService.loginState === true) {
-      this.userName = sessionStorage.getItem('userName');
+      this.appService.userName = sessionStorage.getItem('userName');
       this.appService.showFavorites();
     }
 
-  }
-
-  ngDoCheck(): void {
-    const change = this.serviceDiffer.diff(this.appService);
-    if (change) {
-      change.forEachChangedItem(item => {
-        if (item.key === 'loginState' && item.currentValue === true) {
-          // 在此頁登入則更新使用者名稱
-          this.userName = sessionStorage.getItem('userName');
-        }
-      });
-    }
   }
 
 }

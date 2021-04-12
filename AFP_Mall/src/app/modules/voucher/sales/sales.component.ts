@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
+import { Component, OnInit, OnDestroy, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
 import { SwiperOptions } from 'swiper';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { AFP_VouFlashSale, Request_ECVouFlashSale, Response_ECVouFlashSale, AFP_ADImg,
   AFP_Voucher } from '@app/_models';
 import { Meta, Title } from '@angular/platform-browser';
@@ -10,7 +10,7 @@ import { Meta, Title } from '@angular/platform-browser';
   templateUrl: './sales.component.html',
   styleUrls: ['../shopping-offers/shopping-offers.scss', '../offers/offers.scss']
 })
-export class SalesComponent implements OnInit, DoCheck, OnDestroy {
+export class SalesComponent implements OnInit, OnDestroy {
   /** 置頂廣告 */
   public adTopList: AFP_ADImg[];
   /** 活動資訊 */
@@ -45,11 +45,10 @@ export class SalesComponent implements OnInit, DoCheck, OnDestroy {
     this.meta.updateTag({name : 'description', content: 'Mobii! - 限時搶購優惠。這裡會顯示 Mobii! 合作店家的限時優惠，限時限量、要買要快，你還在猶豫的時候，東西可能就已經賣光了唷！'});
     this.meta.updateTag({content: '限時搶購優惠 - Mobii!', property: 'og:title'});
     this.meta.updateTag({content: 'Mobii! - 限時搶購優惠。這裡會顯示 Mobii! 合作店家的限時優惠，限時限量、要買要快，你還在猶豫的時候，東西可能就已經賣光了唷！', property: 'og:description'});
-
-    this.readData();
   }
 
   ngOnInit() {
+    this.readData();
   }
 
   readData() {
@@ -80,25 +79,12 @@ export class SalesComponent implements OnInit, DoCheck, OnDestroy {
       this.seconds = Math.floor((this.distance % (1000 * 60)) / 1000);
       this.hours = Math.floor((this.distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)) + days * 24;
       // 顯示
-      if (this.distance <= 0) {
+      if (this.distance === 0) {
         clearInterval(this.countdown);
         // call api to update voucher points below
         this.readData();
       }
     }, 1000);
-  }
-
-  ngDoCheck() {
-    // call api to update voucher button & points info after LOGIN
-    const change = this.serviceDiffer.diff(this.appService);
-    if (change) {
-      change.forEachChangedItem(item => {
-        if (item.key === 'loginState' && item.currentValue === true) {
-          // 在此頁登入則更新優惠券資料
-          this.readData();
-        }
-      });
-    }
   }
 
   ngOnDestroy(): void {

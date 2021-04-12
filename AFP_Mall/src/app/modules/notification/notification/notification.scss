@@ -1,90 +1,108 @@
-@import '../../../../styles/module/variable';
+@import "../../../../styles/module/variable";
 
-ul.notifylist{
-    color: $blue-dark;
-    width: 100%;
-    li{
-        width: 100%;
-        border-bottom: 1px solid #eee;
-        padding: 1em;
-        display: inline-flex;
-        .item{
-            width: calc(100% - 24px);
-        }
-        label{
-            font-weight: bold;
-            font-size: 1.1em;
-            width: 100%;
-        }
-        .auto-left{
-            margin-left: auto;
-            display: flex;
-            align-items: center;
-        }
-    }
+.cursor-pointer {
+  cursor: pointer;
+  label {
+    cursor: pointer;
+  }
 }
-.newnotify{
-    color: $blue-dark;
-    background: #f8f8f8;
-    padding: .5em 1em;
-    font-weight: bold;
-}
-ul.newlist{
-    color: $blue-dark;
+/** 上方分類 */
+ul.notifylist {
+  color: $blue-dark;
+  width: 100%;
+  cursor: pointer;
+  li {
     width: 100%;
-    li{
-        width: 100%;
-        border-bottom: 1px solid #eee;
-        padding: 1em;
-        .newinfo{
-            width: calc(100% - 90px);
-            display: inline-flex;
-            .auto-left{
-                margin-left: auto;
-                display: flex;
-                align-items: center;
-            }
-            .newinfo-body{
-                width: calc(100% - 24px);
-            }
-            .moreBtn{
-                padding: .5em .25em;
-                width: 100%;
-                text-align: right;
-                button{
-                    font-size: .9em;
-                }
-            }
-        }
-        label{
-            font-weight: bold;
-            font-size: 1em;
-            width: 100%;
-        }
-        .item-date{
-            color: gray;
-            font-size: xx-small;
-        }
-        .newbody{
-            width:auto;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-             -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
-            // height: -webkit-fill-available;
-            height: 47px;
-        }
-        &.active{
-            .material-icons{
-                transform: rotate(180deg);
-            }
-            .newbody{
-                display: hidden;
-            }
-            .auto-left{
-                align-items: center;
-            }
-        }
+    border-bottom: 1px solid #eee;
+    padding: 1em;
+    display: inline-flex;
+    .item {
+      width: calc(100% - 24px);
+      text-align: left;
+      color: $blue-dark;
     }
+    label {
+      font-weight: bold;
+      font-size: 1.1em;
+      width: 100%;
+      cursor: pointer;
+    }
+    .auto-left {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+    }
+  }
+}
+/** 最新通知 */
+.newnotify {
+  color: $blue-dark;
+  background: #f8f8f8;
+  padding: 0.5em 1em;
+  font-weight: bold;
+}
+/** 類別列表 */
+ul.newlist {
+  color: $blue-dark;
+  width: 100%;
+  li {
+    width: 100%;
+    border-bottom: 1px solid #eee;
+    padding: 1em;
+    .newinfo {
+      width: calc(100% - 90px);
+      display: inline-flex;
+      .auto-left {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+      }
+      .newinfo-body {
+        width: calc(100% - 24px);
+      }
+      .moreBtn {
+        padding: 0.5em 0.25em;
+        width: 100%;
+        text-align: right;
+        button {
+          font-size: 0.9em;
+        }
+      }
+    }
+    label {
+      font-weight: bold;
+      font-size: 1em;
+      width: 100%;
+    }
+    .item-date {
+      color: gray;
+      font-size: xx-small;
+    }
+    .msgDesc{
+      min-height: 47px;
+    }
+    .msgNotCTA {
+      width: auto;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      // height: -webkit-fill-available;
+      height: 47px;
+    }
+    &.active {
+      .material-icons {
+        transform: rotate(180deg);
+      }
+      .msgNotCTA {
+        display: hidden;
+      }
+      .auto-left {
+        align-items: center;
+      }
+    }
+  }
 }

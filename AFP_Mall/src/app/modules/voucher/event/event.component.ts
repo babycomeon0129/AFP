@@ -1,4 +1,4 @@
-import { Component, OnInit, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
+import { Component, OnInit, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
 import { AFP_ChannelVoucher, AFP_ADImg, Request_ECVoucher, Response_ECVoucher, AFP_Voucher } from '@app/_models';
 import { AppService } from 'src/app/app.service';
 import { SwiperOptions } from 'swiper';
@@ -10,7 +10,7 @@ import { ModalService } from '../../../shared/modal/modal.service';
   templateUrl: './event.component.html',
   styleUrls: ['./event.scss']
 })
-export class EventComponent implements OnInit, DoCheck {
+export class EventComponent implements OnInit {
   /** 置頂圖片 */
   public coverImg: AFP_ADImg[];
   /** 優惠券列表 */
@@ -80,18 +80,6 @@ export class EventComponent implements OnInit, DoCheck {
       }
     } else {
       this.appService.loginPage();
-    }
-  }
-
-  ngDoCheck() {
-    const change = this.serviceDiffer.diff(this.appService);
-    if (change) {
-      change.forEachChangedItem(item => {
-        if (item.key === 'loginState' && item.currentValue === true) {
-          // 在此頁登入則更新優惠券資料
-          this.readData();
-        }
-      });
     }
   }
 
