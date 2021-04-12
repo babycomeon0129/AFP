@@ -13,37 +13,41 @@ import { Meta, Title } from '@angular/platform-browser';
 export class MissionComponent implements OnInit, DoCheck {
   /** 會員名稱 */
   public userName: string;
+  /** 分頁代號 1:進階任務 11: 每日任務 14:綁卡任務 ，任務分頁可由後端新增，此為目前既有。 */
+  public tabNo = 11;
   /** M Pointss點數 */
   public userPoint: number;
+  public allMission: Mission_Info[] = [];
   /** 每日任務列表 */
   public dailyMission: AFP_Mission[] = [];
-  /** 進階任務列表 */
-  public advancedMission: AFP_Mission[] = [];
+  /** 顯示任務列表 */
+  public listMission: AFP_Mission[] = [];
   /** 每日任務未完成數 */
   public dailyLeft = 0;
-  /** 進階任務未完成數 */
-  public advancedLeft = 0;
   /** 變化追蹤 */
   private serviceDiffer: KeyValueDiffer<string, any>;
-
-  public showBack = false; // APP特例處理
+  /** APP特例處理 */
+  public showBack = false;
 
   constructor(public appService: AppService, public modal: ModalService, private differs: KeyValueDiffers
-            , private router: Router, private route: ActivatedRoute, private meta: Meta, private title: Title) {
+    ,         private router: Router, private route: ActivatedRoute, private meta: Meta, private title: Title) {
     // tslint:disable: max-line-length
     this.title.setTitle('任務 - Mobii!');
-    this.meta.updateTag({name : 'description', content: 'Mobii! - 任務。這裡會顯示 Mobii! 用戶在 Mobii! 平台上的任務，包括每日登入、每日遊戲可以拿回饋點數 M Points，三不五時會更換使用者要完成的任務。請先登入註冊以開啟功能。'});
-    this.meta.updateTag({content: '任務 - Mobii!', property: 'og:title'});
-    this.meta.updateTag({content: 'Mobii! - 任務。這裡會顯示 Mobii! 用戶在 Mobii! 平台上的任務，包括每日登入、每日遊戲可以拿回饋點數 M Points，三不五時會更換使用者要完成的任務。請先登入註冊以開啟功能。', property: 'og:description'});
+    this.meta.updateTag({ name: 'description', content: 'Mobii! - 任務。這裡會顯示 Mobii! 用戶在 Mobii! 平台上的任務，包括每日登入、每日遊戲可以拿回饋點數 M Points，三不五時會更換使用者要完成的任務。請先登入註冊以開啟功能。' });
+    this.meta.updateTag({ content: '任務 - Mobii!', property: 'og:title' });
+    this.meta.updateTag({ content: 'Mobii! - 任務。這裡會顯示 Mobii! 用戶在 Mobii! 平台上的任務，包括每日登入、每日遊戲可以拿回饋點數 M Points，三不五時會更換使用者要完成的任務。請先登入註冊以開啟功能。', property: 'og:description' });
 
     this.serviceDiffer = this.differs.find({}).create();
-    // 從會員中心進來則隱藏返回鍵
-    if (this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBack = true;
-    }
+    this.route.queryParams.subscribe(params => {
+      // 從會員中心進來則隱藏返回鍵
+      this.showBack = params.showBack === 'true';
+      // 根據url params的tabNo，賦予tabNo值。如果沒有url params沒有tabNo，則初始值11(每日任務)
+      this.tabNo = typeof params.tabNo !== 'undefined' ? parseInt(params.tabNo, 10) : 11;
+      this.tabChange();
+    });
     this.readData();
     // 若有登入顯示會員名稱
-    if (this.appService.loginState === true) {
+    if (this.appService.loginState) {
       this.userName = sessionStorage.getItem('userName');
     }
   }
@@ -57,30 +61,31 @@ export class MissionComponent implements OnInit, DoCheck {
     };
 
     this.appService.toApi('Member', '1518', request).subscribe((data: Response_MemberMission) => {
+      this.allMission = data.List_AllMission;
+      console.log(this.allMission);
       this.userPoint = data.TotalPoint;
-      this.dailyMission = data.List_DailyMission;
-      this.advancedMission = data.List_AdvancedMission;
-
-      if (this.appService.loginState === true) {
-        // 計算每日任務未完成數
-        this.dailyMission.forEach(i => {
-          if (i.Mission_ClickState === 2) {
-            this.dailyLeft += 1;
-          }
-        });
-        // 計算進階任務未完成數
-        this.advancedMission.forEach(i => {
-          if (i.Mission_ClickState === 2) {
-            this.advancedLeft += 1;
-          }
+      this.tabChange();
+      // 計算所有任務的未完成任務數量
+      if (this.appService.loginState) {
+        this.allMission.forEach(missionlist => {
+          missionlist.undoneMissionCount = missionlist.List_Mission.filter(mission => mission.Mission_ClickState === 2).length;
         });
       }
+      // 額外丟出每日任務及每日任務未完成數，用以顯示畫面上的每日任務完成度
+      this.dailyMission = this.allMission.filter(missionlist => missionlist.TabCode === 11)[0].List_Mission;
+      this.dailyLeft = this.allMission.filter(missionlist => missionlist.TabCode === 11)[0].undoneMissionCount;
     });
+  }
+  /** 配合分頁代號tabNo切換，顯示內容 */
+  tabChange() {
+    if (this.allMission.length !== 0) {
+       this.listMission = this.allMission.filter(data => data.TabCode === this.tabNo)[0].List_Mission;
+    }
   }
 
   /** 每日任務完成度 */
   dailyDonePercent(): number {
-    if (this.dailyMission.length <= 0) {
+    if (this.dailyMission.length <= 0 || this.dailyLeft <= 0) {
       return 0;
     } else {
       return (1 - (this.dailyLeft / this.dailyMission.length)) * 100;
@@ -95,11 +100,11 @@ export class MissionComponent implements OnInit, DoCheck {
   }
 
   /** 任務按鈕顯示文字（已做：未領-0, 已領-1； 未做/未完成-2：有url, 無url）
-   * @param state 任務狀態
+   * @param state 任務狀態。目前任務系統為自動領取，用戶不需要手動領取了，後端不會respose 0 給前端。
    * @param url 當前任務網址
    */
   buttonText(state: number, url: string): string {
-    if (this.appService.loginState === false) {
+    if (!this.appService.loginState) {
       return state === 3 ? '已結束' : 'GO';
     } else {
       switch (state) {
@@ -110,7 +115,7 @@ export class MissionComponent implements OnInit, DoCheck {
         case 2:
           return url.trim() === '' ? '未完成' : 'GO';
         case 3:
-            return '已結束';
+          return '已結束';
       }
     }
   }
@@ -127,7 +132,7 @@ export class MissionComponent implements OnInit, DoCheck {
           // 填寫意見表任務特別處理
           if (mission.Mission_CurrentURL.indexOf('/feedback/?') > 0) {
             const strUser = '?customerInfo=' + sessionStorage.getItem('CustomerInfo') + '&userCode=' + sessionStorage.getItem('userCode') + '&userName=' + sessionStorage.getItem('userName') + '&loginType=1';
-            const device = {system : '', isApp: this.appService.isApp !== null ? strUser + '&isApp=1' : ''};
+            const device = { system: '', isApp: this.appService.isApp !== null ? strUser + '&isApp=1' : '' };
             //  Justka特別處理
             if (navigator.userAgent.match(/android/i)) {
               //  Android
@@ -177,7 +182,7 @@ export class MissionComponent implements OnInit, DoCheck {
     };
 
     this.appService.toApi('Member', '1518', request).subscribe((data: Response_MemberMission) => {
-      // 更新該任務進度狀態、按鈕顯示文字（Mission_Type = 1: 系統(進階), 11: 每日, 12: 永久(進階), 13: 新手）
+      // 更新該任務進度狀態、按鈕顯示文字（Mission_Type = 1:進階任務 11: 每日任務 14:綁卡任務 ，任務分頁可由後端新增，此為目前既有。）
       mission.Mission_ClickState = 1;
       // 若獎勵是點數則加上
       if (mission.Mission_Value !== null) {
@@ -186,6 +191,7 @@ export class MissionComponent implements OnInit, DoCheck {
     });
   }
 
+  /** 前往MemberCoin頁 */
   conditionGo() {
     if (this.appService.loginState) {
       if (this.appService.isApp !== null) {
@@ -208,7 +214,7 @@ export class MissionComponent implements OnInit, DoCheck {
     const change = this.serviceDiffer.diff(this.appService);
     if (change) {
       change.forEachChangedItem(item => {
-        if (item.key === 'loginState' && item.currentValue === true) {
+        if (item.key === 'loginState' && item.currentValue) {
           this.userName = sessionStorage.getItem('userName');
           this.readData();
         }
@@ -218,17 +224,24 @@ export class MissionComponent implements OnInit, DoCheck {
 
 }
 
-export interface Request_MemberMission extends Model_ShareData {
+interface Request_MemberMission extends Model_ShareData {
   Mission_Code?: number;
 }
 
-export interface Response_MemberMission extends Model_ShareData {
+interface Response_MemberMission extends Model_ShareData {
   TotalPoint?: number;
-  List_DailyMission: AFP_Mission[];
-  List_AdvancedMission: AFP_Mission[];
+  List_AllMission: Mission_Info[];
 }
 
-export interface AFP_Mission {
+interface Mission_Info {
+  TabCode: number;
+  TabName: string;
+  /** 未完成任務數量，前端自己塞的 */
+  undoneMissionCount: number;
+  List_Mission: AFP_Mission[];
+}
+
+interface AFP_Mission {
   Mission_ID: number;
   Mission_UpMissionCode: number;
   Mission_IsDoneUp: number;
