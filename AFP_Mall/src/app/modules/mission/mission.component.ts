@@ -85,7 +85,7 @@ export class MissionComponent implements OnInit, DoCheck {
 
   /** 每日任務完成度 */
   dailyDonePercent(): number {
-    if (this.dailyMission.length <= 0 || this.dailyLeft <= 0) {
+    if (this.dailyMission.length <= 0) {
       return 0;
     } else {
       return (1 - (this.dailyLeft / this.dailyMission.length)) * 100;
