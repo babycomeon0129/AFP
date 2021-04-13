@@ -72,9 +72,10 @@ export class ForgetModalComponent implements OnDestroy {
           success: true,
           message: '手機驗證成功！立即重設密碼',
           showType: 3,
-          VerifiedInfo: data.VerifiedInfo
+          VerifiedInfo: data.VerifiedInfo,
+          checkBtnMsg: `確認`
         };
-        this.modalService.show('message', { initialState }, this.bsModalRef);
+        this.modalService.show('message', { initialState });
         clearInterval(this.vcodeCount);
       }
     });

@@ -1,3 +1,3 @@
 <!-- <router-outlet></router-outlet> -->
-<app-scratch *ngIf="gameType === 1" [gameData]="gameData"></app-scratch>
-<app-luckyspin *ngIf="gameType === 2" [gameData]="gameData"></app-luckyspin>
+<app-scratch *ngIf="gameType === 1" [gameData]="gameData" (noticeAlert)="noticeAlert()"></app-scratch>
+<app-luckyspin *ngIf="gameType === 2" [gameData]="gameData" (noticeAlert)="noticeAlert()" (noGameStateAlert)="noGameStateAlert()"></app-luckyspin>

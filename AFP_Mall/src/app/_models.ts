@@ -1104,6 +1104,8 @@ export interface Response_Games extends Model_ShareData {
   TotalPoint: number;
   GameReward: AFP_GamePart;
   ADImg_Theme: AFP_ADImg[];
+  GameState: boolean;
+  Model_AlertInfo: Model_AlertInfo;
 }
 
 export interface AFP_GamePart {
@@ -1118,6 +1120,14 @@ export interface AFP_GamePart {
   GamePart_AttributeValueName: string;
   GamePart_Values: number;
   GamePart_State: number;
+}
+
+export interface Model_AlertInfo {
+  BodyMsg: string;
+  RightBtnMsg: string;
+  RightBtnUrl: string;
+  LeftBtnMsg: string;
+  LeftBtnUrl: string;
 }
 
 export interface Request_MemberCheckStatus extends Model_ShareData {

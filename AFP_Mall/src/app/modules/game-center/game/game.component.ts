@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
-import { Request_Games, Response_Games} from '@app/_models';
+import { Model_AlertInfo, Request_Games, Response_Games } from '@app/_models';
 import { Meta, Title } from '@angular/platform-browser';
+import { ModalService } from '@app/shared/modal/modal.service';
 
 @Component({
   selector: 'app-game',
@@ -16,9 +17,11 @@ export class GameComponent implements OnInit {
   public gameData: Response_Games;
   /** 遊戲類型（1 刮刮樂, 2 大轉盤） */
   public gameType: number;
+  /** 不可遊玩狀態的提醒視窗內容 */
+  public alertInfo: Model_AlertInfo;
 
-  constructor(private route: ActivatedRoute, private router: Router, public appService: AppService
-            , private meta: Meta, private title: Title) {
+  constructor(private route: ActivatedRoute, private router: Router, public appService: AppService, public modal: ModalService
+    ,         private meta: Meta, private title: Title) {
     this.gameCode = Number(this.route.snapshot.params.Game_Code);
   }
 
@@ -34,7 +37,16 @@ export class GameComponent implements OnInit {
     this.appService.toApi('Games', '1701', request).subscribe((data: Response_Games) => {
       this.gameData = data;
       this.gameType = data.AFP_Game.Game_Type;
-
+      this.alertInfo = data.Model_AlertInfo;
+      // 先判斷該遊戲是否為可遊玩狀態，0: 不可遊玩(未完成綁卡等條件，條件由後端判定) 1:可遊玩
+      if (!data.GameState) {
+        this.noGameStateAlert();
+      } else {
+        // 若可玩次數 === 0或是所剩點數不夠遊玩一次則跳提醒視窗
+        if (this.gameData.AFP_Game.Game_PlayCount === 0 || this.gameData.AFP_Game.Game_DedPoint > this.gameData.TotalPoint) {
+          this.noticeAlert();
+        }
+      }
       // tslint:disable: max-line-length
       this.title.setTitle(data.AFP_Game.Game_ExtName + ' - Mobii!');
       this.meta.updateTag({ name: 'description', content: '' });
@@ -42,5 +54,32 @@ export class GameComponent implements OnInit {
       this.meta.updateTag({ content: '', property: 'og:description' });
     });
   }
+
+  /** 您的點數已不足或是遊玩次數已達上限的提示視窗 */
+  noticeAlert() {
+    const initialState = {
+      success: true,
+      type: 1,
+      message: `<div class="no-data no-transform">
+                <img src="../../../../../img/shopping/payment-failure.png">
+                <p>Oops！你的點數不足或已達遊玩次數上限囉！</p></div>`
+    };
+    this.modal.show('message', { initialState });
+  }
+
+  /** 遊戲為不可遊玩狀態的提醒視窗 */
+  noGameStateAlert() {
+    const initialState = {
+      success: false,
+      showType: 6,
+      message: this.alertInfo.BodyMsg,
+      leftBtnMsg: this.alertInfo.LeftBtnMsg,
+      leftBtnUrl: this.alertInfo.LeftBtnUrl,
+      rightBtnMsg: this.alertInfo.RightBtnMsg,
+      rightBtnUrl: this.alertInfo.RightBtnUrl
+    };
+    this.modal.show('message', { initialState });
+  }
+
 
 }

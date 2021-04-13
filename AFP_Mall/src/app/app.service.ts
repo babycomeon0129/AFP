@@ -113,7 +113,7 @@ export class AppService {
             this.blockUI.stop();
             return JSON.parse(data.Data);
           case 9998: // user資料不完整，讓使用者登出
-            this.modal.show('message', { initialState: { success: false, message: '請先登入', showType: 2 } });
+            this.modal.show('message', { initialState: { success: false, message: '請先登入', showType: 2,  checkBtnMsg: `重新登入`} });
             this.onLogout();
             this.blockUI.stop();
             break;

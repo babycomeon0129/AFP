@@ -1,5 +1,5 @@
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit, Input, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Response_Games, Request_Games, AFP_GamePart } from '@app/_models';
 import { ModalService } from '../../../../shared/modal/modal.service';
@@ -14,6 +14,8 @@ import { layerAnimation, layerAnimationUp } from '../../../../animations';
 export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
   /** 遊戲資料（遊戲名稱、類型、格數、上方圖片、規則、遊玩一次所需點數、刮刮樂圖片。每次玩完不更新） */
   @Input() gameData: Response_Games;
+  /** 呼叫父層的noticeAlert方法 (跳出視窗，提醒點數不足或已達遊玩次數上限) */
+  @Output() noticeAlert =  new EventEmitter();
   /** 總點數（每玩完一次即更新） */
   public totalPoints: number;
   /** 會員總可玩次數（每玩完一次即更新；須注意為"-1"/不限次數的情況） */
@@ -56,7 +58,6 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     // 若可玩次數 === 0或是所剩點數不夠遊完一次則阻擋使用者繪製動作
     if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
       this.mousedown = false;
-      this.noticeAlert();
     }
     this.w = document.getElementById('top').offsetWidth;
     this.h = document.getElementById('top').offsetHeight;
@@ -118,7 +119,7 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
   alertInfo() {
     // this.gameData.AFP_Game.Game_PlayCount -1 為次數無限制
     if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
-      this.noticeAlert();
+      this.noticeAlert.emit();
     } else {
       const ctxTopData = this.ctxTop.getImageData(0, 0, this.w, this.h).data;
       let n = 0; // 已刮開的面積比例
@@ -160,7 +161,7 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.drawBot(); // imgBot沒有設src，iOS會報錯，而實際底層的圖是用bottomCanvas的background-image了，也不需要再繪圖一次
     this.drawTop();
     if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
-      this.noticeAlert();
+      this.noticeAlert.emit();
     }
   }
 
@@ -236,16 +237,6 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
           };
       }
     }
-  }
-
-  /** 您的點數已不足或是遊玩次數已達上限的提示視窗  */
-  noticeAlert() {
-    const initialState = {
-      success: true,
-      type: 1,
-      message: `<div class="no-data no-transform"><img src="../../../../../img/shopping/payment-failure.png"><p>Oops！你的點數不足或已達遊玩次數上限囉！</p></div>`
-    };
-    this.modal.show('message', { initialState });
   }
 
   ngAfterViewInit() {
