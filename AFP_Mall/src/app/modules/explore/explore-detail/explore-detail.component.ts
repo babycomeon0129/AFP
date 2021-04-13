@@ -73,13 +73,6 @@ export class ExploreDetailComponent implements OnInit {
     this.serviceDiffer = this.differs.find({}).create();
     // 取得商家/景點編碼
     this.siteCode = Number(this.route.snapshot.params.ECStore_Code);
-    // APP從會員中心進來則隱藏返回鍵
-    // if (this.route.snapshot.queryParams.showBack === 'true') {
-    //   this.showBack = true;
-    // }
-    this.route.queryParams.subscribe(params => {
-       this.showBack = params.showBack;
-    });
   }
 
   ngOnInit() {
@@ -87,9 +80,10 @@ export class ExploreDetailComponent implements OnInit {
 
     // 從外部進來指定分頁
     this.route.queryParams.subscribe(params => {
+      // APP從會員中心進來則隱藏返回鍵
+      this.showBack = params.showBack;
       if (typeof params.navNo !== 'undefined') {
         this.tabNo = parseInt(params.navNo, 10);
-        this.showBack = params.showBack;
         if (this.tabNo > 1 && this.tabNo <= 3) {
           this.readTabData(this.tabNo);
         }
