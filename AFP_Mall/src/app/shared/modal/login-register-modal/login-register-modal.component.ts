@@ -95,23 +95,14 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
     });
 
     // Apple 登入授權成功，第三方登入取得資料
-    document.addEventListener('AppleIDSignInOnSuccess', (authData: any) => {
-      console.log('apple sign in res: ', authData);
+    document.addEventListener('AppleIDSignInOnSuccess', (authData: CustomEvent) => {
+      this.appleUser = authData.detail;
       // 驗證 apple 回傳的 state 是否與此次請求時送去的相同
-      if (authData.detail.authorization.state === this.appleSigninState) {
+      if (this.appleUser.authorization.state === this.appleSigninState) {
         this.stopListeningApple();
-        this.appleUser = authData.detail;
+        // 將 id token 解密取得使用者資訊
         const idTokenModel = jwt_decode(this.appleUser.authorization.id_token);
         const appleToken = idTokenModel.sub;
-
-        // 只有首次使用Apple登入會得到user物件
-        // if (this.appleUser.user === undefined) {
-        //   this.thirdRequest.Account = '';
-        //   this.thirdRequest.NickName = '';
-        // } else {
-        //   this.thirdRequest.Account = this.appleUser.user.email;
-        //   this.thirdRequest.NickName = this.appleUser.user.name.firstName + ' ' + this.appleUser.user.name.lastName;
-        // }
         this.thirdRequest.Account = idTokenModel.email;
         this.thirdRequest.NickName = idTokenModel.email;
         this.thirdRequest.Token = appleToken;
