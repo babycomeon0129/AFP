@@ -86,7 +86,7 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
       this.noGameStateAlert.emit();
     } else {
       // 若須扣除點數跳出確認提示
-      if (this.playTimes !== 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
+      if ((this.playTimes !== 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) && this.gameData.AFP_Game.Game_DedPoint > 0) {
         this.modal
           .confirm({
             initialState: {
