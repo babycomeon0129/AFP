@@ -774,8 +774,11 @@ export class OrderInfo {
 }
 
 export class Request_CreateOrder extends Model_ShareData {
+  /** 訂單資訊 */
   List_Order: AFP_Order[];
+  /** 使用者優惠卷資訊 */
   List_UserVoucher: AFP_UserVoucher[];
+  /** 購物車資訊 */
   List_Cart: AFP_Cart[];
 }
 

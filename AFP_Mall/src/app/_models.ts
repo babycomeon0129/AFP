@@ -7,8 +7,11 @@ export interface Search_ConsHome {
   IndexDelivery_Code?: number;
 }
 
+/** 搜尋Model */
 export interface Search_AreaDetail {
+  /** 電商編碼 */
   ECStore_Code: number;
+  /** 書籤Index  1:商家介紹  2: 優惠卷 3: 線上商城*/
   TabIndex: number;
 }
 
@@ -50,22 +53,39 @@ export interface Model_MissionDetail {
   Mission_URL: string;
 }
 
+/** AFP 自定義參數 */
 export interface AFP_UserReport {
+  /** ID */
   UserReport_ID?: number;
+  /** 上級參數A */
   UserReport_UpCategoryCode?: number;
+  /** 上級參數B */
   UserReport_UpItemCode?: number;
+  /** 大類別編碼 */
   UserReport_CategoryCode?: number;
+  /** 大類別名稱 */
   UserReport_CategoryName?: string;
+  /** 分類編碼 */
   UserReport_ItemCode?: number;
+  /** 分類說明 */
   UserReport_ItemName?: string;
+  /** 參數A */
   UserReport_ParamA?: string;
+  /** 參數B */
   UserReport_ParamB?: string;
+  /** 參數C */
   UserReport_ParamC?: string;
+  /** 參數D */
   UserReport_ParamD?: string;
+  /** 參數E */
   UserReport_ParamE?: string;
+  /** 參數F */
   UserReport_ParamF?: string;
+  /** 參數G */
   UserReport_ParamG?: string;
+  /** 參數H */
   UserReport_ParamH?: string;
+  /** 排序 */
   UserReport_Sort?: number;
 }
 
@@ -97,10 +117,15 @@ export interface AFP_Function {
   isAdd?: boolean;
 }
 
+/** 目錄資訊 */
 export interface Model_AreaJsonFile {
+  /** 外部目錄頻道ID */
   UserDefine_ChannelID?: number;
+  /** 外部目錄編碼 */
   UserDefine_Code?: number;
+  /** 外部目錄編碼 */
   UserDefine_Name?: string;
+  /** 景點資訊 */
   ECStoreData?: AreaJsonFile_ECStore[];
 }
 
@@ -205,67 +230,107 @@ export interface Response_TravelHome {
   List_TravelData: Model_TravelJsonFile[];
 }
 
-// 周邊首頁
+/** 周邊探索 - 列表 Response */
 export interface Response_AreaIndex {
+  /** 景點資料 (目錄 + 景點) */
   List_AreaData: Model_AreaJsonFile[];
+  /** 景點頻道下目錄 */
   List_UserDefine: AFP_UserDefine[];
 }
 
-// 周邊詳細
+/** 周邊探索 - 詳細 Response */
 export interface Response_AreaDetail extends Model_ShareData {
+  /** 電商商店資訊表 */
   Model_ECStore: AFP_ECStore;
+  /** 分店資訊(商家資訊用) */
   List_ECStore: AFP_ECStore[];
+  /** 商家優惠卷 */
   List_Voucher: AFP_Voucher[];
+  /** 商家商品 */
   List_Product: AFP_Product[];
   AFP_UserReport: AFP_UserReport[];
+  /** 電商商店外部類型資訊 */
   Model_ECStoreExtType: AFP_ECStoreExtType;
-  AppShareUrl: string;
 }
 
+/** 電商商店外部類型資訊 */
 export class AFP_ECStoreExtType {
+  /** 商店編碼 */
   ECStoreExtType_ECStoreCode: number;
+  /** 合作商編碼 */
   ECStoreExtType_PartnerCode: number;
+  /** 外部類型 */
   ECStoreExtType_Type: number;
+  /** 外部編碼 */
   ECStoreExtType_ExtCode: number;
 }
 
+/** AFP 電商商店資訊表 */
 export interface AFP_ECStore {
+  /** 商店編碼 */
   ECStore_Code?: number;
+  /** 總店編碼 */
   ECStore_CompanyCode?: number;
+  /** 商店類型 */
   ECStore_Type: number;
+  /** 商店類型(String) */
   ECStore_TypeName: string;
+  /** 商店名稱 */
   ECStore_ShowName: string;
+  /** 經度 */
   ECStore_Lng?: number;
+  /** 緯度 */
   ECStore_Lat?: number;
+  /** 距離 */
   ECStore_Distance?: number;
+  /** 國家 */
   ECStore_Country?: string;
+  /** 縣/市 */
   ECStore_City?: number;
+  /** 行政區 */
   ECStore_LocalCityArea?: number;
+  /** 地址 */
   ECStore_Address?: string;
+  /** 電話 */
   ECStore_Tel?: string;
+  /** 自取縣/市區 */
   ECStore_PickCity?: number;
+  /** 自取行政區 */
   ECStore_PickCityArea?: number;
+  /** 自取地址 */
   ECStore_PickAddress?: string;
+  /** 時間 */
   ECStore_OpenTime?: string;
+  /** 特色 */
   ECStore_Features?: string;
+  /** Logo */
   ECStore_Logo?: string;
+  /** 圖片1 */
   ECStore_Image1?: string;
+  /** 圖片2 */
   ECStore_Image2?: string;
+  /** 圖片3 */
   ECStore_Image3?: string;
+  /** 圖片4 */
   ECStore_Image4?: string;
+  /** 圖片5 */
   ECStore_Image5?: string;
+  /** WEB 連結 */
   ECStore_WebURL?: string;
+  /** FB 連結 */
   ECStore_FBURL?: string;
+  /** LINE 連結 */
   ECStore_LineURL?: string;
+  /** IG 連結 */
   ECStore_IGURL?: string;
+  /** Justka 連結 */
   ECStore_Justka: string;
+  /** 備註 */
   ECStore_Demo?: string;
+  /** 狀態 */
   ECStore_State?: boolean;
+  /** 是否上架(是否顯示於列表) 0:下架 1:上架 */
   ECStore_IsOnline?: boolean;
-}
-
-export interface Response_AreaMap {
-  List_Area: AFP_ECStore[];
 }
 
 export class Request_AFPThird {
@@ -283,42 +348,86 @@ export interface Model_CustomerInfo {
   Customer_UUID?: string;
 }
 
+/** 自定義目錄 */
 export interface AFP_UserDefine {
+  /** 目錄編碼 */
   UserDefine_Code: number;
+  /** 目錄名稱 */
   UserDefine_Name: string;
+  /** 目錄下 商品/景點/行程 數量 */
   UserDefine_ProdCount: number;
 }
 
+/** 商品 */
 export interface AFP_Product {
+  /** 商品ID */
   Product_ID?: number;
+  /** 商品編碼（貨號） */
   Product_Code?: number;
+  /** 商店編碼 */
   Product_ECStoreCode?: number;
+  /** 商品類型
+   *
+   * 1：一般商品
+   * 2： 外部商品
+   * 11：贈品
+   * 21：電子票證
+   * 22：有價票(非API)
+   * 31 : 點數商品
+   * 101 : 免稅商品
+   */
   Product_Type?: number;
+  /** 外部商品編碼 */
   Product_ExtCode?: string;
+  /** 商品網址 */
   Product_URL?: string;
+  /** 商品名稱 */
   Product_Name?: string;
+  /** 外部商品名稱 */
   Product_ExtName?: string;
+  /** SEO關鍵字 */
   Product_KeyWord?: string;
+  /** 商品敘述 */
   Product_Depiction?: string;
+  /** 運送須知 */
   Product_Shopping: string;
+  /** 訂購須知 */
   Product_OrderNotice: string;
+  /** 商品主圖 */
   Product_PrimeImage?: string;
+  /** 商品Icon */
   Product_Icon?: string;
+  /** 銷售價(含稅) */
   Product_SellPrice?: number;
+  /** 特價(含稅) */
   Product_SpecialPrice?: number;
+  /** 特價開始日期 */
   Product_SpecialOnDate?: Date;
+  /** 特價結束日期 */
   Product_SpecialOffDate?: Date;
+  /** 是否上架 */
   Product_IsOnline?: number;
+  /** 上架日期 */
   Product_OnlineDate?: Date;
+  /** 下架日期 */
   Product_OfflineDate?: Date;
+  /** 抵扣幣額 */
   Product_DiscountCoin?: number;
+  /** 銷售單位(編碼) */
   Product_SellUnit?: number;
+  /** 銷售單位 */
   Product_SellUnitName: string;
+  /** 商品目錄編碼 */
   Product_UserDefineCode?: number;
+  /** 商品目錄名稱 */
   Product_UserDefineName?: string;
+  /** 是否能購買 */
   Product_IsBuy?: boolean;
+  /** 販售開始日期 */
   Product_UsedOnDate: Date;
+  /** 販售結束日期 */
   Product_UsedOffDate: Date;
+  /** 資料狀態 0:無效 1:有效 */
   Product_State: boolean;
 
 }
@@ -333,6 +442,7 @@ export interface Response_ECHome extends Model_ShareData {
 }
 
 export interface Response_AFPAccount {
+  /** 使用者編碼 */
   UserInfo_Code: number;
 }
 
@@ -351,15 +461,26 @@ export interface Request_AFPPassword {
   VerifiedInfo?: AFP_VerifiedInfo;
 }
 
+/** Request/Response Model中Data 共用模組 */
 export class Model_ShareData {
+  /**  區別操作(通用) 1:新增 2:刪除 3:編輯  4:查詢 其他 依照Excel文件 */
   SelectMode?: number;
+  /** 加密的UserInfo Code */
   User_Code?: string;
+  /** 自定義文字 */
   Store_Note?: string;
+  /** 購物車內商品數量 */
   Cart_Count?: number;
+  /** JustKa連結 */
   JustKaUrl?: string;
+  /** 分頁-response */
   Model_BaseResponse?: Model_BaseResponse;
+  /** 分頁-request  */
   Model_BasePage?: Model_BasePage;
+  /** UUID，通用唯一辨識碼 */
   UUID?: number;
+  /** App用分享連結 */
+  AppShareUrl?: string;
 }
 
 // 暫用class (for會員: 地址、卡片)
@@ -428,19 +549,30 @@ export interface Request_ECHome extends Model_ShareData {
 }
 
 export interface Model_BaseResponse {
+  /** APP 驗證Code */
   APPVerifyCode?: number;
+  /** 總筆數 */
   Model_TotalItem?: number;
+  /** 總頁數 */
   Model_TotalPage?: number;
+  /** 目前所在頁數 */
   Model_CurrentPage?: number;
 }
 
 export interface Model_BasePage {
+  /** 請求頁數 */
   Model_Page?: number;
+  /** 每頁資料筆數 */
   Model_Item?: number;
+  /** 資料欄位名稱 */
   ColumnsName?: string;
+  /** 資料表名稱 */
   TableName?: string;
+  /** 查詢條件 */
   WhereString?: string;
+  /** 排序字串 */
   OrderString?: string;
+  /** 間隔資料筆數 */
   RowNumber?: number;
 }
 
@@ -551,26 +683,47 @@ export interface Search_ECCart {
   ListCartID?: string;
 }
 
+/** 購物車 */
 export interface AFP_Cart {
+  /** ID */
   Cart_ID?: number;
+  /** 購物車Code */
   Cart_Code?: number;
+  /** 使用者Code */
   Cart_UserInfoCode?: number;
+  /** 商店Code */
   Cart_ECStoreCode?: number;
+  /** 商店名稱 */
   Cart_ECStoreName?: string;
+  /** 商品編碼 */
   Cart_ProductCode?: number;
+  /** 規格值編號 [多筆以逗號區隔] */
   Cart_AttributeValueCode?: string;
+  /** 規格值名稱 [多筆以逗號區隔] */
   Cart_AttributeValueName?: string;
+  /** 目錄編碼 */
   Cart_UserDefineCode?: number;
+  /** 目錄名稱 */
   Cart_UserDefineName?: string;
+  /** 數量 */
   Cart_Quantity?: number;
+  /** 交易單價 */
   Cart_Amount?: number;
+  /** 付款狀態 0：未建立訂單(預設) 1：已建立訂單 */
   Cart_OrderState?: number;
+  /** 狀態 0:無效 1:有效 9:刪除 */
   Cart_State?: number;
+  /** 生成日期 */
   Cart_InsertDate?: Date;
+  /** 商品名稱 (顯示用) */
   Show_ProductName?: string;
+  /** 商品圖片 (顯示用) */
   Show_ProductImg?: string;
+  /** 商品抵扣 (顯示用) */
   Show_ProductDiscountCoin?: number;
+  /** 商品收據金額 */
   Cart_ProdReceiptPrice?: number;
+  /** 商品狀態 0:無效 1:有效 */
   Cart_ProductState?: boolean;
 }
 
@@ -604,13 +757,20 @@ export interface Response_GetUserVoucher extends Model_ShareData {
   List_UserVoucher?: AFP_UserVoucher[];
   List_Voucher?: AFP_Voucher[];
 }
+
+/** 檢查優惠卷使用判定 */
 export interface Request_CheckUserVoucher extends Model_ShareData {
+  /** 購物車資訊 */
   List_Cart?: AFP_Cart[];
+  /** 使用者優惠卷 */
   List_UserVoucher?: AFP_UserVoucher[];
 }
 
+/** 檢查優惠卷使用判定 Response */
 export interface Response_CheckUserVoucher extends Model_ShareData {
+  /** 優惠卷驗證狀態 */
   Success: boolean;
+  /** 驗證失敗時回傳訊息 */
   ErrorMsg?: string;
 }
 
@@ -640,46 +800,61 @@ export class Model_DictionaryShort {
   isSelect?: boolean;
 }
 
+/** 使用者優惠卷紀錄表 */
 export class AFP_UserVoucher {
-  VoucherShowType: string;
-  VoucherUsedType: string;
-  Voucher_ShowType: number;
-  Voucher_ShowName: string;
-  Voucher_ShowImage: string;
-  ECStore_Code: number;
-  Company_ShowName: string;
-  Discount_Amount: number;
+  /** 優惠卷使用類型 */
   UserVoucher_UsedType: number;
+  /** ID */
   UserVoucher_ID: number;
+  /** 編碼 */
   UserVoucher_Code: number;
+  /** 單號 */
   UserVoucher_TableNo?: number;
+  /** 使用者編碼 */
   UserVoucher_UserInfoCode: number;
+  /** 優惠卷編號 */
   UserVoucher_VoucherCode: number;
+  /** 優惠卷使限制ID */
   UserVoucher_VoucherLimitID?: number;
+  /** 使用開始日期 */
   UserVoucher_UsedOnDate: Date;
+  /** 使用結束日期 */
   UserVoucher_UsedOffDate: Date;
+  /** QRCode */
   UserVoucher_QRCode: string;
+  /** 領取日期 */
   UserVoucher_ReceiveDate: Date;
+  /** 優惠卷核銷店家 */
   UserVoucher_UsedECStore?: number;
+  /** 使用日期 */
   UserVoucher_UsedDate: Date;
+  /** 使用狀態 0：未使用 1：使用中 2：已使用 3：已過期  */
   UserVoucher_UsedState: number;
+  /** 使用狀態名 */
   UserVoucher_UsedStateName: string;
+  /** 狀態 0：無效 1：有效(預設) 9：刪除  */
   UserVoucher_State: number;
+  /** 優惠卷核銷完成訊息 */
   VoucherUsedMessage: string;
-  Voucher_URL: string;
-  Voucher_URLTarget: string;
+  /** 優惠卷名稱 */
   Voucher_Name: string;
 }
 
 
 
+/** 周邊探索 - 列表 Request */
 export interface Request_AreaIndex extends Model_ShareData {
+  /** 搜尋Model */
   SearchModel: Search_AreaIndex;
 }
 
+/** 搜尋Model */
 export interface Search_AreaIndex {
+  /** 半徑 (預設5公里) */
   IndexArea_Distance: number;
+  /** 首頁景點頻道編號 */
   IndexArea_Code: number;
+  /** 首頁景點目錄編號 */
   AreaMenu_Code: number;
 }
 
@@ -691,88 +866,149 @@ export interface Search_ConsTravelHome {
   IndexTravel_Code: number;
 }
 
+/** 周邊探索 - 詳細 Request */
 export interface Request_AreaDetail extends Model_ShareData {
+  /** 搜尋Model */
   SearchModel: Search_AreaDetail;
 }
 
-export interface Request_AreaMap extends Model_ShareData {
-  SearchModel: Search_AreaMap;
-}
-
-export interface Search_AreaMap {
-  AreaMap_Distance: number;
-}
-
+/** 優惠卷資訊表 */
 export class AFP_Voucher {
+  /** ID */
   Voucher_ID: number;
+  /** 編碼 */
   Voucher_Code: number;
+  /** 使用者優惠卷編碼  當消費者持有才放 */
   Voucher_UserVoucherCode?: number;
+  /** 國碼 */
   Voucher_CountryCode: number;
+  /** 折扣金額 (訂單詳細用) */
   Discount_Amount: number;
+  /** 優惠卷使用類型(code) 1:到店 / 線上 2:線上 3:到店 */
   Voucher_UsedType: number;
+  /** 優惠卷使用類型名字，後端會根據優惠券類型 */
   Voucher_UsedTypeName: string;
+  /** 優惠卷顯示類型
+   *
+   * 1000 : 線上商店
+   * 1100 : 實體商店
+   * 2000 : 景點
+   * 2100 : 住宿
+   * 2200 : 美食
+   * 2300 : 遊樂(體驗)
+   * 2400 : 購物
+   * 2500 : 醫療保健
+   */
   Voucher_ShowType: number;
+  /** 優惠卷顯示類型名稱 */
   Voucher_ShowTypeName: string;
-  Voucher_ShowComName: string;
+  /** 標題(店名) */
   Voucher_Title: string;
+  /** 網頁開啟模式 */
   Voucher_URLTarget: string;
+  /** 去商店網址 */
   Voucher_URL: string;
+  /** 優惠卷按鈕狀態 0: 已領取 1: 領取 2: 去商店 3: 已使用 4: 領取完畢 5: 使用 6: 已逾期 7: 未生效 8: 使用中 */
   Voucher_IsFreq: number;
+  /** 優惠卷按鈕狀態名稱 */
   Voucher_FreqName: string;
-  ECStore_Code: number;
+  /** 優惠類型 1:折扣劵 2:免運劵 11:贈品劵 */
   Voucher_Type: number;
+  /** 總店編號 */
   Voucher_CompanyCode: number;
+  /** 商店編號 */
   Voucher_ECStoreCode: number;
-  Voucher_Name: string;
+  /** 外部名稱 */
   Voucher_ExtName: string;
+  /** 領取點數 */
   Voucher_DedPoint: number;
+  /** 優惠點數 */
   Voucher_SpecialPoint: number;
+  /** 圖片 */
   Voucher_Image: string;
-  Voucher_ActivityType: number;
-  Voucher_ActivityCode: string;
+  /** 已領取總數量 */
   Voucher_ReleasedCount: number;
+  /** 總發行數量 */
   Voucher_IssuanceLimit: number;
+  /** 會員可領取數量 */
   Voucher_ReceiveLimit: number;
+  /** 可使用類型 */
   Voucher_UsedLimitType: number;
+  /** 可使用類型 */
   Voucher_UsedLimit: number;
+  /** 檢查規則 */
   Voucher_CheckLimit: number;
+  /** 抵扣類型 */
   Voucher_FeeType: number;
+  /** 使用開始日期 */
   Voucher_UsedOnDate: Date;
+  /** 使用結束日期 */
   Voucher_UsedOffDate: Date;
+  /** 上架日期 */
   Voucher_OnlineDate: Date;
+  /** 下架日期 */
   Voucher_OfflineDate: Date;
+  /** 狀態 0:無效 1:有效 9:刪除 */
   Voucher_State: number;
+  /** 內容 */
   Voucher_Content: string;
+  /** 注意事項 */
   Voucher_Note: string;
+  /** 可使用優惠卷的商品 */
   VoucherRange_Prod: number[];
+  /** 優惠卷使用限制表 */
   List_VoucherLimit: AFP_VoucherLimit[];
+  /** 優惠卷已使用次數 - 顯示用 */
   VoucherUseCount: number;
+  /** 領取日期 */
   Voucher_ReceiveDate: Date;
+  /** 是否開啟主掃 */
   Voucher_IsScan: number;
 }
 
 
 
+/** 優惠卷使用限制表 */
 export interface AFP_VoucherLimit {
+  /** ID */
   VoucherLimit_ID: number;
+  /** 優惠卷Code */
   VoucherLimit_VoucherCode: number;
+  /** 總成本價(含稅) */
   VoucherLimit_CostPrice: number;
+  /** 艾斯成本價(含稅) */
   VoucherLimit_AFPCostPrice: number;
+  /** 已使用數量 */
   VoucherLimit_UsedCount: number;
+  /** 發行數量 */
   VoucherLimit_IssuanceLimit: number;
+  /** 比率/金額 */
   VoucherLimit_Discount: number;
+  /** 最低金額/數量 */
   VoucherLimit_MinUnit: number;
+  /** 最高金額/數量 */
   VoucherLimit_MaxUnit: number;
+  /** 商品Code */
   VoucherLimit_ProductCode1: number;
+  /** 贈品數量 */
   VoucherLimit_Count1: number;
+  /** 商品Code2 */
   VoucherLimit_ProductCode2: number;
+  /** 贈品數量2 */
   VoucherLimit_Count2: number;
+  /** 商品Code3 */
   VoucherLimit_ProductCode3: number;
+  /** 贈品數量3 */
   VoucherLimit_Count3: number;
+  /** 商品Code4 */
   VoucherLimit_ProductCode4: number;
+  /** 贈品數量4 */
   VoucherLimit_Count4: number;
+  /** 商品Code5 */
   VoucherLimit_ProductCode5: number;
+  /** 贈品數量5 */
   VoucherLimit_Count5: number;
+  /** 狀態 0:無效 1:有效 9:刪除 */
   VoucherLimit_State: number;
 }
 
@@ -861,6 +1097,7 @@ export interface AFP_MemberOrder extends AFP_Order {
   ReceiptChineseAmount: string;
 }
 
+/** 訂單 */
 export class AFP_Order {
   constructor() {
     this.Order_ChangeAmount = 0;
@@ -868,37 +1105,67 @@ export class AFP_Order {
     this.Order_PlatChangeAmount = 0;
   }
 
+  /** ID */
   Order_ID: number;
+  /** 單號 */
   Order_TableNo: number;
+  /** 金流訂單編碼 */
   Order_PayOrderTableNo: number;
-  Order_CartCode: number;
+  /** 上級企業 */
   Order_MainStoreCode: number;
+  /** 商店編碼 */
   Order_ECStoreCode: number;
+  /** 消費者編碼 */
   Order_UserInfoCode: number;
+  /** 商家物流ID */
   Order_ECLogisticsID: number;
+  /** QRCode */
   Order_QRCode: string;
+  /** 幣別 */
   Order_Currency: string;
+  /** 稅率 */
   Order_TaxRate: number;
+  /** 收件人國家 */
   Order_RecCountry: number;
+  /** 收件人縣/市區 */
   Order_RecCity: number;
+  /** 收件人行政區 */
   Order_RecCityArea: number;
+  /** 收件人地址 */
   Order_RecAddress: string;
+  /** 收件人姓名 */
   Order_RecName: string;
+  /** 收件人信箱 */
   Order_RecEmail: string;
+  /** 收件人電話 */
   Order_RecTel: string;
+  /** 運費 */
   Order_ShippingAmount: number;
+  /** 異動運費 */
   Order_ChangeShippingAmount: number;
+  /** 寄送方式 1: 宅配 2: 店家自取 99:無 */
   Order_DeliveryWays: number;
+  /** 總交易金額 */
   Order_Amount: number;
+  /** 異動總金額 */
   Order_ChangeAmount: number;
+  /** 平台優惠異動金額 */
   Order_PlatChangeAmount: number;
+  /** 顧客留言資訊 */
   Order_ConsumerMsg: string;
+  /** 出貨時間 */
   Order_DepartDate: Date;
+  /** 到貨時間 */
   Order_ArrivalDate: Date;
+  /** 生成日期 */
   Order_InsertDate: Date;
+  /** 付款截止日期 */
   Order_DeadlineDate: Date;
+  /** 實際付款日期 */
   Order_PaymentDate: Date;
+  /** 狀態 0：無效 1：有效(預設) 9：刪除 */
   Order_State: number;
+  /** 鑑賞日期 */
   Order_AppreciationDate: Date;
 }
 
@@ -1397,6 +1664,7 @@ export class Third_AppleUser {
 }
 
 export class Response_AFPVerifyCode extends Model_ShareData {
+  /** 驗證資訊 */
   VerifiedInfo?: AFP_VerifiedInfo;
 }
 
@@ -1406,8 +1674,50 @@ export class Request_AFPVerifyCode extends Model_ShareData {
 }
 
 export interface AFP_VerifiedInfo {
+  /** 被驗證的手機號碼
+   *
+   * SelectMode = 10
+   * Request時 : VerifiedPhone or [xEyes_CustomerInfo] 其中一個要有值
+   * Response時 : VerifiedPhone
+   *
+   * SelectMode = 11、12
+   * Request時 : VerifiedPhone
+   * Response時 : 空
+   *
+   * SelectMode = 21
+   * Request時 : VerifiedPhone
+   * Response時 : 空
+   */
   VerifiedPhone?: string;
+  /** 使用者編碼
+   *
+   * SelectMode = 10
+   * Request時 : 空
+   * Response時 : 空
+   *
+   * SelectMode = 11、12
+   * Request時 : 空
+   * Response時 : CheckValue
+   *
+   * SelectMode = 21
+   * Request時 : CheckValue
+   * Response時 : CheckValue
+   */
   CheckValue?: string;
+  /** 驗證碼
+   *
+   * SelectMode = 10
+   * Request時 : 空
+   * Response時 : 空
+   *
+   * SelectMode = 11、12
+   * Request時 : 空
+   * Response時 : 空
+   *
+   * SelectMode = 21
+   * Request時 : VerifiedCode
+   * Response時 : 空
+   */
   VerifiedCode?: string;
 }
 

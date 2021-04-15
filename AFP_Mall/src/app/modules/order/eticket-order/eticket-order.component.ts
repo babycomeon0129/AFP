@@ -590,17 +590,6 @@ export class OrderInfo {
   invoice: OrderInvoice;
 }
 
-export class Request_CreateOrder extends Model_ShareData {
-  List_Order: AFP_Order[];
-  List_UserVoucher: AFP_UserVoucher[];
-  List_Cart: AFP_Cart[];
-}
-
-export class Response_CreateOrder extends Model_ShareData {
-  OrderNo: string;
-  UserVoucher_ID?: number;
-}
-
 export interface Request_CreateTOrder extends Model_ShareData {
   List_Order: AFP_Order[];
   List_UserVoucher: AFP_UserVoucher[];
