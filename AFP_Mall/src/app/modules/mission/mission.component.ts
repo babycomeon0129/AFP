@@ -1,4 +1,4 @@
-import { Component, OnInit, KeyValueDiffer, KeyValueDiffers, DoCheck } from '@angular/core';
+import { Component, OnInit, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
 import { Model_ShareData } from '@app/_models';
 import { AppService } from '@app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
@@ -10,9 +10,7 @@ import { Meta, Title } from '@angular/platform-browser';
   templateUrl: './mission.component.html',
   styleUrls: ['./mission.scss']
 })
-export class MissionComponent implements OnInit, DoCheck {
-  /** 會員名稱 */
-  public userName: string;
+export class MissionComponent implements OnInit {
   /** 分頁代號 1:進階任務 11: 每日任務 14:綁卡任務 ，任務分頁可由後端新增，此為目前既有。 */
   public tabNo = 11;
   /** M Pointss點數 */
@@ -46,10 +44,6 @@ export class MissionComponent implements OnInit, DoCheck {
       this.tabNo = typeof params.tabNo !== 'undefined' ? parseInt(params.tabNo, 10) : 11;
       this.tabChange();
     });
-    // 若有登入顯示會員名稱
-    if (this.appService.loginState) {
-      this.userName = sessionStorage.getItem('userName');
-    }
   }
   ngOnInit() {
     this.readData();
@@ -207,18 +201,6 @@ export class MissionComponent implements OnInit, DoCheck {
       }
     } else {
       this.appService.loginPage();
-    }
-  }
-
-  ngDoCheck() {
-    const change = this.serviceDiffer.diff(this.appService);
-    if (change) {
-      change.forEachChangedItem(item => {
-        if (item.key === 'loginState' && item.currentValue) {
-          this.userName = sessionStorage.getItem('userName');
-          this.readData();
-        }
-      });
     }
   }
 

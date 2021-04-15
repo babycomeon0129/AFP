@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
     if (sessionStorage.getItem('CustomerInfo') !== null && sessionStorage.getItem('userCode') !== null
       && sessionStorage.getItem('userName') !== null) {
       this.appService.loginState = true;
+      this.appService.userName = sessionStorage.getItem('userName');
     }
 
     // App訪問

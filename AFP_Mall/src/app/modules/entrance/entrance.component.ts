@@ -1,5 +1,5 @@
-import { ModalOptions, BsModalRef } from 'ngx-bootstrap';
-import { Component, OnInit, DoCheck, KeyValueDiffer, KeyValueDiffers, Renderer2, Input } from '@angular/core';
+import { BsModalRef } from 'ngx-bootstrap';
+import { Component, OnInit, KeyValueDiffer, KeyValueDiffers, Renderer2 } from '@angular/core';
 import { AppService } from '@app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import {
@@ -13,7 +13,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { environment } from '@env/environment';
 import { Meta, Title } from '@angular/platform-browser';
 import { SortablejsOptions } from 'ngx-sortablejs';
-import { layerAnimation } from '../../animations';
+import { layerAnimation } from '@app/animations';
 
 declare var $: any;
 
@@ -22,7 +22,7 @@ declare var $: any;
   styleUrls: ['./entrance.scss', '../travel/travel.scss'],
   animations: [layerAnimation]
 })
-export class EntranceComponent implements OnInit, DoCheck {
+export class EntranceComponent implements OnInit {
   public userProfile: Model_MemberProfile = new Model_MemberProfile();
 
   /** 進場廣告swiper */
@@ -280,7 +280,7 @@ export class EntranceComponent implements OnInit, DoCheck {
     // this.route.data.subscribe((data: { homeData: Response_Home }) => {
     //   // 接資料
     // });
-    this.readUp(1);
+    this.readUp();
     this.getHomeservice();
     this.readDown();
     // 若有登入則顯示名字、M Points及優惠券資訊（手機版）、我的收藏
@@ -289,38 +289,27 @@ export class EntranceComponent implements OnInit, DoCheck {
     }
   }
 
-  /** 讀取首頁上方資料（皆為廣告及會員資料，我的服務除外）
-   * @param mode 讀取時機 1: 進入此頁 2: 在此頁登入時
-   */
-  readUp(mode: number) {
+  /** 讀取首頁上方資料（皆為廣告及會員資料，我的服務除外） */
+  readUp() {
     const request: Request_Home = {
       User_Code: sessionStorage.getItem('userCode')
     };
     this.appService.openBlock();
     this.appService.toApi('Home', '1021', request).subscribe((data: Response_Home) => {
-      switch (mode) {
-        case 1:
-          // 會員資訊
-          this.userPoint = data.TotalPoint;
-          this.userVoucherCount = data.VoucherCount;
-          // 廣告
-          this.adTop = data.ADImg_Top;
-          this.adMid4 = data.ADImg_Activity;
-          this.adMid = data.ADImg_Theme;
-          this.adIndex = data.ADImg_Approach;
-          // 進場廣告只有一張廣告圖時不輪播
-          if (this.adIndex.length === 1) {
-            this.adIndexOption.loop = false;
-          }
-          this.adIndexChenck();
-          break;
-        case 2:
-          // 會員資訊
-          // this.appService.userName = sessionStorage.getItem('userName');
-          this.userPoint = data.TotalPoint;
-          this.userVoucherCount = data.VoucherCount;
-          break;
+      // 會員資訊
+      // this.appService.userName = sessionStorage.getItem('userName');
+      this.userPoint = data.TotalPoint;
+      this.userVoucherCount = data.VoucherCount;
+      // 廣告
+      this.adTop = data.ADImg_Top;
+      this.adMid4 = data.ADImg_Activity;
+      this.adMid = data.ADImg_Theme;
+      this.adIndex = data.ADImg_Approach;
+      // 進場廣告只有一張廣告圖時不輪播
+      if (this.adIndex.length === 1) {
+        this.adIndexOption.loop = false;
       }
+      this.adIndexChenck();
     });
   }
 
@@ -628,18 +617,6 @@ export class EntranceComponent implements OnInit, DoCheck {
     }
   }
 
-  ngDoCheck(): void {
-    // const change = this.serviceDiffer.diff(this.appService);
-    // if (change) {
-    //   change.forEachChangedItem(item => {
-    //     if (item.key === 'loginState' && item.currentValue === true) {
-    //       // 在此頁登入則更新使用者暱稱、點數、優惠券、我的服務
-    //       // this.readHome(2);
-    //       this.readUp(2);
-    //     }
-    //   });
-    // }
-  }
 }
 
 class Response_AFPUserService extends Model_ShareData {

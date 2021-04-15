@@ -28,6 +28,7 @@ export class SessionAliveGuard implements CanActivate {
             sessionStorage.setItem('CustomerInfo', this.cookieService.get('CustomerInfo'));
             // sessionStorage.setItem('userFavorites', '');
             this.appService.loginState = true;
+            this.appService.userName = sessionStorage.getItem('userName');
           }
         }
 

@@ -124,7 +124,6 @@ export class TravelComponent {
 
     // 若有登入則顯示我的收藏
     if (this.appService.loginState === true) {
-      this.appService.userName = sessionStorage.getItem('userName');
       this.appService.showFavorites();
     }
 
