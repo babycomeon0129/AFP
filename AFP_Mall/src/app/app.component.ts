@@ -85,9 +85,12 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.router.events.pipe(filter(event => event instanceof NavigationEnd))
-                      .subscribe(evt => {
+                      .subscribe((event: NavigationEnd) => {
                                     window.scrollTo(0, 0);
                                     this.appService.appShowMobileFooter(false);
+                                    // 取得前一頁面url
+                                    this.appService.prevUrl = this.appService.currentUrl;
+                                    this.appService.currentUrl = event.url;
                                   });
     this.detectOld();
     this.appService.initPush();
@@ -173,7 +176,7 @@ export class AppComponent implements OnInit {
     const change = this.serviceDiffer.diff(this.appService);
     if (change) {
       change.forEachChangedItem(item => {
-        if (item.key === 'loginState' && item.currentValue) {
+        if (item.key === 'loginState' && item.currentValue && this.appService.userLoggedIn) {
           // 登入時重新訪問目前頁面以讀取會員相關資料
           this.router.routeReuseStrategy.shouldReuseRoute = () => false; // 判斷是否同一路由
           this.router.onSameUrlNavigation = 'reload';
