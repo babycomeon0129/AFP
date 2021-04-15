@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { map, catchError, filter } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import {
   Response_APIModel, Request_MemberFavourite, Response_MemberFavourite, AFP_Voucher,
   Request_MemberUserVoucher, Response_MemberUserVoucher, Request_ECCart, Response_ECCart, Model_ShareData
@@ -11,7 +11,7 @@ import { MessageModalComponent } from './shared/modal/message-modal/message-moda
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { environment } from '@env/environment';
 import { ModalService } from './shared/modal/modal.service';
-import { Router, NavigationExtras, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from 'angularx-social-login';
 import { SwPush } from '@angular/service-worker';
@@ -59,18 +59,17 @@ export class AppService {
   public firebaseToken: string;
   /** 首頁進場廣告是否開啟 (要再確認過瀏覽器版本後打開) */
   public adIndexOpen = false;
+  /** 會員是否在此次訪問執行了登入
+   * @description 用於判斷 loginState 由 false 轉為 true 不是因為在之前的訪問所保留的登入狀態下再次進行訪問，
+   * APP 因此重新建構及初始化導致，而是因為確實執行了登入。符合此狀況才在 app.component 的變化追蹤 (serviceDiffer)
+   * 偵測到 loginState 由 false 轉為 true時，重新訪問當前頁面以取得會員相關資訊。
+   **/
+  public userLoggedIn = false;
 
   @BlockUI() blockUI: NgBlockUI;
   constructor(private http: HttpClient, private bsModal: BsModalService, public modal: ModalService, private router: Router,
               private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService,
               private swPush: SwPush) {
-    // 取得前一頁面url
-    router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe((event: NavigationEnd) => {
-        this.prevUrl = this.currentUrl;
-        this.currentUrl = event.url;
-      });
   }
 
   toApi(ctrl: string, command: string, request: any, lat: number = null, lng: number = null, deviceCode?: string): Observable<any> {
