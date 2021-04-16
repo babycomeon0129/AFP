@@ -76,7 +76,7 @@ export class ForgetModalComponent implements OnDestroy {
           checkBtnMsg: `確認`
         };
         this.modalService.show('message', { initialState });
-        clearInterval(this.vcodeCount);
+        this.closeModal();
       }
     });
   }
