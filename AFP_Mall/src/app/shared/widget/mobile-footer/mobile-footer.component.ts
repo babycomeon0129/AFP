@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ChildActivationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { AppService } from './../../../app.service';
 
 declare var AppJSInterface: any;
@@ -22,6 +23,7 @@ export class MobileFooterComponent implements OnInit {
 
   ngOnInit() {
     this.currentUrl = this.router.url;
+    // 初始時告訴app開啟footer
     this.appService.appShowMobileFooter(true);
   }
 
