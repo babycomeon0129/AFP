@@ -166,15 +166,8 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       // n代表已刮開的面積比例，原先for ... of語法太新圖片吃不到
       const ctxTopData = this.ctxTop.getImageData(0, 0, this.w, this.h).data;
-<<<<<<< HEAD
       let n = 0;
       for (let i = ctxTopData.length; i--;) {
-=======
-      // 已刮開的面積比例
-      let n = 0;
-      // 註：上層圖片務必要用公版圖片（公版圖片需唯有透明區域的png），才能計算刮開面積
-      for (const i of ctxTopData) {
->>>>>>> develop
         if (ctxTopData[i] === 0) {
           n++;
         }
