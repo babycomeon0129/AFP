@@ -80,9 +80,7 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     /** APP從M Points或進來則顯示返回鍵 */
-    (this.route.snapshot.queryParams.showBack === 'false') ?
-      this.showBack = false :
-      this.showBack = true;
+    this.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
   /** 刮刮樂底部畫面繪製 */
@@ -106,7 +104,10 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  /** 使用者在畫布的行為偵測（0: start/down, 1: move, 2: end/up） */
+  /** 使用者在畫布的行為偵測
+   * @param eventType 偵測mouse行為(0: start/down, 1: move, 2: end/up)
+   * @param e 點擊事件addEventListener
+   */
   eventDetect(eventType: number, e) {
     // 若可玩次數 === 0或是所剩點數不夠遊完一次則阻擋使用者繪製動作
     if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
@@ -125,17 +126,19 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
   }
-  /** 使用者在畫布的行為事件 */
+  /** 使用者在畫布的行為事件-點擊事件mouseDown行為 */
   eventDown(ev) {
     // ev = ev || event;
     ev.preventDefault();
     this.mousedown = true;
   }
+  /** 使用者在畫布的行為事件-點擊事件mouseUp行為 */
   eventUp(ev) {
     // ev = ev || event;
     ev.preventDefault();
     this.mousedown = false;
   }
+  /** 使用者在畫布的行為事件-點擊事件mouseMove行為 */
   eventMove(ev) {
     // ev = ev || event;
     ev.preventDefault();
