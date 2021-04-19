@@ -75,9 +75,13 @@ export class GameComponent implements OnInit {
       message: this.alertInfo.BodyMsg,
       leftBtnMsg: this.alertInfo.LeftBtnMsg,
       leftBtnUrl: this.alertInfo.LeftBtnUrl,
+      queryParams1: null,
       rightBtnMsg: this.alertInfo.RightBtnMsg,
       rightBtnUrl: this.alertInfo.RightBtnUrl
     };
+    // 先判斷是否裝置為app，如果是，queryParams帶isApp到message modal
+    initialState.queryParams1 = this.appService.isApp !== null ? {isApp: this.appService.isApp} : null
+
     this.modal.show('message', { initialState });
   }
 

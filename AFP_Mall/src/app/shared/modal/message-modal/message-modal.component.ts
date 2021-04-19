@@ -35,16 +35,21 @@ export class MessageModalComponent implements OnInit {
   rightBtnMsg: string;
   /** 右邊按鈕連結 (視窗需要2顆確認按鈕時使用) */
   rightBtnUrl: string;
+  /** 網址傳參 (連結跳轉須加上參數時使用，預設為單顆按鈕/ 雙顆按鈕左邊按鈕的傳參)*/
+  queryParams1: object;
+  /** 網址傳參2 (連結跳轉須加上參數時使用，預設為雙顆按鈕時右邊按鈕的傳參) */
+  queryParams2: object;
 
   constructor(public bsModalRef: BsModalRef, public modal: ModalService, private router: Router, public appService: AppService) { }
 
   ngOnInit() {
   }
 
+  /** 點擊按鈕 (視窗只有單一按鈕的情況) */
   clickSingleBtn(): void {
     switch (this.showType) {
       case 1:
-        this.goToUrl(this.target);
+        this.goToUrl(this.target, this.queryParams1);
         break;
       case 2:
         this.appService.loginPage();
@@ -57,17 +62,22 @@ export class MessageModalComponent implements OnInit {
   }
 
 
-  /** 前往連結並關閉視窗 */
-  goToUrl(url: string): void {
+  /** 前往連結並關閉視窗
+   * @param url 前往連結
+   * @param params 連結傳參
+   */
+  goToUrl(url: string, params:object): void {
     this.bsModalRef.hide();
+    // 先判斷是否需要前往特定連結
     if (url != null && url.replace(/(^s*)|(s*$)/g, '').length !== 0) {
-      this.router.navigate([url]);
+      // 再判斷該連結是否需要傳參
+      this.queryParams1 === null ? this.router.navigate([url]) : this.router.navigate([url], {queryParams: params});
     }
   }
 
   /** 跳轉至忘記密碼 */
   doReset(): void {
-    if (this.appService.isApp != null) {
+    if (this.appService.isApp !== null) {
       this.bsModalRef.hide();
     } else {
       // 將VerifiedInfot傳到password modal那裏
