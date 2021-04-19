@@ -97,10 +97,6 @@ export class ShoppingComponent implements OnInit {
   ngOnInit() {
     this.appService.openBlock();
     this.readData(1);
-    // 若有登入則顯示名字
-    if (this.appService.loginState) {
-      this.appService.userName = sessionStorage.getItem('userName');
-    }
   }
 
   /** 讀取資料

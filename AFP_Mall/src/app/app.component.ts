@@ -1,6 +1,6 @@
 import { environment } from '@env/environment';
 import { Component, KeyValueDiffer, KeyValueDiffers, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Router, ActivatedRoute, ResolveEnd } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from './shared/modal/modal.service';
 import { CookieService } from 'ngx-cookie-service';
@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
     if (sessionStorage.getItem('CustomerInfo') !== null && sessionStorage.getItem('userCode') !== null
       && sessionStorage.getItem('userName') !== null) {
       this.appService.loginState = true;
+      this.appService.userName = sessionStorage.getItem('userName');
     }
 
     // App訪問
@@ -84,10 +85,14 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.router.events.pipe(filter(event => event instanceof NavigationEnd))
-                      .subscribe(evt => {
+    // 當路由器成功完成路由的解析階段時，先通知app將footer關閉(開啟則靠app-mobile-footer通知開啟)
+    this.router.events.pipe(filter(event => event instanceof ResolveEnd ))
+                      .subscribe((event: ResolveEnd ) => {
                                     window.scrollTo(0, 0);
                                     this.appService.appShowMobileFooter(false);
+                                    // 取得前一頁面url
+                                    this.appService.prevUrl = this.appService.currentUrl;
+                                    this.appService.currentUrl = event.url;
                                   });
     this.detectOld();
     this.appService.initPush();
@@ -173,7 +178,7 @@ export class AppComponent implements OnInit {
     const change = this.serviceDiffer.diff(this.appService);
     if (change) {
       change.forEachChangedItem(item => {
-        if (item.key === 'loginState' && item.currentValue) {
+        if (item.key === 'loginState' && item.currentValue && this.appService.userLoggedIn) {
           // 登入時重新訪問目前頁面以讀取會員相關資料
           this.router.routeReuseStrategy.shouldReuseRoute = () => false; // 判斷是否同一路由
           this.router.onSameUrlNavigation = 'reload';
