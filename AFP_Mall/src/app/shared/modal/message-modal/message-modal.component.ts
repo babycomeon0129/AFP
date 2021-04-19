@@ -66,12 +66,12 @@ export class MessageModalComponent implements OnInit {
    * @param url 前往連結
    * @param params 連結傳參
    */
-  goToUrl(url: string, params:object): void {
+  goToUrl(url: string, params: object): void {
     this.bsModalRef.hide();
     // 先判斷是否需要前往特定連結
     if (url != null && url.replace(/(^s*)|(s*$)/g, '').length !== 0) {
       // 再判斷該連結是否需要傳參
-      this.queryParams1 === null ? this.router.navigate([url]) : this.router.navigate([url], {queryParams: params});
+      params === null ? this.router.navigate([url]) : this.router.navigate([url], {queryParams: params});
     }
   }
 
