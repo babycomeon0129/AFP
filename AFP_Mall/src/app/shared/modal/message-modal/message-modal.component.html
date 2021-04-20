@@ -37,10 +37,10 @@
         {{singleBtnMsg}}
       </!--button -->
       <!-- 雙顆按鈕，左右按鈕內容、連結全客製化 -->
-      <button type="button" *ngIf="showType === 6" class="btn btn-login px-0 w-50" (click)="goToUrl(leftBtnUrl)">
+      <button type="button" *ngIf="showType === 6" class="btn btn-login px-0 w-50" (click)="goToUrl(leftBtnUrl, queryParams1)">
         {{ leftBtnMsg }}
       </button>
-      <button type="button" *ngIf="showType === 6" class="btn btn-login px-0 w-50" (click)="goToUrl(rightBtnUrl)">
+      <button type="button" *ngIf="showType === 6" class="btn btn-login px-0 w-50" (click)="goToUrl(rightBtnUrl, queryParams2)">
         {{ rightBtnMsg }}
       </button>
     </div>

@@ -1,6 +1,6 @@
 import { environment } from '@env/environment';
 import { Component, KeyValueDiffer, KeyValueDiffers, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Router, ActivatedRoute, ResolveEnd } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from './shared/modal/modal.service';
 import { CookieService } from 'ngx-cookie-service';
@@ -85,8 +85,9 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.router.events.pipe(filter(event => event instanceof NavigationEnd))
-                      .subscribe((event: NavigationEnd) => {
+    // 當路由器成功完成路由的解析階段時，先通知app將footer關閉(開啟則靠app-mobile-footer通知開啟)
+    this.router.events.pipe(filter(event => event instanceof ResolveEnd ))
+                      .subscribe((event: ResolveEnd ) => {
                                     window.scrollTo(0, 0);
                                     this.appService.appShowMobileFooter(false);
                                     // 取得前一頁面url
