@@ -164,9 +164,10 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
       this.noticeAlert.emit();
     } else {
-      // n代表已刮開的面積比例，原先for ... of語法太新圖片吃不到
       const ctxTopData = this.ctxTop.getImageData(0, 0, this.w, this.h).data;
+      // 已刮開的面積比例
       let n = 0;
+      // 原先為for...of寫法，因語法太新，無法計算沒有透明區域圖片的刮開面積，故改為for迴圈寫法
       for (let i = ctxTopData.length; i--;) {
         if (ctxTopData[i] === 0) {
           n++;
