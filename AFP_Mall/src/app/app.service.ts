@@ -65,6 +65,10 @@ export class AppService {
    * 偵測到 loginState 由 false 轉為 true時，重新訪問當前頁面以取得會員相關資訊。
    **/
   public userLoggedIn = false;
+  /** 引導手機驗證 modal 是否已開啟（控制此 modal 只開啟一個，避免在需呼叫１個以上 API 的頁面重複開啟）
+   * TODO: 暫時作法
+   */
+  public verifyMobileModalOpened = false;
 
   @BlockUI() blockUI: NgBlockUI;
   constructor(private http: HttpClient, private bsModal: BsModalService, public modal: ModalService, private router: Router,
@@ -92,7 +96,10 @@ export class AppService {
               case 1:
                 // 「一般登入」、「第三方登入」、「登入後讀購物車數量」、「推播」不引導驗證手機
                 if (command !== '1104' && command !== '1105' && command !== '1204' && command !== '1113') {
-                  this.modal.openModal('verifyMobile');
+                  if (!this.verifyMobileModalOpened) {
+                    this.modal.openModal('verifyMobile');
+                    this.verifyMobileModalOpened = true;
+                  }
                 }
                 break;
               case 2:

@@ -92,6 +92,7 @@ export class AppComponent implements OnInit {
                                     // 取得前一頁面url
                                     this.appService.prevUrl = this.appService.currentUrl;
                                     this.appService.currentUrl = event.url;
+                                    this.appService.verifyMobileModalOpened = false;
                                   });
     this.detectOld();
     this.appService.initPush();
