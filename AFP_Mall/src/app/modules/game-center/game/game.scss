@@ -33,7 +33,7 @@
         justify-content: center;
     }
     .canopy-l{
-        background-image: url('https://wu-medoc.github.io/eyesmedia_afp/img/mission/canopy_l.png');
+        background-image: url('/img/mission/canopy_l.png');
         background-position: right;
         background-repeat: repeat-x;
         background-size: contain;
@@ -45,7 +45,7 @@
         }
     }
     .canopy-c{
-        background-image: url('https://wu-medoc.github.io/eyesmedia_afp/img/mission/canopy_c.png');
+        background-image: url('/img/mission/canopy_c.png');
         background-position: center;
         background-repeat: repeat-x;
         background-size: contain;
@@ -57,7 +57,7 @@
         }
     }
     .canopy-r{
-        background-image: url('https://wu-medoc.github.io/eyesmedia_afp/img/mission/canopy_r.png');
+        background-image: url('/img/mission/canopy_r.png');
         background-position: left;
         background-repeat: repeat-x;
         background-size: contain;
@@ -93,7 +93,7 @@
         color: $blue-dark;
     }
     .winbox{
-        background-image: url('https://wu-medoc.github.io/eyesmedia_afp/img/mission/bg-win.png');
+        background-image: url('/img/mission/bg-win.png');
         background-position: center;
         background-size: cover;
         background-repeat: no-repeat;
