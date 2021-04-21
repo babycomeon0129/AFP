@@ -147,17 +147,22 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
         ev = ev.changedTouches[ev.changedTouches.length - 1];
       }
 
-      /** 自適應時，筆刷大小設定 */
+      /** 筆刷大小設定
+       * canvas自適應寬度尺寸分別有(800, 500, 390, 300)
+       */
       let size = 0;
       (this.w === 800) ? size = 40 : (this.w === 500) ? size = 30 : (this.w === 390) ? size = 24 : size = 18;
 
-      /** 刮開時，滑鼠位址偏移設定 */
+      /** 滑鼠位址偏移設定
+       * 增加變數(offsetSizeX, offsetSizeY)，處理刮開時位移之增減值
+       * canvas自適應寬度尺寸分別有(800, 500, 390, 300)
+       */
       let offsetSizeX = 0;
       let offsetSizeY = 0;
       (this.w === 800) ? offsetSizeX = this.topCanvas.offsetLeft :
-      (this.w === 500) ? offsetSizeX = this.topCanvas.offsetLeft * 0.8 : offsetSizeX = 0;
+        (this.w === 500) ? offsetSizeX = this.topCanvas.offsetLeft * 0.8 : offsetSizeX = 0;
       (this.w === 800) ? offsetSizeY = -120 : (this.w === 500) ? offsetSizeY = 5 :
-      (this.w === 390) ? offsetSizeY = 50 : offsetSizeY = 75;
+        (this.w === 390) ? offsetSizeY = 50 : offsetSizeY = 75;
 
       const x = ev.pageX - this.topCanvas.offsetLeft - offsetSizeX;
       const y = ev.pageY - this.topCanvas.offsetHeight - offsetSizeY;
