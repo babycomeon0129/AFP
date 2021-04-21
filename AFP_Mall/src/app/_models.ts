@@ -450,10 +450,15 @@ export interface AFP_ECStore {
   ECStore_IsOnline?: boolean;
 }
 
+/** 消費者包 Model */
 export interface Model_CustomerInfo {
+  /** 使用者名稱 */
   Customer_Name?: string;
+  /** 使用者編碼 */
   Customer_Code?: string;
+  /** 使用者資訊 */
   CustomerInfo?: string;
+  /** UUID */
   Customer_UUID?: string;
 }
 
@@ -563,16 +568,6 @@ export interface Response_AFPAccount {
   UserInfo_Code: number;
 }
 
-export interface Request_AFPVerify {
-  AFPVerify: string;
-  UserInfo_Code: number;
-}
-
-export interface Response_AFPVerify {
-  UserInfo_Code: number;
-  NoticeLog_CheckCode: string;
-}
-
 /** Request/Response Model中Data 共用模組 */
 export class Model_ShareData {
   /**  區別操作(通用) 1:新增 2:刪除 3:編輯  4:查詢 其他 依照Excel文件 */
@@ -595,35 +590,42 @@ export class Model_ShareData {
   AppShareUrl?: string;
 }
 
-// 暫用class (for會員: 地址、卡片)
+/** AFP 使用者收藏 */
 export class AFP_UserFavourite {
+  /** ID */
   UserFavourite_ID?: number;
+  /** 國碼 */
   UserFavourite_CountryCode?: number;
+  /** 收藏類型 */
   UserFavourite_Type?: number;
+  /** 使用者編碼 */
   UserFavourite_UserInfoCode?: number;
+  /** Type對應表編號 */
   UserFavourite_TypeCode?: number;
+  /** 預設 0:否(預設) 1:是 */
   UserFavourite_IsDefault?: number;
+  /** 字串欄位1 */
   UserFavourite_Text1?: string;
+  /** 字串欄位2 */
   UserFavourite_Text2?: string;
+  /** 字串欄位3 */
   UserFavourite_Text3?: string;
+  /** 數字欄位1 */
   UserFavourite_Number1?: number;
+  /** 數字欄位2 */
   UserFavourite_Number2?: number;
+  /** Token */
   UserFavourite_Token?: string;
+  /** 日期 */
   UserFavourite_Date?: Date;
+  /** 加密字串欄位 */
   UserFavourite_Encryption?: string;
+  /** 排序 */
   UserFavourite_Sort?: number;
+  /** 狀態 0:無效 1:有效(預設) 9:刪除 */
   UserFavourite_State?: number;
+  /** 同步狀態 */
   UserFavourite_SyncState?: number;
-}
-
-export class Model_MemberProfile extends Model_ShareData {
-  UserAccount: string;
-  UserProfile_Name?: string;
-  UserProfile_Birthday?: Date;
-  UserProfile_Email?: string;
-  UserProfile_Mobile?: string;
-  UserProfile_PassPort?: boolean;
-  UserProfile_MTPs?: boolean;
 }
 
 /** 會員中心-我的收藏 - RequestModel */
@@ -714,15 +716,6 @@ export interface Model_BasePage {
   RowNumber?: number;
 }
 
-export interface VoucherJsonFile_Attrbute {
-  Voucher_Code: number;
-  Attribute_Type: number;
-  Attribute_Code: number;
-  Attribute_Name: string;
-  AttributeValue_Code: number;
-  AttributeValue_Name: string;
-}
-
 /** 頻道商品 */
 export interface AFP_ChannelProduct {
   /** 外部目錄頻道ID */
@@ -737,7 +730,7 @@ export interface AFP_ChannelProduct {
   ProductData: AFP_Product[];
 }
 
-/** /** 商城-商品列表 RequestModel */
+/** 商城-商品列表 RequestModel */
 export interface Request_ECProductList extends Model_ShareData {
   /** 搜尋Model */
   SearchModel: {
@@ -770,6 +763,7 @@ export interface Response_ECProductList extends Model_ShareData {
   UpUserDefineName: string;
 }
 
+/** 規格 */
 export interface AFP_Attribute {
   /** 規格ID */
   Attribute_ID: number;
@@ -932,28 +926,39 @@ export interface Response_ECCart extends Model_ShareData {
   List_ProdAttr: AFP_ProdAttr[];
 }
 
-export interface Request_GetCheckout extends Model_ShareData {
-  List_Cart?: AFP_Cart[];
-}
-
+/** 取得結帳所需資訊 Response */
 export interface Response_GetCheckout extends Model_ShareData {
+  /** 結帳商家 */
   List_ECStore?: AFP_ECStore[];
+  /** 自取商家 */
   Pick_ECStore?: AFP_ECStore[];
+  /** 結帳商品 */
   List_Cart?: AFP_Cart[];
+  /** 運送費用 */
   List_ECLogistics?: AFP_ECLogistics[];
+  /** 消費者常用地址 */
   List_UserFavourite?: AFP_UserFavourite[];
+  /** 自定義參數 (地址) */
   List_UserReport?: AFP_UserReport[];
+  /** 姓名 */
   UserInfo_Name?: string;
+  /** 電話 */
   UserProfile_Mobile?: string;
+  /** Email */
   UserProfile_Email?: string;
 }
 
+/** 取得優惠卷 */
 export interface Request_GetUserVoucher extends Model_ShareData {
+  /** 購物車資訊 */
   List_Cart?: AFP_Cart[];
 }
 
+/** 取得優惠卷 Response */
 export interface Response_GetUserVoucher extends Model_ShareData {
+  /** 使用者優惠卷 */
   List_UserVoucher?: AFP_UserVoucher[];
+  /** 優惠卷 */
   List_Voucher?: AFP_Voucher[];
 }
 
@@ -973,27 +978,43 @@ export interface Response_CheckUserVoucher extends Model_ShareData {
   ErrorMsg?: string;
 }
 
+/** 會員中心-我的優惠卷 - RequestModel */
 export class Request_MemberUserVoucher extends Model_ShareData {
+  /** 優惠卷Code */
   Voucher_Code?: number;
+  /** 優惠代碼 */
   Voucher_ActivityCode?: string;
+  /** SearchModel */
   SearchModel: Search_MemberUserVoucher;
 }
 
+/** 會員中心-我的優惠卷 SearchModel */
 export interface Search_MemberUserVoucher {
+  /** 查詢模式  1:可用 2:歷史 */
   SelectMode?: number;
 }
 
+/** 會員中心-我的優惠卷 - ResponseModel */
 export interface Response_MemberUserVoucher extends Model_ShareData {
+  /** 使用者優惠券紀錄表 */
   List_UserVoucher: AFP_Voucher[];
+  /** 新增後回傳最新資訊 */
   Model_Voucher: AFP_Voucher;
+  /** 使用者優惠卷 */
   AFP_UserVoucher: AFP_UserVoucher;
+  /** 使用範圍 */
   List_UsedType: Model_DictionaryShort[];
+  /** 優惠卷類型 */
   List_ShowType: Model_DictionaryShort[];
+  /** 折扣類型使用 */
   List_VoucherType: Model_DictionaryShort[];
 }
 
+/** Dictionary(short,string)轉換Model */
 export class Model_DictionaryShort {
+  /** 就是Key */
   Key: number;
+  /** 就是Value */
   Value: string;
   /** 是否被選取（前端自定義） */
   isSelect?: boolean;
@@ -1205,37 +1226,66 @@ export interface AFP_ECLogisticsPart {
   ECLogisticsPart_City: number;
 }
 
+/** 會員中心- 我的訂單 RequestModel */
 export interface Request_MemberOrder extends Model_ShareData {
+  /** 區別操作
+   *
+   * 1: 列表查詢
+   * 2: 詳細查詢
+   * 3: 確認收貨
+   * 4: 發動客服單
+   * */
   SelectMode: number;
+  /** 搜尋Model */
   SearchModel: Search_MemberOrder;
 }
 
+/** 會員中心- 我的訂單 SearchModel */
 export interface Search_MemberOrder {
+  /** 訂單編號 */
   OrderNo?: number;
+  /** 訂單狀態 (列表用) 1: 已付款 2: 已出貨 3: 已到貨 4: 退換貨 */
   OrderState?: number;
   /** 訂單類型 1: 一般訂單 21: 電子票證 */
   OrderType?: number;
 }
 
 export interface Response_MemberOrder extends Model_ShareData {
+  /** 訂單詳細 */
   AFP_MemberOrder: AFP_MemberOrder;
+  /** 訂單商家 */
   AFP_ECStore: AFP_ECStore;
+  /** 訂單列表 */
   List_MemberOrder: AFP_MemberOrder[];
+  /** 訂單商品 */
   List_ItemInfoPart: AFP_ItemInfoPart[];
+  /** 自定義參數(20,21,22) */
   AFP_UserReport: AFP_UserReport[];
+  /** 訂單使用優惠卷 */
   List_UserVoucher: AFP_Voucher[];
 }
 
+/** 訂單詳細 */
 export interface AFP_MemberOrder extends AFP_Order {
+  /** 訂單商品數量 */
   Order_ProdCount: number;
+  /** 訂單第一個商品圖片(列表用) */
   Order_ProdImg: string;
+  /** 付款方式(顯示用) */
   PaymentShowName: string;
+  /** 信用卡後四碼(顯示用) */
   Card4No: string;
+  /** 發票號碼(顯示用) */
   InvoiceNo: string;
+  /** 訂單群組編號 */
   Order_GroupNo: number;
+  /**  訂單狀態 0: 未付款 1: 已付款 2: 已出貨 3: 已到貨 (已完成) */
   OrderState: number;
+  /** 商店名稱 */
   Order_ECStoreName: string;
+  /** 訂單實付金額 */
   PayOrder_PayAmount: number;
+  /** 客服單單號 */
   ServiceTableNo: number;
   /** 發票收據統一編號(顯示用) */
   InvoiceTaxID: string;
@@ -1323,35 +1373,63 @@ export class AFP_Order {
   Order_AppreciationDate: Date;
 }
 
+/** 項目部件 */
 export interface AFP_ItemInfoPart {
+  /** ID */
   ItemInfoPart_ID: number;
+  /** 參考表單編號 */
   ItemInfoPart_UpTableNo: number;
+  /** 表單編號 */
   ItemInfoPart_TableNo: number;
+  /** 商店編碼 */
   ItemInfoPart_ECStoreCode: number;
+  /** 項目ID */
   ItemInfoPart_ItemID: number;
+  /** 項目編碼 */
   ItemInfoPart_ItemCode: number;
+  /** 項目名稱 */
   ItemInfoPart_ItemName: string;
+  /** 項目訊息 */
   ItemInfoPart_ItemMsg: string;
-  ItemInfoPart_AttributeValueCode: string; // 規格值編號 [多個逗號區隔]
+  /** 規格值編號 [多個逗號區隔]  */
+  ItemInfoPart_AttributeValueCode: string;
+  /** 規格值名稱 */
   ItemInfoPart_AttributeValueName: string;
+  /** 數量 */
   ItemInfoPart_Quantity: number;
+  /** 異動數量 */
   ItemInfoPart_ChangeQTY: number;
+  /** 稅額 */
   ItemInfoPart_Tax: number;
+  /** 未稅金額 */
   ItemInfoPart_NoTax: number;
+  /** 總金額(含稅) */
   ItemInfoPart_Amount: number;
+  /** 實付金額(單價)(含稅) */
   ItemInfoPart_PayAmount: number;
+  /** 成本金額(單價)(含稅) */
   ItemInfoPart_Cost: number;
+  /** 銷售金額(單價)(含稅) */
   ItemInfoPart_TrueAmount: number;
+  /** 項目類型 */
   ItemInfoPart_Type: number;
+  /** 異動金額 */
   ItemInfoPart_ChangeAmount: number;
-  ItemInfoPart_VoucherCode: string; // 優惠券編號 [多個逗號區隔]
+  /** 優惠卷編號 [多個逗號區隔] */
+  ItemInfoPart_VoucherCode: string;
+  /** 目錄編碼 */
   ItemInfoPart_UserDefineCode: number;
+  /** 目錄名稱 */
   ItemInfoPart_UserDefineName: string;
+  /** 處理狀態 0: 不同意 1: 換貨 2: 退款*/
   ItemInfoPart_DealState: number;
+  /** 狀態  0:無效 1:有效 9:刪除 */
   ItemInfoPart_State: number;
+  /** 商品圖片(顯示用) */
   Product_ShowImg: string;
   /** 票券狀態 0 未開通 1 已開通 2 已使用 9 已退票 99 已逾時 */
   UserTicket_UsedState?: number;
+  /** 票卷狀態(顯示用) */
   UserTicket_ShowUsedState?: string;
   /** 其他編碼（如：電子票證編碼） */
   ItemInfoPart_OtherCode: number;
@@ -1359,43 +1437,80 @@ export interface AFP_ItemInfoPart {
   ItemInfoPart_ReceiptText: string;
   /** 收據金額(單價) */
   ItemInfoPart_ReceiptPrice: number;
+  /** 商品狀態 0:無效 1:有效 */
   Product_State?: boolean;
 }
 
+/** 會員中心-我的地址 - RequestModel */
 export class Request_MemberAddress extends Model_ShareData {
+  /**區別操作(通用)
+   *
+   * 1:新增
+   * 2:刪除
+   * 3:編輯
+   * 4:查詢列表
+   * 5:查詢詳細
+   * */
   SelectMode: number;
+  /** 我的地址 */
   AFP_UserFavourite?: AFP_UserFavourite;
 }
 
+/** 會員中心-我的地址 - ResponseModel */
 export interface Response_MemberAddress {
+  /** 我的地址 列表 */
   List_UserFavourite: AFP_UserFavourite[];
+  /** 我的地址 詳細 */
   AFP_UserFavourite: AFP_UserFavourite;
+  /** 自定義參數 */
   AFP_UserReport: AFP_UserReport[];
 }
 
+/** 客服單 */
 export class AFP_Services {
+  /** 單號 */
   Services_TableNo?: number;
+  /** 商城訂單編碼 */
   Services_OrderTableNo: number;
+  /** 商店編碼 */
   Services_ECStoreCode: number;
+  /** 會員編碼 */
   Services_UserInfoCode?: number;
+  /** 客戶名稱 */
   Services_CName: string;
+  /** 連絡電話 */
   Services_CPhone: string;
+  /** 貨物取回地址 */
   Services_Address: string;
+  /** 電子郵件 */
   Services_Email: string;
+  /** 其他訊息 */
   Services_OtherMsg: string;
+  /** 原因 */
   Services_Reason: number;
+  /** 處理狀態 */
   Services_HandleState?: number;
+  /** 狀態 0:無效 1:有效(預設) 9:刪除 */
   Services_State?: number;
+  /** 生成日期 */
   Services_InsertDate?: Date;
+  /** 退款狀態 */
   Services_RefundState?: number;
 }
 
+/** 表單歷史處理記錄表 */
 export class AFP_DealInfo {
+  /** 表單的處理人 */
   DealInfo_DealerName: string;
+  /** 表單的處理結果前台名稱 */
   DealInfo_DealStateShowName: string;
+  /** 表單的處理時間 */
   DealInfo_Date: Date;
+  /** 表單的處理意見 */
   DealInfo_Content: string;
+  /** 表單的處理人 code */
   DealInfo_DealerCode: number;
+  /** 前端顯示日期 */
   FrontDate?: string;
 }
 
@@ -1457,6 +1572,7 @@ export class AFP_UserPoint {
   UserPoint_Date?: Date;
 }
 
+/** 遊戲資訊表 */
 export class AFP_Game {
   /** 編碼 */
   Game_Code: number;
@@ -1486,78 +1602,130 @@ export class AFP_Game {
   Game_OffDate: Date;
 }
 
+/** 限時優惠券 RequestModel */
 export interface Request_ECVouFlashSale extends Model_ShareData {
+  /** 搜尋模組 */
   SearchModel?: Search_VouFlashSale;
 }
 
+/** 限時優惠券 RequestModel 搜尋模組 */
 export interface Search_VouFlashSale {
+  /** 優惠卷頻道編碼 */
   VouChannel_Code: number;
 }
 
+/** 限時優惠券 ResponseModel */
 export interface Response_ECVouFlashSale extends Model_ShareData {
+  /** 優惠券資料(目錄+優惠券) */
   List_Voucher: AFP_ChannelVoucher[];
+  /** 廣告列表 */
   List_ADImg: AFP_ADImg[];
+  /** 限時優惠卷 */
   List_VouFlashSale: AFP_Voucher[];
+  /** 限時優惠主表 */
   AFP_VouFlashSale: AFP_VouFlashSale;
 }
 
+/** 優惠眷限時搶購 */
 export interface AFP_VouFlashSale {
+  /** ID */
   VouFlashSale_ID: number;
+  /** 編碼 */
   VouFlashSale_Code: number;
+  /** 外部名稱 */
   VouFlashSale_ExtName: string;
+  /**上架日期  */
   VouFlashSale_OnlineDate: Date;
+  /** 下架日期 */
   VouFlashSale_OfflineDate: Date;
+  /** 狀態 0:無效 1:有效 9:刪除 */
   VouFlashSale_State: number;
 }
 
+/** 遊戲  RequestModel */
 export interface Request_Games extends Model_ShareData {
+  /** 搜尋模組 */
   SearchModel: Search_Game;
+  /** 遊戲編碼 */
   Game_Code?: number;
 }
 
+/** 遊戲  RequestModel 搜尋模組 */
 export interface Search_Game {
+  /** 遊戲編碼 */
   Game_Code?: number;
 }
 
+/** 遊戲  ResponseModel */
 export interface Response_Games extends Model_ShareData {
+  /** 遊戲主表 */
   AFP_Game: AFP_Game;
+  /** 遊戲部件 */
   List_GamePart: AFP_GamePart[];
+  /** 會員總點數 */
   TotalPoint: number;
+  /** 中獎獎品 */
   GameReward: AFP_GamePart;
   ADImg_Theme: AFP_ADImg[];
+  /** 遊戲可遊玩狀態 0 : 不可遊玩(未完成綁卡等條件未完成) 1 : 可遊玩 */
   GameState: boolean;
+  /** 遊戲 Alert 資訊 */
   Model_AlertInfo: Model_AlertInfo;
 }
 
+/** 遊戲資訊部件 */
 export interface AFP_GamePart {
+  /** ID */
   GamePart_ID: number;
+  /** 遊戲編號 */
   GamePart_GameCode: number;
+  /** 類型 1：點數 2：優惠卷 3：贈品*/
   GamePart_Type: number;
+  /** 項目ID */
   GamePart_ItemID: number;
+  /** 項目編碼 */
   GamePart_ItemCode: number;
+  /** 項目名稱 */
   GamePart_ItemName: string;
+  /** 項目圖片 */
   GamePart_ItemImage: string;
+  /** 規格值編號 */
   GamePart_AttributeValueCode: string;
+  /** 規格值名稱 */
   GamePart_AttributeValueName: string;
+  /** 贈送點數 */
   GamePart_Values: number;
+  /** 狀態 0:無效 1:有效 9:刪除 */
   GamePart_State: number;
 }
 
+/** 共用AlertModel */
 export interface Model_AlertInfo {
+  /** Alert訊息 */
   BodyMsg: string;
+  /** Alert 右邊按鈕資訊 */
   RightBtnMsg: string;
+  /** Alert 右邊按鈕連結 */
   RightBtnUrl: string;
+  /** Alert 左邊按鈕資訊 */
   LeftBtnMsg: string;
+  /** Alert 左邊按鈕連結 */
   LeftBtnUrl: string;
 }
 
+/** 會員中心 - 檢查狀態用(訂單,優惠卷) Request_Model */
 export interface Request_MemberCheckStatus extends Model_ShareData {
+  /** 訂單,優惠卷 QRCode */
   QRCode: string;
 }
 
+/** 會員中心 - 檢查狀態用(訂單,優惠卷) Response_Model */
 export interface Response_MemberCheckStatus extends Model_ShareData {
+  /** 訂單資訊 */
   AFP_MemberOrder: AFP_MemberOrder;
+  /** 消費這優惠卷核銷紀錄表 */
   AFP_UserVoucher: AFP_UserVoucher;
+  /** 廣告列表 90002 */
   List_ADImg: AFP_ADImg[];
 }
 
@@ -1712,65 +1880,105 @@ export class OrderPlatform {
   topFreightStore?: OrderStore;
 }
 
+/** 會員中心 - 我的票卷 ReuqestModel */
 export interface Request_MemberTicket extends Model_ShareData {
+  /** 搜尋模組 */
   SearchModel: Search_MemberTicket;
 }
 
+/** 會員中心 - 我的票券 ReuqestModel 搜尋模組 */
 export interface Search_MemberTicket {
+  /** 票券編號 */
   UserTicket_Code?: number;
+  /** 使用狀態 1: 可用 2: 歷史 */
   UserTicket_UsedType?: number;
 }
 
+/** 會員中心 - 我的票券 ResponseModel */
 export interface Response_MemberTicket extends Model_ShareData {
+  /** 使用者票券 */
   AFP_UserTicket: AFP_UserTicket;
+  /** 使用者票券列表 */
   List_UserTicket: AFP_UserTicket[];
+  /** 票券商品 */
   AFP_Product: AFP_Product;
 }
 
+/** 使用者票券列表 */
 export interface AFP_UserTicket {
+  /** ID */
   UserTicket_ID: number;
+  /** 使用者編碼 */
   UserTicket_UserInfoCode: number;
+  /** 編號 */
   UserTicket_Code: number;
+  /** 商品編號 */
   UserTicket_ProdCode: number;
+  /** 服務商訂單編碼 */
   UserTicket_ExtCode: string;
+  /** 服務商QRCode */
   UserTicket_QRCode: string;
+  /** 服務商票號 */
   UserTicket_UniqueID: number;
+  /** 退費金額 */
   UserTicket_RefundFee: number;
+  /** 票券狀態 0：未開通 1：已開通 2：已使用 9：已退票 99：已逾時*/
   UserTicket_UsedState: number;
+  /** 開通日期 */
   UserTicket_OpenDate: Date;
+  /** 退票日期 */
   UserTicket_RefundDate: Date;
+  /** 購買日期 */
   UserTicket_Date: Date;
+  /** 使用期限 */
   UserTicket_LimitDate: Date;
+  /** 狀態 0:無效 1:有效(預設) 9:刪除 */
   UserTicket_State: number;
+  /** 標題 */
   UserTicket_Title: string;
+  /** 票券名稱 */
   UserTicket_ShowName: string;
+  /** 票券狀態顯示名稱 */
   UserTicket_UsedStateShowName: string;
+  /** 類型顯示名稱 暫時固定 '交通' */
   UserTicket_ShowType: string;
+  /** 票券圖片 */
   UserTicket_ShowImg: string;
 }
 
+/** 會員中心 - 客服單 Request_Model */
 export class Request_MemberServices extends Model_ShareData {
   constructor() {
     super();
     this.AFP_Services = new AFP_Services();
   }
+  /** 客服單 */
   AFP_Services: AFP_Services;
+  /** 問答訊息 */
   DealInfo_Content?: string;
 }
 
+/** 會員中心 - 客服單 Response_Model */
 export class Response_MemberServices extends Model_ShareData {
+  /** 客服單 資訊 */
   AFP_Services: AFP_Services;
 }
 
+/** 通知 RequestModel */
 export interface Request_MemberMsg extends Model_ShareData {
+  /** 搜尋模組 */
   SearchModel: Search_MemberMsg;
 }
 
+/** 通知 RequestModel 搜尋模組 */
 export interface Search_MemberMsg {
+  /** 分類編碼 */
   MsgCategory_Code?: number;
+  /** 訊息編碼 */
   Message_Code?: number;
 }
 
+/** 通知 ResponseModel */
 export class Response_MemberMsg extends Model_ShareData {
   /** 主題訊息分類 */
   List_MsgTitle: AFP_MemberMsgTitle[];
@@ -1778,28 +1986,45 @@ export class Response_MemberMsg extends Model_ShareData {
   List_Message: AFP_IMessage[];
   /** 訊息詳情 */
   AFP_IMessage: AFP_IMessage;
-  AppShareUrl: string;
 }
 
+/** 訊息主題 */
 export interface AFP_MemberMsgTitle {
+  /** 分類編碼 */
   MsgCategory_Code: number;
+  /** 分類名稱 */
   MsgCategory_Name: string;
+  /** 內文標題 */
   Content_Desc: string;
 }
 
+/** 訊息 */
 export class AFP_IMessage {
+  /** ID */
   IMessage_ID: number;
+  /** 訊息分類Code */
   IMessage_MsgCategoryCode: number;
+  /** 分類名稱 */
   IMessage_MsgCategoryName: string;
+  /** 標題 */
   IMessage_Title: string;
+  /** 內容簡述 */
   IMessage_Desc: string;
+  /** 內容 */
   IMessage_Body: string;
+  /** 小圖片 */
   IMessage_SmallImg: string;
+  /** 訂單編號 */
   IMessage_OrderNo: number;
+  /** 訂單類型 */
   IMessage_OrderType: number;
+  /** 發佈日期 */
   IMessage_ReleaseDate: Date;
+  /** 訊息編碼 */
   IMessage_Code: number;
+  /** 大圖片 */
   IMessage_BigImg: string;
+  /** 是否顯示CTA按鈕 */
   IMessage_IsShowCTA: number;
   activeStatus: boolean;
 }
@@ -1811,13 +2036,25 @@ export class Response_AFPLogin extends Model_ShareData {
   /** 使用者-我的最愛 */
   List_UserFavourite?: AFP_UserFavourite;
 }
+
+
+/** 驗證碼處理 ResponseModel */
 export class Response_AFPVerifyCode extends Model_ShareData {
   /** 驗證資訊 */
   VerifiedInfo?: AFP_VerifiedInfo;
 }
 
+/** 驗證碼處理 RequestModel */
 export class Request_AFPVerifyCode extends Model_ShareData {
+  /** 通知功能模組
+   *
+   * 1：一般註冊
+   * 2：忘記密碼 (SelectMode設定12)
+   * 3：會員中心-手機認證
+   * 11 : 第三方註冊
+   * 90 : 強制驗證 */
   VerifiedAction: number;
+  /** 驗證資訊 */
   VerifiedInfo?: AFP_VerifiedInfo;
 }
 
@@ -1876,23 +2113,39 @@ export interface AFP_VerifiedInfo {
   VerifiedCode?: string;
 }
 
+/** 查詢會員手機號碼 RequestModel */
 export interface Request_AFPReadMobile extends Model_ShareData {
+  /** 消費者包資訊 */
   CustomerDetail?: Model_CustomerDetail;
+  /** 使用者帳號(驗證帳號是否重複 */
   UserAccount?: string;
 }
 
+/** 消費者包 Model */
 export interface Model_CustomerDetail {
+  /** 使用者ID */
   UserInfo_ID: number;
+  /** 使用者編碼 */
   UserInfo_Code: number;
+  /** UUID */
   UserInfo_UUID: number;
+  /** 外部編碼 */
   UserInfo_ExtCode: string;
+  /** 使用者帳號 */
   UserInfo_Account: string;
+  /** 使用者名稱 */
   UserInfo_Name: string;
+  /** 帳號類型 */
   UserInfo_Type: number;
+  /** 使用者GroupNo  */
   UserInfo_GroupNo: number;
+  /** ID */
   UserLoginState_ID: number;
+  /** APP裝置編碼 */
   UserDevice_Code: number;
+  /** 裝置編碼 */
   UserDevice_DeviceCode: string;
+  /** 手機號碼 */
   UserProfile_Mobile: string;
 }
 
@@ -1902,51 +2155,66 @@ export interface Response_AFPReadMobile {
   IsExist: boolean;
 }
 
-export interface Request_OtherInfo extends Model_ShareData {
-  SearchModel: Search_OtherInfo;
-}
-
-export interface Search_OtherInfo {
-  /** 目錄編碼 */
-  UserDefineCode: number;
-  /** 商品頻道編號 */
-  IndexChannel_Code?: number;
-}
-
+/** 常見問題 Request_Model */
 export interface Request_MemberQuestion extends Model_ShareData {
+  /** 搜尋模組 */
   SearchModel: Search_MemberQuestion;
 }
 
+/** 常見問題 Request_Model  SearchModel */
 export interface Search_MemberQuestion extends Model_ShareData {
+  /**  訊息類型 1: 常見問題 11: 幫助中心 */
   QuestionContent_Mode?: number;
   /** 分類Code: 1 隱私權政策 2 使用者規範 3 關於我 */
   QuestionContent_CategoryCode?: number;
+  /** 常見問題內容 編碼 */
   QuestionContent_Code?: number;
 }
 
+/** 常見問題 Response_Model */
 export interface Response_MemberQuestion {
+  /** 常見問題分類 */
   AFP_QuestionCategory: AFP_QuestionCategory;
+  /** 常見問題分類 列表 */
   List_QuestionCategory: AFP_QuestionCategory[];
+  /** 常見問題內容 */
   AFP_QuestionContent: AFP_QuestionContent;
 }
 
+/** 常見問題分類 */
 export interface AFP_QuestionCategory {
+  /** 常見問題分類名稱 */
   QuestionCategory_Name: string;
+  /** 常見問題分類編碼 */
   QuestionCategory_Code: number;
+  /** 常見問題分類排序 */
   QuestionCategory_Sort: number;
+  /** 常見問題分類發佈時間 */
   QuestionCategory_StartDate: Date;
+  /** 常見問題分類結束時間 */
   QuestionCategory_EndDate: Date;
+  /** 常見問題內容 */
   List_QuestionContent: AFP_QuestionContent[];
 }
 
+/** 常見問題內容 */
 export interface AFP_QuestionContent {
+  /** 訊息類型 */
   QuestionContent_Mode: number;
+  /** 類別Code */
   QuestionContent_CategoryCode: number;
+  /** 編碼 */
   QuestionContent_Code: number;
+  /** 標題 */
   QuestionContent_Title: string;
+  /** 內容 */
   QuestionContent_Body: string;
+  /** 發佈日期 */
   QuestionContent_ReleaseDate: Date;
+  /** 結束日期 */
   QuestionContent_EndDate: Date;
+  /** 排序 */
   QuestionContent_Sort: number;
+  /** 狀態 0:無效 1:有效 9:刪除 */
   QuestionContent_State: number;
 }

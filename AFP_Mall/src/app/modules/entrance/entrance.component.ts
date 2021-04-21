@@ -4,9 +4,8 @@ import { AppService } from '@app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import {
   Response_Home, AFP_ADImg, Model_AreaJsonFile, AFP_Function, Model_TravelJsonFile,
-  Model_ShareData, Model_MemberProfile, AFP_UserFavourite, Request_Home, AFP_ChannelProduct,
-  AFP_ChannelVoucher, Request_OtherInfo
-} from '@app/_models';
+  Model_ShareData, AFP_UserFavourite, Request_Home, AFP_ChannelProduct,
+  AFP_ChannelVoucher} from '@app/_models';
 import { SwiperOptions } from 'swiper';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
@@ -23,7 +22,6 @@ declare var $: any;
   animations: [layerAnimation]
 })
 export class EntranceComponent implements OnInit {
-  public userProfile: Model_MemberProfile = new Model_MemberProfile();
 
   /** 進場廣告swiper */
   public adIndexOption = {
@@ -675,4 +673,15 @@ interface tabParam {
   Code: number;
   /** 頻道編號 */
   Id: number;
+}
+
+interface Request_OtherInfo extends Model_ShareData {
+  SearchModel: Search_OtherInfo;
+}
+
+interface Search_OtherInfo {
+  /** 目錄編碼 */
+  UserDefineCode: number;
+  /** 商品頻道編號 */
+  IndexChannel_Code?: number;
 }

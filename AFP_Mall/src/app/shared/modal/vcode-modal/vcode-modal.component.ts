@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { AppService } from 'src/app/app.service';
-import { Request_AFPVerify, Response_AFPVerify, Request_AFPAccount, Response_AFPAccount } from '@app/_models';
+import { Request_AFPAccount, Response_AFPAccount } from '@app/_models';
 import { ModalService } from '../modal.service';
 
 @Component({
@@ -82,4 +82,14 @@ export class VcodeModalComponent implements OnInit {
     this.registerData.AFPAccount = this.Account;
   }
 
+}
+
+interface Request_AFPVerify {
+  AFPVerify: string;
+  UserInfo_Code: number;
+}
+
+interface Response_AFPVerify {
+  UserInfo_Code: number;
+  NoticeLog_CheckCode: string;
 }

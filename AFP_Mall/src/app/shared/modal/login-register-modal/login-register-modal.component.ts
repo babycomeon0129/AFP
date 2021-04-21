@@ -317,8 +317,11 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   }
 }
 
+/** 登入 RequestModel */
 class Request_AFPLogin extends Model_ShareData {
+  /** 帳號 */
   AFPAccount: string;
+  /** 密碼 */
   AFPPassword: string;
 }
 
