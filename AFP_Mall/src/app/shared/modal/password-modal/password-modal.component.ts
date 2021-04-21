@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { AppService } from 'src/app/app.service';
-import { Request_AFPPassword, AFP_VerifiedInfo } from '@app/_models';
+import { AFP_VerifiedInfo } from '@app/_models';
 import { ModalService } from '../modal.service';
 
 @Component({
@@ -42,4 +42,13 @@ export class PasswordModalComponent {
     }
   }
 
+}
+
+
+/** 忘記密碼 RequestModel */
+interface Request_AFPPassword {
+  /** 密碼 */
+  AFPPassword: string;
+  /** 驗證資訊 */
+  VerifiedInfo?: AFP_VerifiedInfo;
 }

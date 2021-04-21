@@ -1,31 +1,37 @@
-import { slideInAnimation } from './animations';
+/** 大首頁 RequestModel 搜尋Model */
 export interface Search_ConsHome {
+  /** 首頁景點頻道編號 */
   IndexArea_Code?: number;
+  /** 首頁行程頻道編號 */
   IndexTravel_Code?: number;
-  UserInfo_Code?: number;
+  /** 商品頻道編號 */
   IndexChannel_Code?: number;
+  /** 首頁外送頻道編號 */
   IndexDelivery_Code?: number;
 }
 
-/** 搜尋Model */
-export interface Search_AreaDetail {
-  /** 電商編碼 */
-  ECStore_Code: number;
-  /** 書籤Index  1:商家介紹  2: 優惠卷 3: 線上商城*/
-  TabIndex: number;
-}
-
+/** WebAPI ResponseModel */
 export interface Response_APIModel {
+  /** 共用傳遞模組 */
   Base?: Model_BaseWebAPIResponse;
   /** 任務相關資訊 */
   MissionInfo?: Model_MissionInfo;
+  /** 回傳資料 */
   Data?: string;
   /** 認證資訊 */
   Verification?: Model_Verification;
 }
 
+/** 驗證Model */
 export interface Model_Verification {
-  /** 手機是否驗證 0: 強制登出 1: 未驗證 並強制驗證 2: 未驗證 無需強驗證 3: 已驗證 */
+  /** 手機是否驗證
+   *
+   * 0: 強制登出
+   * 1: 未驗證 並強制驗證
+   * 2: 未驗證 無需強驗證
+   * 3: 已驗證
+   * 4: 已驗證 更換消費者包 and UserCode
+  */
   MobileVerified: number;
   /** 消費者包（MobileVerified = 3 會回傳,其餘狀態為空） */
   CustomerInfo: string;
@@ -33,23 +39,37 @@ export interface Model_Verification {
   UserCode: string;
 }
 
+/** ResponseModel 中 Base 模組 */
 export interface Model_BaseWebAPIResponse {
+  /** 錯誤編碼 */
   Rtn_State: number;
+  /** 錯誤訊息 */
   Rtn_Message: string;
+  /** 備用欄位 */
   Rtn_Param: string;
+  /** 錯誤時,導向網頁 */
   Rtn_URL: string;
 }
 
+/** 大包用 - 任務完成Model */
 export interface Model_MissionInfo {
+  /** SelectMode */
   Select_Mode?: number;
+  /** 備用欄位 */
   Mission_VarParamA: string;
+  /** 備用欄位 (統一放UserInfoCode) */
   Mission_IntParamA: number;
+  /** 完成任務列表(先不移除) */
   List_MissionDetail: Model_MissionDetail[];
 }
 
+/** 任務完成訊息 */
 export interface Model_MissionDetail {
+  /** 完成後訊息 */
   Mission_Info: string;
+  /** 下個任務網址標題 */
   Mission_URLTitle: string;
+  /** 下個任務網址 */
   Mission_URL: string;
 }
 
@@ -89,31 +109,53 @@ export interface AFP_UserReport {
   UserReport_Sort?: number;
 }
 
+/** AFP 廣告版位 */
 export interface AFP_ADImg {
+  /** ID */
   ADImg_ID?: number;
+  /** 廣告類型 */
   ADImg_Type?: number;
+  /** 編碼 */
   ADImg_ADCode?: number;
+  /** 圖檔 */
   ADImg_Img?: string;
+  /** 影片連結 */
   ADImg_VideoURL?: string;
+  /** 標題 */
   ADImg_Title?: string;
+  /** 副標題 */
   ADImg_SubTitle?: string;
+  /** 圖片連結 */
   ADImg_URL?: string;
+  /** 網頁開啟模式 */
   ADImg_URLTarget?: string;
 }
 
+/** AFP 使用者服務 */
 export interface AFP_Function {
+  /** 類別編碼 */
   Function_CategaryCode: number;
+  /** ID */
   Function_ID?: number;
+  /** 編碼 */
   Function_Code?: number;
+  /** 名稱 */
   Function_Name?: string;
+  /** URL */
   Function_URL?: string;
+  /** 圖示 */
   Function_Icon?: string;
+  /** 置頂 */
   Function_IsTop?: number;
+  /** 合作夥伴服務 */
   Function_IsOther?: number;
+  /** 排序 */
   Function_Sort?: string;
+  /** 開啟方式 */
   Function_URLTarget?: string;
+  /** 是否啟用 0: 否 1: 是 */
   Function_IsActive?: number;
-  // 我的服務-判斷ICON狀態
+  /** 我的服務-判斷ICON狀態，前端新增 */
   isAdd?: boolean;
 }
 
@@ -129,80 +171,149 @@ export interface Model_AreaJsonFile {
   ECStoreData?: AreaJsonFile_ECStore[];
 }
 
+/** 景點資訊 */
 export interface AreaJsonFile_ECStore {
+  /** 外部目錄編碼 */
   UserDefine_Code?: number;
+  /** 商店編碼 */
   ECStore_Code?: number;
+  /** 商店名稱(前台) */
   ECStore_ShowName?: string;
+  /** 商店圖片 */
   ECStore_Image1?: string;
+  /** 商店類型
+   *
+   * 1000: 線上商店
+   * 1100: 實體商店
+   * 2000: 景點
+   * 2100: 住宿
+   * 2200: 美食
+   * 2300: 遊樂(體驗)
+   * 2400: 購物
+   * 2500: 醫療保健
+   * */
   ECStore_Type?: number;
+  /** 類型名稱 */
   ECStore_TypeName?: string;
+  /** 經度 */
   ECStore_Lng?: number;
+  /** 緯度 */
   ECStore_Lat?: number;
+  /** 距離 */
   ECStore_Distance?: number;
+  /** 規格資料 */
   AttrbuteData?: AreaJsonFile_Attrbute[];
+  /** 是否上架(是否顯示) 0: 下架(預設) 1: 上架 */
   ECStore_IsOnline: boolean;
+  /** 資料狀態 0: 無效 1: 效(預設) 9: 刪除 */
   ECStore_State: boolean;
 }
 
+/** 規格 */
 export interface AreaJsonFile_Attrbute {
+  /** 商店編碼 */
   ECStore_Code?: number;
+  /** 商店名稱(前台) 1：索引 2：規格(預設) */
   Attribute_Type?: number;
+  /** 編碼 */
   Attribute_Code?: number;
+  /** 規格名稱 */
   Attribute_Name?: string;
+  /** 編碼 */
   AttributeValue_Code?: number;
+  /** 規格值名稱 */
   AttributeValue_Name?: string;
 }
 
-// 大首頁
+/** 大首頁 RequestModel */
 export interface Request_Home extends Model_ShareData {
+  /** 搜尋Model */
   SearchModel?: Search_ConsHome;
 }
 
+/** 大首頁 ResponseModel */
 export interface Response_Home {
+  /** 會員點數 */
   TotalPoint: number;
+  /** 優惠卷數量 */
   VoucherCount: number;
+  /** 廣告列表 10001 */
   ADImg_Top: AFP_ADImg[];
+  /** 廣告列表 (登入前)10002 / (登入後)10003 */
   ADImg_Top2: AFP_ADImg[];
+  /** 廣告列表 (登入前)10007 / (登入後)10008 */
   ADImg_Top3: AFP_ADImg[];
+  /** 廣告列表 (登入前)10004 / (登入後)10005 */
   ADImg_Activity: AFP_ADImg[];
+  /** 廣告列表 10006 */
   ADImg_Theme: AFP_ADImg[];
+  /** 廣告列表 10099 (進場廣告) */
   ADImg_Approach: AFP_ADImg[];
+  /** 景點資料 (目錄 + 景點) */
   List_AreaData: Model_AreaJsonFile[];
+  /** 行程資料 (目錄 + 景點) */
   List_TravelData: Model_TravelJsonFile[];
+  /** 商品資料 (目錄 + 商品) */
   List_ProductData: AFP_ChannelProduct[];
+  /** 外送資料 (目錄 + 景點) */
   List_DeliveryData: Model_AreaJsonFile[];
+  /** 優惠券資料(目錄+優惠券) Code=1111115 */
   List_Voucher: AFP_ChannelVoucher[];
 }
 
+/** 行程文件產生Model */
 export interface Model_TravelJsonFile {
+  /** 外部目錄頻道ID */
   UserDefine_ChannelID?: number;
+  /** 外部目錄編碼 */
   UserDefine_Code?: number;
+  /** 外部目錄編碼名字 */
   UserDefine_Name?: string;
+  /** 行程資訊 */
   TravelData?: TravelJsonFile_Travel[];
 }
 
+/** 行程資訊 */
 export interface TravelJsonFile_Travel {
+  /** 外部目錄編碼 */
   UserDefine_Code?: number;
+  /** 行程編碼 */
   Travel_Code?: number;
+  /** 行程圖片(前台) */
   Travel_Img?: string;
+  /** 標題(前台) */
   Travel_Title?: string;
+  /** 副標(前台) */
   Travel_SubTitle?: string;
+  /** 圖片連結 */
   Travel_URL?: string;
+  /** 網頁開啟模式 */
   Travel_URLTarget?: string;
+  /** 地點副標 */
   Travel_LocalTitle?: string;
+  /** 規格資料 */
   AttrbuteData?: TravelJsonFile_Attrbute[];
+  /** 狀態 0:無效 1:有效 9:刪除 */
   Travel_State?: boolean;
 }
 
+/** 規格 */
 export interface TravelJsonFile_Attrbute {
+  /** 行程編碼 */
   Travel_Code?: number;
+  /** 類型 0: 索引 1: 規格(預設) */
   Attribute_Type?: number;
+  /** 編碼 */
   Attribute_Code?: number;
+  /** 規格名稱 */
   Attribute_Name?: string;
+  /** 編碼 */
   AttributeValue_Code?: number;
+  /** 規格值名稱 */
   AttributeValue_Name?: string;
 }
 
+/** 註冊 RequestModel */
 export interface Request_AFPAccount {
   /** 註冊類型 1:手機 2:信箱 */
   AFPType: number;
@@ -222,11 +333,17 @@ export interface Request_AFPAccount {
   Agree?: boolean;
 }
 
+/** 旅遊首頁 ResponseModel */
 export interface Response_TravelHome {
+  /** 廣告列表 20001 */
   ADImg_Top: AFP_ADImg[];
+  /** 廣告列表 20002 */
   ADImg_Activity: AFP_ADImg[];
+  /** 廣告列表 20003 */
   ADImg_Theme: AFP_ADImg[];
+  /** 使用者服務列表 */
   List_Function: AFP_Function[];
+  /** 行程資料 (目錄 + 景點) */
   List_TravelData: Model_TravelJsonFile[];
 }
 
@@ -333,14 +450,6 @@ export interface AFP_ECStore {
   ECStore_IsOnline?: boolean;
 }
 
-export class Request_AFPThird {
-  Mode?: number;
-  Account?: string;
-  NickName?: string;
-  Token?: string;
-  JsonData?: string;
-}
-
 export interface Model_CustomerInfo {
   Customer_Name?: string;
   Customer_Code?: string;
@@ -432,15 +541,23 @@ export interface AFP_Product {
 
 }
 
+/** 商城首頁 ResponseModel */
 export interface Response_ECHome extends Model_ShareData {
+  /** 廣告列表 30001 */
   ADImg_Top: AFP_ADImg[];
+  /** 廣告列表 30002 */
   ADImg_Activity: AFP_ADImg[];
+  /** 優惠券資料 (目錄 + 優惠券) */
   List_VoucherData: AFP_ChannelVoucher[];
+  /** 商品資料 (目錄 + 商品) */
   List_ProductData: AFP_ChannelProduct[];
+  /** 近期熱門商品 */
   List_HotProduct: AFP_Product[];
+  /** 使用者服務列表 */
   List_Function: AFP_Function[];
 }
 
+/** 註冊 ResponseModel */
 export interface Response_AFPAccount {
   /** 使用者編碼 */
   UserInfo_Code: number;
@@ -454,11 +571,6 @@ export interface Request_AFPVerify {
 export interface Response_AFPVerify {
   UserInfo_Code: number;
   NoticeLog_CheckCode: string;
-}
-
-export interface Request_AFPPassword {
-  AFPPassword: string;
-  VerifiedInfo?: AFP_VerifiedInfo;
 }
 
 /** Request/Response Model中Data 共用模組 */
@@ -514,36 +626,62 @@ export class Model_MemberProfile extends Model_ShareData {
   UserProfile_MTPs?: boolean;
 }
 
+/** 會員中心-我的收藏 - RequestModel */
 export interface Request_MemberFavourite extends Model_ShareData {
+  /** 我的收藏 */
   AFP_UserFavourite: {
+    /** ID */
     UserFavourite_ID: number;
+    /** 國碼 */
     UserFavourite_CountryCode: number;
+    /** 收藏類型 */
     UserFavourite_Type: number;
+    /** 使用者編碼 */
     UserFavourite_UserInfoCode: number;
+    /** Type對應表編號 */
     UserFavourite_TypeCode?: number;
+    /** 預設 0: 否(預設) 1: 是 */
     UserFavourite_IsDefault: number;
+    /** 字串欄位1 */
     UserFavourite_Text1?: string;
+    /** 字串欄位2 */
     UserFavourite_Text2?: string;
+    /** 字串欄位3 */
     UserFavourite_Text3?: string;
+    /** 數字欄位1 */
     UserFavourite_Number1?: number;
+    /** 數字欄位2 */
     UserFavourite_Number2?: number;
   };
+  /** 收藏類型編碼 (多筆以逗號區隔) */
   UserFavourite_TypeCodes?: string; // 收藏類型編碼 (多筆以逗號區隔)
 }
 
+/** 會員中心-我的收藏 - ResponseModel */
 export interface Response_MemberFavourite extends Model_ShareData {
+  /** 我的收藏 列表 */
   List_UserFavourite?: AFP_UserFavourite[];
+  /** 我的收藏 詳細 */
   AFP_UserFavourite?: AFP_UserFavourite;
+  /** 商品列表 Type=51 */
   List_Product?: AFP_Product[];
+  /** 商家列表 Type=52 */
   List_ECStore?: AFP_ECStore[];
+  /** 周邊列表 Type=53 */
   List_Area?: AreaJsonFile_ECStore[];
+  /** 行程列表 Type=54 */
   List_Travel?: TravelJsonFile_Travel[];
 }
 
+/** 商城首頁 RequestModel */
 export interface Request_ECHome extends Model_ShareData {
+  /** 搜尋Model */
   SearchModel: {
+    /** 首頁優惠券頻道編號 */
     IndexVoucher_Code: number;
+    /** 首頁商品頻道編號 */
     IndexChannel_Code: number;
+    /** 購物車Code */
     Cart_Code: number;
   };
 }
@@ -585,28 +723,50 @@ export interface VoucherJsonFile_Attrbute {
   AttributeValue_Name: string;
 }
 
+/** 頻道商品 */
 export interface AFP_ChannelProduct {
+  /** 外部目錄頻道ID */
   UserDefine_ChannelID: number;
+  /** 外部目錄編碼 */
   UserDefine_Code: number;
+  /** 外部目錄編碼名字 */
   UserDefine_Name: string;
+  /** 商品數量 */
   UserDefine_ProdCount: number;
+  /** 商品資訊 */
   ProductData: AFP_Product[];
 }
 
+/** /** 商城-商品列表 RequestModel */
 export interface Request_ECProductList extends Model_ShareData {
+  /** 搜尋Model */
   SearchModel: {
+    /** 商品目錄 Code */
     UserDefine_Code?: number;
     /** 商品規格值(多筆逗號區隔) */
     AttributeValue_Code: string[];
+    /** 排序方式
+     *
+     * 1: 最新上架優先
+     * 2: 熱門程度優先
+     * 3: 價格低->高
+     * 4: 價格高->低
+     * */
     Sort_Mode?: number;
+    /** 購物車Code */
     Cart_Code: number;
   };
 }
 
+/** 商城-商品列表 ResponseModel */
 export interface Response_ECProductList extends Model_ShareData {
+  /** 自定義目錄 */
   List_UserDefine: AFP_UserDefine[];
+  /** 商品 */
   List_Product: AFP_Product[];
+  /** 規格 */
   List_Attribute: AFP_Attribute[];
+  /** 上級目錄名稱 */
   UpUserDefineName: string;
 }
 
@@ -621,6 +781,7 @@ export interface AFP_Attribute {
   List_AttributeValue: AFP_AttributeValue[];
 }
 
+/** 規格索引表 */
 export interface AFP_AttributeValue {
   /** 規格值編碼 */
   AttributeValue_AttributeCode: number;
@@ -632,54 +793,88 @@ export interface AFP_AttributeValue {
   AttributeValue_Count: number;
 }
 
+/** 商城首頁 RequestModel */
 export interface Request_ECProductDetail extends Model_ShareData {
+  /** 搜尋Model */
   SearchModel: {
+    /** 商品 Code */
     Product_Code: number;
+    /** 目錄 Code */
     UserDefine_Code: number;
+    /** 購物車Code */
     Cart_Code: number;
   };
 }
 
+/** 商城首頁 ResponseModel */
 export interface Response_ECProductDetail extends Model_ShareData {
+  /** 商品 */
   AFP_Product: AFP_Product;
+  /** 商家 */
   AFP_ECStore: AFP_ECStore;
+  /** 商品圖片 */
   List_ProductImg: AFP_ProductImg[];
+  /** 此商家的優惠卷(1筆) */
   AFP_VoucherData: AFP_Voucher;
+  /** 規格 */
   List_Attribute: AFP_Attribute[];
+  /** 物流/運費 */
   List_ECLogistics: AFP_ECLogistics[];
-  AppShareUrl: string;
 }
 
+/** 商品圖片 */
 export interface AFP_ProductImg {
+  /** 商品編碼 */
   ProductImg_ProductCode: number;
+  /** 圖片位址 */
   ProductImg_ImgUrl: string;
+  /** 商品圖片說明 */
   ProductImg_Explain: string;
 }
 
+/** 商品與規格關聯 DataModel */
 export interface AFP_ProdAttr {
+  /** 商品編碼 */
   ProdAttr_ProductCode: number;
+  /** 規格索引類型 */
   ProdAttr_AttributeType: number;
+  /** 規格索引Code */
   ProdAttr_AttributeCode: number;
+  /** 規格索引Name */
   ProdAttr_AttributeName: string;
+  /** 規格索引值Code */
   ProdAttr_AttributeValueCode: number;
+  /** 規格索引值名字 */
   ProdAttr_AttributeValueName: string;
 }
 
+/** 商家物流資訊表 */
 export interface AFP_ECLogistics {
+  /** 物流ID */
   ECLogistics_ID: number;
+  /** 物流名稱 */
   ECLogistics_Name: string;
+  /** 物流費 */
   ECLogistics_Amount: number;
+  /** 部件表 */
   List_ECLogisticsPart: AFP_ECLogisticsPart[];
 }
 
+/** 購物車 RequestModel */
 export interface Request_ECCart extends Model_ShareData {
+  /** 搜尋Model */
   SearchModel: Search_ECCart;
+  /** 購物車 */
   AFP_Cart?: AFP_Cart;
+  /** 購物車 -多筆更新用 (SelectMode = 5) */
   List_Cart?: AFP_Cart[];
 }
 
+/** 購物車 搜尋Model */
 export interface Search_ECCart {
+  /** 購物車Code */
   Cart_Code: number;
+  /** APP用 結帳商品查詢 */
   ListCartID?: string;
 }
 
@@ -727,9 +922,13 @@ export interface AFP_Cart {
   Cart_ProductState?: boolean;
 }
 
+/** 購物車 ResponseModel */
 export interface Response_ECCart extends Model_ShareData {
+  /** 購物車 */
   AFP_Cart: AFP_Cart;
+  /** 購物車清單 */
   List_Cart: AFP_Cart[];
+  /** 商品規格 */
   List_ProdAttr: AFP_ProdAttr[];
 }
 
@@ -840,8 +1039,6 @@ export class AFP_UserVoucher {
   Voucher_Name: string;
 }
 
-
-
 /** 周邊探索 - 列表 Request */
 export interface Request_AreaIndex extends Model_ShareData {
   /** 搜尋Model */
@@ -856,20 +1053,6 @@ export interface Search_AreaIndex {
   IndexArea_Code: number;
   /** 首頁景點目錄編號 */
   AreaMenu_Code: number;
-}
-
-export interface Request_TravelHome extends Model_ShareData {
-  SearchModel: Search_ConsTravelHome;
-}
-
-export interface Search_ConsTravelHome {
-  IndexTravel_Code: number;
-}
-
-/** 周邊探索 - 詳細 Request */
-export interface Request_AreaDetail extends Model_ShareData {
-  /** 搜尋Model */
-  SearchModel: Search_AreaDetail;
 }
 
 /** 優惠卷資訊表 */
@@ -1012,42 +1195,13 @@ export interface AFP_VoucherLimit {
   VoucherLimit_State: number;
 }
 
-export class TERP_Order {
-  Order_ID: number;
-  Order_TableNo: number;
-  Order_PayOrderTableNo: number;
-  Order_CartCode: number;
-  Order_MainStoreCode: number;
-  Order_ECStoreCode: number;
-  Order_UserInfoCode: number;
-  Order_ECLogisticsID: number;
-  Order_QRCode: string;
-  Order_Currency: string;
-  Order_TaxRate: number;
-  Order_RecCountry: number;
-  Order_RecCity: number;
-  Order_RecCityArea: number;
-  Order_RecAddress: string;
-  Order_RecName: string;
-  Order_RecEmail: string;
-  Order_RecTel: string;
-  Order_ShippingAmount: number;
-  Order_ChangeShippingAmount: number;
-  Order_DeliveryWays: number;
-  Order_Amount: number;
-  Order_ChangeAmount: number;
-  Order_ConsumerMsg: string;
-  Order_DepartDate: Date;
-  Order_ArrivalDate: Date;
-  Order_InsertDate: Date;
-  Order_DeadlineDate: Date;
-  Order_PaymentDate: Date;
-  Order_State: number;
-}
-
+/** 物流部件表 */
 export interface AFP_ECLogisticsPart {
+  /** ID */
   ECLogisticsPart_ID: number;
+  /** 營業國家 */
   ECLogisticsPart_Country: number;
+  /** 營業縣/市區 */
   ECLogisticsPart_City: number;
 }
 
@@ -1407,20 +1561,27 @@ export interface Response_MemberCheckStatus extends Model_ShareData {
   List_ADImg: AFP_ADImg[];
 }
 
-// tslint:disable: class-name
-// tslint:disable-next-line: no-empty-interface
+/** 所有優惠券 RequestModel */
 export interface Request_ECVoucher extends Model_ShareData {
 }
 
+/** 所有優惠券 ResponseModel */
 export interface Response_ECVoucher extends Model_ShareData {
+  /** 優惠券資料(目錄+優惠券) */
   List_Voucher: AFP_ChannelVoucher[];
+  /** 廣告列表 30003 */
   List_ADImg: AFP_ADImg[];
 }
 
+/** 頻道優惠卷 */
 export interface AFP_ChannelVoucher {
+  /** 外部目錄頻道ID */
   UserDefine_ChannelID: number;
+  /** 外部目錄編碼 */
   UserDefine_Code: number;
+  /** 外部目錄編碼名字 */
   UserDefine_Name: string;
+  /** 優惠卷資訊 */
   VoucherData: AFP_Voucher[];
 }
 
@@ -1643,26 +1804,13 @@ export class AFP_IMessage {
   activeStatus: boolean;
 }
 
+/** 註冊 ResponseModel */
 export class Response_AFPLogin extends Model_ShareData {
+  /** 使用者編碼 */
   Model_UserInfo?: Model_CustomerInfo;
+  /** 使用者-我的最愛 */
   List_UserFavourite?: AFP_UserFavourite;
 }
-
-export class Third_AppleUser {
-  authorization: {
-    state: string;
-    code: string;
-    id_token: string;
-  };
-  user?: {
-    email: string;
-    name: {
-      firstName: string;
-      lastName: string;
-    };
-  };
-}
-
 export class Response_AFPVerifyCode extends Model_ShareData {
   /** 驗證資訊 */
   VerifiedInfo?: AFP_VerifiedInfo;
@@ -1673,6 +1821,13 @@ export class Request_AFPVerifyCode extends Model_ShareData {
   VerifiedInfo?: AFP_VerifiedInfo;
 }
 
+/** 驗證資訊表
+ *
+ * 10: 讀取手機號碼
+ * 11: 發送驗證碼
+ * 12: 發送驗證碼(檢查VerifiedPhone是否存在)
+ * 21: 驗證驗證碼
+ */
 export interface AFP_VerifiedInfo {
   /** 被驗證的手機號碼
    *

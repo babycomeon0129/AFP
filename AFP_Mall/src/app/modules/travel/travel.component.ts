@@ -1,7 +1,7 @@
 import { Component, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
 import { AppService } from '@app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
-import { Response_TravelHome, AFP_ADImg, AFP_Function, Model_TravelJsonFile, Request_TravelHome } from '@app/_models';
+import { Response_TravelHome, AFP_ADImg, AFP_Function, Model_TravelJsonFile, Model_ShareData} from '@app/_models';
 import { SwiperOptions } from 'swiper';
 import { Meta, Title } from '@angular/platform-browser';
 
@@ -129,4 +129,17 @@ export class TravelComponent {
 
   }
 
+}
+
+
+/** 旅遊首頁 RequestModel */
+interface Request_TravelHome extends Model_ShareData {
+  /** 搜尋Model */
+  SearchModel: Search_ConsTravelHome;
+}
+
+/** 旅遊首頁 RequestModel 搜尋Model */
+interface Search_ConsTravelHome {
+  /** 首頁行程頻道編號 */
+  IndexTravel_Code: number;
 }

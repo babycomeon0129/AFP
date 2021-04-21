@@ -320,7 +320,6 @@ export class EntranceComponent implements OnInit {
       SearchModel: {
         IndexArea_Code: 100001,
         IndexTravel_Code: 21001,
-        UserInfo_Code: null,
         IndexChannel_Code: 10000001,
         IndexDelivery_Code: 300001
       }
@@ -378,6 +377,7 @@ export class EntranceComponent implements OnInit {
     this.appService.openBlock();
     const request: Request_AFPUserService = {
       User_Code: sessionStorage.getItem('userCode'),
+      // SelectMode 1 : 首頁 10 : 我的服務
       SelectMode: 1
     };
 
@@ -619,34 +619,60 @@ export class EntranceComponent implements OnInit {
 
 }
 
+/** 使用者服務 ResponseModel */
 class Response_AFPUserService extends Model_ShareData {
+  /** 使用者服務 - 舊版 */
   Model_Function: AFP_Function[];
+  /** 使用者收藏 - 舊版 */
   Model_UserFunction?: AFP_Function[];
+  /**使用者服務 - 新版
+   *
+   * 0: 系統服務
+   * 1: 我的服務
+   * 2+: 後台建置
+   */
   List_NewFunction?: AFP_NewFunction[];
 }
 
+/** 使用者服務 RequestModel */
 class Request_AFPUserService extends Model_ShareData {
-  Model_UserFavourite?: AFP_UserFavourite[];
 }
 
+/** 使用者服務管理-新版 */
 class AFP_NewFunction {
+  /** 類別名稱 */
   CategaryName: string;
+  /** 使用者服務 - 新版
+   *
+   * 0: 系統服務
+   * 1: 我的服務
+   * 2+: 後台建置 */
   CategaryCode: number;
+  /** 使用者服務 */
   Model_Function: AFP_Function[];
 }
 
+/** 使用者服務 RequestModel */
 class Request_AFPUpdateUserService extends Model_ShareData {
+  /** 使用者收藏 - 舊版 */
   Model_UserFavourite: AFP_UserFavourite[];
+  /** 使用者收藏 - 新版 */
   Model_UserFunction: number[];
 }
 
+/** 使用者服務 ResponseModel */
 class Response_AFPUpdateUserService extends Model_ShareData {
 
 }
 
+/** 取得swiper-nav output Param（點擊時） */
 interface tabParam {
+  /** SelectMode  1: 特賣商品 2: 現領優惠券 3: 主打店家 4: 外送店家 5: 旅遊主打 */
   Mode: number;
+  /** 索引 */
   Idx: number;
+  /** 目錄編碼 */
   Code: number;
+  /** 頻道編號 */
   Id: number;
 }

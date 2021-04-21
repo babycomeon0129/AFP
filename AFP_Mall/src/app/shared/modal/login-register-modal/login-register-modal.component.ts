@@ -5,7 +5,7 @@ import { AppService } from 'src/app/app.service';
 import { ModalService } from '../modal.service';
 import { AuthService, SocialUser, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 import { NgForm } from '@angular/forms';
-import { Request_AFPThird, Model_ShareData, Response_AFPLogin, Request_AFPAccount, Request_AFPVerifyCode,
+import { Model_ShareData, Response_AFPLogin, Request_AFPAccount, Request_AFPVerifyCode,
   Response_AFPVerifyCode, Request_AFPReadMobile, Response_AFPReadMobile } from '@app/_models';
 import { CookieService } from 'ngx-cookie-service';
 import jwt_decode from 'jwt-decode';
@@ -317,12 +317,13 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   }
 }
 
-export class Request_AFPLogin extends Model_ShareData {
+class Request_AFPLogin extends Model_ShareData {
   AFPAccount: string;
   AFPPassword: string;
 }
 
-export class Third_AppleUser {
+/** 第三方登入-Apple 登入 Response */
+class Third_AppleUser {
   authorization: {
     state: string;
     code: string;
@@ -335,4 +336,12 @@ export class Third_AppleUser {
       lastName: string;
     };
   };
+}
+
+class Request_AFPThird {
+  Mode?: number;
+  Account?: string;
+  NickName?: string;
+  Token?: string;
+  JsonData?: string;
 }

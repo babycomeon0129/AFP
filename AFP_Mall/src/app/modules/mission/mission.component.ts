@@ -206,45 +206,76 @@ export class MissionComponent implements OnInit {
 
 }
 
+/** 任務 RequestModel */
 interface Request_MemberMission extends Model_ShareData {
+  /** 任務編碼 */
   Mission_Code?: number;
 }
 
+/** 任務 ResponseModel */
 interface Response_MemberMission extends Model_ShareData {
+  /** 會員總點數 */
   TotalPoint?: number;
+  /** 所有任務資訊 */
   List_AllMission: Mission_Info[];
 }
 
+/** 任務資訊 */
 interface Mission_Info {
+  /** 任務類型編號 */
   TabCode: number;
+  /** 任務類型名稱 */
   TabName: string;
   /** 未完成任務數量，前端自己塞的 */
   undoneMissionCount: number;
+  /** 任務清單 */
   List_Mission: AFP_Mission[];
 }
 
+/** 任務 */
 interface AFP_Mission {
+  /** ID */
   Mission_ID: number;
+  /** 前置任務編碼 */
   Mission_UpMissionCode: number;
+  /** 是否要完成前置任務 */
   Mission_IsDoneUp: number;
+  /** 編碼 */
   Mission_Code: number;
+  /** 國碼 */
   Mission_CountryCode: number;
+  /** 任務類型 */
   Mission_Type: number;
+  /** 名稱 */
   Mission_Name: string;
+  /** 外部名稱 */
   Mission_ExtName: string;
+  /** 圖片 */
   Mission_Image: string;
+  /** 當前完成次數 */
   Mission_CurrentCount: number;
+  /** 需要完成次數 */
   Mission_CompleteCount: number;
   /** 按鈕狀態 0 未領取 1 已領取 2 未完成 3 已結束 9 刪除 */
   Mission_ClickState: number;
+  /** 任務開始日期 */
   Mission_OnDate: Date;
+  /** 任務結束日期 */
   Mission_OffDate: Date;
+  /** 上架日期 */
   Mission_OnlineDate: Date;
+  /** 下架日期 */
   Mission_OfflineDate: Date;
+  /** 領取點數 */
   Mission_Value: number;
+  /** 完成後訊息 */
   Mission_Info: string;
+  /** 下個任務網址標題 */
   Mission_URLTitle: string;
+  /** 下個任務網址 */
   Mission_URL: string;
+  /** 網頁開啟模式 */
   Mission_CurrentURLTarget: string;
+  /** 當前任務網址 */
   Mission_CurrentURL: string;
 }
