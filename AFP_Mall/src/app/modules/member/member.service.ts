@@ -32,9 +32,11 @@ export class MemberService {
     return new Promise(resolve => {
       this.appService.toApi('Member', '1502', request).subscribe((data: Response_MemberProfile) => {
         this.userProfile = data;
-        // 更新session 和 app.service 中的 userName 讓其他頁面名稱同步
-        sessionStorage.setItem('userName', this.userProfile.User_NickName);
-        this.appService.userName = sessionStorage.getItem('userName');
+        console.log('readProfileData - this.userProfile:', this.userProfile);
+        // // 更新session 和 app.service 中的 userName 讓其他頁面名稱同步
+        // sessionStorage.setItem('userName', this.userProfile.User_NickName);
+        // this.appService.userName = this.userProfile.User_NickName;
+        // console.log('this.appService.userName:', this.appService.userName);
         // 解決ngx-bootstrap 套件日期減一天問題
         if (this.userProfile.UserProfile_Birthday !== null) {
           this.userProfile.UserProfile_Birthday = new Date(this.userProfile.UserProfile_Birthday);

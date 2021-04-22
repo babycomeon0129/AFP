@@ -191,8 +191,8 @@ export class AppComponent implements OnInit {
           } else {
             this.router.navigate([url]);
           }
-          // 更新session中的使用者名稱讓登入後要顯示的頁面使用
-          this.appService.userName = sessionStorage.getItem('userName');
+          // // 更新session中的使用者名稱讓登入後要顯示的頁面使用
+          // this.appService.userName = sessionStorage.getItem('userName');
         }
       });
     }

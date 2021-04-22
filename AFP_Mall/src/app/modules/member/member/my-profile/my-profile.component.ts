@@ -66,6 +66,7 @@ export class MyProfileComponent implements OnInit {
 
   /** 更新我的檔案 */
   onProfileSubmit(form: NgForm): void {
+    console.log('onProfileSubmit');
     this.appService.openBlock();
     this.memberService.userProfile.SelectMode = 3;
     this.memberService.userProfile.User_Code = sessionStorage.getItem('userCode');
@@ -77,7 +78,12 @@ export class MyProfileComponent implements OnInit {
     }
     this.appService.toApi('Member', '1502', this.memberService.userProfile).subscribe((data: Response_MemberProfile) => {
       // 取得並顯示我的檔案資料
-      this.memberService.readProfileData();
+      this.memberService.readProfileData().then(() => {
+        console.log('memberService.userProfile.User_NickName:', this.memberService.userProfile.User_NickName);
+        // 更新session 和 app.service 中的 userName 讓其他頁面名稱同步
+        sessionStorage.setItem('userName', this.memberService.userProfile.User_NickName);
+        this.appService.userName = this.memberService.userProfile.User_NickName;
+      });
       this.editMode = false;
       form.resetForm();
     });

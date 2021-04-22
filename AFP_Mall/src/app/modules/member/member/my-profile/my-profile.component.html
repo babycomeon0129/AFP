@@ -12,7 +12,9 @@
         </div>
         <div class="item title-name">我的檔案</div>
         <div class="item ctrl-btn">
-          <button *ngIf="editMode" (click)="formProfile.ngSubmit.emit()" form="formProfile" class="btn submit-btn d-block">確定</button>
+          <!-- 提交鍵在form外時這樣呼叫：formProfile.ngSubmit。
+            需在按鈕上用 'form' 屬性指定form，<form> 上則需用 'id' 屬性給定名稱，否則按鈕無法成功呼叫到它的 ngSubmit 方法。 -->
+          <button *ngIf="editMode" (click)="formProfile.ngSubmit" form="formProfile" class="btn submit-btn d-block">確定</button>
           <button class="btn d-block" *ngIf="!editMode" (click)="editMode = true">編輯</button>
         </div>
       </div>
@@ -29,7 +31,7 @@
         </div>
         <div class="my-list-box">
           <ul>
-            <form #formProfile="ngForm" (ngSubmit)="formProfile.form.valid && onProfileSubmit(formProfile)">
+            <form #formProfile="ngForm" id="formProfile" (ngSubmit)="formProfile.form.valid && onProfileSubmit(formProfile)">
               <li>
                 <div class="item">帳號</div>
                 <div class="item input-box">
