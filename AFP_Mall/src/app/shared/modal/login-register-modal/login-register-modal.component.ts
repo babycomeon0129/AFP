@@ -155,7 +155,6 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
     this.appService.openBlock();
     this.loginRequest.Cart_Count = Number(this.cookieService.get('cart_count'));
     this.appService.toApi('AFPAccount', '1104', this.loginRequest).subscribe((data: Response_AFPLogin) => {
-      console.log('logged in! userName is:', data.Model_UserInfo.Customer_Name);
       sessionStorage.setItem('userName', data.Model_UserInfo.Customer_Name);
       sessionStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
       sessionStorage.setItem('CustomerInfo', data.Model_UserInfo.CustomerInfo);

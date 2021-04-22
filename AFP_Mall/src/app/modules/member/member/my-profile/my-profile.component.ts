@@ -1,13 +1,15 @@
+import { CookieService } from 'ngx-cookie-service';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { Model_ShareData, AFP_UserFavourite } from '@app/_models';
 import { Response_MemberProfile } from '../member.component';
-import { ModalService } from '../../../../shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { MemberService } from '../../member.service';
-import { layerAnimation, layerAnimationUp } from '../../../../animations';
+import { layerAnimation, layerAnimationUp } from '@app/animations';
 import { Meta, Title } from '@angular/platform-browser';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { environment } from '@env/environment';
 
 
 @Component({
@@ -37,7 +39,7 @@ export class MyProfileComponent implements OnInit {
   public layerTrigUp = 0;
 
   constructor(public appService: AppService, public modal: ModalService, public memberService: MemberService,
-              private meta: Meta, private title: Title, private localeService: BsLocaleService) {
+              private meta: Meta, private title: Title, private localeService: BsLocaleService, private cookieService: CookieService) {
     // tslint:disable: max-line-length
     this.title.setTitle('我的檔案 - Mobii!');
     this.meta.updateTag({ name: 'description', content: '' });
@@ -66,7 +68,6 @@ export class MyProfileComponent implements OnInit {
 
   /** 更新我的檔案 */
   onProfileSubmit(form: NgForm): void {
-    console.log('onProfileSubmit');
     this.appService.openBlock();
     this.memberService.userProfile.SelectMode = 3;
     this.memberService.userProfile.User_Code = sessionStorage.getItem('userCode');
@@ -79,9 +80,9 @@ export class MyProfileComponent implements OnInit {
     this.appService.toApi('Member', '1502', this.memberService.userProfile).subscribe((data: Response_MemberProfile) => {
       // 取得並顯示我的檔案資料
       this.memberService.readProfileData().then(() => {
-        console.log('memberService.userProfile.User_NickName:', this.memberService.userProfile.User_NickName);
         // 更新session 和 app.service 中的 userName 讓其他頁面名稱同步
         sessionStorage.setItem('userName', this.memberService.userProfile.User_NickName);
+        this.cookieService.set('userName', this.memberService.userProfile.User_NickName, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
         this.appService.userName = this.memberService.userProfile.User_NickName;
       });
       this.editMode = false;
