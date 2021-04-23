@@ -192,10 +192,11 @@ export class AppComponent implements OnInit {
             this.router.navigate([url]);
           }
           // 為了APP，在此更新使用者名稱讓登入後要顯示的頁面使用（因為APP的登入是原生頁, web登入後執行的那些動作在APP不會執行）
-          const usernickname = sessionStorage.getItem('userName');
-          alert(usernickname); // TODO:
           this.appService.userName = sessionStorage.getItem('userName');
           this.cookieService.set('userName', this.appService.userName, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+          // TODO: 以下 for 測試 2550
+          const usernickname = sessionStorage.getItem('userName');
+          this.modal.show('message', {initialState: {message: usernickname}});
         }
       });
     }
