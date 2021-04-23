@@ -26,11 +26,13 @@ export class AppComponent implements OnInit {
 
   constructor(private router: Router, public appService: AppService, private activatedRoute: ActivatedRoute, public modal: ModalService,
               private cookieService: CookieService, private differs: KeyValueDiffers) {
+    this.modal.show('message', {initialState: {message: 'app.component - constructor'}}); // TODO:
     this.serviceDiffer = this.differs.find({}).create();
     if (sessionStorage.getItem('CustomerInfo') !== null && sessionStorage.getItem('userCode') !== null
       && sessionStorage.getItem('userName') !== null) {
       this.appService.loginState = true;
       this.appService.userName = sessionStorage.getItem('userName');
+      this.modal.show('message', {initialState: {message: 'app.component - constructor - session has CustomerInfo & userCode & userName'}}); // TODO:
     }
 
     // App訪問
@@ -43,6 +45,7 @@ export class AppComponent implements OnInit {
         // tslint:disable-next-line: triple-equals
         if (params.loginType == 1) {
           // APP 為登入狀態則將該 webview 也同步為登入
+          this.modal.show('message', {initialState: {message: 'app.component - constructor - APP 為登入狀態則將該 webview 也同步為登入'}}); // TODO:
           if (typeof params.customerInfo !== 'undefined' && typeof params.userCode !== 'undefined'
             && typeof params.userName !== 'undefined') {
             sessionStorage.setItem('CustomerInfo', encodeURIComponent(params.customerInfo));
@@ -85,6 +88,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.modal.show('message', {initialState: {message: 'app.component - ngOnInit'}}); // TODO:
     // 當路由器成功完成路由的解析階段時，先通知app將footer關閉(開啟則靠app-mobile-footer通知開啟)
     this.router.events.pipe(filter(event => event instanceof ResolveEnd ))
                       .subscribe((event: ResolveEnd ) => {
@@ -178,6 +182,8 @@ export class AppComponent implements OnInit {
   ngDoCheck(): void {
     const change = this.serviceDiffer.diff(this.appService);
     if (change) {
+      this.modal.show('message', {initialState: {message: 'app.component - ngDoCheck - change; loginState: '
+      + this.appService.loginState +'; userLoggedIn: ' + this.appService.userLoggedIn}}); // TODO:
       change.forEachChangedItem(item => {
         if (item.key === 'loginState' && item.currentValue && this.appService.userLoggedIn) {
           // 登入時重新訪問目前頁面以讀取會員相關資料
@@ -191,12 +197,10 @@ export class AppComponent implements OnInit {
           } else {
             this.router.navigate([url]);
           }
-          // 為了APP，在此更新使用者名稱讓登入後要顯示的頁面使用（因為APP的登入是原生頁, web登入後執行的那些動作在APP不會執行）
-          this.appService.userName = sessionStorage.getItem('userName');
-          this.cookieService.set('userName', this.appService.userName, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-          // TODO: 以下 for 測試 2550
-          const usernickname = sessionStorage.getItem('userName');
-          this.modal.show('message', {initialState: {message: usernickname}});
+          this.modal.show('message', {initialState: {message: 'app.component - ngDoCheck - appService.userLoggedIn'}}); // TODO:
+          if (this.appService.isApp) {
+            this.modal.show('message', {initialState: {message: 'app.component - ngDoCheck - appService.isApp: ' + this.appService.isApp}}); // TODO:
+          }
         }
       });
     }
