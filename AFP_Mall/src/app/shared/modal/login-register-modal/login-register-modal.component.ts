@@ -164,9 +164,9 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+      this.appService.userName = data.Model_UserInfo.Customer_Name;
       this.appService.loginState = true;
       this.appService.userLoggedIn = true;
-      this.appService.userName = data.Model_UserInfo.Customer_Name;
       this.bsModalRef.hide();
       this.appService.showFavorites();
       this.appService.readCart();
@@ -206,9 +206,9 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       this.cookieService.set('Mobii_ThirdLogin', 'true', 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+      this.appService.userName = data.Model_UserInfo.Customer_Name;
       this.appService.loginState = true;
       this.appService.userLoggedIn = true;
-      this.appService.userName = data.Model_UserInfo.Customer_Name;
       // 關閉視窗
       this.bsModalRef.hide();
       this.appService.showFavorites();
@@ -277,9 +277,9 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
         environment.cookieDomain, environment.cookieSecure, 'Lax');
       this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90, '/',
         environment.cookieDomain, environment.cookieSecure, 'Lax');
+      this.appService.userName = data.Model_UserInfo.Customer_Name;
       this.appService.loginState = true;
       this.appService.userLoggedIn = true;
-      this.appService.userName = data.Model_UserInfo.Customer_Name;
       this.bsModalRef.hide();
       // 提示社群綁定
       const msg = `註冊成功！歡迎加入Mobii!\n小技巧：綁定您的社群帳號，未來就可快速登入囉！`;
