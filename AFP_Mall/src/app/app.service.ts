@@ -28,7 +28,7 @@ export class AppService {
   /** 登入狀態 */
   public loginState = false;
   /** 使用者暱稱 */
-  public userName: string;
+  public userName = 'testDeb';
   /** App訪問 */
   public isApp = null;
   /** callLayer 側邊滑入頁面 */
