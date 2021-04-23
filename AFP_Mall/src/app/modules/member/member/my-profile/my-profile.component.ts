@@ -78,8 +78,6 @@ export class MyProfileComponent implements OnInit {
     this.appService.toApi('Member', '1502', this.memberService.userProfile).subscribe((data: Response_MemberProfile) => {
       // 取得並顯示我的檔案資料
       this.memberService.readProfileData();
-      // 更新session中的userName讓其他頁面名稱同步
-      sessionStorage.setItem('userName', this.memberService.userProfile.User_NickName);
       this.editMode = false;
       form.resetForm();
     });
