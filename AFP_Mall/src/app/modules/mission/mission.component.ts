@@ -47,6 +47,10 @@ export class MissionComponent implements OnInit {
   }
   ngOnInit() {
     this.readData();
+    // 為了APP再取一次userName（APP 登入頁為原生頁，因此 web 這邊登入後做的事在app webview中都沒有執行）
+    if (sessionStorage.getItem('userName') !== null) {
+      this.appService.userName = sessionStorage.getItem('userName');
+    }
   }
 
   /** 讀取任務資料 */
