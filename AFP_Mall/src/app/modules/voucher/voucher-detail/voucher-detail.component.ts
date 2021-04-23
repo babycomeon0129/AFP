@@ -286,19 +286,27 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
 
 }
 
-export interface Request_ECVoucherDetail extends Model_ShareData {
+/** 優惠卷詳細 RequestModel */
+interface Request_ECVoucherDetail extends Model_ShareData {
+  /** 搜尋Model */
   SearchModel: Search_ECVoucherDetail;
 }
 
-export interface Search_ECVoucherDetail {
+/** 優惠卷詳細 SearchModel */
+interface Search_ECVoucherDetail {
+  /** 優惠卷Code */
   Voucher_Code?: number;
+  /** 使用者優惠卷Code */
   UserVoucher_Code?: number;
 }
 
-export interface Response_ECVoucherDetail extends Model_ShareData {
+/** 優惠卷詳細 Responsedel */
+interface Response_ECVoucherDetail extends Model_ShareData {
+  /** 優惠卷 */
   AFP_Voucher: AFP_Voucher;
+  /** 使用者優惠卷 */
   AFP_UserVoucher: AFP_UserVoucher;
+  /**優惠卷 - 線下商家 */
   List_ECStore: AFP_ECStore[];
-  AppShareUrl: string;
 }
 

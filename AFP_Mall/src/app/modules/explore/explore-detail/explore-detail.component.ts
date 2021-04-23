@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
 import { AppService } from '@app/app.service';
-import { Response_AreaDetail, AFP_ECStore, Request_AreaDetail, AFP_Voucher, AFP_Product, AFP_ECStoreExtType } from '@app/_models';
+import { Response_AreaDetail, AFP_ECStore, Model_ShareData, AFP_Voucher, AFP_Product, AFP_ECStoreExtType } from '@app/_models';
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'ngx-useful-swiper';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -224,7 +224,24 @@ export class ExploreDetailComponent implements OnInit {
 
 }
 
+/** 顯示網站資訊 */
 interface siteObj {
+  /** 店家詳細頁的網站名稱 */
   siteName: string;
+  /** 店家詳細頁的網站連結 */
   siteUrl: string;
+}
+
+/** 周邊探索 - 詳細 Request */
+interface Request_AreaDetail extends Model_ShareData {
+  /** 搜尋Model */
+  SearchModel: Search_AreaDetail;
+}
+
+/** 搜尋Model */
+interface Search_AreaDetail {
+  /** 電商編碼 */
+  ECStore_Code: number;
+  /** 書籤Index  1:商家介紹  2: 優惠卷 3: 線上商城 */
+  TabIndex: number;
 }

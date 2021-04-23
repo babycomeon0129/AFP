@@ -152,12 +152,16 @@ export class HomeComponent implements OnInit {
 
 }
 
-// tslint:disable-next-line: no-empty-interface
-export interface Request_MemberIndex extends Model_ShareData {
+/** 會員中心首頁 - RequestModel */
+interface Request_MemberIndex extends Model_ShareData {
 }
 
-export class Response_MemberIndex extends Model_ShareData {
+/** 會員中心首頁 - ResponseModel */
+class Response_MemberIndex extends Model_ShareData {
+  /** 會員點數 */
   UserInfo_Point: number;
+  /** 廣告列表 11001 */
   ADImg_Mid: AFP_ADImg[];
+  /** 廣告列表 11002 */
   ADImg_Btm: AFP_ADImg[];
 }

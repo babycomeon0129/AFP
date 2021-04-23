@@ -152,6 +152,7 @@ export class Response_GetPayment extends Model_ShareData {
   List_BindCard: AFP_UserFavourite[];
 }
 
+/** 付款 */
 export class Request_CheckPay extends Model_ShareData {
   constructor() {
     super();
