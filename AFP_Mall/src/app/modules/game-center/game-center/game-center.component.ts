@@ -67,9 +67,13 @@ export class GameCenterComponent implements OnInit {
 }
 
 
+/** 遊戲首頁 RequestModel */
 class Request_GameIndex extends Model_ShareData {}
 
+/** 遊戲首頁 ResponseModel */
 interface Response_GameIndex extends Model_ShareData {
+  /** 廣告列表 71001 */
   ADImg_Top: AFP_ADImg;
+  /** 遊戲 */
   List_Game: AFP_Game[];
 }

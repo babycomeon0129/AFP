@@ -161,17 +161,24 @@ export class MemberCoinComponent implements OnInit {
   }
 }
 
-export class Request_MemberPoint extends Model_ShareData {
+/** 會員點數 RequestModel */
+class Request_MemberPoint extends Model_ShareData {
+  /** 區別操作(通用) 4:查詢-列表  5:查詢-待入帳等 */
   SelectMode: number;
+  /** 搜尋模組 */
   SearchModel?: Search_MemberPoint;
 }
 
-export class Search_MemberPoint {
+/** 會員點數 RequestModel 搜尋模組 */
+class Search_MemberPoint {
+  /** 點數類型 0: 待入賬，1: 獲得，11: 已使用 */
   UserPoint_Type?: number;
+  /** 優惠卷頻道編碼 */
   VouChannel_Code?: number;
 }
 
-export class Response_MemberPoint {
+/** 會員點數 ResponseModel */
+class Response_MemberPoint {
   /** 會員總點數 */
   TotalPoint: number;
   /** 即將到期-點數 */

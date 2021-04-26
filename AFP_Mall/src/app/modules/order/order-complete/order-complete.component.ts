@@ -17,7 +17,7 @@ export class OrderCompleteComponent implements OnInit {
   /** 綁卡資訊 */
   public BindData = '';
   /** 例外狀況處理 timer */
-  public countdown;
+  public countdown: NodeJS.Timer;
   /** 回傳結果 */
   public ResponseModel: Response_OrderComplete;
 
@@ -84,18 +84,25 @@ export class OrderCompleteComponent implements OnInit {
 
 }
 
-export class Request_OrderComplete extends Model_ShareData {
+/** 訂單完成 */
+class Request_OrderComplete extends Model_ShareData {
+  /** 金流訂單編號 */
   public PayOrderNo?: number;
+  /** 綁卡資訊Model */
   public ModelData?: string;
 }
 
-export class Response_OrderComplete extends Model_ShareData {
+/** 訂單完成 Response */
+class Response_OrderComplete extends Model_ShareData {
   constructor() {
     super();
     this.Success = false;
     this.ErrorMsg = '訂單結果取得失敗，請洽客服人員';
   }
+  /** 訂單付款狀態 */
   public Success: boolean;
+  /** 驗證失敗時回傳訊息 */
   public ErrorMsg: string;
+  /** App專用 */
   public IsApp: number;
 }

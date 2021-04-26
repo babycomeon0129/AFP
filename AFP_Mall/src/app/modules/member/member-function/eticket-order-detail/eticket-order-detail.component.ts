@@ -71,7 +71,7 @@ export class ETicketOrderDetailComponent implements OnInit {
   }
 
   /** 提出退款 */
-  toRefund() {
+  toRefund(): void {
     // 確認是否已使用或已逾期
     if (this.productsData[0].UserTicket_UsedState === 0) {
       this.modal.confirm({ initialState:
@@ -94,7 +94,7 @@ export class ETicketOrderDetailComponent implements OnInit {
   }
 
   /** 送出退款理由 */
-  sendReason() {
+  sendReason(): void {
     if (this.servicesModel.Services_Reason === undefined) {
       this.modal.show('message', { initialState: { success: false, message: '請選擇退款原因', showType: 1}});
     } else {
@@ -130,15 +130,20 @@ export class ETicketOrderDetailComponent implements OnInit {
 
 }
 
-export interface Request_MemberTicketRefund extends Model_ShareData {
+/** 電子票卷退票 RequestModel */
+interface Request_MemberTicketRefund extends Model_ShareData {
+  /** SearchModel */
   SearchModel: Search_MemberTicketRefund;
 }
 
-export interface Search_MemberTicketRefund {
+/** 電子票卷退票 RequestModel  SearchModel */
+interface Search_MemberTicketRefund {
+  /** 訂單編號 */
   Order_TableNo: number;
 }
 
-export class Response_MemberTicketRefund extends Model_ShareData {
+/** 電子票卷退票 ResponseModel */
+class Response_MemberTicketRefund extends Model_ShareData {
   constructor() {
     super();
   }

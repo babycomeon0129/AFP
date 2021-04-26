@@ -50,8 +50,11 @@ export class PasswordUpdateComponent implements OnInit {
 
 }
 
-export class Request_MemberPwd extends Model_ShareData {
+/** 會員中心-變更密碼 - RequestModel */
+class Request_MemberPwd extends Model_ShareData {
+  /** 舊密碼 */
   OldPwd: string;
+  /** 新密碼 */
   NewPwd: string;
   /** 二次輸入密碼(前端加上驗證用) */
   NewPwd2?: string;

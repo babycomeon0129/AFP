@@ -161,12 +161,15 @@ export class MemberDiscountComponent implements OnInit {
   /** 篩選 */
   filterSubmit(): void {
     // 先把已選取的(isSelect = ture)的key篩選出來
+    // 需篩選的優惠券類型
     const showresult = this.showType.filter(item => item.isSelect).map(item => item.Key);
+    // 需篩選的優惠券折扣類型
     const vtyperesult = this.voucherType.filter(item => item.isSelect).map(item => item.Key);
+    // 需篩選的優惠券使用範圍
     const useresult = this.useType.filter(item => item.isSelect).map(item => item.Key);
-    // 優惠券使用範圍:無論什麼條件都將線上/到店進行篩選
+    // 優惠券使用範圍:無論什麼條件都將線上/到店進行篩選，所以先把1放入
     useresult.push(1);
-    // 篩選
+    // 進行篩選
     const filterlist = this.voucherListOrig
                             .filter(item => showresult.includes(0) || showresult.includes(item.Voucher_ShowType))
                             .filter(item => vtyperesult.includes(0) || vtyperesult.includes(item.Voucher_Type))

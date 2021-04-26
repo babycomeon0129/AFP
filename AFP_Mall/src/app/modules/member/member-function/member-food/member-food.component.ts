@@ -49,20 +49,31 @@ export class MemberFoodComponent implements OnInit {
 
 
 
+/** 會員中心-外送訂單 */
 class Request_MemDeliveryOrder extends Model_ShareData {
 
 }
 
+/** 會員中心-外送訂單 */
 class Response_MemDeliveryOrder extends Model_ShareData {
+  /** 訂單列表 */
   List_DeliveryOrder: AFP_DeliveryOrder[];
 }
 
+/** 外送訂單 */
 class AFP_DeliveryOrder {
+  /** 合作商編碼 */
   DeliveryOrder_PartnerCode: number;
+  /** 商店編碼 */
   DeliveryOrder_ECStoreCode: number;
+  /** 商店名稱 */
   DeliveryOrder_ECStoreName: number;
+  /** 訂單編號 */
   DeliveryOrder_ExtID: string;
+  /** 生成日期 */
   DeliveryOrder_ExtDate: Date;
+  /** 訂單狀態 */
   DeliveryOrder_ExtState: string;
+  /** 訂單詳細URL */
   DeliveryOrder_URL: string;
 }

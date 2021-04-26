@@ -89,10 +89,14 @@ export class MyPaymentComponent implements OnInit {
 
 }
 
-export class Request_MemberPaySetting extends Model_ShareData {
+/** 會員中心-付款設定 */
+class Request_MemberPaySetting extends Model_ShareData {
+  /** 我的收藏 */
   AFP_UserFavourite?: AFP_UserFavourite;
 }
 
-export interface Response_MemberPaySetting extends Model_ShareData {
+/** 會員中心-付款設定  */
+interface Response_MemberPaySetting extends Model_ShareData {
+  /** 我的收藏 列表 */
   List_UserFavourite: AFP_UserFavourite[];
 }

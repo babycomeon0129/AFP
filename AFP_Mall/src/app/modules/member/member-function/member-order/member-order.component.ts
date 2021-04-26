@@ -33,7 +33,6 @@ export class MemberOrderComponent implements OnInit {
 
   constructor(public appService: AppService, private router: Router, private route: ActivatedRoute,
               private meta: Meta, private title: Title, public memberService: MemberService) {
-    // tslint:disable: max-line-length
     this.title.setTitle('我的訂單 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 我的訂單。這裡會顯示 Mobii! 用戶在 Mobii! 平台上購物的訂單，包括訂單出貨及收貨進度。請先登入註冊以開啟功能。' });
     this.meta.updateTag({ content: '我的訂單 - Mobii!', property: 'og:title' });

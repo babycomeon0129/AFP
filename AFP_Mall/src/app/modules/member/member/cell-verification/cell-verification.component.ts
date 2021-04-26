@@ -122,14 +122,3 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
   }
 
 }
-
-export class Request_MemberBindMobile extends Model_ShareData {
-  SelectMode: number;
-  CountryCode: number;
-  Mobile: string;
-  CertificationCode: string;
-}
-
-export interface Response_MemberBindMobile extends Model_ShareData {
-  Mobile: string;
-}

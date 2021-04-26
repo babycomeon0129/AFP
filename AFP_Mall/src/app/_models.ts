@@ -1576,9 +1576,15 @@ export class AFP_UserPoint {
 export class AFP_Game {
   /** 編碼 */
   Game_Code: number;
-  /** 遊戲類型 */
+  /** 遊戲類型 1: 刮刮樂 2: 大轉盤 */
   Game_Type: number;
-  /** 遊戲類型格數 */
+  /** 遊戲類型格數
+   *
+   * 以下為GetGameType=2使用，並且限制獎品設定數量
+   * 4：4格
+   * 8：8格
+   * 12：12格
+   */
   Game_TypeSpace: number;
   /** 外部名稱 */
   Game_ExtName: string;

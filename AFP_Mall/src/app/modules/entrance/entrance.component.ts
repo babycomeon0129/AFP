@@ -1,5 +1,5 @@
 import { BsModalRef } from 'ngx-bootstrap';
-import { Component, OnInit, KeyValueDiffer, KeyValueDiffers, Renderer2 } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { AppService } from '@app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import {
@@ -249,8 +249,6 @@ export class EntranceComponent implements OnInit {
       this.isMove = false;
     }
   };
-  /** 變化追蹤（登入狀態） */
-  private serviceDiffer: KeyValueDiffer<string, any>;
   /** 關閉下載APP動畫控制 */
   public animationMoveUpOut = false;
   /** 當前所選本月旅遊主打頁籤索引 */
@@ -262,11 +260,8 @@ export class EntranceComponent implements OnInit {
   /** 關閉 justKa 對話框 */
   public closeMsg = false;
 
-  constructor(public appService: AppService, public bsModalRef: BsModalRef, public modal: ModalService, private router: Router,
-    private differs: KeyValueDiffers, private meta: Meta, private title: Title, private cookieService: CookieService,
+  constructor(public appService: AppService, public bsModalRef: BsModalRef, public modal: ModalService, private router: Router, private meta: Meta, private title: Title, private cookieService: CookieService,
     public route: ActivatedRoute, private renderer2: Renderer2) {
-    this.serviceDiffer = this.differs.find({}).create();
-    // tslint:disable: max-line-length
     this.title.setTitle('Mobii!｜綠色城市優惠平台');
     this.meta.updateTag({ name: 'description', content: '使用 Mobii! APP，讓你的移動總是驚喜。乘車、購物、美食、景點、旅行資訊全都包，使用就享點數回饋，每日登入再領 M Points，會員再享獨家彩蛋大禮包。先下載 Mobii APP 看看裡面有什麼好玩的吧？' });
     this.meta.updateTag({ content: 'Mobii!｜綠色城市優惠平台', property: 'og:title' });
@@ -415,8 +410,8 @@ export class EntranceComponent implements OnInit {
    */
   serviceClick(code: number, cat: number, action: boolean): void {
     if (this.editFunction && action) {
-      this.noticeNine = this.ftBottom.length === 9 ? true : false;
-      this.noticeFour = this.ftBottom.length === 4 ? true : false;
+      this.noticeNine = this.ftBottom.length === 9;
+      this.noticeFour = this.ftBottom.length === 4;
       // 判斷被點擊的ICON是否已經在我的服務內
       const result = this.ftBottom.findIndex(item => item.Function_Code === code);
       if (result > -1) {
@@ -511,33 +506,53 @@ export class EntranceComponent implements OnInit {
       }
     };
 
-    switch (mode) {
-      case 1:
-        this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
+    this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
+      switch (mode) {
+        case 1:
           this.popProducts[index].ProductData = data.List_ProductData[0].ProductData;
-        });
-        break;
-      case 2:
-        this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
+          break;
+        case 2:
           this.nowVoucher[index].VoucherData = data.List_Voucher[0].VoucherData;
-        });
-        break;
-      case 3:
-        this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
+          break;
+        case 3:
           this.hitArea[index].ECStoreData = data.List_AreaData[0].ECStoreData;
-        });
-        break;
-      case 4:
-        this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
+          break;
+        case 4:
           this.deliveryArea[index].ECStoreData = data.List_DeliveryData[0].ECStoreData;
-        });
-        break;
-      case 5:
-        this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
+          break;
+        case 5:
           this.hitTravel[index].TravelData = data.List_TravelData[0].TravelData;
-        });
-        break;
-    }
+          break;
+      }
+    });
+
+    // switch (mode) {
+    //   case 1:
+    //     this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
+    //       this.popProducts[index].ProductData = data.List_ProductData[0].ProductData;
+    //     });
+    //     break;
+    //   case 2:
+    //     this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
+    //       this.nowVoucher[index].VoucherData = data.List_Voucher[0].VoucherData;
+    //     });
+    //     break;
+    //   case 3:
+    //     this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
+    //       this.hitArea[index].ECStoreData = data.List_AreaData[0].ECStoreData;
+    //     });
+    //     break;
+    //   case 4:
+    //     this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
+    //       this.deliveryArea[index].ECStoreData = data.List_DeliveryData[0].ECStoreData;
+    //     });
+    //     break;
+    //   case 5:
+    //     this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
+    //       this.hitTravel[index].TravelData = data.List_TravelData[0].TravelData;
+    //     });
+    //     break;
+    // }
   }
 
 
@@ -675,10 +690,13 @@ interface tabParam {
   Id: number;
 }
 
+/** 抓取首頁其他資訊 */
 interface Request_OtherInfo extends Model_ShareData {
+  /** 搜尋Model */
   SearchModel: Search_OtherInfo;
 }
 
+/** 抓取首頁其他資訊的搜尋Model */
 interface Search_OtherInfo {
   /** 目錄編碼 */
   UserDefineCode: number;

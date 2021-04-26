@@ -99,6 +99,7 @@ export class MyProfileComponent implements OnInit {
     this.userCertificate = new AFP_UserFavourite(); // 初始化
     this.isUpload = false; // 初始化
     const request: Request_MemberCertificate = {
+      /** 區別操作(通用) 1:新增 2:刪除 3:編輯 4:查詢列表 5:查詢詳細 */
       SelectMode: 4,
       User_Code: sessionStorage.getItem('userCode'),
       AFP_UserFavourite: {
@@ -203,23 +204,32 @@ export class MyProfileComponent implements OnInit {
 
 }
 
+/** 會員中心-我的證件 - RequestModel */
 class Request_MemberCertificate extends Model_ShareData {
+  /** 我的證件 */
   AFP_UserFavourite: AFP_UserFavourite;
 }
 
+/** 會員中心-我的證件 - ResponseModel */
 class Response_MemberCertificate extends Model_ShareData {
+  /** 我的證件 詳細 */
   AFP_UserFavourite: AFP_UserFavourite;
+  /** 檔案 */
   AFP_FileSettings: AFP_FileSettings;
 }
 
+/** 檔案上傳 ResponseModel */
 class Response_Files extends Model_ShareData {
+  /** 檔案列表 */
   List_FileSettings: AFP_FileSettings[];
 }
 
+/** 前台檔案資訊表 */
 class AFP_FileSettings {
   FileSettings_ID: number;
   /** 檔案類型 1 圖片, 2 影片, 3檔案 */
   FileSettings_Mode: number;
+  /** 檔案名稱 */
   FileSettings_Name: string;
   /** 檔案路徑 */
   FileSettings_File: string;

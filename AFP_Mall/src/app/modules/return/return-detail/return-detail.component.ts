@@ -56,6 +56,9 @@ export class ReturnDetailComponent implements OnInit {
     });
   }
 
+  ngOnInit() {
+  }
+
   /**
    * 客服單Title及下方文字
    *
@@ -151,27 +154,35 @@ export class ReturnDetailComponent implements OnInit {
     );
   }
 
-  ngOnInit() {
-  }
-
 }
 
-export class Request_MemberServices extends Model_ShareData {
+/** 會員中心 - 客服單 Request_Model */
+class Request_MemberServices extends Model_ShareData {
   constructor() {
     super();
     this.AFP_Services = new AFP_Services();
   }
+  /** 客服單 */
   AFP_Services?: AFP_Services;
+  /** 問答訊息 */
   DealInfo_Content?: string;
+  /** 搜尋模組 */
   SearchModel?: {
+    /** 客服單編號 */
     Services_TableNo?: number
   };
 }
 
-export class Response_MemberServices extends Model_ShareData {
+/** 會員中心 - 客服單 Response_Model */
+class Response_MemberServices extends Model_ShareData {
+  /** 客服單 資訊 */
   AFP_Services: AFP_Services;
+  /** 訂單資訊 */
   AFP_MemberOrder: AFP_MemberOrder;
+  /** 訂單 商品資訊 */
   List_ItemInfoPart: AFP_ItemInfoPart[] = [];
+  /** 商家資訊 */
   AFP_ECStore: AFP_ECStore;
+  /** 客服單 單筆對話紀錄 */
   List_DealInfo: AFP_DealInfo[] = [];
 }

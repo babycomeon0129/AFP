@@ -22,7 +22,6 @@ export class MemberTicketComponent implements OnInit {
   public layerTrig = 0;
 
   constructor(public appService: AppService, private router: Router, private meta: Meta, private title: Title) {
-    // tslint:disable: max-line-length
     this.title.setTitle('我的車票 - Mobii!');
     this.meta.updateTag({name : 'description', content: 'Mobii! - 我的車票。這裡你會看到你從 Mobii! APP 裡購買的票券，包括遊樂園、博物館、美術館等門票。'});
     this.meta.updateTag({content: '我的車票 - Mobii!', property: 'og:title'});

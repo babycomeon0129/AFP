@@ -75,21 +75,30 @@ export class Response_MemberProfile extends Model_ShareData {
   UserPoint: number;
 }
 
-// for Home & ThirdBinding
+// 會員中心-社群帳號綁定 - RequestModel
 export class Request_MemberThird extends Model_ShareData {
+  /**  第三方登入類型 1 : Facebook 2 : Line 3 : Google 4 : WeChat */
   Mode?: number;
+  /** 第三方Token */
   Token?: string;
+  /** 回傳JSON */
   JsonData?: string;
 }
 
+/** 會員中心-社群帳號綁定 - ResponseModel */
 export class Response_MemberThird extends Model_ShareData {
+  /** 社群帳號綁定 */
   List_UserThird: AFP_UserThird[];
+  /** 動作是否完成 */
   Done: boolean;
 }
 
-// for MemberService & ThirdBinding
+/** 使用者第三方登入資訊 */
 export class AFP_UserThird {
+  /** 類型 1: Facebook 2: Line 3: Google 4: WeChat 5: Apple */
   UserThird_Mode: number;
+  /** 第三方Token */
   UserThird_Token: string;
+  /** 回傳JSON */
   UserThird_JsonData: string;
 }

@@ -62,6 +62,9 @@ export class ReturnComponent implements OnInit {
     });
   }
 
+  ngOnInit() {
+  }
+
   // 讀取會員儲存地址
   readMemberAddress() {
     const request: Request_MemberAddress = {
@@ -210,8 +213,5 @@ export class ReturnComponent implements OnInit {
     }
   }
 
-
-  ngOnInit() {
-  }
 
 }

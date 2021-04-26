@@ -166,6 +166,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
 
 }
 
+/** 第三方綁定狀態Model */
 class bindStatus {
   fb?: boolean;
   google?: boolean;
