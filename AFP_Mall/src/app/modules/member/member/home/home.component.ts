@@ -117,10 +117,8 @@ export class HomeComponent implements OnInit {
       } else {
         switch (pageCode) {
           case 3:
-            this.appService.isApp !== null ?　this.appShowMemberPage(3) : this.routerForApp(page);
-            break;
           case 4:
-            this.appService.isApp !== null ?　this.appShowMemberPage(4) : this.routerForApp(page);
+            this.appService.isApp !== null ?　this.appShowMemberPage(pageCode) : this.routerForApp(page);
             break;
           default:
             this.routerForApp(page);
