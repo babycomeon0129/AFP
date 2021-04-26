@@ -1,5 +1,5 @@
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit, Input, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Response_Games, Request_Games, AFP_GamePart } from '@app/_models';
 import { ModalService } from '../../../../shared/modal/modal.service';
@@ -14,6 +14,8 @@ import { layerAnimation, layerAnimationUp } from '../../../../animations';
 export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
   /** 遊戲資料（遊戲名稱、類型、格數、上方圖片、規則、遊玩一次所需點數、刮刮樂圖片。每次玩完不更新） */
   @Input() gameData: Response_Games;
+  /** 呼叫父層的noticeAlert方法 (跳出視窗，提醒點數不足或已達遊玩次數上限) */
+  @Output() noticeAlert = new EventEmitter();
   /** 總點數（每玩完一次即更新） */
   public totalPoints: number;
   /** 會員總可玩次數（每玩完一次即更新；須注意為"-1"/不限次數的情況） */
@@ -56,7 +58,6 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     // 若可玩次數 === 0或是所剩點數不夠遊完一次則阻擋使用者繪製動作
     if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
       this.mousedown = false;
-      this.noticeAlert();
     }
     this.w = document.getElementById('top').offsetWidth;
     this.h = document.getElementById('top').offsetHeight;
@@ -64,10 +65,11 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     this.topCanvas = document.querySelector('#top') as HTMLCanvasElement;
     this.topCanvas.width = this.bottomCanvas.width = this.w;
     this.topCanvas.height = this.bottomCanvas.height = this.h;
-    this.ctxBot = this.bottomCanvas.getContext('2d'); // getContext(): to obtain the rendering/drawing context and its drawing functions
+    this.ctxBot = this.bottomCanvas.getContext('2d');
     this.ctxTop = this.topCanvas.getContext('2d');
     this.bottomCanvas.style.backgroundImage = `url(${this.gameData.AFP_Game.Game_ScratchImage})`;
-    // 上下層畫面繪製
+
+    /** 上層畫面繪製 */
     // this.imgTop.src = '../img/mission/scratch-no.png';
     // 為避免canvas CROS問題，設置crossOrigin及在src加上時間戳記
     if (this.gameData.AFP_Game.Game_ScratchItemImage) {
@@ -76,20 +78,9 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.imgTop.src = '../img/mission/scratch-win.png';
     }
-    this.imgTop.onload = () => {
-      this.drawTop();
-    };
-    // this.imgBot.src = this.gameData.AFP_Game.Game_ScratchImage ; // 顯示不出來，用backgroundImage代替
-    this.imgBot.onload = () => {
-      this.drawBot();
-    };
 
-    // APP從M Points或進來則顯示返回鍵
-    if (this.route.snapshot.queryParams.showBack === 'false') {
-      this.showBack = false;
-    } else {
-      this.showBack = true;
-    }
+    /** APP從M Points或進來則顯示返回鍵 */
+    this.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
   /** 刮刮樂底部畫面繪製 */
@@ -104,7 +95,6 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
   drawTop() {
     this.ctxTop.canvas.style.opacity = '1';
     this.ctxTop.drawImage(this.imgTop, 0, 0, this.w, this.h);
-
     // 判斷當前是否為第一次刮開，不是則清除上一次區域
     if (this.ctxTop.globalCompositeOperation !== 'destination-out') {
       this.ctxTop.globalCompositeOperation = 'destination-out';
@@ -114,20 +104,93 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  /** 使用者在畫布的行為偵測
+   * @param eventType 偵測mouse行為(0: start/down, 1: move, 2: end/up)
+   * @param e 點擊事件addEventListener
+   */
+  eventDetect(eventType: number, e) {
+    // 若可玩次數 === 0或是所剩點數不夠遊完一次則阻擋使用者繪製動作
+    if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
+      this.mousedown = false;
+    } else {
+      switch (eventType) {
+        case 0:
+          this.eventDown(e);
+          break;
+        case 1:
+          this.eventMove(e);
+          break;
+        case 2:
+          this.eventUp(e);
+          break;
+      }
+    }
+  }
+  /** 使用者在畫布的行為事件-點擊事件mouseDown行為 */
+  eventDown(ev) {
+    // ev = ev || event;
+    ev.preventDefault();
+    this.mousedown = true;
+  }
+  /** 使用者在畫布的行為事件-點擊事件mouseUp行為 */
+  eventUp(ev) {
+    // ev = ev || event;
+    ev.preventDefault();
+    this.mousedown = false;
+  }
+  /** 使用者在畫布的行為事件-點擊事件mouseMove行為 */
+  eventMove(ev) {
+    // ev = ev || event;
+    ev.preventDefault();
+    if (this.mousedown) {
+      if (ev.changedTouches) {
+        ev = ev.changedTouches[ev.changedTouches.length - 1];
+      }
+
+      /** 筆刷大小設定
+       * canvas自適應寬度尺寸分別有(800, 500, 390, 300)
+       */
+      let size = 0;
+      (this.w === 800) ? size = 40 : (this.w === 500) ? size = 30 : (this.w === 390) ? size = 24 : size = 18;
+
+      /** 滑鼠位址偏移設定
+       * 增加變數(offsetSizeX, offsetSizeY)，處理刮開時位移之增減值
+       * canvas自適應寬度尺寸分別有(800, 500, 390, 300)
+       */
+      let offsetSizeX = 0;
+      let offsetSizeY = 0;
+      (this.w === 800) ? offsetSizeX = this.topCanvas.offsetLeft :
+        (this.w === 500) ? offsetSizeX = this.topCanvas.offsetLeft * 0.8 : offsetSizeX = 0;
+      (this.w === 800) ? offsetSizeY = -120 : (this.w === 500) ? offsetSizeY = 5 :
+        (this.w === 390) ? offsetSizeY = 50 : offsetSizeY = 75;
+
+      const x = ev.pageX - this.topCanvas.offsetLeft - offsetSizeX;
+      const y = ev.pageY - this.topCanvas.offsetHeight - offsetSizeY;
+
+      this.ctxTop.beginPath();
+      this.ctxTop.moveTo(x, y);
+      this.ctxTop.arc(x, y, size, 0, Math.PI * 2);
+      this.ctxTop.closePath();
+      this.ctxTop.fill();
+      this.alertInfo();
+    }
+  }
+
   /** 開獎結果 */
   alertInfo() {
     // this.gameData.AFP_Game.Game_PlayCount -1 為次數無限制
     if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
-      this.noticeAlert();
+      this.noticeAlert.emit();
     } else {
       const ctxTopData = this.ctxTop.getImageData(0, 0, this.w, this.h).data;
-      let n = 0; // 已刮開的面積比例
-      for (const i of ctxTopData) {
+      // 已刮開的面積比例
+      let n = 0;
+      // 原先為for...of寫法，因語法太新，無法計算沒有透明區域圖片的刮開面積，故改為for迴圈寫法
+      for (let i = ctxTopData.length; i--;) {
         if (ctxTopData[i] === 0) {
           n++;
         }
       }
-      // 判斷刮開區域大於50%時
       if (n >= ctxTopData.length * 0.5) {
         // 先阻止使用者繪製行為，以避免n繼續加乘並觸發多次API
         this.mousedown = false;
@@ -160,55 +223,7 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.drawBot(); // imgBot沒有設src，iOS會報錯，而實際底層的圖是用bottomCanvas的background-image了，也不需要再繪圖一次
     this.drawTop();
     if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
-      this.noticeAlert();
-    }
-  }
-
-  /** 使用者在畫布的行為偵測（0: start/down, 1: move, 2: end/up） */
-  eventDetect(eventType: number, e) {
-    // 若可玩次數 === 0或是所剩點數不夠遊完一次則阻擋使用者繪製動作
-    if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
-      this.mousedown = false;
-    } else {
-      switch (eventType) {
-        case 0:
-          this.eventDown(e);
-          break;
-        case 1:
-          this.eventMove(e);
-          break;
-        case 2:
-          this.eventUp(e);
-          break;
-      }
-    }
-  }
-
-  eventDown(ev) {
-    // ev = ev || event;
-    ev.preventDefault();
-    this.mousedown = true;
-  }
-
-  eventUp(ev) {
-    // ev = ev || event;
-    ev.preventDefault();
-    this.mousedown = false;
-  }
-
-  eventMove(ev) {
-    // ev = ev || event;
-    ev.preventDefault();
-    if (this.mousedown) {
-      if (ev.changedTouches) {
-        ev = ev.changedTouches[ev.changedTouches.length - 1];
-      }
-      const x = ev.pageX - this.topCanvas.offsetLeft;
-      const y = ev.pageY - this.topCanvas.offsetTop;
-      this.ctxTop.beginPath();
-      this.ctxTop.arc(x, y, 18, 0, Math.PI * 2);
-      this.ctxTop.fill();
-      this.alertInfo();
+      this.noticeAlert.emit();
     }
   }
 
@@ -238,18 +253,16 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  /** 您的點數已不足或是遊玩次數已達上限的提示視窗  */
-  noticeAlert() {
-    const initialState = {
-      success: true,
-      type: 1,
-      message: `<div class="no-data no-transform"><img src="../../../../../img/shopping/payment-failure.png"><p>Oops！你的點數不足或已達遊玩次數上限囉！</p></div>`
-    };
-    this.modal.show('message', { initialState });
-  }
-
   ngAfterViewInit() {
-    // 鼠標移動開始刮圖層
+    /** 刮刮樂畫面繪製 */
+    this.imgTop.onload = () => {
+      this.drawTop();
+    };
+    this.imgBot.onload = () => {
+      this.drawBot();
+    };
+
+    /** 鼠標移動開始刮圖層 */
     this.topCanvas.addEventListener('touchstart', (e) => { this.eventDetect(0, e); });
     this.topCanvas.addEventListener('touchend', (e) => { this.eventDetect(2, e); });
     this.topCanvas.addEventListener('touchmove', (e) => { this.eventDetect(1, e); });
@@ -258,6 +271,7 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     this.topCanvas.addEventListener('mousemove', (e) => { this.eventDetect(1, e); });
   }
 
+  /** 結束偵聽 */
   ngOnDestroy() {
     this.topCanvas.removeEventListener('touchstart', (e) => { });
     this.topCanvas.removeEventListener('touchend', (e) => { });

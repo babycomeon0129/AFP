@@ -544,19 +544,27 @@ export class ETicketOrderComponent implements OnInit {
 
 }
 
-export interface Request_GetTCheckout extends Model_ShareData {
+/** 取得電子票卷結帳所需資訊 */
+interface Request_GetTCheckout extends Model_ShareData {
+  /** 購物車資訊 */
   List_Cart: AFP_Cart[];
 }
 
-export interface Response_GetTCheckout extends Model_ShareData {
+/** 取得電子票卷結帳所需資訊 Response */
+interface Response_GetTCheckout extends Model_ShareData {
+  /** 結帳商家 */
   List_ECStore: AFP_ECStore[];
+  /** 結帳商品 */
   List_Cart: AFP_Cart[];
+  /** 姓名 */
   UserInfo_Name: string;
+  /** Email */
   UserProfile_Email: string;
+  /** 電話 */
   UserProfile_Mobile: string;
 }
 
-export class OrderInfo {
+class OrderInfo {
   constructor() {
     this.stores = [];
     this.platform = new OrderPlatform();
@@ -588,17 +596,6 @@ export class OrderInfo {
   preInvoice: OrderInvoice;
   /** 已確認的發票資訊 */
   invoice: OrderInvoice;
-}
-
-export class Request_CreateOrder extends Model_ShareData {
-  List_Order: AFP_Order[];
-  List_UserVoucher: AFP_UserVoucher[];
-  List_Cart: AFP_Cart[];
-}
-
-export class Response_CreateOrder extends Model_ShareData {
-  OrderNo: string;
-  UserVoucher_ID?: number;
 }
 
 export interface Request_CreateTOrder extends Model_ShareData {

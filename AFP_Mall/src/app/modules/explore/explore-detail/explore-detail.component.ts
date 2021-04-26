@@ -1,9 +1,6 @@
-import { Component, ViewChild, OnInit, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
+import { Component, ViewChild, OnInit, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
 import { AppService } from '@app/app.service';
-import {
-  Response_AreaDetail, AFP_ECStore, Request_AreaDetail, AFP_Voucher, AFP_Product,
-  Request_MemberUserVoucher, Response_MemberUserVoucher, AFP_ECStoreExtType
-} from '@app/_models';
+import { Response_AreaDetail, AFP_ECStore, Model_ShareData, AFP_Voucher, AFP_Product, AFP_ECStoreExtType } from '@app/_models';
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'ngx-useful-swiper';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -19,7 +16,7 @@ import { layerAnimation } from '@app/animations';
     '../../../../styles/layer/shopping-footer.scss'],
   animations: [layerAnimation]
 })
-export class ExploreDetailComponent implements OnInit, DoCheck {
+export class ExploreDetailComponent implements OnInit {
   @ViewChild('kvSwiper', { static: false }) kvSwiper: SwiperComponent;
 
   /** 商家/景點詳細編碼 */
@@ -76,13 +73,6 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
     this.serviceDiffer = this.differs.find({}).create();
     // 取得商家/景點編碼
     this.siteCode = Number(this.route.snapshot.params.ECStore_Code);
-    // APP從會員中心進來則隱藏返回鍵
-    // if (this.route.snapshot.queryParams.showBack === 'true') {
-    //   this.showBack = true;
-    // }
-    this.route.queryParams.subscribe(params => {
-       this.showBack = params.showBack;
-    });
   }
 
   ngOnInit() {
@@ -90,9 +80,10 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
 
     // 從外部進來指定分頁
     this.route.queryParams.subscribe(params => {
+      // APP從會員中心進來則隱藏返回鍵
+      this.showBack = params.showBack;
       if (typeof params.navNo !== 'undefined') {
         this.tabNo = parseInt(params.navNo, 10);
-        this.showBack = params.showBack;
         if (this.tabNo > 1 && this.tabNo <= 3) {
           this.readTabData(this.tabNo);
         }
@@ -231,21 +222,26 @@ export class ExploreDetailComponent implements OnInit, DoCheck {
     }
   }
 
-  ngDoCheck(): void {
-    const change = this.serviceDiffer.diff(this.appService);
-    if (change) {
-      change.forEachChangedItem(item => {
-        // 若在此頁的優惠券分頁登入則更新優惠券資料
-        if (item.key === 'loginState' && item.currentValue === true && this.tabNo === 2) {
-          this.readTabData(2);
-        }
-      });
-    }
-  }
-
 }
 
+/** 顯示網站資訊 */
 interface siteObj {
+  /** 店家詳細頁的網站名稱 */
   siteName: string;
+  /** 店家詳細頁的網站連結 */
   siteUrl: string;
+}
+
+/** 周邊探索 - 詳細 Request */
+interface Request_AreaDetail extends Model_ShareData {
+  /** 搜尋Model */
+  SearchModel: Search_AreaDetail;
+}
+
+/** 搜尋Model */
+interface Search_AreaDetail {
+  /** 電商編碼 */
+  ECStore_Code: number;
+  /** 書籤Index  1:商家介紹  2: 優惠卷 3: 線上商城 */
+  TabIndex: number;
 }

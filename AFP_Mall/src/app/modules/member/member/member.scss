@@ -363,7 +363,7 @@ ul{
           border-bottom: 0px;
       }
   }
-  #sexSelect{
+  .sexSelect{
       float: right;
       text-align-last: right;
       width: 50%;
@@ -371,6 +371,20 @@ ul{
       option{
           color: $blue-dark;
       }
+  }
+  // 表格紅色提示 (文字 & placeholder)
+  .warning-red {
+    color: red;
+    &::placeholder {
+      color: red;
+      opacity: 1; /* Firefox */
+    }
+    &:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: red;
+    }
+    &::-ms-input-placeholder { /* Microsoft Edge */
+    color: red;
+    }
   }
 }
 

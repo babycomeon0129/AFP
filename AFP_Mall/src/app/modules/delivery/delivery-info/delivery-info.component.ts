@@ -118,32 +118,51 @@ export class DeliveryInfoComponent implements OnInit {
 
 }
 
-/** 外送單MODEL */
+/** 外送-會員資料確認頁 */
 class Request_DeliveryCfm extends Model_ShareData {
+  /** 操作。 1:讀取參數 (進入頁面呼叫)  2:送出  */
   SelectMode: number;
+  /** 外送-會員確認頁表單(SelectMode=2使用) */
   Model_DeliveryForm: AFP_DeliveryForm;
+  /** 搜尋Model */
   SearchModel: Search_DeliveryCfm;
 }
 
+/** 外送-會員確認頁表單 */
 class AFP_DeliveryForm {
+  /** 資料ID */
   RecID: number;
+  /** 收件人姓名 */
   RecName: string;
+  /** 收件人Email */
   RecEmail: string;
+  /** 收件人手機號碼 */
   RecMobile: string;
+  /** 收件人地址城市Key */
   RecCityKey: number;
+  /** 收件人地址行政區Key */
   RecCityAreaKey: number;
+  /** 收件人地址城市Value */
   RecCityValue: string;
+  /** 收件人地址行政區Value */
   RecCityAreaValue: string;
+  /** 收件人地址 */
   RecAddress: string;
 }
 
+/** 搜尋Model */
 interface Search_DeliveryCfm {
+  /** 電商編碼 (都要傳) */
   ECStore_Code: number;
 }
 
+/** 外送-會員資料確認頁 */
 class Response_DeliveryCfm extends Model_ShareData {
+  /** 外送-會員資料(SelectMode=1使用) */
   Model_DeliveryForm: AFP_DeliveryForm;
+  /** 自定義參數 (地址,(SelectMode=1使用)) */
   List_UserReport: AFP_UserReport[];
+  /** 下一步送出的URL */
   SendURL: string;
 }
 

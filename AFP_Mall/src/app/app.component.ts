@@ -1,14 +1,12 @@
 import { environment } from '@env/environment';
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Component, KeyValueDiffer, KeyValueDiffers, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, ResolveEnd } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from './shared/modal/modal.service';
 import { CookieService } from 'ngx-cookie-service';
 import { RouterOutlet } from '@angular/router';
 import { slideInAnimation } from './animations';
 import { filter } from 'rxjs/operators';
-
-declare var AppJSInterface: any;
 
 @Component({
   // tslint:disable-next-line
@@ -23,12 +21,16 @@ export class AppComponent implements OnInit {
   public targetToUpdate: string;
   /** 是否顯示過舊提示 */
   public showOldHint = true;
+  /** 變化追蹤（登入狀態） */
+  private serviceDiffer: KeyValueDiffer<string, any>;
 
   constructor(private router: Router, public appService: AppService, private activatedRoute: ActivatedRoute, public modal: ModalService,
-              private cookieService: CookieService) {
+              private cookieService: CookieService, private differs: KeyValueDiffers) {
+    this.serviceDiffer = this.differs.find({}).create();
     if (sessionStorage.getItem('CustomerInfo') !== null && sessionStorage.getItem('userCode') !== null
       && sessionStorage.getItem('userName') !== null) {
       this.appService.loginState = true;
+      this.appService.userName = sessionStorage.getItem('userName');
     }
 
     // App訪問
@@ -83,10 +85,15 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.router.events.pipe(filter(event => event instanceof NavigationEnd))
-                      .subscribe(evt => {
+    // 當路由器成功完成路由的解析階段時，先通知app將footer關閉(開啟則靠app-mobile-footer通知開啟)
+    this.router.events.pipe(filter(event => event instanceof ResolveEnd ))
+                      .subscribe((event: ResolveEnd ) => {
                                     window.scrollTo(0, 0);
                                     this.appService.appShowMobileFooter(false);
+                                    // 取得前一頁面url
+                                    this.appService.prevUrl = this.appService.currentUrl;
+                                    this.appService.currentUrl = event.url;
+                                    this.appService.verifyMobileModalOpened = false;
                                   });
     this.detectOld();
     this.appService.initPush();
@@ -165,6 +172,27 @@ export class AppComponent implements OnInit {
     } else {
       this.isOld = false;
       this.appService.adIndexOpen = true;
+    }
+  }
+
+  ngDoCheck(): void {
+    const change = this.serviceDiffer.diff(this.appService);
+    if (change) {
+      change.forEachChangedItem(item => {
+        if (item.key === 'loginState' && item.currentValue && this.appService.userLoggedIn) {
+          // 登入時重新訪問目前頁面以讀取會員相關資料
+          this.router.routeReuseStrategy.shouldReuseRoute = () => false; // 判斷是否同一路由
+          this.router.onSameUrlNavigation = 'reload';
+          let url = this.appService.currentUrl;
+          if (url.includes('?')) {
+            // 若url原有參數則帶著前往
+            url = url.split('?')[0];
+            this.router.navigate([url], {queryParams: this.activatedRoute.snapshot.queryParams});
+          } else {
+            this.router.navigate([url]);
+          }
+        }
+      });
     }
   }
 

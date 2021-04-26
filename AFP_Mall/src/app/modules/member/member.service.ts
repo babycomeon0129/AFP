@@ -32,8 +32,10 @@ export class MemberService {
     return new Promise(resolve => {
       this.appService.toApi('Member', '1502', request).subscribe((data: Response_MemberProfile) => {
         this.userProfile = data;
+        this.appService.userName = this.userProfile.User_NickName;
+        // 解決ngx-bootstrap 套件日期減一天問題
         if (this.userProfile.UserProfile_Birthday !== null) {
-          this.userProfile.UserProfile_Birthday = new Date(this.userProfile.UserProfile_Birthday); // 解決ngx-bootstrap 套件日期減一天問題
+          this.userProfile.UserProfile_Birthday = new Date(this.userProfile.UserProfile_Birthday);
         }
         resolve(true);
       });

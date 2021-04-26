@@ -1,19 +1,18 @@
-import { ModalOptions, BsModalRef } from 'ngx-bootstrap';
-import { Component, OnInit, DoCheck, KeyValueDiffer, KeyValueDiffers, Renderer2, Input } from '@angular/core';
+import { BsModalRef } from 'ngx-bootstrap';
+import { Component, OnInit, KeyValueDiffer, KeyValueDiffers, Renderer2 } from '@angular/core';
 import { AppService } from '@app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import {
   Response_Home, AFP_ADImg, Model_AreaJsonFile, AFP_Function, Model_TravelJsonFile,
-  Model_ShareData, Model_MemberProfile, AFP_UserFavourite, Request_Home, AFP_ChannelProduct,
-  AFP_ChannelVoucher, Request_OtherInfo
-} from '@app/_models';
+  Model_ShareData, AFP_UserFavourite, Request_Home, AFP_ChannelProduct,
+  AFP_ChannelVoucher} from '@app/_models';
 import { SwiperOptions } from 'swiper';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '@env/environment';
 import { Meta, Title } from '@angular/platform-browser';
 import { SortablejsOptions } from 'ngx-sortablejs';
-import { layerAnimation } from '../../animations';
+import { layerAnimation } from '@app/animations';
 
 declare var $: any;
 
@@ -22,8 +21,7 @@ declare var $: any;
   styleUrls: ['./entrance.scss', '../travel/travel.scss'],
   animations: [layerAnimation]
 })
-export class EntranceComponent implements OnInit, DoCheck {
-  public userProfile: Model_MemberProfile = new Model_MemberProfile();
+export class EntranceComponent implements OnInit {
 
   /** 進場廣告swiper */
   public adIndexOption = {
@@ -217,8 +215,6 @@ export class EntranceComponent implements OnInit, DoCheck {
   public noticeFour = false;
   /** 我的服務-數量提醒最多9個 */
   public noticeNine = false;
-  /** 使用者暱稱 */
-  public userName: string;
   /** 特賣商品 */
   public popProducts: AFP_ChannelProduct[] = [];
   /** 使用者擁有點數 */
@@ -282,51 +278,36 @@ export class EntranceComponent implements OnInit, DoCheck {
     // this.route.data.subscribe((data: { homeData: Response_Home }) => {
     //   // 接資料
     // });
-    this.readUp(1);
+    this.readUp();
     this.getHomeservice();
     this.readDown();
-
-    // this.readHome(1);
-    // this.getHomeservice();
     // 若有登入則顯示名字、M Points及優惠券資訊（手機版）、我的收藏
     if (this.appService.loginState) {
-      this.userName = sessionStorage.getItem('userName');
       this.appService.showFavorites();
     }
   }
 
-  /** 讀取首頁上方資料（皆為廣告及會員資料，我的服務除外）
-   * @param mode 讀取時機 1: 進入此頁 2: 在此頁登入時
-   */
-  readUp(mode: number) {
+  /** 讀取首頁上方資料（皆為廣告及會員資料，我的服務除外） */
+  readUp() {
     const request: Request_Home = {
       User_Code: sessionStorage.getItem('userCode')
     };
     this.appService.openBlock();
     this.appService.toApi('Home', '1021', request).subscribe((data: Response_Home) => {
-      switch (mode) {
-        case 1:
-          // 會員資訊
-          this.userPoint = data.TotalPoint;
-          this.userVoucherCount = data.VoucherCount;
-          // 廣告
-          this.adTop = data.ADImg_Top;
-          this.adMid4 = data.ADImg_Activity;
-          this.adMid = data.ADImg_Theme;
-          this.adIndex = data.ADImg_Approach;
-          // 進場廣告只有一張廣告圖時不輪播
-          if (this.adIndex.length === 1) {
-            this.adIndexOption.loop = false;
-          }
-          this.adIndexChenck();
-          break;
-        case 2:
-          // 會員資訊
-          this.userName = sessionStorage.getItem('userName');
-          this.userPoint = data.TotalPoint;
-          this.userVoucherCount = data.VoucherCount;
-          break;
+      // 會員資訊
+      // this.appService.userName = sessionStorage.getItem('userName');
+      this.userPoint = data.TotalPoint;
+      this.userVoucherCount = data.VoucherCount;
+      // 廣告
+      this.adTop = data.ADImg_Top;
+      this.adMid4 = data.ADImg_Activity;
+      this.adMid = data.ADImg_Theme;
+      this.adIndex = data.ADImg_Approach;
+      // 進場廣告只有一張廣告圖時不輪播
+      if (this.adIndex.length === 1) {
+        this.adIndexOption.loop = false;
       }
+      this.adIndexChenck();
     });
   }
 
@@ -337,7 +318,6 @@ export class EntranceComponent implements OnInit, DoCheck {
       SearchModel: {
         IndexArea_Code: 100001,
         IndexTravel_Code: 21001,
-        UserInfo_Code: null,
         IndexChannel_Code: 10000001,
         IndexDelivery_Code: 300001
       }
@@ -351,49 +331,6 @@ export class EntranceComponent implements OnInit, DoCheck {
       this.nowVoucher = data.List_Voucher;
     });
   }
-
-  /** 讀取首頁資料（目前未使用，以拆分過的readUp及readDown取代）
-   * @param mode 讀取時機 1: 進入此頁 2: 在此頁登入時
-   */
-  // readHome(mode: number): void {
-  //   const request: Request_Home = {
-  //     User_Code: sessionStorage.getItem('userCode'),
-  //     SearchModel: {
-  //       IndexArea_Code: 100001,
-  //       IndexTravel_Code: 21001,
-  //       UserInfo_Code: null,
-  //       IndexChannel_Code: 10000001,
-  //       IndexDelivery_Code: 300001
-  //     }
-  //   };
-  //   this.appService.openBlock();
-  //   this.appService.toApi('Home', '1011', request).subscribe((data: Response_Home) => {
-  //     switch (mode) {
-  //       case 1:
-  //         this.adTop = data.ADImg_Top;
-  //         this.adMid4 = data.ADImg_Activity;
-  //         this.adMid = data.ADImg_Theme;
-  //         this.hitArea = data.List_AreaData;
-  //         this.hitTravel = data.List_TravelData;
-  //         this.popProducts = data.List_ProductData;
-  //         this.userPoint = data.TotalPoint;
-  //         this.userVoucherCount = data.VoucherCount;
-  //         this.deliveryArea = data.List_DeliveryData;
-  //         this.nowVoucher = data.List_Voucher;
-  //         this.adIndex = data.ADImg_Approach;
-  //         // 只有一張廣告圖時不輪播
-  //         if (this.adIndex.length === 1) {
-  //           this.adIndexOption.loop = false;
-  //         }
-  //         break;
-  //       case 2:
-  //         this.userName = sessionStorage.getItem('userName');
-  //         this.userPoint = data.TotalPoint;
-  //         this.userVoucherCount = data.VoucherCount;
-  //         break;
-  //     }
-  //   });
-  // }
 
   /** 判斷首頁進場廣告開啟 */
   adIndexChenck(): void {
@@ -438,6 +375,7 @@ export class EntranceComponent implements OnInit, DoCheck {
     this.appService.openBlock();
     const request: Request_AFPUserService = {
       User_Code: sessionStorage.getItem('userCode'),
+      // SelectMode 1 : 首頁 10 : 我的服務
       SelectMode: 1
     };
 
@@ -677,48 +615,73 @@ export class EntranceComponent implements OnInit, DoCheck {
     }
   }
 
-  ngDoCheck(): void {
-    const change = this.serviceDiffer.diff(this.appService);
-    if (change) {
-      change.forEachChangedItem(item => {
-        if (item.key === 'loginState' && item.currentValue === true) {
-          // 在此頁登入則更新使用者暱稱、點數、優惠券、我的服務
-          // this.readHome(2);
-          this.readUp(2);
-        }
-      });
-    }
-  }
 }
 
+/** 使用者服務 ResponseModel */
 class Response_AFPUserService extends Model_ShareData {
+  /** 使用者服務 - 舊版 */
   Model_Function: AFP_Function[];
+  /** 使用者收藏 - 舊版 */
   Model_UserFunction?: AFP_Function[];
+  /**使用者服務 - 新版
+   *
+   * 0: 系統服務
+   * 1: 我的服務
+   * 2+: 後台建置
+   */
   List_NewFunction?: AFP_NewFunction[];
 }
 
+/** 使用者服務 RequestModel */
 class Request_AFPUserService extends Model_ShareData {
-  Model_UserFavourite?: AFP_UserFavourite[];
 }
 
+/** 使用者服務管理-新版 */
 class AFP_NewFunction {
+  /** 類別名稱 */
   CategaryName: string;
+  /** 使用者服務 - 新版
+   *
+   * 0: 系統服務
+   * 1: 我的服務
+   * 2+: 後台建置 */
   CategaryCode: number;
+  /** 使用者服務 */
   Model_Function: AFP_Function[];
 }
 
+/** 使用者服務 RequestModel */
 class Request_AFPUpdateUserService extends Model_ShareData {
+  /** 使用者收藏 - 舊版 */
   Model_UserFavourite: AFP_UserFavourite[];
+  /** 使用者收藏 - 新版 */
   Model_UserFunction: number[];
 }
 
+/** 使用者服務 ResponseModel */
 class Response_AFPUpdateUserService extends Model_ShareData {
 
 }
 
+/** 取得swiper-nav output Param（點擊時） */
 interface tabParam {
+  /** SelectMode  1: 特賣商品 2: 現領優惠券 3: 主打店家 4: 外送店家 5: 旅遊主打 */
   Mode: number;
+  /** 索引 */
   Idx: number;
+  /** 目錄編碼 */
   Code: number;
+  /** 頻道編號 */
   Id: number;
+}
+
+interface Request_OtherInfo extends Model_ShareData {
+  SearchModel: Search_OtherInfo;
+}
+
+interface Search_OtherInfo {
+  /** 目錄編碼 */
+  UserDefineCode: number;
+  /** 商品頻道編號 */
+  IndexChannel_Code?: number;
 }

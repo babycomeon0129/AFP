@@ -1,4 +1,4 @@
-import { Component, OnInit, DoCheck, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
+import { Component, OnInit, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { AFP_ChannelVoucher, AFP_ADImg, Request_ECVoucher, Response_ECVoucher } from '@app/_models';
 import { SwiperOptions } from 'swiper';
@@ -10,7 +10,7 @@ import { Meta, Title } from '@angular/platform-browser';
   templateUrl: './shopping-offers.component.html',
   styleUrls: ['./shopping-offers.scss']
 })
-export class ShoppingOffersComponent implements OnInit, DoCheck {
+export class ShoppingOffersComponent implements OnInit {
   /** 購物車內商品數 */
   public cartCount: number;
   /** 置頂圖片 */
@@ -53,18 +53,6 @@ export class ShoppingOffersComponent implements OnInit, DoCheck {
       this.voucherList = data.List_Voucher;
       this.coverImg = data.List_ADImg;
     });
-  }
-
-  ngDoCheck() {
-    const change = this.serviceDiffer.diff(this.appService);
-    if (change) {
-      change.forEachChangedItem(item => {
-        if (item.key === 'loginState' && item.currentValue === true) {
-          // 在此頁登入則更新優惠券資料
-          this.readData();
-        }
-      });
-    }
   }
 
 }

@@ -17,7 +17,6 @@ export class EntranceResolver implements Resolve<Response_Home> {
       SearchModel: {
         IndexArea_Code: 100001,
         IndexTravel_Code: 21001,
-        UserInfo_Code: null,
         IndexChannel_Code: 10000001,
         IndexDelivery_Code: 300001
       }

@@ -1,4 +1,4 @@
-import { Component, OnInit, DoCheck, KeyValueDiffer, KeyValueDiffers, HostListener } from '@angular/core';
+import { Component, OnInit, KeyValueDiffer, KeyValueDiffers, HostListener } from '@angular/core';
 import { AppService } from '@app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Response_ECHome, AFP_ADImg, AFP_Function, AFP_ChannelProduct, AFP_Product, AFP_ChannelVoucher,
@@ -12,8 +12,7 @@ import { Meta, Title } from '@angular/platform-browser';
   templateUrl: './shopping.component.html',
   styleUrls: ['./shopping.scss']
 })
-export class ShoppingComponent implements OnInit, DoCheck {
-  public userName: string;
+export class ShoppingComponent implements OnInit {
   /** 目前頁數 */
   public currentPage = 1;
   /** 總頁數 */
@@ -58,7 +57,7 @@ export class ShoppingComponent implements OnInit, DoCheck {
   /** 活動廣告(中間) swiper */
   public shoppingAd: SwiperOptions = {
     scrollbar: {
-      el: '.shopping-ad .swiper-scrollbar',
+      el: '.shopping-banner .swiper-scrollbar',
       hide: true,
     }
   };
@@ -98,10 +97,6 @@ export class ShoppingComponent implements OnInit, DoCheck {
   ngOnInit() {
     this.appService.openBlock();
     this.readData(1);
-    // 若有登入則顯示名字
-    if (this.appService.loginState) {
-      this.userName = sessionStorage.getItem('userName');
-    }
   }
 
   /** 讀取資料
@@ -142,22 +137,6 @@ export class ShoppingComponent implements OnInit, DoCheck {
           break;
       }
     });
-  }
-
-  ngDoCheck(): void {
-    const change = this.serviceDiffer.diff(this.appService);
-    if (change) {
-      change.forEachChangedItem(item => {
-        if (item.key === 'loginState' && item.currentValue === true) {
-          this.userName = sessionStorage.getItem('userName');
-
-          // 更新優惠券顯示資料
-          this.appService.openBlock();
-          this.readData(2);
-
-        }
-      });
-    }
   }
 
   /** 近期熱門商品瀑布流 */

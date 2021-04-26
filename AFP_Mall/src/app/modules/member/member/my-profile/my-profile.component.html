@@ -8,12 +8,13 @@
             <i class="material-icons">&#xe314;</i>
           </button>
           <button *ngIf="editMode" class="btn clear-btn d-block"
-            (click)="editMode = false; memberService.readProfileData();">取消</button>
+            (click)="memberService.readProfileData(); editMode = false; formProfile.resetForm()">取消</button>
         </div>
         <div class="item title-name">我的檔案</div>
         <div class="item ctrl-btn">
-          <button class="btn submit-btn d-block" *ngIf="editMode"
-            (click)="formProfile.form.valid && onProfileSubmit(formProfile); editMode = false">確定</button>
+          <!-- 提交鍵在form外時這樣呼叫：formProfile.ngSubmit。
+            需在按鈕上用 'form' 屬性指定form，<form> 上則需用 'id' 屬性給定名稱，否則按鈕無法成功呼叫到它的 ngSubmit 方法。 -->
+          <button *ngIf="editMode" (click)="formProfile.ngSubmit" form="formProfile" class="btn submit-btn d-block">確定</button>
           <button class="btn d-block" *ngIf="!editMode" (click)="editMode = true">編輯</button>
         </div>
       </div>
@@ -21,7 +22,7 @@
         <div class="my-info-box p-3">
           <div class="info-box info-img mr-0">
             <div class="info-item">
-              <img src="https://picsum.photos/300/300/?random=1">
+              <img src="https://picsum.photos/300/300?random=1">
             </div>
           </div>
           <div class="info-box info-email">
@@ -30,7 +31,7 @@
         </div>
         <div class="my-list-box">
           <ul>
-            <form #formProfile="ngForm" (ngSubmit)="formProfile.form.valid && onProfileSubmit(formProfile)">
+            <form #formProfile="ngForm" id="formProfile" (ngSubmit)="formProfile.form.valid && onProfileSubmit(formProfile)">
               <li>
                 <div class="item">帳號</div>
                 <div class="item input-box">
@@ -41,7 +42,7 @@
                 <div class="item">姓名</div>
                 <div class="item input-box">
                   <input type="text" name="UserName" [placeholder]="editMode=== true? '請輸入' : ''" #UserName="ngModel"
-                    [(ngModel)]="memberService.userProfile.UserProfile_Name" [readOnly]="editMode === false">
+                    [(ngModel)]="memberService.userProfile.UserProfile_Name" [readOnly]="!editMode">
                 </div>
               </li>
               <li>
@@ -49,11 +50,11 @@
                 <div class="item input-box">
                   <input type="text" name="UserNickname" [placeholder]="editMode=== true? '請輸入' : ''"
                     #UserNickname="ngModel" [(ngModel)]="memberService.userProfile.User_NickName" maxlength="10"
-                    [readOnly]="editMode === false">
+                    [readOnly]="!editMode">
                 </div>
               </li>
               <li>
-                <div class="item">生日</div>
+                <div class="item">生日<span *ngIf="editMode" class="text-org">*</span></div>
                 <div class="item input-box">
                   <div class="input-group">
                     <input id="bdayinput" #UserBirth="ngModel" name="UserBirth"
@@ -63,9 +64,10 @@
                       [isDisabled]="!editMode || (UserBirth.pristine && memberService.userProfile?.UserProfile_Birthday !== null)"
                       bsDatepicker #dp="bsDatepicker"
                       [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD', containerClass: 'theme-orange' }" [maxDate]="today"
-                      [ngClass]="{'text-secondary': UserBirth.pristine && memberService.userProfile?.UserProfile_Birthday !== null}"
-                      type="text" placeholder="Datepicker" class="form-control"
-                      [placeholder]="editMode=== true? 'YYYY/MM/DD（設定後無法更改）' : ''" triggers="dblclick:click">
+                      [ngClass]="{'text-secondary': UserBirth.pristine && memberService.userProfile?.UserProfile_Birthday !== null,
+                                  'warning-red': editMode && formProfile.submitted && UserBirth.invalid}"
+                      type="text" placeholder="Datepicker" class="form-control" required
+                      [placeholder]="editMode? 'YYYY/MM/DD（設定後無法更改）' : ''" triggers="dblclick:click">
                     <div (click)="dp.toggle()" [attr.aria-expanded]="dp.isOpen"
                       [hidden]="!editMode || UserBirth.pristine && memberService.userProfile?.UserProfile_Birthday !== null"
                       class="input-group-append ml-2 icon-birth">
@@ -76,10 +78,11 @@
                 <small *ngIf="UserBirth.value > today" class="text-danger px-4">生日不可設在未來</small>
               </li>
               <li>
-                <div class="item">性別</div>
+                <div class="item">性別<span *ngIf="editMode" class="text-org">*</span></div>
                 <div class="item input-box div-switch" [ngClass]="{'d-none': !editMode}">
-                  <select class="form-control" id="sexSelect" name="UserSex" #UserSex="ngModel"
-                    [(ngModel)]="memberService.userProfile.UserProfile_Sex">
+                  <select class="form-control sexSelect" name="UserSex" #UserSex="ngModel"
+                    [(ngModel)]="memberService.userProfile.UserProfile_Sex" required
+                    [ngClass]="{'warning-red': editMode && formProfile.submitted && UserSex.invalid}">
                     <option value="null" hidden disabled>請選擇</option>
                     <option value="1">男</option>
                     <option value="2">女</option>
@@ -92,7 +95,8 @@
               <li>
                 <div class="item">手機號碼</div>
                 <div class="item input-box">
-                  <input *ngIf="memberService.userProfile?.UserProfile_Mobile !== null" type="tel" name="UserMobile"
+                  <input type="tel" name="UserMobile"
+                    *ngIf="memberService.userProfile?.UserProfile_Mobile !== null"
                     #UserMobile="ngModel" [(ngModel)]="memberService.userProfile.UserProfile_Mobile"
                     placeholder="請至「手機驗證」新增" class="text-secondary" readOnly>
                   <small *ngIf="memberService.userProfile?.UserProfile_Mobile === null"
@@ -100,13 +104,14 @@
                 </div>
               </li>
               <li>
-                <div class="item">E-mail </div>
+                <div class="item">E-mail<span *ngIf="editMode" class="text-org">*</span></div>
                 <div class="item input-box">
                   <input type="email" name="UserEmail" [placeholder]="editMode? '請輸入' : ''" class="txt-line-clamp1"
                     #UserEmail="ngModel" [(ngModel)]="memberService.userProfile.UserProfile_Email"
-                    [readOnly]="editMode === false" pattern="[A-Za-z0-9\*._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$">
+                    [ngClass]="{'warning-red': editMode && formProfile.submitted && UserEmail.errors?.required}"
+                    [readOnly]="editMode === false" pattern="[A-Za-z0-9\*._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$" required>
                 </div>
-                <small class="ml-3 text-danger" *ngIf="UserEmail.invalid">E-mail格式有誤</small>
+                <small class="ml-3 text-danger" *ngIf="editMode && UserEmail.dirty && UserEmail.errors?.pattern">E-mail格式有誤</small>
               </li>
             </form>
             <!-- 上傳護照（暫不顯示） -->

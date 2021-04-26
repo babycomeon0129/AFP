@@ -11,8 +11,8 @@ export const environment = {
   cookieSecure: false,
   /** Apple登入redirectURI */
   AppleSignInURI: 'https://www-uat.mobii.ai',
-  /** 是否啟用firebase（推播服務） */
-  firebaseActivate: false,
+  /** 是否啟用 service worker（for 推播服務） */
+  swActivate: false,
   firebaseConfig: {
     apiKey: 'AIzaSyCjtBdCm4T5SdndyaCGHN-S7LJQaLxftsE',
     authDomain: 'afp-consumer-sit.firebaseapp.com',

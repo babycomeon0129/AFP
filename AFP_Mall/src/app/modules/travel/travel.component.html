@@ -10,7 +10,7 @@
                 </button>
                 <!-- 電腦版 登入 -->
                 <div *ngIf="appService.loginState == true" class="userbox">
-                  <div *ngIf="appService.loginState == true" class="txt-line-clamp1 user-hi"><a [routerLink]="['/Member']">你好，{{userName}}</a> </div>
+                  <div *ngIf="appService.loginState == true" class="txt-line-clamp1 user-hi"><a [routerLink]="['/Member']">你好，{{appService.userName}}</a> </div>
                 </div>
                 <ul  *ngIf="appService.loginState == true" class="userdrop nav navbar-nav">
                     <li class="dropdown">
@@ -38,7 +38,7 @@
   </header>
   <main class="container pt-0">
     <!-- 置頂廣告 -->
-      <swiper class="swiper-container travel-ad" [config]="boxKV">
+      <swiper class="swiper-container travel-banner" [config]="boxKV">
         <div class="swiper-wrapper">
             <div *ngFor="let item of ad20001" class="swiper-slide">
               <a [href]="item.ADImg_URL" [target]="item.ADImg_URLTarget" *ngIf="item.ADImg_URL.indexOf('http') != -1" rel="noopener noreferrer">

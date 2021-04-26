@@ -1,13 +1,15 @@
+import { CookieService } from 'ngx-cookie-service';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { Model_ShareData, AFP_UserFavourite } from '@app/_models';
 import { Response_MemberProfile } from '../member.component';
-import { ModalService } from '../../../../shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { MemberService } from '../../member.service';
-import { layerAnimation, layerAnimationUp } from '../../../../animations';
+import { layerAnimation, layerAnimationUp } from '@app/animations';
 import { Meta, Title } from '@angular/platform-browser';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { environment } from '@env/environment';
 
 
 @Component({
@@ -19,8 +21,6 @@ import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 export class MyProfileComponent implements OnInit {
   /** 我的檔案編輯模式 */
   public editMode = false;
-  /** 我的檔案 ngForm request */
-  // public profileRequest: Request_MemberProfile;
   /** 證件資料容器（護照/台胞證/學生證） */
   public userCertificate: AFP_UserFavourite = new AFP_UserFavourite();
   /** 檔案（證件）資訊 */
@@ -33,12 +33,13 @@ export class MyProfileComponent implements OnInit {
   public showFileDetail = 1;
   /** 判斷是否有上傳檔案 */
   public isUpload = false;
+  /** 今日日期 */
   public today: Date = new Date();
   /** 同頁滑動切換 0:本頁 1:開啟瀏覽檔案上傳  */
   public layerTrigUp = 0;
 
   constructor(public appService: AppService, public modal: ModalService, public memberService: MemberService,
-              private meta: Meta, private title: Title, private localeService: BsLocaleService) {
+              private meta: Meta, private title: Title, private localeService: BsLocaleService, private cookieService: CookieService) {
     // tslint:disable: max-line-length
     this.title.setTitle('我的檔案 - Mobii!');
     this.meta.updateTag({ name: 'description', content: '' });
@@ -71,16 +72,19 @@ export class MyProfileComponent implements OnInit {
     this.memberService.userProfile.SelectMode = 3;
     this.memberService.userProfile.User_Code = sessionStorage.getItem('userCode');
     if (this.memberService.userProfile.UserProfile_Birthday !== null) {
-      if (this.memberService.userProfile.UserProfile_Birthday.getMonth() < new Date().getMonth()) {
-        this.memberService.userProfile.UserProfile_Birthday =
-          new Date(this.memberService.userProfile.UserProfile_Birthday.getTime() - this.memberService.userProfile.UserProfile_Birthday.getTimezoneOffset() * 60 * 1000);
-      }
+        if (this.memberService.userProfile.UserProfile_Birthday.getMonth() < new Date().getMonth()) {
+          this.memberService.userProfile.UserProfile_Birthday =
+            new Date(this.memberService.userProfile.UserProfile_Birthday.getTime() - this.memberService.userProfile.UserProfile_Birthday.getTimezoneOffset() * 60 * 1000);
+        }
     }
     this.appService.toApi('Member', '1502', this.memberService.userProfile).subscribe((data: Response_MemberProfile) => {
       // 取得並顯示我的檔案資料
-      this.memberService.readProfileData();
-      // 更新session中的userName讓其他頁面名稱同步
-      sessionStorage.setItem('userName', this.memberService.userProfile.User_NickName);
+      this.memberService.readProfileData().then(() => {
+        // 更新session 和 app.service 中的 userName 讓其他頁面名稱同步
+        sessionStorage.setItem('userName', this.memberService.userProfile.User_NickName);
+        this.cookieService.set('userName', this.memberService.userProfile.User_NickName, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+        this.appService.userName = this.memberService.userProfile.User_NickName;
+      });
       this.editMode = false;
       form.resetForm();
     });

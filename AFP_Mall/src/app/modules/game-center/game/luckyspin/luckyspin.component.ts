@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit, Renderer2 } from '@angular/core';
+import { Component, OnInit, Input, Output, AfterViewInit, Renderer2, EventEmitter } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Response_Games, Request_Games, AFP_GamePart } from '@app/_models';
 import { ModalService } from '../../../../shared/modal/modal.service';
@@ -14,6 +14,10 @@ import { layerAnimation, layerAnimationUp } from '../../../../animations';
 export class LuckyspinComponent implements OnInit, AfterViewInit {
   /** 遊戲資料（遊戲名稱、類型、格數、上方圖片、規則、遊玩一次所需點數。每次玩完不更新） */
   @Input() gameData: Response_Games;
+  /** 呼叫父層的noticeAlert方法 (跳出視窗，提醒點數不足或已達遊玩次數上限) */
+  @Output() noticeAlert =  new EventEmitter();
+  /** 呼叫父層的noGameStateAlert方法，遊戲為不可遊玩狀態的提醒視窗 */
+  @Output() noGameStateAlert = new EventEmitter();
   /** 總點數（每玩完一次即更新） */
   public totalPoints: number;
   /** 會員所剩可玩次數（每玩完一次即更新；須注意為"-1"/不限次數的情況） */
@@ -49,10 +53,6 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
     this.totalPoints = this.gameData.TotalPoint;
     this.playTimes = this.gameData.AFP_Game.Game_PlayCount;
     this.prizeList = this.gameData.List_GamePart;
-    // 若可玩次數 === 0或是所剩點數不夠遊玩一次則阻擋遊玩
-    if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
-      this.noticeAlert();
-    }
     // APP從M Points或進來則顯示返回鍵
     if (this.route.snapshot.queryParams.showBack === 'false') {
       this.showBack = false;
@@ -81,28 +81,33 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
 
   /** 按下play鍵 */
   play() {
-    // 若須扣除點數跳出確認提示
-    if (this.playTimes !== 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
-      this.modal
-        .confirm({
-          initialState: {
-            message: `請確定是否扣除 Mobii! Points ${this.gameData.AFP_Game.Game_DedPoint} 點玩「${this.gameData.AFP_Game.Game_ExtName}」？`,
-          },
-        })
-        .subscribe((res) => {
-          if (res) {
-            this.startGame();
-          }
-        });
+    // 按下play鍵之後，先判斷該遊戲是否為可遊玩狀態，0: 不可遊玩(未完成綁卡等條件，條件由後端判定) 1:可遊玩
+    if (!this.gameData.GameState) {
+      this.noGameStateAlert.emit();
     } else {
-      this.startGame();
+      // 若須扣除點數跳出確認提示
+      if ((this.playTimes !== 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) && this.gameData.AFP_Game.Game_DedPoint > 0) {
+        this.modal
+          .confirm({
+            initialState: {
+              message: `請確定是否扣除 Mobii! Points ${this.gameData.AFP_Game.Game_DedPoint} 點玩「${this.gameData.AFP_Game.Game_ExtName}」？`,
+            },
+          })
+          .subscribe((res) => {
+            if (res) {
+              this.startGame();
+            }
+          });
+      } else {
+        this.startGame();
+      }
     }
   }
 
   /** 開始遊戲 */
   startGame() {
     if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
-      this.noticeAlert();
+      this.noticeAlert.emit();
     } else {
       this.playingStatus = true;
       // 閃亮效果
@@ -183,13 +188,4 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
     }
   }
 
-  /** 您的點數已不足或是遊玩次數已達上限的提示視窗  */
-  noticeAlert() {
-    const initialState = {
-      success: true,
-      type: 1,
-      message: `<div class="no-data no-transform"><img src="../../../../../img/shopping/payment-failure.png"><p>Oops！你的點數不足或已達遊玩次數上限囉！</p></div>`
-    };
-    this.modal.show('message', { initialState });
-  }
 }

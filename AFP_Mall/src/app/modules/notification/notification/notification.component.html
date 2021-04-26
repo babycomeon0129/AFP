@@ -1,110 +1,116 @@
 <div class="wrap container">
-    <header>
-        <div class="header-secondary container linebt-row">
-            <div class="index-flex justify-content-between">
-              <div class="item two">
-                  <div class="close-btn">
-                       <button type="button" class="btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
-                          <i class="material-icons">&#xe314;</i>
-                      </button>
-                  </div>
-              </div>
-              <div class="item three text-center">
-                  <div class="title-name">通知</div>
-              </div>
-              <div class="item two">
-                  <div class="top-item text-right">
-                      <img (click)="appService.showJustka(JustkaUrl)"
-                      src="../img/share/notify.png" class="h38"  data-toggle="tooltip" data-placement="bottom" title="線上客服">
-                  </div>
-              </div>
+  <header>
+    <div class="header-secondary container linebt-row">
+      <div class="index-flex justify-content-between">
+        <div class="item two">
+          <div class="close-btn">
+            <button type="button" class="btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom"
+              title="回上一頁">
+              <i class="material-icons">&#xe314;</i>
+            </button>
           </div>
+        </div>
+        <div class="item three text-center">
+          <div class="title-name">通知</div>
+        </div>
+        <div class="item two">
+          <div class="top-item text-right">
+            <img (click)="appService.showJustka(JustKaUrl)" src="../img/share/notify.png" class="h38"
+              data-toggle="tooltip" data-placement="bottom" title="線上客服">
+          </div>
+        </div>
       </div>
+    </div>
   </header>
   <div>
-  <!-- 上方分類 -->
-  <ul class="notifylist">
-      <li *ngFor="let category of categoryMsg" (click)="showCategoryList(category?.MsgCategory_Name, category?.MsgCategory_Code)">
+    <!-- 上方分類 -->
+    <ul class="notifylist">
+      <li *ngFor="let category of categoryMsg"
+        (click)="showCategoryList(category?.MsgCategory_Name, category?.MsgCategory_Code)">
         <div class="item">
           <label>{{category?.MsgCategory_Name}}</label>
           <p class="txt-line-clamp1">{{category?.Content_Desc}}</p>
         </div>
         <span class="auto-left"><i class="material-icons">&#xe315;</i></span>
       </li>
-  </ul>
-  <!-- 最新通知 -->
-  <div class="newnotify">最新通知</div>
-  <ul class="newlist">
-      <li *ngFor="let msg of latestList" (click)="msg?.IMessage_OrderType !== null? null : unfoldItem(msg)" [ngClass]="{'active': msg?.activeStatus === true}" class="d-flex">
-          <div class="img-box rwdimgbox-80" (click)="goOrder(msg)">
-              <div [lazyLoad]="msg?.IMessage_SmallImg" [defaultImage]="appService.defaultImage" class="rwdimg-cover"></div>
+    </ul>
+    <!-- 最新通知 -->
+    <div class="newnotify">最新通知</div>
+    <ul class="newlist">
+      <li *ngFor="let msg of latestList" class="d-flex"
+      [ngClass]="{'active': msg?.activeStatus === true, 'cursor-pointer': msg?.IMessage_IsShowCTA !== 0 || msg?.IMessage_Desc.length > 36 }"
+      (click)="msg?.IMessage_OrderType !== null? null : unfoldItem(msg)">
+        <div class="img-box rwdimgbox-80">
+          <div [lazyLoad]="msg?.IMessage_SmallImg" [defaultImage]="appService.defaultImage" class="rwdimg-cover"></div>
+        </div>
+        <div class="newinfo">
+          <div class="newinfo-body">
+            <label>{{msg?.IMessage_Title}}</label>
+            <p class="item-date">{{msg?.IMessage_ReleaseDate | date: 'yyyy/MM/dd'}}</p>
+            <div [ngClass]="{'msgNotCTA': !msg?.activeStatus}">
+              <p class="msgDesc">{{msg?.IMessage_Desc}}</p>
+              <p [hidden]="msg?.IMessage_IsShowCTA === 0" class="moreBtn">
+                <button class="btn index-btn" [routerLink]="['/Notification/NotificationDetail', msg?.IMessage_Code]">了解更多</button>
+              </p>
+            </div>
           </div>
-          <div class="newinfo">
-            <div class="newinfo-body">
-              <label>{{msg?.IMessage_Title}}</label>
-              <p [hidden]="msg?.activeStatus" class="newbody">{{msg?.IMessage_Desc}}</p>
-              <p class="item-date">{{msg?.IMessage_ReleaseDate | date: 'yyyy/MM/dd'}}</p>
-              <div [hidden]="!msg?.activeStatus|| msg?.activeStatus === undefined" class="msgContent">
-                {{msg?.IMessage_Desc}}
-                <p [hidden]="msg?.IMessage_IsShowCTA === 0" class="moreBtn"><button class="btn index-btn" [routerLink]="['/Notification/NotificationDetail', msg?.IMessage_Code]">了解更多</button></p>
+          <span [hidden]="msg?.IMessage_IsShowCTA === 0 && msg?.IMessage_Desc.length < 36" class="auto-left">
+            <i class="material-icons">&#xe5cf;</i></span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+
+  <!--次頁-->
+  <div class="layerTrig container" [@layerTrigger] *ngIf="layerTrig === 1">
+    <!--類別列表-->
+    <div>
+      <div class="headerbox container title-box linebt-row">
+        <div class="item icon-btn">
+          <button class="btn px-0" (click)="layerTrig = 0" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+            <i class="material-icons">&#xe314;</i>
+          </button>
+        </div>
+        <div class="item title-name">{{SCategoryName}}</div>
+        <div class="item icon-btn">
+          <img (click)="appService.showJustka(JustKaUrl)" src="../img/share/notify.png" class="h38"
+            data-toggle="tooltip" data-placement="bottom" title="線上客服">
+        </div>
+      </div>
+      <div>
+        <ul class="newlist">
+          <li *ngFor="let item of SCategoryList" [ngClass]="{'active': item?.activeStatus === true, 'cursor-pointer': item?.IMessage_IsShowCTA !== 0 || item?.IMessage_Desc.length > 36} " class="d-flex"
+            (click)="unfoldItem(item)">
+            <div class="img-box rwdimgbox-80">
+              <div [lazyLoad]="item?.IMessage_SmallImg" [defaultImage]="appService.defaultImage" class="rwdimg-cover">
               </div>
             </div>
-              <span [hidden]="msg?.IMessage_OrderType !== null" class="auto-left"><i class="material-icons">&#xe5cf;</i></span>
-          </div>
-      </li>
-  </ul>
-  </div>
-
-
-<!--次頁-->
-<div class="layerTrig container" [@layerTrigger] *ngIf="layerTrig === 1">
-  <!--類別列表-->
-  <div class="topic">
-    <div class="headerbox container title-box linebt-row">
-          <div class="item icon-btn">
-              <button class="btn px-0" (click)="layerTrig = 0" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
-                  <i class="material-icons">&#xe314;</i>
-              </button>
-          </div>
-          <div class="item title-name">{{SCategoryName}}</div>
-          <div class="item icon-btn">
-              <img (click)="appService.showJustka(JustkaUrl)"
-              src="../img/share/notify.png" class="h38"  data-toggle="tooltip" data-placement="bottom" title="線上客服">
-          </div>
-    </div>
-    <div>
-      <ul class="newlist">
-          <li *ngFor="let item of SCategoryList"
-            [ngClass]="{'active': item?.activeStatus === true}" class="d-flex">
-              <div class="img-box rwdimgbox-80" (click)="goOrder(item)">
-                  <div [lazyLoad]="item?.IMessage_SmallImg" [defaultImage]="appService.defaultImage" class="rwdimg-cover"></div>
+            <div class="newinfo">
+              <div class="newinfo-body">
+                <label>{{item?.IMessage_Title}}</label>
+                <p class="item-date">{{item?.IMessage_ReleaseDate | date: 'yyyy/MM/dd'}}</p>
+                <div [ngClass]="{'msgNotCTA': !item?.activeStatus}">
+                  <p class="msgDesc">{{item?.IMessage_Desc}}</p>
+                  <p [hidden]="item?.IMessage_IsShowCTA === 0" class="moreBtn">
+                    <button class="btn index-btn" [routerLink]="['/Notification/NotificationDetail', item?.IMessage_Code]">了解更多</button>
+                  </p>
+                </div>
               </div>
-              <div class="newinfo">
-                  <div class="newinfo-body">
-                      <label>{{item?.IMessage_Title}}</label>
-                      <p [hidden]="item?.activeStatus === true" class="newbody">
-                          {{item.IMessage_Desc}}
-                      </p>
-                      <p class="item-date">{{item?.IMessage_ReleaseDate | date: 'yyyy/MM/dd'}}</p>
-                      <div [hidden]="item?.activeStatus === false || item?.activeStatus === undefined" class="msgContent">
-                        {{item.IMessage_Desc}}
-                        <p [hidden]="item?.IMessage_IsShowCTA === 0"  class="moreBtn"><button class="btn index-btn" [routerLink]="['/Notification/NotificationDetail', item?.IMessage_Code]">了解更多</button></p>
-                      </div>
-                  </div>
-                  <span [hidden]="item?.IMessage_OrderType !== null" (click)="unfoldItem(item)" class="auto-left">
-                    <i class="material-icons">&#xe5cf;</i>
-                  </span>
-              </div>
+              <span [hidden]="item?.IMessage_IsShowCTA === 0 && item?.IMessage_Desc.length < 36" class="auto-left">
+                <i class="material-icons">&#xe5cf;</i>
+              </span>
+            </div>
           </li>
-      </ul>
+        </ul>
+      </div>
     </div>
+
   </div>
 
-</div>
-
-<div *ngIf="categoryMsg?.length === 0 && latestList?.length === 0" class="no-data">
+  <div *ngIf="categoryMsg?.length === 0 && latestList?.length === 0" class="no-data">
     <img src="../img/share/notify_null.png">
-  <p>尚無通知</p>
-</div>
+    <p>尚無通知</p>
+  </div>
 
-<app-mobile-footer></app-mobile-footer>
+  <app-mobile-footer></app-mobile-footer>

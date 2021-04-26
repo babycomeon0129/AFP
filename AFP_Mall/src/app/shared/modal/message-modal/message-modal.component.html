@@ -1,6 +1,6 @@
 <div class="modal-header" data-dismiss="modal" aria-label="Close">
 </div>
-<button type="button" class="close text-right" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+<button type="button" class="close text-right" data-dismiss="modal" aria-label="Close" (click)="bsModalRef.hide()">
   <span aria-hidden="true">&times;&ensp;</span>
 </button>
 <div class="modal-body">
@@ -17,23 +17,31 @@
   </div>
   <div id="msg-noselected">
     <div class="text-center border-bottom-radius5">
-      <button type="button" *ngIf="showType === 1" class="btn btn-login px-0 w-50" (click)="closeModal()">
-        確定
+      <!-- 單顆按鈕，內容、連結全客製化，因showType有999，故設定 showType < 3 時 才出現單顆按鈕-->
+      <button type="button" *ngIf="showType  <= 3" class="btn btn-login px-0 w-50" (click)="clickSingleBtn()">
+        {{singleBtnMsg}}
       </button>
-      <button type="button" *ngIf="showType === 2" class="btn btn-login px-0 w-50" (click)="AppClose()">
+      <!--button type="button" *ngIf="showType === 2" class="btn btn-login px-0 w-50" (click)="appService.loginPage(); goToUrl(target)">
         重新登入
-      </button>
-      <button type="button" *ngIf="showType === 3" class="btn btn-login px-0 w-50" (click)="doReset()">
+      </!--button -->
+      <!--button type="button" *ngIf="showType === 3" class="btn btn-login px-0 w-50" (click)="doReset()">
         確認
-      </button>
-      <button type="button" *ngIf="showType === 4" class="btn btn-login px-0 w-50" [routerLink]="['/']" (click)="closeModal()">
+      </!--button -->
+      <!--button type="button" *ngIf="showType === 4" class="btn btn-login px-0 w-50" [routerLink]="['/']" (click)="goToUrl(target)">
         下次再說
-      </button>
-      <button type="button" *ngIf="showType === 4" class="btn btn-login px-0 w-50" [routerLink]="['/Member/ThirdBinding']" (click)="closeModal()">
+      </!--button>
+      <button type="button" *ngIf="showType === 4" class="btn btn-login px-0 w-50" [routerLink]="['/Member/ThirdBinding']" (click)="goToUrl(target)">
         立即綁定
+      </button -->
+      <!--button type="button" *ngIf="showType === 5" class="btn btn-login px-0 w-50" (click)="goToUrl(target)">
+        {{singleBtnMsg}}
+      </!--button -->
+      <!-- 雙顆按鈕，左右按鈕內容、連結全客製化 -->
+      <button type="button" *ngIf="showType === 6" class="btn btn-login px-0 w-50" (click)="goToUrl(leftBtnUrl, queryParams1)">
+        {{ leftBtnMsg }}
       </button>
-      <button type="button" *ngIf="showType === 5" class="btn btn-login px-0 w-50" (click)="closeModal()">
-        確認
+      <button type="button" *ngIf="showType === 6" class="btn btn-login px-0 w-50" (click)="goToUrl(rightBtnUrl, queryParams2)">
+        {{ rightBtnMsg }}
       </button>
     </div>
   </div>

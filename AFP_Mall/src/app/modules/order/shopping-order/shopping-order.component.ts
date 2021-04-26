@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
-import { Request_GetCheckout, Response_GetCheckout, Request_GetUserVoucher, Response_GetUserVoucher,
+import { Response_GetCheckout, Request_GetUserVoucher, Response_GetUserVoucher,
         Request_CheckUserVoucher, Response_CheckUserVoucher, Request_MemberAddress, AFP_Cart, AFP_ECStore,
         AFP_UserFavourite, AFP_UserVoucher, AFP_VoucherLimit, AFP_Order, Model_ShareData,
         OrderVoucher, OrderInvoice, OrderStore, OrderPlatform } from '@app/_models';
@@ -736,7 +736,7 @@ export class ShoppingOrderComponent implements OnInit {
 
 }
 
-export class OrderInfo {
+class OrderInfo {
   constructor() {
     this.stores = [];
     this.platform = new OrderPlatform();
@@ -773,13 +773,22 @@ export class OrderInfo {
   invoice: OrderInvoice;
 }
 
-export class Request_CreateOrder extends Model_ShareData {
+class Request_CreateOrder extends Model_ShareData {
+  /** 訂單資訊 */
   List_Order: AFP_Order[];
+  /** 使用者優惠卷資訊 */
   List_UserVoucher: AFP_UserVoucher[];
+  /** 購物車資訊 */
   List_Cart: AFP_Cart[];
 }
 
-export class Response_CreateOrder extends Model_ShareData {
+class Response_CreateOrder extends Model_ShareData {
   OrderNo: string;
   UserVoucher_ID?: number;
+}
+
+/** 取得結帳所需資訊 */
+interface Request_GetCheckout extends Model_ShareData {
+  /** 購物車資訊 */
+  List_Cart?: AFP_Cart[];
 }

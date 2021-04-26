@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap';
 import { ForgetModalComponent } from './forget-modal/forget-modal.component';
 import { VcodeModalComponent } from './vcode-modal/vcode-modal.component';
@@ -20,7 +20,6 @@ import { AppleModalComponent } from './apple-modal/apple-modal.component';
   providedIn: 'root'
 })
 export class ModalService {
-  public justkaUrl = new Subject();
   constructor(public bsModalService: BsModalService, public bsModalRef: BsModalRef) { }
 
   public openModal(show: string, bsModalRef: BsModalRef = null) {

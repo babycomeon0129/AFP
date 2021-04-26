@@ -5,7 +5,7 @@ import { AppService } from 'src/app/app.service';
 import { ModalService } from '../modal.service';
 import { AuthService, SocialUser, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 import { NgForm } from '@angular/forms';
-import { Request_AFPThird, Model_ShareData, Response_AFPLogin, Request_AFPAccount, Request_AFPVerifyCode,
+import { Model_ShareData, Response_AFPLogin, Request_AFPAccount, Request_AFPVerifyCode,
   Response_AFPVerifyCode, Request_AFPReadMobile, Response_AFPReadMobile } from '@app/_models';
 import { CookieService } from 'ngx-cookie-service';
 import jwt_decode from 'jwt-decode';
@@ -55,6 +55,8 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   public vCodeTimer;
   /** 註冊-輸入帳號是否已存在 */
   public existingAccount = false;
+  /** Apple 登入 state */
+  public appleSigninState: string;
 
   constructor(
     public bsModalRef: BsModalRef, private authService: AuthService, private appService: AppService, public modal: ModalService,
@@ -81,35 +83,34 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
      //  this.regClick = false;
     });
 
+    this.appleSigninState = this.appleState();
+
     // Apple 登入初始化 (會將按鈕樣式改為Apple設定的)
     AppleID.auth.init({
       clientId: 'com.eyesmedia.mobii',
       scope: 'email name',
       redirectURI: environment.AppleSignInURI,
-      state: 'Mobii Apple Login',
+      state: this.appleSigninState,
       usePopup : true
     });
 
     // Apple 登入授權成功，第三方登入取得資料
-    document.addEventListener('AppleIDSignInOnSuccess', (authData: any) => {
-      this.stopListeningApple();
+    document.addEventListener('AppleIDSignInOnSuccess', (authData: CustomEvent) => {
       this.appleUser = authData.detail;
-      const idTokenModel = jwt_decode(this.appleUser.authorization.id_token);
-      const appleToken = idTokenModel.sub;
-
-      // 只有首次使用Apple登入會得到user物件
-      // if (this.appleUser.user === undefined) {
-      //   this.thirdRequest.Account = '';
-      //   this.thirdRequest.NickName = '';
-      // } else {
-      //   this.thirdRequest.Account = this.appleUser.user.email;
-      //   this.thirdRequest.NickName = this.appleUser.user.name.firstName + ' ' + this.appleUser.user.name.lastName;
-      // }
-      this.thirdRequest.Account = idTokenModel.email;
-      this.thirdRequest.NickName = idTokenModel.email;
-      this.thirdRequest.Token = appleToken;
-      this.thirdRequest.JsonData = JSON.stringify(this.appleUser);
-      this.toThirdLogin();
+      // 驗證 apple 回傳的 state 是否與此次請求時送去的相同
+      if (this.appleUser.authorization.state === this.appleSigninState) {
+        this.stopListeningApple();
+        // 將 id token 解密取得使用者資訊
+        const idTokenModel = jwt_decode(this.appleUser.authorization.id_token);
+        const appleToken = idTokenModel.sub;
+        this.thirdRequest.Account = idTokenModel.email;
+        this.thirdRequest.NickName = idTokenModel.email;
+        this.thirdRequest.Token = appleToken;
+        this.thirdRequest.JsonData = JSON.stringify(this.appleUser);
+        this.toThirdLogin();
+      } else {
+        this.modal.show('message', { initialState: { success: false, message: 'Apple登入出現錯誤', showType: 1 } });
+      }
     });
 
     // Apple 登入授權失敗，顯示失敗原因
@@ -118,6 +119,35 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       this.bsModalRef.hide(); // 關閉視窗
       this.modal.show('message', { initialState: { success: false, message: 'Apple登入失敗', note: error.detail.error, showType: 1 } });
     });
+  }
+
+  /** Apple 登入初始化需帶入的 state
+   * @description unix timestamp 前後相反後前4碼+ 10碼隨機英文字母 (大小寫不同)
+   * @returns state 的值
+   */
+  appleState(): string {
+    // 取得 unix
+    const dateTime = Date.now();
+    const timestampStr = Math.floor(dateTime / 1000).toString();
+    // 前後相反
+    let reverseTimestamp = '';
+    for (var i = timestampStr.length - 1; i >= 0; i--) {
+      reverseTimestamp += timestampStr[i];
+    }
+    // 取前4碼
+    const timestampFirst4 = reverseTimestamp.substring(0,4);
+    // 取得10個隨機英文字母，組成字串
+    function getRandomInt(max: number) {
+      return Math.floor(Math.random() * max);
+    };
+    const engLettersArr = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+    let randomEngLetter = '';
+    for (let x = 0; x < 10; x ++) {
+      const randomInt = getRandomInt(engLettersArr.length);
+      randomEngLetter += engLettersArr[randomInt];
+    }
+    // 組成 state
+    return timestampFirst4 + randomEngLetter;
   }
 
   /** 登入表單送出 */
@@ -134,7 +164,9 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+      this.appService.userName = data.Model_UserInfo.Customer_Name;
       this.appService.loginState = true;
+      this.appService.userLoggedIn = true;
       this.bsModalRef.hide();
       this.appService.showFavorites();
       this.appService.readCart();
@@ -174,7 +206,9 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       this.cookieService.set('Mobii_ThirdLogin', 'true', 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+      this.appService.userName = data.Model_UserInfo.Customer_Name;
       this.appService.loginState = true;
+      this.appService.userLoggedIn = true;
       // 關閉視窗
       this.bsModalRef.hide();
       this.appService.showFavorites();
@@ -243,11 +277,13 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
         environment.cookieDomain, environment.cookieSecure, 'Lax');
       this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90, '/',
         environment.cookieDomain, environment.cookieSecure, 'Lax');
+      this.appService.userName = data.Model_UserInfo.Customer_Name;
       this.appService.loginState = true;
+      this.appService.userLoggedIn = true;
       this.bsModalRef.hide();
       // 提示社群綁定
       const msg = `註冊成功！歡迎加入Mobii!\n小技巧：綁定您的社群帳號，未來就可快速登入囉！`;
-      this.modal.show('message', { initialState: { success: true, message: msg, showType: 4 } });
+      this.modal.show('message', { initialState: { success: true, message: msg, showType: 6, leftBtnMsg: `下次再說`,  leftBtnUrl: `/`, rightBtnMsg: `立即綁定`, rightBtnUrl: `/Member/ThirdBinding`} });
       // 通知推播
       this.appService.initPush();
     });
@@ -284,12 +320,16 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   }
 }
 
-export class Request_AFPLogin extends Model_ShareData {
+/** 登入 RequestModel */
+class Request_AFPLogin extends Model_ShareData {
+  /** 帳號 */
   AFPAccount: string;
+  /** 密碼 */
   AFPPassword: string;
 }
 
-export class Third_AppleUser {
+/** 第三方登入-Apple 登入 Response */
+class Third_AppleUser {
   authorization: {
     state: string;
     code: string;
@@ -302,4 +342,12 @@ export class Third_AppleUser {
       lastName: string;
     };
   };
+}
+
+class Request_AFPThird {
+  Mode?: number;
+  Account?: string;
+  NickName?: string;
+  Token?: string;
+  JsonData?: string;
 }

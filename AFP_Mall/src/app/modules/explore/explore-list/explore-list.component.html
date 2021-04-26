@@ -1,12 +1,13 @@
 <div class="wrap container">
-  <div class="explore-top-box bg-white">
+  <div class="explore-top-box container">
     <div class="title-box">
-      <div class="item icon-btn" *ngIf="hideGoBack == null"><i class="material-icons"
-          onclick="history.back()">&#xe314;</i></div>
+      <div class="item icon-btn" *ngIf="hideGoBack == null">
+        <i class="material-icons" onclick="history.back()">&#xe314;</i>
+      </div>
       <div class="item title-name">探索周邊</div>
       <div class="item icon-btn">
         <button [routerLink]="['/Explore/ExploreMap']" data-toggle="tooltip" data-placement="bottom" title="查看地圖">
-          <img src="../../img/explore/icon/open-map.svg">
+          <img src="../../img/explore/icon/open-map.svg" />
         </button>
       </div>
     </div>
@@ -15,7 +16,7 @@
         <div class="input">
           <div class="item">
             <button><i class="material-icons">&#xE8B6;</i></button>
-            <input type="text" placeholder="搜尋" class="form-control">
+            <input type="text" placeholder="搜尋" class="form-control" />
           </div>
         </div>
       </div>
@@ -23,11 +24,11 @@
     <div>
       <div class="choice-filter-box h3em bt-line">
         <div class="flex-inline-between">
-          <div class="item center-v">{{areaMenuName}}</div>
+          <div class="item center-v">{{ areaMenuName }}</div>
         </div>
         <div class="filter-box center-v">
           <button class="btn px-0 filter-item1" data-filter="type" (click)="toggleCategoryFilter()"
-            [ngClass]="{'active': categoryOpenStatus}">
+            [ngClass]="{ active: categoryOpenStatus }">
             <i class="material-icons">&#xE152;</i>
           </button>
         </div>
@@ -36,38 +37,59 @@
   </div>
   <div class="explore-container pb-wrap">
     <div class="explore-card-list">
-      <div class="mask-container w-100 h-100" [ngClass]="{'d-block': categoryOpenStatus}"></div>
-      <ul [ngClass]="{'is-open': categoryOpenStatus == true}">
+      <div class="filter-contentbox container">
+        <div id="type" [ngClass]="{ 'is-open': categoryOpenStatus }" class="filter-content pb-wrap">
+          <ul class="open-page-ul">
+            <li *ngFor="let item of exUserdefine" [routerLink]="['/Explore/ExploreList', item.UserDefine_Code]"
+              [ngClass]="{ active: areaMenuCode == item.UserDefine_Code }" class="flex-inline-between">
+              <div>
+                {{ item.UserDefine_Name }}
+              </div>
+              <div>
+                <!-- {{item.UserDefine_ProdCount}} -->
+                <i *ngIf="areaMenuCode == item.UserDefine_Code" class="material-icons check">&#xe5ca;</i>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="mask-container w-100 h-100" [ngClass]="{ 'd-block': categoryOpenStatus }"></div>
+      <ul [ngClass]="{ 'is-open': categoryOpenStatus == true }">
         <ng-container *ngIf="exAreadata.length === 0 && dataOk">
           <div class="no-data hori">
-            <img src="../../../img/share/oopsarea.png">
-            <p>Oops！<br>你搜尋的景點已經超過走路能到的距離囉...</p>
+            <img src="../../../img/share/oopsarea.png" />
+            <p>Oops！<br />你搜尋的景點已經超過走路能到的距離囉...</p>
           </div>
         </ng-container>
         <ng-container *ngIf="exAreadata.length > 0">
           <li *ngFor="let inside of exAreadata" [routerLink]="['/Explore/ExploreDetail', inside.ECStore_Code]">
-            <div class="card-item" id="{{inside.ECStore_Code}}">
+            <div class="card-item" id="{{ inside.ECStore_Code }}">
               <div class="img-box rwdimgbox-80">
-                <div class="rwdimg-cover" [lazyLoad]="inside.ECStore_Image1" [defaultImage]="appService.defaultImage"></div>
+                <div class="rwdimg-cover" [lazyLoad]="inside.ECStore_Image1" [defaultImage]="appService.defaultImage">
+                </div>
               </div>
               <div class="info-box">
                 <ul class="info-list">
-                  <li class="info-name">{{inside.ECStore_ShowName}}</li>
+                  <li class="info-name">{{ inside.ECStore_ShowName }}</li>
                   <li>
                     <div class="shopping-store-badge">
                       <span class="badge badge-pill text-explore">
-                        <img src="../../img/share/{{inside.ECStore_Type}}.png" alt="icon">{{inside.ECStore_TypeName}}
+                        <img src="../../img/share/{{ inside.ECStore_Type }}.png" alt="icon" />{{ inside.ECStore_TypeName
+                        }}
                       </span>
                     </div>
                   </li>
                   <li class="info-near">
                     <!-- <div class="item">近高雄巨蛋捷運站</div> -->
                     <div class="item">
-                      <span *ngFor="let info of inside.AttrbuteData"
-                        class="badge badge-pill text-muted">{{info.AttributeValue_Name}}</span>
+                      <span *ngFor="let info of inside.AttrbuteData" class="badge badge-pill text-muted">{{
+                        info.AttributeValue_Name }}</span>
                     </div>
                     <div class="item auto-left small">
-                      距離<span>{{inside.ECStore_Distance | currency: '':'':'1.0-0'}}</span>m</div>
+                      距離<span>{{
+                        inside.ECStore_Distance | currency: "":"":"1.0-0"
+                        }}</span>m
+                    </div>
                   </li>
                 </ul>
               </div>
@@ -76,20 +98,6 @@
         </ng-container>
       </ul>
       <div class="addheight"></div>
-    </div>
-    <div id="type" [ngClass]="{'is-open': categoryOpenStatus}" class="filter-content pb-wrap">
-      <ul class="open-page-ul">
-        <li *ngFor="let item of exUserdefine;" [routerLink]="['/Explore/ExploreList', item.UserDefine_Code]"
-          [ngClass]="{'active': areaMenuCode == item.UserDefine_Code}" class="flex-inline-between">
-          <div>
-            {{item.UserDefine_Name}}
-          </div>
-          <div>
-            <!-- {{item.UserDefine_ProdCount}} -->
-            <i *ngIf="areaMenuCode == item.UserDefine_Code" class="material-icons check">&#xe5ca;</i>
-          </div>
-        </li>
-      </ul>
     </div>
   </div>
 </div>

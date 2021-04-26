@@ -37,24 +37,41 @@ export class MemberComponent implements OnInit {
 // 會員中心會共用的Model
 // for MemberService & MyProfile
 export class Request_MemberProfile extends Model_ShareData {
+  /** 暱稱 */
   User_NickName?: string;
+  /** 人員姓名 */
   UserProfile_Name?: string;
+  /** 生日 */
   UserProfile_Birthday?: Date;
+  /** E-Mail */
   UserProfile_Email?: string;
 }
 
+/** 會員中心我的檔案 - ResponseModel */
 export class Response_MemberProfile extends Model_ShareData {
+  /** 人員帳號 */
   UserAccount: string;
+  /** 暱稱 */
   User_NickName: string;
+  /** 人員姓名 */
   UserProfile_Name: string;
+  /** 生日 */
   UserProfile_Birthday: Date;
+  /** E-Mail */
   UserProfile_Email: string;
+  /** 手機號碼 */
   UserProfile_Mobile: string;
+  /** 是否有護照 */
   UserProfile_PassPort: boolean;
+  /** 是否有台胞證 */
   UserProfile_MTPs: boolean;
+  /** 是否有學生證 */
   UserProfile_StudentID: boolean;
+  /** 是否有教師證 */
   UserProfile_TeacherID: boolean;
+  /** 人員性別 */
   UserProfile_Sex: number;
+  /** 會員點數 */
   UserPoint: number;
 }
 

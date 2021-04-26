@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { map, catchError, filter } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import {
   Response_APIModel, Request_MemberFavourite, Response_MemberFavourite, AFP_Voucher,
   Request_MemberUserVoucher, Response_MemberUserVoucher, Request_ECCart, Response_ECCart, Model_ShareData
@@ -11,7 +11,7 @@ import { MessageModalComponent } from './shared/modal/message-modal/message-moda
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { environment } from '@env/environment';
 import { ModalService } from './shared/modal/modal.service';
-import { Router, NavigationExtras, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from 'angularx-social-login';
 import { SwPush } from '@angular/service-worker';
@@ -27,6 +27,8 @@ declare var AppJSInterface: any;
 export class AppService {
   /** 登入狀態 */
   public loginState = false;
+  /** 使用者暱稱 */
+  public userName: string;
   /** App訪問 */
   public isApp = null;
   /** callLayer 側邊滑入頁面 */
@@ -57,18 +59,21 @@ export class AppService {
   public firebaseToken: string;
   /** 首頁進場廣告是否開啟 (要再確認過瀏覽器版本後打開) */
   public adIndexOpen = false;
+  /** 會員是否在此次訪問執行了登入
+   * @description 用於判斷 loginState 由 false 轉為 true 不是因為在之前的訪問所保留的登入狀態下再次進行訪問，
+   * APP 因此重新建構及初始化導致，而是因為確實執行了登入。符合此狀況才在 app.component 的變化追蹤 (serviceDiffer)
+   * 偵測到 loginState 由 false 轉為 true時，重新訪問當前頁面以取得會員相關資訊。
+   **/
+  public userLoggedIn = false;
+  /** 引導手機驗證 modal 是否已開啟（控制此 modal 只開啟一個，避免在需呼叫１個以上 API 的頁面重複開啟）
+   * TODO: 暫時作法
+   */
+  public verifyMobileModalOpened = false;
 
   @BlockUI() blockUI: NgBlockUI;
   constructor(private http: HttpClient, private bsModal: BsModalService, public modal: ModalService, private router: Router,
               private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService,
               private swPush: SwPush) {
-    // 取得前一頁面url
-    router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe((event: NavigationEnd) => {
-        this.prevUrl = this.currentUrl;
-        this.currentUrl = event.url;
-      });
   }
 
   toApi(ctrl: string, command: string, request: any, lat: number = null, lng: number = null, deviceCode?: string): Observable<any> {
@@ -91,7 +96,10 @@ export class AppService {
               case 1:
                 // 「一般登入」、「第三方登入」、「登入後讀購物車數量」、「推播」不引導驗證手機
                 if (command !== '1104' && command !== '1105' && command !== '1204' && command !== '1113') {
-                  this.modal.openModal('verifyMobile');
+                  if (!this.verifyMobileModalOpened) {
+                    this.modal.openModal('verifyMobile');
+                    this.verifyMobileModalOpened = true;
+                  }
                 }
                 break;
               case 2:
@@ -111,8 +119,9 @@ export class AppService {
             this.blockUI.stop();
             return JSON.parse(data.Data);
           case 9998: // user資料不完整，讓使用者登出
-            this.modal.show('message', { initialState: { success: false, message: '請先登入', showType: 1 } });
+            this.modal.show('message', { initialState: { success: false, message: '請先登入', showType: 2,  checkBtnMsg: `重新登入`} });
             this.onLogout();
+            this.blockUI.stop();
             break;
           default: // 其他錯誤
             this.bsModal.show(MessageModalComponent
@@ -404,47 +413,57 @@ export class AppService {
     this.modal.show('justka', { initialState: { justkaUrl: url } });
   }
 
-  /** 初始化推播 (註冊firebase、取得token、產生/取得deviceCode、傳送給後端並取得新消費者包) */
+  /** 初始化推播
+   * (註冊 service worker、告訴 firebase.messaging 服務之後的訊息請交由此 SW 處理、取得token、產生/取得 deviceCode、傳送給後端並取得新消費者包)
+   * */
   initPush() {
-    if (environment.firebaseActivate) {
+    if (environment.swActivate) {
       // 不重複初始化
       if (!firebase.apps.length) {
         firebase.initializeApp(environment.firebaseConfig);
         const messaging = firebase.messaging();
-        navigator.serviceWorker.ready.then(registration => {
-          if (
-            !!registration &&
-            registration.active &&
-            registration.active.state &&
-            registration.active.state === 'activated'
-          ) {
-            messaging.useServiceWorker(registration);
-            if (Notification.permission !== 'denied') {
-              Notification
-                .requestPermission()
-                .then((permission) => {
-                  if (permission === 'granted') {
-                    messaging.getToken().then(token => {
-                      this.firebaseToken = token;
-                      // send token to BE
-                      // get GUID (device code) from session, or generate one if there's no
-                      if (sessionStorage.getItem('M_DeviceCode') !== null) {
-                        this.deviceCode = sessionStorage.getItem('M_DeviceCode');
-                      } else {
-                        this.deviceCode = this.guid();
-                        sessionStorage.setItem('M_DeviceCode', this.deviceCode);
-                      }
-                      this.toPushApi();
-                    });
-                  } else {
-                    console.warn('The notification permission was not granted and blocked instead');
-                  }
-                });
+        if ('serviceWorker' in navigator) {
+          // 註冊 service worker
+          navigator.serviceWorker.ready.then(registration => {
+            if (
+              !!registration &&
+              registration.active &&
+              registration.active.state &&
+              registration.active.state === 'activated'
+            ) {
+              messaging.useServiceWorker(registration); // 告訴 firebase.messaging 服務之後的訊息請交由此 SW 處理
+              if (Notification.permission !== 'denied') {
+                Notification
+                  .requestPermission()
+                  .then((permission) => {
+                    if (permission === 'granted') {
+                      // 取得token
+                      messaging.getToken().then(token => {
+                        this.firebaseToken = token;
+                        // send token to BE
+                        // get GUID (device code) from session, or generate one if there's no
+                        if (sessionStorage.getItem('M_DeviceCode') !== null) {
+                          this.deviceCode = sessionStorage.getItem('M_DeviceCode');
+                        } else {
+                          this.deviceCode = this.guid();
+                          sessionStorage.setItem('M_DeviceCode', this.deviceCode);
+                        }
+                        this.toPushApi();
+                      });
+                    } else {
+                      console.warn('The notification permission was not granted and blocked instead.');
+                    }
+                  });
+              }
+            } else {
+              console.warn('No active service worker found, not able to get firebase messaging.');
             }
-          } else {
-            console.warn('No active service worker found, not able to get firebase messaging');
-          }
-        });
+          }, (error) => {
+            console.log('Service worker registration failed:', error);
+          });
+        } else {
+          console.log('Service workers are not supported.');
+        }
       } else {
         firebase.app();
         this.toPushApi();

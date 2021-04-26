@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { AppService } from 'src/app/app.service';
-import { Request_AFPPassword, AFP_VerifiedInfo } from '@app/_models';
+import { AFP_VerifiedInfo } from '@app/_models';
 import { ModalService } from '../modal.service';
 
 @Component({
@@ -35,10 +35,20 @@ export class PasswordModalComponent {
       };
       this.appService.toApi('Home', '1103', resetpwd).subscribe((data: any) => {
         if ( data !== null ) {
-          this.modalService.show('message', { initialState: { success: true, message: '密碼已設定完成，請重新登入', showType: 2}}, this.bsModalRef);
+          this.modalService.show('message',
+          { initialState: { success: true, message: '密碼已設定完成，請重新登入', showType: 2, checkBtnMsg: `重新登入`}}, this.bsModalRef);
         }
       });
     }
   }
 
+}
+
+
+/** 忘記密碼 RequestModel */
+interface Request_AFPPassword {
+  /** 密碼 */
+  AFPPassword: string;
+  /** 驗證資訊 */
+  VerifiedInfo?: AFP_VerifiedInfo;
 }
