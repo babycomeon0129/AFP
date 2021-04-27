@@ -49,12 +49,12 @@
             <p class="item-date">{{msg?.IMessage_ReleaseDate | date: 'yyyy/MM/dd'}}</p>
             <div [ngClass]="{'msgNotCTA': !msg?.activeStatus}">
               <p class="msgDesc">{{msg?.IMessage_Desc}}</p>
-              <p [hidden]="msg?.IMessage_IsShowCTA === 0" class="moreBtn">
+              <p [hidden]="msg?.IMessage_IsShowCTA === 0 || msg?.IMessage_IsShowCTA === null" class="moreBtn">
                 <button class="btn index-btn" [routerLink]="['/Notification/NotificationDetail', msg?.IMessage_Code]">了解更多</button>
               </p>
             </div>
           </div>
-          <span [hidden]="msg?.IMessage_IsShowCTA === 0 && msg?.IMessage_Desc.length < 36" class="auto-left">
+          <span [hidden]="(msg?.IMessage_IsShowCTA === 0 || msg?.IMessage_IsShowCTA === null) && msg?.IMessage_Desc.length < 36" class="auto-left">
             <i class="material-icons">&#xe5cf;</i></span>
         </div>
       </li>
@@ -92,12 +92,12 @@
                 <p class="item-date">{{item?.IMessage_ReleaseDate | date: 'yyyy/MM/dd'}}</p>
                 <div [ngClass]="{'msgNotCTA': !item?.activeStatus}">
                   <p class="msgDesc">{{item?.IMessage_Desc}}</p>
-                  <p [hidden]="item?.IMessage_IsShowCTA === 0" class="moreBtn">
+                  <p [hidden]="item?.IMessage_IsShowCTA === 0 || item?.IMessage_IsShowCTA === null" class="moreBtn">
                     <button class="btn index-btn" [routerLink]="['/Notification/NotificationDetail', item?.IMessage_Code]">了解更多</button>
                   </p>
                 </div>
               </div>
-              <span [hidden]="item?.IMessage_IsShowCTA === 0 && item?.IMessage_Desc.length < 36" class="auto-left">
+              <span [hidden]="(item?.IMessage_IsShowCTA === 0 || item?.IMessage_IsShowCTA === null) && item?.IMessage_Desc.length < 36" class="auto-left">
                 <i class="material-icons">&#xe5cf;</i>
               </span>
             </div>
