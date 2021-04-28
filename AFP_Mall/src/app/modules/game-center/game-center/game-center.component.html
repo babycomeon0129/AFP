@@ -1,46 +1,75 @@
 <div class="wrap container">
   <header>
-      <div class="header-secondary container">
-          <div class="index-flex justify-content-between">
-              <div class="item two">
-                  <div class="close-btn" [hidden]="appService.isApp !== null">
-                      <button class="btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
-                          <i class="material-icons">&#xe314;</i>
-                      </button>
-                  </div>
-              </div>
-              <div class="item three text-center">
-                  <div class="title-name">遊戲館</div>
-              </div>
-              <div class="item two">
-              </div>
+    <div class="header-secondary container">
+      <div class="index-flex justify-content-between">
+        <div class="item two">
+          <div class="close-btn" [hidden]="appService.isApp !== null">
+            <button class="btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+              <i class="material-icons">&#xe314;</i>
+            </button>
           </div>
+        </div>
+        <div class="item three text-center">
+          <div class="title-name">遊戲館</div>
+        </div>
+        <div class="item two">
+        </div>
       </div>
+    </div>
   </header>
   <main>
-      <div *ngIf="imgTop?.ADImg_Img !== null" class="banner-box">
-          <div class="swiper-container">
-              <div class="swiper-wrapper">
-                  <div class="swiper-slide">
-                      <img [lazyLoad]="imgTop?.ADImg_Img" alt="top-image" [defaultImage]="appService.defaultImage">
-                  </div>
-              </div>
+    <!-- 廣告版位 -->
+    <div *ngIf="imgTop?.ADImg_Img !== null" class="banner-box">
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <img [lazyLoad]="imgTop?.ADImg_Img" alt="top-image" [defaultImage]="appService.defaultImage">
           </div>
+        </div>
       </div>
-      <div *ngIf="gameList?.length >= 1; else elseBlock" class="game-list p-3">
-          <h6 class="py-2">遊戲列表</h6>
-          <div class="member-flex flex-gamebn">
-              <div *ngFor="let game of gameList" (click)="goGame(game.Game_Code, game.Game_Type, game.Game_DedPoint, game.Game_ExtName)" class="item">
-                  <img [lazyLoad]="game?.Game_Image" alt="" class="img-fluid border-radius5" [defaultImage]="appService.defaultImage">
+    </div>
+    <!-- tab content for record-->
+    <div class="afp-tab-box">
+      <div class="afp-tab">
+        <div class="nav-tabs-box">
+          <!-- Nav tabs -->
+          <ul class="nav-tab-list nav nav-tabs nav-line d-flex justify-content-around">
+            <li role="presentation">
+              <a (click)="onTabList(1);" class="tablist-link"  [ngClass]="{'active': selectedType === 1}">一般會員</a>
+            </li>
+            <li role="presentation">
+              <a (click)="onTabList(2);" class="tablist-link"  [ngClass]="{'active': selectedType === 2}">綁卡會員</a>
+            </li>
+          </ul>
+          <div class="tab-line w-100"></div>
+        </div>
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <!-- 一般會員 -->
+          <div role="tabpanel" class="tab-pane fade w-100" id="tabPane1" [ngClass]="{'active show': selectedType === 1}">
+            <div *ngIf="gameList?.length >= 1; else elseBlock" class="game-list p-3">
+              <div class="member-flex flex-gamebn">
+                <div *ngFor="let game of gameList"
+                  (click)="goGame(game.Game_Code, game.Game_Type, game.Game_DedPoint, game.Game_ExtName)" class="item">
+                  <img [lazyLoad]="game?.Game_Image" alt="" class="img-fluid border-radius5"
+                    [defaultImage]="appService.defaultImage">
+                </div>
               </div>
+            </div>
+            <ng-template #elseBlock>
+              <div class="no-data">
+                <img src="../img/share/game-null.png" alt="no-game">
+                <p>Oops！下次再來玩...</p>
+              </div>
+            </ng-template>
           </div>
+          <!-- 綁卡會員 -->
+          <div role="tabpanel" class="tab-pane fade w-100" id="tabPane2" [ngClass]="{'active show': selectedType === 2}">
+
+          </div>
+        </div>
       </div>
-      <ng-template #elseBlock >
-          <div class="no-data">
-            <img src="../img/share/game-null.png" alt="no-game">
-            <p>Oops！下次再來玩...</p>
-          </div>
-      </ng-template>
+    </div>
   </main>
 
   <app-mobile-footer></app-mobile-footer>
