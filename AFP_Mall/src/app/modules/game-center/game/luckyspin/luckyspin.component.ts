@@ -87,6 +87,7 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
     } else {
       // 若須扣除點數跳出確認提示
       if ((this.playTimes !== 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) && this.gameData.AFP_Game.Game_DedPoint > 0) {
+        // 先跳確認扣除點數視窗，按下確認才允許進行遊戲
         this.modal
           .confirm({
             initialState: {

@@ -43,25 +43,26 @@ export class GameCenterComponent implements OnInit {
    * @param gameExtName 遊戲外部名稱
    */
   goGame(gameCode: number, gameType: number, gamePoint: number, gameExtName: string): void {
-    if (this.appService.loginState === true) {
+    if (this.appService.loginState) {
       // 如果是刮刮樂且將消耗點數，要先跳扣除提醒
-      if ( gameType === 1 && gamePoint > 0) {
-        this.modal.confirm({
-          initialState: {
-            title: `重要提醒`,
-            message: `遊玩「${gameExtName}」需要扣除 Mobii! Points ${gamePoint} 點，請確定是否繼續？`
-          }
-        }).subscribe( res => {
-          if (res) {
-            this.router.navigate(['/GameCenter/Game', gameCode]);
-          }
-        });
-      } else {
+      // if ( gameType === 1 && gamePoint > 0) {
+      //   this.modal.confirm({
+      //     initialState: {
+      //       title: `重要提醒`,
+      //       message: `遊玩「${gameExtName}」需要扣除 Mobii! Points ${gamePoint} 點，請確定是否繼續？`
+      //     }
+      //   }).subscribe( res => {
+      //     if (res) {
+      //       this.router.navigate(['/GameCenter/Game', gameCode]);
+      //     }
+      //   });
+      // } else {
         this.router.navigate(['/GameCenter/Game', gameCode]);
-      }
+      //}
     } else {
       this.appService.loginPage();
     }
+
   }
 
 }

@@ -16,6 +16,8 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() gameData: Response_Games;
   /** 呼叫父層的noticeAlert方法 (跳出視窗，提醒點數不足或已達遊玩次數上限) */
   @Output() noticeAlert = new EventEmitter();
+  /** 呼叫父層的noGameStateAlert方法，遊戲為不可遊玩狀態的提醒視窗 */
+  @Output() noGameStateAlert = new EventEmitter();
   /** 總點數（每玩完一次即更新） */
   public totalPoints: number;
   /** 會員總可玩次數（每玩完一次即更新；須注意為"-1"/不限次數的情況） */
@@ -25,7 +27,7 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // 刮刮樂繪製所需變數
   /** mousedown event，為true時使用者才可進行繪製 */
-  private mousedown: boolean;
+  private mousedown = false;
   /** 刮刮樂畫布寬度 */
   private w: number;
   /** 刮刮樂畫布高度 */
@@ -48,17 +50,16 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
   public layerTrig = 0;
   /** 視窗滑動切換(往上) 0: 本頁 1: 開獎資訊 */
   public layerTrigUp = 0;
+  /** 允許進行遊戲。需使用者點擊扣點確認視窗的「確認」才允許進行遊戲 */
+  public goPlay = false;
 
   constructor(public appService: AppService, public modal: ModalService, private route: ActivatedRoute) {
   }
 
+  // TODO: 2021/04/28 測試沒問題再把註解掉的東西刪掉吧-Lynn
   ngOnInit() {
     this.totalPoints = this.gameData.TotalPoint;
     this.playTimes = this.gameData.AFP_Game.Game_PlayCount;
-    // 若可玩次數 === 0或是所剩點數不夠遊完一次則阻擋使用者繪製動作
-    if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
-      this.mousedown = false;
-    }
     this.w = document.getElementById('top').offsetWidth;
     this.h = document.getElementById('top').offsetHeight;
     this.bottomCanvas = document.querySelector('#bottom') as HTMLCanvasElement;
@@ -104,45 +105,116 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  /** 點擊刮刮樂畫面
+   * @description 點擊刮刮樂畫面後，先判斷該遊戲是否為可遊玩狀態。如果為可玩狀態，再判斷遊戲次數、所剩餘點數。通過上述條件之後先跳確認扣除點數視窗，按下確認才允許進行遊戲
+   */
+  // clickScrach(): void {
+  //   // 先判斷該遊戲是否為可遊玩狀態，0: 不可遊玩(未完成綁卡等條件，條件由後端判定) 1:可遊玩
+  //   if (!this.gameData.GameState) {
+  //     this.noGameStateAlert.emit();
+  //   } else {
+  //     // 若可玩次數 === 0或是所剩點數不夠遊完一次則阻擋使用者繪製動作
+  //     if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
+  //       this.mousedown = false;
+  //       this.noticeAlert.emit();
+  //     } else {
+  //       if (!this.goPlay) {
+  //         // 先跳確認扣除點數視窗，按下確認才允許進行遊戲
+  //         this.modal
+  //           .confirm({
+  //             initialState: {
+  //               message: `請確定是否扣除 Mobii! Points ${this.gameData.AFP_Game.Game_DedPoint} 點玩「${this.gameData.AFP_Game.Game_ExtName}」？`,
+  //             },
+  //           })
+  //           .subscribe((res) => {
+  //             this.goPlay = res === true;
+  //           });
+  //       }
+  //     }
+  //   }
+  // }
+
   /** 使用者在畫布的行為偵測
    * @param eventType 偵測mouse行為(0: start/down, 1: move, 2: end/up)
    * @param e 點擊事件addEventListener
    */
-  eventDetect(eventType: number, e) {
-    // 若可玩次數 === 0或是所剩點數不夠遊完一次則阻擋使用者繪製動作
-    if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
-      this.mousedown = false;
-    } else {
-      switch (eventType) {
-        case 0:
-          this.eventDown(e);
-          break;
-        case 1:
-          this.eventMove(e);
-          break;
-        case 2:
-          this.eventUp(e);
-          break;
+  // eventDetect(eventType: number, e) {
+  //   // 先判斷該遊戲是否為可遊玩狀態，0: 不可遊玩(未完成綁卡等條件，條件由後端判定) 1:可遊玩
+  //   if (this.gameData.GameState) {
+  //     // 若可玩次數 === 0或是所剩點數不夠遊完一次則阻擋使用者繪製動作
+  //     if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
+  //       this.mousedown = false;
+  //     } else {
+  //       switch (eventType) {
+  //         case 0:
+  //           this.eventDown(e);
+  //           break;
+  //         case 1:
+  //           this.eventMove(e);
+  //           break;
+  //         case 2:
+  //           this.eventUp(e);
+  //           break;
+  //       }
+  //     }
+  //   }
+  // }
+
+  /** 使用者在畫布的行為事件-用者按下滑鼠按鈕時開始繪製 */
+  eventDown(ev: { preventDefault: () => void; }): void {
+    ev.preventDefault();
+    // 先判斷該遊戲是否為可遊玩狀態，0: 不可遊玩(未完成綁卡等條件，條件由後端判定) 1:可遊玩
+    if (this.gameData.GameState) {
+      // 若可玩次數 === 0或是所剩點數不夠遊完一次，則阻擋使用者進行遊戲
+      if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
+        this.mousedown = false;
+        this.noticeAlert.emit();
+      } else {
+        // 先判斷是否允許進行遊戲
+        if (!this.goPlay) {
+          // 跳出扣點確認視窗
+          this.modal
+            .confirm({
+              initialState: {
+                message: `請確定是否扣除 Mobii! Points ${this.gameData.AFP_Game.Game_DedPoint} 點玩「${this.gameData.AFP_Game.Game_ExtName}」？`,
+              },
+            })
+            .subscribe((res) => {
+              this.goPlay = res === true;
+              this.mousedown = res === true;
+            });
+        }
       }
+      // if (!this.goPlay) {
+      //   if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
+      //     this.mousedown = false;
+      //     this.noticeAlert.emit();
+      //   } else {
+      //     this.modal
+      //       .confirm({
+      //         initialState: {
+      //           message: `請確定是否扣除 Mobii! Points ${this.gameData.AFP_Game.Game_DedPoint} 點玩「${this.gameData.AFP_Game.Game_ExtName}」？`,
+      //         },
+      //       })
+      //       .subscribe((res) => {
+      //         this.goPlay = res === true;
+      //         this.mousedown = res === true;
+      //       });
+      //   }
+      // }
+    } else {
+      this.noGameStateAlert.emit();
     }
   }
-  /** 使用者在畫布的行為事件-點擊事件mouseDown行為 */
-  eventDown(ev) {
-    // ev = ev || event;
-    ev.preventDefault();
-    this.mousedown = true;
-  }
-  /** 使用者在畫布的行為事件-點擊事件mouseUp行為 */
-  eventUp(ev) {
-    // ev = ev || event;
+  /** 使用者在畫布的行為事件-放開滑鼠按鈕的動作、在刮刮樂touchend的動作。當出現上述動作時，停止繪製 */
+  eventUp(ev: { preventDefault: () => void; }) {
     ev.preventDefault();
     this.mousedown = false;
   }
-  /** 使用者在畫布的行為事件-點擊事件mouseMove行為 */
-  eventMove(ev) {
-    // ev = ev || event;
+  /** 使用者在畫布的行為事件-移動滑鼠時進行刮除上層圖片的動作 */
+  eventMove(ev: { preventDefault: () => void; changedTouches: string | any[]; pageX: number; pageY: number; }) {
     ev.preventDefault();
-    if (this.mousedown) {
+    if (this.mousedown && this.goPlay) {
       if (ev.changedTouches) {
         ev = ev.changedTouches[ev.changedTouches.length - 1];
       }
@@ -212,6 +284,7 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
           this.ctxTop.globalCompositeOperation = 'destination-over';
           this.ctxTop.canvas.style.opacity = '0'; // 上層canvas變透明
           this.layerTrigUp = 1;
+          this.goPlay = false;
         });
       }
     }
@@ -253,6 +326,13 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  /** 監聽事件。放開滑鼠按鍵時停止繪製 */
+  // @HostListener('window:mouseup', ['$event'])
+  // mouseup(event: { preventDefault: () => void; }) {
+  //   event.preventDefault();
+  //   this.mousedown = false;
+  // }
+
   ngAfterViewInit() {
     /** 刮刮樂畫面繪製 */
     this.imgTop.onload = () => {
@@ -263,21 +343,21 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     };
 
     /** 鼠標移動開始刮圖層 */
-    this.topCanvas.addEventListener('touchstart', (e) => { this.eventDetect(0, e); });
-    this.topCanvas.addEventListener('touchend', (e) => { this.eventDetect(2, e); });
-    this.topCanvas.addEventListener('touchmove', (e) => { this.eventDetect(1, e); });
-    this.topCanvas.addEventListener('mousedown', (e) => { this.eventDetect(0, e); });
-    document.addEventListener('mouseup', (e) => { this.eventDetect(2, e); });
-    this.topCanvas.addEventListener('mousemove', (e) => { this.eventDetect(1, e); });
+    // this.topCanvas.addEventListener('touchstart', (e) => { this.eventDetect(0, e); });
+    // this.topCanvas.addEventListener('touchend', (e) => { this.eventDetect(2, e); });
+    // this.topCanvas.addEventListener('touchmove', (e) => { this.eventDetect(1, e); });
+    // this.topCanvas.addEventListener('mousedown', (e) => { this.eventDetect(0, e); });
+    // document.addEventListener('mouseup', (e) => { this.eventDetect(2, e); });
+    // this.topCanvas.addEventListener('mousemove', (e) => { this.eventDetect(1, e); });
   }
 
   /** 結束偵聽 */
   ngOnDestroy() {
-    this.topCanvas.removeEventListener('touchstart', (e) => { });
-    this.topCanvas.removeEventListener('touchend', (e) => { });
-    this.topCanvas.removeEventListener('touchmove', (e) => { });
-    this.topCanvas.removeEventListener('mousedown', (e) => { });
-    document.removeEventListener('mouseup', (e) => { });
-    this.topCanvas.removeEventListener('mousemove', (e) => { });
+    //  this.topCanvas.removeEventListener('touchstart', (e) => { });
+    //  this.topCanvas.removeEventListener('touchend', (e) => { });
+    //  this.topCanvas.removeEventListener('touchmove', (e) => { });
+    //  this.topCanvas.removeEventListener('mousedown', (e) => { });
+    //  document.removeEventListener('mouseup', (e) => { });
+    //  this.topCanvas.removeEventListener('mousemove', (e) => { });
   }
 }

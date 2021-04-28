@@ -68,7 +68,7 @@ export class GameComponent implements OnInit {
   }
 
   /** 遊戲為不可遊玩狀態的提醒視窗 */
-  noGameStateAlert() {
+  noGameStateAlert(): void {
     const initialState = {
       success: false,
       showType: 6,
@@ -84,6 +84,5 @@ export class GameComponent implements OnInit {
 
     this.modal.show('message', { initialState });
   }
-
 
 }
