@@ -89,27 +89,11 @@ export class MemberCoinComponent implements OnInit {
   }
 
   /** 前往遊戲
-   * @param gameType 遊戲類型
    * @param gameCode 遊戲編碼
-   * @param gameExtName 遊戲名稱
-   * @param gamePoint 遊玩扣除點數
    */
-  goGame(gameType: number, gameCode: number, gameExtName: string, gamePoint: number) {
+  goGame(gameCode: number) {
     // 如果是刮刮樂且將消耗點數，要先跳扣除提醒
-    if ( gameType === 1 && gamePoint > 0) {
-      this.modal.confirm({
-        initialState: {
-          title: `重要提醒`,
-          message: `遊玩「${gameExtName}」需要扣除 Mobii! Points ${gamePoint} 點，請確定是否繼續？`
-        }
-      }).subscribe( res => {
-        if (res) {
-          this.router.navigate(['/GameCenter/Game', gameCode], {queryParams: { showBack: false}});
-        }
-      });
-    } else {
-      this.router.navigate(['/GameCenter/Game', gameCode], {queryParams: { showBack: false}});
-    }
+    this.router.navigate(['/GameCenter/Game', gameCode], {queryParams: { showBack: false}});
   }
 
   /** 前往優惠券詳細
