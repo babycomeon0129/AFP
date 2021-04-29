@@ -554,10 +554,14 @@ export class AppService {
 }
 
 
+/** 推撥登記 RequestModel */
 interface Request_AFPPushToken extends Model_ShareData {
+  /** FireBase Token */
   Token: string;
 }
 
+/** 推撥登記 ResponseModel */
 interface Response_AFPPushToken extends Model_ShareData {
+  /** 消費者包 */
   CustomerInfo: string;
 }

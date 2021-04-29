@@ -82,6 +82,16 @@ export class MemberCardComponent implements OnInit {
     });
   }
 
+  /** 點擊立即新增卡片 */
+  gotoAddCard(): void {
+    if (this.appService.loginState) {
+      this.layerTrig = 1;
+      this.appService.appShowMobileFooter(false);
+    } else {
+      this.appService.loginPage();
+    }
+  }
+
   /** 開啟「新增會員卡」; layerTrigger動畫完成後,再開啟showAddCard */
   showAddCard() {
     this.captcha1 = new CaptchaMini();
