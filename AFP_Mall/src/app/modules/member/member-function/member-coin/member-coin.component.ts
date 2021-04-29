@@ -92,14 +92,6 @@ export class MemberCoinComponent implements OnInit {
     });
   }
 
-  /** 前往遊戲
-   * @param gameCode 遊戲編碼
-   */
-  goGame(gameCode: number) {
-    // 如果是刮刮樂且將消耗點數，要先跳扣除提醒
-    this.router.navigate(['/GameCenter/Game', gameCode], { queryParams: { showBack: false } });
-  }
-
   /** 前往優惠券詳細
    * APP特例處理: 若是從會員過去則要隱藏返回鍵
    */

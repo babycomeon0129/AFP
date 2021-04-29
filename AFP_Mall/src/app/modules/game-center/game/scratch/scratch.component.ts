@@ -105,35 +105,6 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  /** 點擊刮刮樂畫面
-   * @description 點擊刮刮樂畫面後，先判斷該遊戲是否為可遊玩狀態。如果為可玩狀態，再判斷遊戲次數、所剩餘點數。通過上述條件之後先跳確認扣除點數視窗，按下確認才允許進行遊戲
-   */
-  // clickScrach(): void {
-  //   // 先判斷該遊戲是否為可遊玩狀態，0: 不可遊玩(未完成綁卡等條件，條件由後端判定) 1:可遊玩
-  //   if (!this.gameData.GameState) {
-  //     this.noGameStateAlert.emit();
-  //   } else {
-  //     // 若可玩次數 === 0或是所剩點數不夠遊完一次則阻擋使用者繪製動作
-  //     if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
-  //       this.mousedown = false;
-  //       this.noticeAlert.emit();
-  //     } else {
-  //       if (!this.goPlay) {
-  //         // 先跳確認扣除點數視窗，按下確認才允許進行遊戲
-  //         this.modal
-  //           .confirm({
-  //             initialState: {
-  //               message: `請確定是否扣除 Mobii! Points ${this.gameData.AFP_Game.Game_DedPoint} 點玩「${this.gameData.AFP_Game.Game_ExtName}」？`,
-  //             },
-  //           })
-  //           .subscribe((res) => {
-  //             this.goPlay = res === true;
-  //           });
-  //       }
-  //     }
-  //   }
-  // }
-
   /** 使用者在畫布的行為偵測
    * @param eventType 偵測mouse行為(0: start/down, 1: move, 2: end/up)
    * @param e 點擊事件addEventListener
@@ -181,27 +152,11 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
             })
             .subscribe((res) => {
               this.goPlay = res === true;
-              this.mousedown = res === true;
             });
+        } else {
+          this.mousedown = true;
         }
       }
-      // if (!this.goPlay) {
-      //   if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
-      //     this.mousedown = false;
-      //     this.noticeAlert.emit();
-      //   } else {
-      //     this.modal
-      //       .confirm({
-      //         initialState: {
-      //           message: `請確定是否扣除 Mobii! Points ${this.gameData.AFP_Game.Game_DedPoint} 點玩「${this.gameData.AFP_Game.Game_ExtName}」？`,
-      //         },
-      //       })
-      //       .subscribe((res) => {
-      //         this.goPlay = res === true;
-      //         this.mousedown = res === true;
-      //       });
-      //   }
-      // }
     } else {
       this.noGameStateAlert.emit();
     }
