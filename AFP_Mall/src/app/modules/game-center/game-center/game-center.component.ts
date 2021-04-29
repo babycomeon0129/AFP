@@ -19,11 +19,15 @@ export class GameCenterComponent implements OnInit {
 
   constructor(public appService: AppService, private router: Router, public modal: ModalService, private meta: Meta, private title: Title) {
     this.title.setTitle('遊戲 - Mobii!');
-    this.meta.updateTag({name : 'description',
-                         content: 'Mobii! - 遊戲。這裡會顯示 Mobii! 用戶在Mobii! 平台上可以玩的遊戲。遊戲通常會含優惠券、商城的特惠商品以及意想不到的大禮驚喜！趕快註冊登入成為會員吧！'});
-    this.meta.updateTag({content: '遊戲 - Mobii!', property: 'og:title'});
-    this.meta.updateTag({content: 'Mobii! - 遊戲。這裡會顯示 Mobii! 用戶在Mobii! 平台上可以玩的遊戲。遊戲通常會含優惠券、商城的特惠商品以及意想不到的大禮驚喜！趕快註冊登入成為會員吧！',
-                         property: 'og:description'});
+    this.meta.updateTag({
+      name: 'description',
+      content: 'Mobii! - 遊戲。這裡會顯示 Mobii! 用戶在Mobii! 平台上可以玩的遊戲。遊戲通常會含優惠券、商城的特惠商品以及意想不到的大禮驚喜！趕快註冊登入成為會員吧！'
+    });
+    this.meta.updateTag({ content: '遊戲 - Mobii!', property: 'og:title' });
+    this.meta.updateTag({
+      content: 'Mobii! - 遊戲。這裡會顯示 Mobii! 用戶在Mobii! 平台上可以玩的遊戲。遊戲通常會含優惠券、商城的特惠商品以及意想不到的大禮驚喜！趕快註冊登入成為會員吧！',
+      property: 'og:description'
+    });
   }
 
   ngOnInit() {
@@ -60,8 +64,8 @@ export class GameCenterComponent implements OnInit {
       //     }
       //   });
       // } else {
-        this.router.navigate(['/GameCenter/Game', gameCode]);
-      //}
+      this.router.navigate(['/GameCenter/Game', gameCode]);
+      // }
     } else {
       this.appService.loginPage();
     }
@@ -72,14 +76,14 @@ export class GameCenterComponent implements OnInit {
   /** 讀取TAG列表
    * @param favType 1:一般會員, 2:綁卡會員
    */
-   onTabList(tabType: number) {
-     this.selectedType = tabType;
-   }
+  onTabList(tabType: number) {
+    this.selectedType = tabType;
+  }
 }
 
 
 /** 遊戲首頁 RequestModel */
-class Request_GameIndex extends Model_ShareData {}
+class Request_GameIndex extends Model_ShareData { }
 
 /** 遊戲首頁 ResponseModel */
 interface Response_GameIndex extends Model_ShareData {
