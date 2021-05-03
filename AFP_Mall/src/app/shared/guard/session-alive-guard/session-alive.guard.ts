@@ -67,14 +67,13 @@ export class SessionAliveGuard implements CanActivate {
   }
 }
 
-// tslint:disable-next-line: class-name
-export class Request_AuthUser extends Model_ShareData {
+class Request_AuthUser extends Model_ShareData {
   SearchModel: {
     UserInfoCode: string;
     CustomerInfo: string;
   };
 }
 
-export class Response_AuthUser extends Model_ShareData {
+class Response_AuthUser extends Model_ShareData {
   CheckState: boolean;
 }

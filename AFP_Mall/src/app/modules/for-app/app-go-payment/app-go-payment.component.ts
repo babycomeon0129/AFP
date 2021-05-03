@@ -15,7 +15,6 @@ export class AppGoPaymentComponent implements OnInit {
 
   constructor(public appService: AppService, private router: Router, private activatedRoute: ActivatedRoute,
               private meta: Meta, private title: Title) {
-    // tslint:disable: max-line-length
     this.title.setTitle('AppGoPayment - Mobii!');
     this.meta.updateTag({ name: 'description', content: '' });
     this.meta.updateTag({ content: 'AppGoPayment - Mobii!', property: 'og:title' });

@@ -40,7 +40,6 @@ export class MyProfileComponent implements OnInit {
 
   constructor(public appService: AppService, public modal: ModalService, public memberService: MemberService,
               private meta: Meta, private title: Title, private localeService: BsLocaleService, private cookieService: CookieService) {
-    // tslint:disable: max-line-length
     this.title.setTitle('我的檔案 - Mobii!');
     this.meta.updateTag({ name: 'description', content: '' });
     this.meta.updateTag({ content: '我的檔案 - Mobii!', property: 'og:title' });
@@ -95,7 +94,7 @@ export class MyProfileComponent implements OnInit {
   /** 讀取證件
    * @param CertificateType 1 護照, 2 台胞證, 11 學生證 12 教職員證
    */
-  readCertificate(CertificateType: number) {
+  readCertificate(CertificateType: number):void {
     this.userCertificate = new AFP_UserFavourite(); // 初始化
     this.isUpload = false; // 初始化
     const request: Request_MemberCertificate = {
@@ -151,7 +150,7 @@ export class MyProfileComponent implements OnInit {
   }
 
   /** 更新證件 */
-  onUpdateCertificate() {
+  onUpdateCertificate(): void {
     // 調整日期顯示問題 (UTC -> TMC)
     if (this.userCertificate.UserFavourite_Date !== null && this.userCertificate.UserFavourite_Date !== undefined) {
       if (this.userCertificate.UserFavourite_Date.getMonth() < new Date().getMonth()) {

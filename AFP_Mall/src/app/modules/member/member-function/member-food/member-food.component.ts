@@ -27,7 +27,7 @@ export class MemberFoodComponent implements OnInit {
     this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
-  getFoodList() {
+  getFoodList(): void {
     const request: Request_MemDeliveryOrder = {
       User_Code: sessionStorage.getItem('userCode')
     };
@@ -37,7 +37,7 @@ export class MemberFoodComponent implements OnInit {
   }
 
   /** 跳轉至外連連結 */
-  goLink(url: string) {
+  goLink(url: string): void {
     window.open(url);
   }
 

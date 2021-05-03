@@ -34,7 +34,6 @@ export class ShoppingCartComponent implements OnInit {
 
   constructor(public appService: AppService, public modal: ModalService, private cookieService: CookieService, private router: Router,
     private route: ActivatedRoute, private meta: Meta, private title: Title) {
-    // tslint:disable: max-line-length
     this.title.setTitle('購物車｜線上商城 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! 線上商城購物車。你是不是…還有商品在購物車裡忘了結帳？趕快結帳把購物車清空，賺取 Mobii! M Points 回饋點數吧！我 OK，你先買！' });
     this.meta.updateTag({ content: '購物車｜線上商城 - Mobii!', property: 'og:title' });

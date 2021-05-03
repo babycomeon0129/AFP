@@ -224,7 +224,6 @@ export class EntranceComponent implements OnInit {
   /** 我的服務: 判斷是否被拖曳 */
   public isMove = false;
   /** 我的服務:拖曳功能options */
-  // tslint:disable-next-line: deprecation
   public options: SortablejsOptions = {
     disabled: true,
     handle: '#myService',
@@ -525,41 +524,12 @@ export class EntranceComponent implements OnInit {
           break;
       }
     });
-
-    // switch (mode) {
-    //   case 1:
-    //     this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
-    //       this.popProducts[index].ProductData = data.List_ProductData[0].ProductData;
-    //     });
-    //     break;
-    //   case 2:
-    //     this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
-    //       this.nowVoucher[index].VoucherData = data.List_Voucher[0].VoucherData;
-    //     });
-    //     break;
-    //   case 3:
-    //     this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
-    //       this.hitArea[index].ECStoreData = data.List_AreaData[0].ECStoreData;
-    //     });
-    //     break;
-    //   case 4:
-    //     this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
-    //       this.deliveryArea[index].ECStoreData = data.List_DeliveryData[0].ECStoreData;
-    //     });
-    //     break;
-    //   case 5:
-    //     this.appService.toApi('Home', '1012', request).subscribe((data: Response_Home) => {
-    //       this.hitTravel[index].TravelData = data.List_TravelData[0].TravelData;
-    //     });
-    //     break;
-    // }
   }
 
 
   /** 開啟服務連結 */
   FunctionLink(Link: AFP_Function, editFunction: boolean): void {
     if (!editFunction) {
-      //  this.appService.backLayer();
       if (Link.Function_IsActive === 1) {
         if (Link.Function_URLTarget === '_app') {
           this.modal.confirm({ initialState: { message: '請問是否要開啟Mobii App?' } }).subscribe(res => {

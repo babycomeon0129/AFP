@@ -4,7 +4,8 @@
     "outDir": "./out-tsc/app",
     "types": [
       "jquery",
-      "swiper"
+      "swiper",
+      "node"
     ]
   },
   "files": [

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Request_MemberTicket, Response_MemberTicket, AFP_UserTicket, AFP_Product } from '@app/_models';
 import { ActivatedRoute } from '@angular/router';
 import { AppService } from 'src/app/app.service';
-import { layerAnimation} from '../../../../animations';
+import { layerAnimation} from '@app/animations';
 
 @Component({
   selector: 'app-eticket-detail',
@@ -28,7 +28,7 @@ export class ETicketDetailComponent implements OnInit {
     this.readTicket();
   }
 
-  readTicket() {
+  readTicket(): void {
     const request: Request_MemberTicket = {
       User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 5, // 查詢詳細

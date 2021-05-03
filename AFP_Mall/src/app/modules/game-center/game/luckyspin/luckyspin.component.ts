@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, Output, AfterViewInit, Renderer2, EventEmitter } from '@angular/core';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { Response_Games, Request_Games, AFP_GamePart } from '@app/_models';
-import { ModalService } from '../../../../shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { layerAnimation, layerAnimationUp } from '../../../../animations';
+import { layerAnimation, layerAnimationUp } from '@app/animations';
 
 @Component({
   selector: 'app-luckyspin',

@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { AFP_UserFavourite, AFP_UserReport, Request_MemberAddress, Response_MemberAddress } from '@app/_models';
 import { NgForm } from '@angular/forms';
-import { ModalService } from '../../../../shared/modal/modal.service';
-import { layerAnimation } from '../../../../animations';
+import { ModalService } from '@app/shared/modal/modal.service';
+import { layerAnimation } from '@app/animations';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
@@ -33,7 +33,6 @@ export class MyAddressComponent implements OnInit {
   public layerTrig = 0;
 
   constructor(public appService: AppService, public modal: ModalService, private meta: Meta, private title: Title) {
-    // tslint:disable: max-line-length
     this.title.setTitle('我的地址 - Mobii!');
     this.meta.updateTag({name : 'description', content: ''});
     this.meta.updateTag({content: '我的地址 - Mobii!', property: 'og:title'});
@@ -45,7 +44,7 @@ export class MyAddressComponent implements OnInit {
   }
 
   /** 讀取地址列表，及「新增地址」中的縣市和行政區 */
-  onGetAddressList() {
+  onGetAddressList(): void {
     const request: Request_MemberAddress = {
       SelectMode: 4,
       User_Code: sessionStorage.getItem('userCode')
@@ -72,7 +71,7 @@ export class MyAddressComponent implements OnInit {
   /** 讀取地址詳細
    * @param addressId 地址ID
    */
-  onReadAddressDetail(addressID: number) {
+  onReadAddressDetail(addressID: number): void  {
     if (addressID > 0) {
       this.appService.openBlock();
       const request: Request_MemberAddress = {
@@ -143,7 +142,7 @@ export class MyAddressComponent implements OnInit {
   }
 
   /** 刪除地址 */
-  onDeleteAddress() {
+  onDeleteAddress(): void  {
     this.modal.confirm({ initialState: { message: '請問是否要刪除這個地址?' } }).subscribe(res => {
       if (res) {
         const request: Request_MemberAddress = {

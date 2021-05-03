@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Model_ShareData, AFP_UserFavourite } from '@app/_models';
-import { ModalService } from '../../../../shared/modal/modal.service';
-import { layerAnimation } from '../../../../animations';
+import { ModalService } from '@app/shared/modal/modal.service';
+import { layerAnimation } from '@app/animations';
 
 @Component({
   selector: 'app-my-payment',
@@ -26,7 +26,7 @@ export class MyPaymentComponent implements OnInit {
   }
 
   /** 付款設定 */
-  onGetPaymentList() {
+  onGetPaymentList(): void  {
     const request: Request_MemberPaySetting = {
       SelectMode: 4,
       User_Code: sessionStorage.getItem('userCode')
@@ -40,14 +40,14 @@ export class MyPaymentComponent implements OnInit {
   /** 顯示信用卡詳細
    * @param card 信用卡
    */
-  showPaymentDeatail(card: AFP_UserFavourite) {
+  showPaymentDeatail(card: AFP_UserFavourite): void  {
     this.paymentDetail = card;
   }
 
   /** 刪除信用卡
    * @param itemId 信用卡ID
    */
-  onDelCard(itemId: number) {
+  onDelCard(itemId: number): void  {
     this.modal.confirm({ initialState: { message: '請問是否要刪除這個付款方式?' } }).subscribe(res => {
       if (res) {
         const request: Request_MemberPaySetting = {
@@ -66,7 +66,7 @@ export class MyPaymentComponent implements OnInit {
   }
 
   /** 變更預設信用卡 */
-  toggleDefaultCard() {
+  toggleDefaultCard(): void  {
     if (this.paymentDetail.UserFavourite_IsDefault === 1) {
       this.paymentDetail.UserFavourite_IsDefault = 0;
     } else {

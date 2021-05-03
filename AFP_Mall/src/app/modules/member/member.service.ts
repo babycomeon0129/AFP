@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AppService } from '../../app.service';
+import { AppService } from '@app/app.service';
 import { Response_MemberProfile, Request_MemberProfile, Request_MemberThird, Response_MemberThird,
         AFP_UserThird } from './member/member.component';
 
@@ -43,7 +43,7 @@ export class MemberService {
   }
 
   /** 讀取社群帳號（會員首頁、社群帳號綁定皆會使用） */
-  readThirdData() {
+  readThirdData(): void {
     // 初始化
     this.FBThird = null;
     this.GoogleThird = null;

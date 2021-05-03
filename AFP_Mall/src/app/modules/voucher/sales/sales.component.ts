@@ -47,7 +47,7 @@ export class SalesComponent implements OnInit, OnDestroy {
     this.readData();
   }
 
-  readData() {
+  readData(): void {
     this.appService.openBlock();
     const request: Request_ECVouFlashSale = {
       User_Code: sessionStorage.getItem('userCode'),
@@ -64,7 +64,7 @@ export class SalesComponent implements OnInit, OnDestroy {
   }
 
   /** 限時搶購倒數 */
-  saleCountdown() {
+  saleCountdown(): void {
     const saleEndTime = new Date(this.activity.VouFlashSale_OfflineDate).getTime();
     this.countdown = setInterval(() => {
       const currentTime = new Date().getTime();

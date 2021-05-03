@@ -8,7 +8,7 @@ import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 import { SortablejsModule } from 'ngx-sortablejs';
 
 import { EntranceRoutingModule } from './entrance-routing.module';
-import { SharedModule } from '../../shared/shared.module';
+import { SharedModule } from '@app/shared/shared.module';
 
 import { EntranceComponent } from './entrance.component';
 

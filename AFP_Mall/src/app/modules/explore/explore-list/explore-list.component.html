@@ -1,7 +1,7 @@
 <div class="wrap container">
   <div class="explore-top-box container">
     <div class="title-box">
-      <div class="item icon-btn" *ngIf="hideGoBack == null">
+      <div class="item icon-btn"  [hidden]="appService.isApp !== null && !appService.showBack">
         <i class="material-icons" onclick="history.back()">&#xe314;</i>
       </div>
       <div class="item title-name">探索周邊</div>

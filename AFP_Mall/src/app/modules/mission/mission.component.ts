@@ -47,7 +47,7 @@ export class MissionComponent implements OnInit {
   }
 
   /** 讀取任務資料 */
-  readData() {
+  readData(): void {
     this.appService.openBlock();
     const request: Request_MemberMission = {
       User_Code: sessionStorage.getItem('userCode'),
@@ -71,7 +71,7 @@ export class MissionComponent implements OnInit {
   }
 
   /** 配合分頁代號tabNo切換，顯示內容 */
-  tabChange() {
+  tabChange(): void {
     if (this.allMission.length !== 0) {
        this.listMission = this.allMission.filter(data => data.TabCode === this.tabNo)[0].List_Mission;
     }
@@ -117,7 +117,7 @@ export class MissionComponent implements OnInit {
   /** 任務按鈕點擊行為
    * @param mission 單一項任務
    */
-  buttonAction(mission: AFP_Mission) {
+  buttonAction(mission: AFP_Mission): void {
     if (!this.appService.loginState) {
       this.appService.loginPage(); // 需登入才能前往任務
     } else {
@@ -168,7 +168,7 @@ export class MissionComponent implements OnInit {
   /** 領取任務點數
    * @param mission 單一項任務
    */
-  claimPoints(mission: AFP_Mission) {
+  claimPoints(mission: AFP_Mission): void {
     const request: Request_MemberMission = {
       User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 1,
@@ -186,7 +186,7 @@ export class MissionComponent implements OnInit {
   }
 
   /** 前往MemberCoin頁 */
-  conditionGo() {
+  conditionGo(): void {
     if (this.appService.loginState) {
       if (this.appService.isApp !== null) {
         const navigationExtras: NavigationExtras = {

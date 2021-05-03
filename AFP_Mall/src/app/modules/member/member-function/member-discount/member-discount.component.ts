@@ -48,7 +48,6 @@ export class MemberDiscountComponent implements OnInit {
 
   constructor(public appService: AppService, public modal: ModalService, public router: Router, private route: ActivatedRoute,
     private meta: Meta, private title: Title) {
-    // tslint:disable: max-line-length
     this.title.setTitle('我的優惠券 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 我的優惠券。這裡會顯示 Mobii! 用戶領取的優惠券細節，店家、景點優惠券可以在 Mobii! APP首頁的找優惠發掘店家的優惠。' });
     this.meta.updateTag({ content: '我的優惠券 - Mobii!', property: 'og:title' });

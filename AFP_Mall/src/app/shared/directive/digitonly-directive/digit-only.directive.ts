@@ -36,7 +36,7 @@ export class DigitOnlyDirective {
   }
 
   @HostListener('paste', ['$event'])
-  onPaste(event: ClipboardEvent) {
+  onPaste(event: ClipboardEvent): void {
     event.preventDefault();
     const pastedInput: string = event.clipboardData
       .getData('text/plain')

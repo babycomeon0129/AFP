@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ChildActivationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { AppService } from './../../../app.service';
+import { Router } from '@angular/router';
+import { AppService } from '@app/app.service';
 
 declare var AppJSInterface: any;
 

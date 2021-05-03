@@ -3,7 +3,7 @@ import { AppService } from 'src/app/app.service';
 import { Response_AreaIndex, AFP_UserDefine, Request_AreaIndex, AreaJsonFile_ECStore } from '@app/_models';
 import { ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
-import { ModalService } from '../../../shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { BsModalRef } from 'ngx-bootstrap';
 
 @Component({
@@ -26,8 +26,6 @@ export class ExploreListComponent implements OnInit {
   public areaMenuName: string;
   /** 篩選清單開啟狀態 */
   public categoryOpenStatus = false;
-  /** 特例處理（APP訪問則隱藏返回鍵） */
-  public hideGoBack = null;
   /** 如果readData() 跑完資料才顯示 */
   public dataOk = false;
 
@@ -38,13 +36,12 @@ export class ExploreListComponent implements OnInit {
       this.areaMenuCode = Number(this.route.snapshot.params.AreaMenu_Code);
     }
 
-    // this.readData();
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     // App訪問
     this.route.queryParams.subscribe(params => {
-      this.hideGoBack = params.isApp;
+      this.appService.showBack = params.showBack === 'true';
     });
     // load data when route param changes(前往其他目錄)
     this.route.params.subscribe(routeParams => {

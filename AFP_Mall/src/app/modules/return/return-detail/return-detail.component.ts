@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { AFP_ECStore, AFP_MemberOrder, AFP_ItemInfoPart, Model_ShareData, AFP_Services, AFP_DealInfo } from '@app/_models';
 import { Router } from '@angular/router';
-import { layerAnimation } from '../../../animations';
+import { layerAnimation } from '@app/animations';
 
 @Component({
   selector: 'app-return-detail',

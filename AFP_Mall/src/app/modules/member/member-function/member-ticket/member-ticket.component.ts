@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { Request_MemberTicket, Response_MemberTicket, AFP_UserTicket } from '@app/_models';
-import { layerAnimation } from '../../../../animations';
+import { layerAnimation } from '@app/animations';
 
 @Component({
   selector: 'app-member-ticket',
@@ -35,7 +35,7 @@ export class MemberTicketComponent implements OnInit {
   /** 讀取票券列表
    * @param usedType 使用狀態 1: 可用, 2: 歷史
    */
-  readTicketList(usedType: number) {
+  readTicketList(usedType: number): void {
     this.appService.openBlock();
     this.listType = usedType;
     const request: Request_MemberTicket = {
@@ -52,7 +52,7 @@ export class MemberTicketComponent implements OnInit {
   }
 
   /** 前往電子票證詳細 */
-  goToDetail(code: number) {
+  goToDetail(code: number): void {
     if (this.listType === 1) {
       this.router.navigate(['/MemberFunction/ETicketDetail', code]);
     }

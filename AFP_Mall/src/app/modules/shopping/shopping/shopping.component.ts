@@ -79,7 +79,6 @@ export class ShoppingComponent implements OnInit {
   };
 
   constructor(public appService: AppService, public modal: ModalService, private cookieService: CookieService, private meta: Meta, private title: Title) {
-    // tslint:disable: max-line-length
     this.title.setTitle('線上商城 - Mobii!');
     this.meta.updateTag({name : 'description', content: '來 Mobii! 線上商城購物，產品多元多樣，美食、3C、母嬰、生活百貨、美妝⋯⋯琳瑯滿目，還有限時限量折扣優惠等你來搶。Mobii! 賣的就是跟別人要不一樣！'});
     this.meta.updateTag({content: '線上商城 - Mobii!', property: 'og:title'});

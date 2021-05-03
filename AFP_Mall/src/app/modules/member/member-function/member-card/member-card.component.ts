@@ -48,7 +48,6 @@ export class MemberCardComponent implements OnInit {
   public layerTrigUp = 0;
 
   constructor(public appService: AppService, public modal: ModalService, private meta: Meta, private title: Title) {
-    // tslint:disable: max-line-length
     this.title.setTitle('我的卡片 - Mobii!');
     this.meta.updateTag({name : 'description', content: 'Mobii! - 我的卡片。你可以新增信用卡、悠遊卡或一卡通等卡片，並在 Mobii! APP 或網頁上，使用這些卡片來購物、支付或乘車。'});
     this.meta.updateTag({content: '我的卡片 - Mobii!', property: 'og:title'});
@@ -60,7 +59,7 @@ export class MemberCardComponent implements OnInit {
   }
 
   /** 讀取卡片列表 */
-  readCardList() {
+  readCardList(): void {
     this.appService.openBlock();
     const request: Request_MemberMyCard = {
       User_Code: sessionStorage.getItem('userCode'),
@@ -93,7 +92,7 @@ export class MemberCardComponent implements OnInit {
   }
 
   /** 開啟「新增會員卡」; layerTrigger動畫完成後,再開啟showAddCard */
-  showAddCard() {
+  showAddCard(): void {
     this.captcha1 = new CaptchaMini();
     // 繪製圖形驗證
     this.captcha1.draw(document.querySelector('#captcha1'), r => {
@@ -102,7 +101,7 @@ export class MemberCardComponent implements OnInit {
   }
 
   /** 檢查卡片號碼長度(須為11或16碼) */
-  checkLength() {
+  checkLength(): void {
     if (this.requestCard.UserFavourite_Text2.length === 11 || this.requestCard.UserFavourite_Text2.length === 16) {
       this.cardNumLength = true;
     } else {
@@ -111,7 +110,7 @@ export class MemberCardComponent implements OnInit {
   }
 
   /** 檢查captcha驗證碼是否輸入正確（不分大小寫） */
-  checkCaptcha() {
+  checkCaptcha(): void {
     if (this.captchaAns.toLowerCase() === this.captchaInput.toLowerCase()) {
       this.captchaCorrect = true;
     } else {

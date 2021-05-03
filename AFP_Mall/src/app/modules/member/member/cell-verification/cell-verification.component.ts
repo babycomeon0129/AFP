@@ -1,12 +1,11 @@
 import { NgForm } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { Model_ShareData, Request_AFPVerifyCode, Response_AFPVerifyCode } from '@app/_models';
-import { ModalService } from '../../../../shared/modal/modal.service';
+import { Request_AFPVerifyCode, Response_AFPVerifyCode } from '@app/_models';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { MemberService } from '../../member.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { layerAnimation } from '../../../../animations';
-import { Location } from '@angular/common';
+import { layerAnimation } from '@app/animations';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
@@ -35,7 +34,7 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
   public toVerifyCell = false;
 
   constructor(public appService: AppService, public modal: ModalService, public memberService: MemberService, private route: ActivatedRoute,
-              public router: Router, public location: Location, private meta: Meta, private title: Title) {
+              public router: Router, private meta: Meta, private title: Title) {
     this.title.setTitle('手機驗證 - Mobii!');
     this.meta.updateTag({name : 'description', content: ''});
     this.meta.updateTag({content: '手機驗證 - Mobii!', property: 'og:title'});
@@ -55,7 +54,7 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
   /** 讀取會員手機號碼
    * （與memberService的readProfileData()相同，但為了要根據取得的資料判斷顯示畫面而獨立出來）
    */
-  async readCellNumber() {
+  async readCellNumber(): Promise<void> {
     const result = await this.memberService.readProfileData();
     if (result) {
       if (this.memberService.userProfile.UserProfile_Mobile === null) {
@@ -67,7 +66,7 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
   }
 
   /** 送出驗證碼至手機 */
-  sendVCode() {
+  sendVCode(): void {
     this.requestMobileVerify.User_Code = sessionStorage.getItem('userCode'),
     this.requestMobileVerify.SelectMode = 11;
     this.requestMobileVerify.VerifiedAction = this.toVerifyCell ? 11 : 3;
@@ -94,7 +93,7 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
   }
 
   /** 立即驗證-驗證驗證碼 */
-  verifyMobile(form: NgForm) {
+  verifyMobile(form: NgForm): void {
     this.requestMobileVerify.User_Code = sessionStorage.getItem('userCode'),
     this.requestMobileVerify.SelectMode = 21;
     this.requestMobileVerify.VerifiedAction = this.toVerifyCell ? 11 : 3;
@@ -112,12 +111,12 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
   }
 
   /** 離開輸入驗證碼頁面 */
-  cancelVerify() {
+  cancelVerify(): void {
     this.shownSection = 1;
     clearInterval(this.vcodeTimer);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     clearInterval(this.vcodeTimer);
   }
 

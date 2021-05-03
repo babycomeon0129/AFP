@@ -3,7 +3,7 @@ import { AFP_ChannelVoucher, AFP_ADImg, Request_ECVoucher, Response_ECVoucher, A
 import { AppService } from 'src/app/app.service';
 import { SwiperOptions } from 'swiper';
 import { Meta, Title } from '@angular/platform-browser';
-import { ModalService } from '../../../shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 
 @Component({
   selector: 'app-event',
@@ -25,7 +25,6 @@ export class EventComponent implements OnInit {
 
   constructor(public appService: AppService, private meta: Meta, private title: Title,
               private modal: ModalService) {
-    // tslint:disable: max-line-length
     this.title.setTitle('1元搶購優惠 - Mobii!');
     this.meta.updateTag({name : 'description', content: 'Mobii! - 1 元搶購優惠。這裡會顯示 Mobii! 合作店家的 1 元搶購優惠內容，想要搶得1元的店家優惠，請先登入註冊 Mobii! 會員。'});
     this.meta.updateTag({content: '1元搶購優惠 - Mobii!', property: 'og:title'});

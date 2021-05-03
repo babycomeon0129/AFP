@@ -26,7 +26,6 @@ export class ShoppingOffersComponent implements OnInit {
   };
 
   constructor(public appService: AppService, private cookieService: CookieService, private meta: Meta, private title: Title) {
-    // tslint:disable: max-line-length
     this.title.setTitle('線上優惠專區 - Mobii!');
     this.meta.updateTag({name : 'description', content: 'Mobii! - 線上優惠專區。這裡會顯示 Mobii! 合作店家的優惠券內容，想要搶得店家的優惠，請先登入註冊 Mobii! 會員。'});
     this.meta.updateTag({content: '線上優惠專區 - Mobii!', property: 'og:title'});
@@ -40,7 +39,7 @@ export class ShoppingOffersComponent implements OnInit {
   }
 
   /** 讀取資料 */
-  readData() {
+  readData(): void {
     const request: Request_ECVoucher = {
       User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 4

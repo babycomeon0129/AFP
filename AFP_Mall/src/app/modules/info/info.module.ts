@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { InfoRoutingModule } from './info-routing.module';
-import { SharedModule } from '../../shared/shared.module';
+import { SharedModule } from '@app/shared/shared.module';
 
 import { PrivacyComponent } from './privacy/privacy.component';
 import { QAComponent } from './qa/qa.component';

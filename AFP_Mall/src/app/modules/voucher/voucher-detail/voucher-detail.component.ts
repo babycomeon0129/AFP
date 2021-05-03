@@ -61,7 +61,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
   }
 
   /** 讀取優惠券資料 */
-  readVoucherData() {
+  readVoucherData(): void {
     const request: Request_ECVoucherDetail = {
       User_Code: sessionStorage.getItem('userCode'),
       SelectMode: this.selectMode,
@@ -81,7 +81,6 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
       this.storeData = data.List_ECStore;
       this.offlineDate = new Date(this.voucherData.Voucher_OfflineDate); // 避免優惠券已下架但還能按「兌換」的情況
 
-      // tslint:disable: max-line-length
       this.title.setTitle(this.voucherData.Voucher_ExtName + ' - Mobii!');
       this.meta.updateTag({ name: 'description', content: this.voucherData.Voucher_Content });
       this.meta.updateTag({ content: this.voucherData.Voucher_ExtName + ' - Mobii!', property: 'og:title' });
@@ -144,7 +143,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
    * @param voucher 優惠券
    * Voucher_FreqName: 0 已兌換 1 兌換 2 去商店 3 已使用 4 兌換完畢（限一元搶購） 5 使用 6 已逾期（限我的優惠+優惠券詳細） 7 未生效（限我的優惠+優惠券詳細）
    */
-  onVoucher(voucher: AFP_Voucher) {
+  onVoucher(voucher: AFP_Voucher): void {
     if (this.appService.loginState) {
       switch (voucher.Voucher_IsFreq) {
         case 1:
@@ -201,7 +200,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
   }
 
   /** 檢查優惠券是否已被核銷 */
-  checkWritenOff() {
+  checkWritenOff(): void {
     // 每5秒問一次API是否已核銷
     this.checkTimer = setInterval(() => {
       const request: Request_MemberCheckStatus = {
@@ -241,7 +240,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
   }
 
   /** 關閉顯示QR Code */
-  closeQRCode() {
+  closeQRCode(): void {
     this.layerTrig = 0;
     clearInterval(this.checkTimer);
     clearTimeout(this.timer3Mins);

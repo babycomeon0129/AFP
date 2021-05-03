@@ -47,7 +47,6 @@ export class GameComponent implements OnInit {
           this.noticeAlert();
         }
       }
-      // tslint:disable: max-line-length
       this.title.setTitle(data.AFP_Game.Game_ExtName + ' - Mobii!');
       this.meta.updateTag({ name: 'description', content: '' });
       this.meta.updateTag({ content: data.AFP_Game.Game_ExtName + ' - Mobii!', property: 'og:title' });

@@ -8,7 +8,6 @@ import { Meta, Title } from '@angular/platform-browser';
 export class AppRedirectComponent implements OnInit {
 
   constructor(private meta: Meta, private title: Title) {
-    // tslint:disable: max-line-length
     this.title.setTitle('AppRedirect - Mobii!');
     this.meta.updateTag({name : 'description', content: ''});
     this.meta.updateTag({content: 'AppRedirect - Mobii!', property: 'og:title'});

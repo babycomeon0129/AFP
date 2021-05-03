@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Model_ShareData } from '@app/_models';
 import { NgForm } from '@angular/forms';
-import { ModalService } from '../../../../shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { Location } from '@angular/common';
 import { Meta, Title } from '@angular/platform-browser';
 
@@ -23,7 +23,6 @@ export class PasswordUpdateComponent implements OnInit {
 
   constructor(public appService: AppService, public modal: ModalService, private location: Location,
               private meta: Meta, private title: Title) {
-    // tslint:disable: max-line-length
     this.title.setTitle('變更密碼 - Mobii!');
     this.meta.updateTag({name : 'description', content: ''});
     this.meta.updateTag({content: '變更密碼 - Mobii!', property: 'og:title'});

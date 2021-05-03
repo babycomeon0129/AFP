@@ -89,7 +89,6 @@ export class OffersComponent implements OnInit, OnDestroy {
       }
 
       if (this.offers.length > 0) {
-        // tslint:disable-next-line: triple-equals
         const findCode = this.offers.find(item => item.UserDefine_Code == this.TabCode);
         if (typeof findCode === 'undefined') {
           this.TabCode = 0;

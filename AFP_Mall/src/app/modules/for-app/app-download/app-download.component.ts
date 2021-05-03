@@ -17,6 +17,9 @@ export class AppDownloadComponent implements OnInit {
     this.Show();
   }
 
+  ngOnInit() {
+  }
+
   Show(): void {
     if (navigator.userAgent.match(/android/i)) {
       //  Android
@@ -33,9 +36,6 @@ export class AppDownloadComponent implements OnInit {
 
   GoDownload(): void {
     location.href = this.UrlLink;
-  }
-
-  ngOnInit() {
   }
 
 }

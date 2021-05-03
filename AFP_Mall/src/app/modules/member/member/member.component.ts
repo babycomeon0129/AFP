@@ -16,7 +16,6 @@ export class MemberComponent implements OnInit {
 
   constructor(public appService: AppService, public modal: ModalService, public router: Router,
               private meta: Meta, private title: Title) {
-    // tslint:disable: max-line-length
     this.title.setTitle('我的 - Mobii!');
     this.meta.updateTag({name : 'description', content: '我的Mobii! - 註冊登入Mobii 會員。Mobii! 讓你的移動總是驚喜，使用就享點數回饋，天天登入再領 M Points。'});
     this.meta.updateTag({content: '我的 - Mobii!', property: 'og:title'});
@@ -28,7 +27,7 @@ export class MemberComponent implements OnInit {
   }
 
   /** 獲取這個 outlet 指令的值（透過 #outlet="outlet"），並根據當前活動路由的自訂資料返回一個表示動畫狀態的字串值。用此資料來控制各個路由之間該執行哪個轉場 */
-  prepareRoute(outlet: RouterOutlet) {
+  prepareRoute(outlet: RouterOutlet): void {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation;
   }
 

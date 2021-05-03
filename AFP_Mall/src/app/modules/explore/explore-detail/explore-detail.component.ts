@@ -96,11 +96,10 @@ export class ExploreDetailComponent implements OnInit {
     }
   }
 
-  // tslint:disable: max-line-length
   /** 讀取分頁資料
    * @param index 分頁代號
    */
-  readTabData(index: number) {
+  readTabData(index: number): void {
     this.tabNo = index;
     const request: Request_AreaDetail = {
       User_Code: sessionStorage.getItem('userCode'),
@@ -195,9 +194,9 @@ export class ExploreDetailComponent implements OnInit {
   }
 
   /** 展開內容
-   * 1 簡介文字, 2 分店資訊, 3 營業時間
+   * @param section 1 簡介文字, 2 分店資訊, 3 營業時間
    */
-  unfold(section: number) {
+  unfold(section: number): void {
     if (this.unfolded.includes(section)) {
       this.unfolded.splice(this.unfolded.indexOf(section), 1);
     } else {
@@ -206,7 +205,7 @@ export class ExploreDetailComponent implements OnInit {
   }
 
   /** 外送點餐按鈕 */
-  sendDelivery() {
+  sendDelivery(): void {
     // 先判斷是否有登入
     if (this.appService.loginState) {
       // 把商店code帶到DeliveryInfo頁面

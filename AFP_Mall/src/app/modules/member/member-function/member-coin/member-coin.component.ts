@@ -42,7 +42,6 @@ export class MemberCoinComponent implements OnInit {
 
   constructor(public appService: AppService, private route: ActivatedRoute, public router: Router, public modal: ModalService,
               private meta: Meta, private title: Title) {
-    // tslint:disable: max-line-length
     this.title.setTitle('Mobii Point - Mobii!');
     this.meta.updateTag({name : 'description', content: 'Mobii! - M Points。這裡會顯示 Mobii! 用戶擁有的 M Points 點數與歷史使用紀錄。點數累積的方式包括每日登入、玩遊戲、購物、乘車等回饋。'});
     this.meta.updateTag({content: 'Mobii Point - Mobii!', property: 'og:title'});
@@ -85,7 +84,7 @@ export class MemberCoinComponent implements OnInit {
   /** 前往優惠券詳細
    * APP特例處理: 若是從會員過去則要隱藏返回鍵
    */
-  goDetail(voucher: AFP_Voucher) {
+  goDetail(voucher: AFP_Voucher): void {
     let code = 0;
     if (voucher.Voucher_UserVoucherCode === null) {
       code = voucher.Voucher_Code;

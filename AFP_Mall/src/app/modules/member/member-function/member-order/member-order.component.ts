@@ -63,7 +63,7 @@ export class MemberOrderComponent implements OnInit {
    * @param type 訂單類型（1: 一般訂單 21: 電子票證）
    * @param state 訂單狀態（一般訂單 1:處理中, 2: 待收貨, 3: 已完成；電子票證 1: 已付款 2: 已出貨 3: 已到貨 4: 退換貨）
    */
-  showList(type: number, state: number) {
+  showList(type: number, state: number): void {
     this.memberService.tabSwitch = type;
     this.memberService.statusSwitch = state;
     switch (type) {
@@ -108,7 +108,7 @@ export class MemberOrderComponent implements OnInit {
    * @param type 訂單類型（1: 一般訂單 21: 電子票證）
    * @param order 該訂單
    */
-  goToDetail(type: number, order: AFP_MemberOrder) {
+  goToDetail(type: number, order: AFP_MemberOrder): void {
     switch (type) {
       case 1:
         if (this.Common_selectedState === 4) {
@@ -130,7 +130,7 @@ export class MemberOrderComponent implements OnInit {
   /** 判斷回上一頁
    * （若從付款完成頁/OrderComplete過來則按「回上一頁」直接前往大首頁）
    */
-  conditionBack() {
+  conditionBack(): void {
     if (this.route.snapshot.queryParams.referrer === 'OrderComplete') {
       this.router.navigate(['/']);
     } else {

@@ -61,7 +61,7 @@ export class HomeComponent implements OnInit {
   }
 
   /** 讀取首頁資料 */
-  readIndexData() {
+  readIndexData(): void {
     const request: Request_MemberIndex = {
       SelectMode: 4,
       User_Code: sessionStorage.getItem('userCode')
@@ -73,7 +73,7 @@ export class HomeComponent implements OnInit {
   }
 
   /** 前往設定（判斷登入與否） */
-  goToSetting() {
+  goToSetting(): void {
     if (this.appService.loginState) {
       this.router.navigate(['/Member/Setting']);
     } else {
@@ -84,7 +84,7 @@ export class HomeComponent implements OnInit {
   /** 前往廣告
    * @param ADImg 廣告
    */
-  adRouter(ADImg: AFP_ADImg) {
+  adRouter(ADImg: AFP_ADImg): void {
     if (ADImg.ADImg_URL !== '/') {
       if (ADImg.ADImg_URL.indexOf('http') !== -1) {
         // 站外連結
@@ -105,7 +105,7 @@ export class HomeComponent implements OnInit {
    * @param page 頁面相對路徑（「敬請期待」傳'0'）
    * @param pageCode 通知原生開啟頁面 0: 我的卡片 1: 我的車票 2: 我的點餐 3: 我的優惠券 4: 我的收藏 5: 我的訂單 6: M Point
    */
-  pageRoute(page: string, pageCode: number) {
+  pageRoute(page: string, pageCode: number): void {
     if (!this.appService.loginState) {
       this.appService.loginPage();
     } else {

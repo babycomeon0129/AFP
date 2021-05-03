@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Request_MemberFavourite, Response_MemberFavourite, TravelJsonFile_Travel, AreaJsonFile_ECStore, AFP_ECStore, AFP_Product } from '@app/_models';
-import { ModalService } from '../../../../shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 
@@ -26,7 +26,6 @@ export class MemberFavoriteComponent implements OnInit {
 
   constructor(public appService: AppService, public modal: ModalService, private route: ActivatedRoute, private router: Router,
               private meta: Meta, private title: Title) {
-    // tslint:disable: max-line-length
     this.title.setTitle('我的收藏 - Mobii!');
     this.meta.updateTag({name : 'description', content: 'Mobii! - 我的收藏。這裡會顯示 Mobii! 用戶按讚收藏的檔案，包括周邊、商品、店家以及旅遊行程。請先登入註冊以開啟功能。'});
     this.meta.updateTag({content: '我的收藏 - Mobii!', property: 'og:title'});
@@ -43,7 +42,7 @@ export class MemberFavoriteComponent implements OnInit {
   /** 讀取某類型收藏列表
    * @param favType 51 商品, 52 商家, 53 周邊, 54 行程
    */
-  onFavList(favType: number) {
+  onFavList(favType: number): void {
     this.selectedType = favType;
     this.editMode = false;
     this.appService.openBlock();
@@ -82,7 +81,7 @@ export class MemberFavoriteComponent implements OnInit {
    * @param favType 51 商品, 52 商家, 53 周邊, 54 行程
    * @param favCode 商品/商家/周邊/行程編碼
    */
-  onDelFav(showList, favType: number, favCode: number) {
+  onDelFav(showList, favType: number, favCode: number): void {
     this.modal.confirm({initialState: {message: '確認要刪除這個收藏嗎?'}}).subscribe(res => {
       const request: Request_MemberFavourite = {
         SelectMode: 2,
@@ -138,7 +137,7 @@ export class MemberFavoriteComponent implements OnInit {
   }
 
   /** 編輯模式開關 */
-  editModeToggle() {
+  editModeToggle(): void {
     this.editMode = !this.editMode;
   }
 
@@ -146,7 +145,7 @@ export class MemberFavoriteComponent implements OnInit {
    * @param isOnline 是否上架
    * @param item 行程
    */
-  goToTour(isOnline: boolean, item: TravelJsonFile_Travel) {
+  goToTour(isOnline: boolean, item: TravelJsonFile_Travel): boolean {
     if (item.Travel_URL === '/' || !isOnline) {
       return false;
     } else {
@@ -160,7 +159,7 @@ export class MemberFavoriteComponent implements OnInit {
    * @param code1 編碼1
    * @param code2 編碼2
    */
-  goToDetail(isOnline: boolean, page: string, code1?: number, code2?: number) {
+  goToDetail(isOnline: boolean, page: string, code1?: number, code2?: number): void {
     let routeChanged = false;
     if (isOnline) {
       if (!routeChanged) {

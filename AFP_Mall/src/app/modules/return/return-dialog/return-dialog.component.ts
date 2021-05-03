@@ -72,7 +72,6 @@ export class ReturnDialogComponent implements OnInit {
       value.FrontDate = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
     });
 
-    // tslint:disable-next-line: no-shadowed-variable
     const groups = this.ListDealInfo.reduce((groups, dealInfo) => {
       const date = dealInfo.FrontDate;
       if (!groups[date]) {

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap';
-import { MessageModalComponent } from '../../../shared/modal/message-modal/message-modal.component';
-import { AppService } from '../../../app.service';
+import { MessageModalComponent } from '@app/shared/modal/message-modal/message-modal.component';
+import { AppService } from '@app/app.service';
 import { Model_ShareData } from '@app/_models';
 
 @Injectable({
@@ -31,6 +31,5 @@ export class AuthUserGuard implements CanActivate {
 
 }
 
-// tslint:disable-next-line: class-name
-export class Request_AuthUser extends Model_ShareData {
+class Request_AuthUser extends Model_ShareData {
 }
