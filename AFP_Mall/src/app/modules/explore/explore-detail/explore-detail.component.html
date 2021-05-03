@@ -26,7 +26,7 @@
                       <div class="swiper-pagination"></div>
                       <div class="shopping-storeup">
                           <div class="back-go">
-                              <button type="button" onclick="history.back();" #clickbtn data-toggle="tooltip" data-placement="top" title="回上一頁" [hidden]="appService.isApp !== null && !showBack"><img src="../img/share/icon_back.png" class="imgicon"></button>
+                              <button type="button" onclick="history.back();" #clickbtn data-toggle="tooltip" data-placement="top" title="回上一頁" [hidden]="appService.isApp !== null && !appService.showBack"><img src="../img/share/icon_back.png" class="imgicon"></button>
                           </div>
                           <div class="ml-auto d-flex d-inline align-items-center">
                             <button class="btn add-share" type="button" (click)="appService.shareContent(textForShare, APPShareUrl)"><img src="../img/share/icon_share.png" class="imgicon"></button>
@@ -75,13 +75,13 @@
                   <div class="store-tab-box">
                       <ul class="nav nav-tabs" id="storeTab" role="tablist">
                           <li class="nav-item">
-                            <a [routerLink]="['/Explore/ExploreDetail', siteCode]" [queryParams]="{ navNo: 1, showBack: this.showBack}" [ngClass]="{'active' : tabNo == 1}" class="nav-link active" id="store-tab" data-toggle="tab" href="#store" role="tab" aria-controls="store" aria-selected="true">{{siteInfo?.ECStore_Type < 2000? '店家' : '周邊'}}簡介</a>
+                            <a [routerLink]="['/Explore/ExploreDetail', siteCode]" [queryParams]="{ navNo: 1, showBack: appService.showBack}" [ngClass]="{'active' : tabNo == 1}" class="nav-link active" id="store-tab" data-toggle="tab" href="#store" role="tab" aria-controls="store" aria-selected="true">{{siteInfo?.ECStore_Type < 2000? '店家' : '周邊'}}簡介</a>
                           </li>
                           <li *ngIf="siteInfo?.ECStore_Type < 2000 && siteInfo?.ECStore_Type !== 1100" class="nav-item">
-                              <a [routerLink]="['/Explore/ExploreDetail', siteCode]" [queryParams]="{ navNo: 3, showBack: this.showBack }" [ngClass]="{'active' : tabNo == 3}" class="nav-link" id="shop-tab" data-toggle="tab" href="#shop" role="tab" aria-controls="shop" aria-selected="false">所有商品</a>
+                              <a [routerLink]="['/Explore/ExploreDetail', siteCode]" [queryParams]="{ navNo: 3, showBack: appService.showBack }" [ngClass]="{'active' : tabNo == 3}" class="nav-link" id="shop-tab" data-toggle="tab" href="#shop" role="tab" aria-controls="shop" aria-selected="false">所有商品</a>
                           </li>
                           <li *ngIf="siteInfo?.ECStore_Type < 2000" class="nav-item">
-                              <a [routerLink]="['/Explore/ExploreDetail', siteCode]" [queryParams]="{ navNo: 2, showBack: this.showBack }" [ngClass]="{'active' : tabNo == 2}" class="nav-link" id="ticket-tab" data-toggle="tab" href="#ticket" role="tab" aria-controls="ticket" aria-selected="false">優惠券</a>
+                              <a [routerLink]="['/Explore/ExploreDetail', siteCode]" [queryParams]="{ navNo: 2, showBack: appService.showBack }" [ngClass]="{'active' : tabNo == 2}" class="nav-link" id="ticket-tab" data-toggle="tab" href="#ticket" role="tab" aria-controls="ticket" aria-selected="false">優惠券</a>
                           </li>
                       </ul>
                       <div class="tab-content">
@@ -222,7 +222,7 @@
                                     <div class="card-body">
                                     <div class="card-text">
                                         <div class="member-flex">
-                                            <div [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', voucher.Voucher_Code] : ['/Voucher/VoucherDetail', voucher.Voucher_UserVoucherCode]" [queryParams]="{showBack: this.showBack}" class="item one">
+                                            <div [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', voucher.Voucher_Code] : ['/Voucher/VoucherDetail', voucher.Voucher_UserVoucherCode]" [queryParams]="{showBack: appService.showBack}" class="item one">
                                                 <div [lazyLoad]="voucher.Voucher_Image" [defaultImage] = "appService.defaultImage" class="rwdimg-cover logo-img"></div>
                                             </div>
                                             <div class="item three px-2">
@@ -232,12 +232,12 @@
                                             </div>
                                             <div class="item one">
                                                 <button (click)="toVoucher(voucher)"
-                                                  [disabled]="appService.loginState === true && (voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3)"
+                                                  [disabled]="appService.loginState && (voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3)"
                                                   [ngClass]="{'gray-obtn': voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3,
                                                               'index-btn': voucher.Voucher_IsFreq === 1,
                                                               'index-outline-btn': voucher.Voucher_IsFreq === 2 || voucher.Voucher_IsFreq === 5}"
                                                   class="btn px-2 small-80">
-                                                  {{appService.loginState === false? '兌換' : voucher.Voucher_FreqName}}
+                                                  {{!appService.loginState ? '兌換' : voucher.Voucher_FreqName}}
                                                 </button>
                                                 <div *ngIf="voucher.Voucher_DedPoint > 0" class="m-quantity small pl-1">
                                                   <img src="../img/share/mobiicoin_red.png" class="coinimg-m">

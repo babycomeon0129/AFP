@@ -22,9 +22,6 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
   public totalPoints: number;
   /** 會員總可玩次數（每玩完一次即更新；須注意為"-1"/不限次數的情況） */
   public playTimes: number;
-  /** APP特例處理 */
-  public showBack = false;
-
   // 刮刮樂繪製所需變數
   /** mousedown event，為true時使用者才可進行繪製 */
   private mousedown = false;
@@ -81,7 +78,7 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     /** APP從M Points或進來則顯示返回鍵 */
-    this.showBack = this.route.snapshot.queryParams.showBack === 'true';
+    this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
   /** 刮刮樂底部畫面繪製 */

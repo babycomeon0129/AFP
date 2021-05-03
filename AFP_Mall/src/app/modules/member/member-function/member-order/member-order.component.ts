@@ -27,8 +27,6 @@ export class MemberOrderComponent implements OnInit {
     observeParents: true,
     freeMode: false
   };
-  /** APP特例處理 */
-  public showBack = false;
 
 
   constructor(public appService: AppService, private router: Router, private route: ActivatedRoute,
@@ -39,11 +37,7 @@ export class MemberOrderComponent implements OnInit {
     this.meta.updateTag({ content: 'Mobii! - 我的訂單。這裡會顯示 Mobii! 用戶在 Mobii! 平台上購物的訂單，包括訂單出貨及收貨進度。請先登入註冊以開啟功能。', property: 'og:description' });
 
     // 從會員中心進來則隱藏返回鍵
-    if (this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBack = true;
-    }
-
-
+    this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
   ngOnInit() {
@@ -120,14 +114,14 @@ export class MemberOrderComponent implements OnInit {
         if (this.Common_selectedState === 4) {
           this.router.navigate(['/Return/ReturnDetail', order.ServiceTableNo]);
         } else {
-          this.router.navigate(['/MemberFunction/MyOrderDetail', order.Order_TableNo], { queryParams: { orderState: this.Common_selectedState, showBack: this.showBack } });
+          this.router.navigate(['/MemberFunction/MyOrderDetail', order.Order_TableNo], { queryParams: { orderState: this.Common_selectedState, showBack: this.appService.showBack } });
         }
         break;
       case 21:
         if (this.ETicket_selectedState === 4) {
           this.router.navigate(['/Return/ReturnDetail', order.ServiceTableNo]);
         } else {
-          this.router.navigate(['/MemberFunction/ETicketOrderDetail', order.Order_TableNo], { queryParams: { orderState: this.ETicket_selectedState, showBack: this.showBack } });
+          this.router.navigate(['/MemberFunction/ETicketOrderDetail', order.Order_TableNo], { queryParams: { orderState: this.ETicket_selectedState, showBack: this.appService.showBack } });
         }
         break;
     }

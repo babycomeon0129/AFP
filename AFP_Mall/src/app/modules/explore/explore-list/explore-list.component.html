@@ -54,7 +54,7 @@
         </div>
       </div>
       <div class="mask-container w-100 h-100" [ngClass]="{ 'd-block': categoryOpenStatus }"></div>
-      <ul [ngClass]="{ 'is-open': categoryOpenStatus == true }">
+      <ul [ngClass]="{ 'is-open': categoryOpenStatus }">
         <ng-container *ngIf="exAreadata.length === 0 && dataOk">
           <div class="no-data hori">
             <img src="../../../img/share/oopsarea.png" />

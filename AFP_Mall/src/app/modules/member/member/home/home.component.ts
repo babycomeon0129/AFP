@@ -1,4 +1,4 @@
-import { Component, OnInit, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Model_ShareData, AFP_ADImg } from '@app/_models';
 import { Request_MemberThird, Response_MemberThird } from '../member.component';
@@ -29,17 +29,14 @@ export class HomeComponent implements OnInit {
       hide: true
     }
   };
-  /** 變化追蹤（登入狀態） */
-  private serviceDiffer: KeyValueDiffer<string, any>;
 
-  constructor(public appService: AppService, private router: Router, public modal: ModalService,
-              private differs: KeyValueDiffers, public memberService: MemberService, private authService: AuthService) {
-    this.serviceDiffer = this.differs.find({}).create();
+
+  constructor(public appService: AppService, private router: Router, public modal: ModalService, public memberService: MemberService, private authService: AuthService) {
   }
 
   ngOnInit() {
     this.readIndexData();
-    if (this.appService.loginState === true) {
+    if (this.appService.loginState) {
       this.memberService.readProfileData();
     }
     //  第三方登入取得資料
@@ -109,7 +106,7 @@ export class HomeComponent implements OnInit {
    * @param pageCode 通知原生開啟頁面 0: 我的卡片 1: 我的車票 2: 我的點餐 3: 我的優惠券 4: 我的收藏 5: 我的訂單 6: M Point
    */
   pageRoute(page: string, pageCode: number) {
-    if (this.appService.loginState === false) {
+    if (!this.appService.loginState) {
       this.appService.loginPage();
     } else {
       if (page === '0') {

@@ -3,7 +3,7 @@
     <div class="header-secondary container">
       <div class="index-flex justify-content-between">
         <div class="item two">
-          <div class="close-btn" [hidden]="appService.isApp !== null && !showBack">
+          <div class="close-btn" [hidden]="appService.isApp !== null && !appService.showBack">
             <button type="button" class="btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom"
               title="回上一頁">
               <i class="material-icons">&#xe314;</i>
@@ -94,13 +94,13 @@
             | currency: '':'':'1.0-2'}}</span>
         </div>
         <button (click)="toVoucher(voucherData)"
-          [disabled]="appService.loginState === true && (voucherData?.Voucher_IsFreq === 0 || voucherData?.Voucher_IsFreq === 3 || voucherData?.Voucher_IsFreq === 6)"
+          [disabled]="appService.loginState && (voucherData?.Voucher_IsFreq === 0 || voucherData?.Voucher_IsFreq === 3 || voucherData?.Voucher_IsFreq === 6)"
           [ngClass]="{'gray-obtn': voucherData?.Voucher_IsFreq === 0 || voucherData?.Voucher_IsFreq === 3 || voucherData?.Voucher_IsFreq === 6,
                       'index-btn': voucherData?.Voucher_IsFreq === 1,
                       'index-outline-btn': voucherData?.Voucher_IsFreq === 2 || voucherData?.Voucher_IsFreq === 5,
                       'w-50': voucherData?.Voucher_DedPoint > 0,
                       'w-100': voucherData?.Voucher_DedPoint <= 0 || selectMode === 5}" type="button" id="claimBtn" class="btn msg-open">
-          {{appService.loginState === true? voucherData?.Voucher_FreqName : '兌換'}}
+          {{appService.loginState ? voucherData?.Voucher_FreqName : '兌換'}}
         </button>
       </div>
     </div>
@@ -111,7 +111,7 @@
     <div class="useoffers">
       <div class="title-box">
         <div class="item icon-btn">
-          <button [hidden]="appService.isApp !== null && !showBack" type="button" (click)="closeQRCode()"
+          <button [hidden]="appService.isApp !== null && !appService.showBack" type="button" (click)="closeQRCode()"
             class="btn px-0" title="回上一頁">
             <i class="material-icons">&#xe314;</i>
           </button>

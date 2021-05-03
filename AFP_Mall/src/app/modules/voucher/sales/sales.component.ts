@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SwiperOptions } from 'swiper';
 import { AppService } from '@app/app.service';
 import { AFP_VouFlashSale, Request_ECVouFlashSale, Response_ECVouFlashSale, AFP_ADImg,
@@ -26,9 +26,7 @@ export class SalesComponent implements OnInit, OnDestroy {
   /** 活動所剩秒數 */
   public seconds: number;
   /** 限時搶購結束倒數時鐘 */
-  private countdown;
-  /** 變化追蹤(登入狀態) */
-  private serviceDiffer: KeyValueDiffer<string, any>;
+  private countdown: NodeJS.Timer;
 
   /** 置頂廣告 swiper */
   public adTop: SwiperOptions = {
@@ -38,9 +36,7 @@ export class SalesComponent implements OnInit, OnDestroy {
     }
   };
 
-  constructor(public appService: AppService, private differs: KeyValueDiffers, private meta: Meta, private title: Title) {
-    this.serviceDiffer = this.differs.find({}).create();
-    // tslint:disable: max-line-length
+  constructor(public appService: AppService, private meta: Meta, private title: Title) {
     this.title.setTitle('限時搶購優惠 - Mobii!');
     this.meta.updateTag({name : 'description', content: 'Mobii! - 限時搶購優惠。這裡會顯示 Mobii! 合作店家的限時優惠，限時限量、要買要快，你還在猶豫的時候，東西可能就已經賣光了唷！'});
     this.meta.updateTag({content: '限時搶購優惠 - Mobii!', property: 'og:title'});

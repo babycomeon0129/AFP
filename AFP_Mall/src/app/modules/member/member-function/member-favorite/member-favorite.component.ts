@@ -23,8 +23,6 @@ export class MemberFavoriteComponent implements OnInit {
   public listEcstore: AFP_ECStore[] = [];
   /** 旅遊行程 */
   public listTravel: TravelJsonFile_Travel[] = [];
-  /** APP特例處理 */
-  public showBack = false;
 
   constructor(public appService: AppService, public modal: ModalService, private route: ActivatedRoute, private router: Router,
               private meta: Meta, private title: Title) {
@@ -39,9 +37,7 @@ export class MemberFavoriteComponent implements OnInit {
     // 撈探索周邊
     this.onFavList(53);
     // 從會員中心進來則隱藏返回鍵
-    if (this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBack = true;
-    }
+    this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
   /** 讀取某類型收藏列表
@@ -170,9 +166,9 @@ export class MemberFavoriteComponent implements OnInit {
       if (!routeChanged) {
         // 若route還未改變才前往
         if (code2 === undefined) {
-          this.router.navigate([page, code1], {queryParams: {showBack: this.showBack}});
+          this.router.navigate([page, code1], {queryParams: {showBack: this.appService.showBack}});
         } else {
-          this.router.navigate([page, code1, code2], {queryParams: {showBack: this.showBack}});
+          this.router.navigate([page, code1, code2], {queryParams: {showBack: this.appService.showBack}});
         }
       }
     }

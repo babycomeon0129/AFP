@@ -1,5 +1,5 @@
 import { environment } from '@env/environment';
-import { Component, OnInit, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AppService } from '@app/app.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Request_ECCart, Response_ECCart, AFP_Cart, CartStoreList, ProductInfo } from '@app/_models';
@@ -29,16 +29,11 @@ export class ShoppingCartComponent implements OnInit {
   public selectedProductsList: number[] = [];
   /** 有更改數量的商品 */
   public productsToUpdate: AFP_Cart[] = [];
-  /** 變動偵測（登入狀態） */
-  private serviceDiffer: KeyValueDiffer<string, any>;
   /** 空購物車圖示顯示 */
   public nocartShow = false;
-  /** APP特例處理  */
-  public showBack = false;
 
   constructor(public appService: AppService, public modal: ModalService, private cookieService: CookieService, private router: Router,
-    private route: ActivatedRoute, private differs: KeyValueDiffers, private meta: Meta, private title: Title) {
-    this.serviceDiffer = this.differs.find({}).create();
+    private route: ActivatedRoute, private meta: Meta, private title: Title) {
     // tslint:disable: max-line-length
     this.title.setTitle('購物車｜線上商城 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! 線上商城購物車。你是不是…還有商品在購物車裡忘了結帳？趕快結帳把購物車清空，賺取 Mobii! M Points 回饋點數吧！我 OK，你先買！' });
@@ -51,9 +46,7 @@ export class ShoppingCartComponent implements OnInit {
     this.cartCount = Number(this.cookieService.get('cart_count_Mobii'));
     this.showCartData();
     // APP從會員中心→我的收藏→商品詳細→購物車要顯示返回鍵
-    if (this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBack = true;
-    }
+    this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
   /** 讀取、整理、顯示購物車資料 */
@@ -133,7 +126,7 @@ export class ShoppingCartComponent implements OnInit {
    * @param store 該商家
    */
   singleStore(store: CartStoreList) {
-    if (store.CheckedStatus === false) {
+    if (!store.CheckedStatus) {
       this.cartList.forEach(s => {
         s.CheckedStatus = false;
         s.ProductList.forEach(p => {
@@ -199,7 +192,7 @@ export class ShoppingCartComponent implements OnInit {
       }
 
       // 若取消勾選此商品後，所屬店家已無任何勾選商品，則也取消勾選該店家
-      if (store.ProductList.every(prod => prod.CheckedStatus === false)) {
+      if (store.ProductList.every(prod => !prod.CheckedStatus)) {
         store.CheckedStatus = false;
         this.selectedStoresList.splice(this.selectedStoresList.indexOf(store.StoreCode), 1);
       }
@@ -252,15 +245,15 @@ export class ShoppingCartComponent implements OnInit {
    */
   toggleEditMode(store: CartStoreList) {
     store.EditMode = !store.EditMode;
-    if (store.EditMode === false) {
-      if (this.cartList.every(s => s.EditMode === false)) {
+    if (!store.EditMode) {
+      if (this.cartList.every(s => !s.EditMode)) {
         this.editAllMode = false;
       }
     }
   }
   /** 全部編輯模式控制 */
   toggleEditAllMode() {
-    if (this.editAllMode === false) {
+    if (!this.editAllMode) {
       this.cartList.forEach(s => s.EditMode = true);
     } else {
       this.cartList.forEach(s => s.EditMode = false);
@@ -323,7 +316,7 @@ export class ShoppingCartComponent implements OnInit {
     this.subtotal = 0;
     this.cartList.forEach(s => {
       s.ProductList.forEach(p => {
-        if (p.CheckedStatus === true) {
+        if (p.CheckedStatus) {
           this.subtotal += p.ProductPrice * p.ProductQty;
         }
       });
@@ -336,7 +329,7 @@ export class ShoppingCartComponent implements OnInit {
     if (this.selectedProductsList.length === 0 || this.selectedStoresList.length === 0) {
       this.modal.show('message', { initialState: { success: false, message: '還沒有選擇要結帳的商家及商品喔!', showType: 1 } });
     } else {
-      if (this.appService.loginState === false) {
+      if (!this.appService.loginState) {
         // 若未登入，則跳出登入視窗
         this.appService.loginPage();
       } else {
@@ -386,11 +379,6 @@ export class ShoppingCartComponent implements OnInit {
     } else {
       this.router.navigate(['Shopping']);
     }
-    // if (this.appService.prevUrl.includes('ShoppingOrder')) {
-    //   this.router.navigate(['Shopping']);
-    // } else {
-    //   history.back();
-    // }
   }
 
 }

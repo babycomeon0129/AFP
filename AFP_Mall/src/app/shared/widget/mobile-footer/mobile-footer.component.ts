@@ -29,7 +29,7 @@ export class MobileFooterComponent implements OnInit {
 
   /** 前往頁面前判斷登入狀態 */
   goTo() {
-    if (this.appService.loginState === true) {
+    if (this.appService.loginState) {
       this.router.navigate(['/Notification/NotificationList']);
     } else {
       this.appService.loginPage();

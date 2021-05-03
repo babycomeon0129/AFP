@@ -1,4 +1,4 @@
-import { Component, OnInit, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Model_ShareData } from '@app/_models';
 import { AppService } from '@app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
@@ -23,23 +23,16 @@ export class MissionComponent implements OnInit {
   public listMission: AFP_Mission[] = [];
   /** 每日任務未完成數 */
   public dailyLeft = 0;
-  /** 變化追蹤 */
-  private serviceDiffer: KeyValueDiffer<string, any>;
-  /** APP特例處理 */
-  public showBack = false;
 
-  constructor(public appService: AppService, public modal: ModalService, private differs: KeyValueDiffers
-    ,         private router: Router, private route: ActivatedRoute, private meta: Meta, private title: Title) {
-    // tslint:disable: max-line-length
+  constructor(public appService: AppService, public modal: ModalService, private router: Router, private route: ActivatedRoute, private meta: Meta, private title: Title) {
     this.title.setTitle('任務 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 任務。這裡會顯示 Mobii! 用戶在 Mobii! 平台上的任務，包括每日登入、每日遊戲可以拿回饋點數 M Points，三不五時會更換使用者要完成的任務。請先登入註冊以開啟功能。' });
     this.meta.updateTag({ content: '任務 - Mobii!', property: 'og:title' });
     this.meta.updateTag({ content: 'Mobii! - 任務。這裡會顯示 Mobii! 用戶在 Mobii! 平台上的任務，包括每日登入、每日遊戲可以拿回饋點數 M Points，三不五時會更換使用者要完成的任務。請先登入註冊以開啟功能。', property: 'og:description' });
 
-    this.serviceDiffer = this.differs.find({}).create();
     this.route.queryParams.subscribe(params => {
       // 從會員中心進來則隱藏返回鍵
-      this.showBack = params.showBack === 'true';
+      this.appService.showBack = params.showBack === 'true';
       // 根據url params的tabNo，賦予tabNo值。如果沒有url params沒有tabNo，則初始值11(每日任務)
       this.tabNo = typeof params.tabNo !== 'undefined' ? parseInt(params.tabNo, 10) : 11;
       this.tabChange();

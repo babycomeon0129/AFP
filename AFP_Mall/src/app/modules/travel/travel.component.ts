@@ -1,4 +1,4 @@
-import { Component, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
+import { Component } from '@angular/core';
 import { AppService } from '@app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Response_TravelHome, AFP_ADImg, AFP_Function, Model_TravelJsonFile, Model_ShareData} from '@app/_models';
@@ -21,7 +21,6 @@ export class TravelComponent {
   public ad20003: AFP_ADImg[] = [];
   /** 本月主打列表 */
   public travel: Model_TravelJsonFile[] = [];
-  private serviceDiffer: KeyValueDiffer<string, any>;
 
   /** 置頂廣告 swiper */
   public boxKV: SwiperOptions = {
@@ -95,10 +94,7 @@ export class TravelComponent {
     loop: false
   };
 
-  constructor(public appService: AppService, public modal: ModalService, private differs: KeyValueDiffers,
-              private meta: Meta, private title: Title) {
-    this.serviceDiffer = this.differs.find({}).create();
-    // tslint:disable: max-line-length
+  constructor(public appService: AppService, public modal: ModalService, private meta: Meta, private title: Title) {
     this.title.setTitle('去旅行 - Mobii!');
     this.meta.updateTag({name : 'description', content: 'Mobii! - 去旅行。這裡你可以探索各種旅遊行程，包括台灣、離島、海外、主題旅遊，也可以直接訂房跟訂機票，還有景點門票，甚至包括機場機接送。Mobii! 去旅行與喜鴻假期合作，未來我們將會推出獨一無二的 Mobii! 會員專屬路線行程！'});
     this.meta.updateTag({content: '去旅行 - Mobii!', property: 'og:title'});
@@ -123,7 +119,7 @@ export class TravelComponent {
     });
 
     // 若有登入則顯示我的收藏
-    if (this.appService.loginState === true) {
+    if (this.appService.loginState) {
       this.appService.showFavorites();
     }
 

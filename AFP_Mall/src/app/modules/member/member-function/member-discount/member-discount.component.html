@@ -4,7 +4,7 @@
     <div class="header-secondary container">
       <div class="index-flex justify-content-between">
         <div class="item two">
-          <div class="close-btn" [hidden]="appService.isApp !== null && !showBack">
+          <div class="close-btn" [hidden]="appService.isApp !== null && !appService.showBack">
             <button type="button" class="btn" onclick="history.back()" data-toggle="tooltip" data-placement="bottom"
               title="回上一頁">
               <i class="material-icons">&#xe314;</i>
@@ -83,8 +83,8 @@
                           </div>
                           <div class="item one">
                             <button
-                              [disabled]="appService.loginState === true && (voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3 || voucher.Voucher_IsFreq === 6 || voucher.Voucher_IsFreq === 8)"
-                              [ngClass]="{'unable': appService.loginState === true && (voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3 || voucher.Voucher_IsFreq === 6 || voucher.Voucher_IsFreq === 8)}"
+                              [disabled]="appService.loginState && (voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3 || voucher.Voucher_IsFreq === 6 || voucher.Voucher_IsFreq === 8)"
+                              [ngClass]="{'unable': appService.loginState && (voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3 || voucher.Voucher_IsFreq === 6 || voucher.Voucher_IsFreq === 8)}"
                               (click)="appService.onVoucher(voucher)"
                               class="btn px-2 index-outline-btn small-80 text-nowrap">{{voucher?.Voucher_FreqName}}
                             </button>

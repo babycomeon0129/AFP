@@ -1,4 +1,4 @@
-import { Component, OnInit, KeyValueDiffer, KeyValueDiffers, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   Model_ShareData, AFP_Voucher, AFP_UserVoucher, AFP_ECStore, Request_MemberUserVoucher,
@@ -35,23 +35,17 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
   /** 優惠券下架日期 */
   public offlineDate: Date;
   /** 核銷5秒Interval */
-  public checkTimer;
+  public checkTimer: NodeJS.Timer;
   /** 核銷3分鐘倒數timeout */
-  public timer3Mins;
-  /** 變化追蹤（登入狀態） */
-  private serviceDiffer: KeyValueDiffer<string, any>;
+  public timer3Mins: NodeJS.Timer;
   /** 分享至社群時顯示的文字 */
   public textForShare: string;
   /** APP分享使用的url */
   public APPShareUrl: string;
-  /** APP特例處理 */
-  public showBack = false;
   /** 同頁滑動切換 0:本頁 1:使用優惠券 */
   public layerTrig = 0;
 
-  constructor(public appService: AppService, private route: ActivatedRoute, private router: Router, public modal: ModalService,
-              private differs: KeyValueDiffers, private meta: Meta, private title: Title) {
-    this.serviceDiffer = this.differs.find({}).create();
+  constructor(public appService: AppService, private route: ActivatedRoute, private router: Router, public modal: ModalService, private meta: Meta, private title: Title) {
     this.voucherCode = this.route.snapshot.params.Voucher_Code;
     if (this.voucherCode.toString().substring(0, 2) === '46') {
       this.selectMode = 4;
@@ -59,9 +53,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
       this.selectMode = 5;
     }
     // APP特例處理: 若是從會員進來則顯示返回鍵
-    if (this.route.snapshot.queryParams.showBack !== undefined && this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBack = true;
-    }
+    this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
   ngOnInit() {
@@ -153,7 +145,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
    * Voucher_FreqName: 0 已兌換 1 兌換 2 去商店 3 已使用 4 兌換完畢（限一元搶購） 5 使用 6 已逾期（限我的優惠+優惠券詳細） 7 未生效（限我的優惠+優惠券詳細）
    */
   onVoucher(voucher: AFP_Voucher) {
-    if (this.appService.loginState === true) {
+    if (this.appService.loginState) {
       switch (voucher.Voucher_IsFreq) {
         case 1:
           // 兌換（加入到「我的優惠券」）

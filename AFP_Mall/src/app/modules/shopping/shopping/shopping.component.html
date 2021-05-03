@@ -5,14 +5,14 @@
             <img [routerLink]="['/']" src="../img/share/mlogo.png" class="m-topbox-item mobiitoplogo">
             <div class="m-topbox-item d-flex align-items-center">
                 <!-- 未登入 -->
-                <button *ngIf="appService.loginState == false" (click)="appService.loginPage()" type="button" class="m-topbox-item btn bluedk-outline-btn btw-small" data-toggle="modal" data-target="#loginModalCenter">
+                <button *ngIf="!appService.loginState" (click)="appService.loginPage()" type="button" class="m-topbox-item btn bluedk-outline-btn btw-small" data-toggle="modal" data-target="#loginModalCenter">
                     登入/註冊
                 </button>
                 <!-- 電腦版 登入 -->
-                <div *ngIf="appService.loginState == true" class="userbox">
-                  <div *ngIf="appService.loginState == true" class="txt-line-clamp1 user-hi"><a [routerLink]="['/Member']">你好，{{appService.userName}}</a> </div>
+                <div *ngIf="appService.loginState" class="userbox">
+                  <div *ngIf="appService.loginState" class="txt-line-clamp1 user-hi"><a [routerLink]="['/Member']">你好，{{appService.userName}}</a> </div>
                 </div>
-                <ul *ngIf="appService.loginState == true" class="userdrop nav navbar-nav">
+                <ul *ngIf="appService.loginState" class="userdrop nav navbar-nav">
                     <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">&#xE5D3;</i></a>
                     <ul class="dropdown-menu dropdown-menu-right">
@@ -109,12 +109,12 @@
                           <div class="circle circle-bottom"></div>
                           <div class="d-flex flex-column">
                             <button (click)="appService.onVoucher(voucher)"
-                              [disabled]="appService.loginState === true && (voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3)"
+                              [disabled]="appService.loginState && (voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3)"
                               [ngClass]="{'gray-obtn': voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3,
                                           'index-btn': voucher.Voucher_IsFreq === 1,
                                           'index-outline-btn': voucher.Voucher_IsFreq === 2 || voucher.Voucher_IsFreq === 5}"
                               class="btn small-80">
-                              {{appService.loginState === false? '兌換' : voucher.Voucher_FreqName}}
+                              {{!appService.loginState ? '兌換' : voucher.Voucher_FreqName}}
                             </button>
                             <div *ngIf="voucher.Voucher_DedPoint > 0" class="m-quantity small">
                               <img src="../img/share/mobiicoin_red.png" class="coinimg-m">

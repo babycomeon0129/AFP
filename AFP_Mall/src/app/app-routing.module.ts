@@ -5,7 +5,7 @@ import { Error404Component } from './modules/error404/error404.component';
 import { Error500Component } from './modules/error500/error500.component';
 import { Error503Component } from './modules/error503/error503.component';
 
-// tslint:disable: max-line-length
+
 const routes: Routes = [
   { path: '', loadChildren: () => import('./modules/entrance/entrance.module').then(m => m.EntranceModule), data: {animation: 'Home'}},
   { path: 'Explore', loadChildren: () => import('./modules/explore/explore.module').then(m => m.ExploreModule)},

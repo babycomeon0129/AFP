@@ -57,12 +57,12 @@
                   </div>
                   <div class="item one">
                     <button (click)="toVoucher(voucher)"
-                      [disabled]="appService.loginState === true && (voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3 || voucher.Voucher_IsFreq === 4)"
+                      [disabled]="appService.loginState && (voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3 || voucher.Voucher_IsFreq === 4)"
                       [ngClass]="{'gray-obtn': voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3 || voucher.Voucher_IsFreq === 4,
                                       'index-btn': voucher.Voucher_IsFreq === 1,
                                       'index-outline-btn': voucher.Voucher_IsFreq === 2 || voucher.Voucher_IsFreq === 5}"
                       class="btn index-btn small-80 sendval">
-                      {{appService.loginState === false? '兌換' : voucher.Voucher_FreqName}}
+                      {{!appService.loginState? '兌換' : voucher.Voucher_FreqName}}
                     </button>
                     <div *ngIf="voucher.Voucher_DedPoint > 0" class="m-quantity small pl-1">
                       <img src="../img/share/mobiicoin_red.png" class="coinimg-m">

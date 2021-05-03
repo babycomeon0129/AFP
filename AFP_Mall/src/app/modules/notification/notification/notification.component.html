@@ -38,7 +38,7 @@
     <div class="newnotify">最新通知</div>
     <ul class="newlist">
       <li *ngFor="let msg of latestList" class="d-flex"
-      [ngClass]="{'active': msg?.activeStatus === true, 'cursor-pointer': msg?.IMessage_IsShowCTA !== 0 || msg?.IMessage_Desc.length > 36 }"
+      [ngClass]="{'active': msg?.activeStatus, 'cursor-pointer': msg?.IMessage_IsShowCTA !== 0 || msg?.IMessage_Desc.length > 36 }"
       (click)="msg?.IMessage_OrderType !== null? null : unfoldItem(msg)">
         <div class="img-box rwdimgbox-80">
           <div [lazyLoad]="msg?.IMessage_SmallImg" [defaultImage]="appService.defaultImage" class="rwdimg-cover"></div>
@@ -80,7 +80,7 @@
       </div>
       <div>
         <ul class="newlist">
-          <li *ngFor="let item of SCategoryList" [ngClass]="{'active': item?.activeStatus === true, 'cursor-pointer': item?.IMessage_IsShowCTA !== 0 || item?.IMessage_Desc.length > 36} " class="d-flex"
+          <li *ngFor="let item of SCategoryList" [ngClass]="{'active': item?.activeStatus, 'cursor-pointer': item?.IMessage_IsShowCTA !== 0 || item?.IMessage_Desc.length > 36} " class="d-flex"
             (click)="unfoldItem(item)">
             <div class="img-box rwdimgbox-80">
               <div [lazyLoad]="item?.IMessage_SmallImg" [defaultImage]="appService.defaultImage" class="rwdimg-cover">

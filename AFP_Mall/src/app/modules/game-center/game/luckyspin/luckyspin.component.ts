@@ -32,8 +32,6 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
   public playingStatus: boolean;
   /** 本頁url */
   private currentUrl: string;
-  /**  APP特例處理 */
-  public showBack = false;
   /** 同頁滑動切換 0: 本頁 1: 活動規則 */
   public layerTrig = 0;
   /** 提示視窗(向上) 0: 本頁 1: 開獎資訊 */
@@ -54,11 +52,7 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
     this.playTimes = this.gameData.AFP_Game.Game_PlayCount;
     this.prizeList = this.gameData.List_GamePart;
     // APP從M Points或進來則顯示返回鍵
-    if (this.route.snapshot.queryParams.showBack === 'false') {
-      this.showBack = false;
-    } else {
-      this.showBack = true;
-    }
+    this.appService.showBack =  this.route.snapshot.queryParams.showBack === 'true';
   }
 
   ngAfterViewInit() {

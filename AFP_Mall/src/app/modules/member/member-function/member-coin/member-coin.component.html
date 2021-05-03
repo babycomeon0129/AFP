@@ -4,7 +4,7 @@
     <div class="lineargradient-purple pb-3">
       <div class="title-box">
         <div class="item icon-btn">
-          <button [hidden]="appService.isApp !== null && !showBack" class="btn px-0 text-white" onclick="history.back();" data-toggle="tooltip" data-placement="bottom"
+          <button [hidden]="appService.isApp !== null && !appService.showBack" class="btn px-0 text-white" onclick="history.back();" data-toggle="tooltip" data-placement="bottom"
             title="回上一頁">
             <i class="material-icons">&#xe314;</i>
           </button>
@@ -81,7 +81,7 @@
                                       'index-btn': voucher?.Voucher_IsFreq === 1,
                                       'index-outline-btn': voucher.Voucher_IsFreq === 2 || voucher.Voucher_IsFreq === 5}"
                           class="btn px-2 small-80 sendval">
-                          {{appService.loginState == false? '兌換' : voucher?.Voucher_FreqName}}
+                          {{!appService.loginState ? '兌換' : voucher?.Voucher_FreqName}}
                         </button>
                         <div [hidden]="voucher?.Voucher_DedPoint == 0" class="m-quantity small pl-1">
                           <img src="../img/share/mobiicoin_red.png" class="coinimg-m">

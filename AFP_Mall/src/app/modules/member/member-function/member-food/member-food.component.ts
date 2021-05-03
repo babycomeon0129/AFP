@@ -12,8 +12,6 @@ import { ActivatedRoute } from '@angular/router';
 export class MemberFoodComponent implements OnInit {
   /** 我的點餐清單 */
   public foodList: AFP_DeliveryOrder[];
-   /** APP特例處理 */
-   public showBack = false;
 
 
   constructor(public appService: AppService, private meta: Meta, private title: Title, private route: ActivatedRoute) {
@@ -26,9 +24,7 @@ export class MemberFoodComponent implements OnInit {
   ngOnInit() {
     this.getFoodList();
     // 從會員中心進來則隱藏返回鍵
-    if (this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBack = true;
-    }
+    this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
   getFoodList() {

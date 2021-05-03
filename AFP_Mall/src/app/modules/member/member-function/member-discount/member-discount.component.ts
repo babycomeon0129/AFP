@@ -43,8 +43,6 @@ export class MemberDiscountComponent implements OnInit {
   public cancelIsOpen = false;
   /** 重置按鈕開啟 */
   public resetOpen = false;
-  /** APP特例處理 */
-  public showBack = false;
   /** 同頁滑動切換 0:本頁 1:排序清單 */
   public layerTrig = 0;
 
@@ -60,9 +58,7 @@ export class MemberDiscountComponent implements OnInit {
   ngOnInit() {
     this.readVoucher();
     // 從會員中心進來則隱藏返回鍵
-    if (this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBack = true;
-    }
+    this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
   /** 讀取優惠券 */

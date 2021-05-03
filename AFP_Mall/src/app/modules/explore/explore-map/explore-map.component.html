@@ -32,7 +32,7 @@
       <div class="filterWrap">
           <div class="mask-container w-100 h-100" [ngClass]="{'d-block': dirFilterOpen}"></div>
           <div id="type" [ngClass]="{'d-block': dirFilterOpen}" class="filter-content pb-wrap">
-              <ul [ngClass]="{'is-open': dirFilterOpen == true}" class="open-page-ul bt-line">
+              <ul [ngClass]="{'is-open': dirFilterOpen}" class="open-page-ul bt-line">
                   <li *ngFor="let dir of menuList" (click)="readAreaData(dir?.UserDefine_Code)" [ngClass]="{'active': areaMenuCode === dir?.UserDefine_Code}"
                     [hidden]="dir?.UserDefine_ProdCount <= 0"  class="flex-inline-between">
                       <div>

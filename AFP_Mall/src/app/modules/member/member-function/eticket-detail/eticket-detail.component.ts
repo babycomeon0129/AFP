@@ -17,16 +17,11 @@ export class ETicketDetailComponent implements OnInit {
   public userTicket: AFP_UserTicket;
   /** 票券商品 */
   public ticketProd: AFP_Product;
-  public showBack = false; // APP特例處理
   /** 同頁滑動切換 0: 本頁 1:使用票券 */
   public layerTrig = 0;
 
   constructor(private route: ActivatedRoute, public appService: AppService) {
     this.ticketCode = this.route.snapshot.params.UserTicket_Code;
-    // APP特例處理: 若是從會員進來則顯示返回鍵
-    if (this.route.snapshot.queryParams.showBack !== undefined && this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBack = true;
-    }
   }
 
   ngOnInit() {

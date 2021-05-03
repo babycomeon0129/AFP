@@ -1,4 +1,4 @@
-import { Component, OnInit, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { AFP_ChannelVoucher, AFP_ADImg, Request_ECVoucher, Response_ECVoucher } from '@app/_models';
 import { SwiperOptions } from 'swiper';
@@ -17,8 +17,6 @@ export class ShoppingOffersComponent implements OnInit {
   public coverImg: AFP_ADImg[] = [];
   /** 優惠券列表 */
   public voucherList: AFP_ChannelVoucher[] = [];
-  /** 變化追蹤（登入狀態） */
-  private serviceDiffer: KeyValueDiffer<string, any>;
   /** 置頂廣告 swiper */
   public adTop: SwiperOptions = {
     slidesPerView: 1,
@@ -27,9 +25,7 @@ export class ShoppingOffersComponent implements OnInit {
     }
   };
 
-  constructor(public appService: AppService, private cookieService: CookieService, private differs: KeyValueDiffers,
-              private meta: Meta, private title: Title) {
-    this.serviceDiffer = this.differs.find({}).create();
+  constructor(public appService: AppService, private cookieService: CookieService, private meta: Meta, private title: Title) {
     // tslint:disable: max-line-length
     this.title.setTitle('線上優惠專區 - Mobii!');
     this.meta.updateTag({name : 'description', content: 'Mobii! - 線上優惠專區。這裡會顯示 Mobii! 合作店家的優惠券內容，想要搶得店家的優惠，請先登入註冊 Mobii! 會員。'});

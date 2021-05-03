@@ -41,14 +41,14 @@
               <li>
                 <div class="item">姓名</div>
                 <div class="item input-box">
-                  <input type="text" name="UserName" [placeholder]="editMode=== true? '請輸入' : ''" #UserName="ngModel"
+                  <input type="text" name="UserName" [placeholder]="editMode ? '請輸入' : ''" #UserName="ngModel"
                     [(ngModel)]="memberService.userProfile.UserProfile_Name" [readOnly]="!editMode">
                 </div>
               </li>
               <li>
                 <div class="item">暱稱</div>
                 <div class="item input-box">
-                  <input type="text" name="UserNickname" [placeholder]="editMode=== true? '請輸入' : ''"
+                  <input type="text" name="UserNickname" [placeholder]="editMode ? '請輸入' : ''"
                     #UserNickname="ngModel" [(ngModel)]="memberService.userProfile.User_NickName" maxlength="10"
                     [readOnly]="!editMode">
                 </div>
@@ -109,7 +109,7 @@
                   <input type="email" name="UserEmail" [placeholder]="editMode? '請輸入' : ''" class="txt-line-clamp1"
                     #UserEmail="ngModel" [(ngModel)]="memberService.userProfile.UserProfile_Email"
                     [ngClass]="{'warning-red': editMode && formProfile.submitted && UserEmail.errors?.required}"
-                    [readOnly]="editMode === false" pattern="[A-Za-z0-9\*._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$" required>
+                    [readOnly]="!editMode" pattern="[A-Za-z0-9\*._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$" required>
                 </div>
                 <small class="ml-3 text-danger" *ngIf="editMode && UserEmail.dirty && UserEmail.errors?.pattern">E-mail格式有誤</small>
               </li>

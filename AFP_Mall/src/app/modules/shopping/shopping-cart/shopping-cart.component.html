@@ -3,7 +3,7 @@
     <div class="header-secondary container linebt-row">
         <div class="index-flex justify-content-between">
             <div class="item two">
-                <div class="close-btn" [hidden]="appService.isApp !== null && !showBack">
+                <div class="close-btn" [hidden]="appService.isApp !== null && !appService.showBack">
                     <button type="button" (click)="conditionBack()" class="btn px-0" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
                         <i class="material-icons">&#xe314;</i>
                     </button>
@@ -35,7 +35,7 @@
                   </div>
                   <div class="w-50 text-right p-1">
                        <button (click)="toggleEditAllMode()" type="button" class="btn modifybtn text-info store0">
-                          {{editAllMode === true? '完成' : '編輯全部'}}
+                          {{editAllMode ? '完成' : '編輯全部'}}
                       </button>
                   </div>
               </li>
@@ -46,7 +46,7 @@
                     <li class="flex-inline-between">
                         <div class="store-title center-v p-1">
                             <div class="icheck-material-blue">
-                                <input id="{{store.StoreCode}}" [checked]="store.CheckedStatus === true" (change)="onToggleStore(store)" type="checkbox">
+                                <input id="{{store.StoreCode}}" [checked]="store.CheckedStatus" (change)="onToggleStore(store)" type="checkbox">
                                 <label for="{{store.StoreCode}}">
                                   <img src="../img/share/fa-store.png" class="h20 p-1">{{store.StoreName}}
                                 </label>
@@ -54,7 +54,7 @@
                         </div>
                         <div class="text-right p-1">
                              <button (click)="toggleEditMode(store)" type="button" class="btn text-info modifybtn" value="store1">
-                                {{store.EditMode === true? '完成' : '編輯'}}
+                                {{store.EditMode ? '完成' : '編輯'}}
                             </button>
                         </div>
                     </li>
@@ -64,7 +64,7 @@
                                 <div class="products-sitem d-flex align-items-start bd-highlight">
                                     <div class="sitem-checkbox py-1">
                                         <div class="icheck-material-blue">
-                                            <input id="{{product.CartId}}" [checked]="product.CheckedStatus === true" (change)="onToggleProduct(store, product)" type="checkbox" [disabled]="!product.Cart_ProductState">
+                                            <input id="{{product.CartId}}" [checked]="product.CheckedStatus" (change)="onToggleProduct(store, product)" type="checkbox" [disabled]="!product.Cart_ProductState">
                                             <label for="{{product.CartId}}" class="p-0"></label>
                                         </div>
                                     </div>
@@ -89,8 +89,8 @@
                                 </div>
                             </div>
                             <div class=" col-3 col-lg-1 text-right">
-                                <button *ngIf="store.EditMode === true" (click)="onRemoveProduct(store, product)" type="button" class="btn products-delbtn">刪除</button>
-                                <div *ngIf="store.EditMode === false" class="price-asking">{{product.ProductPrice | currency: 'TWD':'$':'1.0-2'}}</div>
+                                <button *ngIf="store.EditMode" (click)="onRemoveProduct(store, product)" type="button" class="btn products-delbtn">刪除</button>
+                                <div *ngIf="!store.EditMode" class="price-asking">{{product.ProductPrice | currency: 'TWD':'$':'1.0-2'}}</div>
                                 <div class="products001 univalent"></div>
                             </div>
                         </div>

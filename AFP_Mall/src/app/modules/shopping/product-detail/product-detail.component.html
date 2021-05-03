@@ -18,7 +18,7 @@
                     <a *ngIf="vendorInfo?.ECStore_Justka !== null" (click)="appService.showJustka(vendorInfo.ECStore_Justka)">
                       <img src="../../img/share/notify.png" class="h38" data-toggle="tooltip" data-placement="bottom" title="客服">
                     </a>
-                    <a [routerLink]="['/Shopping/ShoppingCart']" [queryParams]="{ showBack: this.showBack }">
+                    <a [routerLink]="['/Shopping/ShoppingCart']" [queryParams]="{ showBack: appService.showBack }">
                       <button class="badge-img px-0" data-toggle="tooltip" data-placement="bottom" title="購物車">
                         <span *ngIf="cartCount > 0" class="badge badge-on">{{cartCount > 99 ? '99+' : cartCount}}</span><img src="../../img/shopping/icon_shoppingcart.svg">
                       </button>
@@ -38,7 +38,7 @@
                         <button class="btn add-share" type="button" (click)="appService.shareContent(textForShare, APPShareUrl)"><img src="../img/share/icon_share.png" class="imgicon"></button>
                         <div class="add-favorite">
                           <button (click)="appService.favToggle(appService.userFavCodes.includes(productInfo?.Product_Code) ? 2 : 1, 51, productInfo.Product_Code)"
-                          [ngClass]="{'active' : appService.userFavCodes.includes(productInfo?.Product_Code) == true}"
+                          [ngClass]="{'active' : appService.userFavCodes.includes(productInfo?.Product_Code)}"
                           type="button" data-toggle="modal" data-target=".bd-example-modal-sm" data-toggle="tooltip" data-placement="top" title="加入/移除收藏">
                           <img src="../../img/share/icon_favorite.png" class="imgicon">
                           </button>

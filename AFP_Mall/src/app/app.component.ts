@@ -48,15 +48,12 @@ export class AppComponent implements OnInit {
             sessionStorage.setItem('CustomerInfo', encodeURIComponent(params.customerInfo));
             sessionStorage.setItem('userCode', encodeURIComponent(params.userCode));
             sessionStorage.setItem('userName', params.userName);
-
-            // tslint:disable: max-line-length
             this.cookieService.set('userName', params.userName, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
             this.cookieService.set('userCode', encodeURIComponent(params.userCode), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
             this.cookieService.set('CustomerInfo', encodeURIComponent(params.customerInfo), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
 
             this.appService.loginState = true;
           }
-          // tslint:disable-next-line: triple-equals
         } else if (params.loginType == 2) {
           // APP 為登出狀態但該 webview 登入狀態被cache住還是登入則將其改為登出
           sessionStorage.clear();

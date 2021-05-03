@@ -5,14 +5,14 @@
             <img [routerLink]="['/']" src="../img/share/mlogo.png" class="m-topbox-item mobiitoplogo">
             <div class="m-topbox-item d-flex align-items-center">
                 <!-- 未登入 -->
-                <button *ngIf="appService.loginState == false" (click)="appService.loginPage()" type="button" class="m-topbox-item btn bluedk-outline-btn btw-small" data-toggle="modal" data-target="#loginModalCenter">
+                <button *ngIf="!appService.loginState" (click)="appService.loginPage()" type="button" class="m-topbox-item btn bluedk-outline-btn btw-small" data-toggle="modal" data-target="#loginModalCenter">
                     登入/註冊
                 </button>
                 <!-- 電腦版 登入 -->
-                <div *ngIf="appService.loginState == true" class="userbox">
-                  <div *ngIf="appService.loginState == true" class="txt-line-clamp1 user-hi"><a [routerLink]="['/Member']">你好，{{appService.userName}}</a> </div>
+                <div *ngIf="appService.loginState" class="userbox">
+                  <div *ngIf="appService.loginState" class="txt-line-clamp1 user-hi"><a [routerLink]="['/Member']">你好，{{appService.userName}}</a> </div>
                 </div>
-                <ul  *ngIf="appService.loginState == true" class="userdrop nav navbar-nav">
+                <ul  *ngIf="appService.loginState" class="userdrop nav navbar-nav">
                     <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">&#xE5D3;</i></a>
                     <ul class="dropdown-menu dropdown-menu-right">

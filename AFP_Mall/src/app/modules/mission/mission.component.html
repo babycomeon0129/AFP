@@ -3,7 +3,7 @@
   <div class="missionlist">
       <div class="headerbox container title-box">
           <div class="item icon-btn">
-              <button class="btn px-0" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁" [hidden]="appService.isApp !== null && !showBack">
+              <button class="btn px-0" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁" [hidden]="appService.isApp !== null && !appService.showBack">
                   <i class="material-icons">&#xe314;</i>
               </button>
           </div>
@@ -49,7 +49,7 @@
                   <div class="nav-tabs-box mt-3">
                       <ul class="nav-tab-list nav nav-tabs nav-line d-flex justify-content-around">
                               <li *ngFor="let missiontab of allMission">
-                                  <a [routerLink]="['/Mission']" [queryParams]="{ tabNo: missiontab.TabCode, showBack: showBack}" class="tablist-link" [ngClass]="{'active': tabNo === missiontab.TabCode}">
+                                  <a [routerLink]="['/Mission']" [queryParams]="{ tabNo: missiontab.TabCode, showBack: appService.showBack}" class="tablist-link" [ngClass]="{'active': tabNo === missiontab.TabCode}">
                                     {{ missiontab.TabName }}
                                     <span class="badge badge-index" *ngIf="missiontab.undoneMissionCount > 0">
                                       {{ missiontab.undoneMissionCount}}
@@ -77,8 +77,8 @@
                               </div>
                               <div class="ml-auto w80 align-self-center text-center">
                                   <button (click)="buttonAction(item)"
-                                    [disabled]="item?.Mission_ClickState === 1 || item?.Mission_ClickState === 3 || (item?.Mission_ClickState === 2 && item?.Mission_CurrentURL.trim() === '' && appService.loginState === true)"
-                                    [ngClass]="{'unable': item?.Mission_ClickState === 1 || item?.Mission_ClickState === 3 || (item?.Mission_ClickState === 2 && item?.Mission_CurrentURL.trim() === '' && appService.loginState === true), 'index-outline-btn': item?.Mission_ClickState === 0}"
+                                    [disabled]="item?.Mission_ClickState === 1 || item?.Mission_ClickState === 3 || (item?.Mission_ClickState === 2 && item?.Mission_CurrentURL.trim() === '' && appService.loginState)"
+                                    [ngClass]="{'unable': item?.Mission_ClickState === 1 || item?.Mission_ClickState === 3 || (item?.Mission_ClickState === 2 && item?.Mission_CurrentURL.trim() === '' && appService.loginState), 'index-outline-btn': item?.Mission_ClickState === 0}"
                                     type="button" class="btn index-btn">
                                     {{buttonText(item?.Mission_ClickState, item?.Mission_CurrentURL)}}
                                   </button>

@@ -4,7 +4,7 @@
         <div class="header-secondary container">
             <div class="index-flex justify-content-between">
                 <div class="item two">
-                    <div class="close-btn" [hidden]="appService.isApp !== null && !showBack">
+                    <div class="close-btn" [hidden]="appService.isApp !== null && !appService.showBack">
                         <button onclick="history.back()" type="button" class="btn" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
                             <i class="material-icons">&#xe314;</i>
                         </button>
@@ -14,8 +14,8 @@
                     <div class="title-name">我的收藏</div>
                 </div>
                 <div class="item two">
-                    <button class="btn item-edit" (click)="editModeToggle()" *ngIf="editMode === false">編輯</button>
-                    <button class="btn item-editok" (click)="editModeToggle()" *ngIf="editMode === true">完成</button>
+                    <button class="btn item-edit" (click)="editModeToggle()" *ngIf="!editMode">編輯</button>
+                    <button class="btn item-editok" (click)="editModeToggle()" *ngIf="editMode">完成</button>
                 </div>
             </div>
         </div>
@@ -91,7 +91,7 @@
                                             </div>
                                         </div>
                                     </a>
-                                    <div (click)="onDelFav(listArea, 53, item.ECStore_Code)" *ngIf="editMode === true" class="item-del ml-auto">
+                                    <div (click)="onDelFav(listArea, 53, item.ECStore_Code)" *ngIf="editMode" class="item-del ml-auto">
                                         刪除
                                     </div>
                                   </div>
@@ -175,7 +175,7 @@
                                     </div>
                                 </a>
                               </a>
-                              <div (click)="onDelFav(listProduct, 51, item.Product_Code)" *ngIf="editMode === true" class="item-del">
+                              <div (click)="onDelFav(listProduct, 51, item.Product_Code)" *ngIf="editMode" class="item-del">
                                 刪除
                               </div>
                           </div>
@@ -200,7 +200,7 @@
                                     </div>
                                 </a>
                               </a>
-                              <div (click)="onDelFav(listEcstore, 52, item.ECStore_Code)" *ngIf="editMode === true" class="item-del">
+                              <div (click)="onDelFav(listEcstore, 52, item.ECStore_Code)" *ngIf="editMode" class="item-del">
                                 刪除
                               </div>
                             </div>
@@ -236,7 +236,7 @@
                                       </div>
                                   </div>
                               </a>
-                              <div (click)="onDelFav(listTravel, 54, item.Travel_Code)" *ngIf="editMode === true" class="item-del ml-auto">
+                              <div (click)="onDelFav(listTravel, 54, item.Travel_Code)" *ngIf="editMode" class="item-del ml-auto">
                                     刪除
                               </div>
                           </div>
