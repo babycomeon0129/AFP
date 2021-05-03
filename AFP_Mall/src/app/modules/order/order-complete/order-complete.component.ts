@@ -21,8 +21,7 @@ export class OrderCompleteComponent implements OnInit {
   /** 回傳結果 */
   public ResponseModel: Response_OrderComplete;
 
-  constructor(private route: ActivatedRoute, public appService: AppService, private router: Router, private cookieService: CookieService,
-              private meta: Meta, private title: Title) {
+  constructor(private route: ActivatedRoute, public appService: AppService, private router: Router, private meta: Meta, private title: Title) {
     this.title.setTitle('付款確認中｜線上商城 - Mobii!');
     this.meta.updateTag({name : 'description', content: ''});
     this.meta.updateTag({content: '付款確認中｜線上商城 - Mobii!', property: 'og:title'});

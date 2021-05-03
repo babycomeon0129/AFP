@@ -37,13 +37,7 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
   /** 提示視窗(向上) 0: 本頁 1: 開獎資訊 */
   public layerTrigUp = 0;
 
-  constructor(
-    public appService: AppService,
-    public modal: ModalService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private renderer2: Renderer2
-  ) {
+  constructor(public appService: AppService, public modal: ModalService, private router: Router, private route: ActivatedRoute, private renderer2: Renderer2 ){
     this.currentUrl = this.router.url;
   }
 

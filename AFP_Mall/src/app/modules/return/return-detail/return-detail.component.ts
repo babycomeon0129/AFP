@@ -64,7 +64,7 @@ export class ReturnDetailComponent implements OnInit {
    *
    * @param ServiceModel 客服單
    */
-  showServiceText(ServiceModel: AFP_Services) {
+  showServiceText(ServiceModel: AFP_Services): void {
     if (this.allETicket) {
       this.StrTitle = '退款處理中';
       this.StrSubTitle = '電子票券已退回，退款處理中！';

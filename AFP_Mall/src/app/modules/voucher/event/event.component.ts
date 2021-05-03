@@ -23,8 +23,7 @@ export class EventComponent implements OnInit {
     }
   };
 
-  constructor(public appService: AppService, private meta: Meta, private title: Title,
-              private modal: ModalService) {
+  constructor(public appService: AppService, private meta: Meta, private title: Title, private modal: ModalService) {
     this.title.setTitle('1元搶購優惠 - Mobii!');
     this.meta.updateTag({name : 'description', content: 'Mobii! - 1 元搶購優惠。這裡會顯示 Mobii! 合作店家的 1 元搶購優惠內容，想要搶得1元的店家優惠，請先登入註冊 Mobii! 會員。'});
     this.meta.updateTag({content: '1元搶購優惠 - Mobii!', property: 'og:title'});

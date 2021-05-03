@@ -50,7 +50,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   /** 註冊-重新發送驗證碼剩餘秒數 */
   public remainingSec = 0;
   /** 註冊-重新發送驗證碼倒數 timer */
-  public vCodeTimer;
+  public vCodeTimer: NodeJS.Timer;
   /** 註冊-輸入帳號是否已存在 */
   public existingAccount = false;
   /** Apple 登入 state */

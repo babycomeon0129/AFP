@@ -44,7 +44,7 @@ export class PrivacyComponent implements OnInit {
   }
 
   /** 若從APP登入頁進入則按回上一頁時APP把此頁關掉 */
-  backIf() {
+  backIf(): void {
     if (this.fromAppLogin) {
       if (navigator.userAgent.match(/android/i)) {
         //  Android

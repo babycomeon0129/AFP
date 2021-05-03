@@ -82,7 +82,7 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /** 刮刮樂底部畫面繪製 */
-  drawBot() {
+  drawBot(): void {
     // 清除區域，為了點擊再來一次進行頁面重繪
     this.ctxBot.canvas.style.opacity = '1';
     this.ctxBot.drawImage(this.imgBot, 0, 0, this.w, this.h);
@@ -90,7 +90,7 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /** 刮刮樂上層畫面繪製 */
-  drawTop() {
+  drawTop(): void {
     this.ctxTop.canvas.style.opacity = '1';
     this.ctxTop.drawImage(this.imgTop, 0, 0, this.w, this.h);
     // 判斷當前是否為第一次刮開，不是則清除上一次區域
@@ -159,12 +159,12 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   /** 使用者在畫布的行為事件-放開滑鼠按鈕的動作、在刮刮樂touchend的動作。當出現上述動作時，停止繪製 */
-  eventUp(ev: { preventDefault: () => void; }) {
+  eventUp(ev: { preventDefault: () => void; }): void {
     ev.preventDefault();
     this.mousedown = false;
   }
   /** 使用者在畫布的行為事件-移動滑鼠時進行刮除上層圖片的動作 */
-  eventMove(ev: { preventDefault: () => void; changedTouches: string | any[]; pageX: number; pageY: number; }) {
+  eventMove(ev: { preventDefault: () => void; changedTouches: string | any[]; pageX: number; pageY: number; }): void {
     ev.preventDefault();
     if (this.mousedown && this.goPlay) {
       if (ev.changedTouches) {
@@ -201,7 +201,7 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /** 開獎結果 */
-  alertInfo() {
+  alertInfo(): void {
     // this.gameData.AFP_Game.Game_PlayCount -1 為次數無限制
     if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
       this.noticeAlert.emit();
@@ -243,7 +243,7 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /** 再玩一次 */
-  playAgain() {
+  playAgain(): void {
     this.layerTrigUp = 0;
     // this.drawBot(); // imgBot沒有設src，iOS會報錯，而實際底層的圖是用bottomCanvas的background-image了，也不需要再繪圖一次
     this.drawTop();

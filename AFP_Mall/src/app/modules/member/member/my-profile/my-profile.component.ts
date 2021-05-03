@@ -52,7 +52,7 @@ export class MyProfileComponent implements OnInit {
   }
 
   /** 性別轉換  */
-  sexTSstring(sex: number) {
+  sexTSstring(sex: number): string {
     switch (sex) {
       case null:
         return null;
@@ -94,7 +94,7 @@ export class MyProfileComponent implements OnInit {
   /** 讀取證件
    * @param CertificateType 1 護照, 2 台胞證, 11 學生證 12 教職員證
    */
-  readCertificate(CertificateType: number):void {
+  readCertificate(CertificateType: number): void {
     this.userCertificate = new AFP_UserFavourite(); // 初始化
     this.isUpload = false; // 初始化
     const request: Request_MemberCertificate = {

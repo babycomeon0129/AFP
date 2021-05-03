@@ -88,7 +88,7 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
   }
 
   /** 自動focus到驗證碼輸入欄位 */
-  focusOnInput() {
+  focusOnInput(): void {
     document.getElementById('vcode').focus();
   }
 

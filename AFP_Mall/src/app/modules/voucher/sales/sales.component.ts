@@ -1,8 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SwiperOptions } from 'swiper';
 import { AppService } from '@app/app.service';
-import { AFP_VouFlashSale, Request_ECVouFlashSale, Response_ECVouFlashSale, AFP_ADImg,
-  AFP_Voucher } from '@app/_models';
+import { AFP_VouFlashSale, Request_ECVouFlashSale, Response_ECVouFlashSale, AFP_ADImg, AFP_Voucher } from '@app/_models';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
