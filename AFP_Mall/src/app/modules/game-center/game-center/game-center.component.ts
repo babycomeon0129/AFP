@@ -46,6 +46,7 @@ export class GameCenterComponent implements OnInit {
   /** 前往遊戲
    * @param gameCode 就是GameCode
    * @param gameType 遊戲類型，1:刮刮樂 2:大轉盤
+   * @param gameTypeSpace 遊戲類型格數，1:刮刮樂 8:大轉盤 12::大轉盤
    * @param gamePoint 遊玩扣除點數
    * @param gameExtName 遊戲外部名稱
    */
