@@ -7,7 +7,8 @@ import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-game-center',
-  templateUrl: './game-center.component.html'
+  templateUrl: './game-center.component.html',
+  styleUrls: ['./game-center.component.scss'],
 })
 export class GameCenterComponent implements OnInit {
   /** 置頂圖片(主視覺用途，僅會有一張，無連結) */

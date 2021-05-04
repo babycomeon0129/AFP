@@ -40,3 +40,14 @@
   padding-top: .5em;
   padding-bottom: .5em;
 }
+.badge-box {
+  position: absolute;
+  transform: translate(0.5em, -2em);
+  .badge {
+    border: 1px solid $blue-dark;
+    border-radius: 30px;
+    background-color: #fff;
+    padding-left: .75em;
+    padding-right: .75em;
+  }
+}

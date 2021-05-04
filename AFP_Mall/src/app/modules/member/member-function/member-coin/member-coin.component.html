@@ -34,6 +34,7 @@
       <div class="member-flex flex-coinbn">
         <div *ngFor="let item of info.List_Game" [routerLink]="['/GameCenter/Game', item.Game_Code]" [queryParams]="{ showBack: false}" class="item">
           <img [lazyLoad]="item.Game_Image" class="img-fluid border-radius5" [defaultImage]="appService.defaultImage">
+          <div class="badge-box"><p class="badge">文大會員限定</p></div>
         </div>
         <div class="w-100" [hidden]="!gameSeeAll">
           <button [routerLink]="['/GameCenter']" class="btn see-all"> See All > </button>
