@@ -32,7 +32,7 @@ export class MissionComponent implements OnInit {
 
     this.route.queryParams.subscribe(params => {
       // 從會員中心進來則隱藏返回鍵
-      this.appService.showBack = params.showBack === 'true';
+     // this.appService.showBack = params.showBack === 'true';
       // 根據url params的tabNo，賦予tabNo值。如果沒有url params沒有tabNo，則初始值11(每日任務)
       this.tabNo = typeof params.tabNo !== 'undefined' ? parseInt(params.tabNo, 10) : 11;
       this.tabChange();

@@ -49,8 +49,6 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
     this.meta.updateTag({content: '', property: 'og:description'});
 
     this.orderNo = this.route.snapshot.params.Order_TableNo;
-    // 從會員中心進來則隱藏返回鍵
-    this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
   ngOnInit() {

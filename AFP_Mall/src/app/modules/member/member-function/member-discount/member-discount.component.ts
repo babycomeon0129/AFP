@@ -57,7 +57,7 @@ export class MemberDiscountComponent implements OnInit {
   ngOnInit() {
     this.readVoucher();
     // 從會員中心進來則隱藏返回鍵
-    this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
+    // this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
   /** 讀取優惠券 */

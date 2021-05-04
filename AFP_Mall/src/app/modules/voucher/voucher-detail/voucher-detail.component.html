@@ -3,11 +3,12 @@
     <div class="header-secondary container">
       <div class="index-flex justify-content-between">
         <div class="item two">
-          <div class="close-btn" [hidden]="appService.isApp !== null && !appService.showBack">
-            <button type="button" class="btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom"
+          <div class="close-btn">
+            <!--button type="button" class="btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom"
               title="回上一頁">
               <i class="material-icons">&#xe314;</i>
-            </button>
+            </!--button-->
+            <app-back-btn></app-back-btn>
           </div>
         </div>
         <div class="item three text-center">

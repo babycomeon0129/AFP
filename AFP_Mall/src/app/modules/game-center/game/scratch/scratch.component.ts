@@ -76,9 +76,6 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.imgTop.src = '../img/mission/scratch-win.png';
     }
-
-    /** APP從M Points或進來則顯示返回鍵 */
-    this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
   /** 刮刮樂底部畫面繪製 */

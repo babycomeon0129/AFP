@@ -23,8 +23,6 @@ export class MemberFoodComponent implements OnInit {
 
   ngOnInit() {
     this.getFoodList();
-    // 從會員中心進來則隱藏返回鍵
-    this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
   getFoodList(): void {

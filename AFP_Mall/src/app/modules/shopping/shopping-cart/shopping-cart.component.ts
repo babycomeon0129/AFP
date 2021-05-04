@@ -45,11 +45,11 @@ export class ShoppingCartComponent implements OnInit {
     this.cartCount = Number(this.cookieService.get('cart_count_Mobii'));
     this.showCartData();
     // APP從會員中心→我的收藏→商品詳細→購物車要顯示返回鍵
-    this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
+    // this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
   /** 讀取、整理、顯示購物車資料 */
-  showCartData() {
+  showCartData(): void {
     this.appService.openBlock();
     const request: Request_ECCart = {
       User_Code: sessionStorage.getItem('userCode'),
@@ -124,7 +124,7 @@ export class ShoppingCartComponent implements OnInit {
   /** 單選商家：勾選一商家時，其他已被勾選的商家及商品都取消勾選(要改為多選時刪掉這段即可)
    * @param store 該商家
    */
-  singleStore(store: CartStoreList) {
+  singleStore(store: CartStoreList): void {
     if (!store.CheckedStatus) {
       this.cartList.forEach(s => {
         s.CheckedStatus = false;
@@ -140,7 +140,7 @@ export class ShoppingCartComponent implements OnInit {
   /** 勾選商家
    * @param store 該商家
    */
-  onToggleStore(store: CartStoreList) {
+  onToggleStore(store: CartStoreList): void {
     // 單選商家
     this.singleStore(store);
 
@@ -172,7 +172,7 @@ export class ShoppingCartComponent implements OnInit {
    * @param store 所屬商家
    * @param product 該商品
    */
-  onToggleProduct(store: CartStoreList, product: ProductInfo) {
+  onToggleProduct(store: CartStoreList, product: ProductInfo): void {
     // 單選商家
     this.singleStore(store);
     // 先判斷商品資料是否上架
@@ -204,7 +204,7 @@ export class ShoppingCartComponent implements OnInit {
    * @param actionCode 0(-), 1(+)
    * @param product 該商品
    */
-  onChangeAmount(actionCode: number, product: ProductInfo) {
+  onChangeAmount(actionCode: number, product: ProductInfo): void {
     // 改變顯示
     if (actionCode === 0) {
       if (product.ProductQty > 1) {
@@ -242,7 +242,7 @@ export class ShoppingCartComponent implements OnInit {
   /** 商家編輯模式控制
    * @param store 該商家
    */
-  toggleEditMode(store: CartStoreList) {
+  toggleEditMode(store: CartStoreList): void {
     store.EditMode = !store.EditMode;
     if (!store.EditMode) {
       if (this.cartList.every(s => !s.EditMode)) {
@@ -251,7 +251,7 @@ export class ShoppingCartComponent implements OnInit {
     }
   }
   /** 全部編輯模式控制 */
-  toggleEditAllMode() {
+  toggleEditAllMode(): void {
     if (!this.editAllMode) {
       this.cartList.forEach(s => s.EditMode = true);
     } else {
@@ -264,7 +264,7 @@ export class ShoppingCartComponent implements OnInit {
    * @param store 所屬商家
    * @param product 該商品
    */
-  onRemoveProduct(store: CartStoreList, product: ProductInfo) {
+  onRemoveProduct(store: CartStoreList, product: ProductInfo): void {
     const request: Request_ECCart = {
       User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 2,
@@ -311,7 +311,7 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   /** 計算小計 (「有勾選的」商品單價*數量; 勾選商家、勾選商品、改變數量、刪除商品時會有更動) */
-  calcSubtotal() {
+  calcSubtotal(): void {
     this.subtotal = 0;
     this.cartList.forEach(s => {
       s.ProductList.forEach(p => {
@@ -372,12 +372,13 @@ export class ShoppingCartComponent implements OnInit {
   /**
    * 回上一頁(若在結帳未完成時按回上一頁被導至此，回上一頁導至商城首頁)
    */
-  conditionBack() {
-    if (this.route.snapshot.queryParams.referrer === undefined) {
-      history.back();
-    } else {
-      this.router.navigate(['Shopping']);
-    }
-  }
+  // conditionBack(): void {
+  //   console.log(this.route.snapshot.queryParams.referrer);
+  //   if (this.route.snapshot.queryParams.referrer === undefined) {
+  //     history.back();
+  //   } else {
+  //     this.router.navigate(['Shopping']);
+  //   }
+  // }
 
 }

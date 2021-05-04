@@ -53,7 +53,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
       this.selectMode = 5;
     }
     // APP特例處理: 若是從會員進來則顯示返回鍵
-    this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
+    // this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
   ngOnInit() {

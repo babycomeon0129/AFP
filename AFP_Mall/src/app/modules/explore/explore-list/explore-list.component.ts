@@ -39,10 +39,6 @@ export class ExploreListComponent implements OnInit {
   }
 
   ngOnInit() {
-    // App訪問
-    this.route.queryParams.subscribe(params => {
-      this.appService.showBack = params.showBack === 'true';
-    });
     // load data when route param changes(前往其他目錄)
     this.route.params.subscribe(routeParams => {
       if (this.areaMenuCode !== 0 && this.areaMenuCode !== Number(routeParams.AreaMenu_Code)) {

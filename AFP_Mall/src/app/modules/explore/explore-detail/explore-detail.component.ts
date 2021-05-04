@@ -75,7 +75,7 @@ export class ExploreDetailComponent implements OnInit {
     // 從外部進來指定分頁
     this.route.queryParams.subscribe(params => {
       // APP從會員中心進來則隱藏返回鍵
-      this.appService.showBack = params.showBack === 'true';
+      // this.appService.showBack = params.showBack === 'true';
       if (typeof params.navNo !== 'undefined') {
         this.tabNo = parseInt(params.navNo, 10);
         if (this.tabNo > 1 && this.tabNo <= 3) {

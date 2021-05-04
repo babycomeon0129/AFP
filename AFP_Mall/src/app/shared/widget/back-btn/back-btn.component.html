@@ -1,0 +1,5 @@
+<button type="button" class="btn" title="回上一頁" (click)="gotoBack()"
+  [hidden]="appService.isApp !== null && !appService.showBack">
+  <i class="material-icons" *ngIf="iconStyle === 1">&#xe314;</i>
+  <img src="../img/share/icon_back.png" class="imgicon" *ngIf="iconStyle === 2">
+</button>

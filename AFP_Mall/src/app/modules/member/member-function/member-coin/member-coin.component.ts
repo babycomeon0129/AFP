@@ -48,7 +48,7 @@ export class MemberCoinComponent implements OnInit {
     this.meta.updateTag({content: 'Mobii! - M Points。這裡會顯示 Mobii! 用戶擁有的 M Points 點數與歷史使用紀錄。點數累積的方式包括每日登入、玩遊戲、購物、乘車等回饋。', property: 'og:description'});
 
     // 從會員中心或任務牆進來則隱藏返回鍵
-    this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
+    // this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
   ngOnInit() {

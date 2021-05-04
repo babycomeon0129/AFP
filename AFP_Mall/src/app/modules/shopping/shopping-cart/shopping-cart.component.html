@@ -3,10 +3,11 @@
     <div class="header-secondary container linebt-row">
         <div class="index-flex justify-content-between">
             <div class="item two">
-                <div class="close-btn" [hidden]="appService.isApp !== null && !appService.showBack">
-                    <button type="button" (click)="conditionBack()" class="btn px-0" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                <div class="close-btn">
+                    <!--button type="button" (click)="conditionBack()" class="btn px-0" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
                         <i class="material-icons">&#xe314;</i>
-                    </button>
+                    </!--button-->
+                    <app-back-btn [needGoBack]="false" [url]="'Shopping'"></app-back-btn>
                 </div>
             </div>
             <div class="item three text-center">
