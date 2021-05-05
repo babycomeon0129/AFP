@@ -43,12 +43,8 @@ export class MemberCoinComponent implements OnInit {
   };
 
   constructor(public appService: AppService, private route: ActivatedRoute, public router: Router, public modal: ModalService,
-<<<<<<< HEAD
               private meta: Meta, private title: Title) {
-=======
-    private meta: Meta, private title: Title) {
     // tslint:disable: max-line-length
->>>>>>> MOB-2536GameTab
     this.title.setTitle('Mobii Point - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - M Points。這裡會顯示 Mobii! 用戶擁有的 M Points 點數與歷史使用紀錄。點數累積的方式包括每日登入、玩遊戲、購物、乘車等回饋。' });
     this.meta.updateTag({ content: 'Mobii Point - Mobii!', property: 'og:title' });
