@@ -27,13 +27,6 @@
           </div>
         </div>
       </div>
-<<<<<<< HEAD
-      <div *ngIf="gameList?.length >= 1; else elseBlock" class="game-list p-3">
-          <h6 class="py-2">遊戲列表</h6>
-          <div class="member-flex flex-gamebn">
-              <div *ngFor="let game of gameList" (click)="goGame(game.Game_Code)" class="item">
-                  <img [lazyLoad]="game?.Game_Image" alt="" class="img-fluid border-radius5" [defaultImage]="appService.defaultImage">
-=======
     </div>
     <!-- tab content for record-->
     <div class="afp-tab-box">
@@ -57,14 +50,13 @@
             <div *ngIf="showGameList?.length >= 1; else elseBlock" class="game-list p-3">
               <div class="member-flex flex-gamebn">
                 <div *ngFor="let game of showGameList"
-                  (click)="goGame(game.Game_Code, game.Game_Type, game.Game_DedPoint, game.Game_ExtName)" class="item">
+                  (click)="goGame(game.Game_Code)" class="item">
                   <img [lazyLoad]="game?.Game_Image" alt="" class="img-fluid border-radius5"
                     [defaultImage]="appService.defaultImage">
                   <div class="badge-box" [hidden]="game.Game_Tag === null">
                     <p class="badge">{{game.Game_Tag}}</p>
                   </div>
                 </div>
->>>>>>> MOB-2536GameTab
               </div>
             </div>
             <ng-template #elseBlock>
