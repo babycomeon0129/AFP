@@ -15,8 +15,10 @@ export class GameCenterComponent implements OnInit {
   public imgTop: AFP_ADImg;
   /** 遊戲列表 */
   public gameList: AFP_Game[] = [];
-  /** 選擇TAG  1:一般會員, 2:綁卡會員 */
-  public selectedType = 1;
+  /** 顯示遊戲列表。 根據selectedType(對照後端回傳的Game_ConditionType)，顯示不同的遊戲列表 */
+  public showGameList: AFP_Game[] = [];
+  /** 選擇TAG  0:一般會員, 1:綁卡會員 */
+  public selectedType = 0;
 
   constructor(public appService: AppService, private router: Router, public modal: ModalService, private meta: Meta, private title: Title) {
     this.title.setTitle('遊戲 - Mobii!');
@@ -38,9 +40,9 @@ export class GameCenterComponent implements OnInit {
       SelectMode: 4
     };
     this.appService.toApi('Games', '1702', request).subscribe((data: Response_GameIndex) => {
-      console.log(data);
       this.imgTop = data.ADImg_Top;
       this.gameList = data.List_Game;
+      this.showGameList = this.gameList.filter(game => game.Game_ConditionType === 0);
     });
   }
 
@@ -80,6 +82,7 @@ export class GameCenterComponent implements OnInit {
    */
   onTabList(tabType: number) {
     this.selectedType = tabType;
+    this.showGameList = this.gameList.filter(game => game.Game_ConditionType === tabType);
   }
 }
 

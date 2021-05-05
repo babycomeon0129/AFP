@@ -35,10 +35,10 @@
           <!-- Nav tabs -->
           <ul class="nav-tab-list nav nav-tabs nav-line d-flex justify-content-around">
             <li role="presentation">
-              <a (click)="onTabList(1);" class="tablist-link"  [ngClass]="{'active': selectedType === 1}">一般會員</a>
+              <a (click)="onTabList(0);" class="tablist-link" [ngClass]="{'active': selectedType === 0}">一般會員</a>
             </li>
             <li role="presentation">
-              <a (click)="onTabList(2);" class="tablist-link"  [ngClass]="{'active': selectedType === 2}">綁卡會員</a>
+              <a (click)="onTabList(1);" class="tablist-link" [ngClass]="{'active': selectedType === 1}">綁卡會員</a>
             </li>
           </ul>
           <div class="tab-line w-100"></div>
@@ -46,33 +46,26 @@
         <!-- Tab panes -->
         <div class="tab-content">
           <!-- 一般會員 -->
-          <div role="tabpanel" class="tab-pane fade w-100" id="tabPane1" [ngClass]="{'active show': selectedType === 1}">
-            <div *ngIf="gameList?.length >= 1; else elseBlock" class="game-list p-3">
+          <div role="tabpanel" class="tab-pane fade w-100 active show" id="tabPane1">
+            <div *ngIf="showGameList?.length >= 1; else elseBlock" class="game-list p-3">
               <div class="member-flex flex-gamebn">
-                <div *ngFor="let game of gameList"
+                <div *ngFor="let game of showGameList"
                   (click)="goGame(game.Game_Code, game.Game_Type, game.Game_DedPoint, game.Game_ExtName)" class="item">
                   <img [lazyLoad]="game?.Game_Image" alt="" class="img-fluid border-radius5"
                     [defaultImage]="appService.defaultImage">
-                  <div class="badge-box"><p class="badge">文大會員限定</p></div>
+                  <div class="badge-box" [hidden]="game.Game_Tag === null">
+                    <p class="badge">{{game.Game_Tag}}</p>
+                  </div>
                 </div>
               </div>
             </div>
             <ng-template #elseBlock>
               <div class="no-data">
                 <img src="../img/share/game-null.png" alt="no-game">
-                <p>Oops！下次再來玩...</p>
+                <p *ngIf="selectedType === 0">Oops！下次再來玩...</p>
+                <p *ngIf="selectedType === 1">Oops！<br>目前沒有提供綁卡專屬遊戲喔！</p>
               </div>
             </ng-template>
-          </div>
-          <!-- 綁卡會員 -->
-          <div role="tabpanel" class="tab-pane fade w-100" id="tabPane2" [ngClass]="{'active show': selectedType === 2}">
-            <div>
-              <div class="no-data">
-                <img src="../img/share/game-null.png" alt="no-game">
-                <p>Oops！<br>
-                  目前沒有提供綁卡專屬遊戲喔！</p>
-              </div>
-            </div>
           </div>
         </div>
       </div>
