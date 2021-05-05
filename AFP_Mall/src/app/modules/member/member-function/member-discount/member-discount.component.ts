@@ -62,27 +62,31 @@ export class MemberDiscountComponent implements OnInit {
 
   /** 讀取優惠券 */
   readVoucher(): void {
-    this.appService.openBlock();
-    const request: Request_MemberUserVoucher = {
-      User_Code: sessionStorage.getItem('userCode'),
-      SelectMode: 4, // 查詢
-      Voucher_Code: null, // 優惠券Code
-      Voucher_ActivityCode: null, // 優惠代碼
-      SearchModel: {
-        SelectMode: this.vSelectMode
-      }
-    };
+    if (this.appService.loginState) {
+      this.appService.openBlock();
+      const request: Request_MemberUserVoucher = {
+        User_Code: sessionStorage.getItem('userCode'),
+        SelectMode: 4, // 查詢
+        Voucher_Code: null, // 優惠券Code
+        Voucher_ActivityCode: null, // 優惠代碼
+        SearchModel: {
+          SelectMode: this.vSelectMode
+        }
+      };
 
-    this.appService.toApi('Member', '1510', request).subscribe((data: Response_MemberUserVoucher) => {
-      this.voucherListOrig = data.List_UserVoucher;
-      this.voucherList = this.voucherListOrig.concat();
-      this.useType = data.List_UsedType;
-      this.showType = data.List_ShowType.filter(item => item.Key !== 1000 && item.Key !== 1100);
-      this.voucherType = data.List_VoucherType;
-      if (this.vSelectMode === 1) {
-        this.resetSet();
-      }
-    });
+      this.appService.toApi('Member', '1510', request).subscribe((data: Response_MemberUserVoucher) => {
+        this.voucherListOrig = data.List_UserVoucher;
+        this.voucherList = this.voucherListOrig.concat();
+        this.useType = data.List_UsedType;
+        this.showType = data.List_ShowType.filter(item => item.Key !== 1000 && item.Key !== 1100);
+        this.voucherType = data.List_VoucherType;
+        if (this.vSelectMode === 1) {
+          this.resetSet();
+        }
+      });
+    } else {
+      this.appService.loginPage();
+    }
   }
 
   /** 優惠券折扣類型使用文字顯示轉換 */

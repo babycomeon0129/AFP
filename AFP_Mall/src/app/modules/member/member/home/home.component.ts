@@ -36,9 +36,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.readIndexData();
-    if (this.appService.loginState) {
-      this.memberService.readProfileData();
-    }
+    this.memberService.readProfileData();
     //  第三方登入取得資料
     this.authService.authState.subscribe((user) => {
       if (user != null && this.thirdClick) {

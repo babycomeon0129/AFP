@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppService } from 'src/app/app.service';
@@ -34,7 +35,7 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
   public toVerifyCell = false;
 
   constructor(public appService: AppService, public modal: ModalService, public memberService: MemberService, private route: ActivatedRoute,
-              public router: Router, private meta: Meta, private title: Title) {
+              public router: Router, private meta: Meta, private title: Title, public location: Location) {
     this.title.setTitle('手機驗證 - Mobii!');
     this.meta.updateTag({name : 'description', content: ''});
     this.meta.updateTag({content: '手機驗證 - Mobii!', property: 'og:title'});
@@ -62,6 +63,8 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
       } else {
         this.shownSection = 1;
       }
+    } else {
+      this.shownSection = 0;
     }
   }
 
@@ -112,8 +115,12 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
 
   /** 離開輸入驗證碼頁面 */
   cancelVerify(): void {
-    this.shownSection = 1;
     clearInterval(this.vcodeTimer);
+    if (this.appService.loginState) {
+      this.shownSection = 1;
+    } else {
+      this.location.back();
+    }
   }
 
   ngOnDestroy(): void {

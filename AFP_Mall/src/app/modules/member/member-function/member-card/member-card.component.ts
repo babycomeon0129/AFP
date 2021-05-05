@@ -4,7 +4,7 @@ import { NgForm } from '@angular/forms';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Model_ShareData, AFP_UserFavourite, AFP_UserReport } from '@app/_models';
 import { Meta, Title } from '@angular/platform-browser';
-import { layerAnimation,  layerAnimationUp} from '@app/animations';
+import { layerAnimation, layerAnimationUp } from '@app/animations';
 import CaptchaMini from 'captcha-mini';
 
 @Component({
@@ -49,9 +49,9 @@ export class MemberCardComponent implements OnInit {
 
   constructor(public appService: AppService, public modal: ModalService, private meta: Meta, private title: Title) {
     this.title.setTitle('我的卡片 - Mobii!');
-    this.meta.updateTag({name : 'description', content: 'Mobii! - 我的卡片。你可以新增信用卡、悠遊卡或一卡通等卡片，並在 Mobii! APP 或網頁上，使用這些卡片來購物、支付或乘車。'});
-    this.meta.updateTag({content: '我的卡片 - Mobii!', property: 'og:title'});
-    this.meta.updateTag({content: 'Mobii! - 我的卡片。你可以新增信用卡、悠遊卡或一卡通等卡片，並在 Mobii! APP 或網頁上，使用這些卡片來購物、支付或乘車。', property: 'og:description'});
+    this.meta.updateTag({ name: 'description', content: 'Mobii! - 我的卡片。你可以新增信用卡、悠遊卡或一卡通等卡片，並在 Mobii! APP 或網頁上，使用這些卡片來購物、支付或乘車。' });
+    this.meta.updateTag({ content: '我的卡片 - Mobii!', property: 'og:title' });
+    this.meta.updateTag({ content: 'Mobii! - 我的卡片。你可以新增信用卡、悠遊卡或一卡通等卡片，並在 Mobii! APP 或網頁上，使用這些卡片來購物、支付或乘車。', property: 'og:description' });
   }
 
   ngOnInit() {
@@ -60,25 +60,29 @@ export class MemberCardComponent implements OnInit {
 
   /** 讀取卡片列表 */
   readCardList(): void {
-    this.appService.openBlock();
-    const request: Request_MemberMyCard = {
-      User_Code: sessionStorage.getItem('userCode'),
-      SelectMode: 4,
-      AFP_UserFavourite: {
-        UserFavourite_CountryCode: 886,
-        UserFavourite_Type: 2,
-        UserFavourite_TypeCode: 1,
-        UserFavourite_IsDefault: 0,
-        UserFavourite_State: 1,
-        UserFavourite_SyncState: 0
-      },
-      SearchModel: {
-        UserFavourite_ID: null
-      }
-    };
-    this.appService.toApi('Member', '1507', request).subscribe((data: Response_MemberMyCard) => {
-      this.cardList = data.List_UserFavourite;
-    });
+    if (this.appService.loginState) {
+      this.appService.openBlock();
+      const request: Request_MemberMyCard = {
+        User_Code: sessionStorage.getItem('userCode'),
+        SelectMode: 4,
+        AFP_UserFavourite: {
+          UserFavourite_CountryCode: 886,
+          UserFavourite_Type: 2,
+          UserFavourite_TypeCode: 1,
+          UserFavourite_IsDefault: 0,
+          UserFavourite_State: 1,
+          UserFavourite_SyncState: 0
+        },
+        SearchModel: {
+          UserFavourite_ID: null
+        }
+      };
+      this.appService.toApi('Member', '1507', request).subscribe((data: Response_MemberMyCard) => {
+        this.cardList = data.List_UserFavourite;
+      });
+    } else {
+      this.appService.loginPage();
+    }
   }
 
   /** 點擊立即新增卡片 */
@@ -133,7 +137,7 @@ export class MemberCardComponent implements OnInit {
       SelectMode: (this.requestCard.UserFavourite_ID > 0) ? 3 : 1,
       AFP_UserFavourite: this.requestCard,
       SearchModel: {
-        UserFavourite_ID:  (this.requestCard.UserFavourite_ID > 0) ? this.requestCard.UserFavourite_ID : null
+        UserFavourite_ID: (this.requestCard.UserFavourite_ID > 0) ? this.requestCard.UserFavourite_ID : null
       }
     };
 
@@ -141,9 +145,9 @@ export class MemberCardComponent implements OnInit {
       this.readCardList();
       this.layerTrig = 0;
       if (this.requestCard.UserFavourite_ID > 0) {
-        this.modal.show('message', { initialState: { success: true, message: '修改完成', showType: 1}});
+        this.modal.show('message', { initialState: { success: true, message: '修改完成', showType: 1 } });
       } else {
-        this.modal.show('message', { initialState: { success: true, message: '綁定成功', note: '【溫馨提醒】本卡尚未完成一卡通記名作業，如需記名請至一卡通官網操作完成。', showType: 1}});
+        this.modal.show('message', { initialState: { success: true, message: '綁定成功', note: '【溫馨提醒】本卡尚未完成一卡通記名作業，如需記名請至一卡通官網操作完成。', showType: 1 } });
       }
       form.resetForm();
       this.appService.appShowMobileFooter(true);
@@ -180,7 +184,7 @@ export class MemberCardComponent implements OnInit {
 
   /** 刪除卡片 */
   onDeleteCard(form: NgForm): void {
-    this.modal.confirm({initialState: {message: '是否確定解除此會員卡?'}}).subscribe(res => {
+    this.modal.confirm({ initialState: { message: '是否確定解除此會員卡?' } }).subscribe(res => {
       if (res) {
         const request: Request_MemberMyCard = {
           User_Code: sessionStorage.getItem('userCode'),
@@ -202,7 +206,7 @@ export class MemberCardComponent implements OnInit {
           this.readCardList();
           this.layerTrig = 0;
           this.appService.appShowMobileFooter(true);
-          this.modal.show('message', { initialState: { success: true, message: '卡片已刪除', showType: 1}});
+          this.modal.show('message', { initialState: { success: true, message: '卡片已刪除', showType: 1 } });
           this.requestCard = new AFP_UserFavourite(); // 重置此筆資料避免刪除後無法立即新增卡片(卡號會無法輸入&上方一樣會是修改)
           form.resetForm(); // 重置form避免刪除卡片後立刻按新增會出現舊卡片的資料
         });
@@ -229,8 +233,8 @@ interface Request_MemberMyCard extends Model_ShareData {
 }
 
 /** 會員中心-我的卡片 - RequestModel SearchModel*/
- interface Search_MemberMyCard {
-   /** ID */
+interface Search_MemberMyCard {
+  /** ID */
   UserFavourite_ID: number;
 }
 

@@ -31,7 +31,7 @@ export class MemberOrderComponent implements OnInit {
 
 
   constructor(public appService: AppService, private router: Router, private route: ActivatedRoute,
-              private meta: Meta, private title: Title, public memberService: MemberService, private location: Location) {
+    private meta: Meta, private title: Title, public memberService: MemberService, private location: Location) {
     this.title.setTitle('我的訂單 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 我的訂單。這裡會顯示 Mobii! 用戶在 Mobii! 平台上購物的訂單，包括訂單出貨及收貨進度。請先登入註冊以開啟功能。' });
     this.meta.updateTag({ content: '我的訂單 - Mobii!', property: 'og:title' });
@@ -42,13 +42,13 @@ export class MemberOrderComponent implements OnInit {
   }
 
   ngOnInit() {
-    if ( this.appService.prevUrl.includes('MyOrderDetail')) {
+    if (this.appService.prevUrl.includes('MyOrderDetail')) {
       // 如果上一頁是我的訂單詳細，第一個tab切到購物商城
       this.memberService.tabSwitch = 1;
-    } else if ( this.appService.prevUrl.includes('ETicketOrderDetail')) {
+    } else if (this.appService.prevUrl.includes('ETicketOrderDetail')) {
       // 如果上一頁是電子票券詳細，第一個tab切到訂單詳細
       this.memberService.tabSwitch = 21;
-    } else if ( this.appService.prevUrl.includes('ReturnDetail') ) {
+    } else if (this.appService.prevUrl.includes('ReturnDetail')) {
       // 如果上一頁是退單頁，第一個tab跟訂單狀態保持上一次狀態
       this.memberService.tabSwitch = this.memberService.tabSwitch;
       this.memberService.statusSwitch = this.memberService.statusSwitch;
@@ -75,19 +75,23 @@ export class MemberOrderComponent implements OnInit {
         this.ETicket_selectedState = state;
         break;
     }
-    this.appService.openBlock();
-    const request: Request_MemberOrder = {
-      User_Code: sessionStorage.getItem('userCode'),
-      SelectMode: 1, // 列表查詢
-      SearchModel: {
-        OrderType: type,
-        OrderState: state
-      }
-    };
+    if (this.appService.loginState) {
+      this.appService.openBlock();
+      const request: Request_MemberOrder = {
+        User_Code: sessionStorage.getItem('userCode'),
+        SelectMode: 1, // 列表查詢
+        SearchModel: {
+          OrderType: type,
+          OrderState: state
+        }
+      };
 
-    this.appService.toApi('Member', '1512', request).subscribe((data: Response_MemberOrder) => {
-      this.orderList = data.List_MemberOrder;
-    });
+      this.appService.toApi('Member', '1512', request).subscribe((data: Response_MemberOrder) => {
+        this.orderList = data.List_MemberOrder;
+      });
+    } else {
+      this.appService.loginPage();
+    }
   }
 
   /** 顯示寄送方式

@@ -25,11 +25,11 @@ export class MemberFavoriteComponent implements OnInit {
   public listTravel: TravelJsonFile_Travel[] = [];
 
   constructor(public appService: AppService, public modal: ModalService, private route: ActivatedRoute, private router: Router,
-              private meta: Meta, private title: Title) {
+    private meta: Meta, private title: Title) {
     this.title.setTitle('我的收藏 - Mobii!');
-    this.meta.updateTag({name : 'description', content: 'Mobii! - 我的收藏。這裡會顯示 Mobii! 用戶按讚收藏的檔案，包括周邊、商品、店家以及旅遊行程。請先登入註冊以開啟功能。'});
-    this.meta.updateTag({content: '我的收藏 - Mobii!', property: 'og:title'});
-    this.meta.updateTag({content: 'Mobii! - 我的收藏。這裡會顯示 Mobii! 用戶按讚收藏的檔案，包括周邊、商品、店家以及旅遊行程。請先登入註冊以開啟功能。', property: 'og:description'});
+    this.meta.updateTag({ name: 'description', content: 'Mobii! - 我的收藏。這裡會顯示 Mobii! 用戶按讚收藏的檔案，包括周邊、商品、店家以及旅遊行程。請先登入註冊以開啟功能。' });
+    this.meta.updateTag({ content: '我的收藏 - Mobii!', property: 'og:title' });
+    this.meta.updateTag({ content: 'Mobii! - 我的收藏。這裡會顯示 Mobii! 用戶按讚收藏的檔案，包括周邊、商品、店家以及旅遊行程。請先登入註冊以開啟功能。', property: 'og:description' });
   }
 
   ngOnInit() {
@@ -43,22 +43,23 @@ export class MemberFavoriteComponent implements OnInit {
    * @param favType 51 商品, 52 商家, 53 周邊, 54 行程
    */
   onFavList(favType: number): void {
-    this.selectedType = favType;
-    this.editMode = false;
-    this.appService.openBlock();
-    const request: Request_MemberFavourite = {
-      SelectMode: 11,
-      User_Code: sessionStorage.getItem('userCode'),
-      AFP_UserFavourite: {
-        UserFavourite_ID: 0,
-        UserFavourite_CountryCode: 886,
-        UserFavourite_Type: favType,
-        UserFavourite_UserInfoCode: 0,
-        UserFavourite_IsDefault: 0
-      }
-    };
+    if (this.appService.loginState) {
+      this.selectedType = favType;
+      this.editMode = false;
+      this.appService.openBlock();
+      const request: Request_MemberFavourite = {
+        SelectMode: 11,
+        User_Code: sessionStorage.getItem('userCode'),
+        AFP_UserFavourite: {
+          UserFavourite_ID: 0,
+          UserFavourite_CountryCode: 886,
+          UserFavourite_Type: favType,
+          UserFavourite_UserInfoCode: 0,
+          UserFavourite_IsDefault: 0
+        }
+      };
 
-    this.appService.toApi('Member', '1511', request).subscribe((data: Response_MemberFavourite) => {
+      this.appService.toApi('Member', '1511', request).subscribe((data: Response_MemberFavourite) => {
         switch (favType) {
           case 51:
             this.listProduct = data.List_Product;
@@ -73,7 +74,10 @@ export class MemberFavoriteComponent implements OnInit {
             this.listTravel = data.List_Travel;
             break;
         }
-    });
+      });
+    } else {
+      this.appService.loginPage();
+    }
   }
 
   /** 刪除收藏
@@ -82,7 +86,7 @@ export class MemberFavoriteComponent implements OnInit {
    * @param favCode 商品/商家/周邊/行程編碼
    */
   onDelFav(showList, favType: number, favCode: number): void {
-    this.modal.confirm({initialState: {message: '確認要刪除這個收藏嗎?'}}).subscribe(res => {
+    this.modal.confirm({ initialState: { message: '確認要刪除這個收藏嗎?' } }).subscribe(res => {
       const request: Request_MemberFavourite = {
         SelectMode: 2,
         User_Code: sessionStorage.getItem('userCode'),
@@ -136,11 +140,6 @@ export class MemberFavoriteComponent implements OnInit {
     });
   }
 
-  /** 編輯模式開關 */
-  editModeToggle(): void {
-    this.editMode = !this.editMode;
-  }
-
   /** 前往行程詳細
    * @param isOnline 是否上架
    * @param item 行程
@@ -165,9 +164,9 @@ export class MemberFavoriteComponent implements OnInit {
       if (!routeChanged) {
         // 若route還未改變才前往
         if (code2 === undefined) {
-          this.router.navigate([page, code1], {queryParams: {showBack: this.appService.showBack}});
+          this.router.navigate([page, code1], { queryParams: { showBack: this.appService.showBack } });
         } else {
-          this.router.navigate([page, code1, code2], {queryParams: {showBack: this.appService.showBack}});
+          this.router.navigate([page, code1, code2], { queryParams: { showBack: this.appService.showBack } });
         }
       }
     }

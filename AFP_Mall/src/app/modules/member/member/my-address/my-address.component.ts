@@ -34,9 +34,9 @@ export class MyAddressComponent implements OnInit {
 
   constructor(public appService: AppService, public modal: ModalService, private meta: Meta, private title: Title) {
     this.title.setTitle('我的地址 - Mobii!');
-    this.meta.updateTag({name : 'description', content: ''});
-    this.meta.updateTag({content: '我的地址 - Mobii!', property: 'og:title'});
-    this.meta.updateTag({content: '', property: 'og:description'});
+    this.meta.updateTag({ name: 'description', content: '' });
+    this.meta.updateTag({ content: '我的地址 - Mobii!', property: 'og:title' });
+    this.meta.updateTag({ content: '', property: 'og:description' });
   }
 
   ngOnInit() {
@@ -45,59 +45,67 @@ export class MyAddressComponent implements OnInit {
 
   /** 讀取地址列表，及「新增地址」中的縣市和行政區 */
   onGetAddressList(): void {
-    const request: Request_MemberAddress = {
-      SelectMode: 4,
-      User_Code: sessionStorage.getItem('userCode')
-    };
-    this.appService.toApi('Member', '1503', request).subscribe((data: Response_MemberAddress) => {
-      // 地址列表
-      this.userAddressList = data.List_UserFavourite;
-      // 地區、縣市、行政區
-      if (this.UserReoprtList.length === 0) {
-        this.UserReoprtList = data.AFP_UserReport;
-        for (const item of data.AFP_UserReport) {
-          if (item.UserReport_CategoryCode === 20) {
-            this.areaList.push(item);
-          } else if (item.UserReport_CategoryCode === 21) {
-            this.cityList.push(item);
-          } else if (item.UserReport_CategoryCode === 22) {
-            this.districtList.push(item);
+    if (this.appService.loginState) {
+      const request: Request_MemberAddress = {
+        SelectMode: 4,
+        User_Code: sessionStorage.getItem('userCode')
+      };
+      this.appService.toApi('Member', '1503', request).subscribe((data: Response_MemberAddress) => {
+        // 地址列表
+        this.userAddressList = data.List_UserFavourite;
+        // 地區、縣市、行政區
+        if (this.UserReoprtList.length === 0) {
+          this.UserReoprtList = data.AFP_UserReport;
+          for (const item of data.AFP_UserReport) {
+            if (item.UserReport_CategoryCode === 20) {
+              this.areaList.push(item);
+            } else if (item.UserReport_CategoryCode === 21) {
+              this.cityList.push(item);
+            } else if (item.UserReport_CategoryCode === 22) {
+              this.districtList.push(item);
+            }
           }
         }
-      }
-    });
+      });
+    } else {
+      this.appService.loginPage();
+    }
   }
 
   /** 讀取地址詳細
    * @param addressId 地址ID
    */
-  onReadAddressDetail(addressID: number): void  {
-    if (addressID > 0) {
-      this.appService.openBlock();
-      const request: Request_MemberAddress = {
-        SelectMode: 5,
-        User_Code: sessionStorage.getItem('userCode'),
-        AFP_UserFavourite: {
-          UserFavourite_ID: addressID,
-          UserFavourite_CountryCode: 886,
-          UserFavourite_Type: 1,
-          UserFavourite_UserInfoCode: 0,
-          UserFavourite_TypeCode: 0,
-          UserFavourite_IsDefault: 0,
-          UserFavourite_State: 1,
-          UserFavourite_SyncState: 0,
-        }
-      };
-      this.appService.toApi('Member', '1503', request).subscribe((data: Response_MemberAddress) => {
-        this.requestAddress = data.AFP_UserFavourite;
-      });
-    } else {
-      this.requestAddress = new AFP_UserFavourite();
-      this.requestAddress.UserFavourite_Number1 = this.cityList[0].UserReport_ItemCode;
-    }
+  onReadAddressDetail(addressID: number): void {
+    if (this.appService.loginState) {
+      if (addressID > 0) {
+        this.appService.openBlock();
+        const request: Request_MemberAddress = {
+          SelectMode: 5,
+          User_Code: sessionStorage.getItem('userCode'),
+          AFP_UserFavourite: {
+            UserFavourite_ID: addressID,
+            UserFavourite_CountryCode: 886,
+            UserFavourite_Type: 1,
+            UserFavourite_UserInfoCode: 0,
+            UserFavourite_TypeCode: 0,
+            UserFavourite_IsDefault: 0,
+            UserFavourite_State: 1,
+            UserFavourite_SyncState: 0,
+          }
+        };
+        this.appService.toApi('Member', '1503', request).subscribe((data: Response_MemberAddress) => {
+          this.requestAddress = data.AFP_UserFavourite;
+        });
+      } else {
+        this.requestAddress = new AFP_UserFavourite();
+        this.requestAddress.UserFavourite_Number1 = this.cityList[0].UserReport_ItemCode;
+      }
 
-    this.addressId = addressID;
-    this.showDetail = true;
+      this.addressId = addressID;
+      this.showDetail = true;
+    } else {
+      this.appService.loginPage();
+    }
   }
 
   /** 地址組合
@@ -142,7 +150,7 @@ export class MyAddressComponent implements OnInit {
   }
 
   /** 刪除地址 */
-  onDeleteAddress(): void  {
+  onDeleteAddress(): void {
     this.modal.confirm({ initialState: { message: '請問是否要刪除這個地址?' } }).subscribe(res => {
       if (res) {
         const request: Request_MemberAddress = {

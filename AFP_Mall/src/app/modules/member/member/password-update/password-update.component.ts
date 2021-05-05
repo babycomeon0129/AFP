@@ -22,11 +22,11 @@ export class PasswordUpdateComponent implements OnInit {
   public newPsw2Visible = false;
 
   constructor(public appService: AppService, public modal: ModalService, private location: Location,
-              private meta: Meta, private title: Title) {
+    private meta: Meta, private title: Title) {
     this.title.setTitle('變更密碼 - Mobii!');
-    this.meta.updateTag({name : 'description', content: ''});
-    this.meta.updateTag({content: '變更密碼 - Mobii!', property: 'og:title'});
-    this.meta.updateTag({content: '', property: 'og:description'});
+    this.meta.updateTag({ name: 'description', content: '' });
+    this.meta.updateTag({ content: '變更密碼 - Mobii!', property: 'og:title' });
+    this.meta.updateTag({ content: '', property: 'og:description' });
   }
 
   ngOnInit() {
@@ -36,15 +36,19 @@ export class PasswordUpdateComponent implements OnInit {
    * @param form 表單
    */
   onUpdatePwd(form: NgForm): void {
-    this.requestUpdatePwd.SelectMode = 3;
-    this.requestUpdatePwd.User_Code = sessionStorage.getItem('userCode');
-    this.appService.toApi('Member', '1505', this.requestUpdatePwd).subscribe(() => {
-      // 變更成功訊息
-      this.modal.show('message', { initialState: { success: true, message: '密碼變更成功!', showType: 1 } });
-      // 回到上一頁
-      this.location.back();
-      form.resetForm();
-    });
+    if (this.appService.loginState) {
+      this.requestUpdatePwd.SelectMode = 3;
+      this.requestUpdatePwd.User_Code = sessionStorage.getItem('userCode');
+      this.appService.toApi('Member', '1505', this.requestUpdatePwd).subscribe(() => {
+        // 變更成功訊息
+        this.modal.show('message', { initialState: { success: true, message: '密碼變更成功!', showType: 1 } });
+        // 回到上一頁
+        this.location.back();
+        form.resetForm();
+      });
+    } else {
+      this.appService.loginPage();
+    }
   }
 
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Model_ShareData} from '@app/_models';
+import { Model_ShareData } from '@app/_models';
 import { AppService } from 'src/app/app.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -26,12 +26,16 @@ export class MemberFoodComponent implements OnInit {
   }
 
   getFoodList(): void {
-    const request: Request_MemDeliveryOrder = {
-      User_Code: sessionStorage.getItem('userCode')
-    };
-    this.appService.toApi('Member', '1521', request).subscribe((data: Response_MemDeliveryOrder) => {
-      this.foodList = data.List_DeliveryOrder;
-    });
+    if (this.appService.loginState) {
+      const request: Request_MemDeliveryOrder = {
+        User_Code: sessionStorage.getItem('userCode')
+      };
+      this.appService.toApi('Member', '1521', request).subscribe((data: Response_MemDeliveryOrder) => {
+        this.foodList = data.List_DeliveryOrder;
+      });
+    } else {
+      this.appService.loginPage();
+    }
   }
 
   /** 跳轉至外連連結 */
