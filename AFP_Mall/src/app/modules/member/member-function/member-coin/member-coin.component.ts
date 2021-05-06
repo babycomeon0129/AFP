@@ -43,12 +43,7 @@ export class MemberCoinComponent implements OnInit {
   };
 
   constructor(public appService: AppService, private route: ActivatedRoute, public router: Router, public modal: ModalService,
-<<<<<<< HEAD
     private meta: Meta, private title: Title) {
-=======
-              private meta: Meta, private title: Title) {
-    // tslint:disable: max-line-length
->>>>>>> develop
     this.title.setTitle('Mobii Point - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - M Points。這裡會顯示 Mobii! 用戶擁有的 M Points 點數與歷史使用紀錄。點數累積的方式包括每日登入、玩遊戲、購物、乘車等回饋。' });
     this.meta.updateTag({ content: 'Mobii Point - Mobii!', property: 'og:title' });
@@ -59,7 +54,6 @@ export class MemberCoinComponent implements OnInit {
   }
 
   ngOnInit() {
-<<<<<<< HEAD
     if (this.appService.loginState) {
       this.appService.openBlock();
       const getInfo: Request_MemberPoint = {
@@ -75,19 +69,6 @@ export class MemberCoinComponent implements OnInit {
     } else {
       this.appService.loginPage();
     }
-=======
-    this.appService.openBlock();
-    const getInfo: Request_MemberPoint = {
-      User_Code: sessionStorage.getItem('userCode'),
-      SelectMode: 4,
-      SearchModel: {
-        VouChannel_Code: 1111111
-      }
-    };
-    this.appService.toApi('Member', '1509', getInfo).subscribe((info: Response_MemberPoint) => {
-      this.info = info;
-    });
->>>>>>> develop
   }
 
   /** 歷史紀錄 */
