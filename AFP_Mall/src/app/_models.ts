@@ -1606,6 +1606,10 @@ export class AFP_Game {
   Game_OnDate: Date;
   /** 遊戲結束日期 */
   Game_OffDate: Date;
+  /** 遊戲遊玩條件類型 0: 一般會員(無限制資格的遊戲) 1: 綁卡會員遊戲 */
+  Game_ConditionType: number;
+  /** 遊戲標籤 */
+  Game_Tag: string;
 }
 
 /** 限時優惠券 RequestModel */

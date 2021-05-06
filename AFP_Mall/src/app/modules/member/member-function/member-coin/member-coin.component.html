@@ -12,14 +12,14 @@
         </div>
         <div class="item title-name text-white">M Points</div>
         <div class="item">
-          <button class="btn btn-outline-white text-white small-80 py-0"
-            (click)="getHistory(); layerTrig = 1">
+          <button class="btn btn-outline-white text-white small-80 py-0" (click)="getHistory(); layerTrig = 1">
             歷史紀錄
           </button>
         </div>
       </div>
       <div class="coin-box">
-        <div class="text-center"><img src="../img/share/mobiicoin_red.png" class="coinimg-m">{{info.TotalPoint | currency:'TWD':'':'1.0-2'}}</div>
+        <div class="text-center"><img src="../img/share/mobiicoin_red.png" class="coinimg-m">{{info.TotalPoint |
+          currency:'TWD':'':'1.0-2'}}</div>
         <div class="flex-inline-between">
           <div class="item">即將到期</div>
           <div class="item">{{info.DaylinePoint | currency:'TWD':'':'1.0-2'}}</div>
@@ -35,6 +35,10 @@
       <div class="member-flex flex-coinbn">
         <div *ngFor="let item of info.List_Game" [routerLink]="['/GameCenter/Game', item.Game_Code]" [queryParams]="{ showBack: true}" class="item">
           <img [lazyLoad]="item.Game_Image" class="img-fluid border-radius5" [defaultImage]="appService.defaultImage">
+          <div class="badge-box" [hidden]="item.Game_Tag === null"><p class="badge">{{ item.Game_Tag }}</p></div>
+        </div>
+        <div class="w-100">
+          <button [routerLink]="['/GameCenter']" class="btn see-all"> See All > </button>
         </div>
       </div>
     </div>
@@ -48,8 +52,8 @@
         <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs">
           <!-- Nav tabs -->
           <ul id="nav-tab-member" class="swiper-wrapper nav nav-tabs nav-line mb-2" role="tablist">
-            <li *ngFor="let tab of info.List_Voucher; let First = first; let i = index" role="presentation" class="swiper-slide"
-              [ngClass]="{'active': First}">
+            <li *ngFor="let tab of info.List_Voucher; let First = first; let i = index" role="presentation"
+              class="swiper-slide" [ngClass]="{'active': First}">
               <a href="#tag{{i}}" [ngClass]="{'active': First}" class="tablist-link" aria-controls="tag01" role="tab"
                 data-toggle="tab" aria-selected="true">{{tab?.UserDefine_Name}}</a>
             </li>
@@ -72,11 +76,11 @@
                       <div class="item three px-2">
                         <p>{{voucher?.Voucher_Title}}</p>
                         <p>{{voucher?.Voucher_ExtName}}</p>
-                        <p>{{voucher?.Voucher_UsedOnDate | date: 'yyyy/MM/dd'}} ~ {{voucher?.Voucher_UsedOffDate | date: 'yyyy/MM/dd'}}</p>
+                        <p>{{voucher?.Voucher_UsedOnDate | date: 'yyyy/MM/dd'}} ~ {{voucher?.Voucher_UsedOffDate | date:
+                          'yyyy/MM/dd'}}</p>
                       </div>
                       <div class="item one">
-                        <button
-                          (click)="toVoucher(voucher)"
+                        <button (click)="toVoucher(voucher)"
                           [disabled]="voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3"
                           [ngClass]="{'gray-obtn': voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3,
                                       'index-btn': voucher?.Voucher_IsFreq === 1,
@@ -86,7 +90,8 @@
                         </button>
                         <div [hidden]="voucher?.Voucher_DedPoint == 0" class="m-quantity small pl-1">
                           <img src="../img/share/mobiicoin_red.png" class="coinimg-m">
-                          {{voucher?.Voucher_SpecialPoint > 0? voucher?.Voucher_SpecialPoint : voucher?.Voucher_DedPoint | currency: '':'':'1.0-2'}}
+                          {{voucher?.Voucher_SpecialPoint > 0? voucher?.Voucher_SpecialPoint : voucher?.Voucher_DedPoint
+                          | currency: '':'':'1.0-2'}}
                         </div>
                       </div>
                     </div>
@@ -120,8 +125,7 @@
     <div class="mycoinrecord">
       <div class="title-box">
         <div class="item icon-btn">
-          <button class="btn px-0" (click)="layerTrig = 0" data-toggle="tooltip" data-placement="bottom"
-            title="回上一頁">
+          <button class="btn px-0" (click)="layerTrig = 0" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
             <i class="material-icons">&#xe314;</i>
           </button>
         </div>
@@ -131,8 +135,10 @@
       <div class="lineargradient-purple">
         <div class="text-white p-3 member-flex">
           <div class="item three">
-            <h5><img src="../img/share/mobiicoin_red.png" class="coinimg-m">{{info.TotalPoint | currency:'TWD':'':'1.0-2'}}</h5>
-            <p class="small-80">即將到期：{{info.DaylinePoint | currency:'TWD':'':'1.0-2'}}點（{{info.Dayline | date:'yyyy/MM/dd'}}）</p>
+            <h5><img src="../img/share/mobiicoin_red.png" class="coinimg-m">{{info.TotalPoint |
+              currency:'TWD':'':'1.0-2'}}</h5>
+            <p class="small-80">即將到期：{{info.DaylinePoint | currency:'TWD':'':'1.0-2'}}點（{{info.Dayline |
+              date:'yyyy/MM/dd'}}）</p>
           </div>
           <div class="item one text-right">
             <!--前去Mission頁時將appService.tLayer清空，避免callLayer失效-->
@@ -161,7 +167,8 @@
           </div>
           <!-- Tab panes -->
           <div class="tab-content pt-2 mb-5">
-            <div *ngIf="pointHistory?.length > 0; else noMPointsBlock" role="tabpanel" class="tab-pane fade active show w-100">
+            <div *ngIf="pointHistory?.length > 0; else noMPointsBlock" role="tabpanel"
+              class="tab-pane fade active show w-100">
               <div *ngFor="let item of pointHistory" class="member-flex border-b p-3">
                 <div class="item three">
                   <div class="d-grid">
@@ -171,7 +178,8 @@
                   </div>
                 </div>
                 <div class="item one">
-                  <p class="text-index text-right font-bold">{{item.UserPoint_AddQuantity | currency:'TWD':'':'1.0-2'}}</p>
+                  <p class="text-index text-right font-bold">{{item.UserPoint_AddQuantity | currency:'TWD':'':'1.0-2'}}
+                  </p>
                 </div>
               </div>
             </div>
