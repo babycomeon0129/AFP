@@ -4,13 +4,8 @@
     <div class="lineargradient-purple pb-3">
       <div class="title-box">
         <div class="item icon-btn">
-<<<<<<< HEAD
           <!--button [hidden]="appService.isApp !== null && !appService.showBack" class="btn px-0 text-white" onclick="history.back();" data-toggle="tooltip" data-placement="bottom"
             title="回上一頁">
-=======
-          <button [hidden]="appService.isApp !== null && !showBack" class="btn px-0 text-white"
-            onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
->>>>>>> MOB-2536GameTab
             <i class="material-icons">&#xe314;</i>
           </!--button-->
           <app-back-btn></app-back-btn>
@@ -89,14 +84,9 @@
                           [disabled]="voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3"
                           [ngClass]="{'gray-obtn': voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3,
                                       'index-btn': voucher?.Voucher_IsFreq === 1,
-<<<<<<< HEAD
                                       'index-outline-btn': voucher.Voucher_IsFreq === 2 || voucher.Voucher_IsFreq === 5}"
                           class="btn px-2 small-80 sendval">
                           {{!appService.loginState ? '兌換' : voucher?.Voucher_FreqName}}
-=======
-                                      'index-outline-btn': voucher.Voucher_IsFreq === 2 || voucher.Voucher_IsFreq === 5}" class="btn px-2 small-80 sendval">
-                          {{appService.loginState == false? '兌換' : voucher?.Voucher_FreqName}}
->>>>>>> MOB-2536GameTab
                         </button>
                         <div [hidden]="voucher?.Voucher_DedPoint == 0" class="m-quantity small pl-1">
                           <img src="../img/share/mobiicoin_red.png" class="coinimg-m">
