@@ -66,8 +66,6 @@ export class MemberCoinComponent implements OnInit {
     this.appService.toApi('Member', '1509', getInfo).subscribe((info: Response_MemberPoint) => {
       this.info = info;
     });
-    // 從會員中心或任務牆進來則隱藏返回鍵
-    this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
   /** 歷史紀錄 */
