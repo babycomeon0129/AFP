@@ -64,15 +64,13 @@ export class MemberCoinComponent implements OnInit {
       }
     };
     this.appService.toApi('Member', '1509', getInfo).subscribe((info: Response_MemberPoint) => {
-      console.log(info);
       this.info = info;
-      // 遊戲筆數>3（seeAll顯示，反之隱藏）
-      (this.info.List_Game.length > 3) ? this.gameSeeAll = true : this.gameSeeAll = false;
     });
     // 從會員中心或任務牆進來則隱藏返回鍵
     this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
+  /** 歷史紀錄 */
   getHistory(): void {
     this.appService.openBlock();
     const getHistory: Request_MemberPoint = {
