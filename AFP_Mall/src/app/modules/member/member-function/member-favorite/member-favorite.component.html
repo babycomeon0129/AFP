@@ -15,8 +15,7 @@
                     <div class="title-name">我的收藏</div>
                 </div>
                 <div class="item two">
-                    <button class="btn item-edit" (click)="editModeToggle()" *ngIf="!editMode">編輯</button>
-                    <button class="btn item-editok" (click)="editModeToggle()" *ngIf="editMode">完成</button>
+                    <button class="btn item-edit" (click)="editMode = !editMode" [hidden]="!appService.loginState">{{ editMode? '編輯' : '完成' }}</button>
                 </div>
             </div>
         </div>
