@@ -60,7 +60,7 @@ export class GameCenterComponent implements OnInit {
 
 
   /** 讀取TAG列表
-   * @param favType 1:一般會員, 2:綁卡會員
+   * @param tabType 1:一般會員, 2:綁卡會員
    */
   onTabList(tabType: number) {
     this.selectedType = tabType;
