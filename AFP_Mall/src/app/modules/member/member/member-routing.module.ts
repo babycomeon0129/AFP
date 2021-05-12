@@ -9,10 +9,11 @@ import { MyAddressComponent } from './my-address/my-address.component';
 import { PasswordUpdateComponent } from './password-update/password-update.component';
 import { MyPaymentComponent } from './my-payment/my-payment.component';
 import { ThirdBindingComponent } from './third-binding/third-binding.component';
+import { SessionAliveGuard } from '@app/shared/guard/session-alive-guard/session-alive.guard';
 
 const routes: Routes = [
   {
-    path: '', component: MemberComponent, children: [
+    path: '',canActivate:[SessionAliveGuard], component: MemberComponent, children: [
       { path: '', component: HomeComponent, data: {animation: 'MemberHome'}  },
       { path: 'Setting', component: SettingComponent, data: {animation: 'Setting'} },
       { path: 'MyProfile', component: MyProfileComponent, data: {animation: 'MyProfile'} },
