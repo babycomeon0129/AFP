@@ -94,7 +94,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
         case 5:
           this.modal.appleLogin({}).subscribe(appleUser => {
             if (appleUser !== null) {
-              const idTokenModel = jwt_decode(appleUser.authorization.id_token);
+              const idTokenModel: any = jwt_decode(appleUser.authorization.id_token);
               const appleToken = idTokenModel.sub;
               this.thirdReques = {
                 SelectMode: 1,
