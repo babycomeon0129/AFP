@@ -64,14 +64,14 @@ export class OffersComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.readData();
   }
 
   ngOnInit() {
+    this.readData();
   }
 
   /** 讀取資料 */
-  readData() {
+  readData(): void {
     this.appService.openBlock();
     const request: Request_ECVouFlashSale = {
       User_Code: sessionStorage.getItem('userCode'),
@@ -128,7 +128,7 @@ export class OffersComponent implements OnInit, OnDestroy {
   }
 
   /** 限時搶購倒數顯示 */
-  saleCountdown() {
+  saleCountdown(): void {
     const saleEndTime = new Date(this.saleIndex.VouFlashSale_OfflineDate).getTime();
     this.countdown = setInterval(() => {
       const currentTime = new Date().getTime();
