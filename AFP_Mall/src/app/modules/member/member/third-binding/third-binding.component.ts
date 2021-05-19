@@ -14,7 +14,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
   // 第三方登入 User容器
   public thirdUser: SocialUser;
   // 第三方登入Request
-  public thirdReques: Request_MemberThird = new Request_MemberThird();
+  public thirdRequest: Request_MemberThird = new Request_MemberThird();
   /** 第三方資訊類型 1 FB, 3 Google 5 Apple */
   public bindMode = 0;
   /** 第三方綁定狀態 */
@@ -34,7 +34,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
       // 為了FB登入特例處理，多判斷 this.bindMode > 0 才呼叫API
       if (user !== null && this.bindMode > 0) {
         this.thirdUser = user;
-        this.thirdReques = {
+        this.thirdRequest = {
           SelectMode: 1,
           User_Code: sessionStorage.getItem('userCode'),
           Store_Note: '',
@@ -42,7 +42,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
           Token: this.thirdUser.id,
           JsonData: JSON.stringify(this.thirdUser)
         };
-        this.thirdbind(this.thirdReques, this.bindMode);
+        this.thirdbind(this.thirdRequest, this.bindMode);
       }
     });
   }
@@ -96,7 +96,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
             if (appleUser !== null) {
               const idTokenModel: any = jwt_decode(appleUser.authorization.id_token);
               const appleToken = idTokenModel.sub;
-              this.thirdReques = {
+              this.thirdRequest = {
                 SelectMode: 1,
                 User_Code: sessionStorage.getItem('userCode'),
                 Store_Note: '',
@@ -104,7 +104,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
                 Token: appleToken,
                 JsonData: JSON.stringify(appleUser)
               };
-              this.thirdbind(this.thirdReques, this.bindMode);
+              this.thirdbind(this.thirdRequest, this.bindMode);
             }
           });
           break;
@@ -142,7 +142,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
   //       if (appleUser !== null) {
   //         const idTokenModel = jwt_decode(appleUser.authorization.id_token);
   //         const appleToken = idTokenModel.sub;
-  //         this.thirdReques = {
+  //         this.thirdRequest = {
   //           SelectMode: 1,
   //           User_Code: sessionStorage.getItem('userCode'),
   //           Store_Note: '',
@@ -150,7 +150,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
   //           Token: appleToken,
   //           JsonData: JSON.stringify(appleUser)
   //         };
-  //         this.thirdbind(this.thirdReques, this.bindMode);
+  //         this.thirdbind(this.thirdRequest, this.bindMode);
   //       }
   //     });
   //   } else {
