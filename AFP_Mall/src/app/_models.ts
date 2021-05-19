@@ -585,7 +585,7 @@ export class Model_ShareData {
   /** 分頁-request  */
   Model_BasePage?: Model_BasePage;
   /** UUID，通用唯一辨識碼 */
-  UUID?: number;
+  UUID?: string;
   /** App用分享連結 */
   AppShareUrl?: string;
 }
@@ -2138,7 +2138,7 @@ export interface Model_CustomerDetail {
   /** 使用者編碼 */
   UserInfo_Code: number;
   /** UUID */
-  UserInfo_UUID: number;
+  UserInfo_UUID: string;
   /** 外部編碼 */
   UserInfo_ExtCode: string;
   /** 使用者帳號 */

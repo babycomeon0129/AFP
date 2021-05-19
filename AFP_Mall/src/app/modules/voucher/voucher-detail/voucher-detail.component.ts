@@ -19,7 +19,7 @@ declare var AppJSInterface: any;
 })
 export class VoucherDetailComponent implements OnInit, OnDestroy {
   /** UUID */
-  public UUid: number;
+  public UUid: string;
   /** 優惠券編號（從會員中心進來: 會員優惠券編碼 (UserVoucher_Code)，從其他地方: 優惠券編碼 ） */
   public voucherCode: number;
   /** 搜尋模式（優惠券編號開頭 46(優惠券): 4，47(使用者優惠券): 5）; 若是使用者優惠券則不顯示分享鈕 */
