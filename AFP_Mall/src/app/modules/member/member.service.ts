@@ -43,8 +43,6 @@ export class MemberService {
           resolve(true);
         });
       });
-    } else {
-      this.appService.loginPage();
     }
   }
 
