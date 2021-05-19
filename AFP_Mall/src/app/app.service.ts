@@ -91,6 +91,7 @@ export class AppService {
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
       .pipe(map((data: Response_APIModel) => {
+        this.blockUI.stop();
         switch (data.Base.Rtn_State) {
           case 1: // Response OK
             // 手機是否驗證
@@ -117,12 +118,13 @@ export class AppService {
                 this.onLogout();
                 this.router.navigate(['/']);
             }
-            this.blockUI.stop();
             return JSON.parse(data.Data);
+          case 9996:
+            this.modal.show('message', { initialState: { success: false, message: data.Base.Rtn_Message, showType: 1,  checkBtnMsg: `確定`, target: 'GoBack'} });
+            break;
           case 9998: // user資料不完整，讓使用者登出
-            this.modal.show('message', { initialState: { success: false, message: '請先登入', showType: 2,  checkBtnMsg: `重新登入`} });
+            this.modal.show('message', { initialState: { success: false, message: '請先登入', showType: 2,  singleBtnMsg: `重新登入`} });
             this.onLogout();
-            this.blockUI.stop();
             break;
           default: // 其他錯誤
             this.bsModal.show(MessageModalComponent
@@ -132,7 +134,6 @@ export class AppService {
                   , target: data.Base.Rtn_URL
                 }
               });
-            this.blockUI.stop();
             throw new Error('bad request');
         }
       }, catchError(this.handleError)));
