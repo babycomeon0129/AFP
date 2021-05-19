@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { AppService } from '../../app.service';
-import { Response_MemberProfile, Request_MemberProfile, Request_MemberThird, Response_MemberThird,
-        AFP_UserThird } from './member/member.component';
+import { AppService } from '@app/app.service';
+import {
+  Response_MemberProfile, Request_MemberProfile, Request_MemberThird, Response_MemberThird,
+  AFP_UserThird
+} from './member/member.component';
 
 @Injectable()
 export class MemberService {
@@ -16,7 +18,7 @@ export class MemberService {
   /** 第三方資訊類型：1 FB, 3 Google */
   public bindMode = 0;
   /** 標籤切換 (目前用於我的訂單[MemberOrde]  21: 電子票券 1: 購物商城 */
-  public tabSwitch  = 1;
+  public tabSwitch = 1;
   /** 訂單狀態切換(目前用於我的訂單[MemberOrde]  1: 處理中 2: 待收貨 3:已完成 4:退貨 */
   public statusSwitch = 1;
 
@@ -24,26 +26,30 @@ export class MemberService {
 
   /** 讀取我的檔案（會員首頁、我的檔案、手機驗證皆會使用） */
   readProfileData() {
-    this.appService.openBlock();
-    const request: Request_MemberProfile = {
-      SelectMode: 4,
-      User_Code: sessionStorage.getItem('userCode')
-    };
-    return new Promise(resolve => {
-      this.appService.toApi('Member', '1502', request).subscribe((data: Response_MemberProfile) => {
-        this.userProfile = data;
-        this.appService.userName = this.userProfile.User_NickName;
-        // 解決ngx-bootstrap 套件日期減一天問題
-        if (this.userProfile.UserProfile_Birthday !== null) {
-          this.userProfile.UserProfile_Birthday = new Date(this.userProfile.UserProfile_Birthday);
-        }
-        resolve(true);
+    if (this.appService.loginState) {
+      this.appService.openBlock();
+      const request: Request_MemberProfile = {
+        SelectMode: 4,
+        User_Code: sessionStorage.getItem('userCode')
+      };
+      return new Promise(resolve => {
+        this.appService.toApi('Member', '1502', request).subscribe((data: Response_MemberProfile) => {
+          this.userProfile = data;
+          this.appService.userName = this.userProfile.User_NickName;
+          // 解決ngx-bootstrap 套件日期減一天問題
+          if (this.userProfile.UserProfile_Birthday !== null) {
+            this.userProfile.UserProfile_Birthday = new Date(this.userProfile.UserProfile_Birthday);
+          }
+          resolve(true);
+        });
       });
-    });
+    } else {
+      this.appService.loginPage();
+    }
   }
 
   /** 讀取社群帳號（會員首頁、社群帳號綁定皆會使用） */
-  readThirdData() {
+  readThirdData(): void {
     // 初始化
     this.FBThird = null;
     this.GoogleThird = null;

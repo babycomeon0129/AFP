@@ -5,7 +5,7 @@ import { ModalService } from '@app/shared/modal/modal.service';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 import { ModalOptions } from 'ngx-bootstrap';
-import { layerAnimation,  layerAnimationUp} from '@app/animations';
+import { layerAnimation, layerAnimationUp } from '@app/animations';
 
 
 @Component({
@@ -43,14 +43,11 @@ export class MemberDiscountComponent implements OnInit {
   public cancelIsOpen = false;
   /** 重置按鈕開啟 */
   public resetOpen = false;
-  /** APP特例處理 */
-  public showBack = false;
   /** 同頁滑動切換 0:本頁 1:排序清單 */
   public layerTrig = 0;
 
   constructor(public appService: AppService, public modal: ModalService, public router: Router, private route: ActivatedRoute,
-              private meta: Meta, private title: Title) {
-    // tslint:disable: max-line-length
+    private meta: Meta, private title: Title) {
     this.title.setTitle('我的優惠券 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 我的優惠券。這裡會顯示 Mobii! 用戶領取的優惠券細節，店家、景點優惠券可以在 Mobii! APP首頁的找優惠發掘店家的優惠。' });
     this.meta.updateTag({ content: '我的優惠券 - Mobii!', property: 'og:title' });
@@ -60,34 +57,36 @@ export class MemberDiscountComponent implements OnInit {
   ngOnInit() {
     this.readVoucher();
     // 從會員中心進來則隱藏返回鍵
-    if (this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBack = true;
-    }
+    // this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
   /** 讀取優惠券 */
   readVoucher(): void {
-    this.appService.openBlock();
-    const request: Request_MemberUserVoucher = {
-      User_Code: sessionStorage.getItem('userCode'),
-      SelectMode: 4, // 查詢
-      Voucher_Code: null, // 優惠券Code
-      Voucher_ActivityCode: null, // 優惠代碼
-      SearchModel: {
-        SelectMode: this.vSelectMode
-      }
-    };
+    if (this.appService.loginState) {
+      this.appService.openBlock();
+      const request: Request_MemberUserVoucher = {
+        User_Code: sessionStorage.getItem('userCode'),
+        SelectMode: 4, // 查詢
+        Voucher_Code: null, // 優惠券Code
+        Voucher_ActivityCode: null, // 優惠代碼
+        SearchModel: {
+          SelectMode: this.vSelectMode
+        }
+      };
 
-    this.appService.toApi('Member', '1510', request).subscribe((data: Response_MemberUserVoucher) => {
-      this.voucherListOrig = data.List_UserVoucher;
-      this.voucherList = this.voucherListOrig.concat();
-      this.useType = data.List_UsedType;
-      this.showType = data.List_ShowType.filter(item => item.Key !== 1000 && item.Key !== 1100);
-      this.voucherType = data.List_VoucherType;
-      if (this.vSelectMode === 1) {
-        this.resetSet();
-      }
-    });
+      this.appService.toApi('Member', '1510', request).subscribe((data: Response_MemberUserVoucher) => {
+        this.voucherListOrig = data.List_UserVoucher;
+        this.voucherList = this.voucherListOrig.concat();
+        this.useType = data.List_UsedType;
+        this.showType = data.List_ShowType.filter(item => item.Key !== 1000 && item.Key !== 1100);
+        this.voucherType = data.List_VoucherType;
+        if (this.vSelectMode === 1) {
+          this.resetSet();
+        }
+      });
+    } else {
+      this.appService.loginPage();
+    }
   }
 
   /** 優惠券折扣類型使用文字顯示轉換 */
@@ -122,7 +121,7 @@ export class MemberDiscountComponent implements OnInit {
 
   /** 使用範圍點選確認 */
   utypeCheck(type: { isSelect: boolean; }): void {
-    this.useType.forEach( item => {
+    this.useType.forEach(item => {
       item.isSelect = false;
     });
     type.isSelect = true;
@@ -161,16 +160,19 @@ export class MemberDiscountComponent implements OnInit {
   /** 篩選 */
   filterSubmit(): void {
     // 先把已選取的(isSelect = ture)的key篩選出來
+    // 需篩選的優惠券類型
     const showresult = this.showType.filter(item => item.isSelect).map(item => item.Key);
+    // 需篩選的優惠券折扣類型
     const vtyperesult = this.voucherType.filter(item => item.isSelect).map(item => item.Key);
+    // 需篩選的優惠券使用範圍
     const useresult = this.useType.filter(item => item.isSelect).map(item => item.Key);
-    // 優惠券使用範圍:無論什麼條件都將線上/到店進行篩選
+    // 優惠券使用範圍:無論什麼條件都將線上/到店進行篩選，所以先把1放入
     useresult.push(1);
-    // 篩選
+    // 進行篩選
     const filterlist = this.voucherListOrig
-                            .filter(item => showresult.includes(0) || showresult.includes(item.Voucher_ShowType))
-                            .filter(item => vtyperesult.includes(0) || vtyperesult.includes(item.Voucher_Type))
-                            .filter(item => useresult.includes(0) || useresult.includes(item.Voucher_UsedType));
+      .filter(item => showresult.includes(0) || showresult.includes(item.Voucher_ShowType))
+      .filter(item => vtyperesult.includes(0) || vtyperesult.includes(item.Voucher_Type))
+      .filter(item => useresult.includes(0) || useresult.includes(item.Voucher_UsedType));
     // 排序
     switch (this.voucherSort) {
       case 1:
@@ -208,13 +210,17 @@ export class MemberDiscountComponent implements OnInit {
   /** 新增優惠券 */
   onAddCoupon(): void {
     this.vSelectMode = 1;
-    const options: ModalOptions = { class: 'modal-dialog modal-dialog-centered modal-sm' };
-    this.modal.addCoupon(options).subscribe(res => {
-      if (res) {
-        this.modal.show('message', { initialState: { success: true, message: '優惠券新增成功!', showType: 1 } });
-        this.readVoucher();
-      }
-    });
+    if (this.appService.loginState) {
+      const options: ModalOptions = { class: 'modal-dialog modal-dialog-centered modal-sm' };
+      this.modal.addCoupon(options).subscribe(res => {
+        if (res) {
+          this.modal.show('message', { initialState: { success: true, message: '優惠券新增成功!', showType: 1 } });
+          this.readVoucher();
+        }
+      });
+    } else {
+      this.appService.loginPage();
+    }
   }
 
   /** 點擊圖片前往優惠券詳細

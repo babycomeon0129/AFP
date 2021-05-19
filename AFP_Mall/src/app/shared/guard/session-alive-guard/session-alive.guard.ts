@@ -57,7 +57,7 @@ export class SessionAliveGuard implements CanActivate {
     // 登入驗證是否正確
     return new Promise(resolve => {
       this.appService.toApi('Member', '1500', request).subscribe((data: Response_AuthUser) => {
-        if (data.CheckState === false) {
+        if (!data.CheckState) {
           //  驗證失敗，清除Cookie
           this.cookieService.deleteAll();
         }
@@ -67,14 +67,13 @@ export class SessionAliveGuard implements CanActivate {
   }
 }
 
-// tslint:disable-next-line: class-name
-export class Request_AuthUser extends Model_ShareData {
+class Request_AuthUser extends Model_ShareData {
   SearchModel: {
     UserInfoCode: string;
     CustomerInfo: string;
   };
 }
 
-export class Response_AuthUser extends Model_ShareData {
+class Response_AuthUser extends Model_ShareData {
   CheckState: boolean;
 }

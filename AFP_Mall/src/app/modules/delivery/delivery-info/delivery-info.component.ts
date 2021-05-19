@@ -4,7 +4,7 @@ import { AppService } from 'src/app/app.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { AFP_UserReport, Model_ShareData } from '@app/_models';
-import { layerAnimation } from '../../../animations';
+import { layerAnimation } from '@app/animations';
 
 @Component({
   selector: 'app-delivery-info',

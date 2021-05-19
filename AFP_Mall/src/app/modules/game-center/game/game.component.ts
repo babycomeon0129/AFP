@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { Model_AlertInfo, Request_Games, Response_Games } from '@app/_models';
 import { Meta, Title } from '@angular/platform-browser';
@@ -20,8 +20,7 @@ export class GameComponent implements OnInit {
   /** 不可遊玩狀態的提醒視窗內容 */
   public alertInfo: Model_AlertInfo;
 
-  constructor(private route: ActivatedRoute, private router: Router, public appService: AppService, public modal: ModalService
-    ,         private meta: Meta, private title: Title) {
+  constructor(private route: ActivatedRoute, public appService: AppService, public modal: ModalService, private meta: Meta, private title: Title) {
     this.gameCode = Number(this.route.snapshot.params.Game_Code);
   }
 
@@ -47,7 +46,6 @@ export class GameComponent implements OnInit {
           this.noticeAlert();
         }
       }
-      // tslint:disable: max-line-length
       this.title.setTitle(data.AFP_Game.Game_ExtName + ' - Mobii!');
       this.meta.updateTag({ name: 'description', content: '' });
       this.meta.updateTag({ content: data.AFP_Game.Game_ExtName + ' - Mobii!', property: 'og:title' });
@@ -56,7 +54,7 @@ export class GameComponent implements OnInit {
   }
 
   /** 您的點數已不足或是遊玩次數已達上限的提示視窗 */
-  noticeAlert() {
+  noticeAlert(): void {
     const initialState = {
       success: true,
       type: 1,
@@ -68,7 +66,7 @@ export class GameComponent implements OnInit {
   }
 
   /** 遊戲為不可遊玩狀態的提醒視窗 */
-  noGameStateAlert() {
+  noGameStateAlert(): void {
     const initialState = {
       success: false,
       showType: 6,
@@ -84,6 +82,5 @@ export class GameComponent implements OnInit {
 
     this.modal.show('message', { initialState });
   }
-
 
 }

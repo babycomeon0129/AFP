@@ -28,16 +28,16 @@
             </div>
           </div>
           <!-- 未登入 -->
-          <button (click)="appService.loginPage()" *ngIf="appService.loginState == false" type="button"
+          <button (click)="appService.loginPage()" *ngIf="!appService.loginState" type="button"
             class="m-topbox-item btn bluedk-outline-btn btw-small">
             登入/註冊
           </button>
           <!-- 電腦版 登入 -->
-          <div *ngIf="appService.loginState == true" class="userbox">
-            <div *ngIf="appService.loginState == true" class="txt-line-clamp1 user-hi"><a
+          <div *ngIf="appService.loginState" class="userbox">
+            <div *ngIf="appService.loginState" class="txt-line-clamp1 user-hi"><a
                 [routerLink]="['/Member']">你好，{{appService.userName}}</a> </div>
           </div>
-          <ul *ngIf="appService.loginState == true" class="userdrop nav navbar-nav">
+          <ul *ngIf="appService.loginState" class="userdrop nav navbar-nav">
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">&#xE5D3;</i></a>
               <ul class="dropdown-menu dropdown-menu-right">
@@ -55,12 +55,12 @@
     <!-- 手機版 上方banner -->
     <section class="mobii-bnbox">
       <div class="userbox mr-auto">
-        <div *ngIf="appService.loginState == true" class="txt-line-clamp1 user-hi">你好，{{appService.userName}}</div>
+        <div *ngIf="appService.loginState" class="txt-line-clamp1 user-hi">你好，{{appService.userName}}</div>
         <ul class="m-bnbox-item">
           <li class="txt-line-clamp1">
             <img src="img/share/mobiicoin.png" alt="" class="mr-1 h20">
             <span
-              class="user-mobii">{{appService.loginState == true? (userPoint | currency: '':'':'1.0-0') : '--'}}</span>點
+              class="user-mobii">{{appService.loginState? (userPoint | currency: '':'':'1.0-0') : '--'}}</span>點
           </li>
         </ul>
       </div>
@@ -253,7 +253,7 @@
                         [defaultImage]="appService.defaultImage" [href]="inside.Travel_URL | Safe: 'url'"
                         [target]="inside.Travel_URLTarget" rel="noopener noreferrer"></a>
                       <div class="item-favorite">
-                        <button [ngClass]="{'active' : appService.userFavCodes.includes(inside.Travel_Code) == true}"
+                        <button [ngClass]="{'active' : appService.userFavCodes.includes(inside.Travel_Code)}"
                           (click)="appService.favToggle(appService.userFavCodes.includes(inside.Travel_Code) ? 2 : 1, 54, inside.Travel_Code)">
                           <img [lazyLoad]="'../img/share/icon_favorite.png'" [defaultImage]="appService.defaultImage"
                             class="imgicon">
@@ -403,7 +403,7 @@
         <img [lazyLoad]="'img/index/icons/for-pc/icon_service.png'" class="justka-img"
           [defaultImage]="appService.defaultImage"></button>
     </span>
-    <div class="justka-msg" [ngClass]="{'d-none': closeMsg === true }">
+    <div class="justka-msg" [ngClass]="{'d-none': closeMsg }">
       <button (click)="closeMsg = true" type="button">×</button>
       <p>哈囉您好！有需要幫忙的地方，歡迎找我喔！</p>
     </div>

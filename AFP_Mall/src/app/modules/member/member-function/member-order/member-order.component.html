@@ -3,10 +3,11 @@
     <div class="header-secondary container">
       <div class="index-flex justify-content-between">
         <div class="item two">
-          <button [hidden]="appService.isApp !== null && !showBack" type="button" class="btn" (click)="conditionBack()"
+          <!--button [hidden]="appService.isApp !== null && !appService.showBack" type="button" class="btn" (click)="conditionBack()"
             data-toggle="tooltip" data-placement="bottom" title="回上一頁">
             <i class="material-icons">&#xe314;</i>
-          </button>
+          </!--button-->
+          <app-back-btn [needGoBack]="false"></app-back-btn>
         </div>
         <div class="item three text-center">
           <div class="title-name">我的訂單</div>

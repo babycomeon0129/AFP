@@ -3,10 +3,9 @@ import { AppService } from 'src/app/app.service';
 import { AFP_Product, AFP_UserDefine, Request_ECProductList, Response_ECProductList, AFP_Attribute,
   AFP_AttributeValue } from '@app/_models';
 import { ActivatedRoute } from '@angular/router';
-// import { NgxMasonryOptions } from 'ngx-masonry';
 import { CookieService } from 'ngx-cookie-service';
 import { Meta, Title } from '@angular/platform-browser';
-import { layerAnimation, layerAnimationUp } from '../../../animations';
+import { layerAnimation} from '@app/animations';
 
 @Component({
   selector: 'app-product-list',
@@ -81,7 +80,6 @@ export class ProductListComponent implements OnInit {
         }
       }
 
-      // tslint:disable: max-line-length
       this.title.setTitle(this.dirName + '｜線上商城 - Mobii!');
       this.meta.updateTag({name : 'description', content: ''});
       this.meta.updateTag({content: this.dirName + '｜線上商城 - Mobii!', property: 'og:title'});

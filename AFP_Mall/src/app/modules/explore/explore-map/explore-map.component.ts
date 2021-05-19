@@ -86,7 +86,7 @@ export class ExploreMapComponent implements OnInit {
   /** 取得使用者定位範圍內資料 (排序由近至遠並放入對應容器)
    * @param dirCode 目錄編碼
    */
-  readAreaData(dirCode: number) {
+  readAreaData(dirCode: number): void {
     this.appService.openBlock();
     this.areaMenuCode = dirCode;
     const request: Request_AreaIndex = {
@@ -140,7 +140,7 @@ export class ExploreMapComponent implements OnInit {
   }
 
   /** Google Map 地標不顯示 icon */
-  onMapReady(map?) {
+  onMapReady(map?: { setOptions: (arg0: { mapTypeControl: boolean; styles: { featureType: string; stylers: { visibility: string; }[]; }[]; }) => void; }): void {
     if (map) {
       map.setOptions({
         mapTypeControl: false,

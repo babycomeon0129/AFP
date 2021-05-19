@@ -3,9 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { Request_MemberOrder, Response_MemberOrder, AFP_MemberOrder, AFP_ECStore, AFP_ItemInfoPart, AFP_Voucher
         , Request_MemberCheckStatus, Response_MemberCheckStatus, AFP_UserReport } from '@app/_models';
-import { ModalService } from '../../../../shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
-import { layerAnimation } from '../../../../animations';
+import { layerAnimation } from '@app/animations';
 
 @Component({
   selector: 'app-my-order-detail',
@@ -40,8 +40,6 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
   public userReport: AFP_UserReport[];
   /** 同頁滑動切換 0:本頁 1:取貨提醒 */
   public layerTrig = 0;
-   /** APP特例處理 */
-   public showBack = false;
 
   constructor(private route: ActivatedRoute, public appService: AppService, private modal: ModalService, private router: Router,
               private meta: Meta, private title: Title) {
@@ -51,10 +49,6 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
     this.meta.updateTag({content: '', property: 'og:description'});
 
     this.orderNo = this.route.snapshot.params.Order_TableNo;
-    // 從會員中心進來則隱藏返回鍵
-    if (this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBack = true;
-    }
   }
 
   ngOnInit() {
@@ -95,7 +89,7 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
   }
 
   /** 取貨（每五秒確認一次，若持續三分鐘則停止並跳出連線逾時訊息） */
-  claimOrder() {
+  claimOrder(): void {
     // 每5秒問一次API是否已取貨
     this.checkTimer = setInterval(() => {
       const request: Request_MemberCheckStatus = {
@@ -112,7 +106,6 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
           this.orderInfo.OrderState = 3;
           this.orderInfo.Order_AppreciationDate = data.AFP_MemberOrder.Order_AppreciationDate;
           this.layerTrig = 0;
-          // tslint:disable-next-line: max-line-length
           this.modal.show('message', { initialState: { success: true, message: '收貨愉快!', showType: 1, note: '提醒您，如有退貨需求，請於商品猶豫期內提出申請。'}});
           return false;
         }
@@ -130,7 +123,7 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
   /** 前往商店詳細頁 */
   goToECStore(): void {
     if ( this.storeInfo.ECStore_State) {
-      this.router.navigate(['/Explore/ExploreDetail', this.storeInfo.ECStore_Code], { queryParams: { showBack: this.showBack } });
+      this.router.navigate(['/Explore/ExploreDetail', this.storeInfo.ECStore_Code], { queryParams: { showBack: this.appService.showBack } });
     } else {
       this.modal.show('message', { initialState: { success: false, message: 'Oops！該商店營運調整中！', showType: 1}});
     }
@@ -142,7 +135,7 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
    */
   goToProductDetail(UserDefineCode: number, ItemCode: number, Product_State: boolean): void {
     if (Product_State) {
-      this.router.navigate(['/Shopping/ProductDetail', UserDefineCode, ItemCode], { queryParams: { showBack: this.showBack } });
+      this.router.navigate(['/Shopping/ProductDetail', UserDefineCode, ItemCode], { queryParams: { showBack: this.appService.showBack } });
     } else {
       this.modal.show('message', { initialState: { success: false, message: 'Oops！該商品已全部銷售完畢囉！', showType: 1}});
     }

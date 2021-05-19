@@ -60,7 +60,7 @@ export class NotificationDetailComponent implements OnInit, AfterViewChecked {
   }
 
   /** 前往通知頁並打開該分類列表layer */
-  goCateList() {
+  goCateList(): void {
     this.router.navigate(['/Notification/NotificationList'],
       {
         state:
@@ -78,7 +78,7 @@ export class NotificationDetailComponent implements OnInit, AfterViewChecked {
    * 若是用貼網址的方式則會直接前往大首頁，
    * 其餘情況則正常回上一頁）
    */
-  conditionBack() {
+  conditionBack(): void {
     if (this.appService.prevUrl === '/' || this.appService.prevUrl === '') {
       this.router.navigate(['/']);
     } else {

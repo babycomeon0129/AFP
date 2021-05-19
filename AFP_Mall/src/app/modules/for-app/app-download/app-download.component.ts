@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 
 @Component({
   selector: 'app-app-download',
@@ -15,6 +15,9 @@ export class AppDownloadComponent implements OnInit {
   constructor(public appService: AppService) {
     this.appService.isApp = 1;
     this.Show();
+  }
+
+  ngOnInit() {
   }
 
   Show(): void {
@@ -33,9 +36,6 @@ export class AppDownloadComponent implements OnInit {
 
   GoDownload(): void {
     location.href = this.UrlLink;
-  }
-
-  ngOnInit() {
   }
 
 }

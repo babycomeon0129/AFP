@@ -1,4 +1,4 @@
-import { Component, OnInit, KeyValueDiffer, KeyValueDiffers, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { AppService } from '@app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Response_ECHome, AFP_ADImg, AFP_Function, AFP_ChannelProduct, AFP_Product, AFP_ChannelVoucher,
@@ -33,9 +33,6 @@ export class ShoppingComponent implements OnInit {
   public cartCode: number;
   /** 購物車商品數 */
   public cartCount: number;
-  /** 變化追蹤(登入狀態) */
-  private serviceDiffer: KeyValueDiffer<string, any>;
-
   /** 置頂廣告 swiper */
   public shoppingAdTop: SwiperOptions = {
     slidesPerView: 1,
@@ -81,10 +78,7 @@ export class ShoppingComponent implements OnInit {
     gutter: 12
   };
 
-  constructor(public appService: AppService, public modal: ModalService, private cookieService: CookieService,
-              private differs: KeyValueDiffers, private meta: Meta, private title: Title) {
-    this.serviceDiffer = this.differs.find({}).create();
-    // tslint:disable: max-line-length
+  constructor(public appService: AppService, public modal: ModalService, private cookieService: CookieService, private meta: Meta, private title: Title) {
     this.title.setTitle('線上商城 - Mobii!');
     this.meta.updateTag({name : 'description', content: '來 Mobii! 線上商城購物，產品多元多樣，美食、3C、母嬰、生活百貨、美妝⋯⋯琳瑯滿目，還有限時限量折扣優惠等你來搶。Mobii! 賣的就是跟別人要不一樣！'});
     this.meta.updateTag({content: '線上商城 - Mobii!', property: 'og:title'});

@@ -1,4 +1,4 @@
-import { Component, OnInit, KeyValueDiffer, KeyValueDiffers, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   Model_ShareData, AFP_Voucher, AFP_UserVoucher, AFP_ECStore, Request_MemberUserVoucher,
@@ -35,23 +35,17 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
   /** 優惠券下架日期 */
   public offlineDate: Date;
   /** 核銷5秒Interval */
-  public checkTimer;
+  public checkTimer: NodeJS.Timer;
   /** 核銷3分鐘倒數timeout */
-  public timer3Mins;
-  /** 變化追蹤（登入狀態） */
-  private serviceDiffer: KeyValueDiffer<string, any>;
+  public timer3Mins: NodeJS.Timer;
   /** 分享至社群時顯示的文字 */
   public textForShare: string;
   /** APP分享使用的url */
   public APPShareUrl: string;
-  /** APP特例處理 */
-  public showBack = false;
   /** 同頁滑動切換 0:本頁 1:使用優惠券 */
   public layerTrig = 0;
 
-  constructor(public appService: AppService, private route: ActivatedRoute, private router: Router, public modal: ModalService,
-              private differs: KeyValueDiffers, private meta: Meta, private title: Title) {
-    this.serviceDiffer = this.differs.find({}).create();
+  constructor(public appService: AppService, private route: ActivatedRoute, private router: Router, public modal: ModalService, private meta: Meta, private title: Title) {
     this.voucherCode = this.route.snapshot.params.Voucher_Code;
     if (this.voucherCode.toString().substring(0, 2) === '46') {
       this.selectMode = 4;
@@ -59,9 +53,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
       this.selectMode = 5;
     }
     // APP特例處理: 若是從會員進來則顯示返回鍵
-    if (this.route.snapshot.queryParams.showBack !== undefined && this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBack = true;
-    }
+    // this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
   ngOnInit() {
@@ -69,7 +61,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
   }
 
   /** 讀取優惠券資料 */
-  readVoucherData() {
+  readVoucherData(): void {
     const request: Request_ECVoucherDetail = {
       User_Code: sessionStorage.getItem('userCode'),
       SelectMode: this.selectMode,
@@ -89,7 +81,6 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
       this.storeData = data.List_ECStore;
       this.offlineDate = new Date(this.voucherData.Voucher_OfflineDate); // 避免優惠券已下架但還能按「兌換」的情況
 
-      // tslint:disable: max-line-length
       this.title.setTitle(this.voucherData.Voucher_ExtName + ' - Mobii!');
       this.meta.updateTag({ name: 'description', content: this.voucherData.Voucher_Content });
       this.meta.updateTag({ content: this.voucherData.Voucher_ExtName + ' - Mobii!', property: 'og:title' });
@@ -152,8 +143,8 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
    * @param voucher 優惠券
    * Voucher_FreqName: 0 已兌換 1 兌換 2 去商店 3 已使用 4 兌換完畢（限一元搶購） 5 使用 6 已逾期（限我的優惠+優惠券詳細） 7 未生效（限我的優惠+優惠券詳細）
    */
-  onVoucher(voucher: AFP_Voucher) {
-    if (this.appService.loginState === true) {
+  onVoucher(voucher: AFP_Voucher): void {
+    if (this.appService.loginState) {
       switch (voucher.Voucher_IsFreq) {
         case 1:
           // 兌換（加入到「我的優惠券」）
@@ -209,7 +200,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
   }
 
   /** 檢查優惠券是否已被核銷 */
-  checkWritenOff() {
+  checkWritenOff(): void {
     // 每5秒問一次API是否已核銷
     this.checkTimer = setInterval(() => {
       const request: Request_MemberCheckStatus = {
@@ -249,7 +240,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
   }
 
   /** 關閉顯示QR Code */
-  closeQRCode() {
+  closeQRCode(): void {
     this.layerTrig = 0;
     clearInterval(this.checkTimer);
     clearTimeout(this.timer3Mins);

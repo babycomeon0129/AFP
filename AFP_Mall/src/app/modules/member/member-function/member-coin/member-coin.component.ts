@@ -5,7 +5,7 @@ import { ModalService } from '@app/shared/modal/modal.service';
 import { SwiperOptions } from 'swiper';
 import { Model_ShareData, AFP_Game, AFP_UserPoint, AFP_ChannelVoucher, AFP_Voucher } from '@app/_models';
 import { Meta, Title } from '@angular/platform-browser';
-import { layerAnimation} from '@app/animations';
+import { layerAnimation } from '@app/animations';
 
 @Component({
   selector: 'app-member-coin',
@@ -17,10 +17,10 @@ export class MemberCoinComponent implements OnInit {
   public info: Response_MemberPoint = new Response_MemberPoint();
   public pointHistory: AFP_UserPoint[] = [];
   public pointType = 0;
-  /** APP特例處理 */
-  public showBack = false;
   /** 同頁滑動切換 0:本頁 1:點數紀錄 */
   public layerTrig = 0;
+  /** 遊戲列表seeAll顯示與否 */
+  public gameSeeAll = false;
 
   /** 活動分類導覽 */
   public boxTabs: SwiperOptions = {
@@ -43,86 +43,64 @@ export class MemberCoinComponent implements OnInit {
   };
 
   constructor(public appService: AppService, private route: ActivatedRoute, public router: Router, public modal: ModalService,
-              private meta: Meta, private title: Title) {
-    // tslint:disable: max-line-length
+    private meta: Meta, private title: Title) {
     this.title.setTitle('Mobii Point - Mobii!');
-    this.meta.updateTag({name : 'description', content: 'Mobii! - M Points。這裡會顯示 Mobii! 用戶擁有的 M Points 點數與歷史使用紀錄。點數累積的方式包括每日登入、玩遊戲、購物、乘車等回饋。'});
-    this.meta.updateTag({content: 'Mobii Point - Mobii!', property: 'og:title'});
-    this.meta.updateTag({content: 'Mobii! - M Points。這裡會顯示 Mobii! 用戶擁有的 M Points 點數與歷史使用紀錄。點數累積的方式包括每日登入、玩遊戲、購物、乘車等回饋。', property: 'og:description'});
+    this.meta.updateTag({ name: 'description', content: 'Mobii! - M Points。這裡會顯示 Mobii! 用戶擁有的 M Points 點數與歷史使用紀錄。點數累積的方式包括每日登入、玩遊戲、購物、乘車等回饋。' });
+    this.meta.updateTag({ content: 'Mobii Point - Mobii!', property: 'og:title' });
+    this.meta.updateTag({ content: 'Mobii! - M Points。這裡會顯示 Mobii! 用戶擁有的 M Points 點數與歷史使用紀錄。點數累積的方式包括每日登入、玩遊戲、購物、乘車等回饋。', property: 'og:description' });
 
     // 從會員中心或任務牆進來則隱藏返回鍵
-    if (this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBack = true;
-    }
+    // this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
   ngOnInit() {
-    this.appService.openBlock();
-    const getInfo: Request_MemberPoint = {
-      User_Code: sessionStorage.getItem('userCode'),
-      SelectMode: 4,
-      SearchModel: {
-        VouChannel_Code: 1111111
-      }
-    };
-    this.appService.toApi('Member', '1509', getInfo).subscribe((info: Response_MemberPoint) => {
-      this.info = info;
-    });
-    // 從會員中心或任務牆進來則隱藏返回鍵
-    if (this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBack = true;
+    if (this.appService.loginState) {
+      this.appService.openBlock();
+      const getInfo: Request_MemberPoint = {
+        User_Code: sessionStorage.getItem('userCode'),
+        SelectMode: 4,
+        SearchModel: {
+          VouChannel_Code: 1111111
+        }
+      };
+      this.appService.toApi('Member', '1509', getInfo).subscribe((info: Response_MemberPoint) => {
+        this.info = info;
+      });
+    } else {
+      this.appService.loginPage();
     }
   }
 
+  /** 歷史紀錄 */
   getHistory(): void {
-    this.appService.openBlock();
-    const getHistory: Request_MemberPoint = {
-      User_Code: sessionStorage.getItem('userCode'),
-      SelectMode: 5,
-      SearchModel: {
-        UserPoint_Type: this.pointType
-      }
-    };
-    this.appService.toApi('Member', '1509', getHistory).subscribe((point: Response_MemberPoint) => {
-      this.pointHistory = point.List_UserPoint;
-    });
-  }
-
-  /** 前往遊戲
-   * @param gameType 遊戲類型
-   * @param gameCode 遊戲編碼
-   * @param gameExtName 遊戲名稱
-   * @param gamePoint 遊玩扣除點數
-   */
-  goGame(gameType: number, gameCode: number, gameExtName: string, gamePoint: number) {
-    // 如果是刮刮樂且將消耗點數，要先跳扣除提醒
-    if ( gameType === 1 && gamePoint > 0) {
-      this.modal.confirm({
-        initialState: {
-          title: `重要提醒`,
-          message: `遊玩「${gameExtName}」需要扣除 Mobii! Points ${gamePoint} 點，請確定是否繼續？`
+    if (this.appService.loginState) {
+      this.appService.openBlock();
+      const getHistory: Request_MemberPoint = {
+        User_Code: sessionStorage.getItem('userCode'),
+        SelectMode: 5,
+        SearchModel: {
+          UserPoint_Type: this.pointType
         }
-      }).subscribe( res => {
-        if (res) {
-          this.router.navigate(['/GameCenter/Game', gameCode], {queryParams: { showBack: false}});
-        }
+      };
+      this.appService.toApi('Member', '1509', getHistory).subscribe((point: Response_MemberPoint) => {
+        this.pointHistory = point.List_UserPoint;
       });
     } else {
-      this.router.navigate(['/GameCenter/Game', gameCode], {queryParams: { showBack: false}});
+      this.appService.loginPage();
     }
   }
 
   /** 前往優惠券詳細
    * APP特例處理: 若是從會員過去則要隱藏返回鍵
    */
-  goDetail(voucher: AFP_Voucher) {
+  goDetail(voucher: AFP_Voucher): void {
     let code = 0;
     if (voucher.Voucher_UserVoucherCode === null) {
       code = voucher.Voucher_Code;
     } else {
       code = voucher.Voucher_UserVoucherCode;
     }
-    if (this.route.snapshot.queryParams.showBack === undefined ) {
+    if (this.route.snapshot.queryParams.showBack === undefined) {
       this.router.navigate(['/Voucher/VoucherDetail', code]);
     } else {
       if (this.route.snapshot.queryParams.showBack) {
@@ -138,40 +116,47 @@ export class MemberCoinComponent implements OnInit {
    * @param voucher 優惠券詳細
    */
   toVoucher(voucher: AFP_Voucher): void {
-      if (voucher.Voucher_DedPoint > 0 && voucher.Voucher_IsFreq === 1) {
-        this.modal.confirm({
-          initialState: {
-            message: `請確定是否扣除 Mobii! Points ${voucher.Voucher_DedPoint} 點兌換「${voucher.Voucher_ExtName}」？`
-          }
-        }).subscribe(res => {
-          if (res) {
-            this.appService.onVoucher(voucher);
-          } else {
-            const initialState = {
-              success: true,
-              type: 1,
-              message: `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-failed.png"><p>兌換失敗！</p></div>`
-            };
-            this.modal.show('message', { initialState });
-          }
-        });
-      } else {
-        this.appService.onVoucher(voucher);
-      }
+    if (voucher.Voucher_DedPoint > 0 && voucher.Voucher_IsFreq === 1) {
+      this.modal.confirm({
+        initialState: {
+          message: `請確定是否扣除 Mobii! Points ${voucher.Voucher_DedPoint} 點兌換「${voucher.Voucher_ExtName}」？`
+        }
+      }).subscribe(res => {
+        if (res) {
+          this.appService.onVoucher(voucher);
+        } else {
+          const initialState = {
+            success: true,
+            type: 1,
+            message: `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-failed.png"><p>兌換失敗！</p></div>`
+          };
+          this.modal.show('message', { initialState });
+        }
+      });
+    } else {
+      this.appService.onVoucher(voucher);
+    }
   }
 }
 
-export class Request_MemberPoint extends Model_ShareData {
+/** 會員點數 RequestModel */
+class Request_MemberPoint extends Model_ShareData {
+  /** 區別操作(通用) 4:查詢-列表  5:查詢-待入帳等 */
   SelectMode: number;
+  /** 搜尋模組 */
   SearchModel?: Search_MemberPoint;
 }
 
-export class Search_MemberPoint {
+/** 會員點數 RequestModel 搜尋模組 */
+class Search_MemberPoint {
+  /** 點數類型 0: 待入賬，1: 獲得，11: 已使用 */
   UserPoint_Type?: number;
+  /** 優惠卷頻道編碼 */
   VouChannel_Code?: number;
 }
 
-export class Response_MemberPoint {
+/** 會員點數 ResponseModel */
+class Response_MemberPoint {
   /** 會員總點數 */
   TotalPoint: number;
   /** 即將到期-點數 */

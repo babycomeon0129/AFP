@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Request_MemberFavourite, Response_MemberFavourite, TravelJsonFile_Travel, AreaJsonFile_ECStore, AFP_ECStore, AFP_Product } from '@app/_models';
-import { ModalService } from '../../../../shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 
@@ -23,47 +23,43 @@ export class MemberFavoriteComponent implements OnInit {
   public listEcstore: AFP_ECStore[] = [];
   /** 旅遊行程 */
   public listTravel: TravelJsonFile_Travel[] = [];
-  /** APP特例處理 */
-  public showBack = false;
 
   constructor(public appService: AppService, public modal: ModalService, private route: ActivatedRoute, private router: Router,
-              private meta: Meta, private title: Title) {
-    // tslint:disable: max-line-length
+    private meta: Meta, private title: Title) {
     this.title.setTitle('我的收藏 - Mobii!');
-    this.meta.updateTag({name : 'description', content: 'Mobii! - 我的收藏。這裡會顯示 Mobii! 用戶按讚收藏的檔案，包括周邊、商品、店家以及旅遊行程。請先登入註冊以開啟功能。'});
-    this.meta.updateTag({content: '我的收藏 - Mobii!', property: 'og:title'});
-    this.meta.updateTag({content: 'Mobii! - 我的收藏。這裡會顯示 Mobii! 用戶按讚收藏的檔案，包括周邊、商品、店家以及旅遊行程。請先登入註冊以開啟功能。', property: 'og:description'});
+    this.meta.updateTag({ name: 'description', content: 'Mobii! - 我的收藏。這裡會顯示 Mobii! 用戶按讚收藏的檔案，包括周邊、商品、店家以及旅遊行程。請先登入註冊以開啟功能。' });
+    this.meta.updateTag({ content: '我的收藏 - Mobii!', property: 'og:title' });
+    this.meta.updateTag({ content: 'Mobii! - 我的收藏。這裡會顯示 Mobii! 用戶按讚收藏的檔案，包括周邊、商品、店家以及旅遊行程。請先登入註冊以開啟功能。', property: 'og:description' });
   }
 
   ngOnInit() {
     // 撈探索周邊
     this.onFavList(53);
     // 從會員中心進來則隱藏返回鍵
-    if (this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBack = true;
-    }
+    //this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
   /** 讀取某類型收藏列表
    * @param favType 51 商品, 52 商家, 53 周邊, 54 行程
    */
-  onFavList(favType: number) {
-    this.selectedType = favType;
-    this.editMode = false;
-    this.appService.openBlock();
-    const request: Request_MemberFavourite = {
-      SelectMode: 11,
-      User_Code: sessionStorage.getItem('userCode'),
-      AFP_UserFavourite: {
-        UserFavourite_ID: 0,
-        UserFavourite_CountryCode: 886,
-        UserFavourite_Type: favType,
-        UserFavourite_UserInfoCode: 0,
-        UserFavourite_IsDefault: 0
-      }
-    };
+  onFavList(favType: number): void {
+    if (this.appService.loginState) {
+      this.selectedType = favType;
+      this.editMode = false;
+      this.appService.openBlock();
+      const request: Request_MemberFavourite = {
+        SelectMode: 11,
+        User_Code: sessionStorage.getItem('userCode'),
+        AFP_UserFavourite: {
+          UserFavourite_ID: 0,
+          UserFavourite_CountryCode: 886,
+          UserFavourite_Type: favType,
+          UserFavourite_UserInfoCode: 0,
+          UserFavourite_IsDefault: 0
+        }
+      };
 
-    this.appService.toApi('Member', '1511', request).subscribe((data: Response_MemberFavourite) => {
+      this.appService.toApi('Member', '1511', request).subscribe((data: Response_MemberFavourite) => {
         switch (favType) {
           case 51:
             this.listProduct = data.List_Product;
@@ -78,7 +74,10 @@ export class MemberFavoriteComponent implements OnInit {
             this.listTravel = data.List_Travel;
             break;
         }
-    });
+      });
+    } else {
+      this.appService.loginPage();
+    }
   }
 
   /** 刪除收藏
@@ -86,8 +85,8 @@ export class MemberFavoriteComponent implements OnInit {
    * @param favType 51 商品, 52 商家, 53 周邊, 54 行程
    * @param favCode 商品/商家/周邊/行程編碼
    */
-  onDelFav(showList, favType: number, favCode: number) {
-    this.modal.confirm({initialState: {message: '確認要刪除這個收藏嗎?'}}).subscribe(res => {
+  onDelFav(showList, favType: number, favCode: number): void {
+    this.modal.confirm({ initialState: { message: '確認要刪除這個收藏嗎?' } }).subscribe(res => {
       const request: Request_MemberFavourite = {
         SelectMode: 2,
         User_Code: sessionStorage.getItem('userCode'),
@@ -141,16 +140,11 @@ export class MemberFavoriteComponent implements OnInit {
     });
   }
 
-  /** 編輯模式開關 */
-  editModeToggle() {
-    this.editMode = !this.editMode;
-  }
-
   /** 前往行程詳細
    * @param isOnline 是否上架
    * @param item 行程
    */
-  goToTour(isOnline: boolean, item: TravelJsonFile_Travel) {
+  goToTour(isOnline: boolean, item: TravelJsonFile_Travel): boolean {
     if (item.Travel_URL === '/' || !isOnline) {
       return false;
     } else {
@@ -164,15 +158,15 @@ export class MemberFavoriteComponent implements OnInit {
    * @param code1 編碼1
    * @param code2 編碼2
    */
-  goToDetail(isOnline: boolean, page: string, code1?: number, code2?: number) {
+  goToDetail(isOnline: boolean, page: string, code1?: number, code2?: number): void {
     let routeChanged = false;
     if (isOnline) {
       if (!routeChanged) {
         // 若route還未改變才前往
         if (code2 === undefined) {
-          this.router.navigate([page, code1], {queryParams: {showBack: this.showBack}});
+          this.router.navigate([page, code1], { queryParams: { showBack: this.appService.showBack } });
         } else {
-          this.router.navigate([page, code1, code2], {queryParams: {showBack: this.showBack}});
+          this.router.navigate([page, code1, code2], { queryParams: { showBack: this.appService.showBack } });
         }
       }
     }

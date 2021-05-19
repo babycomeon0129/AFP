@@ -1,167 +1,166 @@
 <div class="wrap container">
   <div class="onlineshopping">
-      <header class="fixed-top container">
-          <!-- header top -->
-          <div class="header-secondary">
-              <div class="index-flex justify-content-between">
-                  <div class="item two">
-                      <div class="close-btn">
-                          <button class="btn px-0" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
-                              <i class="material-icons">&#xe314;</i>
-                          </button>
-                      </div>
-                  </div>
-                  <div class="item three text-center">
-                      <div class="title-name">{{upDirName}}</div>
-                  </div>
-                  <div class="item two">
-                      <div class="top-item climate text-right">
-                          <button class="badge-img px-0" data-toggle="tooltip" data-placement="bottom" title="購物車" [routerLink]="['/Shopping/ShoppingCart']">
-                            <span *ngIf="cartCount > 0" class="badge badge-on">{{cartCount > 99 ? '99+' : cartCount}}</span><img src="../img/shopping/icon_shoppingcart.svg">
-                          </button>
-                      </div>
-                  </div>
-              </div>
+    <header class="fixed-top container">
+      <!-- header top -->
+      <div class="header-secondary">
+        <div class="index-flex justify-content-between">
+          <div class="item two">
+            <div class="close-btn">
+              <button class="btn px-0" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                <i class="material-icons">&#xe314;</i>
+              </button>
+            </div>
           </div>
-      </header>
-      <main>
-        <div class="header-sort choice-filter-box py-1">
-            <div class="flex-inline-between">
-                <div class="item center-v">{{dirName}}</div>
-                <!-- 分類鈕（第二層目錄）-->
-                <div class="item pr-2">
-                    <button class="btn px-0 filter-item" (click)="dirMenuToggle()" [ngClass]="{'active' : showDirMenu}">
-                      <i class="material-icons">&#xE313;</i>
-                    </button>
-                </div>
+          <div class="item three text-center">
+            <div class="title-name">{{upDirName}}</div>
+          </div>
+          <div class="item two">
+            <div class="top-item climate text-right">
+              <button class="badge-img px-0" data-toggle="tooltip" data-placement="bottom" title="購物車" [routerLink]="['/Shopping/ShoppingCart']">
+                <span *ngIf="cartCount > 0" class="badge badge-on">{{cartCount > 99 ? '99+' : cartCount}}</span><img src="../img/shopping/icon_shoppingcart.svg">
+              </button>
             </div>
-            <!-- 篩選鈕（規格值篩選及排序） -->
-            <div class="filter-box" (click)="layerTrig = 1">
-                <button class="btn px-0">
-                  <i class="material-icons">&#xE152;</i>
-                </button>
-            </div>
+          </div>
         </div>
-          <div class="filter-outbox">
-            <div class="filter-main">
-                <div [ngClass]="{'d-block': showDirMenu}" class="mask-container d-none w-100 h-100"></div>
-                <div class="products-listbox-nom">
-                  <div class="row products-item">
-                      <div class="col-6 col-xl-4 pl-0 pb-3" *ngFor="let product of dirProductList">
-                          <div class="w-100 bg-white">
-                            <a [routerLink]="['/Shopping/ProductDetail', dirCode, product.Product_Code]">
-                                <div class="products-img">
-                                    <div class="img-box">
-                                        <div class="rwdimg-cover" [lazyLoad]="product?.Product_PrimeImage" [defaultImage] ="appService.defaultImage"></div>
-                                    </div>
-                                </div>
-                                <div class="products-title">
-                                    <p class="txt-line-clamp2">{{product.Product_Name}}</p>
-                                </div>
-                                <div class="products-price">
-                                    <div class="price-asking">{{product.Product_SpecialPrice > 0? (product.Product_SpecialPrice | currency: 'TWD':'$':'1.0-2') : (product.Product_SellPrice | currency: 'TWD':'$':'1.0-0')}}</div>
-                                    <div class="price-original" *ngIf="product.Product_SpecialPrice > 0">{{product.Product_SellPrice | currency: 'TWD':'$':'1.0-2' }}</div>
-                                </div>
-                              </a>
-                          </div>
+      </div>
+    </header>
+    <main>
+      <div class="header-sort choice-filter-box py-1">
+        <div class="flex-inline-between">
+          <div class="item center-v">{{dirName}}</div>
+          <!-- 分類鈕（第二層目錄）-->
+          <div class="item pr-2">
+            <button class="btn px-0 filter-item" (click)="dirMenuToggle()" [ngClass]="{'active' : showDirMenu}">
+              <i class="material-icons">&#xE313;</i>
+            </button>
+          </div>
+        </div>
+        <!-- 篩選鈕（規格值篩選及排序） -->
+        <div class="filter-box" (click)="layerTrig = 1">
+          <button class="btn px-0">
+            <i class="material-icons">&#xE152;</i>
+          </button>
+        </div>
+      </div>
+      <div class="filter-outbox">
+        <div class="filter-main">
+          <div [ngClass]="{'d-block': showDirMenu}" class="mask-container d-none w-100 h-100"></div>
+          <div class="products-listbox-nom">
+            <div class="row products-item">
+              <div class="col-6 col-xl-4 pl-0 pb-3" *ngFor="let product of dirProductList">
+                <div class="w-100 bg-white">
+                  <a [routerLink]="['/Shopping/ProductDetail', dirCode, product.Product_Code]">
+                    <div class="products-img">
+                      <div class="img-box">
+                        <div class="rwdimg-cover" [lazyLoad]="product?.Product_PrimeImage" [defaultImage] ="appService.defaultImage"></div>
                       </div>
-                  </div>
+                    </div>
+                    <div class="products-title">
+                      <p class="txt-line-clamp2">{{product.Product_ExtName}}</p>
+                    </div>
+                    <div class="products-price">
+                      <div class="price-asking">{{product.Product_SpecialPrice > 0? (product.Product_SpecialPrice | currency: 'TWD':'$':'1.0-2') : (product.Product_SellPrice | currency: 'TWD':'$':'1.0-0')}}</div>
+                      <div class="price-original" *ngIf="product.Product_SpecialPrice > 0">{{product.Product_SellPrice | currency: 'TWD':'$':'1.0-2' }}</div>
+                    </div>
+                  </a>
                 </div>
+              </div>
             </div>
-            <!-- 分類清單(同層其他/第二層目錄) -->
-            <div id="type" class="filter-content pb-wrap" [ngClass]="{'is-open' : showDirMenu}">
-                <ul class="open-page-ul">
-                    <li *ngFor="let dir of dirList" class="flex-inline-between" (click)="dirFilter(dir.UserDefine_Code)" [ngClass]="{'active': dir?.UserDefine_Code === dirCode}">
-                        <div>
-                            {{dir.UserDefine_Name}}
-                        </div>
-                        <div>
-                          <span class="d-none">{{dir.UserDefine_ProdCount}}</span>
-                          <i *ngIf="dir?.UserDefine_Code === dirCode" class="material-icons done">&#xe876;</i>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+          </div>
         </div>
-
-      </main >
+        <!-- 分類清單(同層其他/第二層目錄) -->
+        <div id="type" class="filter-content pb-wrap" [ngClass]="{'is-open' : showDirMenu}">
+          <ul class="open-page-ul">
+            <li *ngFor="let dir of dirList" class="flex-inline-between" (click)="dirFilter(dir.UserDefine_Code)" [ngClass]="{'active': dir?.UserDefine_Code === dirCode}">
+              <div>
+                {{dir.UserDefine_Name}}
+              </div>
+              <div>
+                <span class="d-none">{{dir.UserDefine_ProdCount}}</span>
+                <i *ngIf="dir?.UserDefine_Code === dirCode" class="material-icons done">&#xe876;</i>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </main >
   </div>
   <!-- 篩選清單 -->
   <div class="modal-backdrop fade show container" *ngIf="layerTrig === 1 || layerTrig === 2"></div>
   <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="layerTrig === 1">
     <div id="open-pagebox" class="productslistsort">
       <div class="open-page-title flex-inline-between">
-          <div class="title-icon">
-              <button class="btn px-0" (click)="layerTrig = 0">
-                  <i class="material-icons">&#xe314;</i>
-              </button>
-          </div>
-          <div class="title-txt">
-              篩選與排序
-          </div>
-          <button (click)="filter()" class="btn px-0">確定</button>
+        <div class="title-icon">
+          <button class="btn px-0" (click)="layerTrig = 0">
+            <i class="material-icons">&#xe314;</i>
+          </button>
+        </div>
+        <div class="title-txt">
+          篩選與排序
+        </div>
+        <button (click)="filter()" class="btn px-0">確定</button>
       </div>
       <ul class="open-page-ul">
-          <label>篩選</label>
-          <li *ngFor="let attr of dirAttrList" (click)="showAttrValues(attr.Attribute_Code);" class="flex-inline-between">
-              <div>{{attr.Attribute_ShowName}}</div>
-              <div [ngClass]="{'active': attrValueMap?.has(attr.Attribute_Code)}">
-                {{attrText(attr)}}<i class="material-icons">&#xe315;</i>
-              </div>
-          </li>
+        <label>篩選</label>
+        <li *ngFor="let attr of dirAttrList" (click)="showAttrValues(attr.Attribute_Code);" class="flex-inline-between">
+          <div>{{attr.Attribute_ShowName}}</div>
+          <div [ngClass]="{'active': attrValueMap?.has(attr.Attribute_Code)}">
+            {{attrText(attr)}}<i class="material-icons">&#xe315;</i>
+          </div>
+        </li>
       </ul>
       <ul class="open-page-ul">
-          <label>排序</label>
-          <li (click)="onSelectSort(1)" [ngClass]="{'active': sorting === 1}" class="flex-inline-between">
-              <div>最新上架優先</div>
-              <div>
-                <i class="material-icons done">&#xe876;</i>
-              </div>
-          </li>
-          <!-- 暫無熱門篩選 -->
-          <li [ngClass]="{'active': sorting === 2}" class="flex-inline-between d-none">
-              <div> 熱門程度優先</div>
-              <div>
-                <i class="material-icons done">&#xe876;</i>
-              </div>
-          </li>
-          <li (click)="onSelectSort(3)" [ngClass]="{'active': sorting === 3}" class="flex-inline-between">
-              <div>價格由低而高</div>
-              <div>
-                <i class="material-icons done">&#xe876;</i>
-              </div>
-          </li>
-          <li (click)="onSelectSort(4)" [ngClass]="{'active': sorting === 4}" class="flex-inline-between">
-              <div>價格由高而低</div>
-              <div>
-                <i class="material-icons done">&#xe876;</i>
-              </div>
-          </li>
+        <label>排序</label>
+        <li (click)="onSelectSort(1)" [ngClass]="{'active': sorting === 1}" class="flex-inline-between">
+          <div>最新上架優先</div>
+          <div>
+            <i class="material-icons done">&#xe876;</i>
+          </div>
+        </li>
+        <!-- 暫無熱門篩選 -->
+        <li [ngClass]="{'active': sorting === 2}" class="flex-inline-between d-none">
+          <div> 熱門程度優先</div>
+          <div>
+            <i class="material-icons done">&#xe876;</i>
+          </div>
+        </li>
+        <li (click)="onSelectSort(3)" [ngClass]="{'active': sorting === 3}" class="flex-inline-between">
+          <div>價格由低而高</div>
+          <div>
+            <i class="material-icons done">&#xe876;</i>
+          </div>
+        </li>
+        <li (click)="onSelectSort(4)" [ngClass]="{'active': sorting === 4}" class="flex-inline-between">
+          <div>價格由高而低</div>
+          <div>
+            <i class="material-icons done">&#xe876;</i>
+          </div>
+        </li>
       </ul>
       <button (click)="resetAll()" class="btn all-reset">
-          全部重設
+        全部重設
       </button>
     </div>
   </div>
   <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="layerTrig === 2">
     <div id="open-pagebox1" class="productslistsort1">
-        <div class="open-page-title flex-inline-between">
-            <div class="close-btn">
-                <button class="btn px-0" (click)="layerTrig = 1">
-                    <i class="material-icons">&#xe314;</i>
-                </button>
-            </div>
-            <div class="title-txt">商品分類</div>
-            <div class="title-txt"></div>
+      <div class="open-page-title flex-inline-between">
+        <div class="close-btn">
+          <button class="btn px-0" (click)="layerTrig = 1">
+            <i class="material-icons">&#xe314;</i>
+          </button>
         </div>
-        <ul class="open-page-ul">
-            <li *ngFor="let attrValue of attrValuesList" (click)="toggleAttrValue(attrValue)"
-              [ngClass]="{'active': attrValueMap?.get(attrValue.AttributeValue_Code)?.has(attrValue.AttributeValue_AttributeCode)}"
-              class="flex-inline-between">
-                <div>{{attrValue.AttributeValue_ShowName}}</div>
-                <div hidden>{{attrValue.AttributeValue_Count}}</div>
-            </li>
-        </ul>
+        <div class="title-txt">商品分類</div>
+        <div class="title-txt"></div>
+      </div>
+      <ul class="open-page-ul">
+        <li *ngFor="let attrValue of attrValuesList" (click)="toggleAttrValue(attrValue)"
+          [ngClass]="{'active': attrValueMap?.get(attrValue.AttributeValue_Code)?.has(attrValue.AttributeValue_AttributeCode)}"
+          class="flex-inline-between">
+          <div>{{attrValue.AttributeValue_ShowName}}</div>
+          <div hidden>{{attrValue.AttributeValue_Count}}</div>
+        </li>
+      </ul>
     </div>
   </div>
 

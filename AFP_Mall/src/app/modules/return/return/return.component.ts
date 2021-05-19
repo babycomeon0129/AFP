@@ -5,9 +5,9 @@ import {
   Request_MemberOrder, Response_MemberOrder, AFP_ECStore, AFP_MemberOrder, AFP_ItemInfoPart, Request_MemberAddress,
   Response_MemberAddress, AFP_UserFavourite, AFP_Services, AFP_UserReport, Request_MemberServices, Response_MemberServices
 } from '@app/_models';
-import { ModalService } from '../../../shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { NgForm } from '@angular/forms';
-import { layerAnimation } from '../../../animations';
+import { layerAnimation } from '@app/animations';
 
 @Component({
   selector: 'app-return',
@@ -60,6 +60,9 @@ export class ReturnComponent implements OnInit {
       this.servicesModel.Services_CPhone = this.orderInfo.Order_RecTel;
       this.servicesModel.Services_CName = this.orderInfo.Order_RecName;
     });
+  }
+
+  ngOnInit() {
   }
 
   // 讀取會員儲存地址
@@ -210,8 +213,5 @@ export class ReturnComponent implements OnInit {
     }
   }
 
-
-  ngOnInit() {
-  }
 
 }

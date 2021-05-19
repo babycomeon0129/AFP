@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Request_MemberTicket, Response_MemberTicket, AFP_UserTicket, AFP_Product } from '@app/_models';
 import { ActivatedRoute } from '@angular/router';
 import { AppService } from 'src/app/app.service';
-import { layerAnimation} from '../../../../animations';
+import { layerAnimation} from '@app/animations';
 
 @Component({
   selector: 'app-eticket-detail',
@@ -17,23 +17,18 @@ export class ETicketDetailComponent implements OnInit {
   public userTicket: AFP_UserTicket;
   /** 票券商品 */
   public ticketProd: AFP_Product;
-  public showBack = false; // APP特例處理
   /** 同頁滑動切換 0: 本頁 1:使用票券 */
   public layerTrig = 0;
 
   constructor(private route: ActivatedRoute, public appService: AppService) {
     this.ticketCode = this.route.snapshot.params.UserTicket_Code;
-    // APP特例處理: 若是從會員進來則顯示返回鍵
-    if (this.route.snapshot.queryParams.showBack !== undefined && this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBack = true;
-    }
   }
 
   ngOnInit() {
     this.readTicket();
   }
 
-  readTicket() {
+  readTicket(): void {
     const request: Request_MemberTicket = {
       User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 5, // 查詢詳細

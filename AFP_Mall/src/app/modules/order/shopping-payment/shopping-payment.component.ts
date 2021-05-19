@@ -97,6 +97,7 @@ export class ShoppingPaymentComponent implements OnInit {
     }
   }
 
+  /** 選擇付款方式 */
   choicePayment(payWay: AFP_CSPayment): void {
     this.reqData.CSPayment_ID = payWay.CSPayment_ID;
     this.reqData.CSPaymentPart_ID = payWay.List_CSPaymentPart[0].CSPaymentPart_ID;
@@ -104,6 +105,7 @@ export class ShoppingPaymentComponent implements OnInit {
     this.ablePayment = true;
   }
 
+  /** 選擇信用卡 */
   choicePayCard(payWay: AFP_CSPayment, card: AFP_UserFavourite): void {
     this.reqData.CSPayment_ID = payWay.CSPayment_ID;
     this.reqData.CSPaymentPart_ID = payWay.List_CSPaymentPart[0].CSPaymentPart_ID;
@@ -111,6 +113,7 @@ export class ShoppingPaymentComponent implements OnInit {
     this.ablePayment = true;
   }
 
+  /** 手動輸入卡號 */
   addNewCard(payWay: AFP_CSPayment): void {
     this.ablePayment = false;
     this.reqData.CSPayment_ID = payWay.CSPayment_ID;
@@ -119,6 +122,7 @@ export class ShoppingPaymentComponent implements OnInit {
     this.layerTrig = 1;
   }
 
+  /** 同意加入信用卡 */
   agreeFastCard(e: any): void {
     if (e.target.checked) {
       this.reqData.CreaditBind = 1;
@@ -127,6 +131,7 @@ export class ShoppingPaymentComponent implements OnInit {
     }
   }
 
+  /** 付款 */
   addCardPayment(): void {
     if (this.reqData.CardNo !== '' && this.reqData.CardDate !== '' && this.reqData.CVC !== '') {
       (document.getElementById('postPayment') as HTMLFormElement).submit();
@@ -145,10 +150,14 @@ export class ShoppingPaymentComponent implements OnInit {
 
 }
 
-export class Request_GetPayment extends Model_ShareData { }
+/** 取得支付方式 Request*/
+class Request_GetPayment extends Model_ShareData { }
 
-export class Response_GetPayment extends Model_ShareData {
+/** 取得支付方式 Response*/
+class Response_GetPayment extends Model_ShareData {
+  /** 特店支付方式 */
   AFP_CSPayment: AFP_CSPayment[];
+  /** 綁卡資訊 UserFavourite_Type=3 */
   List_BindCard: AFP_UserFavourite[];
 }
 

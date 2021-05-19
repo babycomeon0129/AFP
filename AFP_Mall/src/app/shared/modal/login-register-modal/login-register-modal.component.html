@@ -80,7 +80,7 @@
                                     <li>
                                         <div class="password-tit">密碼</div>
                                         <div class="password-item">
-                                            <input id="loginPassword" [type]="[loginPswVisible === false? 'password' : 'text']"
+                                            <input id="loginPassword" [type]="[!loginPswVisible ? 'password' : 'text']"
                                               name="AFPPassword" #AFPPassword="ngModel" [(ngModel)]="loginRequest.AFPPassword"
                                               [ngClass]="{'bb-org': AFPPassword.touched && AFPPassword.invalid}"
                                               pattern="^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$" minlength="6" maxlength="12"

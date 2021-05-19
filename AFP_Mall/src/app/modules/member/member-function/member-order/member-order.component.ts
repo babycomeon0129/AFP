@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Request_MemberOrder, Response_MemberOrder, AFP_MemberOrder } from '@app/_models';
 import { AppService } from '@app/app.service';
@@ -27,34 +28,27 @@ export class MemberOrderComponent implements OnInit {
     observeParents: true,
     freeMode: false
   };
-  /** APP特例處理 */
-  public showBack = false;
 
 
   constructor(public appService: AppService, private router: Router, private route: ActivatedRoute,
-              private meta: Meta, private title: Title, public memberService: MemberService) {
-    // tslint:disable: max-line-length
+    private meta: Meta, private title: Title, public memberService: MemberService, private location: Location) {
     this.title.setTitle('我的訂單 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 我的訂單。這裡會顯示 Mobii! 用戶在 Mobii! 平台上購物的訂單，包括訂單出貨及收貨進度。請先登入註冊以開啟功能。' });
     this.meta.updateTag({ content: '我的訂單 - Mobii!', property: 'og:title' });
     this.meta.updateTag({ content: 'Mobii! - 我的訂單。這裡會顯示 Mobii! 用戶在 Mobii! 平台上購物的訂單，包括訂單出貨及收貨進度。請先登入註冊以開啟功能。', property: 'og:description' });
 
     // 從會員中心進來則隱藏返回鍵
-    if (this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBack = true;
-    }
-
-
+    // this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
   ngOnInit() {
-    if ( this.appService.prevUrl.includes('MyOrderDetail')) {
+    if (this.appService.prevUrl.includes('MyOrderDetail')) {
       // 如果上一頁是我的訂單詳細，第一個tab切到購物商城
       this.memberService.tabSwitch = 1;
-    } else if ( this.appService.prevUrl.includes('ETicketOrderDetail')) {
+    } else if (this.appService.prevUrl.includes('ETicketOrderDetail')) {
       // 如果上一頁是電子票券詳細，第一個tab切到訂單詳細
       this.memberService.tabSwitch = 21;
-    } else if ( this.appService.prevUrl.includes('ReturnDetail') ) {
+    } else if (this.appService.prevUrl.includes('ReturnDetail')) {
       // 如果上一頁是退單頁，第一個tab跟訂單狀態保持上一次狀態
       this.memberService.tabSwitch = this.memberService.tabSwitch;
       this.memberService.statusSwitch = this.memberService.statusSwitch;
@@ -70,7 +64,7 @@ export class MemberOrderComponent implements OnInit {
    * @param type 訂單類型（1: 一般訂單 21: 電子票證）
    * @param state 訂單狀態（一般訂單 1:處理中, 2: 待收貨, 3: 已完成；電子票證 1: 已付款 2: 已出貨 3: 已到貨 4: 退換貨）
    */
-  showList(type: number, state: number) {
+  showList(type: number, state: number): void {
     this.memberService.tabSwitch = type;
     this.memberService.statusSwitch = state;
     switch (type) {
@@ -81,19 +75,23 @@ export class MemberOrderComponent implements OnInit {
         this.ETicket_selectedState = state;
         break;
     }
-    this.appService.openBlock();
-    const request: Request_MemberOrder = {
-      User_Code: sessionStorage.getItem('userCode'),
-      SelectMode: 1, // 列表查詢
-      SearchModel: {
-        OrderType: type,
-        OrderState: state
-      }
-    };
+    if (this.appService.loginState) {
+      this.appService.openBlock();
+      const request: Request_MemberOrder = {
+        User_Code: sessionStorage.getItem('userCode'),
+        SelectMode: 1, // 列表查詢
+        SearchModel: {
+          OrderType: type,
+          OrderState: state
+        }
+      };
 
-    this.appService.toApi('Member', '1512', request).subscribe((data: Response_MemberOrder) => {
-      this.orderList = data.List_MemberOrder;
-    });
+      this.appService.toApi('Member', '1512', request).subscribe((data: Response_MemberOrder) => {
+        this.orderList = data.List_MemberOrder;
+      });
+    } else {
+      this.appService.loginPage();
+    }
   }
 
   /** 顯示寄送方式
@@ -115,20 +113,20 @@ export class MemberOrderComponent implements OnInit {
    * @param type 訂單類型（1: 一般訂單 21: 電子票證）
    * @param order 該訂單
    */
-  goToDetail(type: number, order: AFP_MemberOrder) {
+  goToDetail(type: number, order: AFP_MemberOrder): void {
     switch (type) {
       case 1:
         if (this.Common_selectedState === 4) {
           this.router.navigate(['/Return/ReturnDetail', order.ServiceTableNo]);
         } else {
-          this.router.navigate(['/MemberFunction/MyOrderDetail', order.Order_TableNo], { queryParams: { orderState: this.Common_selectedState, showBack: this.showBack } });
+          this.router.navigate(['/MemberFunction/MyOrderDetail', order.Order_TableNo], { queryParams: { orderState: this.Common_selectedState, showBack: this.appService.showBack } });
         }
         break;
       case 21:
         if (this.ETicket_selectedState === 4) {
           this.router.navigate(['/Return/ReturnDetail', order.ServiceTableNo]);
         } else {
-          this.router.navigate(['/MemberFunction/ETicketOrderDetail', order.Order_TableNo], { queryParams: { orderState: this.ETicket_selectedState, showBack: this.showBack } });
+          this.router.navigate(['/MemberFunction/ETicketOrderDetail', order.Order_TableNo], { queryParams: { orderState: this.ETicket_selectedState, showBack: this.appService.showBack } });
         }
         break;
     }
@@ -137,12 +135,13 @@ export class MemberOrderComponent implements OnInit {
   /** 判斷回上一頁
    * （若從付款完成頁/OrderComplete過來則按「回上一頁」直接前往大首頁）
    */
-  conditionBack() {
-    if (this.route.snapshot.queryParams.referrer === 'OrderComplete') {
-      this.router.navigate(['/']);
-    } else {
-      history.back();
-    }
-  }
+  // conditionBack(): void {
+  //   if (this.route.snapshot.queryParams.referrer === 'OrderComplete') {
+  //     console.log(111);
+  //     this.router.navigate(['/']);
+  //   } else {
+  //     this.location.back();
+  //   }
+  // }
 
 }

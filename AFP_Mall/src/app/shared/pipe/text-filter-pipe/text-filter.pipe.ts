@@ -27,7 +27,6 @@ export class TextFilterPipe implements PipeTransform {
           return x.Voucher_ExtName.toLocaleLowerCase().includes(searchText) || x.Voucher_Title.toLocaleLowerCase().includes(searchText);
         case 2:
           // 會員-我的車票（車票名稱、商家名搜尋）
-          // tslint:disable-next-line: max-line-length
           return x.UserTicket_ShowName.toLocaleLowerCase().includes(searchText) || x.UserTicket_Title.toLocaleLowerCase().includes(searchText);
       }
     });

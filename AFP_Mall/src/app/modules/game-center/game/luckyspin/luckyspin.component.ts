@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, Output, AfterViewInit, Renderer2, EventEmitter } from '@angular/core';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { Response_Games, Request_Games, AFP_GamePart } from '@app/_models';
-import { ModalService } from '../../../../shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { layerAnimation, layerAnimationUp } from '../../../../animations';
+import { layerAnimation, layerAnimationUp } from '@app/animations';
 
 @Component({
   selector: 'app-luckyspin',
@@ -32,20 +32,12 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
   public playingStatus: boolean;
   /** 本頁url */
   private currentUrl: string;
-  /**  APP特例處理 */
-  public showBack = false;
   /** 同頁滑動切換 0: 本頁 1: 活動規則 */
   public layerTrig = 0;
   /** 提示視窗(向上) 0: 本頁 1: 開獎資訊 */
   public layerTrigUp = 0;
 
-  constructor(
-    public appService: AppService,
-    public modal: ModalService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private renderer2: Renderer2
-  ) {
+  constructor(public appService: AppService, public modal: ModalService, private router: Router, private route: ActivatedRoute, private renderer2: Renderer2 ){
     this.currentUrl = this.router.url;
   }
 
@@ -54,11 +46,7 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
     this.playTimes = this.gameData.AFP_Game.Game_PlayCount;
     this.prizeList = this.gameData.List_GamePart;
     // APP從M Points或進來則顯示返回鍵
-    if (this.route.snapshot.queryParams.showBack === 'false') {
-      this.showBack = false;
-    } else {
-      this.showBack = true;
-    }
+    // this.appService.showBack =  this.route.snapshot.queryParams.showBack === 'true';
   }
 
   ngAfterViewInit() {
@@ -87,6 +75,7 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
     } else {
       // 若須扣除點數跳出確認提示
       if ((this.playTimes !== 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) && this.gameData.AFP_Game.Game_DedPoint > 0) {
+        // 先跳確認扣除點數視窗，按下確認才允許進行遊戲
         this.modal
           .confirm({
             initialState: {

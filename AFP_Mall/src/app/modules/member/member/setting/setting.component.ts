@@ -15,7 +15,6 @@ export class SettingComponent implements OnInit {
 
   constructor(public appService: AppService, public route: ActivatedRoute, public location: Location, private router: Router,
               private meta: Meta, private title: Title) {
-    // tslint:disable: max-line-length
     this.title.setTitle('帳號設定 - Mobii!');
     this.meta.updateTag({ name: 'description', content: '' });
     this.meta.updateTag({ content: '帳號設定 - Mobii!', property: 'og:title' });

@@ -1,9 +1,9 @@
-import { Component, ViewChild, OnInit, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { AppService } from '@app/app.service';
 import { Response_AreaDetail, AFP_ECStore, Model_ShareData, AFP_Voucher, AFP_Product, AFP_ECStoreExtType } from '@app/_models';
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'ngx-useful-swiper';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation } from '@app/animations';
@@ -57,20 +57,14 @@ export class ExploreDetailComponent implements OnInit {
   };
   /** 被展開的內容代碼陣列 */
   public unfolded: number[] = [];
-  /** 變化追蹤（登入狀態） */
-  private serviceDiffer: KeyValueDiffer<string, any>;
   /** 分享至社群時顯示的文字 */
   public textForShare: string;
-  /** APP特例處理  */
-  public showBack = false;
   /** 確認資料是否下載完畢  */
   public dataLoad = false;
   /** 同頁滑動切換 0:本頁 1:篩選清單 2:篩選-商品分類 */
   public layerTrig = 0;
 
-  constructor(public appService: AppService, private router: Router, private route: ActivatedRoute, public modal: ModalService,
-              private differs: KeyValueDiffers, private meta: Meta, private title: Title) {
-    this.serviceDiffer = this.differs.find({}).create();
+  constructor(public appService: AppService, private route: ActivatedRoute, public modal: ModalService, private meta: Meta, private title: Title) {
     // 取得商家/景點編碼
     this.siteCode = Number(this.route.snapshot.params.ECStore_Code);
   }
@@ -81,7 +75,7 @@ export class ExploreDetailComponent implements OnInit {
     // 從外部進來指定分頁
     this.route.queryParams.subscribe(params => {
       // APP從會員中心進來則隱藏返回鍵
-      this.showBack = params.showBack;
+      // this.appService.showBack = params.showBack === 'true';
       if (typeof params.navNo !== 'undefined') {
         this.tabNo = parseInt(params.navNo, 10);
         if (this.tabNo > 1 && this.tabNo <= 3) {
@@ -102,11 +96,10 @@ export class ExploreDetailComponent implements OnInit {
     }
   }
 
-  // tslint:disable: max-line-length
   /** 讀取分頁資料
    * @param index 分頁代號
    */
-  readTabData(index: number) {
+  readTabData(index: number): void {
     this.tabNo = index;
     const request: Request_AreaDetail = {
       User_Code: sessionStorage.getItem('userCode'),
@@ -201,9 +194,9 @@ export class ExploreDetailComponent implements OnInit {
   }
 
   /** 展開內容
-   * 1 簡介文字, 2 分店資訊, 3 營業時間
+   * @param section 1 簡介文字, 2 分店資訊, 3 營業時間
    */
-  unfold(section: number) {
+  unfold(section: number): void {
     if (this.unfolded.includes(section)) {
       this.unfolded.splice(this.unfolded.indexOf(section), 1);
     } else {
@@ -212,7 +205,7 @@ export class ExploreDetailComponent implements OnInit {
   }
 
   /** 外送點餐按鈕 */
-  sendDelivery() {
+  sendDelivery(): void {
     // 先判斷是否有登入
     if (this.appService.loginState) {
       // 把商店code帶到DeliveryInfo頁面

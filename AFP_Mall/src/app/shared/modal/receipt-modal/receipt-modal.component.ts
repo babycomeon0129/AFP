@@ -27,7 +27,7 @@ export class ReceiptModalComponent implements OnInit {
   }
 
   /** 下載收據圖檔 */
-  download() {
+  download(): void {
     const pdfContent = window.document.getElementById('rbox');
     const cw = pdfContent.getBoundingClientRect().width * 2;
     const cy = pdfContent.getBoundingClientRect().height * 1.85;

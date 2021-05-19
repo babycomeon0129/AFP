@@ -38,7 +38,7 @@
     <div class="newnotify">最新通知</div>
     <ul class="newlist">
       <li *ngFor="let msg of latestList" class="d-flex"
-      [ngClass]="{'active': msg?.activeStatus === true, 'cursor-pointer': msg?.IMessage_IsShowCTA !== 0 || msg?.IMessage_Desc.length > 36 }"
+      [ngClass]="{'active': msg?.activeStatus, 'cursor-pointer': msg?.IMessage_IsShowCTA !== 0 || msg?.IMessage_Desc.length > 36 }"
       (click)="msg?.IMessage_OrderType !== null? null : unfoldItem(msg)">
         <div class="img-box rwdimgbox-80">
           <div [lazyLoad]="msg?.IMessage_SmallImg" [defaultImage]="appService.defaultImage" class="rwdimg-cover"></div>
@@ -49,12 +49,12 @@
             <p class="item-date">{{msg?.IMessage_ReleaseDate | date: 'yyyy/MM/dd'}}</p>
             <div [ngClass]="{'msgNotCTA': !msg?.activeStatus}">
               <p class="msgDesc">{{msg?.IMessage_Desc}}</p>
-              <p [hidden]="msg?.IMessage_IsShowCTA === 0" class="moreBtn">
+              <p [hidden]="msg?.IMessage_IsShowCTA === 0 || msg?.IMessage_IsShowCTA === null" class="moreBtn">
                 <button class="btn index-btn" [routerLink]="['/Notification/NotificationDetail', msg?.IMessage_Code]">了解更多</button>
               </p>
             </div>
           </div>
-          <span [hidden]="msg?.IMessage_IsShowCTA === 0 && msg?.IMessage_Desc.length < 36" class="auto-left">
+          <span [hidden]="(msg?.IMessage_IsShowCTA === 0 || msg?.IMessage_IsShowCTA === null) && msg?.IMessage_Desc.length < 36" class="auto-left">
             <i class="material-icons">&#xe5cf;</i></span>
         </div>
       </li>
@@ -80,7 +80,7 @@
       </div>
       <div>
         <ul class="newlist">
-          <li *ngFor="let item of SCategoryList" [ngClass]="{'active': item?.activeStatus === true, 'cursor-pointer': item?.IMessage_IsShowCTA !== 0 || item?.IMessage_Desc.length > 36} " class="d-flex"
+          <li *ngFor="let item of SCategoryList" [ngClass]="{'active': item?.activeStatus, 'cursor-pointer': item?.IMessage_IsShowCTA !== 0 || item?.IMessage_Desc.length > 36} " class="d-flex"
             (click)="unfoldItem(item)">
             <div class="img-box rwdimgbox-80">
               <div [lazyLoad]="item?.IMessage_SmallImg" [defaultImage]="appService.defaultImage" class="rwdimg-cover">
@@ -92,12 +92,12 @@
                 <p class="item-date">{{item?.IMessage_ReleaseDate | date: 'yyyy/MM/dd'}}</p>
                 <div [ngClass]="{'msgNotCTA': !item?.activeStatus}">
                   <p class="msgDesc">{{item?.IMessage_Desc}}</p>
-                  <p [hidden]="item?.IMessage_IsShowCTA === 0" class="moreBtn">
+                  <p [hidden]="item?.IMessage_IsShowCTA === 0 || item?.IMessage_IsShowCTA === null" class="moreBtn">
                     <button class="btn index-btn" [routerLink]="['/Notification/NotificationDetail', item?.IMessage_Code]">了解更多</button>
                   </p>
                 </div>
               </div>
-              <span [hidden]="item?.IMessage_IsShowCTA === 0 && item?.IMessage_Desc.length < 36" class="auto-left">
+              <span [hidden]="(item?.IMessage_IsShowCTA === 0 || item?.IMessage_IsShowCTA === null) && item?.IMessage_Desc.length < 36" class="auto-left">
                 <i class="material-icons">&#xe5cf;</i>
               </span>
             </div>

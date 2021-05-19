@@ -40,7 +40,6 @@ export class MyProfileComponent implements OnInit {
 
   constructor(public appService: AppService, public modal: ModalService, public memberService: MemberService,
               private meta: Meta, private title: Title, private localeService: BsLocaleService, private cookieService: CookieService) {
-    // tslint:disable: max-line-length
     this.title.setTitle('我的檔案 - Mobii!');
     this.meta.updateTag({ name: 'description', content: '' });
     this.meta.updateTag({ content: '我的檔案 - Mobii!', property: 'og:title' });
@@ -53,7 +52,7 @@ export class MyProfileComponent implements OnInit {
   }
 
   /** 性別轉換  */
-  sexTSstring(sex: number) {
+  sexTSstring(sex: number): string {
     switch (sex) {
       case null:
         return null;
@@ -95,10 +94,11 @@ export class MyProfileComponent implements OnInit {
   /** 讀取證件
    * @param CertificateType 1 護照, 2 台胞證, 11 學生證 12 教職員證
    */
-  readCertificate(CertificateType: number) {
+  readCertificate(CertificateType: number): void {
     this.userCertificate = new AFP_UserFavourite(); // 初始化
     this.isUpload = false; // 初始化
     const request: Request_MemberCertificate = {
+      /** 區別操作(通用) 1:新增 2:刪除 3:編輯 4:查詢列表 5:查詢詳細 */
       SelectMode: 4,
       User_Code: sessionStorage.getItem('userCode'),
       AFP_UserFavourite: {
@@ -150,7 +150,7 @@ export class MyProfileComponent implements OnInit {
   }
 
   /** 更新證件 */
-  onUpdateCertificate() {
+  onUpdateCertificate(): void {
     // 調整日期顯示問題 (UTC -> TMC)
     if (this.userCertificate.UserFavourite_Date !== null && this.userCertificate.UserFavourite_Date !== undefined) {
       if (this.userCertificate.UserFavourite_Date.getMonth() < new Date().getMonth()) {
@@ -203,23 +203,32 @@ export class MyProfileComponent implements OnInit {
 
 }
 
+/** 會員中心-我的證件 - RequestModel */
 class Request_MemberCertificate extends Model_ShareData {
+  /** 我的證件 */
   AFP_UserFavourite: AFP_UserFavourite;
 }
 
+/** 會員中心-我的證件 - ResponseModel */
 class Response_MemberCertificate extends Model_ShareData {
+  /** 我的證件 詳細 */
   AFP_UserFavourite: AFP_UserFavourite;
+  /** 檔案 */
   AFP_FileSettings: AFP_FileSettings;
 }
 
+/** 檔案上傳 ResponseModel */
 class Response_Files extends Model_ShareData {
+  /** 檔案列表 */
   List_FileSettings: AFP_FileSettings[];
 }
 
+/** 前台檔案資訊表 */
 class AFP_FileSettings {
   FileSettings_ID: number;
   /** 檔案類型 1 圖片, 2 影片, 3檔案 */
   FileSettings_Mode: number;
+  /** 檔案名稱 */
   FileSettings_Name: string;
   /** 檔案路徑 */
   FileSettings_File: string;

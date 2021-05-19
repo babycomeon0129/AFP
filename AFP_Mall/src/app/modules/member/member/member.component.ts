@@ -16,7 +16,6 @@ export class MemberComponent implements OnInit {
 
   constructor(public appService: AppService, public modal: ModalService, public router: Router,
               private meta: Meta, private title: Title) {
-    // tslint:disable: max-line-length
     this.title.setTitle('我的 - Mobii!');
     this.meta.updateTag({name : 'description', content: '我的Mobii! - 註冊登入Mobii 會員。Mobii! 讓你的移動總是驚喜，使用就享點數回饋，天天登入再領 M Points。'});
     this.meta.updateTag({content: '我的 - Mobii!', property: 'og:title'});
@@ -28,7 +27,7 @@ export class MemberComponent implements OnInit {
   }
 
   /** 獲取這個 outlet 指令的值（透過 #outlet="outlet"），並根據當前活動路由的自訂資料返回一個表示動畫狀態的字串值。用此資料來控制各個路由之間該執行哪個轉場 */
-  prepareRoute(outlet: RouterOutlet) {
+  prepareRoute(outlet: RouterOutlet): void {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation;
   }
 
@@ -75,21 +74,30 @@ export class Response_MemberProfile extends Model_ShareData {
   UserPoint: number;
 }
 
-// for Home & ThirdBinding
+// 會員中心-社群帳號綁定 - RequestModel
 export class Request_MemberThird extends Model_ShareData {
+  /**  第三方登入類型 1 : Facebook 2 : Line 3 : Google 4 : WeChat */
   Mode?: number;
+  /** 第三方Token */
   Token?: string;
+  /** 回傳JSON */
   JsonData?: string;
 }
 
+/** 會員中心-社群帳號綁定 - ResponseModel */
 export class Response_MemberThird extends Model_ShareData {
+  /** 社群帳號綁定 */
   List_UserThird: AFP_UserThird[];
+  /** 動作是否完成 */
   Done: boolean;
 }
 
-// for MemberService & ThirdBinding
+/** 使用者第三方登入資訊 */
 export class AFP_UserThird {
+  /** 類型 1: Facebook 2: Line 3: Google 4: WeChat 5: Apple */
   UserThird_Mode: number;
+  /** 第三方Token */
   UserThird_Token: string;
+  /** 回傳JSON */
   UserThird_JsonData: string;
 }

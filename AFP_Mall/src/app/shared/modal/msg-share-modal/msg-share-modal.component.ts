@@ -28,7 +28,7 @@ export class MsgShareModalComponent implements OnInit {
    * 若只需單純複製當前網址則不需傳值
    * 使用頁面: 周邊詳細、商品詳細、商家頁
    */
-  onCopyUrl(urlValue?: string) {
+  onCopyUrl(urlValue?: string): void {
     const el = document.createElement('textarea');
     if (urlValue === undefined) {
       el.value = location.href;

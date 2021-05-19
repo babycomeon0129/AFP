@@ -3,10 +3,11 @@
       <div class="header-secondary container linebt-row">
           <div class="index-flex justify-content-between">
               <div class="item two">
-                  <div class="close-btn" [hidden]="appService.isApp !== null && showBack">
-                       <button type="button" class="btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                  <div class="close-btn">
+                       <!--button type="button" class="btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
                           <i class="material-icons">&#xe314;</i>
-                      </button>
+                      </!--button-->
+                      <app-back-btn></app-back-btn>
                   </div>
               </div>
               <div class="item three text-center">
@@ -52,8 +53,15 @@
       <div class="scratch-cont">
         <h5>SCRATCH HERE</h5>
         <div class="scratchBox">
-          <canvas id="bottom"></canvas>
-          <canvas id="top" #top></canvas>
+          <canvas id="bottom" #bottomCanvas></canvas>
+          <canvas id="top" #topCanvas
+          (touchstart)="eventDown($event)"
+          (touchend)="eventUp($event)"
+          (touchmove)="eventMove($event)"
+          (mousedown)="eventDown($event)"
+          (mousemove)="eventMove($event)"
+          (mouseup)="eventUp($event)"
+          ></canvas>
         </div>
       </div>
       <div class="warning-note">

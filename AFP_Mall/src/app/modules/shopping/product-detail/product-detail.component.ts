@@ -63,8 +63,6 @@ export class ProductDetailComponent implements OnInit {
       prevEl: '.shopping-productsimgbox .swiper-button-prev',
     }
   };
-  /** APP特例處理  */
-  public showBack = false;
   // 關於商品3個標籤
   @ViewChild('tag01', { static: false }) tag01: ElementRef;
   @ViewChild('tag02', { static: false }) tag02: ElementRef;
@@ -143,13 +141,11 @@ export class ProductDetailComponent implements OnInit {
       this.APPShareUrl = data.AppShareUrl;
     });
     // 若有登入則顯示我的收藏
-    if (this.appService.loginState === true) {
+    if (this.appService.loginState) {
       this.appService.showFavorites();
     }
     // APP從會員中心→我的收藏→商品詳細→購物車要顯示返回鍵（目前為購物車處理）
-    if (this.route.snapshot.queryParams.showBack === 'true') {
-      this.showBack = true;
-    }
+    this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
   /** 滑動至指定區域 */
@@ -302,7 +298,7 @@ export class ProductDetailComponent implements OnInit {
    */
   onGoToStore(fragment: number) {
     const navigationExtras: NavigationExtras = {
-      queryParams: { navNo: fragment, showBack: this.showBack }
+      queryParams: { navNo: fragment, showBack: this.appService.showBack }
     };
     this.router.navigate(['/Explore/ExploreDetail', this.productInfo.Product_ECStoreCode], navigationExtras);
   }

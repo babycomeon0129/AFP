@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ChildActivationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { AppService } from './../../../app.service';
+import { Router } from '@angular/router';
+import { AppService } from '@app/app.service';
 
 declare var AppJSInterface: any;
 
@@ -29,7 +28,7 @@ export class MobileFooterComponent implements OnInit {
 
   /** 前往頁面前判斷登入狀態 */
   goTo() {
-    if (this.appService.loginState === true) {
+    if (this.appService.loginState) {
       this.router.navigate(['/Notification/NotificationList']);
     } else {
       this.appService.loginPage();

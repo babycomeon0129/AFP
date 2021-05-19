@@ -3,10 +3,11 @@
       <div class="header-secondary container linebt-row">
           <div class="index-flex justify-content-between">
               <div class="item two">
-                  <div class="close-btn" [hidden]="appService.isApp !== null && showBack">
-                       <button type="button" class="btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                  <div class="close-btn">
+                       <!--button type="button" class="btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
                           <i class="material-icons">&#xe314;</i>
-                      </button>
+                      </!--button-->
+                      <app-back-btn></app-back-btn>
                   </div>
               </div>
               <div class="item three text-center">
@@ -57,7 +58,7 @@
                   <!-- 遊玩按鈕 -->
                   <div [ngClass]="{'playbox9': gameData?.AFP_Game.Game_TypeSpace === 8, 'playbox': gameData?.AFP_Game.Game_TypeSpace === 12}" id="play">
                     <button (click)="play()"
-                      [disabled]=" playTimes === 0 || gameData?.AFP_Game?.Game_DedPoint > totalPoints || playingStatus === true"
+                      [disabled]=" playTimes === 0 || gameData?.AFP_Game?.Game_DedPoint > totalPoints || playingStatus"
                       type="button" id="playagain" class="btn p-0">
                       <img *ngIf="gameData?.AFP_Game.Game_TypeSpace === 8" src="../img/mission/playbox9.png">
                       <img *ngIf="gameData?.AFP_Game.Game_TypeSpace === 12" src="../img/mission/playbox.png">

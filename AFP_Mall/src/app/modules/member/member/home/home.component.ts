@@ -1,4 +1,4 @@
-import { Component, OnInit, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Model_ShareData, AFP_ADImg } from '@app/_models';
 import { Request_MemberThird, Response_MemberThird } from '../member.component';
@@ -29,19 +29,14 @@ export class HomeComponent implements OnInit {
       hide: true
     }
   };
-  /** 變化追蹤（登入狀態） */
-  private serviceDiffer: KeyValueDiffer<string, any>;
 
-  constructor(public appService: AppService, private router: Router, public modal: ModalService,
-              private differs: KeyValueDiffers, public memberService: MemberService, private authService: AuthService) {
-    this.serviceDiffer = this.differs.find({}).create();
+
+  constructor(public appService: AppService, private router: Router, public modal: ModalService, public memberService: MemberService, private authService: AuthService) {
   }
 
   ngOnInit() {
     this.readIndexData();
-    if (this.appService.loginState === true) {
-      this.memberService.readProfileData();
-    }
+    this.memberService.readProfileData();
     //  第三方登入取得資料
     this.authService.authState.subscribe((user) => {
       if (user != null && this.thirdClick) {
@@ -64,7 +59,7 @@ export class HomeComponent implements OnInit {
   }
 
   /** 讀取首頁資料 */
-  readIndexData() {
+  readIndexData(): void {
     const request: Request_MemberIndex = {
       SelectMode: 4,
       User_Code: sessionStorage.getItem('userCode')
@@ -76,7 +71,7 @@ export class HomeComponent implements OnInit {
   }
 
   /** 前往設定（判斷登入與否） */
-  goToSetting() {
+  goToSetting(): void {
     if (this.appService.loginState) {
       this.router.navigate(['/Member/Setting']);
     } else {
@@ -87,7 +82,7 @@ export class HomeComponent implements OnInit {
   /** 前往廣告
    * @param ADImg 廣告
    */
-  adRouter(ADImg: AFP_ADImg) {
+  adRouter(ADImg: AFP_ADImg): void {
     if (ADImg.ADImg_URL !== '/') {
       if (ADImg.ADImg_URL.indexOf('http') !== -1) {
         // 站外連結
@@ -108,8 +103,8 @@ export class HomeComponent implements OnInit {
    * @param page 頁面相對路徑（「敬請期待」傳'0'）
    * @param pageCode 通知原生開啟頁面 0: 我的卡片 1: 我的車票 2: 我的點餐 3: 我的優惠券 4: 我的收藏 5: 我的訂單 6: M Point
    */
-  pageRoute(page: string, pageCode: number) {
-    if (this.appService.loginState === false) {
+  pageRoute(page: string, pageCode: number): void {
+    if (!this.appService.loginState) {
       this.appService.loginPage();
     } else {
       if (page === '0') {
@@ -117,10 +112,8 @@ export class HomeComponent implements OnInit {
       } else {
         switch (pageCode) {
           case 3:
-            this.appService.isApp !== null ?　this.appShowMemberPage(3) : this.routerForApp(page);
-            break;
           case 4:
-            this.appService.isApp !== null ?　this.appShowMemberPage(4) : this.routerForApp(page);
+            this.appService.isApp !== null ?　this.appShowMemberPage(pageCode) : this.routerForApp(page);
             break;
           default:
             this.routerForApp(page);

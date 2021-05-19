@@ -12,7 +12,6 @@ import jwt_decode from 'jwt-decode';
 declare var AppleID: any;
 
 @Component({
-  // tslint:disable-next-line: component-selector
   selector: 'app-login-register-modal',
   templateUrl: './login-register-modal.component.html',
 })
@@ -42,7 +41,6 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       VerifiedCode: null
     }
   };
-  // public registerRequest: Request_AFPAccount = new Request_AFPAccount();
   /** 登入頁密碼是否可見 */
   public loginPswVisible = false;
   /** 註冊頁密碼1是否可見 */
@@ -52,7 +50,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   /** 註冊-重新發送驗證碼剩餘秒數 */
   public remainingSec = 0;
   /** 註冊-重新發送驗證碼倒數 timer */
-  public vCodeTimer;
+  public vCodeTimer: NodeJS.Timer;
   /** 註冊-輸入帳號是否已存在 */
   public existingAccount = false;
   /** Apple 登入 state */
@@ -160,7 +158,6 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('CustomerInfo', data.Model_UserInfo.CustomerInfo);
       sessionStorage.setItem('userFavorites', JSON.stringify(data.List_UserFavourite));
 
-      // tslint:disable: max-line-length
       this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
@@ -190,12 +187,12 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   }
 
   /** Apple登入按鈕 */
-  signInWithApple() {
+  signInWithApple(): void {
     this.thirdRequest.Mode = 5;
   }
 
   /** 進行本站第三方登入 */
-  toThirdLogin() {
+  toThirdLogin(): void {
     this.appService.toApi('AFPAccount', '1105', this.thirdRequest).subscribe((data: Response_AFPLogin) => {
       // 塞Session
       sessionStorage.setItem('userName', data.Model_UserInfo.Customer_Name);
@@ -219,7 +216,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   }
 
   /** 註冊-發送手機驗證碼 */
-  sendRegVCode() {
+  sendRegVCode(): void {
     this.remainingSec = 60;
     const request: Request_AFPVerifyCode = {
       SelectMode: 11,
@@ -262,7 +259,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   }
 
   /** 註冊送出 */
-  onRegSubmit() {
+  onRegSubmit(): void {
     this.registerRequest.VerifiedInfo.VerifiedPhone = this.registerRequest.AFPAccount;
     this.appService.openBlock();
     this.appService.toApi('AFPAccount', '1101', this.registerRequest).subscribe((data: Response_AFPLogin) => {
@@ -290,7 +287,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   }
 
   /** 判斷是否為Apple設備 */
-  detectApple() {
+  detectApple(): void {
     const iOSDevices = ['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'];
     if (iOSDevices.includes(navigator.platform) || (navigator.userAgent.includes('Mac'))) {
       this.isApple = true;
@@ -299,22 +296,22 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  stopTimer() {
+  stopTimer(): void {
     clearInterval(this.vCodeTimer);
   }
 
-  closeModal() {
+  closeModal(): void {
     this.bsModalRef.hide();
     clearInterval(this.vCodeTimer);
   }
 
   /** 停止聽取Apple登入的DOM event */
-  stopListeningApple() {
+  stopListeningApple(): void {
     document.removeEventListener('AppleIDSignInOnSuccess', (authData: any) => {});
     document.removeEventListener('AppleIDSignInOnFailure', (error: any) => {});
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     clearInterval(this.vCodeTimer);
     this.stopListeningApple();
   }

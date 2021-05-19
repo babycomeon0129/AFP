@@ -598,13 +598,20 @@ class OrderInfo {
   invoice: OrderInvoice;
 }
 
-export interface Request_CreateTOrder extends Model_ShareData {
+/** 建立訂單 */
+interface Request_CreateTOrder extends Model_ShareData {
+  /** 訂單資訊 */
   List_Order: AFP_Order[];
+  /** 使用者優惠卷資訊 */
   List_UserVoucher: AFP_UserVoucher[];
+  /** 購物車資訊 */
   List_Cart: AFP_Cart[];
 }
 
-export interface Response_CreateTOrder extends Model_ShareData {
+/** 建立訂單 Reseponse */
+interface Response_CreateTOrder extends Model_ShareData {
+  /** 訂單編號 [多個逗號區隔] */
   OrderNo: string;
+  /** 平台優惠卷ID [使用者優惠卷ID] */
   UserVoucher_ID: number;
 }

@@ -69,6 +69,8 @@ export class AppService {
    * TODO: 暫時作法
    */
   public verifyMobileModalOpened = false;
+  /** 是否顯示返回鍵 (app特例) */
+  public showBack = false;
 
   @BlockUI() blockUI: NgBlockUI;
   constructor(private http: HttpClient, private bsModal: BsModalService, public modal: ModalService, private router: Router,
@@ -106,7 +108,6 @@ export class AppService {
               case 3:
                 break;
               case 4:
-                // tslint:disable: max-line-length
                 sessionStorage.setItem('userCode', data.Verification.UserCode);
                 sessionStorage.setItem('CustomerInfo', data.Verification.CustomerInfo);
                 this.cookieService.set('userCode', data.Verification.UserCode, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
@@ -134,17 +135,6 @@ export class AppService {
             this.blockUI.stop();
             throw new Error('bad request');
         }
-        // if (data.Base.Rtn_State !== 1) {
-        //   this.bsModal.show(MessageModalComponent
-        //     , {
-        //       class: 'modal-sm modal-smbox', initialState: {
-        //         success: false, message: data.Base.Rtn_Message
-        //         , target: data.Base.Rtn_URL
-        //       }
-        //     });
-        //   this.blockUI.stop();
-        //   throw new Error('bad request');
-        // }
       }, catchError(this.handleError)));
   }
 
@@ -198,8 +188,6 @@ export class AppService {
     sessionStorage.clear();
     localStorage.clear();
     this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-    // 為避免刪除不到以前存的Domain設置為www.mobii.ai的cookie，而導致的無法登出問題
-    this.cookieService.deleteAll('/', 'www.mobii.ai', environment.cookieSecure, 'Lax');
     this.loginState = false;
     this.userFavCodes = [];
     this.pushCount = 0;
@@ -272,7 +260,7 @@ export class AppService {
       },
     };
 
-    if (this.loginState === true) {
+    if (this.loginState) {
       this.toApi('Member', '1511', request).subscribe((data: Response_MemberFavourite) => {
         // update favorites to session
         sessionStorage.setItem('userFavorites', JSON.stringify(data.List_UserFavourite));
@@ -308,7 +296,7 @@ export class AppService {
    * Voucher_FreqName: 0 已兌換 1 兌換 2 去商店 3 已使用 4 兌換完畢（限一元搶購） 5 使用 6 已逾期（限我的優惠+優惠券詳細） 7 未生效（限我的優惠+優惠券詳細） 8 使用中
    */
   onVoucher(voucher: AFP_Voucher) {
-    if (this.loginState === true) {
+    if (this.loginState) {
       switch (voucher.Voucher_IsFreq) {
         case 1:
           // 加入到「我的優惠券」
@@ -495,10 +483,8 @@ export class AppService {
       d += performance.now(); // use high-precision timer if available
     }
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-      // tslint:disable-next-line: no-bitwise
       const r = (d + Math.random() * 16) % 16 | 0;
       d = Math.floor(d / 16);
-      // tslint:disable-next-line: no-bitwise
       return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
     });
   }
@@ -554,10 +540,14 @@ export class AppService {
 }
 
 
+/** 推撥登記 RequestModel */
 interface Request_AFPPushToken extends Model_ShareData {
+  /** FireBase Token */
   Token: string;
 }
 
+/** 推撥登記 ResponseModel */
 interface Response_AFPPushToken extends Model_ShareData {
+  /** 消費者包 */
   CustomerInfo: string;
 }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Model_ShareData } from '@app/_models';
 import { NgForm } from '@angular/forms';
-import { ModalService } from '../../../../shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { Location } from '@angular/common';
 import { Meta, Title } from '@angular/platform-browser';
 
@@ -22,12 +22,11 @@ export class PasswordUpdateComponent implements OnInit {
   public newPsw2Visible = false;
 
   constructor(public appService: AppService, public modal: ModalService, private location: Location,
-              private meta: Meta, private title: Title) {
-    // tslint:disable: max-line-length
+    private meta: Meta, private title: Title) {
     this.title.setTitle('變更密碼 - Mobii!');
-    this.meta.updateTag({name : 'description', content: ''});
-    this.meta.updateTag({content: '變更密碼 - Mobii!', property: 'og:title'});
-    this.meta.updateTag({content: '', property: 'og:description'});
+    this.meta.updateTag({ name: 'description', content: '' });
+    this.meta.updateTag({ content: '變更密碼 - Mobii!', property: 'og:title' });
+    this.meta.updateTag({ content: '', property: 'og:description' });
   }
 
   ngOnInit() {
@@ -37,21 +36,28 @@ export class PasswordUpdateComponent implements OnInit {
    * @param form 表單
    */
   onUpdatePwd(form: NgForm): void {
-    this.requestUpdatePwd.SelectMode = 3;
-    this.requestUpdatePwd.User_Code = sessionStorage.getItem('userCode');
-    this.appService.toApi('Member', '1505', this.requestUpdatePwd).subscribe(() => {
-      // 變更成功訊息
-      this.modal.show('message', { initialState: { success: true, message: '密碼變更成功!', showType: 1 } });
-      // 回到上一頁
-      this.location.back();
-      form.resetForm();
-    });
+    if (this.appService.loginState) {
+      this.requestUpdatePwd.SelectMode = 3;
+      this.requestUpdatePwd.User_Code = sessionStorage.getItem('userCode');
+      this.appService.toApi('Member', '1505', this.requestUpdatePwd).subscribe(() => {
+        // 變更成功訊息
+        this.modal.show('message', { initialState: { success: true, message: '密碼變更成功!', showType: 1 } });
+        // 回到上一頁
+        this.location.back();
+        form.resetForm();
+      });
+    } else {
+      this.appService.loginPage();
+    }
   }
 
 }
 
-export class Request_MemberPwd extends Model_ShareData {
+/** 會員中心-變更密碼 - RequestModel */
+class Request_MemberPwd extends Model_ShareData {
+  /** 舊密碼 */
   OldPwd: string;
+  /** 新密碼 */
   NewPwd: string;
   /** 二次輸入密碼(前端加上驗證用) */
   NewPwd2?: string;

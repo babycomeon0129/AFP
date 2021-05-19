@@ -6,7 +6,9 @@ import { BsModalRef } from 'ngx-bootstrap';
   templateUrl: './confirm-modal.component.html',
 })
 export class ConfirmModalComponent implements OnInit {
+  /** 標題 */
   title: string;
+  /** 訊息 */
   message: string;
   showCancel = true;
   @Output() action = new EventEmitter();

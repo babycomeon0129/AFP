@@ -1,8 +1,9 @@
 <div class="wrap container">
   <div class="explore-top-box container">
     <div class="title-box">
-      <div class="item icon-btn" *ngIf="hideGoBack == null">
-        <i class="material-icons" onclick="history.back()">&#xe314;</i>
+      <div class="item icon-btn">
+        <!--i class="material-icons" onclick="history.back()">&#xe314;</!--i-->
+        <app-back-btn></app-back-btn>
       </div>
       <div class="item title-name">探索周邊</div>
       <div class="item icon-btn">
@@ -54,7 +55,7 @@
         </div>
       </div>
       <div class="mask-container w-100 h-100" [ngClass]="{ 'd-block': categoryOpenStatus }"></div>
-      <ul [ngClass]="{ 'is-open': categoryOpenStatus == true }">
+      <ul [ngClass]="{ 'is-open': categoryOpenStatus }">
         <ng-container *ngIf="exAreadata.length === 0 && dataOk">
           <div class="no-data hori">
             <img src="../../../img/share/oopsarea.png" />

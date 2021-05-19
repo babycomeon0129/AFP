@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
@@ -16,7 +16,11 @@ import { layerAnimation} from '@app/animations';
   styleUrls: ['./shopping-order.scss', '../shopping-payment/shopping-payment.scss'],
   animations: [layerAnimation]
 })
+
 export class ShoppingOrderComponent implements OnInit {
+  /** 抓取consumerName的DOM為變數（讓光標停留在上面） */
+  @ViewChild('consumerName', { static: false }) consumerNameFocus: ElementRef;
+
   /** 結帳頁資訊整合 */
   public info: OrderInfo = new OrderInfo();
   /** 目前鎖定的商店(選擇寄送方式時使用) */
@@ -46,7 +50,8 @@ export class ShoppingOrderComponent implements OnInit {
   /** 同頁滑動切換 0: 原頁 1: 行政區選單 2: 縣市選單 3:愛心碼選單 4:新增地址 5: 選擇優惠券 6:寄送方式 7: 發票選取 */
   public layerTrig = 0;
 
-  constructor(public appService: AppService, public modal: ModalService, private router: Router, private meta: Meta, private title: Title) {
+  constructor(public appService: AppService, public modal: ModalService,
+    private router: Router, private meta: Meta, private title: Title) {
     this.title.setTitle('確定訂單｜線上商城 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! 線上商城購物車 - 確認訂單。 如果你有在 Mobii! 平台購物，這裡就會看到你的訂單訊息。請登入註冊 Mobii! 帳號以看到完整內容。' });
     this.meta.updateTag({ content: '確定訂單｜線上商城 - Mobii!', property: 'og:title' });
@@ -55,6 +60,7 @@ export class ShoppingOrderComponent implements OnInit {
   }
 
   ngOnInit() {
+
     if (history.state.data !== undefined) {
       const afpCart: AFP_Cart[] = [];
       // 以購物車 ID 取得相關結帳資訊
@@ -734,6 +740,10 @@ export class ShoppingOrderComponent implements OnInit {
     }
   }
 
+  ngAfterViewInit() {
+    /** 讓光標在指定Input上 */
+    this.consumerNameFocus.nativeElement.focus();
+  }
 }
 
 class OrderInfo {

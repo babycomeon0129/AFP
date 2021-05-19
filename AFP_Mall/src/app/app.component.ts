@@ -9,7 +9,6 @@ import { slideInAnimation } from './animations';
 import { filter } from 'rxjs/operators';
 
 @Component({
-  // tslint:disable-next-line
   selector: 'body',
   templateUrl: './app.component.html',
   animations: [slideInAnimation]
@@ -40,7 +39,6 @@ export class AppComponent implements OnInit {
       }
 
       if (typeof params.loginType !== 'undefined') {
-        // tslint:disable-next-line: triple-equals
         if (params.loginType == 1) {
           // APP 為登入狀態則將該 webview 也同步為登入
           if (typeof params.customerInfo !== 'undefined' && typeof params.userCode !== 'undefined'
@@ -48,15 +46,12 @@ export class AppComponent implements OnInit {
             sessionStorage.setItem('CustomerInfo', encodeURIComponent(params.customerInfo));
             sessionStorage.setItem('userCode', encodeURIComponent(params.userCode));
             sessionStorage.setItem('userName', params.userName);
-
-            // tslint:disable: max-line-length
             this.cookieService.set('userName', params.userName, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
             this.cookieService.set('userCode', encodeURIComponent(params.userCode), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
             this.cookieService.set('CustomerInfo', encodeURIComponent(params.customerInfo), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
 
             this.appService.loginState = true;
           }
-          // tslint:disable-next-line: triple-equals
         } else if (params.loginType == 2) {
           // APP 為登出狀態但該 webview 登入狀態被cache住還是登入則將其改為登出
           sessionStorage.clear();
@@ -101,11 +96,10 @@ export class AppComponent implements OnInit {
 
 
   /** 獲取這個 outlet 指令的值（透過 #outlet="outlet"），並根據當前活動路由的自訂資料返回一個表示動畫狀態的字串值。用此資料來控制各個路由之間該執行哪個轉場 */
-  prepareRoute(outlet: RouterOutlet) {
+  prepareRoute(outlet: RouterOutlet): void {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation;
   }
 
-  // tslint:disable: no-redundant-jsdoc
   /** 偵測裝置系統或瀏覽器版本是否過舊（根據Angular browser support）
    * @property target 偵測目標
    * @property type OS - 0, browser - 1
@@ -113,7 +107,7 @@ export class AppComponent implements OnInit {
    * @property matchRegex 陣列[目標及版本, 版本], parseInt()第[1]個項目後取得版本
    * @property minVer 目前Angular支援該目標的最低版本
    */
-  detectOld() {
+  detectOld(): void {
     const ua = navigator.userAgent;
     const targetList = [
       {
@@ -164,18 +158,14 @@ export class AppComponent implements OnInit {
     if (result !== undefined) {
       this.isOld = true;
       this.appService.adIndexOpen = false;
-      if (result.type === 0) {
-        this.targetToUpdate = '裝置';
-      } else {
-        this.targetToUpdate = '瀏覽器';
-      }
+      this.targetToUpdate = result.type === 0 ? '裝置' :'瀏覽器';
     } else {
       this.isOld = false;
       this.appService.adIndexOpen = true;
     }
   }
 
-  ngDoCheck(): void {
+  ngDoCheck() {
     const change = this.serviceDiffer.diff(this.appService);
     if (change) {
       change.forEachChangedItem(item => {

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppService } from '@app/app.service';
 import {AFP_VouFlashSale, Request_ECVouFlashSale, Response_ECVouFlashSale, AFP_ChannelVoucher, AFP_Voucher } from '@app/_models';
 import { SwiperOptions } from 'swiper';
@@ -28,9 +28,7 @@ export class OffersComponent implements OnInit, OnDestroy {
   public minutes: number;
   /** 限時搶購所剩秒數 */
   public seconds: number;
-  /** 變化追蹤(登入狀態) */
-  private serviceDiffer: KeyValueDiffer<string, any>;
-
+  /** TAb編碼 (即商品目錄編碼) */
   public TabCode = 0;
 
   /** 分類導覽 swiper */
@@ -53,10 +51,7 @@ export class OffersComponent implements OnInit, OnDestroy {
     }
   };
 
-  constructor(public appService: AppService, private activatedRoute: ActivatedRoute, private differs: KeyValueDiffers,
-              private meta: Meta, private title: Title, private modal: ModalService) {
-    this.serviceDiffer = this.differs.find({}).create();
-    // tslint:disable: max-line-length
+  constructor(public appService: AppService, private activatedRoute: ActivatedRoute, private meta: Meta, private title: Title, private modal: ModalService) {
     this.title.setTitle('找優惠 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 找優惠。這裡會顯示 Mobii! 合作店家的優惠券，吃喝玩樂、食衣住行，你想得到、想不到的，都在 Mobii! 找優惠裡！' });
     this.meta.updateTag({ content: '找優惠 - Mobii!', property: 'og:title' });
@@ -94,7 +89,6 @@ export class OffersComponent implements OnInit, OnDestroy {
       }
 
       if (this.offers.length > 0) {
-        // tslint:disable-next-line: triple-equals
         const findCode = this.offers.find(item => item.UserDefine_Code == this.TabCode);
         if (typeof findCode === 'undefined') {
           this.TabCode = 0;
