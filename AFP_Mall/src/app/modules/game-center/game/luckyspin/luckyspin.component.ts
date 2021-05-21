@@ -45,8 +45,6 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
     this.totalPoints = this.gameData.TotalPoint;
     this.playTimes = this.gameData.AFP_Game.Game_PlayCount;
     this.prizeList = this.gameData.List_GamePart;
-    // APP從M Points或進來則顯示返回鍵
-    // this.appService.showBack =  this.route.snapshot.queryParams.showBack === 'true';
   }
 
   ngAfterViewInit() {
