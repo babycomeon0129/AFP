@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
@@ -17,7 +17,7 @@ import { layerAnimation} from '@app/animations';
   animations: [layerAnimation]
 })
 
-export class ShoppingOrderComponent implements OnInit {
+export class ShoppingOrderComponent implements OnInit, AfterViewInit {
   /** 抓取consumerName的DOM為變數（讓光標停留在上面） */
   @ViewChild('consumerName', { static: false }) consumerNameFocus: ElementRef;
 
@@ -51,7 +51,7 @@ export class ShoppingOrderComponent implements OnInit {
   public layerTrig = 0;
 
   constructor(public appService: AppService, public modal: ModalService,
-    private router: Router, private meta: Meta, private title: Title) {
+              private router: Router, private meta: Meta, private title: Title) {
     this.title.setTitle('確定訂單｜線上商城 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! 線上商城購物車 - 確認訂單。 如果你有在 Mobii! 平台購物，這裡就會看到你的訂單訊息。請登入註冊 Mobii! 帳號以看到完整內容。' });
     this.meta.updateTag({ content: '確定訂單｜線上商城 - Mobii!', property: 'og:title' });
