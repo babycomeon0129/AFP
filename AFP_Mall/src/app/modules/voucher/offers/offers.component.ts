@@ -21,7 +21,7 @@ export class OffersComponent implements OnInit, OnDestroy {
   /** 限時搶購活動所剩時間 */
   public saleDistance: number;
   /** 限時搶購結束倒數時鐘 */
-  public countdown;
+  public countdown: NodeJS.Timer;
   /** 限時搶購所剩小時 */
   public hours: number;
   /** 限時搶購所剩分鐘 */
