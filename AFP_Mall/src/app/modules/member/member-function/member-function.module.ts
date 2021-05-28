@@ -21,6 +21,10 @@ import { MemberFoodComponent } from './member-food/member-food.component';
 import { MemberOrderComponent } from './member-order/member-order.component';
 import { MemberTicketComponent } from './member-ticket/member-ticket.component';
 import { MyOrderDetailComponent } from './my-order-detail/my-order-detail.component';
+import { MemberCardAddComponent } from './member-card-add/member-card-add.component';
+import { MemberCardListComponent } from './member-card-list/member-card-list.component';
+import { MemberCardCertificateComponent } from './member-card-certificate/member-card-certificate.component';
+import { MemberCardDetailComponent } from './member-card-detail/member-card-detail.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +37,11 @@ import { MyOrderDetailComponent } from './my-order-detail/my-order-detail.compon
     MyOrderDetailComponent,
     ETicketDetailComponent,
     ETicketOrderDetailComponent,
-    MemberFoodComponent
+    MemberFoodComponent,
+    MemberCardAddComponent,
+    MemberCardListComponent,
+    MemberCardCertificateComponent,
+    MemberCardDetailComponent
   ],
   exports: [
     MemberCardComponent,

@@ -1,0 +1,61 @@
+<div class="wrap container">
+  <header>
+    <div class="header-secondary container">
+      <div class="index-flex justify-content-between">
+        <div class="item two">
+          <div class="close-btn">
+            <button type="button" class="btn" (click)="routerNavigate()" data-toggle="tooltip" data-placement="bottom"
+              title="回上一頁">
+              <i class="material-icons">&#xe314;</i><span>我的卡片</span>
+            </button>
+          </div>
+        </div>
+        <div class="item three text-center">
+          <div class="title-name">已綁定的卡片</div>
+        </div>
+        <div class="item two">
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="tied-card-list" *ngIf="cardList.length > 0; else elseBlock">
+      <div class="tied-card-item" *ngFor="let card of cardList">
+        <div class="d-flex" [routerLink]="['/MemberFunction/MemberCardDetail/', card.UserFavourite_ID]">
+          <div class="item">
+            <div class="img-box">
+              <div class="img-logo" [lazyLoad]="card?.CardGroup_Img" [defaultImage]="appService.defaultImage"></div>
+            </div>
+          </div>
+          <div class="item tied-card-content">
+            <div class="tied-card-tag">
+              <span class="general-card">{{card.UserFavourite_TypeCode === 1 ? '一卡通' : '悠遊卡'}}</span>
+              <span class="special-card txt-line-clamp1" *ngIf="card?.CardGroup_Name !== null">{{card?.CardGroup_Name}}</span>
+            </div>
+            <h6 class="txt-line-clamp1 mt-2 mb-1">{{card?.UserFavourite_Text1}}</h6>
+            <p>******{{card?.UserFavourite_Text2}}</p>
+          </div>
+          <div class="item">
+            <button class="btn p-0">
+              <img src="../../img/member/right.png" class="img-crud" alt="arrow">
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #elseBlock>
+      <div class="no-data">
+        <img src="../../img/member/myCardNull.png" alt="no-card">
+        <p>Oops！<br>
+          您目前尚未綁定任何卡片喔！</p>
+      </div>
+    </ng-template>
+    <div class="card-fixed-bottom">
+      <button class="btn card-add-btn" [routerLink]="['/MemberFunction/MemberCard']" [queryParams]="{ showBack: appService.showBack}">
+        <img src="../img/member/my_card_add.png" class="h24" alt="my_card_add">
+        <span>新增卡片</span>
+      </button>
+    </div>
+  </main>
+</div>
+

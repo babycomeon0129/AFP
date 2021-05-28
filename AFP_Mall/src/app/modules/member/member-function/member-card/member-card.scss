@@ -1,24 +1,166 @@
-@import '../../../../../styles/module/variable';
+@import "../../../../../styles/module/variable";
 
-/** 我的卡片 */
-.btn-img{
-  img{
-      height: 24px;
+.my-card-box {
+  width: 100%;
+  position: relative;
+  .col-6 {
+    padding-right: 0;
+    padding-left: 0;
+    .mycard-container {
+      margin: .5em;
+      border-radius: .75em;
+    }
+    button.btn-card {
+      color: $blue-dark;
+      width: 100%;
+      border: 1px solid #E5E9F2;
+      border-radius: .75em;
+      display: block;
+      &[disabled]::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        background-color: rgba(0, 0, 0, 0.3);
+        border: .5em solid #fff;
+        border-radius: 1.25em;
+      }
+    }
+  }
+  .card-img-box {
+    position: relative;
+    text-align: left;
+    width: 100%;
+    .img-banner {
+      width: 100%;
+      border-radius: .75em;
+    }
+    .img-txt {
+      font-size: medium;
+      line-height: 2em;
+      padding-bottom: .5em;
+      margin: 1.5em 0 .75em 1.5em;
+      overflow:hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .img-icon {
+      width: 96px;
+      margin: 1em;
+    }
+    .img-plus {
+      width: 56px;
+      margin: 1.75em;
+      float: right;
+    }
+    @media (max-width: 767px) {
+      .img-txt {
+        margin: .5em 0 0 1em;
+        font-size: 90%;
+      }
+      .img-icon {
+        width: 48px;
+        margin: .75em;
+      }
+      .img-plus {
+        width: 28px;
+        margin: 1em .75em;
+      }
+    }
   }
 }
-.cardnum-title{
-  text-align: center;
-  background: $gray-light8;
-  padding: .5em;
+
+// .mycard-list {
+//   border: 1px solid $gray-light;
+//   border-radius: 0.5em;
+//   margin: 1em 1.5em 0.5em 1.5em;
+//   padding: 1em;
+//   display: flex;
+//   ul {
+//     width: calc(100% - 144px);
+//     text-align: left;
+//     font-size: small;
+//     color: $gray-color;
+//     li:first-child span {
+//       color: $blue-dark;
+//     }
+//     li:last-child p {
+//       font-size: medium;
+//       color: $default-black;
+//     }
+//   }
+//   img.icon {
+//     width: 40px;
+//     height: fit-content;
+//     margin: 0.25em 1.5em 0.25em 0.25em;
+//     align-self: center;
+//   }
+//   .btn-tied-card img {
+//     width: 32px;
+//     height: initial;
+//     margin: 0.25em;
+//   }
+// }
+.btn-tied-card {
+  color: $blue-dark;
+  background: #fff;
+  padding: .75em 1.5em;
+  border: 1px solid #E5E9F2;
+  border-radius: 30px;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
 }
-.cardnum{
-  padding: 1em;
-  text-align: center;
-  color: $index-default;
-  img{
-      width: 300px;
-      @media (max-width: 480px) {
-          width: 200px;
-      }
+.mycard-add-title {
+  background: white;
+  position: absolute;
+  top: 0;
+}
+.mycard-add {
+  position: fixed;
+  left: 50%;
+  bottom: 2%;
+  transform: translate(-50%, 0);
+  span {
+    font-size: small;
+  }
+  @media (max-width: 767px) {
+    bottom: 12%;
+  }
+  img {
+    width: 24px;
+    margin: 0 0.5em;
+  }
+  button {
+    padding-left: 1em;
+    padding-right: 1em;
+    background: $mission-color;
+    color: white;
+    border-radius: 30px;
+  }
+}
+.badge-card {
+  background: #fff2eb;
+  color: $member-default;
+  margin: 0.25em 0.5em;
+}
+
+.card-fixed-bottom {
+  position: fixed;
+  bottom: 3em;
+  left: 50%;
+  transform: translateX(-50%);
+  @media (max-width: 767px) {
+    bottom: 100px;
+  }
+  .btn {
+    padding: 0.75em 1.5em;
+    color: $blue-dark;
+    background: #fff;
+    border-radius: 30px;
+    font-size: small;
+    font-weight: 700;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
   }
 }

@@ -50,7 +50,7 @@ export class AppService {
   /** 當前頁url */
   public currentUrl = this.router.url;
   /** lazyload 的初始圖片 */
-  public defaultImage = '../img/share/eee.jpg';
+  public defaultImage = '/img/share/eee.jpg';
   /** 推播訊息數量 */
   public pushCount = 0;
   /** GUID (推播使用) */

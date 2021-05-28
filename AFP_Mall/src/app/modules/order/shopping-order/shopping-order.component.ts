@@ -742,7 +742,7 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     /** 讓光標在指定Input上 */
-    this.consumerNameFocus.nativeElement.focus();
+    setTimeout(() => this.consumerNameFocus.nativeElement.focus(), 0);
   }
 }
 

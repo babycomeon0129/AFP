@@ -1,0 +1,76 @@
+<div class="wrap container">
+  <form #formUpdateMycard="ngForm" (ngSubmit)="onUpdateCardSubmit(formUpdateMycard)">
+    <header>
+      <div class="header-secondary container">
+        <div class="index-flex justify-content-between">
+          <div class="item two">
+            <div class="close-btn">
+              <button type="button" class="btn" onclick="history.back()" data-toggle="tooltip" data-placement="bottom"
+                title="回上一頁">
+                <i class="material-icons">&#xe314;</i>
+              </button>
+            </div>
+          </div>
+          <div class="item three text-center">
+            <div class="title-name">卡片簡介</div>
+          </div>
+          <div class="item two">
+            <button type="submit" class="btn">確認修改</button>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main>
+      <div *ngIf="UserFavouriteID !== 'undefined'">
+        <div class="item">
+          <ul>
+            <li class="bg-linear-gray">
+              <button type="button" class="btn" (click)="btnDel()">
+                <img src="../../../../../img/member/my_ipass_del.png" class="card-delete">
+              </button>
+            </li>
+            <li class="card-line-height">
+              <div class="item text-muted">卡片名稱</div>
+              <div class="item input-box">
+                <input type="text" name="UcardName" placeholder="自訂卡片名稱" maxlength="50"
+                  [(ngModel)]="requestCard.UserFavourite_Text1" #UcardName="ngModel" autofocus>
+              </div>
+            </li>
+            <li class="card-line-height">
+              <div class="item">卡片類型<span class="text-org">*</span></div>
+              <div class="item">
+                <div class="tied-card-tag">
+                  <span class="general-card">{{ requestCard.UserFavourite_TypeCode === 1 ? '一卡通' : '悠遊卡' }}</span>
+                </div>
+              </div>
+            </li>
+            <li class="card-line-height">
+              <div class="item">卡片群組<span class="text-org">*</span></div>
+              <div class="item">
+                <div class="tied-card-tag" *ngIf="requestCard?.CardGroup_Name !== null">
+                  <span class="special-card txt-line-clamp1">
+                    {{requestCard?.CardGroup_Name}}
+                  </span>
+                </div>
+              </div>
+            </li>
+            <li class="card-line-height">
+              <div class="d-flex w-100">
+                <div class="item">卡片號碼<span class="text-org">*</span></div>
+                <div class="item">
+                  {{requestCard.UserFavourite_Text2}}
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="modal-footer justify-content-center border-top-0">
+          <button type="button" class="btn w-75 index-btn msg-open">
+            <img src="../../../../../img/member/cardDiscount.png" class="h20">
+            <span>卡片會員優惠</span>
+          </button>
+        </div>
+      </div>
+    </main>
+  </form>
+</div>

@@ -3,7 +3,7 @@
 
 /** member shared */
 .note-box{
-  border-top: 5px #f8f8f8 solid;
+  border-top: 5px $gray-light8 solid;
   .note-item{
       border-top: 1px $gray-light solid;
       border-bottom: 1px $gray-light solid;
@@ -223,10 +223,10 @@ ul{
   p{
       padding: 2px 15px;
       //box-shadow: 0px -0.5px 0px rgba(0, 0, 0, 0.15);
-      background-color: #F8F8F8;
+      background-color: $gray-light8;
   }
   .text-index{
-      background-color: #F8F8F8;
+      background-color: $gray-light8;
   }
   &.edit-list{
       ul{
@@ -445,12 +445,12 @@ ul{
       border-radius: 100%;
       box-shadow: 0 0 10px rgba(0,0,0,.5);
   }
-  .add-btnbg {
-      width: 130px;
-      @media (min-width: 768px) {
-          width: 200px;
-      }
-  }
+  // .add-btnbg {
+  //     width: 130px;
+  //     @media (min-width: 768px) {
+  //         width: 200px;
+  //     }
+  // }
 }
 input[type="file"] {
   visibility: hidden;

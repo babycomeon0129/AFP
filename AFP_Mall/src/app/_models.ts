@@ -31,7 +31,7 @@ export interface Model_Verification {
    * 2: 未驗證 無需強驗證
    * 3: 已驗證
    * 4: 已驗證 更換消費者包 and UserCode
-  */
+   */
   MobileVerified: number;
   /** 消費者包（MobileVerified = 3 會回傳,其餘狀態為空） */
   CustomerInfo: string;
@@ -107,6 +107,14 @@ export interface AFP_UserReport {
   UserReport_ParamH?: string;
   /** 排序 */
   UserReport_Sort?: number;
+  /** 卡群圖片 */
+  CardGroup_Img?: string;
+  /** 卡群名稱 */
+  CardGroup_Name?: string;
+  /** 卡片是否啟用 is activate */
+  UserReport_State?: number;
+  /** 卡片是否顯示 is show */
+  UserReport_IsShow?: number;
 }
 
 /** AFP 廣告版位 */
@@ -191,7 +199,7 @@ export interface AreaJsonFile_ECStore {
    * 2300: 遊樂(體驗)
    * 2400: 購物
    * 2500: 醫療保健
-   * */
+   */
   ECStore_Type?: number;
   /** 類型名稱 */
   ECStore_TypeName?: string;
@@ -1450,7 +1458,7 @@ export class Request_MemberAddress extends Model_ShareData {
    * 3:編輯
    * 4:查詢列表
    * 5:查詢詳細
-   * */
+   */
   SelectMode: number;
   /** 我的地址 */
   AFP_UserFavourite?: AFP_UserFavourite;
