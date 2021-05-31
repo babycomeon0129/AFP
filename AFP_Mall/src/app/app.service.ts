@@ -512,7 +512,7 @@ export class AppService {
     if (this.isApp !== null) {
       if (navigator.userAgent.match(/android/i)) {
         // Android
-        AppJSInterface.showBackButton(isShow);
+        AppJSInterface.showBackButton(isShowBt);
       } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
         // IOS
         (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showBackButton', isShow: isShowBt });
