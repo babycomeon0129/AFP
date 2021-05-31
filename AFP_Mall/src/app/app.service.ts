@@ -505,6 +505,21 @@ export class AppService {
     }
   }
 
+  /** 通知APP是否開啟showBackButton
+   * @param isShowBt true: 開 , false: 關
+   */
+   appShowBackButton(isShowBt: boolean): void {
+    if (this.isApp !== null) {
+      if (navigator.userAgent.match(/android/i)) {
+        // Android
+        AppJSInterface.showBackButton(isShow);
+      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+        // IOS
+        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showBackButton', isShow: isShowBt });
+      }
+    }
+  }
+
   /** 通知App關閉Web view 的關閉按鈕 (true : 關閉) */
   appWebViewbutton(isOpen: boolean): void {
     if (this.isApp !== null) {

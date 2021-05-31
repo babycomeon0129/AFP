@@ -112,7 +112,7 @@
     <div class="useoffers">
       <div class="title-box">
         <div class="item icon-btn">
-          <button [hidden]="appService.isApp !== null && !appService.showBack" type="button" (click)="closeQRCode()"
+          <button [hidden]="appService.isApp !== null && !appService.showBack" type="button" (click)="closeQRCode();appService.appShowBackButton(true)"
             class="btn px-0" title="回上一頁">
             <i class="material-icons">&#xe314;</i>
           </button>
