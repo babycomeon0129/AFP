@@ -27,12 +27,8 @@ export class MemberCardAddComponent implements OnInit {
   public cardLimitMax: string;
   /** 卡片號碼最小長度 */
   public cardNumberMinlength: string;
-  /** 卡片號碼提示 */
-  public cardNumberWarning = '';
   /** 卡片號碼提示背景 */
   public cardNumberWarningBg = false;
-  /** 身分證字號提示 */
-  public nationalIDWarning = '';
   /** 同意與否 */
   public isChecked = '';
   /** 表單綁定 */
@@ -124,31 +120,6 @@ export class MemberCardAddComponent implements OnInit {
       this.router.navigate(['/MemberFunction/MemberCardList'], { queryParams: { showBack: this.appService.showBack } });
       form.resetForm();
     });
-  }
-
-  /** 卡片號碼提示 */
-  onKeyCardNumber(value: string) {
-    if (value === null) {
-      this.cardNumberWarning = '卡片號碼不可為空';
-    } else {
-      if (this.cardItemCode === '11') {
-        this.cardNumberWarning = '卡號長度不足10碼';
-        this.cardNumberWarningBg = true ;
-      } else if (this.cardItemCode === '1') {
-        this.cardNumberWarning = '卡號長度不足11碼';
-        this.cardNumberWarningBg = true ;
-      } else {
-        this.cardNumberWarning = '';
-        this.cardNumberWarningBg = false ;
-      }
-    }
-  }
-
-  /** 身分證字號提示 */
-  onKeyNationalID(value: string) {
-    (value === null) ?
-      this.nationalIDWarning = '' :
-      this.nationalIDWarning = '字首為大寫英文＋9組純數字';
   }
 
   /** 是否同意個人資料使用 */

@@ -57,7 +57,4 @@ export class MemberCardComponent implements OnInit {
     }
   }
 
-  routerNavigate(code: string) {
-    this.router.navigate(['/MemberFunction/MemberCardAdd'], {queryParams: {itemCode: code}});
-  }
 }

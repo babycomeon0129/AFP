@@ -53,8 +53,4 @@ export class MemberCardListComponent implements OnInit {
     }
   }
 
-  /** 路由轉頁 */
-  routerNavigate() {
-    this.router.navigate(['/MemberFunction/MemberCard'], { queryParams: { showBack: this.appService.showBack } });
-  }
 }

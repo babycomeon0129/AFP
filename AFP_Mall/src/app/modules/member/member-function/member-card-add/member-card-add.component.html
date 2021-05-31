@@ -43,18 +43,21 @@
             <li class="py-1">
               <strong class="card-info">填寫卡片資料</strong>
             </li>
-            <li class="card-line-height" [ngClass]="{'bg-light': cardNumberWarningBg}">
+            <li class="card-line-height" [ngClass]="{'bg-light': (cardNumber.touched && cardNumber.invalid)}">
               <div class="d-flex w-100">
                 <div class="item">卡片號碼<span class="text-org">*</span></div>
                 <div class="item input-box">
-                  <input type="text" inputmode="numeric" pattern="[0-9]*" [minlength]="cardNumberMinlength" maxlength="16"
-                  placeholder="請輸入" (keyup)="onKeyCardNumber(cardNumber.value)"
-                  onkeyup="this.value = (value.replace(/[^0-9]/ig,''))"
-                  name="cardNumber" [(ngModel)]="inputModel.cardNumber" #cardNumber="ngModel" autofocus required>
+                  <input type="text" inputmode="numeric" pattern="[0-9]*" [minlength]="cardNumberMinlength" maxlength="16" name="cardNumber" placeholder="請輸入"
+                  [(ngModel)]="inputModel.cardNumber" #cardNumber="ngModel" appDigitOnly autofocus required>
                 </div>
               </div>
-              <div class="small-warning text-right" [hidden]="cardNumber.valid || cardNumber.pristine">
-                {{cardNumberWarning}}
+              <div class="small-warning text-right">
+                <ng-container *ngIf="cardNumber.touched && cardNumber.invalid && (cardNumber.value === undefined || cardNumber.value === '')">
+                  卡片號碼不可為空
+                </ng-container>
+                <ng-container *ngIf="cardNumber.touched && cardNumber.invalid && cardNumber.value !== undefined && cardNumber.value !== ''">
+                  卡號長度不足{{cardNumberMinlength}}碼
+                </ng-container>
               </div>
             </li>
             <li class="card-line-height">
@@ -69,12 +72,14 @@
                 <div class="item">身分證字號</div>
                 <div class="item input-box">
                   <input type="text" pattern="^[A-Za-z][12]\d{8}$" maxlength="10" placeholder="請輸入"
-                  onkeyup="this.value = this.value.toUpperCase()" (keyup)="onKeyNationalID(nationalID.value)"
-                  name="nationalID" [(ngModel)]="inputModel.nationalID" #nationalID="ngModel">
+                  name="nationalID" [(ngModel)]="inputModel.nationalID" #nationalID="ngModel"
+                  [value]="nationalID.value !== undefined ? (nationalID.value | uppercase): ''">
                 </div>
               </div>
-              <div class="small-warning text-right" [hidden]="nationalID.valid || nationalID.pristine">
-                {{nationalIDWarning}}
+              <div class="small-warning text-right">
+                <ng-container *ngIf="nationalID.touched && nationalID.invalid">
+                  字首為大寫英文＋9組純數字
+                </ng-container>
               </div>
             </li>
             <li class="d-block">

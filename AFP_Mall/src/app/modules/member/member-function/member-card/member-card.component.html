@@ -36,7 +36,7 @@
               <div *ngIf="cardGeneral.UserReport_IsShow !== 0">
                 <div class="mycard-container">
                   <button class="btn-card" [disabled]="cardGeneral.UserReport_State === 0"
-                  (click)="routerNavigate(cardGeneral.UserReport_ItemCode)">
+                  [routerLink]="['/MemberFunction/MemberCardAdd']" [queryParams]="{ itemCode: cardGeneral.UserReport_ItemCode}">
                     <div class="card-img-box">
                       <img class="img-icon" src="../img/member/my_ipass_icon.png" [hidden]="cardGeneral.UserReport_ItemCode === 11">
                       <img class="img-icon" src="../img/member/my_easycard_icon.png" [hidden]="cardGeneral.UserReport_ItemCode === 1">

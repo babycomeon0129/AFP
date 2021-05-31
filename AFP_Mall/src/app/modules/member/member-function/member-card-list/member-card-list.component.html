@@ -4,8 +4,8 @@
       <div class="index-flex justify-content-between">
         <div class="item two">
           <div class="close-btn">
-            <button type="button" class="btn" (click)="routerNavigate()" data-toggle="tooltip" data-placement="bottom"
-              title="回上一頁">
+            <button type="button" class="btn" data-toggle="tooltip" data-placement="bottom" title="回上一頁"
+            [routerLink]="['/MemberFunction/MemberCard']" [queryParams]="{ showBack: appService.showBack }">
               <i class="material-icons">&#xe314;</i><span>我的卡片</span>
             </button>
           </div>
