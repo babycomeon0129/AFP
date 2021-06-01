@@ -191,8 +191,8 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
           // 使用
           this.appService.tLayer = []; // APP 特例處理(APP QRCode的返回鍵是history.back()不是backLayer())
           this.layerTrig = 1;
-          this.checkWritenOff();
           this.appService.appShowBackButton(true);
+          this.checkWritenOff();
           break;
       }
     } else {
@@ -242,6 +242,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
 
   /** 關閉顯示QR Code */
   closeQRCode(): void {
+    this.router.navigate(['/Voucher/VoucherDetail', this.voucherCode], {queryParams: { showBack: true }});
     this.layerTrig = 0;
     clearInterval(this.checkTimer);
     clearTimeout(this.timer3Mins);

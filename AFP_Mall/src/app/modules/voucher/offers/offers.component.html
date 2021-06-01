@@ -39,7 +39,7 @@
           <div class="row p-2">
               <div *ngFor="let sale of saleTop" class="col-sm-12 col-md-6 discount-box">
                   <div class="discount-item">
-                      <a [routerLink]="sale?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', sale?.Voucher_Code] : ['/Voucher/VoucherDetail', sale?.Voucher_UserVoucherCode]" class="item">
+                      <a [routerLink]="sale?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', sale?.Voucher_Code] : ['/Voucher/VoucherDetail', sale?.Voucher_UserVoucherCode]" [queryParams]="{showBack: true}" class="item">
                           <div class="pr-2">
                               <div class="rwdimgbox-80">
                                   <div class="rwdimg-cover" [lazyLoad]="sale?.Voucher_Image" [defaultImage]="appService.defaultImage"></div>
@@ -92,7 +92,7 @@
                               <div class="card-body">
                               <div class="card-text">
                                   <div class="member-flex">
-                                      <div [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', voucher?.Voucher_Code] : ['/Voucher/VoucherDetail', voucher?.Voucher_UserVoucherCode]" class="item one">
+                                      <div [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', voucher?.Voucher_Code] : ['/Voucher/VoucherDetail', voucher?.Voucher_UserVoucherCode]" [queryParams]="{showBack: true}" class="item one">
                                           <div [lazyLoad]="voucher?.Voucher_Image" [defaultImage] ="appService.defaultImage" class="rwdimg-cover logo-img"></div>
                                       </div>
                                       <div class="item three px-2">

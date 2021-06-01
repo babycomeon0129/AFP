@@ -93,7 +93,7 @@
           <div *ngFor="let voucher of voucherList[0].VoucherData;" class="col-sm-12 col-md-6 discount-box">
             <div class="discount-item">
               <div class="item">
-                <div [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', voucher.Voucher_Code] : ['/Voucher/VoucherDetail', voucher.Voucher_UserVoucherCode]" class="rwdimgbox-80">
+                <div [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', voucher.Voucher_Code] : ['/Voucher/VoucherDetail', voucher.Voucher_UserVoucherCode]" [queryParams]="{showBack: true}" class="rwdimgbox-80">
                   <div class="rwdimg-cover" [lazyLoad]="voucher?.Voucher_Image" [defaultImage]="appService.defaultImage"></div>
                 </div>
               </div>

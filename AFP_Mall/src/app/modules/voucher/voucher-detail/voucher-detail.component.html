@@ -112,7 +112,8 @@
     <div class="useoffers">
       <div class="title-box">
         <div class="item icon-btn">
-          <button [hidden]="appService.isApp !== null && !appService.showBack" type="button" (click)="closeQRCode();appService.appShowBackButton(false)"
+          <!-- APP特例處理: 從哪進入都需要web返回鍵 -->
+          <button type="button" (click)="closeQRCode()"
             class="btn px-0" title="回上一頁">
             <i class="material-icons">&#xe314;</i>
           </button>
