@@ -244,6 +244,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
   closeQRCode(): void {
     this.router.navigate(['/Voucher/VoucherDetail', this.voucherCode], {queryParams: { showBack: true }});
     this.layerTrig = 0;
+    this.appService.appShowBackButton(false);
     clearInterval(this.checkTimer);
     clearTimeout(this.timer3Mins);
   }
