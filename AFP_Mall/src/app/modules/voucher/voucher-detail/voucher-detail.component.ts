@@ -192,7 +192,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
           this.appService.tLayer = []; // APP 特例處理(APP QRCode的返回鍵是history.back()不是backLayer())
           this.layerTrig = 1;
           this.checkWritenOff();
-          this.appService.appShowBackButton(false);
+          this.appService.appShowBackButton(true);
           break;
       }
     } else {

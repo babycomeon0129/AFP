@@ -88,7 +88,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
       if (msg.IMessage_OrderType === 21) {
         this.router.navigate(['/MemberFunction/ETicketOrderDetail', msg.IMessage_OrderNo]);
       } else {
-        this.router.navigate(['/MemberFunction/MyOrderDetail', msg.IMessage_OrderNo], {queryParams: {showBack: false}});
+        this.router.navigate(['/MemberFunction/MyOrderDetail', msg.IMessage_OrderNo], {queryParams: {showBack: true}});
       }
     }
     // TODO: [寫法]activeStatus 預設其實為undefined不是false
