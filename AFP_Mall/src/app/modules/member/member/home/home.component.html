@@ -5,8 +5,8 @@
       <div class="title-box">
         <div class="item icon-btn">
           <div class="img-box">
-            <button class="btn px-0" (click)="goToSetting()"><img
-                src="../../img/member/member-icon-setting.svg" alt="設定"></button>
+            <button class="btn px-0" (click)="goToSetting()"><img src="../../img/member/member-icon-setting.svg"
+                alt="設定"></button>
           </div>
         </div>
         <div class="item title-name"></div>
@@ -19,27 +19,28 @@
         </div>
         <!-- 登入前 -->
         <div *ngIf="!appService.loginState">
-            <button (click)="appService.loginPage()" type="button" class="btn white-outline-btn btw-small">登入/註冊<img src="../img/share/forward_w.png" class="h20"></button>
+          <button (click)="appService.loginPage()" type="button" class="btn white-outline-btn btw-small">登入/註冊<img
+              src="../img/share/forward_w.png" class="h20"></button>
         </div>
         <!-- 登入後 -->
         <div *ngIf="appService.loginState" class="flex-inline-between">
-            <div class="info-box">
-                <div class="info-item info-name">
-                  {{ memberService.userProfile?.User_NickName }}
-                </div>
-                <div class="info-item info-country">
-                    台灣
-                </div>
+          <div class="info-box">
+            <div class="info-item info-name">
+              {{ memberService.userProfile?.User_NickName }}
             </div>
-            <div class="info-box">
-                <div class="info-item text-nowrap">
-                    <img src="../img/share/mobiicoin.png" alt="" class="coinimg-m mr-1">
-                    M Points
-                </div>
-                <div class="info-item info-coin">
-                    {{memberService.userProfile?.UserPoint | currency: '':'':'1.0-2'}}
-                </div>
+            <div class="info-item info-country">
+              台灣
             </div>
+          </div>
+          <div class="info-box">
+            <div class="info-item text-nowrap">
+              <img src="../img/share/mobiicoin.png" alt="" class="coinimg-m mr-1">
+              M Points
+            </div>
+            <div class="info-item info-coin">
+              {{memberService.userProfile?.UserPoint | currency: '':'':'1.0-2'}}
+            </div>
+          </div>
         </div>
       </div>
       <div class="member-item-group">
@@ -47,86 +48,81 @@
           <div class="px-3">
             <!-- 中間主頁面 -->
             <div>
-                <div class="mycard-box">
-                    <a  *ngFor="let ad of indexData?.ADImg_Mid" (click)="adRouter(ad)">
-                      <img class="mycard-img" src="{{ad?.ADImg_Img}}">
-                    </a>
-                </div>
+              <div class="mycard-box">
+                <a *ngFor="let ad of indexData?.ADImg_Mid" (click)="adRouter(ad)">
+                  <img class="mycard-img" src="{{ad?.ADImg_Img}}">
+                </a>
+              </div>
             </div>
             <div class="member-item-list">
-                <div class="member-items">
-                    <a (click)="pageRoute('/MemberFunction/MemberCard' ,0)" class="member-item">
-                        <div class="img-box">
-                            <img src="../img/member/member-icon-card.svg" alt="">
-                        </div>
-                        <p>我的卡片</p>
-                    </a>
-                    <a (click)="pageRoute('/MemberFunction/MemberTicket' ,1)" class="member-item">
-                        <div class="img-box">
-                            <img src="../img/member/member-icon-ticket.svg" alt="">
-                        </div>
-                        <p>我的車票</p>
-                    </a>
-                    <a (click)="pageRoute('/MemberFunction/MemberFood' ,2)" class="member-item">
-                        <div class="img-box">
-                            <img src="../img/member/member-icon-food.svg" alt="">
-                        </div>
-                        <p>我的點餐</p>
-                    </a>
-                </div>
-                <div class="member-items">
-                    <a (click)="pageRoute('/MemberFunction/MemberDiscount' ,3)" class="member-item">
-                        <div class="img-box">
-                            <img src="../img/member/member-icon-discount.svg" alt="">
-                        </div>
-                        <p>我的優惠券</p>
-                    </a>
-                    <a (click)="pageRoute('/MemberFunction/MemberFavorite' ,4)" class="member-item">
-                        <div class="img-box">
-                            <img src="../img/member/member-icon-favorite.svg" alt="">
-                        </div>
-                        <p>我的收藏</p>
-                    </a>
-                    <a (click)="pageRoute('/MemberFunction/MemberOrder' ,5)" class="member-item">
-                        <div class="img-box">
-                            <img src="../img/member/member-icon-order.svg" alt="">
-                        </div>
-                        <p>我的訂單</p>
-                    </a>
-                </div>
-                <div class="member-items">
-                  <a (click)="pageRoute('/MemberFunction/MemberCoin' ,6)" class="member-item">
-                    <div class="img-box">
-                        <img src="../img/member/member-icon-coin.svg" alt="">
-                    </div>
-                    <p>M Points</p>
+              <div class="member-items">
+                <a (click)="pageRoute('/MemberFunction/MemberCard' ,0)" class="member-item">
+                  <div class="img-box">
+                    <img src="../img/member/member-icon-card.svg" alt="">
+                  </div>
+                  <p>我的卡片</p>
                 </a>
-                  <div href onclick="" class="member-item">
+                <a (click)="pageRoute('/MemberFunction/MemberTicket' ,1)" class="member-item">
+                  <div class="img-box">
+                    <img src="../img/member/member-icon-ticket.svg" alt="">
                   </div>
-                  <div href onclick="" class="member-item">
+                  <p>我的車票</p>
+                </a>
+                <a (click)="pageRoute('/MemberFunction/MemberFood' ,2)" class="member-item" hidden>
+                  <div class="img-box">
+                    <img src="../img/member/member-icon-food.svg" alt="">
                   </div>
+                  <p>我的點餐</p>
+                </a>
+                <a (click)="pageRoute('/MemberFunction/MemberDiscount' ,3)" class="member-item">
+                  <div class="img-box">
+                    <img src="../img/member/member-icon-discount.svg" alt="">
+                  </div>
+                  <p>我的優惠券</p>
+                </a>
+              </div>
+              <div class="member-items">
+                <a (click)="pageRoute('/MemberFunction/MemberFavorite' ,4)" class="member-item">
+                  <div class="img-box">
+                    <img src="../img/member/member-icon-favorite.svg" alt="">
+                  </div>
+                  <p>我的收藏</p>
+                </a>
+                <a (click)="pageRoute('/MemberFunction/MemberOrder' ,5)" class="member-item">
+                  <div class="img-box">
+                    <img src="../img/member/member-icon-order.svg" alt="">
+                  </div>
+                  <p>我的訂單</p>
+                </a>
+                <a (click)="pageRoute('/MemberFunction/MemberCoin' ,6)" class="member-item">
+                  <div class="img-box">
+                    <img src="../img/member/member-icon-coin.svg" alt="">
+                  </div>
+                  <p>M Points</p>
+                </a>
               </div>
             </div>
             <!-- 下方廣告 ad banner -->
             <div class="big-banner">
-                <div class="pt-3">
-                    <!-- Swiper -->
-                    <swiper class="swiper-container" [config]="botttomAd">
-                        <div class="swiper-wrapper">
-                            <div *ngFor="let ad of indexData?.ADImg_Btm" class="swiper-slide">
-                                <a (click)="adRouter(ad)">
-                                  <div class="rwdimg-cover h20 border-radius5" [lazyLoad]="ad?.ADImg_Img" [defaultImage]="appService.defaultImage"></div>
-                                </a>
-                            </div>
-                        </div>
-                        <!-- Add Scrollbar -->
-                        <div class="swiper-scrollbar"></div>
-                    </swiper>
-                </div>
+              <div class="pt-3">
+                <!-- Swiper -->
+                <swiper class="swiper-container" [config]="botttomAd">
+                  <div class="swiper-wrapper">
+                    <div *ngFor="let ad of indexData?.ADImg_Btm" class="swiper-slide">
+                      <a (click)="adRouter(ad)">
+                        <div class="rwdimg-cover h20 border-radius5" [lazyLoad]="ad?.ADImg_Img"
+                          [defaultImage]="appService.defaultImage"></div>
+                      </a>
+                    </div>
+                  </div>
+                  <!-- Add Scrollbar -->
+                  <div class="swiper-scrollbar"></div>
+                </swiper>
+              </div>
             </div>
-        </div>
+          </div>
 
-        <div class="addheight pb-5"></div>
+          <div class="addheight pb-5"></div>
         </div>
       </div>
     </div>
