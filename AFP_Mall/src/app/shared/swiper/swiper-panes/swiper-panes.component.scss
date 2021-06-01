@@ -13,20 +13,11 @@
 }
 
 .travel-featuredbox {
-  // .content-item {
-  //   display: block;
-  //   &:nth-child(2n) {
-  //     margin-left: 2%;
-  //   }
-  // }
   .img-box {
     height: 0;
-    padding-bottom: 60%;
+    padding-bottom: 56%;
     border-radius: 5px;
     overflow: hidden;
-    img {
-      width: 100%;
-    }
   }
   .item-title {
     color: $blue-dark;
