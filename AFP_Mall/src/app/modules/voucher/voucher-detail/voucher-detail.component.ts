@@ -226,7 +226,8 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
           clearTimeout(this.timer3Mins);
           this.layerTrig = 0;
           // showType: 999核銷成功後顯示廣告圖片
-          this.modal.show('message', { initialState: { success: true, message: data.AFP_UserVoucher.VoucherUsedMessage, showType: 999, adImgList: data.List_ADImg, voucherName: data.AFP_UserVoucher.Voucher_Name } });
+          this.modal.show('message', { initialState: { success: true, message: data.AFP_UserVoucher.VoucherUsedMessage,
+            showType: 999, adImgList: data.List_ADImg, voucherName: data.AFP_UserVoucher.Voucher_Name } });
           return false;
         }
       });
@@ -242,7 +243,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
 
   /** 關閉顯示QR Code */
   closeQRCode(): void {
-    this.router.navigate(['/Voucher/VoucherDetail', this.voucherCode], {queryParams: { showBack: true }});
+    this.router.navigate(['/Voucher/VoucherDetail', this.voucherCode], {queryParams: { showBack: false }});
     this.layerTrig = 0;
     this.appService.appShowBackButton(false);
     clearInterval(this.checkTimer);

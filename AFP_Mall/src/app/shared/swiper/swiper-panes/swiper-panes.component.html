@@ -8,7 +8,7 @@
           <!-- 現領優惠券 -->
           <div class="swiper-slide" *ngFor="let inside of item.VoucherData">
             <div class="products-item border-radius5 border"
-            [routerLink]="inside?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', inside?.Voucher_Code] : ['/Voucher/VoucherDetail', inside?.Voucher_UserVoucherCode]" [queryParams]="{showBack: true}">
+            [routerLink]="inside?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', inside?.Voucher_Code] : ['/Voucher/VoucherDetail', inside?.Voucher_UserVoucherCode]">
               <div class="p-1">
                 <div class="products-img">
                   <div class="img-box ">

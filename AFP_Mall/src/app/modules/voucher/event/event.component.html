@@ -44,8 +44,7 @@
               <div class="card-text">
                 <div class="member-flex">
                   <div
-                    [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', voucher?.Voucher_Code] : ['/Voucher/VoucherDetail', voucher?.Voucher_UserVoucherCode]"
-                    [queryParams]="{showBack: true}" class="item one">
+                    [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', voucher?.Voucher_Code] : ['/Voucher/VoucherDetail', voucher?.Voucher_UserVoucherCode]" class="item one">
                     <div [lazyLoad]="voucher?.Voucher_Image" [defaultImage]="appService.defaultImage"
                       class="rwdimg-cover logo-img"></div>
                   </div>
