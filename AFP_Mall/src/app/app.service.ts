@@ -63,7 +63,7 @@ export class AppService {
    * @description 用於判斷 loginState 由 false 轉為 true 不是因為在之前的訪問所保留的登入狀態下再次進行訪問，
    * APP 因此重新建構及初始化導致，而是因為確實執行了登入。符合此狀況才在 app.component 的變化追蹤 (serviceDiffer)
    * 偵測到 loginState 由 false 轉為 true時，重新訪問當前頁面以取得會員相關資訊。
-   **/
+   */
   public userLoggedIn = false;
   /** 引導手機驗證 modal 是否已開啟（控制此 modal 只開啟一個，避免在需呼叫１個以上 API 的頁面重複開啟）
    * TODO: 暫時作法
@@ -404,7 +404,7 @@ export class AppService {
 
   /** 初始化推播
    * (註冊 service worker、告訴 firebase.messaging 服務之後的訊息請交由此 SW 處理、取得token、產生/取得 deviceCode、傳送給後端並取得新消費者包)
-   * */
+   */
   initPush() {
     if (environment.swActivate) {
       // 不重複初始化

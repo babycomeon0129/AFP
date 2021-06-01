@@ -9,7 +9,7 @@ import { AppService } from '@app/app.service';
   styleUrls: ['./back-btn.component.scss']
 })
 export class BackBtnComponent implements OnInit {
-  //此元件為：如返回鍵需根據App需求切換顯示/不顯示而客製化的按鈕功能元件。
+  // 此元件為：如返回鍵需根據App需求切換顯示/不顯示而客製化的按鈕功能元件。
 
   /** 返回鍵樣式，1: < 字型  2: 有透明灰圓圈底的 < 返回鍵 */
   @Input() iconStyle = 1;
@@ -18,13 +18,12 @@ export class BackBtnComponent implements OnInit {
   /** 返回鍵客製化時使用。 預設為首頁 */
   @Input() url = '/';
 
-
   constructor(private location: Location, public appService: AppService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       this.appService.showBack = params.showBack === 'true';
-    })
+    });
   }
 
   /** 點擊返回鍵 */
