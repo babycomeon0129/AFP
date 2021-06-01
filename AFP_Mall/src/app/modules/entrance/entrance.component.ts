@@ -123,7 +123,7 @@ export class EntranceComponent implements OnInit {
     }
   };
 
-  /** 現領優惠券、主打店家、本月外送主打、本月旅遊主打 tab swiper */
+  /** 現領優惠券、主打店家、線上點餐推薦、本月旅遊主打 tab swiper */
   public boxTabs: SwiperOptions = {
     slidesPerView: 4,
     spaceBetween: 10,
@@ -193,7 +193,7 @@ export class EntranceComponent implements OnInit {
   public adMid: AFP_ADImg[] = [];
   /** 主打店家 */
   public hitArea: Model_AreaJsonFile[] = [];
-  /** 本月外送主打 */
+  /** 線上點餐推薦 */
   public deliveryArea: Model_AreaJsonFile[] = [];
   /** 本月旅遊主打 */
   public hitTravel: Model_TravelJsonFile[] = [];
