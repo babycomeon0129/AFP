@@ -34,7 +34,7 @@ export class ExploreDetailComponent implements OnInit {
   /** 商家商品 */
   public productList: AFP_Product[] = [];
   /** 判斷是否有外送點餐服務 */
-  public ecStoreExtType: AFP_ECStoreExtType = new AFP_ECStoreExtType();
+  public ecStoreExtType: string;
   /** JustKa連結 */
   public JustKaUrl: string;
   /** APP分享使用的url */
@@ -163,7 +163,7 @@ export class ExploreDetailComponent implements OnInit {
         }
       }
       this.dataLoad = true;
-      this.ecStoreExtType = data.Model_ECStoreExtType;
+      this.ecStoreExtType = data.Model_ECStore.ECStore_DeliveryURL;
     });
   }
 
@@ -209,7 +209,7 @@ export class ExploreDetailComponent implements OnInit {
     // 先判斷是否有登入
     if (this.appService.loginState) {
       // 把商店code帶到DeliveryInfo頁面
-      window.open('/Delivery/DeliveryInfo/' + this.siteCode);
+      window.open(this.siteInfo.ECStore_DeliveryURL);
     } else {
       this.appService.loginPage();
     }

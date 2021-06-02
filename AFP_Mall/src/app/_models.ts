@@ -456,6 +456,8 @@ export interface AFP_ECStore {
   ECStore_State?: boolean;
   /** 是否上架(是否顯示於列表) 0:下架 1:上架 */
   ECStore_IsOnline?: boolean;
+  /** 外送點餐地址 */
+  ECStore_DeliveryURL?: string;
 }
 
 /** 消費者包 Model */
