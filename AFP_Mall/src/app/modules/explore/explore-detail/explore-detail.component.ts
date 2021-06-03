@@ -115,6 +115,7 @@ export class ExploreDetailComponent implements OnInit {
         //  商家簡介
         case 1: {
           this.siteInfo = data.Model_ECStore;
+          this.ecStoreExtType = this.siteInfo.ECStore_DeliveryURL;
           // Enter轉換行
           if (this.siteInfo.ECStore_Features !== null && this.siteInfo.ECStore_Features !== '') {
             this.siteInfo.ECStore_Features = this.siteInfo.ECStore_Features.replace(/(?:\r\n|\r|\n)/g, '<br/>');
@@ -163,7 +164,6 @@ export class ExploreDetailComponent implements OnInit {
         }
       }
       this.dataLoad = true;
-      this.ecStoreExtType = data.Model_ECStore.ECStore_DeliveryURL;
     });
   }
 
