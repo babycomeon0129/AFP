@@ -350,7 +350,7 @@ export class AppService {
             code = voucher.Voucher_UserVoucherCode;
           }
           if (this.route.snapshot.queryParams.showBack === undefined) {
-            this.router.navigate(['/Voucher/VoucherDetail', code]);
+            this.router.navigate(['/Voucher/VoucherDetail', code], {queryParams: { showBack: false }});
           } else {
             // APP特例處理: 若是從會員過去則要隱藏返回鍵
             if (this.route.snapshot.queryParams.showBack) {
