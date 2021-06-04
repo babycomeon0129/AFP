@@ -114,50 +114,6 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
     }
   }
 
-  /** FB登入按鈕 */
-  // signInWithFB(): void {
-  //   if (this.appService.loginState) {
-  //     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
-  //     this.bindMode = 1;
-  //   } else {
-  //     this.appService.loginPage();
-  //   }
-  // }
-
-  /** Google登入按鈕 */
-  // signInWithGoogle(): void {
-  //   if (this.appService.loginState) {
-  //     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
-  //     this.bindMode = 3;
-  //   } else {
-  //     this.appService.loginPage();
-  //   }
-  // }
-
-  /** Apple登入按鈕 */
-  // signInWithApple(): void {
-  //   if (this.appService.loginState) {
-  //     this.bindMode = 5;
-  //     this.modal.appleLogin({}).subscribe(appleUser => {
-  //       if (appleUser !== null) {
-  //         const idTokenModel = jwt_decode(appleUser.authorization.id_token);
-  //         const appleToken = idTokenModel.sub;
-  //         this.thirdRequest = {
-  //           SelectMode: 1,
-  //           User_Code: sessionStorage.getItem('userCode'),
-  //           Store_Note: '',
-  //           Mode: this.bindMode,
-  //           Token: appleToken,
-  //           JsonData: JSON.stringify(appleUser)
-  //         };
-  //         this.thirdbind(this.thirdRequest, this.bindMode);
-  //       }
-  //     });
-  //   } else {
-  //     this.appService.loginPage();
-  //   }
-  // }
-
   /** 判斷是否為Apple設備 */
   detectApple(): void {
     const iOSDevices = ['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'];
