@@ -1,55 +1,61 @@
 <div class="wrap">
   <header>
     <div class="mobii-topbox for-pc">
-        <div class="container">
-            <img [routerLink]="['/']" src="../img/share/mlogo.png" class="m-topbox-item mobiitoplogo">
-            <div class="m-topbox-item d-flex align-items-center">
-                <!-- 未登入 -->
-                <button *ngIf="!appService.loginState" (click)="appService.loginPage()" type="button" class="m-topbox-item btn bluedk-outline-btn btw-small" data-toggle="modal" data-target="#loginModalCenter">
-                    登入/註冊
-                </button>
-                <!-- 電腦版 登入 -->
-                <div *ngIf="appService.loginState" class="userbox">
-                  <div *ngIf="appService.loginState" class="txt-line-clamp1 user-hi"><a [routerLink]="['/Member']">你好，{{appService.userName}}</a> </div>
-                </div>
-                <ul  *ngIf="appService.loginState" class="userdrop nav navbar-nav">
-                    <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">&#xE5D3;</i></a>
-                    <ul class="dropdown-menu dropdown-menu-right">
-                        <li><a [routerLink]="['/MemberFunction/MemberDiscount']"><img src="../img/share/drop_discount.png" alt="">我的優惠</a></li>
-                        <li><a [routerLink]="['/MemberFunction/MemberFavorite']"><img src="../img/share/drop_favorite.png" alt="">我的收藏</a></li>
-                        <li><a [routerLink]="['/MemberFunction/MemberOrder']"><img src="../img/share/drop_order.png" alt="">我的訂單</a></li>
-                        <li><a [routerLink]="['/MemberFunction/MemberFood']"><img src="../img/share/drop_food.png" alt="">我的點餐</a></li>
-                    </ul>
-                    </li>
-                </ul>
-            </div>
+      <div class="container">
+        <img [routerLink]="['/']" src="../img/share/mlogo.png" class="m-topbox-item mobiitoplogo">
+        <div class="m-topbox-item d-flex align-items-center">
+          <!-- 未登入 -->
+          <button *ngIf="!appService.loginState" (click)="appService.loginPage()" type="button"
+            class="m-topbox-item btn bluedk-outline-btn btw-small" data-toggle="modal" data-target="#loginModalCenter">
+            登入/註冊
+          </button>
+          <!-- 電腦版 登入 -->
+          <div *ngIf="appService.loginState" class="userbox">
+            <div *ngIf="appService.loginState" class="txt-line-clamp1 user-hi"><a
+                [routerLink]="['/Member']">你好，{{appService.userName}}</a> </div>
+          </div>
+          <ul *ngIf="appService.loginState" class="userdrop nav navbar-nav">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">&#xE5D3;</i></a>
+              <ul class="dropdown-menu dropdown-menu-right">
+                <li><a [routerLink]="['/MemberFunction/MemberDiscount']"><img src="../img/share/drop_discount.png"
+                      alt="">我的優惠</a></li>
+                <li><a [routerLink]="['/MemberFunction/MemberFavorite']"><img src="../img/share/drop_favorite.png"
+                      alt="">我的收藏</a></li>
+                <li><a [routerLink]="['/MemberFunction/MemberOrder']"><img src="../img/share/drop_order.png"
+                      alt="">我的訂單</a></li>
+              </ul>
+            </li>
+          </ul>
         </div>
-        <img src="../img/index/txt.png" class="m-topbox-item sloger">
+      </div>
+      <img src="../img/index/txt.png" class="m-topbox-item sloger">
     </div>
     <div class="kv-mask"></div>
     <div class="for-mobile">
-        <div class="top-goback">
-            <div class="back-go">
-                <button type="button" onclick="history.back()" data-toggle="tooltip" data-placement="top" title="回上一頁"><i class="material-icons">&#xe314;</i></button>
-            </div>
+      <div class="top-goback">
+        <div class="back-go">
+          <button type="button" onclick="history.back()" data-toggle="tooltip" data-placement="top" title="回上一頁"><i
+              class="material-icons">&#xe314;</i></button>
         </div>
+      </div>
     </div>
   </header>
   <main class="container pt-0">
     <!-- 置頂廣告 -->
-      <swiper class="swiper-container travel-banner" [config]="boxKV">
-        <div class="swiper-wrapper">
-            <div *ngFor="let item of ad20001" class="swiper-slide">
-              <a [href]="item.ADImg_URL" [target]="item.ADImg_URLTarget" *ngIf="item.ADImg_URL.indexOf('http') != -1" rel="noopener noreferrer">
-                <img [lazyLoad]="item.ADImg_Img" [defaultImage]="appService.defaultImage">
-              </a>
-              <a [routerLink]="[item.ADImg_URL]" *ngIf="item.ADImg_URL.indexOf('http') == -1">
-                <img [lazyLoad]="item.ADImg_Img" [defaultImage]="appService.defaultImage">
-              </a>
-            </div>
+    <swiper class="swiper-container travel-banner" [config]="boxKV">
+      <div class="swiper-wrapper">
+        <div *ngFor="let item of ad20001" class="swiper-slide">
+          <a [href]="item.ADImg_URL" [target]="item.ADImg_URLTarget" *ngIf="item.ADImg_URL.indexOf('http') != -1"
+            rel="noopener noreferrer">
+            <img [lazyLoad]="item.ADImg_Img" [defaultImage]="appService.defaultImage">
+          </a>
+          <a [routerLink]="[item.ADImg_URL]" *ngIf="item.ADImg_URL.indexOf('http') == -1">
+            <img [lazyLoad]="item.ADImg_Img" [defaultImage]="appService.defaultImage">
+          </a>
         </div>
-      </swiper>
+      </div>
+    </swiper>
     <!-- travel main -->
     <section class="travel">
       <!-- travel-box swiper-->
@@ -60,13 +66,15 @@
               <a [href]="item.Function_URL" [target]="item.Function_URLTarget"
                 *ngIf="item.Function_URL.indexOf('http') != -1" rel="noopener noreferrer">
                 <div class="travel-bgbox">
-                  <img [lazyLoad]="item.Function_Icon" [defaultImage]="appService.defaultImage" [alt]="item.Function_Name">
+                  <img [lazyLoad]="item.Function_Icon" [defaultImage]="appService.defaultImage"
+                    [alt]="item.Function_Name">
                 </div>
                 <div class="travel-txt">{{item.Function_Name}}</div>
               </a>
               <a [routerLink]="[item.Function_URL]" *ngIf="item.Function_URL.indexOf('http') == -1">
                 <div class="travel-bgbox">
-                  <img [lazyLoad]="item.Function_Icon" [defaultImage]="appService.defaultImage" [alt]="item.Function_Name">
+                  <img [lazyLoad]="item.Function_Icon" [defaultImage]="appService.defaultImage"
+                    [alt]="item.Function_Name">
                 </div>
                 <div class="travel-txt">{{item.Function_Name}}</div>
               </a>
@@ -81,11 +89,11 @@
           <div class="swiper-wrapper">
             <div class="swiper-slide" *ngFor="let item of ad20002">
               <div class="w-100">
-                <a [href]="item.ADImg_URL"
-                    [target]="item.ADImg_URLTarget" rel="noopener noreferrer">
+                <a [href]="item.ADImg_URL" [target]="item.ADImg_URLTarget" rel="noopener noreferrer">
                   <div class="hot-img-top ">
                     <!-- [target]="item.ADImg_URLTarget" -->
-                    <div class="rwdimg-cover" [lazyLoad]="item.ADImg_Img" [defaultImage]="appService.defaultImage"></div>
+                    <div class="rwdimg-cover" [lazyLoad]="item.ADImg_Img" [defaultImage]="appService.defaultImage">
+                    </div>
                   </div>
                   <div class="hot-body">
                     <h6 class="txt-line-clamp2">{{item.ADImg_Title}}</h6>
@@ -105,10 +113,11 @@
           <div class="swiper-wrapper">
             <div class="swiper-slide" *ngFor="let item of ad20003">
               <div class="w-100">
-                <a class="txt-line-clamp1 d-block" [href]="item.ADImg_URL"
-                    [target]="item.ADImg_URLTarget" rel="noopener noreferrer">
+                <a class="txt-line-clamp1 d-block" [href]="item.ADImg_URL" [target]="item.ADImg_URLTarget"
+                  rel="noopener noreferrer">
                   <div class="topic-img-top">
-                    <div class="rwdimg-cover h55" [lazyLoad]="item.ADImg_Img" [defaultImage]="appService.defaultImage"></div>
+                    <div class="rwdimg-cover h55" [lazyLoad]="item.ADImg_Img" [defaultImage]="appService.defaultImage">
+                    </div>
                   </div>
                   <div class="topic-body">
                     <h6 class="txt-line-clamp1 d-block">{{item.ADImg_Title}}</h6>
@@ -146,16 +155,18 @@
                   <div class="swiper-wrapper">
                     <div class="swiper-slide" *ngFor="let inside of item.TravelData">
                       <div class="item-body">
-                        <a class="item-img rwdimg-cover h65"
-                           [lazyLoad]="inside.Travel_Img" [defaultImage]="appService.defaultImage"
-                           [href]="inside.Travel_URL" [target]="inside.Travel_URLTarget" rel="noopener noreferrer"></a>
+                        <a class="item-img rwdimg-cover h65" [lazyLoad]="inside.Travel_Img"
+                          [defaultImage]="appService.defaultImage" [href]="inside.Travel_URL"
+                          [target]="inside.Travel_URLTarget" rel="noopener noreferrer"></a>
                         <div class="item-favorite">
-                          <button (click)="appService.favToggle(1, 54, inside.Travel_Code)" *ngIf="!appService.userFavCodes.includes(inside.Travel_Code)" data-toggle="modal" data-target=".bd-example-modal-sm" data-toggle="tooltip" data-placement="top"
-                                  title="加入收藏">
+                          <button (click)="appService.favToggle(1, 54, inside.Travel_Code)"
+                            *ngIf="!appService.userFavCodes.includes(inside.Travel_Code)" data-toggle="modal"
+                            data-target=".bd-example-modal-sm" data-toggle="tooltip" data-placement="top" title="加入收藏">
                             <img src="../img/share/icon_favorite.png" class="imgicon">
                           </button>
-                          <button class="active" (click)="appService.favToggle(2, 54, inside.Travel_Code)" *ngIf="appService.userFavCodes.includes(inside.Travel_Code)" data-toggle="modal" data-target=".bd-example-modal-sm" data-toggle="tooltip" data-placement="top"
-                                  title="移除收藏">
+                          <button class="active" (click)="appService.favToggle(2, 54, inside.Travel_Code)"
+                            *ngIf="appService.userFavCodes.includes(inside.Travel_Code)" data-toggle="modal"
+                            data-target=".bd-example-modal-sm" data-toggle="tooltip" data-placement="top" title="移除收藏">
                             <img src="../img/share/icon_favorite_red.png" class="imgicon">
                           </button>
                         </div>
@@ -179,7 +190,8 @@
                               {{inside.Travel_LocalTitle}}
                             </div>
                             <div class="item-keyword">
-                              <span *ngFor="let attrData of inside.AttrbuteData">{{attrData.AttributeValue_Name}}&nbsp;</span>
+                              <span
+                                *ngFor="let attrData of inside.AttrbuteData">{{attrData.AttributeValue_Name}}&nbsp;</span>
                             </div>
                           </div>
                         </a>

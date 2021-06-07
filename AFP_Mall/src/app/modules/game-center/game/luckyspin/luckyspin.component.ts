@@ -45,8 +45,6 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
     this.totalPoints = this.gameData.TotalPoint;
     this.playTimes = this.gameData.AFP_Game.Game_PlayCount;
     this.prizeList = this.gameData.List_GamePart;
-    // APP從M Points或進來則顯示返回鍵
-    // this.appService.showBack =  this.route.snapshot.queryParams.showBack === 'true';
   }
 
   ngAfterViewInit() {
@@ -73,8 +71,8 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
     if (!this.gameData.GameState) {
       this.noGameStateAlert.emit();
     } else {
-      // 若須扣除點數跳出確認提示
-      if ((this.playTimes !== 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) && this.gameData.AFP_Game.Game_DedPoint > 0) {
+      // 跳出扣點確認視窗，如果Game_DedPoint為0點，不需要跳Alert
+      if (this.gameData.AFP_Game.Game_DedPoint > 0) {
         // 先跳確認扣除點數視窗，按下確認才允許進行遊戲
         this.modal
           .confirm({

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Model_ShareData, AFP_ADImg, AFP_Game } from '@app/_models';
 import { AppService } from '@app/app.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
 
@@ -20,7 +20,7 @@ export class GameCenterComponent implements OnInit {
   /** 選擇TAG  0:一般會員, 1:綁卡會員 */
   public selectedType = 0;
 
-  constructor(public appService: AppService, private router: Router, public modal: ModalService, private meta: Meta, private title: Title) {
+  constructor(public appService: AppService, private router: Router, public modal: ModalService, private meta: Meta, private title: Title, private activatedRoute: ActivatedRoute) {
     this.title.setTitle('遊戲 - Mobii!');
     this.meta.updateTag({
       name: 'description',
@@ -51,11 +51,11 @@ export class GameCenterComponent implements OnInit {
    */
   goGame(gameCode: number): void {
     if (this.appService.loginState) {
-        this.router.navigate(['/GameCenter/Game', gameCode]);
+      this.activatedRoute.snapshot.queryParams.showBack === 'true' ?
+      this.router.navigate(['/GameCenter/Game', gameCode], {queryParams: {showBack: true}}) : this.router.navigate(['/GameCenter/Game', gameCode]);
     } else {
       this.appService.loginPage();
     }
-
   }
 
 

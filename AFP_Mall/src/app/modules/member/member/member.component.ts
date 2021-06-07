@@ -72,6 +72,8 @@ export class Response_MemberProfile extends Model_ShareData {
   UserProfile_Sex: number;
   /** 會員點數 */
   UserPoint: number;
+  /** UUID */
+  UUID: string;
 }
 
 // 會員中心-社群帳號綁定 - RequestModel

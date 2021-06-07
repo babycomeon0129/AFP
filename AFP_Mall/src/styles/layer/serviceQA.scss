@@ -285,17 +285,8 @@
     display: flex;
     width: 100%;
     min-width: 320px;
-    padding: 0.5em;
+    padding: 0.5em 0.5em 1.25em 0.5em;
     bottom: 0px;
-    // @media (max-width: 767px) {
-    //   bottom: 79px;
-    // }
-    // @media (max-width: 375px) {
-    //   bottom: 63px;
-    // }
-    // @media (min-width: 768px) {
-    //   bottom: 170px;
-    // }
     input {
       border: 1px solid #ccc;
       border-radius: 16px;

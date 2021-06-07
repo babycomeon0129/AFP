@@ -45,7 +45,7 @@
                 <div class="member-flex">
                   <div
                     [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', voucher?.Voucher_Code] : ['/Voucher/VoucherDetail', voucher?.Voucher_UserVoucherCode]"
-                    class="item one">
+                    [queryParams]="{showBack: appService.showBack}" class="item one">
                     <div [lazyLoad]="voucher?.Voucher_Image" [defaultImage]="appService.defaultImage"
                       class="rwdimg-cover logo-img"></div>
                   </div>
@@ -107,3 +107,4 @@
     <div class="h-50 d-inline-block"></div>
   </main>
 </div>
+<app-mobile-footer></app-mobile-footer>

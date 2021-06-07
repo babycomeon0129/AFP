@@ -99,7 +99,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       if (this.appleUser.authorization.state === this.appleSigninState) {
         this.stopListeningApple();
         // 將 id token 解密取得使用者資訊
-        const idTokenModel = jwt_decode(this.appleUser.authorization.id_token);
+        const idTokenModel: any = jwt_decode(this.appleUser.authorization.id_token);
         const appleToken = idTokenModel.sub;
         this.thirdRequest.Account = idTokenModel.email;
         this.thirdRequest.NickName = idTokenModel.email;

@@ -5,21 +5,25 @@
         <img [routerLink]="['/']" src="../img/share/mlogo.png" class="m-topbox-item mobiitoplogo">
         <div class="m-topbox-item d-flex align-items-center">
           <!-- 未登入 -->
-          <button *ngIf="!appService.loginState" (click)="appService.loginPage()" type="button" class="m-topbox-item btn bluedk-outline-btn btw-small" data-toggle="modal" data-target="#loginModalCenter">
+          <button *ngIf="!appService.loginState" (click)="appService.loginPage()" type="button"
+            class="m-topbox-item btn bluedk-outline-btn btw-small" data-toggle="modal" data-target="#loginModalCenter">
             登入/註冊
           </button>
           <!-- 電腦版 登入 -->
           <div *ngIf="appService.loginState" class="userbox">
-            <div *ngIf="appService.loginState" class="txt-line-clamp1 user-hi"><a [routerLink]="['/Member']">你好，{{appService.userName}}</a> </div>
+            <div *ngIf="appService.loginState" class="txt-line-clamp1 user-hi"><a
+                [routerLink]="['/Member']">你好，{{appService.userName}}</a> </div>
           </div>
           <ul *ngIf="appService.loginState" class="userdrop nav navbar-nav">
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">&#xE5D3;</i></a>
               <ul class="dropdown-menu dropdown-menu-right">
-                <li><a [routerLink]="['/MemberFunction/MemberDiscount']"><img src="../img/share/drop_discount.png" alt="">我的優惠</a></li>
-                <li><a [routerLink]="['/MemberFunction/MemberFavorite']"><img src="../img/share/drop_favorite.png" alt="">我的收藏</a></li>
-                <li><a [routerLink]="['/MemberFunction/MemberOrder']"><img src="../img/share/drop_order.png" alt="">我的訂單</a></li>
-                <li><a [routerLink]="['/MemberFunction/MemberFood']"><img src="../img/share/drop_food.png" alt="">我的點餐</a></li>
+                <li><a [routerLink]="['/MemberFunction/MemberDiscount']"><img src="../img/share/drop_discount.png"
+                      alt="">我的優惠</a></li>
+                <li><a [routerLink]="['/MemberFunction/MemberFavorite']"><img src="../img/share/drop_favorite.png"
+                      alt="">我的收藏</a></li>
+                <li><a [routerLink]="['/MemberFunction/MemberOrder']"><img src="../img/share/drop_order.png"
+                      alt="">我的訂單</a></li>
               </ul>
             </li>
           </ul>
@@ -32,13 +36,16 @@
       <div class="shopping-headermobile container">
         <div class="top-goback">
           <div class="back-go">
-            <button type="button" onclick="history.back()" data-toggle="tooltip" data-placement="top" title="回上一頁"><i class="material-icons">&#xe314;</i></button>
+            <button type="button" onclick="history.back()" data-toggle="tooltip" data-placement="top" title="回上一頁"><i
+                class="material-icons">&#xe314;</i></button>
           </div>
         </div>
         <div class="go-cart">
           <div class="top-item climate">
-            <button [routerLink]="['/Shopping/ShoppingCart']" class="badge-img px-2" data-toggle="tooltip" data-placement="bottom" title="購物車">
-              <span *ngIf="cartCount > 0" class="badge badge-on">{{cartCount > 99 ? '99+' : cartCount}}</span><img src="../img/shopping/cart_white.png" class="h38">
+            <button [routerLink]="['/Shopping/ShoppingCart']" class="badge-img px-2" data-toggle="tooltip"
+              data-placement="bottom" title="購物車">
+              <span *ngIf="cartCount > 0" class="badge badge-on">{{cartCount > 99 ? '99+' : cartCount}}</span><img
+                src="../img/shopping/cart_white.png" class="h38">
             </button>
           </div>
         </div>
@@ -50,8 +57,9 @@
     <div class="kvbn-box shoppingkv-mt">
       <swiper class="shoppingkv swiper-container" [config]="shoppingAdTop">
         <div class="swiper-wrapper">
-          <a *ngFor="let ad of adImgTop;" href="{{ad.ADImg_URL}}" target="{{ad.ADImg_URLTarget}}" rel="noopener noreferrer" class="swiper-slide">
-            <div [lazyLoad]="ad?.ADImg_Img" [defaultImage] ="appService.defaultImage" class="kvbn-img"></div>
+          <a *ngFor="let ad of adImgTop;" href="{{ad.ADImg_URL}}" target="{{ad.ADImg_URLTarget}}"
+            rel="noopener noreferrer" class="swiper-slide">
+            <div [lazyLoad]="ad?.ADImg_Img" [defaultImage]="appService.defaultImage" class="kvbn-img"></div>
           </a>
         </div>
       </swiper>
@@ -62,7 +70,7 @@
         <div class="swiper-wrapper">
           <a *ngFor="let func of functions" href="{{func.Function_URL}}" class="swiper-slide">
             <div>
-              <img [lazyLoad]="func.Function_Icon" [defaultImage] ="appService.defaultImage" alt="">
+              <img [lazyLoad]="func.Function_Icon" [defaultImage]="appService.defaultImage" alt="">
               <div class="icon-txt">{{func.Function_Name}}</div>
             </div>
           </a>
@@ -74,9 +82,10 @@
     <div class="container px-3 pb-3">
       <swiper class="shopping-banner swiper-container" [config]="shoppingAd">
         <div class="swiper-wrapper">
-          <a *ngFor="let ad of adImgActivity" href="{{ad.ADImg_URL}}" target="{{ad.ADImg_URLTarget}}" rel="noopener noreferrer" class="swiper-slide">
+          <a *ngFor="let ad of adImgActivity" href="{{ad.ADImg_URL}}" target="{{ad.ADImg_URLTarget}}"
+            rel="noopener noreferrer" class="swiper-slide">
             <div class="shopping-bn-imgbox">
-              <div class="rwdimg-cover h37" [lazyLoad]="ad?.ADImg_Img" [defaultImage] ="appService.defaultImage"></div>
+              <div class="rwdimg-cover h37" [lazyLoad]="ad?.ADImg_Img" [defaultImage]="appService.defaultImage"></div>
             </div>
           </a>
         </div>
@@ -94,14 +103,18 @@
           <div *ngFor="let voucher of voucherList[0].VoucherData;" class="col-sm-12 col-md-6 discount-box">
             <div class="discount-item">
               <div class="item">
-                <div [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', voucher.Voucher_Code] : ['/Voucher/VoucherDetail', voucher.Voucher_UserVoucherCode]" class="rwdimgbox-80">
-                  <div class="rwdimg-cover" [lazyLoad]="voucher?.Voucher_Image" [defaultImage]="appService.defaultImage"></div>
+                <div
+                  [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', voucher.Voucher_Code] : ['/Voucher/VoucherDetail', voucher.Voucher_UserVoucherCode]"
+                  class="rwdimgbox-80">
+                  <div class="rwdimg-cover" [lazyLoad]="voucher?.Voucher_Image"
+                    [defaultImage]="appService.defaultImage"></div>
                 </div>
               </div>
               <div class="item discount-text">
                 <p>{{voucher.Voucher_Title}}</p>
                 <p><i class="material-icons local_offer">&#xe54e;</i> <span>{{voucher?.Voucher_ExtName}}</span></p>
-                <p>{{voucher.Voucher_UsedOnDate | date: 'yyyy/MM/dd' }} ~ {{voucher.Voucher_UsedOffDate | date: 'yyyy/MM/dd'}}</p>
+                <p>{{voucher.Voucher_UsedOnDate | date: 'yyyy/MM/dd' }} ~ {{voucher.Voucher_UsedOffDate | date:
+                  'yyyy/MM/dd'}}</p>
               </div>
               <div class="item ">
                 <div class="line-box"></div>
@@ -118,7 +131,8 @@
                   </button>
                   <div *ngIf="voucher.Voucher_DedPoint > 0" class="m-quantity small">
                     <img src="../img/share/mobiicoin_red.png" class="coinimg-m">
-                    {{voucher.Voucher_SpecialPoint > 0 ? voucher.Voucher_SpecialPoint : voucher.Voucher_DedPoint | currency: '':'':'1.0-2'}}
+                    {{voucher.Voucher_SpecialPoint > 0 ? voucher.Voucher_SpecialPoint : voucher.Voucher_DedPoint |
+                    currency: '':'':'1.0-2'}}
                   </div>
                 </div>
               </div>
@@ -138,15 +152,18 @@
               <a [routerLink]="['/Shopping/ProductDetail', dir.UserDefine_Code, product.Product_Code]">
                 <div class="products-img">
                   <div class="img-box">
-                    <div class="rwdimg-cover" [lazyLoad]="product.Product_PrimeImage" [defaultImage] ="appService.defaultImage"></div>
+                    <div class="rwdimg-cover" [lazyLoad]="product.Product_PrimeImage"
+                      [defaultImage]="appService.defaultImage"></div>
                   </div>
                 </div>
                 <div class="products-title">
                   <p class="txt-line-clamp1">{{product.Product_ExtName}}</p>
                 </div>
                 <div class="products-price">
-                  <div class="price-original"  *ngIf="product.Product_SpecialPrice > 0">{{product.Product_SellPrice | currency: 'TWD':'$':'1.0-2' }}</div>
-                  <div class="price-asking">{{product.Product_SpecialPrice > 0? (product.Product_SpecialPrice | currency: 'TWD':'$':'1.0-2') : (product.Product_SellPrice | currency: 'TWD':'$':'1.0-0')}}</div>
+                  <div class="price-original" *ngIf="product.Product_SpecialPrice > 0">{{product.Product_SellPrice |
+                    currency: 'TWD':'$':'1.0-2' }}</div>
+                  <div class="price-asking">{{product.Product_SpecialPrice > 0? (product.Product_SpecialPrice |
+                    currency: 'TWD':'$':'1.0-2') : (product.Product_SellPrice | currency: 'TWD':'$':'1.0-0')}}</div>
                 </div>
               </a>
             </div>
@@ -163,19 +180,22 @@
         <div class="grid">
           <div class="products-sizer"></div>
           <ngx-masonry [options]="masonry">
-            <div ngxMasonryItem  *ngFor="let product of hotProducts" class="products-item">
+            <div ngxMasonryItem *ngFor="let product of hotProducts" class="products-item">
               <a [routerLink]="['/Shopping/ProductDetail', product.Product_UserDefineCode, product.Product_Code]">
                 <div class="products-img">
                   <div class="img-box">
-                    <div class="rwdimg-cover" [lazyLoad]="product?.Product_PrimeImage" [defaultImage] ="appService.defaultImage"></div>
+                    <div class="rwdimg-cover" [lazyLoad]="product?.Product_PrimeImage"
+                      [defaultImage]="appService.defaultImage"></div>
                   </div>
                 </div>
                 <div class="products-title">
                   <p class="txt-line-clamp2">{{product.Product_ExtName}}</p>
                 </div>
                 <div class="products-price">
-                  <div class="price-asking">{{product.Product_SpecialPrice > 0? (product.Product_SpecialPrice | currency: 'TWD':'$':'1.0-2') : (product.Product_SellPrice | currency: 'TWD':'$':'1.0-0')}}</div>
-                  <div class="price-original"  *ngIf="product.Product_SpecialPrice > 0">{{product.Product_SellPrice | currency: 'TWD':'$':'1.0-2' }}</div>
+                  <div class="price-asking">{{product.Product_SpecialPrice > 0? (product.Product_SpecialPrice |
+                    currency: 'TWD':'$':'1.0-2') : (product.Product_SellPrice | currency: 'TWD':'$':'1.0-0')}}</div>
+                  <div class="price-original" *ngIf="product.Product_SpecialPrice > 0">{{product.Product_SellPrice |
+                    currency: 'TWD':'$':'1.0-2' }}</div>
                 </div>
               </a>
             </div>

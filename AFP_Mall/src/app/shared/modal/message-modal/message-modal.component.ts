@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { ModalService } from '../modal.service';
@@ -15,7 +16,7 @@ export class MessageModalComponent implements OnInit {
   success: boolean;
   /** 視窗內容 */
   message: string;
-  /** 前往連結。單顆按鈕的情況下，如果需要頁面跳轉，需設置 */
+  /** 前往連結。單顆按鈕的情況下，如果需要頁面跳轉，需設置。 如設定'GoBack'，則為「返回上一頁」 */
   target: string;
   /** 視窗的小字提醒 */
   note: string;
@@ -40,7 +41,7 @@ export class MessageModalComponent implements OnInit {
   /** 網址傳參2 (連結跳轉須加上參數時使用，預設為雙顆按鈕時右邊按鈕的傳參) */
   queryParams2: object;
 
-  constructor(public bsModalRef: BsModalRef, public modal: ModalService, private router: Router, public appService: AppService) { }
+  constructor(public bsModalRef: BsModalRef, public modal: ModalService, private router: Router, public appService: AppService, private location: Location) { }
 
   ngOnInit() {
   }
@@ -68,9 +69,11 @@ export class MessageModalComponent implements OnInit {
    */
   goToUrl(url: string, params: object): void {
     this.bsModalRef.hide();
-    // 先判斷是否需要前往特定連結
-    if (url != null && url.replace(/(^s*)|(s*$)/g, '').length !== 0) {
-      // 再判斷該連結是否需要傳參
+    // 先判斷按下確定鍵後是否需要返回上一頁
+    if (url === 'GoBack') {
+      this.location.back();
+    } else if (url != null && url.replace(/(^s*)|(s*$)/g, '').length !== 0) {  // 判斷是否需要前往特定連結
+       // 再判斷該連結是否需要傳參
       params === null ? this.router.navigate([url]) : this.router.navigate([url], {queryParams: params});
     }
   }

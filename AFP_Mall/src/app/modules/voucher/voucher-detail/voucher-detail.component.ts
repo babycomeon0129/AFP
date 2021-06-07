@@ -19,7 +19,7 @@ declare var AppJSInterface: any;
 })
 export class VoucherDetailComponent implements OnInit, OnDestroy {
   /** UUID */
-  public UUid: number;
+  public UUid: string;
   /** 優惠券編號（從會員中心進來: 會員優惠券編碼 (UserVoucher_Code)，從其他地方: 優惠券編碼 ） */
   public voucherCode: number;
   /** 搜尋模式（優惠券編號開頭 46(優惠券): 4，47(使用者優惠券): 5）; 若是使用者優惠券則不顯示分享鈕 */
@@ -85,7 +85,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
       this.meta.updateTag({ name: 'description', content: this.voucherData.Voucher_Content });
       this.meta.updateTag({ content: this.voucherData.Voucher_ExtName + ' - Mobii!', property: 'og:title' });
       this.meta.updateTag({ content: this.voucherData.Voucher_Content, property: 'og:description' });
-      this.textForShare = `嘿！我有好康優會要跟你分享喔！趕快進來看看吧！這是「${this.voucherData.Voucher_ExtName}」，趕快去領不然被領光就沒得領囉！`;
+      this.textForShare = `嘿～跟你分享好店優惠！「${this.voucherData.Voucher_Title}（${this.voucherData.Voucher_ExtName}）」，快到Mobii!領券喔！`;
       this.APPShareUrl = data.AppShareUrl;
     });
   }
@@ -191,6 +191,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
           // 使用
           this.appService.tLayer = []; // APP 特例處理(APP QRCode的返回鍵是history.back()不是backLayer())
           this.layerTrig = 1;
+          this.appService.appShowBackButton(true);
           this.checkWritenOff();
           break;
       }
@@ -225,7 +226,8 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
           clearTimeout(this.timer3Mins);
           this.layerTrig = 0;
           // showType: 999核銷成功後顯示廣告圖片
-          this.modal.show('message', { initialState: { success: true, message: data.AFP_UserVoucher.VoucherUsedMessage, showType: 999, adImgList: data.List_ADImg, voucherName: data.AFP_UserVoucher.Voucher_Name } });
+          this.modal.show('message', { initialState: { success: true, message: data.AFP_UserVoucher.VoucherUsedMessage,
+            showType: 999, adImgList: data.List_ADImg, voucherName: data.AFP_UserVoucher.Voucher_Name } });
           return false;
         }
       });
@@ -241,7 +243,9 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
 
   /** 關閉顯示QR Code */
   closeQRCode(): void {
+    this.router.navigate(['/Voucher/VoucherDetail', this.voucherCode], {queryParams: { showBack: this.appService.showBack }});
     this.layerTrig = 0;
+    this.appService.appShowBackButton(false);
     clearInterval(this.checkTimer);
     clearTimeout(this.timer3Mins);
   }

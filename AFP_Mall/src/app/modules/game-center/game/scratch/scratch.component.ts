@@ -1,5 +1,5 @@
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit, Input, AfterViewInit, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { Response_Games, Request_Games, AFP_GamePart } from '@app/_models';
 import { ModalService } from '@app/shared/modal/modal.service';
@@ -11,7 +11,7 @@ import { layerAnimation, layerAnimationUp } from '@app/animations';
   styleUrls: ['./scratch.scss'],
   animations: [layerAnimation, layerAnimationUp]
 })
-export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ScratchComponent implements OnInit, AfterViewInit {
   /** 遊戲資料（遊戲名稱、類型、格數、上方圖片、規則、遊玩一次所需點數、刮刮樂圖片。每次玩完不更新） */
   @Input() gameData: Response_Games;
   /** 呼叫父層的noticeAlert方法 (跳出視窗，提醒點數不足或已達遊玩次數上限) */
@@ -53,7 +53,6 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(public appService: AppService, public modal: ModalService, private route: ActivatedRoute) {
   }
 
-  // TODO: 2021/04/28 測試沒問題再把註解掉的東西刪掉吧-Lynn
   ngOnInit() {
     this.totalPoints = this.gameData.TotalPoint;
     this.playTimes = this.gameData.AFP_Game.Game_PlayCount;
@@ -99,32 +98,6 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  /** 使用者在畫布的行為偵測
-   * @param eventType 偵測mouse行為(0: start/down, 1: move, 2: end/up)
-   * @param e 點擊事件addEventListener
-   */
-  // eventDetect(eventType: number, e) {
-  //   // 先判斷該遊戲是否為可遊玩狀態，0: 不可遊玩(未完成綁卡等條件，條件由後端判定) 1:可遊玩
-  //   if (this.gameData.GameState) {
-  //     // 若可玩次數 === 0或是所剩點數不夠遊完一次則阻擋使用者繪製動作
-  //     if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
-  //       this.mousedown = false;
-  //     } else {
-  //       switch (eventType) {
-  //         case 0:
-  //           this.eventDown(e);
-  //           break;
-  //         case 1:
-  //           this.eventMove(e);
-  //           break;
-  //         case 2:
-  //           this.eventUp(e);
-  //           break;
-  //       }
-  //     }
-  //   }
-  // }
-
   /** 使用者在畫布的行為事件-用者按下滑鼠按鈕時開始繪製 */
   eventDown(ev: { preventDefault: () => void; }): void {
     ev.preventDefault();
@@ -137,16 +110,20 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
       } else {
         // 先判斷是否允許進行遊戲
         if (!this.goPlay) {
-          // 跳出扣點確認視窗
-          this.modal
-            .confirm({
-              initialState: {
-                message: `請確定是否扣除 Mobii! Points ${this.gameData.AFP_Game.Game_DedPoint} 點玩「${this.gameData.AFP_Game.Game_ExtName}」？`,
-              },
-            })
-            .subscribe((res) => {
-              this.goPlay = res === true;
-            });
+          // 跳出扣點確認視窗，如果Game_DedPoint為0點，不需要跳Alert
+          if (this.gameData.AFP_Game.Game_DedPoint > 0) {
+            this.modal
+              .confirm({
+                initialState: {
+                  message: `請確定是否扣除 Mobii! Points ${this.gameData.AFP_Game.Game_DedPoint} 點玩「${this.gameData.AFP_Game.Game_ExtName}」？`,
+                },
+              })
+              .subscribe((res) => {
+                this.goPlay = res === true;
+              });
+          } else {
+            this.goPlay = true;
+          }
         } else {
           this.mousedown = true;
         }
@@ -275,13 +252,6 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  /** 監聽事件。放開滑鼠按鍵時停止繪製 */
-  // @HostListener('window:mouseup', ['$event'])
-  // mouseup(event: { preventDefault: () => void; }) {
-  //   event.preventDefault();
-  //   this.mousedown = false;
-  // }
-
   ngAfterViewInit() {
     /** 刮刮樂畫面繪製 */
     this.imgTop.onload = () => {
@@ -290,23 +260,7 @@ export class ScratchComponent implements OnInit, AfterViewInit, OnDestroy {
     this.imgBot.onload = () => {
       this.drawBot();
     };
-
-    /** 鼠標移動開始刮圖層 */
-    // this.topCanvas.addEventListener('touchstart', (e) => { this.eventDetect(0, e); });
-    // this.topCanvas.addEventListener('touchend', (e) => { this.eventDetect(2, e); });
-    // this.topCanvas.addEventListener('touchmove', (e) => { this.eventDetect(1, e); });
-    // this.topCanvas.addEventListener('mousedown', (e) => { this.eventDetect(0, e); });
-    // document.addEventListener('mouseup', (e) => { this.eventDetect(2, e); });
-    // this.topCanvas.addEventListener('mousemove', (e) => { this.eventDetect(1, e); });
   }
 
-  /** 結束偵聽 */
-  ngOnDestroy() {
-    //  this.topCanvas.removeEventListener('touchstart', (e) => { });
-    //  this.topCanvas.removeEventListener('touchend', (e) => { });
-    //  this.topCanvas.removeEventListener('touchmove', (e) => { });
-    //  this.topCanvas.removeEventListener('mousedown', (e) => { });
-    //  document.removeEventListener('mouseup', (e) => { });
-    //  this.topCanvas.removeEventListener('mousemove', (e) => { });
-  }
+
 }

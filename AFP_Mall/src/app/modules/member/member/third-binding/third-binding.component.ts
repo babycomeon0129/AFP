@@ -14,7 +14,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
   // 第三方登入 User容器
   public thirdUser: SocialUser;
   // 第三方登入Request
-  public thirdReques: Request_MemberThird = new Request_MemberThird();
+  public thirdRequest: Request_MemberThird = new Request_MemberThird();
   /** 第三方資訊類型 1 FB, 3 Google 5 Apple */
   public bindMode = 0;
   /** 第三方綁定狀態 */
@@ -34,7 +34,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
       // 為了FB登入特例處理，多判斷 this.bindMode > 0 才呼叫API
       if (user !== null && this.bindMode > 0) {
         this.thirdUser = user;
-        this.thirdReques = {
+        this.thirdRequest = {
           SelectMode: 1,
           User_Code: sessionStorage.getItem('userCode'),
           Store_Note: '',
@@ -42,7 +42,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
           Token: this.thirdUser.id,
           JsonData: JSON.stringify(this.thirdUser)
         };
-        this.thirdbind(this.thirdReques, this.bindMode);
+        this.thirdbind(this.thirdRequest, this.bindMode);
       }
     });
   }
@@ -94,9 +94,9 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
         case 5:
           this.modal.appleLogin({}).subscribe(appleUser => {
             if (appleUser !== null) {
-              const idTokenModel = jwt_decode(appleUser.authorization.id_token);
+              const idTokenModel: any = jwt_decode(appleUser.authorization.id_token);
               const appleToken = idTokenModel.sub;
-              this.thirdReques = {
+              this.thirdRequest = {
                 SelectMode: 1,
                 User_Code: sessionStorage.getItem('userCode'),
                 Store_Note: '',
@@ -104,7 +104,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
                 Token: appleToken,
                 JsonData: JSON.stringify(appleUser)
               };
-              this.thirdbind(this.thirdReques, this.bindMode);
+              this.thirdbind(this.thirdRequest, this.bindMode);
             }
           });
           break;
@@ -113,50 +113,6 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
       this.appService.loginPage();
     }
   }
-
-  /** FB登入按鈕 */
-  // signInWithFB(): void {
-  //   if (this.appService.loginState) {
-  //     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
-  //     this.bindMode = 1;
-  //   } else {
-  //     this.appService.loginPage();
-  //   }
-  // }
-
-  /** Google登入按鈕 */
-  // signInWithGoogle(): void {
-  //   if (this.appService.loginState) {
-  //     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
-  //     this.bindMode = 3;
-  //   } else {
-  //     this.appService.loginPage();
-  //   }
-  // }
-
-  /** Apple登入按鈕 */
-  // signInWithApple(): void {
-  //   if (this.appService.loginState) {
-  //     this.bindMode = 5;
-  //     this.modal.appleLogin({}).subscribe(appleUser => {
-  //       if (appleUser !== null) {
-  //         const idTokenModel = jwt_decode(appleUser.authorization.id_token);
-  //         const appleToken = idTokenModel.sub;
-  //         this.thirdReques = {
-  //           SelectMode: 1,
-  //           User_Code: sessionStorage.getItem('userCode'),
-  //           Store_Note: '',
-  //           Mode: this.bindMode,
-  //           Token: appleToken,
-  //           JsonData: JSON.stringify(appleUser)
-  //         };
-  //         this.thirdbind(this.thirdReques, this.bindMode);
-  //       }
-  //     });
-  //   } else {
-  //     this.appService.loginPage();
-  //   }
-  // }
 
   /** 判斷是否為Apple設備 */
   detectApple(): void {

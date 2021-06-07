@@ -50,7 +50,7 @@ export class AppService {
   /** 當前頁url */
   public currentUrl = this.router.url;
   /** lazyload 的初始圖片 */
-  public defaultImage = '../img/share/eee.jpg';
+  public defaultImage = '/img/share/eee.jpg';
   /** 推播訊息數量 */
   public pushCount = 0;
   /** GUID (推播使用) */
@@ -63,7 +63,7 @@ export class AppService {
    * @description 用於判斷 loginState 由 false 轉為 true 不是因為在之前的訪問所保留的登入狀態下再次進行訪問，
    * APP 因此重新建構及初始化導致，而是因為確實執行了登入。符合此狀況才在 app.component 的變化追蹤 (serviceDiffer)
    * 偵測到 loginState 由 false 轉為 true時，重新訪問當前頁面以取得會員相關資訊。
-   **/
+   */
   public userLoggedIn = false;
   /** 引導手機驗證 modal 是否已開啟（控制此 modal 只開啟一個，避免在需呼叫１個以上 API 的頁面重複開啟）
    * TODO: 暫時作法
@@ -91,6 +91,7 @@ export class AppService {
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
       .pipe(map((data: Response_APIModel) => {
+        this.blockUI.stop();
         switch (data.Base.Rtn_State) {
           case 1: // Response OK
             // 手機是否驗證
@@ -117,12 +118,13 @@ export class AppService {
                 this.onLogout();
                 this.router.navigate(['/']);
             }
-            this.blockUI.stop();
             return JSON.parse(data.Data);
+          case 9996:
+            this.modal.show('message', { initialState: { success: false, message: data.Base.Rtn_Message, showType: 1,  checkBtnMsg: `確定`, target: 'GoBack'} });
+            break;
           case 9998: // user資料不完整，讓使用者登出
-            this.modal.show('message', { initialState: { success: false, message: '請先登入', showType: 2,  checkBtnMsg: `重新登入`} });
+            this.modal.show('message', { initialState: { success: false, message: '請先登入', showType: 2,  singleBtnMsg: `重新登入`} });
             this.onLogout();
-            this.blockUI.stop();
             break;
           default: // 其他錯誤
             this.bsModal.show(MessageModalComponent
@@ -132,7 +134,6 @@ export class AppService {
                   , target: data.Base.Rtn_URL
                 }
               });
-            this.blockUI.stop();
             throw new Error('bad request');
         }
       }, catchError(this.handleError)));
@@ -349,7 +350,7 @@ export class AppService {
             code = voucher.Voucher_UserVoucherCode;
           }
           if (this.route.snapshot.queryParams.showBack === undefined) {
-            this.router.navigate(['/Voucher/VoucherDetail', code]);
+            this.router.navigate(['/Voucher/VoucherDetail', code], {queryParams: { showBack: false }});
           } else {
             // APP特例處理: 若是從會員過去則要隱藏返回鍵
             if (this.route.snapshot.queryParams.showBack) {
@@ -403,7 +404,7 @@ export class AppService {
 
   /** 初始化推播
    * (註冊 service worker、告訴 firebase.messaging 服務之後的訊息請交由此 SW 處理、取得token、產生/取得 deviceCode、傳送給後端並取得新消費者包)
-   * */
+   */
   initPush() {
     if (environment.swActivate) {
       // 不重複初始化
@@ -500,6 +501,21 @@ export class AppService {
       } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
         //  IOS
         (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showBottomBar', isShow: isOpen });
+      }
+    }
+  }
+
+  /** 通知APP是否開啟showBackButton
+   * @param isShowBt true: 開 , false: 關
+   */
+   appShowBackButton(isShowBt: boolean): void {
+    if (this.isApp !== null) {
+      if (navigator.userAgent.match(/android/i)) {
+        // Android
+        AppJSInterface.showBackButton(isShowBt);
+      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+        // IOS
+        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showBackButton', isShow: isShowBt });
       }
     }
   }
