@@ -85,7 +85,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
       this.meta.updateTag({ name: 'description', content: this.voucherData.Voucher_Content });
       this.meta.updateTag({ content: this.voucherData.Voucher_ExtName + ' - Mobii!', property: 'og:title' });
       this.meta.updateTag({ content: this.voucherData.Voucher_Content, property: 'og:description' });
-      this.textForShare = `嘿～跟你分享好店優惠！「${this.voucherData.Voucher_Title}」，快到Mobii!領券喔！`;
+      this.textForShare = `嘿～跟你分享好店優惠！「${this.voucherData.Voucher_Title}（${this.voucherData.Voucher_ExtName}）」，快到Mobii!領券喔！`;
       this.APPShareUrl = data.AppShareUrl;
     });
   }
