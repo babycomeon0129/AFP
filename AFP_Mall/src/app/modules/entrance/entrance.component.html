@@ -170,36 +170,6 @@
           swiperOptionPanes: swiper設定
           slidesPanes: 資料源
           readSheetMode: 1 特賣商品 2 現領優惠券 3 主打店家 4 外送店家 5 旅遊主打 -->
-    <!-- 現領優惠券 -->
-    <div *ngIf="nowVoucher?.length > 0" class="offers-list container my-2 px-3">
-      <h6>現領優惠券</h6>
-      <div class="afp-tab-box">
-        <div class="afp-tab mb-3">
-          <nav>
-            <app-swiper-nav [swiperOptionNav]="boxTabs" [slidesNav]="nowVoucher" [readSheetMode]="2"
-              (readSheetNav)="readSheetPanes($event)"></app-swiper-nav>
-          </nav>
-          <app-swiper-panes [swiperOptionPanes]="boxOffer" [slidesPanes]="nowVoucher" [readSheetMode]="2">
-          </app-swiper-panes>
-        </div>
-      </div>
-    </div>
-
-    <!-- 主打店家 -->
-    <div *ngIf="hitArea?.length > 0" class="explore-block container px-3 pb-3">
-      <h6>主打店家</h6>
-      <div class="afp-tab-box">
-        <div class="afp-tab">
-          <nav>
-            <app-swiper-nav [swiperOptionNav]="boxTabs" [slidesNav]="hitArea" [readSheetMode]="3"
-              (readSheetNav)="readSheetPanes($event)"></app-swiper-nav>
-          </nav>
-          <app-swiper-panes [swiperOptionPanes]="boxTFeature" [slidesPanes]="hitArea" [readSheetMode]="3">
-          </app-swiper-panes>
-        </div>
-      </div>
-    </div>
-
     <!-- 線上點餐推薦 -->
     <div *ngIf="deliveryArea?.length > 0" class="explore-block container px-3 pb-3">
       <h6>線上點餐推薦</h6>
@@ -214,7 +184,34 @@
         </div>
       </div>
     </div>
-
+    <!-- 主打店家 -->
+    <div *ngIf="hitArea?.length > 0" class="explore-block container px-3 pb-3">
+      <h6>主打店家</h6>
+      <div class="afp-tab-box">
+        <div class="afp-tab">
+          <nav>
+            <app-swiper-nav [swiperOptionNav]="boxTabs" [slidesNav]="hitArea" [readSheetMode]="3"
+              (readSheetNav)="readSheetPanes($event)"></app-swiper-nav>
+          </nav>
+          <app-swiper-panes [swiperOptionPanes]="boxTFeature" [slidesPanes]="hitArea" [readSheetMode]="3">
+          </app-swiper-panes>
+        </div>
+      </div>
+    </div>
+    <!-- 現領優惠券 -->
+    <div *ngIf="nowVoucher?.length > 0" class="offers-list container my-2 px-3">
+      <h6>現領優惠券</h6>
+      <div class="afp-tab-box">
+        <div class="afp-tab mb-3">
+          <nav>
+            <app-swiper-nav [swiperOptionNav]="boxTabs" [slidesNav]="nowVoucher" [readSheetMode]="2"
+              (readSheetNav)="readSheetPanes($event)"></app-swiper-nav>
+          </nav>
+          <app-swiper-panes [swiperOptionPanes]="boxOffer" [slidesPanes]="nowVoucher" [readSheetMode]="2">
+          </app-swiper-panes>
+        </div>
+      </div>
+    </div>
     <!-- 特賣商品 -->
     <div *ngIf="popProducts?.length > 0" class="onsale-list container my-2 px-3">
       <h6>特賣商品</h6>
