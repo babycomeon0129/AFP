@@ -143,18 +143,21 @@ export class MissionComponent implements OnInit {
             window.open(mission.Mission_CurrentURL, mission.Mission_CurrentURLTarget);
           } else {
             // 其他一般任務
-            if (this.appService.isApp != null) {
+            if (this.appService.isApp !== null) {
               // APP
               mission.Mission_CurrentURL = mission.Mission_CurrentURL + '?isApp=1';
               window.open(mission.Mission_CurrentURL, mission.Mission_CurrentURLTarget);
             } else {
               // web
+              // TODO: 因後台任務路徑因營運需求有可能被塞入query params (ex: tabCode)，但router.navigate的query params需另外拆開放
+              // ，否則redirect會有問題，因無法確認營運未來會放多少query params，故統一用window.open進行。
+              window.open(mission.Mission_CurrentURL, mission.Mission_CurrentURLTarget);
               // 判斷前往連結為絕對／相對路徑（會影響有判斷如何回上一頁的地方）
-              if (mission.Mission_CurrentURL.includes('http')) {
-                window.open(mission.Mission_CurrentURL, mission.Mission_CurrentURLTarget);
-              } else {
-                this.router.navigate([mission.Mission_CurrentURL]);
-              }
+              // if (mission.Mission_CurrentURL.includes('http')) {
+              //   window.open(mission.Mission_CurrentURL, mission.Mission_CurrentURLTarget);
+              // } else {
+              //   this.router.navigate([mission.Mission_CurrentURL]);
+              // }
             }
           }
           break;
