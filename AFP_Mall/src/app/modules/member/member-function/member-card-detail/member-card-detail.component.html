@@ -26,7 +26,7 @@
           <ul>
             <li class="bg-linear-gray">
               <button type="button" class="btn card-delete" (click)="btnDel()">
-                <div class="img-logo" [lazyLoad]="cardGroupImg" [defaultImage]="cardGroupImgDef">
+                <div class="img-logo" [lazyLoad]="cardGroupImg | Safe: 'url'" [defaultImage]="cardGroupImgDef">
                   <img src="../../img/member/delete.png" class="img-del">
                 </div>
               </button>
@@ -66,11 +66,11 @@
             </li>
           </ul>
         </div>
-        <div class="item pb-5" *ngIf="requestCard.CardGroup_List != null">
+        <div class="item pb-5" *ngIf="requestCard.CardGroup_List !== null && cardGroupList !== null">
           <div class="group-link" (click)="this.cardGroupLink = !this.cardGroupLink">
             <p class="item">會員限定優惠
-              <i class="material-icons" *ngIf="requestCard.CardGroup_List.length === 1">&#xe315;</i>
-              <i [ngClass]="{'material-icons': true, 'up': cardGroupLink}" *ngIf="requestCard.CardGroup_List.length > 1">&#xe313;</i>
+              <i class="material-icons" *ngIf="cardGroupList.length === 1">&#xe315;</i>
+              <i [ngClass]="{'material-icons': true, 'up': cardGroupLink}" *ngIf="cardGroupList.length > 1">&#xe313;</i>
             </p>
           </div>
           <div class="group-link-box" *ngIf="cardGroupLink">
