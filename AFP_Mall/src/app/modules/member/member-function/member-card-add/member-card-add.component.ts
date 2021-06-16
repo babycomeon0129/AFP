@@ -113,7 +113,7 @@ export class MemberCardAddComponent implements OnInit {
       setTimeout(() => {
         if (parseInt(this.cardLimit, 10) === 2 && this.cardList.length <= parseInt(this.cardLimitMax, 10)) {
           this.modal.show('message', {
-            initialState: { success: true, message: '綁定成功', note: '【溫馨提醒】本卡尚未完成一卡通記名作業，如需記名請至一卡通官網操作完成。', showType: 1 }
+            initialState: { success: true, message: '綁定成功', note: '【溫馨提醒】本卡尚未完成卡片記名作業，如需記名請至官網操作完成。', showType: 1 }
           });
         }
       }, 2000);

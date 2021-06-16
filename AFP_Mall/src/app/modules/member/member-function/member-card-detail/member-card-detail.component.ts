@@ -1,4 +1,4 @@
-import { catchError } from 'rxjs/operators';
+import { group } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { ModalService } from '@app/shared/modal/modal.service';
@@ -7,7 +7,6 @@ import { NgForm } from '@angular/forms';
 import { AppService } from 'src/app/app.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
-import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 @Component({
   selector: 'app-member-card-detail',
@@ -17,8 +16,20 @@ import { connectableObservableDescriptor } from 'rxjs/internal/observable/Connec
 export class MemberCardDetailComponent implements OnInit {
   /** 修改卡片 ngForm request */
   public requestCard: AFP_UserFavourite = new AFP_UserFavourite();
+  /** 卡片群組列表篩選連結不為空 */
+  public cardGroupList = [];
+  /** 卡片群組名稱 */
+  public cardGroupName: string;
+  /** 卡片群組縮圖預設 */
+  public cardGroupThumbnailDef = '../../img/member/myCardThumbnailDef.png';
+  /** 卡片群組底圖預設 */
+  public cardGroupImgDef = '../../img/member/myCardDef.png';
+  /** 卡片群組底圖 */
+  public cardGroupImg: string;
+  /** 卡片群組連結顯示隱藏 */
+  public cardGroupLink: boolean;
   /** 卡片ID */
-  public UserFavouriteID: string;
+  public userFavouriteID: string;
 
   constructor(public appService: AppService, public modal: ModalService, public bsModalRef: BsModalRef,
               private meta: Meta, private title: Title, private route: ActivatedRoute, private router: Router) {
@@ -30,10 +41,11 @@ export class MemberCardDetailComponent implements OnInit {
 
   ngOnInit() {
     /** 取得route.queryParams卡片ID */
-    this.UserFavouriteID = this.route.snapshot.paramMap.get('UserFavourite_ID');
-    if (typeof this.UserFavouriteID !== 'undefined') {
+    this.userFavouriteID = this.route.snapshot.paramMap.get('UserFavourite_ID');
+    if (typeof this.userFavouriteID !== 'undefined') {
       this.onReadCardDetail();
     }
+    this.cardGroupLink = false;
   }
 
   /** 讀取卡片詳細 */
@@ -50,13 +62,24 @@ export class MemberCardDetailComponent implements OnInit {
           UserFavourite_SyncState: 0
         },
         SearchModel: {
-          UserFavourite_ID: parseInt(this.UserFavouriteID, 10)
+          UserFavourite_ID: parseInt(this.userFavouriteID, 10)
         }
       };
       this.appService.toApi('Member', '1507', request).subscribe((data: Response_MemberMyCard) => {
-        this.requestCard = data.AFP_UserFavourite;
         if (this.requestCard === null) {
           this.router.navigate(['/MemberFunction/MemberCard'], { queryParams: { showBack: this.appService.showBack } });
+        }
+        this.requestCard = data.AFP_UserFavourite;
+        if (this.requestCard.CardGroup_List !== null) {
+          this.cardGroupName = this.requestCard.CardGroup_List[0].CardGroup_Name;
+          this.cardGroupImg = this.requestCard.CardGroup_List[0].CardGroup_Img;
+        } else {
+          parseInt(this.userFavouriteID, 10) === 1 ?
+            this.cardGroupImg = '../../img/member/my_ipass_bg.png' :
+            this.cardGroupImg = '../../img/member/my_easycard_bg.png' ;
+        }
+        if (this.requestCard.CardGroup_List !== null) {
+          this.cardGroupList = this.requestCard.CardGroup_List.filter(item => item.CardGroup_Link !== null);
         }
       });
     } else {
@@ -79,7 +102,7 @@ export class MemberCardDetailComponent implements OnInit {
       SelectMode: 3, // 修改
       AFP_UserFavourite: this.requestCard,
       SearchModel: {
-        UserFavourite_ID: parseInt(this.UserFavouriteID, 10)
+        UserFavourite_ID: parseInt(this.userFavouriteID, 10)
       }
     };
     this.appService.toApi('Member', '1507', request).subscribe((data: Response_MemberMyCard) => {
@@ -96,7 +119,7 @@ export class MemberCardDetailComponent implements OnInit {
           User_Code: sessionStorage.getItem('userCode'),
           SelectMode: 2,
           AFP_UserFavourite: {
-            UserFavourite_ID: parseInt(this.UserFavouriteID, 10),
+            UserFavourite_ID: parseInt(this.userFavouriteID, 10),
             UserFavourite_CountryCode: 886,
             UserFavourite_TypeCode: this.requestCard.UserFavourite_TypeCode,
             UserFavourite_Type: 2,
@@ -105,7 +128,7 @@ export class MemberCardDetailComponent implements OnInit {
             UserFavourite_SyncState: 0
           },
           SearchModel: {
-            UserFavourite_ID: parseInt(this.UserFavouriteID, 10)
+            UserFavourite_ID: parseInt(this.userFavouriteID, 10)
           }
         };
         this.appService.toApi('Member', '1507', request).subscribe((data: Response_MemberMyCard) => {

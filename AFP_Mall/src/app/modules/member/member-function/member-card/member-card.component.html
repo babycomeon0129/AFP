@@ -1,4 +1,4 @@
-<div class="wrap container">
+<div class="wrap container bg-white">
   <!--我的卡片1-->
   <header>
     <div class="header-secondary container">
@@ -62,7 +62,7 @@
                 <div class="mycard-container">
                   <a [routerLink]="[cardImg.ADImg_URL]" [target]="[cardImg.ADImg_URLTarget]">
                     <div class="card-img-box">
-                      <img class="img-banner" [src]="cardImg.ADImg_Img">
+                      <div class="rwdimg h60" [lazyLoad]="cardImg.ADImg_Img" [defaultImage]="appService.defaultImage"></div>
                     </div>
                   </a>
                 </div>
@@ -72,7 +72,7 @@
         </div>
         <!-- <a [routerLink]="['/MemberFunction/MemberCardCertificate']" [queryParams]="{ showBack: appService.showBack}">榮民卡</a> -->
         <!-- 已綁定的卡片 -->
-        <div class="card-fixed-bottom">
+        <div class="card-fixed-bottom" [hidden]="fixedBtn">
           <a class="btn-tied-card" [routerLink]="['/MemberFunction/MemberCardList']"
             [queryParams]="{ showBack: appService.showBack}">
             已綁定的卡片<i class="material-icons">&#xe315;</i>
@@ -83,5 +83,3 @@
   </main>
 </div>
 
-<!-- <app-pc-footer></app-pc-footer> -->
-<app-mobile-footer></app-mobile-footer>
