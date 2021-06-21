@@ -167,6 +167,8 @@ export interface AFP_Function {
   isAdd?: boolean;
 }
 
+
+
 /** 目錄資訊 */
 export interface Model_AreaJsonFile {
   /** 外部目錄頻道ID */
@@ -554,6 +556,20 @@ export interface AFP_Product {
   /** 資料狀態 0:無效 1:有效 */
   Product_State: boolean;
 
+}
+
+/** 第三方登入RequestModel */
+export class Request_AFPThird {
+  /** 第三方登入類型  1 : Facebook  2 : Line 3 : Google  4 : WeChat */
+  Mode?: number;
+  /** 帳號 */
+  Account?: string;
+  /** 名稱 */
+  NickName?: string;
+  /** 第三方Token */
+  Token?: string;
+  /** 回傳JSON */
+  JsonData?: string;
 }
 
 /** 商城首頁 ResponseModel */

@@ -1,0 +1,139 @@
+/* text middle line */
+.line-middle {
+  text-align: center;
+  background-color: #fff;
+  width: 350px;
+  margin: 0 auto;
+  padding-bottom: 1em;
+  @media (max-width: 375px) {
+    width: 280px;
+  }
+}
+.line-middle-middle-line:before {
+  content: "";
+  display: block;
+  height: 1px;
+  width: 100%;
+  background-color: #182B56;
+  position: relative;
+  top: 10px;
+  left: 0;
+}
+.line-middle-line-text {
+  display: inline-block;
+  background: #fff;
+  padding: 0 2em 0 2em;
+  position: relative;
+  font-size: 0.95em;
+  color: #182B56;
+}
+
+
+
+/* google login button */
+#customBtn {
+  display: inline-block;
+  background: white;
+  color: #444;
+  width: 280px;
+  height: 32px;
+  border-radius: 30px;
+  border: 1px solid #13334C;
+  white-space: nowrap;
+  text-align: center;
+  span.label {
+    font-family: serif;
+    font-weight: normal;
+  }
+  span.icon {
+    background: url("https://developers-dot-devsite-v2-prod.appspot.com/identity/sign-in/g-normal.png") transparent
+      no-repeat center/80%;
+    display: inline-block;
+    vertical-align: middle;
+    width: 30px;
+    height: 30px;
+  }
+  span.buttonText {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 14px;
+    font-weight: bold;
+    /* Use the Roboto font that is loaded in the <head> */
+    font-family: "Roboto", sans-serif;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+#customBtnFB {
+  display: inline-block;
+  background: #3C599B;
+  color: #fff;
+  width: 280px;
+  height: 32px;
+  border-radius: 30px;
+  white-space: nowrap;
+  text-align: center;
+  span.label {
+    font-family: serif;
+    font-weight: normal;
+  }
+  span.icon {
+    background: url("/img/index/social/fb.png") transparent no-repeat
+      center/80%;
+    display: inline-block;
+    vertical-align: middle;
+    width: 33px;
+    height: 33px;
+  }
+  span.buttonText {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 14px;
+    font-weight: bold;
+    /* Use the Roboto font that is loaded in the <head> */
+    font-family: "Roboto", sans-serif;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+#customBtnLine {
+  display: inline-block;
+  background: #00C300;
+  color: #fff;
+  width: 280px;
+  height: 32px;
+  border-radius: 30px;
+  white-space: nowrap;
+  text-align: center;
+  span.label {
+    font-family: serif;
+    font-weight: normal;
+  }
+  span.icon {
+    background: url("/img/index/social/iconline.png") transparent no-repeat
+      center/65%;
+    display: inline-block;
+    vertical-align: middle;
+    width: 30px;
+    height: 30px;
+  }
+  span.buttonText {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 14px;
+    font-weight: bold;
+    /* Use the Roboto font that is loaded in the <head> */
+    font-family: "Roboto", sans-serif;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+  button {
+    color: #fff;
+    border: 0;
+  }
+}

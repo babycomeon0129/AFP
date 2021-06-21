@@ -23,6 +23,8 @@ export class MissionComponent implements OnInit {
   public listMission: AFP_Mission[] = [];
   /** 每日任務未完成數 */
   public dailyLeft = 0;
+  /** 第三方登入 (目前僅適用於Line) */
+
 
   constructor(public appService: AppService, public modal: ModalService, private router: Router, private route: ActivatedRoute, private meta: Meta, private title: Title) {
     this.title.setTitle('任務 - Mobii!');

@@ -15,46 +15,7 @@
 </section>
 <div class="wrap container">
   <header>
-    <div class="mobii-topbox">
-      <div class="container">
-        <img src="img/share/mlogo.png" class="m-topbox-item mobiitoplogo">
-        <div class="m-topbox-item d-flex align-items-center">
-          <!-- 引導下載App QR Code -->
-          <div class="for-pc dwloadApp" data-toggle="tooltip">下載App
-            <div class="appQR">
-              <qrcode [qrdata]="'https://mobii.ai/ForApp/AppDownload'" [width]="116" [errorCorrectionLevel]="'L'"
-                id="qrcode">
-              </qrcode>
-              <strong>下載享優惠</strong>
-            </div>
-          </div>
-          <!-- 未登入 -->
-          <button (click)="appService.loginPage()" *ngIf="!appService.loginState" type="button"
-            class="m-topbox-item btn bluedk-outline-btn btw-small">
-            登入/註冊
-          </button>
-          <!-- 電腦版 登入 -->
-          <div *ngIf="appService.loginState" class="userbox">
-            <div *ngIf="appService.loginState" class="txt-line-clamp1 user-hi"><a
-                [routerLink]="['/Member']">你好，{{appService.userName}}</a> </div>
-          </div>
-          <ul *ngIf="appService.loginState" class="userdrop nav navbar-nav">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">&#xE5D3;</i></a>
-              <ul class="dropdown-menu dropdown-menu-right">
-                <li><a [routerLink]="['/MemberFunction/MemberDiscount']"><img src="img/share/drop_discount.png"
-                      alt="">我的優惠</a></li>
-                <li><a [routerLink]="['/MemberFunction/MemberFavorite']"><img src="img/share/drop_favorite.png"
-                      alt="">我的收藏</a></li>
-                <li><a [routerLink]="['/MemberFunction/MemberOrder']"><img src="img/share/drop_order.png"
-                      alt="">我的訂單</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <img src="img/index/txt.png" class="m-topbox-item sloger">
-    </div>
+    <app-index-header></app-index-header>
     <!-- 手機版 上方banner -->
     <section class="mobii-bnbox">
       <div class="userbox mr-auto">

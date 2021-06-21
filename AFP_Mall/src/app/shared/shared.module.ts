@@ -28,6 +28,7 @@ import { VerifyMobileModalComponent } from './modal/verify-mobile-modal/verify-m
 import { PCFooterComponent } from './widget/pc-footer/pc-footer.component';
 import { MobileFooterComponent } from './widget/mobile-footer/mobile-footer.component';
 import { BackBtnComponent } from './widget/back-btn/back-btn.component';
+import { IndexHeaderComponent } from './widget/index-header/index-header.component';
 // Third-Party Plugin
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 // swiper
@@ -35,6 +36,9 @@ import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 import { SwiperContentComponent } from './swiper/swiper-content/swiper-content.component';
 import { SwiperNavComponent } from './swiper/swiper-nav/swiper-nav.component';
 import { SwiperPanesComponent } from './swiper/swiper-panes/swiper-panes.component';
+// QRCODE
+import { QRCodeModule } from 'angularx-qrcode';
+
 
 @NgModule({
   declarations: [
@@ -63,6 +67,7 @@ import { SwiperPanesComponent } from './swiper/swiper-panes/swiper-panes.compone
     SwiperNavComponent,
     SwiperPanesComponent,
     BackBtnComponent,
+    IndexHeaderComponent,
   ],
   exports: [
     SafePipe,
@@ -87,6 +92,7 @@ import { SwiperPanesComponent } from './swiper/swiper-panes/swiper-panes.compone
     PCFooterComponent,
     MobileFooterComponent,
     BackBtnComponent,
+    IndexHeaderComponent,
     SwiperContentComponent,
     SwiperNavComponent,
     SwiperPanesComponent
@@ -97,7 +103,8 @@ import { SwiperPanesComponent } from './swiper/swiper-panes/swiper-panes.compone
     ReactiveFormsModule,
     RouterModule,
     LazyLoadImageModule,
-    NgxUsefulSwiperModule
+    NgxUsefulSwiperModule,
+    QRCodeModule
   ],
   entryComponents: [
     ForgetModalComponent,
