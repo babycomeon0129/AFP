@@ -378,6 +378,8 @@ export interface Response_AreaDetail extends Model_ShareData {
   AFP_UserReport: AFP_UserReport[];
   /** 電商商店外部類型資訊 */
   Model_ECStoreExtType: AFP_ECStoreExtType;
+  /** 商家推薦連結 */
+  List_ECStoreLink: AFP_ECStoreLink[];
 }
 
 /** 電商商店外部類型資訊 */
@@ -390,6 +392,20 @@ export class AFP_ECStoreExtType {
   ECStoreExtType_Type: number;
   /** 外部編碼 */
   ECStoreExtType_ExtCode: number;
+}
+
+/** 電商商店推薦連結 */
+export interface AFP_ECStoreLink {
+  /** 名稱 */
+  ECStoreLink_Name: string;
+  /** 網頁開啟模式 */
+  ECStoreLink_URLTarget: string;
+  /** 連結 */
+  ECStoreLink_URL: string;
+  /** 圖示 */
+  ECStoreLink_Icon: string;
+  /** 排序 */
+  ECStoreLink_Sort: number;
 }
 
 /** AFP 電商商店資訊表 */
