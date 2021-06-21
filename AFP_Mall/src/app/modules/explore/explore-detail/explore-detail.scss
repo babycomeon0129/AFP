@@ -3,11 +3,14 @@
 /* shopping商店頁 */
 .shopping-storedetail {
   .shopping-storeup {
-    padding: 0.5em;
+    padding: .5em 0 .5em .5em;
     width: inherit;
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+    position: absolute;
+    top: 0;
+    z-index: 1030;
   }
   .shopping-storeimgbox {
     overflow: hidden;
