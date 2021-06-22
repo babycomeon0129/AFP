@@ -1,11 +1,10 @@
-import { group } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { AFP_UserFavourite, Request_MemberMyCard, Response_MemberMyCard } from '@app/modules/member/_module-member';
 import { NgForm } from '@angular/forms';
 import { AppService } from 'src/app/app.service';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
@@ -84,7 +83,7 @@ export class MemberCardDetailComponent implements OnInit {
                 this.cardGroupImg = '../../img/member/my_easycard_bg.png' ;
               }
             }
-          })
+          });
         }
         if (this.requestCard.CardGroup_List !== null) {
           this.cardGroupList = this.requestCard.CardGroup_List.filter(item => (item.CardGroup_Link !== null && item.CardGroup_State === 0));
