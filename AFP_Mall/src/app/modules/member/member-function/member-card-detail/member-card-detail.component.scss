@@ -113,10 +113,11 @@ span {
 }
 
 .group-link {
+  display: block;
+  color: $blue-dark;
   background-color: white;
   line-height: 3em;
   margin-top: 3em;
-  vertical-align: middle;
   text-align: center;
   width: 100%;
   border-top: 1px #eee solid;

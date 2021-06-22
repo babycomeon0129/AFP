@@ -74,12 +74,20 @@ export class MemberCardDetailComponent implements OnInit {
           this.cardGroupName = this.requestCard.CardGroup_List[0].CardGroup_Name;
           this.cardGroupImg = this.requestCard.CardGroup_List[0].CardGroup_Img;
         } else {
-          parseInt(this.userFavouriteID, 10) === 1 ?
-            this.cardGroupImg = '../../img/member/my_ipass_bg.png' :
-            this.cardGroupImg = '../../img/member/my_easycard_bg.png' ;
+          data.AFP_UserReport.forEach(item => {
+            if (item.UserReport_ID === parseInt(this.userFavouriteID, 10)) {
+              if (item.UserReport_ParamJ !== null) {
+                this.cardGroupImg = item.UserReport_ParamJ;
+              } else {
+                parseInt(this.userFavouriteID, 10) === 1 ?
+                this.cardGroupImg = '../../img/member/my_ipass_bg.png' :
+                this.cardGroupImg = '../../img/member/my_easycard_bg.png' ;
+              }
+            }
+          })
         }
         if (this.requestCard.CardGroup_List !== null) {
-          this.cardGroupList = this.requestCard.CardGroup_List.filter(item => item.CardGroup_Link !== null);
+          this.cardGroupList = this.requestCard.CardGroup_List.filter(item => (item.CardGroup_Link !== null && item.CardGroup_State === 0));
         }
       });
     } else {

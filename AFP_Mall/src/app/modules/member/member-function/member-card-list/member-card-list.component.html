@@ -28,8 +28,8 @@
                 <div class="img-logo" [lazyLoad]="card.CardGroup_List[0].CardGroup_Thumbnail" [defaultImage]="cardGroupThumbnailDef"></div>
               </div>
               <ng-template #elseImg>
-                <div class="img-logo" *ngIf="card.UserFavourite_TypeCode === 1" style="background-image: url('/img/member/my_ipass_icon.png')"></div>
-                <div class="img-logo" *ngIf="card.UserFavourite_TypeCode === 11" style="background-image: url('/img/member/my_easycard_icon.png')"></div>
+                <div class="img-logo" *ngIf="card.UserFavourite_TypeCode === 1" [lazyLoad]="cardThumbnailDef1" [defaultImage]="cardGroupThumbnailDef"></div>
+                <div class="img-logo" *ngIf="card.UserFavourite_TypeCode === 11" [lazyLoad]="cardThumbnailDef11" [defaultImage]="cardGroupThumbnailDef"></div>
               </ng-template>
             </div>
           </div>
