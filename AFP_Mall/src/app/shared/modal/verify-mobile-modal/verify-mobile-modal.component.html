@@ -14,7 +14,7 @@
       <button type="button" class="btn btn-login px-0 w-50" *ngIf="!forceVerify" (click)="closeModal()">
         下次再說
       </button>
-      <button type="button" class="btn btn-login px-0 w-50" [routerLink]="['/Member/CellVerification']" [queryParams]="{toVerifyMobile: true}" (click)="closeModal()">
+      <button type="button" class="btn btn-login px-0 w-50" [routerLink]="['/Member/CellVerification']" [queryParams]="{toVerifyMobile: true}" (click)="bsModalRef.hide()">
         認證去
       </button>
     </div>
