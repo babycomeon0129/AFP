@@ -21,7 +21,7 @@ export class MemberCardListComponent implements OnInit, AfterViewInit {
   /** 卡片類型縮圖預設 一卡通 */
   public cardThumbnailDef1 = '../../img/member/my_ipass_icon.png';
   /** 卡片類型縮圖預設 悠遊卡 */
-  public cardThumbnailDef11= './../img/member/my_easycard_icon.png';
+  public cardThumbnailDef11 = './../img/member/my_easycard_icon.png';
   /** 置底按鈕先隱藏，需載入完1秒後才顯示，避免換頁殘影重疊 */
   public fixedBtn = true;
 
@@ -60,10 +60,9 @@ export class MemberCardListComponent implements OnInit, AfterViewInit {
         this.UserReoprtList = data.AFP_UserReport;
         this.UserReoprtList.forEach(item => {
           (item.UserReport_ItemCode === 1) ?
-          this.cardThumbnailDef1 = this.UserReoprtList[0].UserReport_ParamI:
-          this.cardThumbnailDef11 = this.UserReoprtList[0].UserReport_ParamI;
+          this.cardThumbnailDef1 = this.UserReoprtList[0].UserReport_ParamI :
+          this.cardThumbnailDef11 = this.UserReoprtList[0].UserReport_ParamI ;
         });
-        console.log(this.cardList, this.UserReoprtList)
       });
     } else {
       this.appService.loginPage();
