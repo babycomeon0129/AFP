@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { environment } from '@env/environment';
 import { BsModalRef } from 'ngx-bootstrap';
@@ -64,7 +64,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
 
   constructor(
     public bsModalRef: BsModalRef, private authService: AuthService, private appService: AppService, public modal: ModalService,
-    private cookieService: CookieService, private router: Router) {
+    private cookieService: CookieService, private router: Router, private route: ActivatedRoute) {
       this.detectApple();
   }
 
@@ -126,7 +126,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
 
     // LINE第三方
     this.newThirdRequest.DeviceType = this.appService.isApp !== null ? '1' : '0';
-    this.newThirdRequest.UserRedirectUri = location.href;
+    this.newThirdRequest.UserRedirectUri = this.router.url;
   }
 
   /** 登入表單送出 */
