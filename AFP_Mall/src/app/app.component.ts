@@ -106,7 +106,7 @@ export class AppComponent implements OnInit {
       }
 
       // 第三方登入失敗 (目前只有Line)
-      if(params.Mobii_ThirdLogin === 'false' && params.Mode !== undefined && !this.appService.loginState) {
+      if(params.Mobii_ThirdLogin === 'false' && params.Mode !== undefined &&  params.Error === '2' && !this.appService.loginState) {
         let errMessage: string = '';
         switch(params.Mode) {
           case '2' :

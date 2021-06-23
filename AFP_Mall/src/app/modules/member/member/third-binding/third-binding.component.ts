@@ -89,10 +89,28 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
           });
 
           // 判斷第三方是否綁定失敗（目前只有Line）
-          if (this.router.snapshot.queryParams.Mobii_ThirdBind === 'false' && this.router.snapshot.queryParams.Mode !== undefined) {
-            if (!this.bindStatus.line) {
-              this.modal.show('message', { initialState: { success: false, message: `Line@驗證失敗，請重新取得授權`, showType: 1 } });
+          // queryParams Error 1:LINE已被綁定 2:LINE 授權失敗
+          if (this.router.snapshot.queryParams.Mobii_ThirdBind === 'false' && this.router.snapshot.queryParams.Mode !== undefined && this.router.snapshot.queryParams.Error !== undefined) {
+            let msg = '';
+            let mode = '';
+            switch(this.router.snapshot.queryParams.Error){
+              case '1':
+                msg = '帳號已被綁定';
+                break;
+              default:
+                msg = '驗證失敗，請重新取得授權';
+                break;
             }
+
+            switch(this.router.snapshot.queryParams.Mode) {
+              case '2':
+                mode = 'Line@';
+                break;
+            }
+
+            if (!this.bindStatus.line) {
+              this.modal.show('message', { initialState: { success: false, message: `${mode}${msg}`, showType: 1 } });
+            }0
           }
         }
       });
