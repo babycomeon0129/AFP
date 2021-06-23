@@ -88,11 +88,9 @@ export class MemberCardDetailComponent implements OnInit {
             }
           });
         }
-        console.log(this.cardGroupImg);
         if (this.requestCard.CardGroup_List !== null) {
           this.cardGroupList = this.requestCard.CardGroup_List.filter(item => (item.CardGroup_Link !== null && item.CardGroup_State === 0));
         }
-        console.log(data);
       });
     } else {
       this.appService.loginPage();
