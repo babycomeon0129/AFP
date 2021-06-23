@@ -84,11 +84,11 @@
             </div>
             <div class="row">
               <!-- 推薦連結，只顯示九顆按鈕 -->
-              <a class="col" *ngFor="let link of ecstoreLink; let i = index;" [hidden]="ecstoreLink.length > 9 ? i > 8 : i > 9" [target]="link.ECStoreLink_URLTarget" [href]="link.ECStoreLink_URL">
+              <a class="col" *ngFor="let link of ecstoreLink; let i = index;" [hidden]="ecstoreLink.length > 10 ? i > 8 : i > 9" [target]="link.ECStoreLink_URLTarget" [href]="link.ECStoreLink_URL">
                 <img [src]="link.ECStoreLink_Icon">
                 <p class="txt-line-clamp1">{{ link.ECStoreLink_Name }}</p>
               </a>
-              <div class="col" (click)="layerTrig = 3" [hidden]=" !(ecstoreLink.length > 9)">
+              <div class="col" (click)="layerTrig = 3" [hidden]=" !(ecstoreLink.length > 10)">
                 <img src="../../../../img/shopping/store/more.png">
                 <p class="txt-line-clamp1">更多</p>
               </div>
