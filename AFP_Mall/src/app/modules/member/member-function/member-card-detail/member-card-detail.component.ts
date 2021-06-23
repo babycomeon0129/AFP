@@ -29,6 +29,8 @@ export class MemberCardDetailComponent implements OnInit {
   public cardGroupLink: boolean;
   /** 卡片ID */
   public userFavouriteID: string;
+  /** 卡片類型 */
+  public userFavouriteTypeCode: string;
 
   constructor(public appService: AppService, public modal: ModalService, public bsModalRef: BsModalRef,
               private meta: Meta, private title: Title, private route: ActivatedRoute, private router: Router) {
@@ -39,8 +41,9 @@ export class MemberCardDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    /** 取得route.queryParams卡片ID */
+    /** 取得route.queryParams卡片ID,卡片類型 */
     this.userFavouriteID = this.route.snapshot.paramMap.get('UserFavourite_ID');
+    this.userFavouriteTypeCode = this.route.snapshot.paramMap.get('UserFavourite_TypeCode');
     if (typeof this.userFavouriteID !== 'undefined') {
       this.onReadCardDetail();
     }
@@ -74,20 +77,22 @@ export class MemberCardDetailComponent implements OnInit {
           this.cardGroupImg = this.requestCard.CardGroup_List[0].CardGroup_Img;
         } else {
           data.AFP_UserReport.forEach(item => {
-            if (item.UserReport_ID === parseInt(this.userFavouriteID, 10)) {
+            if (item.UserReport_ItemCode === parseInt(this.userFavouriteTypeCode, 10)) {
               if (item.UserReport_ParamJ !== null) {
                 this.cardGroupImg = item.UserReport_ParamJ;
               } else {
-                parseInt(this.userFavouriteID, 10) === 1 ?
+                parseInt(this.userFavouriteTypeCode, 10) === 1 ?
                 this.cardGroupImg = '../../img/member/my_ipass_bg.png' :
                 this.cardGroupImg = '../../img/member/my_easycard_bg.png' ;
               }
             }
           });
         }
+        console.log(this.cardGroupImg);
         if (this.requestCard.CardGroup_List !== null) {
           this.cardGroupList = this.requestCard.CardGroup_List.filter(item => (item.CardGroup_Link !== null && item.CardGroup_State === 0));
         }
+        console.log(data);
       });
     } else {
       this.appService.loginPage();

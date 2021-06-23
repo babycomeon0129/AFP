@@ -21,7 +21,7 @@
   <main>
     <div class="tied-card-list" *ngIf="cardList.length > 0; else elseBlock">
       <div class="tied-card-item" *ngFor="let card of cardList">
-        <div class="d-flex" [routerLink]="['/MemberFunction/MemberCardDetail/', card.UserFavourite_ID]">
+        <div class="d-flex" [routerLink]="['/MemberFunction/MemberCardDetail/', card.UserFavourite_ID, card.UserFavourite_TypeCode]">
           <div class="item">
             <div class="img-box">
               <div *ngIf="card.CardGroup_List !== null; else elseImg">
