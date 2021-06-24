@@ -124,7 +124,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       this.modal.show('message', { initialState: { success: false, message: 'Apple登入失敗', note: error.detail.error, showType: 1 } });
     });
 
-    // LINE第三方
+    // LINE登入資訊
     this.newThirdRequest.DeviceType = this.appService.isApp !== null ? '1' : '0';
     this.newThirdRequest.UserRedirectUri = this.router.url;
   }
@@ -161,7 +161,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   }
 
   /** LINE 登入 */
-  signInWithLine(form: NgForm) {
+  signInWithLine(form: NgForm): void {
     (document.getElementById('postLinelogin') as HTMLFormElement).submit();
     this.appService.openBlock();
   }
@@ -330,6 +330,8 @@ class Third_AppleUser {
 
 /** 新版第三方登入Request */
 class NewThirdRequest {
+  /** 裝置類型 0: web 1:app */
   DeviceType: string;
+  /** 用戶目前所在url */
   UserRedirectUri: string;
 }
