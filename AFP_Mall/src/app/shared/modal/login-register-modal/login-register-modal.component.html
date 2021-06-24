@@ -110,7 +110,7 @@
                   <span class="buttonText">使用 Google 登入</span>
                 </div>
               </div>
-              <div class="method-item">
+              <div class="method-item" hidden>
                 <form id="postLinelogin" action="{{apiUrl}}Oauth/RedirectToAuthorize" method="POST" #postLinelogin="ngForm" (ngSubmit)="signInWithLine(postLinelogin)">
                   <div id="customBtnLine" class="customGPlusSignIn">
                     <span class="icon"></span>
