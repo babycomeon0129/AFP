@@ -574,7 +574,7 @@ export class EntranceComponent implements OnInit {
   }
 
   /** 關閉下載APP */
-  toCloaseDownloadAPP(): void {
+  toCloseDownloadAPP(): void {
     setTimeout(() => {
       this.appService.showAPPHint = false;
     }, 500);

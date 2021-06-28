@@ -8,53 +8,14 @@
       </div>
       <div class="item appNotifyBtn">
         <button (click)="toDownloadAPP()" class="btn dwbtn">立即下載</button>
-        <button (click)="toCloaseDownloadAPP();" type="button" class="close appclose">&times;</button>
+        <button (click)="toCloseDownloadAPP();" type="button" class="close appclose">&times;</button>
       </div>
     </div>
   </div>
 </section>
 <div class="wrap container">
   <header>
-    <div class="mobii-topbox">
-      <div class="container">
-        <img src="img/share/mlogo.png" class="m-topbox-item mobiitoplogo">
-        <div class="m-topbox-item d-flex align-items-center">
-          <!-- 引導下載App QR Code -->
-          <div class="for-pc dwloadApp" data-toggle="tooltip">下載App
-            <div class="appQR">
-              <qrcode [qrdata]="'https://mobii.ai/ForApp/AppDownload'" [width]="116" [errorCorrectionLevel]="'L'"
-                id="qrcode">
-              </qrcode>
-              <strong>下載享優惠</strong>
-            </div>
-          </div>
-          <!-- 未登入 -->
-          <button (click)="appService.loginPage()" *ngIf="!appService.loginState" type="button"
-            class="m-topbox-item btn bluedk-outline-btn btw-small">
-            登入/註冊
-          </button>
-          <!-- 電腦版 登入 -->
-          <div *ngIf="appService.loginState" class="userbox">
-            <div *ngIf="appService.loginState" class="txt-line-clamp1 user-hi"><a
-                [routerLink]="['/Member']">你好，{{appService.userName}}</a> </div>
-          </div>
-          <ul *ngIf="appService.loginState" class="userdrop nav navbar-nav">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">&#xE5D3;</i></a>
-              <ul class="dropdown-menu dropdown-menu-right">
-                <li><a [routerLink]="['/MemberFunction/MemberDiscount']"><img src="img/share/drop_discount.png"
-                      alt="">我的優惠</a></li>
-                <li><a [routerLink]="['/MemberFunction/MemberFavorite']"><img src="img/share/drop_favorite.png"
-                      alt="">我的收藏</a></li>
-                <li><a [routerLink]="['/MemberFunction/MemberOrder']"><img src="img/share/drop_order.png"
-                      alt="">我的訂單</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <img src="img/index/txt.png" class="m-topbox-item sloger">
-    </div>
+    <app-index-header></app-index-header>
     <!-- 手機版 上方banner -->
     <section class="mobii-bnbox">
       <div class="userbox mr-auto">
@@ -131,7 +92,7 @@
                   <div class="img-box">
                     <img src="img/index/icons/category3_more.png" alt="">
                   </div>
-                  <p>更多</p>
+                  <p>更多服務</p>
                 </a>
               </div>
             </div>
@@ -170,36 +131,6 @@
           swiperOptionPanes: swiper設定
           slidesPanes: 資料源
           readSheetMode: 1 特賣商品 2 現領優惠券 3 主打店家 4 外送店家 5 旅遊主打 -->
-    <!-- 現領優惠券 -->
-    <div *ngIf="nowVoucher?.length > 0" class="offers-list container my-2 px-3">
-      <h6>現領優惠券</h6>
-      <div class="afp-tab-box">
-        <div class="afp-tab mb-3">
-          <nav>
-            <app-swiper-nav [swiperOptionNav]="boxTabs" [slidesNav]="nowVoucher" [readSheetMode]="2"
-              (readSheetNav)="readSheetPanes($event)"></app-swiper-nav>
-          </nav>
-          <app-swiper-panes [swiperOptionPanes]="boxOffer" [slidesPanes]="nowVoucher" [readSheetMode]="2">
-          </app-swiper-panes>
-        </div>
-      </div>
-    </div>
-
-    <!-- 主打店家 -->
-    <div *ngIf="hitArea?.length > 0" class="explore-block container px-3 pb-3">
-      <h6>主打店家</h6>
-      <div class="afp-tab-box">
-        <div class="afp-tab">
-          <nav>
-            <app-swiper-nav [swiperOptionNav]="boxTabs" [slidesNav]="hitArea" [readSheetMode]="3"
-              (readSheetNav)="readSheetPanes($event)"></app-swiper-nav>
-          </nav>
-          <app-swiper-panes [swiperOptionPanes]="boxTFeature" [slidesPanes]="hitArea" [readSheetMode]="3">
-          </app-swiper-panes>
-        </div>
-      </div>
-    </div>
-
     <!-- 線上點餐推薦 -->
     <div *ngIf="deliveryArea?.length > 0" class="explore-block container px-3 pb-3">
       <h6>線上點餐推薦</h6>
@@ -214,7 +145,34 @@
         </div>
       </div>
     </div>
-
+    <!-- 主打店家 -->
+    <div *ngIf="hitArea?.length > 0" class="explore-block container px-3 pb-3">
+      <h6>主打店家</h6>
+      <div class="afp-tab-box">
+        <div class="afp-tab">
+          <nav>
+            <app-swiper-nav [swiperOptionNav]="boxTabs" [slidesNav]="hitArea" [readSheetMode]="3"
+              (readSheetNav)="readSheetPanes($event)"></app-swiper-nav>
+          </nav>
+          <app-swiper-panes [swiperOptionPanes]="boxTFeature" [slidesPanes]="hitArea" [readSheetMode]="3">
+          </app-swiper-panes>
+        </div>
+      </div>
+    </div>
+    <!-- 現領優惠券 -->
+    <div *ngIf="nowVoucher?.length > 0" class="offers-list container my-2 px-3">
+      <h6>現領優惠券</h6>
+      <div class="afp-tab-box">
+        <div class="afp-tab mb-3">
+          <nav>
+            <app-swiper-nav [swiperOptionNav]="boxTabs" [slidesNav]="nowVoucher" [readSheetMode]="2"
+              (readSheetNav)="readSheetPanes($event)"></app-swiper-nav>
+          </nav>
+          <app-swiper-panes [swiperOptionPanes]="boxOffer" [slidesPanes]="nowVoucher" [readSheetMode]="2">
+          </app-swiper-panes>
+        </div>
+      </div>
+    </div>
     <!-- 特賣商品 -->
     <div *ngIf="popProducts?.length > 0" class="onsale-list container my-2 px-3">
       <h6>特賣商品</h6>
@@ -347,7 +305,7 @@
         <div class="title-item pt-3">
           我的服務<span class="pl-2 small text-muted editnote1">長按可以拖動排序</span>
           <div class="editbox">
-            <button (click)="editOpen()" class="btn title-item edit-btn fit small-80 border-radius5 py-0">編輯</button>
+            <button (click)="editOpen()" class="btn title-item edit-btn fit small-80 border-radius5 py-0">自訂捷徑</button>
           </div>
         </div>
         <div class="service-title">

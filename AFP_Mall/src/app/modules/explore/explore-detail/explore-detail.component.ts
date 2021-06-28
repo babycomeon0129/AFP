@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { AppService } from '@app/app.service';
-import { Response_AreaDetail, AFP_ECStore, Model_ShareData, AFP_Voucher, AFP_Product, AFP_ECStoreExtType } from '@app/_models';
+import { Response_AreaDetail, AFP_ECStore, Model_ShareData, AFP_Voucher, AFP_Product, AFP_ECStoreLink } from '@app/_models';
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'ngx-useful-swiper';
 import { ActivatedRoute } from '@angular/router';
@@ -59,9 +59,11 @@ export class ExploreDetailComponent implements OnInit {
   public unfolded: number[] = [];
   /** 分享至社群時顯示的文字 */
   public textForShare: string;
+  /** 店家推薦連結 */
+  public ecstoreLink : AFP_ECStoreLink[] = [];
   /** 確認資料是否下載完畢  */
   public dataLoad = false;
-  /** 同頁滑動切換 0:本頁 1:篩選清單 2:篩選-商品分類 */
+  /** 同頁滑動切換 0:本頁 1:篩選清單 2:篩選-商品分類 3:更多推薦 */
   public layerTrig = 0;
 
   constructor(public appService: AppService, private route: ActivatedRoute, public modal: ModalService, private meta: Meta, private title: Title) {
@@ -116,6 +118,7 @@ export class ExploreDetailComponent implements OnInit {
         case 1: {
           this.siteInfo = data.Model_ECStore;
           this.ecStoreExtType = this.siteInfo.ECStore_DeliveryURL;
+          this.ecstoreLink = data.List_ECStoreLink;
           // Enter轉換行
           if (this.siteInfo.ECStore_Features !== null && this.siteInfo.ECStore_Features !== '') {
             this.siteInfo.ECStore_Features = this.siteInfo.ECStore_Features.replace(/(?:\r\n|\r|\n)/g, '<br/>');

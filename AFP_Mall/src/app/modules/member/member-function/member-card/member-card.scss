@@ -34,8 +34,7 @@
     position: relative;
     text-align: left;
     width: 100%;
-    .img-banner {
-      width: 100%;
+    .rwdimg {
       border-radius: .75em;
     }
     .img-txt {
@@ -73,45 +72,6 @@
   }
 }
 
-// .mycard-list {
-//   border: 1px solid $gray-light;
-//   border-radius: 0.5em;
-//   margin: 1em 1.5em 0.5em 1.5em;
-//   padding: 1em;
-//   display: flex;
-//   ul {
-//     width: calc(100% - 144px);
-//     text-align: left;
-//     font-size: small;
-//     color: $gray-color;
-//     li:first-child span {
-//       color: $blue-dark;
-//     }
-//     li:last-child p {
-//       font-size: medium;
-//       color: $default-black;
-//     }
-//   }
-//   img.icon {
-//     width: 40px;
-//     height: fit-content;
-//     margin: 0.25em 1.5em 0.25em 0.25em;
-//     align-self: center;
-//   }
-//   .btn-tied-card img {
-//     width: 32px;
-//     height: initial;
-//     margin: 0.25em;
-//   }
-// }
-.btn-tied-card {
-  color: $blue-dark;
-  background: #fff;
-  padding: .75em 1.5em;
-  border: 1px solid #E5E9F2;
-  border-radius: 30px;
-  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
-}
 .mycard-add-title {
   background: white;
   position: absolute;
@@ -151,16 +111,13 @@
   bottom: 3em;
   left: 50%;
   transform: translateX(-50%);
-  @media (max-width: 767px) {
-    bottom: 100px;
-  }
-  .btn {
-    padding: 0.75em 1.5em;
+  .btn-tied-card {
     color: $blue-dark;
     background: #fff;
+    padding: 1em 1.5em;
+    border: 1px solid #E5E9F2;
     border-radius: 30px;
-    font-size: small;
-    font-weight: 700;
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+    white-space: nowrap;
   }
 }

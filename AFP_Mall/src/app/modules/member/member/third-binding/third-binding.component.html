@@ -2,8 +2,7 @@
   <div class="mysocial">
     <div class="headerbox container title-box">
       <div class="item icon-btn">
-        <button type="button" class="btn px-0" onclick="history.back();" data-toggle="tooltip"
-          data-placement="bottom" title="回上一頁">
+        <button type="button" class="btn px-0" onclick="history.back();" title="回上一頁">
           <i class="material-icons">&#xe314;</i>
         </button>
       </div>
@@ -19,49 +18,58 @@
           </div>
           <div class="item">微信</div>
           <div class="item auto-left">
-            <button type="button" class="btn msg-open" value="msg-mysocialremove" data-toggle="modal"
-              data-target="#messageModal" data-dismiss="modal" aria-label="Close">綁定</button>
+            <button type="button" class="btn msg-open">綁定</button>
           </div>
         </li>
         <li>
           <div class="item item-img">
-            <img src="../../img/index/social/facebook.svg" alt="">
+            <img src="../../img/index/social/facebook.svg" alt="FB登入">
           </div>
           <div class="item">Facebook</div>
           <div class="item auto-left">
-            <button type="button" class="btn msg-open bind" [hidden]="bindStatus.fb" (click)="signInWiththirdBind(1)">綁定</button>
+            <button type="button" class="btn msg-open bind" [hidden]="bindStatus.fb"
+              (click)="signInWiththirdBind(1)">綁定</button>
             <button type="button" class="btn msg-open bind unable" [hidden]="!bindStatus.fb">已綁定</button>
             <!-- button type="button" class="btn msg-open" [hidden]="memberService.FBThird == null" (click)="onDelThird(memberService.FBThird.UserThird_Mode)">解除綁定</!-->
           </div>
         </li>
         <li [hidden]="!isApple">
           <div class="item item-img">
-              <img src="../img/index/social/apply.svg" alt="">
+            <img src="../img/index/social/apply.svg" alt="Apple 登入">
           </div>
           <div class="item">Apple ID</div>
           <div class="item auto-left">
-            <button type="button" class="btn msg-open bind" [hidden]="bindStatus.apple" (click)="signInWiththirdBind(5);">綁定</button>
+            <button type="button" class="btn msg-open bind" [hidden]="bindStatus.apple"
+              (click)="signInWiththirdBind(5);">綁定</button>
             <button type="button" class="btn msg-open bind unable" [hidden]="!bindStatus.apple">已綁定</button>
-          </div>
-      </li>
-        <li style="display: none;">
-          <div class="item item-img">
-            <img src="../../img/index/social/line.svg" alt="">
-          </div>
-          <div class="item">LINE</div>
-          <div class="item auto-left">
-            <button type="button" class="btn msg-open" value="msg-mysocialremove" data-toggle="modal"
-              data-target="#messageModal" data-dismiss="modal" aria-label="Close">綁定</button>
           </div>
         </li>
         <li>
           <div class="item item-img">
-            <img src="../../img/index/social/google.svg" alt="">
+            <img src="../../img/index/social/google.svg" alt="google登入">
           </div>
           <div class="item">Google</div>
           <div class="item auto-left">
-            <button type="button" class="btn msg-open bind" [hidden]="bindStatus.google" (click)="signInWiththirdBind(3)">綁定</button>
+            <button type="button" class="btn msg-open bind" [hidden]="bindStatus.google"
+              (click)="signInWiththirdBind(3)">綁定</button>
             <button type="button" class="btn msg-open bind unable" [hidden]="!bindStatus.google">已綁定</button>
+          </div>
+        </li>
+        <li hidden>
+          <div class="item item-img">
+            <img src="../../img/index/social/line.svg" alt="line登入">
+          </div>
+          <div class="item">LINE</div>
+          <div class="item auto-left">
+            <form id="postLineBind" action="{{apiUrl}}Oauth/RedirectToAuthorize" method="POST" #postLineBind="ngForm" (ngSubmit)="signInWiththirdBind(2)">
+              <input type="hidden" name="DeviceType" [value]="newThirdRequest.DeviceType">
+              <input type="hidden" name="User_Code" [value]="newThirdRequest.User_Code">
+              <input type="hidden" name="CustomerInfo" [value]="newThirdRequest.CustomerInfo">
+              <input type="hidden" name="mode" [value]="newThirdRequest.mode">
+              <button type="submit" class="btn msg-open bind" [hidden]="bindStatus.line"
+                (click)="signInWiththirdBind(2)">綁定</button>
+              <button type="button" class="btn msg-open bind unable" [hidden]="!bindStatus.line">已綁定</button>
+            </form>
           </div>
         </li>
       </ul>

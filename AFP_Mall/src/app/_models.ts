@@ -167,6 +167,8 @@ export interface AFP_Function {
   isAdd?: boolean;
 }
 
+
+
 /** 目錄資訊 */
 export interface Model_AreaJsonFile {
   /** 外部目錄頻道ID */
@@ -376,6 +378,8 @@ export interface Response_AreaDetail extends Model_ShareData {
   AFP_UserReport: AFP_UserReport[];
   /** 電商商店外部類型資訊 */
   Model_ECStoreExtType: AFP_ECStoreExtType;
+  /** 商家推薦連結 */
+  List_ECStoreLink: AFP_ECStoreLink[];
 }
 
 /** 電商商店外部類型資訊 */
@@ -388,6 +392,20 @@ export class AFP_ECStoreExtType {
   ECStoreExtType_Type: number;
   /** 外部編碼 */
   ECStoreExtType_ExtCode: number;
+}
+
+/** 電商商店推薦連結 */
+export interface AFP_ECStoreLink {
+  /** 名稱 */
+  ECStoreLink_Name: string;
+  /** 網頁開啟模式 */
+  ECStoreLink_URLTarget: string;
+  /** 連結 */
+  ECStoreLink_URL: string;
+  /** 圖示 */
+  ECStoreLink_Icon: string;
+  /** 排序 */
+  ECStoreLink_Sort: number;
 }
 
 /** AFP 電商商店資訊表 */
@@ -554,6 +572,20 @@ export interface AFP_Product {
   /** 資料狀態 0:無效 1:有效 */
   Product_State: boolean;
 
+}
+
+/** 第三方登入RequestModel */
+export class Request_AFPThird {
+  /** 第三方登入類型  1 : Facebook  2 : Line 3 : Google  4 : WeChat */
+  Mode?: number;
+  /** 帳號 */
+  Account?: string;
+  /** 名稱 */
+  NickName?: string;
+  /** 第三方Token */
+  Token?: string;
+  /** 回傳JSON */
+  JsonData?: string;
 }
 
 /** 商城首頁 ResponseModel */

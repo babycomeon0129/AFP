@@ -1,3 +1,4 @@
+
 export class Model_ShareData {
   /**  區別操作(通用) 1:新增 2:刪除 3:編輯  4:查詢 其他 依照Excel文件 */
   SelectMode?: number;
@@ -83,10 +84,8 @@ export class AFP_UserFavourite {
   UserFavourite_State?: number;
   /** 同步狀態 */
   UserFavourite_SyncState?: number;
-  /** 卡群圖片 */
-  CardGroup_Img?: string;
-  /** 卡群名稱 */
-  CardGroup_Name?: string;
+  /** 卡群列表 */
+  CardGroup_List?: CardGroup_List[];
 }
 
 /** AFP 自定義參數 */
@@ -127,6 +126,18 @@ export interface AFP_UserReport {
   UserReport_State?: number;
   /** 卡片是否顯示 0：顯示卡片 1：顯示卡片，但是不啟用反灰 2：卡片無效 */
   UserReport_IsShow?: number;
+  /** 卡群圖片 */
+  CardGroup_Img?: string;
+  /** 卡群名稱 */
+  CardGroup_Name?: string;
+  /** 卡群縮圖 */
+  CardGroup_Thumbnail?: string;
+  /** 卡群連結 */
+  CardGroup_Link?: string;
+  /** 卡片預設縮圖 */
+  UserReport_ParamI?: string;
+  /** 卡片簡介預設圖示 */
+  UserReport_ParamJ?: string;
 }
 
 /** AFP 廣告版位 */
@@ -179,4 +190,45 @@ export interface Response_MemberMyCard {
   AFP_UserReport: AFP_UserReport[];
   /** 廣告版位  */
   List_ADImg: AFP_ADImg[];
+}
+
+
+// 會員中心-我的卡片卡群列表
+export interface CardGroup_List {
+  /** 卡群編碼 */
+  CardGroup_Code: number;
+  /** 浮點備用欄位 */
+  CardGroup_FloatParamA?: number;
+  /** 浮點備用欄位 */
+  CardGroup_FloatParamB?: number;
+  /** 卡群ID */
+  CardGroup_ID: number;
+  /** 卡群圖片 */
+  CardGroup_Img?: string;
+  /** 卡群新增時間 */
+  CardGroup_InsertDate?: string;
+  /** 數字備用欄位 */
+  CardGroup_IntParamA?: number;
+  /** 數字備用欄位 */
+  CardGroup_IntParamB?: number;
+  /** 卡群連結 */
+  CardGroup_Link?: string;
+  /** 卡群名稱 */
+  CardGroup_Name?: string;
+  /** 卡群狀態 */
+  CardGroup_State: number;
+  /** 同步狀態 */
+  CardGroup_SyncState?: number;
+  /** 卡群縮圖 */
+  CardGroup_Thumbnail?: string;
+  /** 卡群卡號數量 */
+  CardGroup_Total: number;
+  /** 卡群類型 */
+  CardGroup_Type: number;
+  /** 卡群更新時間 */
+  CardGroup_UpdateDate?: string;
+  /** 字串備用欄位 */
+  CardGroup_VarParamA?: string;
+  /** 字串備用欄位 */
+  CardGroup_VarParamB?: string;
 }

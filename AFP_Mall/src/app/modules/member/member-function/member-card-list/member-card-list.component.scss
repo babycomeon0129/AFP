@@ -45,6 +45,21 @@ main {
           &.special-card {
             background: rgba(255, 242, 235, 1);
             color: rgba(253, 95, 0, 1);
+            span {
+              border-radius: 0;
+              padding: 0;
+              margin-right: 0;
+              &::after{
+                position: absolute;
+                content: ",";
+                display: contents;
+              }
+              &:last-child::after{
+                position: absolute;
+                content: "";
+                display: contents;
+              }
+            }
           }
         }
         p {

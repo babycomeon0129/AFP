@@ -79,9 +79,6 @@
   font-weight: 700;
 }
 .order-box{
-  // &:last-child{
-  //     margin-bottom: 60px;
-  // }
   .index-flex{
       .item:first-child{
           font-weight: 700;
@@ -283,19 +280,6 @@
           }
           .item:last-child{
               font-weight: 700;
-              // &.sub-discount{
-              //     font-weight: 400;
-              //     &::before{
-              //         position: absolute;
-              //         content: "(";
-              //         display: contents;
-              //     }
-              //     &::after{
-              //         position: absolute;
-              //         content: ")";
-              //         display: contents;
-              //     }
-              // }
           }
       }
   }

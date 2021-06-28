@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
-import { AFP_UserFavourite, Request_MemberMyCard, Response_MemberMyCard } from '@app/modules/member/_module-member';
+import { AFP_UserFavourite, AFP_UserReport, Request_MemberMyCard, Response_MemberMyCard } from '@app/modules/member/_module-member';
 import { Meta, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 @Component({
@@ -9,11 +9,21 @@ import { Router } from '@angular/router';
   templateUrl: './member-card-list.component.html',
   styleUrls: ['./member-card-list.component.scss']
 })
-export class MemberCardListComponent implements OnInit {
-  /** 卡片列表 */
-  public cardList: AFP_UserFavourite[] = [];
+export class MemberCardListComponent implements OnInit, AfterViewInit {
   /** 修改卡片 ngForm request */
   public requestCard: AFP_UserFavourite = new AFP_UserFavourite();
+  /** 卡片列表 */
+  public cardList: AFP_UserFavourite[] = [];
+  /** 卡片類型資料集 */
+  public UserReoprtList: AFP_UserReport[] = [];
+  /** 卡片群組縮圖預設 */
+  public cardGroupThumbnailDef = '../../img/member/myCardThumbnailDef.png';
+  /** 卡片類型縮圖預設 一卡通 */
+  public cardThumbnailDef1 = '../../img/member/my_ipass_icon.png';
+  /** 卡片類型縮圖預設 悠遊卡 */
+  public cardThumbnailDef11 = './../img/member/my_easycard_icon.png';
+  /** 置底按鈕先隱藏，需載入完1秒後才顯示，避免換頁殘影重疊 */
+  public fixedBtn = true;
 
   constructor(public appService: AppService, public modal: ModalService, private meta: Meta, private title: Title, public router: Router) {
     this.title.setTitle('我的卡片 - Mobii!');
@@ -47,10 +57,22 @@ export class MemberCardListComponent implements OnInit {
       };
       this.appService.toApi('Member', '1507', request).subscribe((data: Response_MemberMyCard) => {
         this.cardList = data.List_UserFavourite;
+        this.UserReoprtList = data.AFP_UserReport;
+        this.UserReoprtList.forEach(item => {
+          (item.UserReport_ItemCode === 1) ?
+          this.cardThumbnailDef1 = this.UserReoprtList[0].UserReport_ParamI :
+          this.cardThumbnailDef11 = this.UserReoprtList[0].UserReport_ParamI ;
+        });
       });
     } else {
       this.appService.loginPage();
     }
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.fixedBtn = false;
+    }, 1000);
   }
 
 }

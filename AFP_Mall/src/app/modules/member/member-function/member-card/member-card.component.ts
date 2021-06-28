@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
-import { AFP_UserFavourite, AFP_UserReport, AFP_ADImg, Request_MemberMyCard, Response_MemberMyCard } from '@app/modules/member/_module-member';
+import { AFP_UserFavourite, AFP_UserReport, AFP_ADImg,
+         Request_MemberMyCard, Response_MemberMyCard } from '@app/modules/member/_module-member';
 import { Meta, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
@@ -10,13 +11,15 @@ import { Router } from '@angular/router';
   templateUrl: './member-card.component.html',
   styleUrls: ['../../member/member.scss', './member-card.scss']
 })
-export class MemberCardComponent implements OnInit {
+export class MemberCardComponent implements OnInit, AfterViewInit {
   /** 卡片列表 */
   public cardList: AFP_UserFavourite[] = [];
   /** 一般卡片列表 */
   public cardGeneralList: AFP_UserReport[] = [];
   /** 廣告列表 */
   public cardADList: AFP_ADImg[] = [];
+  /** 置底按鈕先隱藏，需載入完1秒後才顯示，避免換頁殘影重疊 */
+  public fixedBtn: boolean;
 
   constructor(public appService: AppService, public modal: ModalService, private meta: Meta, private title: Title, public router: Router) {
     this.title.setTitle('我的卡片 - Mobii!');
@@ -27,6 +30,8 @@ export class MemberCardComponent implements OnInit {
 
   ngOnInit() {
     this.readCardList();
+    this.appService.appShowMobileFooter(false);
+    this.fixedBtn = true;
   }
 
   /** 讀取卡片列表 */
@@ -57,4 +62,9 @@ export class MemberCardComponent implements OnInit {
     }
   }
 
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.fixedBtn = false;
+    }, 1000);
+  }
 }

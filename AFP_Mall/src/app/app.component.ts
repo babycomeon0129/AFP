@@ -7,6 +7,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { RouterOutlet } from '@angular/router';
 import { slideInAnimation } from './animations';
 import { filter } from 'rxjs/operators';
+import { Request_AFPThird, Response_AFPLogin } from './_models';
 
 @Component({
   selector: 'body',
@@ -22,6 +23,8 @@ export class AppComponent implements OnInit {
   public showOldHint = true;
   /** 變化追蹤（登入狀態） */
   private serviceDiffer: KeyValueDiffer<string, any>;
+  /** 第三方登入 request, 此處用於Line登入 */
+  public thirdRequest: Request_AFPThird = new Request_AFPThird();
 
   constructor(private router: Router, public appService: AppService, private activatedRoute: ActivatedRoute, public modal: ModalService,
               private cookieService: CookieService, private differs: KeyValueDiffers) {
@@ -76,6 +79,42 @@ export class AppComponent implements OnInit {
       if (typeof params.cartCode !== 'undefined') {
         this.cookieService.set('cart_code', params.cartCode, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       }
+
+      // 第三方登入(LINE)
+      if(params.Mobii_ThirdLogin === 'true' && params.Mode !== undefined && params.Token !== undefined && !this.appService.loginState) {
+        this.thirdRequest.Mode = Number(params.Mode);
+        this.thirdRequest.Account = params.Token;
+        this.thirdRequest.Token = params.Token;
+        this.appService.toApi('AFPAccount', '1105', this.thirdRequest).subscribe((data: Response_AFPLogin) => {
+          // 塞Session
+          sessionStorage.setItem('userName', data.Model_UserInfo.Customer_Name);
+          sessionStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
+          sessionStorage.setItem('CustomerInfo', data.Model_UserInfo.CustomerInfo);
+          sessionStorage.setItem('userFavorites', JSON.stringify(data.List_UserFavourite));
+          this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+          this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+          this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+          this.cookieService.set('Mobii_ThirdLogin', 'true', 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+          this.appService.userName = data.Model_UserInfo.Customer_Name;
+          this.appService.loginState = true;
+          this.appService.userLoggedIn = true;
+          this.appService.showFavorites();
+          this.appService.readCart();
+          // 通知推播
+          this.appService.initPush();
+        });
+      }
+
+      // 第三方登入失敗 (目前只有Line)
+      if(params.Mobii_ThirdLogin === 'false' && params.Mode !== undefined &&  params.Error === '2' && !this.appService.loginState) {
+        let errMessage: string = '';
+        switch(params.Mode) {
+          case '2' :
+            errMessage = 'Line@';
+            break;
+        }
+        this.modal.show('message', { initialState: { success: false, message: `${errMessage}驗證失敗，請重新取得授權`, showType: 1 } });
+      }
     });
   }
 
@@ -93,7 +132,6 @@ export class AppComponent implements OnInit {
     this.detectOld();
     this.appService.initPush();
   }
-
 
   /** 獲取這個 outlet 指令的值（透過 #outlet="outlet"），並根據當前活動路由的自訂資料返回一個表示動畫狀態的字串值。用此資料來控制各個路由之間該執行哪個轉場 */
   prepareRoute(outlet: RouterOutlet): void {

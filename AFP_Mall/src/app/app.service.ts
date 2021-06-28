@@ -71,6 +71,8 @@ export class AppService {
   public verifyMobileModalOpened = false;
   /** 是否顯示返回鍵 (app特例) */
   public showBack = false;
+  /** line 登入用 state (用於取code) */
+  public lineSigninState: string;
 
   @BlockUI() blockUI: NgBlockUI;
   constructor(private http: HttpClient, private bsModal: BsModalService, public modal: ModalService, private router: Router,
@@ -221,6 +223,35 @@ export class AppService {
         return JSON.parse(data.Data);
       }, catchError(() => null)));
   }
+
+   /** 登入初始化需帶入的 state，Apple、Line登入都需要用到
+   * @description unix timestamp 前後相反後前4碼+ 10碼隨機英文字母 (大小寫不同)
+   * @returns state 的值
+   */
+    getState(): string {
+      // 取得 unix
+      const dateTime = Date.now();
+      const timestampStr = Math.floor(dateTime / 1000).toString();
+      // 前後相反
+      let reverseTimestamp = '';
+      for (var i = timestampStr.length - 1; i >= 0; i--) {
+        reverseTimestamp += timestampStr[i];
+      }
+      // 取前4碼
+      const timestampFirst4 = reverseTimestamp.substring(0,4);
+      // 取得10個隨機英文字母，組成字串
+      function getRandomInt(max: number) {
+        return Math.floor(Math.random() * max);
+      };
+      const engLettersArr = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+      let randomEngLetter = '';
+      for (let x = 0; x < 10; x ++) {
+        const randomInt = getRandomInt(engLettersArr.length);
+        randomEngLetter += engLettersArr[randomInt];
+      }
+      // 組成 state
+      return timestampFirst4 + randomEngLetter;
+    }
 
   /** 打開遮罩 */
   openBlock(): void {

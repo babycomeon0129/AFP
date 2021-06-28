@@ -1,3 +1,4 @@
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { environment } from '@env/environment';
 import { BsModalRef } from 'ngx-bootstrap';
@@ -6,7 +7,7 @@ import { ModalService } from '../modal.service';
 import { AuthService, SocialUser, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 import { NgForm } from '@angular/forms';
 import { Model_ShareData, Response_AFPLogin, Request_AFPAccount, Request_AFPVerifyCode,
-  Response_AFPVerifyCode, Request_AFPReadMobile, Response_AFPReadMobile } from '@app/_models';
+  Response_AFPVerifyCode, Request_AFPReadMobile, Response_AFPReadMobile, Request_AFPThird } from '@app/_models';
 import { CookieService } from 'ngx-cookie-service';
 import jwt_decode from 'jwt-decode';
 declare var AppleID: any;
@@ -14,6 +15,7 @@ declare var AppleID: any;
 @Component({
   selector: 'app-login-register-modal',
   templateUrl: './login-register-modal.component.html',
+  styleUrls: ['./login-register-modal.component.scss']
 })
 export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   /** FB、Google 第三方登入 User容器 */
@@ -53,12 +55,16 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   public vCodeTimer: NodeJS.Timer;
   /** 註冊-輸入帳號是否已存在 */
   public existingAccount = false;
-  /** Apple 登入 state */
-  public appleSigninState: string;
+  /** Apple登入 state */
+  public signinState: string;
+  /** api 路徑 */
+  public apiUrl = environment.apiUrl;
+  /** 新版第三方request (目前LINE使用) */
+  public newThirdRequest: NewThirdRequest = new NewThirdRequest();
 
   constructor(
     public bsModalRef: BsModalRef, private authService: AuthService, private appService: AppService, public modal: ModalService,
-    private cookieService: CookieService) {
+    private cookieService: CookieService, private router: Router, private route: ActivatedRoute) {
       this.detectApple();
   }
 
@@ -81,14 +87,14 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
      //  this.regClick = false;
     });
 
-    this.appleSigninState = this.appleState();
+    this.signinState = this.appService.getState();
 
     // Apple 登入初始化 (會將按鈕樣式改為Apple設定的)
     AppleID.auth.init({
       clientId: 'com.eyesmedia.mobii',
       scope: 'email name',
       redirectURI: environment.AppleSignInURI,
-      state: this.appleSigninState,
+      state: this.signinState,
       usePopup : true
     });
 
@@ -96,7 +102,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
     document.addEventListener('AppleIDSignInOnSuccess', (authData: CustomEvent) => {
       this.appleUser = authData.detail;
       // 驗證 apple 回傳的 state 是否與此次請求時送去的相同
-      if (this.appleUser.authorization.state === this.appleSigninState) {
+      if (this.appleUser.authorization.state === this.signinState) {
         this.stopListeningApple();
         // 將 id token 解密取得使用者資訊
         const idTokenModel: any = jwt_decode(this.appleUser.authorization.id_token);
@@ -117,35 +123,10 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       this.bsModalRef.hide(); // 關閉視窗
       this.modal.show('message', { initialState: { success: false, message: 'Apple登入失敗', note: error.detail.error, showType: 1 } });
     });
-  }
 
-  /** Apple 登入初始化需帶入的 state
-   * @description unix timestamp 前後相反後前4碼+ 10碼隨機英文字母 (大小寫不同)
-   * @returns state 的值
-   */
-  appleState(): string {
-    // 取得 unix
-    const dateTime = Date.now();
-    const timestampStr = Math.floor(dateTime / 1000).toString();
-    // 前後相反
-    let reverseTimestamp = '';
-    for (var i = timestampStr.length - 1; i >= 0; i--) {
-      reverseTimestamp += timestampStr[i];
-    }
-    // 取前4碼
-    const timestampFirst4 = reverseTimestamp.substring(0,4);
-    // 取得10個隨機英文字母，組成字串
-    function getRandomInt(max: number) {
-      return Math.floor(Math.random() * max);
-    };
-    const engLettersArr = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
-    let randomEngLetter = '';
-    for (let x = 0; x < 10; x ++) {
-      const randomInt = getRandomInt(engLettersArr.length);
-      randomEngLetter += engLettersArr[randomInt];
-    }
-    // 組成 state
-    return timestampFirst4 + randomEngLetter;
+    // LINE登入資訊
+    this.newThirdRequest.DeviceType = this.appService.isApp !== null ? '1' : '0';
+    this.newThirdRequest.UserRedirectUri = this.router.url;
   }
 
   /** 登入表單送出 */
@@ -177,6 +158,12 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
     this.thirdRequest.Mode = 1;
     this.regClick = true;
+  }
+
+  /** LINE 登入 */
+  signInWithLine(form: NgForm): void {
+    (document.getElementById('postLinelogin') as HTMLFormElement).submit();
+    this.appService.openBlock();
   }
 
   /** Google登入按鈕 */
@@ -341,10 +328,10 @@ class Third_AppleUser {
   };
 }
 
-class Request_AFPThird {
-  Mode?: number;
-  Account?: string;
-  NickName?: string;
-  Token?: string;
-  JsonData?: string;
+/** 新版第三方登入Request */
+class NewThirdRequest {
+  /** 裝置類型 0: web 1:app */
+  DeviceType: string;
+  /** 用戶目前所在url */
+  UserRedirectUri: string;
 }

@@ -53,36 +53,45 @@
       <div class="store-container">
         <div class="store-info-box">
           <div class="shopping-flex">
-            <div class="item three">
+            <div class="item three p-2">
               <div class="shopping-storebox d-flex flex-row d-inline-block">
                 <div *ngIf="siteInfo?.ECStore_Type < 2000 && siteInfo?.ECStore_Logo !== null" class="img-box mr-2">
-                  <div [lazyLoad]="siteInfo?.ECStore_Logo" [defaultImage]="appService.defaultImage" class="rwdimg">
+                  <div [lazyLoad]="siteInfo?.ECStore_Logo" [defaultImage]="appService.defaultImage" class="rwdimg-cover rounded-circle">
                   </div>
                 </div>
-                <div class="store-title center-v">{{siteInfo?.ECStore_ShowName}}</div>
-              </div>
-              <div class="px-2">
-                <div class="shopping-store-badge">
-                  <span class="badge badge-pill text-explore py-0">
-                    <img *ngIf="siteInfo?.ECStore_Type !== null" src="../../img/share/{{siteInfo?.ECStore_Type}}.png"
-                      alt="">{{siteInfo?.ECStore_TypeName}}</span>
+                <div class="store-title">
+                  <small class="text-index small-80">{{siteInfo?.ECStore_TypeName}}
+                    <span *ngIf="siteInfo?.ECStore_Type !== 1000" class="text-muted small-70">
+                      • {{siteInfo?.ECStore_Distance | currency: '':'':'1.0-0'}} m
+                    </span>
+                  </small>
+                  <p>{{siteInfo?.ECStore_ShowName}}</p>
                 </div>
               </div>
             </div>
             <div *ngIf="siteInfo?.ECStore_Type < 2000 && this.JustKaUrl !== null"
-              class="item one align-self-start mt-3">
-              <div class="shopping-store-btn text-right">
+              class="item one align-self-end">
                 <button (click)="appService.showJustka(this.JustKaUrl)" type="button"
-                  class="btn btn-outline-dark border-radius30 py-1 mr-1">聯絡店家</button>
-              </div>
+                  class="btn shopping-store-btn">
+                  <img src="../../../../img/callcar/category_chat.png" class="h20">
+                  <span>聯絡店家</span>
+                </button>
             </div>
           </div>
-          <div class="flex-inline-between store-distance">
-            <div>
-              <!-- 距離（周邊顯示） -->
+          <div class="referral-box" *ngIf="ecstoreLink.length > 0">
+            <div class="title">
+              更多推薦
             </div>
-            <div *ngIf="siteInfo?.ECStore_Type !== 1000" class="ml-auto">
-              距離 <span>{{siteInfo?.ECStore_Distance | currency: '':'':'1.0-0'}}</span> m
+            <div class="row">
+              <!-- 推薦連結，只顯示九顆按鈕 -->
+              <a class="col" *ngFor="let link of ecstoreLink; let i = index;" [hidden]="ecstoreLink.length > 10 ? i > 8 : i > 9" [target]="link.ECStoreLink_URLTarget" [href]="link.ECStoreLink_URL">
+                <img [src]="link.ECStoreLink_Icon">
+                <p class="txt-line-clamp1">{{ link.ECStoreLink_Name }}</p>
+              </a>
+              <div class="col" (click)="layerTrig = 3" [hidden]=" !(ecstoreLink.length > 10)">
+                <img src="../../../../img/shopping/store/more.png">
+                <p class="txt-line-clamp1">更多</p>
+              </div>
             </div>
           </div>
           <div class="store-tab-box">
@@ -97,7 +106,7 @@
                 <a [routerLink]="['/Explore/ExploreDetail', siteCode]"
                   [queryParams]="{ navNo: 3, showBack: appService.showBack }" [ngClass]="{'active' : tabNo == 3}"
                   class="nav-link" id="shop-tab" data-toggle="tab" href="#shop" role="tab" aria-controls="shop"
-                  aria-selected="false">所有商品</a>
+                  aria-selected="false">熱賣商品</a>
               </li>
               <li *ngIf="siteInfo?.ECStore_Type < 2000" class="nav-item">
                 <a [routerLink]="['/Explore/ExploreDetail', siteCode]"
@@ -106,7 +115,7 @@
                   aria-selected="false">優惠券</a>
               </li>
             </ul>
-            <div class="tab-content">
+            <div class="tab-content border-t">
               <!-- 商家簡介 -->
               <div [ngClass]="{'show active' : tabNo == 1}" class="tab-pane fade show active" id="store" role="tabpanel"
                 aria-labelledby="store-tab">
@@ -310,7 +319,6 @@
       </div>
     </div>
     <div class="addheight"></div>
-    <div class="h-50 d-inline-block"></div>
     <!--外送點餐按鈕-->
     <footer class="success-mode container z-index301" *ngIf="ecStoreExtType !== null && dataLoad">
       <button class="btn-ok" (click)="sendDelivery()">我要點餐</button>
@@ -462,6 +470,23 @@
           </div>
         </li>
       </ul>
+    </div>
+  </div>
+
+  <!-- 店家推薦 -->
+  <div class="layerTrig container" [@layerTrigger] *ngIf="layerTrig === 3">
+    <div class="referral-more">
+      <div>
+        <button class="btn" (click)="layerTrig = 0">
+          <i class="material-icons">&#xe314;</i><span>返回</span>
+        </button>
+      </div>
+      <div class="row">
+        <a class="col" *ngFor="let link of ecstoreLink" [target]="link.ECStoreLink_URLTarget" [href]="link.ECStoreLink_URL">
+          <img [src]="link.ECStoreLink_Icon">
+          <p class="txt-line-clamp1">{{ link.ECStoreLink_Name }}</p>
+        </a>
+      </div>
     </div>
   </div>
 </div>

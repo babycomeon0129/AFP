@@ -1,6 +1,8 @@
+import { AppService } from 'src/app/app.service';
 import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { environment } from '@env/environment';
 import { BsModalRef } from 'ngx-bootstrap';
+import { ModalService } from '../modal.service';
 declare var AppleID: any;
 
 @Component({
@@ -15,10 +17,10 @@ export class AppleModalComponent implements OnInit, OnDestroy {
   /** Apple 登入 state */
   public appleSigninState: string;
 
-  constructor(public bsModalRef: BsModalRef) { }
+  constructor(public bsModalRef: BsModalRef, private appService: AppService, public modal: ModalService) { }
 
   ngOnInit() {
-    this.appleSigninState = this.appleState();
+    this.appleSigninState = this.appService.getState();
     // Apple 登入初始化 (會將按鈕樣式改為Apple設定的)
     AppleID.auth.init({
       clientId: 'com.eyesmedia.mobii',
@@ -29,46 +31,33 @@ export class AppleModalComponent implements OnInit, OnDestroy {
     });
 
     // Apple 登入授權成功，第三方登入取得資料
-    document.addEventListener('AppleIDSignInOnSuccess', (authData: any) => {
-      this.appleUser.emit(authData.detail);
-      this.bsModalRef.hide();
-      // const idTokenModel = jwt_decode(this.appleUser.authorization.id_token);
-      // const appleToken = idTokenModel.sub;
+    document.addEventListener('AppleIDSignInOnSuccess', (authData: CustomEvent)  => {
+      if (authData.detail.state === this.appleSigninState) {
+        this.stopListeningApple();
+        this.appleUser.emit(authData.detail);
+        this.bsModalRef.hide();
+      }else {
+        this.modal.show('message', { initialState: { success: false, message: 'Apple登入出現錯誤', showType: 1 } });
+      }
+    });
+
+    // Apple 登入授權失敗，顯示失敗原因
+    document.addEventListener('AppleIDSignInOnFailure', (error: any) => {
+      this.stopListeningApple();
+      this.bsModalRef.hide(); // 關閉視窗
+      this.modal.show('message', { initialState: { success: false, message: 'Apple登入失敗', note: error.detail.error, showType: 1 } });
     });
 
   }
 
-  /** Apple 登入初始化需帶入的 state
-  * @description unix timestamp 前後相反後前4碼+ 10碼隨機英文字母 (大小寫不同)
-  * @returns state 的值
-  */
-  appleState(): string {
-    // 取得 unix
-    const dateTime = Date.now();
-    const timestampStr = Math.floor(dateTime / 1000).toString();
-    // 前後相反
-    let reverseTimestamp = '';
-    for (var i = timestampStr.length - 1; i >= 0; i--) {
-      reverseTimestamp += timestampStr[i];
-    }
-    // 取前4碼
-    const timestampFirst4 = reverseTimestamp.substring(0, 4);
-    // 取得10個隨機英文字母，組成字串
-    function getRandomInt(max: number) {
-      return Math.floor(Math.random() * max);
-    };
-    const engLettersArr = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
-    let randomEngLetter = '';
-    for (let x = 0; x < 10; x++) {
-      const randomInt = getRandomInt(engLettersArr.length);
-      randomEngLetter += engLettersArr[randomInt];
-    }
-    // 組成 state
-    return timestampFirst4 + randomEngLetter;
+   /** 停止聽取Apple登入的DOM event */
+   stopListeningApple(): void {
+    document.removeEventListener('AppleIDSignInOnSuccess', (authData: any) => {});
+    document.removeEventListener('AppleIDSignInOnFailure', (error: any) => {});
   }
 
   ngOnDestroy() {
-    document.removeEventListener('AppleIDSignInOnSuccess', (authData: any) => { });
+    this.stopListeningApple();
   }
 
 }
