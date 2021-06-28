@@ -60,7 +60,6 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
 
   }
 
-
   /** 讀取社群帳號 */
   readThirdData(): void {
     if (this.appService.loginState) {
@@ -120,7 +119,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
   }
 
   /** 進行第三方綁定
-   * @param mode 綁定方式 1:FB 3:Google 5:Apple
+   * @param mode 綁定方式 1:FB 2:Line 3:Google 5:Apple
    */
   signInWiththirdBind(mode: number): void {
     if (this.appService.loginState) {
@@ -198,9 +197,6 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
     }
   }
 
-
-
-
   /** 社群帳號綁定
    * @param mode 1:FB 3:Google 5:Apple
    */
@@ -260,8 +256,12 @@ class bindStatus {
 
 /** 新版第三方綁定Request */
 class NewThirdBindRequest {
+  /** 裝置類型 0: web 1:app */
   DeviceType: string;
+  /** 第三方資訊類型 1: FB 2: Line 3:Google 5:Apple */
   mode: number;
+  /** 消費者包 */
   CustomerInfo: string;
+  /** 消費者編碼 */
   User_Code: string;
 }
