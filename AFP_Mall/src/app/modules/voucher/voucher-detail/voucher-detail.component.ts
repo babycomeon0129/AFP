@@ -1,11 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import {
   Model_ShareData, AFP_Voucher, AFP_UserVoucher, AFP_ECStore, Request_MemberUserVoucher,
   Response_MemberUserVoucher, Request_MemberCheckStatus, Response_MemberCheckStatus
 } from '@app/_models';
 import { AppService } from 'src/app/app.service';
-import { Router, NavigationExtras } from '@angular/router';
+import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation } from '@app/animations';
@@ -273,6 +272,18 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
     }
   }
 
+  /** 回上一頁
+   * （一般遊覽方式下若上一頁不存在或是是外站則前往大首頁，
+   * 若是用貼網址的方式則會直接前往大首頁，
+   * 其餘情況則正常回上一頁）
+   */
+   conditionBack(): void {
+    if (this.appService.prevUrl === '/' || this.appService.prevUrl === '') {
+      this.router.navigate(['/']);
+    } else {
+      history.back();
+    }
+  }
 
   ngOnDestroy(): void {
     clearInterval(this.checkTimer);

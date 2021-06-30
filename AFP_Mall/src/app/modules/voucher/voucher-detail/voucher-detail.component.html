@@ -4,11 +4,8 @@
       <div class="index-flex justify-content-between">
         <div class="item two">
           <div class="close-btn">
-            <!--button type="button" class="btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom"
-              title="回上一頁">
-              <i class="material-icons">&#xe314;</i>
-            </!--button-->
-            <app-back-btn></app-back-btn>
+            <button class="btn" (click)="conditionBack()" type="button" data-toggle="tooltip" data-placement="top" title="回上一頁"><i class="material-icons">&#xe314;</i></button>
+            <!-- <app-back-btn></app-back-btn> -->
           </div>
         </div>
         <div class="item three text-center">
@@ -42,7 +39,7 @@
           <div class="item one text-right">
             <div class="shopping-store-badge">
               <span class="badge badge-pill text-explore">
-                <img src="../../img/share/{{voucherData?.Voucher_ShowType}}.png" alt="">
+                <img *ngIf="voucherData?.Voucher_ShowType !== null" src="../../img/share/{{voucherData?.Voucher_ShowType}}.png" alt="">
                 {{voucherData?.Voucher_ShowTypeName}}
               </span>
             </div>
