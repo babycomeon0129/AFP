@@ -267,7 +267,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       this.bsModalRef.hide();
       // 提示社群綁定
       const msg = `註冊成功！歡迎加入Mobii!\n小技巧：綁定您的社群帳號，未來就可快速登入囉！`;
-      this.modal.show('message', { initialState: { success: true, message: msg, showType: 6, leftBtnMsg: `下次再說`,  leftBtnUrl: `/`, rightBtnMsg: `立即綁定`, rightBtnUrl: `/Member/ThirdBinding`} });
+      this.modal.show('message', { initialState: { success: true, message: msg, showType: 6, leftBtnMsg: `下次再說`,  leftBtnUrl: `Close`, rightBtnMsg: `立即綁定`, rightBtnUrl: `/Member/ThirdBinding`} });
       // 通知推播
       this.appService.initPush();
     });
