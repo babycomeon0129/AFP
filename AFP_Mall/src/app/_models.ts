@@ -1676,6 +1676,12 @@ export interface Response_ECVouFlashSale extends Model_ShareData {
   List_VouFlashSale: AFP_Voucher[];
   /** 限時優惠主表 */
   AFP_VouFlashSale: AFP_VouFlashSale;
+  /** 使用範圍 */
+  List_UsedType: Model_DictionaryShort[];
+  /** 優惠卷類型  */
+  List_ShowType: Model_DictionaryShort[];
+  /** 折扣類型使用 */
+  List_VoucherType: Model_DictionaryShort[];
 }
 
 /** 優惠眷限時搶購 */
@@ -1791,6 +1797,12 @@ export interface Response_ECVoucher extends Model_ShareData {
   List_Voucher: AFP_ChannelVoucher[];
   /** 廣告列表 30003 */
   List_ADImg: AFP_ADImg[];
+  /** 使用範圍 */
+  List_UsedType: Model_DictionaryShort[];
+  /** 優惠卷類型 */
+  List_ShowType: Model_DictionaryShort[];
+  /** 折扣類型使用 */
+  List_VoucherType: Model_DictionaryShort[];
 }
 
 /** 頻道優惠卷 */

@@ -24,7 +24,7 @@ export class MemberDiscountComponent implements OnInit {
   /** 當前日期時間 */
   public today = new Date();
   /** 搜尋輸入文字 */
-  public searchText;
+  public searchText: string;
   /** 優惠券使用類型分類 */
   public showType: Model_DictionaryShort[];
   /** 優惠券折扣類型使用 */

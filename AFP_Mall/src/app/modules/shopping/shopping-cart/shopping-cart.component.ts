@@ -369,16 +369,5 @@ export class ShoppingCartComponent implements OnInit {
     }
   }
 
-  /**
-   * 回上一頁(若在結帳未完成時按回上一頁被導至此，回上一頁導至商城首頁)
-   */
-  // conditionBack(): void {
-  //   console.log(this.route.snapshot.queryParams.referrer);
-  //   if (this.route.snapshot.queryParams.referrer === undefined) {
-  //     history.back();
-  //   } else {
-  //     this.router.navigate(['Shopping']);
-  //   }
-  // }
 
 }

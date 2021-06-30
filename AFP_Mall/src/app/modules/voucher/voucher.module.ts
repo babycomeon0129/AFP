@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { LazyLoadImageModule } from 'ng-lazyload-image';
@@ -37,7 +38,8 @@ import { VoucherDetailComponent } from './voucher-detail/voucher-detail.componen
     LazyLoadImageModule,
     NgxUsefulSwiperModule,
     SharedModule,
-    QRCodeModule
+    QRCodeModule,
+    FormsModule
   ]
 })
 export class VoucherModule {}
