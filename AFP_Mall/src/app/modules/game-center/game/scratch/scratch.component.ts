@@ -43,6 +43,8 @@ export class ScratchComponent implements OnInit, AfterViewInit {
   public imgTop = new Image();
   /** 開獎結果 */
   public prizeData: AFP_GamePart;
+  /** 避免重疊開啟開獎結果視窗 0: 初始 1: 開啟 2以上：不開啟 */
+  public prizeOpen = 0
   /** 同頁滑動切換 0: 本頁 1: 活動規則 */
   public layerTrig = 0;
   /** 視窗滑動切換(往上) 0: 本頁 1: 開獎資訊 */
@@ -87,6 +89,7 @@ export class ScratchComponent implements OnInit, AfterViewInit {
 
   /** 刮刮樂上層畫面繪製 */
   drawTop(): void {
+    this.prizeOpen = 0;
     this.ctxTop.canvas.style.opacity = '1';
     this.ctxTop.drawImage(this.imgTop, 0, 0, this.w, this.h);
     // 判斷當前是否為第一次刮開，不是則清除上一次區域
@@ -189,29 +192,36 @@ export class ScratchComponent implements OnInit, AfterViewInit {
           n++;
         }
       }
-      if (n >= ctxTopData.length * 0.5) {
-        // 先阻止使用者繪製行為，以避免n繼續加乘並觸發多次API
-        this.mousedown = false;
-        // call api 取得開獎結果、總點數、可玩次數
-        const request: Request_Games = {
-          User_Code: sessionStorage.getItem('userCode'),
-          SelectMode: 1,
-          Game_Code: this.gameData.AFP_Game.Game_Code,
-          SearchModel: {
-            Game_Code: null
-          }
-        };
-        this.appService.toApi('Games', '1701', request).subscribe((data: Response_Games) => {
-          this.totalPoints = data.TotalPoint;
-          if (this.playTimes > 0) {
-            this.playTimes--;
-          }
-          this.prizeData = data.GameReward;
-          this.ctxTop.globalCompositeOperation = 'destination-over';
-          this.ctxTop.canvas.style.opacity = '0'; // 上層canvas變透明
-          this.layerTrigUp = 1;
-          this.goPlay = false;
-        });
+      // 刮開面積從50%調高到70%
+      if (n >= ctxTopData.length * 0.7) {
+        ++this.prizeOpen;  // prizeOpen＝1增加遮罩，以避免點擊到畫板重複讀取
+        if (this.prizeOpen === 1) {
+          // 先阻止使用者繪製行為，以避免n繼續加乘並觸發多次API
+          this.mousedown = false;
+          // call api 取得開獎結果、總點數、可玩次數
+          const request: Request_Games = {
+            User_Code: sessionStorage.getItem('userCode'),
+            SelectMode: 1,
+            Game_Code: this.gameData.AFP_Game.Game_Code,
+            SearchModel: {
+              Game_Code: null
+            }
+          };
+          this.appService.toApi('Games', '1701', request).subscribe((data: Response_Games) => {
+            this.ctxTop.globalCompositeOperation = 'destination-over';  // 上層刮開
+            this.ctxTop.canvas.style.opacity = '0'; // 上層canvas變透明
+            this.totalPoints = data.TotalPoint;
+            this.prizeData = data.GameReward;
+            if (this.playTimes > 0) {
+              this.playTimes--;
+            }
+            // 刮完後的底圖，須等到1.5秒，才跳出中獎訊息
+            setTimeout(() => {
+              this.layerTrigUp = 1;
+            }, 1500);
+            this.goPlay = false;
+          });
+        }
       }
     }
   }
@@ -254,11 +264,9 @@ export class ScratchComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     /** 刮刮樂畫面繪製 */
+    this.drawBot();
     this.imgTop.onload = () => {
       this.drawTop();
-    };
-    this.imgBot.onload = () => {
-      this.drawBot();
     };
   }
 

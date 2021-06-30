@@ -20,7 +20,7 @@
       </div>
   </header>
   <div class="missionlist pb-0">
-
+      <div *ngIf="prizeOpen === 1" class="prizeOpenMask"></div>
       <div>
         <img src={{gameData?.AFP_Game?.Game_ADImage}} class="img-fluid">
       </div>
