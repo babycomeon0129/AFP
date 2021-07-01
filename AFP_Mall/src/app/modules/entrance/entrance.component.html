@@ -16,6 +16,15 @@
 <div class="wrap container">
   <header>
     <app-index-header></app-index-header>
+    <!-- 搜尋列 -->
+    <section class="mobii-search-box">
+      <div class="s-bar-gray mobile">
+        <div class="input-box border-radius5 d-flex">
+          <button class="btn" (click)="serchOffers($event.target.value);"><i class="material-icons">&#xE8B6;</i></button>
+          <input type="text" inputmode="search" placeholder="搜尋優惠券" class="border-0" (keyup.enter)="serchOffers($event.target.value);">
+        </div>
+      </div>
+    </section>
     <!-- 手機版 上方banner -->
     <section class="mobii-bnbox">
       <div class="userbox mr-auto">
@@ -26,13 +35,6 @@
             <span class="user-mobii">{{appService.loginState? (userPoint | currency: '':'':'1.0-0') : '--'}}</span>點
           </li>
         </ul>
-      </div>
-      <!-- 搜尋列 -->
-      <div class="s-bar-gray mobile">
-        <div class="input-box border-radius5 d-flex">
-          <button class="btn" (click)="serchOffers($event.target.value);"><i class="material-icons">&#xE8B6;</i></button>
-          <input type="text" inputmode="search" placeholder="搜尋優惠券" class="border-0" (keyup.enter)="serchOffers($event.target.value);">
-        </div>
       </div>
       <div id="carouselBanner" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
