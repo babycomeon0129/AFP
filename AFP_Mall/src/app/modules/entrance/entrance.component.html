@@ -31,7 +31,7 @@
       <div class="s-bar-gray mobile">
         <div class="input-box border-radius5 d-flex">
           <button class="btn"><i class="material-icons">&#xE8B6;</i></button>
-          <input type="search" placeholder="搜尋優惠券" class="border-0">
+          <input type="search" placeholder="搜尋優惠券" class="border-0" (keyup.enter)="serchOffers($event.target.value);">
         </div>
       </div>
       <div id="carouselBanner" class="carousel slide" data-ride="carousel">
