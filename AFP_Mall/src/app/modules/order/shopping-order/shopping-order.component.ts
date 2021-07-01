@@ -715,7 +715,7 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
     }
 
     if (result.success) {
-      this.modal.confirm({ initialState: { message: '提醒您，系統將前往付款頁面，當您按下確定後，須完成付款才會成立訂單，若付款未完成，購物車資料將清空。' } }).subscribe(res => {
+      this.modal.confirm({ initialState: { message: '提醒您，系統將前往付款頁面，當您按下確定後，須完成付款才會成立訂單。' } }).subscribe(res => {
         if (res) {
           // orders.forEach(order => {
           //   order.Order_ChangeAmount = order.Order_ChangeAmount * -1;
