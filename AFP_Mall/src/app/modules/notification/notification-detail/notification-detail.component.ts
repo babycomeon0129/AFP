@@ -15,7 +15,7 @@ export class NotificationDetailComponent implements OnInit, AfterViewChecked {
   public msgCode: number;
   /** 訊息詳情 */
   public msgContent: AFP_IMessage;
-  public vedioCheck = false;
+  public videoCheck = false;
   /** 分享至社群時顯示的文字 */
   public textForShare: string;
   /** APP分享使用的url */
@@ -74,12 +74,12 @@ export class NotificationDetailComponent implements OnInit, AfterViewChecked {
   }
 
   /** 回上一頁
-   * （一般遊覽方式下若上一頁不存在或是是外站則前往大首頁，
-   * 若是用貼網址的方式則會直接前往大首頁，
-   * 其餘情況則正常回上一頁）
+   * 一般遊覽方式下若上一頁不存在(this.appService.prevUrl === '')或是是外站則前往大首頁，
+   * 若是用貼網址的方式(window.history.length === 2)，則會直接前往大首頁，
+   * 其餘情況則正常回上一頁
    */
   conditionBack(): void {
-    if (this.appService.prevUrl === '/' || this.appService.prevUrl === '') {
+    if (window.history.length === 2 || this.appService.prevUrl === '') {
       this.router.navigate(['/']);
     } else {
       history.back();
@@ -87,21 +87,21 @@ export class NotificationDetailComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {
-    // CKEditor 5內嵌影片顯示處理。如果抓到影片則不再執行vedioShow()
-    if (!this.vedioCheck) {
-      this.vedioShow();
+    // CKEditor 5內嵌影片顯示處理。如果抓到影片則不再執行videoShow()
+    if (!this.videoCheck) {
+      this.videoShow();
     }
 
   }
 
-  vedioShow(): void {
-    const vedioview = document.querySelectorAll('iframe[allowfullscreen]');
-    if (vedioview[0] !== undefined) {
-      this.vedioCheck = true;
+  videoShow(): void {
+    const videoView = document.querySelectorAll('iframe[allowfullscreen]');
+    if (videoView[0] !== undefined) {
+      this.videoCheck = true;
     }
-    vedioview.forEach(vedio => {
-      vedio.attributes[1].nodeValue = '';
-      vedio.classList.add('ifrwd');
+    videoView.forEach(video => {
+      video.attributes[1].nodeValue = '';
+      video.classList.add('ifrwd');
     });
 
   }

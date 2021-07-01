@@ -44,7 +44,8 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
   /** 同頁滑動切換 0:本頁 1:使用優惠券 */
   public layerTrig = 0;
 
-  constructor(public appService: AppService, private route: ActivatedRoute, private router: Router, public modal: ModalService, private meta: Meta, private title: Title) {
+  constructor(public appService: AppService, private route: ActivatedRoute, private router: Router,
+              public modal: ModalService, private meta: Meta, private title: Title) {
     this.voucherCode = this.route.snapshot.params.Voucher_Code;
     if (this.voucherCode.toString().substring(0, 2) === '46') {
       this.selectMode = 4;
@@ -273,12 +274,12 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
   }
 
   /** 回上一頁
-   * （一般遊覽方式下若上一頁不存在或是是外站則前往大首頁，
-   * 若是用貼網址的方式則會直接前往大首頁，
-   * 其餘情況則正常回上一頁）
+   * 一般遊覽方式下若上一頁不存在(this.appService.prevUrl === '')或是是外站則前往大首頁，
+   * 若是用貼網址的方式(window.history.length === 2)，則會直接前往大首頁，
+   * 其餘情況則正常回上一頁
    */
-   conditionBack(): void {
-    if (this.appService.prevUrl === '/' || this.appService.prevUrl === '') {
+  conditionBack(): void {
+    if (window.history.length === 2 || this.appService.prevUrl === '') {
       this.router.navigate(['/']);
     } else {
       history.back();
@@ -312,7 +313,7 @@ interface Response_ECVoucherDetail extends Model_ShareData {
   AFP_Voucher: AFP_Voucher;
   /** 使用者優惠卷 */
   AFP_UserVoucher: AFP_UserVoucher;
-  /**優惠卷 - 線下商家 */
+  /** 優惠卷 - 線下商家 */
   List_ECStore: AFP_ECStore[];
 }
 
