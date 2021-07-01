@@ -89,6 +89,12 @@ export class OffersComponent implements OnInit, OnDestroy {
       if (typeof params.tabCode !== 'undefined') {
         this.TabCode = Number(params.tabCode);
       }
+
+      // 搜尋文字
+      if (typeof params.search !== 'undefined') {
+        this.searchText = params.search;
+      }
+
     });
 
   }

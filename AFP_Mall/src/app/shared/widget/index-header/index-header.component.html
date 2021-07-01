@@ -1,9 +1,18 @@
 <div class="mobii-topbox" [ngClass]="{'for-pc': forPc}">
   <div class="container">
-    <img src="img/share/mlogo.png" class="m-topbox-item mobiitoplogo" [routerLink]="['/']">
+    <div class="d-flex">
+      <img src="img/share/mlogo.png" class="m-topbox-item mobiitoplogo" [routerLink]="['/']">
+      <!-- 搜尋列 -->
+      <div class="s-bar-gray pc">
+        <div class="input-box border-radius5 d-flex">
+          <button class="btn p-1" (click)="serchOffers($event.target.value)"><i class="material-icons">&#xE8B6;</i></button>
+          <input type="search" placeholder="搜尋優惠券" class="border-0 w-100" (keyup.enter)="serchOffers($event.target.value);">
+        </div>
+      </div>
+    </div>
     <div class="m-topbox-item d-flex align-items-center">
       <!-- 引導下載App QR Code -->
-      <div class="for-pc dwloadApp" data-toggle="tooltip">下載App
+      <div class="for-pc dwloadApp">下載App
         <div class="appQR">
           <qrcode [qrdata]="'https://mobii.ai/ForApp/AppDownload'" [width]="116" [errorCorrectionLevel]="'L'"
             id="qrcode">

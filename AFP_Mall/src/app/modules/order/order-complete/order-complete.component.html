@@ -27,7 +27,7 @@
               <div class="order-processing">
                 <img src="../img/shopping/payment-processing.png" alt="付款處理中">
               </div>
-              <p class="order-processing text-center">付款處理中，請稍後...</p>
+              <p class="order-processing text-center mt-3">付款處理中，請稍後...</p>
             </div>
           </div>
         </div>
@@ -80,7 +80,7 @@
         <div class="container text-center">
           <div class="row">
             <div class="col-12">
-              <button *ngIf="appService.isApp === null" class="btn index-btn btn-ok" [routerLink]="['/']">重新購買</button>
+              <button *ngIf="appService.isApp === null" class="btn index-btn btn-ok w-50" [routerLink]="['/Shopping/ShoppingCart']">重新購買</button>
             </div>
           </div>
         </div>
