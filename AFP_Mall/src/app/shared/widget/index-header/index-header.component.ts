@@ -19,7 +19,7 @@ export class IndexHeaderComponent implements OnInit {
   /** 搜尋Bar，搜尋完畢後前往「找優惠」
    * @param searchText 搜尋文字
    */
-   serchOffers(searchText: string): void {
+   searchOffers(searchText: string): void {
     this.router.navigate(['/Voucher/Offers'], { queryParams: { search: searchText } });
   }
 

@@ -1,36 +1,12 @@
 @import '../../../../../styles/module/variable';
 
 /** member-coin */
-.coinbox{
-  margin-bottom: 80px;
-}
-.coin-box {
-  margin: .25em 2em;
-  padding: 1em;
-  color: #fff;
-  border-radius: 1em;
-  background: rgba(255, 255, 255, 0.3);
-}
-.btn-outline-white{
-  color: #fff;
-  border: 1px solid #fff;
-  background-color: transparent;
-  background-image: none;
-  border-color:  #fff;
-  border-radius: 30px;
-  white-space: nowrap;
-}
 .lineargradient-purple {
-  background: -webkit-linear-gradient(top,#7787FE,#70B8FE);
-  background: -o-linear-gradient(bottom,#7787FE,#70B8FE);
-  background: -moz-linear-gradient(bottom,#7787FE,#70B8FE);
-  background: linear-gradient(to bottom,#7787FE,#70B8FE);
-}
-.lineargradient-blue {
-  background: -webkit-linear-gradient(left top,#36D1DB,#568EE3);
-  background: -o-linear-gradient(bottom right,#36D1DB,#568EE3);
-  background: -moz-linear-gradient(bottom right,#36D1DB,#568EE3);
-  background: linear-gradient(to bottom right,#36D1DB,#568EE3);
+  padding: 2em;
+  background: -webkit-linear-gradient(top,#7BF3EC,#5892D7);
+  background: -o-linear-gradient(bottom,#7BF3EC,#5892D7);
+  background: -moz-linear-gradient(bottom,#7BF3EC,#5892D7);
+  background: linear-gradient(to bottom,#7BF3EC,#5892D7);
 }
 .see-all{
   float: right;
@@ -49,5 +25,19 @@
     background-color: #fff;
     padding-left: .75em;
     padding-right: .75em;
+  }
+}
+.coin-right {
+  text-align: right;
+  button {
+    padding: .25em .75em;
+    font-size: small;
+    color: #fff;
+    border: 1px solid #fff;
+    background-color: transparent;
+    background-image: none;
+    border-color:  #fff;
+    border-radius: 30px;
+    white-space: nowrap;
   }
 }

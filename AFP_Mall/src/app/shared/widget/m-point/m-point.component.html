@@ -1,0 +1,28 @@
+<div class="coinbox">
+  <div class="lineargradient-purple">
+    <div class="coin-shadow">
+      <div class="coin-box">
+        <div *ngIf="this.appService.currentUrl.indexOf('MemberCoin') === -1" class="item title-name text-white">M Points</div>
+        <div class="flex-inline-between">
+          <div class="coin-point">
+            <img src="../img/share/mobiicoin_red.png" class="coinimg-m">
+            <span class="coin-txt">{{info.TotalPoint | currency:'TWD':'':'1.0-2'}}</span>
+          </div>
+          <div class="coin-history">
+            <button class="btn" (click)="getHistory();">
+              點數紀錄
+            </button>
+          </div>
+        </div>
+        <div class="flex-inline-between">
+          <div class="item">即將到期魔幣</div>
+          <div class="item">{{info.DaylinePoint | currency:'TWD':'':'1.0-2'}}</div>
+        </div>
+        <div class="flex-inline-between">
+          <div class="item">即將到期時間</div>
+          <div class="item">{{info.Dayline | date:'yyyy/MM/dd'}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -327,6 +327,7 @@
     top: -6px;
     right: 8px;
     z-index: 10;
+    transform: translate(-10px, 10px);
   }
   .dropdown ul.dropdown-menu:after {
     content: "";
