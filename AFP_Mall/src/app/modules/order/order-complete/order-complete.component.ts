@@ -68,7 +68,7 @@ export class OrderCompleteComponent implements OnInit {
         this.title.setTitle('付款失敗｜線上商城 - Mobii!');
         this.meta.updateTag({content: '付款失敗｜線上商城 - Mobii!', property: 'og:title'});
       }
-    }, 5000);
+    }, 10000);
   }
 
   /** 前往商城首頁 */
