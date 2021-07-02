@@ -139,7 +139,6 @@ export class ExploreDetailComponent implements OnInit {
     // request
     this.appService.openBlock();
     this.appService.toApi('Area', '1403', request, this.lat, this.lng).subscribe((data: Response_AreaDetail) => {
-      console.log(data);
       switch (index) {
         //  商家簡介
         case 1: {
