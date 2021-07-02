@@ -39,7 +39,7 @@ export class ExploreDetailComponent implements OnInit {
   /** 商家商品 */
   public productList: AFP_Product[] = [];
   /** 判斷是否有外送點餐服務 */
-  public ecStoreExtType: string;
+  public ecStoreExtType = false;
   /** JustKa連結 */
   public JustKaUrl: string;
   /** APP分享使用的url */
@@ -66,8 +66,6 @@ export class ExploreDetailComponent implements OnInit {
   public textForShare: string;
   /** 店家推薦連結 */
   public ecstoreLink : AFP_ECStoreLink[] = [];
-  /** 確認資料是否下載完畢  */
-  public dataLoad = false;
   /** 同頁滑動切換 0:本頁 1:篩選清單 2:篩選-商品分類 3:更多推薦 */
   public layerTrig = 0;
 
@@ -141,11 +139,14 @@ export class ExploreDetailComponent implements OnInit {
     // request
     this.appService.openBlock();
     this.appService.toApi('Area', '1403', request, this.lat, this.lng).subscribe((data: Response_AreaDetail) => {
+      console.log(data);
       switch (index) {
         //  商家簡介
         case 1: {
           this.siteInfo = data.Model_ECStore;
-          this.ecStoreExtType = this.siteInfo.ECStore_DeliveryURL;
+          if (this.siteInfo.ECStore_DeliveryURL !== null || this.siteInfo.ECStore_TakeoutURL !== null) {
+            this.ecStoreExtType = true;
+          }
           this.ecstoreLink = data.List_ECStoreLink;
           // Enter轉換行
           if (this.siteInfo.ECStore_Features !== null && this.siteInfo.ECStore_Features !== '') {
@@ -194,7 +195,6 @@ export class ExploreDetailComponent implements OnInit {
           break;
         }
       }
-      this.dataLoad = true;
     });
   }
 
@@ -235,12 +235,14 @@ export class ExploreDetailComponent implements OnInit {
     }
   }
 
-  /** 外送點餐按鈕 */
-  sendDelivery(): void {
+  /** 外送/外帶點餐按鈕
+   * @param url 外連連結
+   */
+  sendDelivery(url: string): void {
     // 先判斷是否有登入
     if (this.appService.loginState) {
       // 把商店code帶到DeliveryInfo頁面
-      window.open(this.siteInfo.ECStore_DeliveryURL);
+      window.open(url);
     } else {
       this.appService.loginPage();
     }

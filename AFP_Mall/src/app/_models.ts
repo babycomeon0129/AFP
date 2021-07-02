@@ -474,8 +474,10 @@ export interface AFP_ECStore {
   ECStore_State?: boolean;
   /** 是否上架(是否顯示於列表) 0:下架 1:上架 */
   ECStore_IsOnline?: boolean;
-  /** 外送點餐地址 */
+  /** 我要外帶連結 */
   ECStore_DeliveryURL?: string;
+  /** 我要外送連結 */
+  ECStore_TakeoutURL?: string;
 }
 
 /** 消費者包 Model */
