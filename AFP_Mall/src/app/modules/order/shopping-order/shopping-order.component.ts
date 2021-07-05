@@ -85,7 +85,7 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
       this.appService.toApi('Checkout', '1605', getCheckout).subscribe((data: Response_GetCheckout) => {
         this.checkout = data;
         // 進入結帳頁時，如商品改變價格，則跳出提醒用戶商品價格改變
-        if (data.List_PriceChange !== '') {
+        if (data.List_PriceChange !== null) {
           this.modal.show('message', { initialState: { success: false, message: `提醒您，${data.List_PriceChange}價格變更了！`, showType: 1, singleBtnMsg: `我知道了` } });
         }
         // 帶入會員資訊 (姓名、手機、email)
