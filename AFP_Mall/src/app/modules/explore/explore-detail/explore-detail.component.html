@@ -41,8 +41,7 @@
                 <div class="add-favorite">
                   <button
                     (click)="appService.favToggle((appService.userFavCodes.includes(siteCode)? 2 : 1), siteInfo?.ECStore_Type < 2000? 52 : 53, siteCode)"
-                    [ngClass]="{'active': appService.userFavCodes.includes(siteCode)}" data-toggle="modal" type="button"
-                    data-placement="top" title="加入/移除收藏"><img src="../img/share/icon_favorite.png" class="imgicon">
+                    [ngClass]="{'active': appService.userFavCodes.includes(siteCode)}"  type="button" title="加入/移除收藏"><img src="../img/share/icon_favorite.png" class="imgicon">
                   </button>
                 </div>
               </div>
@@ -96,30 +95,24 @@
             </div>
           </div>
           <div class="store-tab-box">
-            <ul class="nav nav-tabs" id="storeTab" role="tablist">
+            <ul class="nav nav-tabs">
               <li class="nav-item">
                 <a [routerLink]="['/Explore/ExploreDetail', siteCode]"
                   [queryParams]="{ navNo: 1, showBack: appService.showBack}" [ngClass]="{'active' : tabNo == 1}"
-                  class="nav-link active" id="store-tab" data-toggle="tab" href="#store" role="tab"
-                  aria-controls="store" aria-selected="true">{{siteInfo?.ECStore_Type < 2000? '店家' : '周邊' }}簡介</a>
+                  class="nav-link active">{{siteInfo?.ECStore_Type < 2000? '店家' : '周邊' }}簡介</a>
               </li>
               <li *ngIf="siteInfo?.ECStore_Type < 2000 && siteInfo?.ECStore_Type !== 1100" class="nav-item">
                 <a [routerLink]="['/Explore/ExploreDetail', siteCode]"
-                  [queryParams]="{ navNo: 3, showBack: appService.showBack }" [ngClass]="{'active' : tabNo == 3}"
-                  class="nav-link" id="shop-tab" data-toggle="tab" href="#shop" role="tab" aria-controls="shop"
-                  aria-selected="false">熱賣商品</a>
+                  [queryParams]="{ navNo: 3, showBack: appService.showBack }" [ngClass]="{'active' : tabNo == 3}"class="nav-link">熱賣商品</a>
               </li>
               <li *ngIf="siteInfo?.ECStore_Type < 2000" class="nav-item">
                 <a [routerLink]="['/Explore/ExploreDetail', siteCode]"
-                  [queryParams]="{ navNo: 2, showBack: appService.showBack }" [ngClass]="{'active' : tabNo == 2}"
-                  class="nav-link" id="ticket-tab" data-toggle="tab" href="#ticket" role="tab" aria-controls="ticket"
-                  aria-selected="false">優惠券</a>
+                  [queryParams]="{ navNo: 2, showBack: appService.showBack }" [ngClass]="{'active' : tabNo == 2}"class="nav-link">優惠券</a>
               </li>
             </ul>
             <div class="tab-content border-t">
               <!-- 商家簡介 -->
-              <div [ngClass]="{'show active' : tabNo == 1}" class="tab-pane fade show active" id="store" role="tabpanel"
-                aria-labelledby="store-tab">
+              <div [ngClass]="{'show active' : tabNo == 1}" class="tab-pane fade show active" id="store">
                 <div class="store-group">
                   <!-- 簡介文字 -->
                   <div class="store-item store-itemopen">
@@ -259,7 +252,7 @@
                 </div>
               </div>
               <!-- 優惠券 -->
-              <div [ngClass]="{'show active' : tabNo == 2}" class="tab-pane fade" id="ticket" role="tabpanel"
+              <div [ngClass]="{'show active' : tabNo == 2}" class="tab-pane fade" id="ticket"
                 aria-labelledby="ticket-tab">
                 <!-- discout -->
                 <div *ngIf="voucherList?.length > 0; else noVoucherBlock" class="mycoin-couponbox card-columns px-3">

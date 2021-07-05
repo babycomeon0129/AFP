@@ -72,6 +72,9 @@ export class ExploreDetailComponent implements OnInit {
   constructor(public appService: AppService, private route: ActivatedRoute, public modal: ModalService, private meta: Meta, private title: Title, private bsModalRef: BsModalRef ) {
     // 取得商家/景點編碼
     this.siteCode = Number(this.route.snapshot.params.ECStore_Code);
+    if (this.route.snapshot.params.ECStore_Code.tabNo !== undefined) {
+      this.tabNo = Number(this.route.snapshot.params.tabNo);
+    }
   }
 
   ngOnInit() {
@@ -115,7 +118,7 @@ export class ExploreDetailComponent implements OnInit {
     this.route.params.subscribe(routeParams => {
       if (this.siteCode !== Number(routeParams.ECStore_Code)) {
         this.siteCode = Number(routeParams.ECStore_Code);
-        this.readTabData(1);
+        this.readTabData(this.tabNo);
       }
     });
     // 若是登入狀態下則顯示收藏狀態
@@ -128,7 +131,6 @@ export class ExploreDetailComponent implements OnInit {
    * @param index 分頁代號
    */
   readTabData(index: number): void {
-    this.tabNo = index;
     const request: Request_AreaDetail = {
       User_Code: sessionStorage.getItem('userCode'),
       SearchModel: {
