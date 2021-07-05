@@ -42,20 +42,16 @@
                                     <a href="#order-tab-1" class="tabsub-link active" aria-controls="order-tab-1" role="tab" data-toggle="tab" aria-selected="true">待付款</a>
                                 </li> -->
                   <li role="presentation" class="swiper-slide">
-                    <a (click)="showList(1, 1)" class="tabsub-link" [ngClass]="{'active': memberService.statusSwitch === 1}"
-                      data-toggle="tab" aria-selected="false">處理中</a>
+                    <a (click)="showList(1, 1)" class="tabsub-link" [ngClass]="{'active': memberService.statusSwitch === 1}">處理中</a>
                   </li>
                   <li role="presentation" class="swiper-slide">
-                    <a (click)="showList(1, 2)" class="tabsub-link" [ngClass]="{'active': memberService.statusSwitch === 2}"
-                      data-toggle="tab" aria-selected="false">待收貨</a>
+                    <a (click)="showList(1, 2)" class="tabsub-link" [ngClass]="{'active': memberService.statusSwitch === 2}">待收貨</a>
                   </li>
                   <li role="presentation" class="swiper-slide">
-                    <a (click)="showList(1, 3)" class="tabsub-link" [ngClass]="{'active': memberService.statusSwitch === 3}"
-                      data-toggle="tab" aria-selected="false">已完成</a>
+                    <a (click)="showList(1, 3)" class="tabsub-link" [ngClass]="{'active': memberService.statusSwitch === 3}">已完成</a>
                   </li>
                   <li role="presentation" class="swiper-slide">
-                    <a (click)="showList(1, 4)" class="tabsub-link" [ngClass]="{'active': memberService.statusSwitch === 4}"
-                      data-toggle="tab" aria-selected="false">退貨</a>
+                    <a (click)="showList(1, 4)" class="tabsub-link" [ngClass]="{'active': memberService.statusSwitch === 4}">退貨</a>
                   </li>
                 </ul>
               </swiper>
