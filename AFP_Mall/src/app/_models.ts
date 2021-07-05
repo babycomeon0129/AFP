@@ -968,6 +968,8 @@ export interface Response_ECCart extends Model_ShareData {
   List_Cart: AFP_Cart[];
   /** 商品規格 */
   List_ProdAttr: AFP_ProdAttr[];
+  /** 商品價格變動清單 */
+  List_PriceChange?: string;
 }
 
 /** 取得結帳所需資訊 Response */
@@ -990,6 +992,8 @@ export interface Response_GetCheckout extends Model_ShareData {
   UserProfile_Mobile?: string;
   /** Email */
   UserProfile_Email?: string;
+  /** 商品價格變動清單 */
+  List_PriceChange?: string;
 }
 
 /** 取得優惠卷 */
