@@ -12,8 +12,7 @@
           <div class="title-name">我的優惠</div>
         </div>
         <div class="item two">
-          <button class="btn index-btn small-80 fit" (click)="onAddCoupon()" value="msg-mydiscount" data-toggle="modal"
-            data-target="#messageModal" data-dismiss="modal" aria-label="add">
+          <button class="btn index-btn small-80 fit" (click)="onAddCoupon()">
             輸入優惠碼
           </button>
         </div>
@@ -27,14 +26,12 @@
       <div class="afp-tab">
         <div class="nav-tabs-box">
           <!-- Nav tabs -->
-          <ul class="nav-tab-list nav nav-tabs nav-line d-flex justify-content-around" role="tablist">
+          <ul class="nav-tab-list nav nav-tabs nav-line d-flex justify-content-around">
             <li role="presentation" class="active">
-              <a (click)="vSelectMode = 1; readVoucher();" class="tablist-link active" aria-controls="discounttag01"
-                role="tab" data-toggle="tab" aria-selected="true">可用優惠</a>
+              <a (click)="vSelectMode = 1; readVoucher();" class="tablist-link active">可用優惠</a>
             </li>
             <li role="presentation">
-              <a (click)="vSelectMode = 2;readVoucher();" class="tablist-link" aria-controls="discounttag02" role="tab"
-                data-toggle="tab" aria-selected="false">歷史優惠</a>
+              <a (click)="vSelectMode = 2;readVoucher();" class="tablist-link">歷史優惠</a>
             </li>
           </ul>
           <div class="tab-line w-100"></div>
