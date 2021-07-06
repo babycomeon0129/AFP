@@ -970,6 +970,8 @@ export interface Response_ECCart extends Model_ShareData {
   List_ProdAttr: AFP_ProdAttr[];
   /** 商品價格變動清單 */
   List_PriceChange?: string;
+  /** 是否能購買 */
+  Product_IsBuy: boolean;
 }
 
 /** 取得結帳所需資訊 Response */
