@@ -123,7 +123,7 @@ export class OffersComponent implements OnInit, OnDestroy {
         this.saleTop = data.List_VouFlashSale;
         this.saleCountdown();
       }
-      if (this.offers.length > 0) {
+      if (this.offers.length > 0 && this.TabCode === 0) {
         this.TabCode = this.offers[0].UserDefine_Code;
       }
       this.voucherListOrig = this.offers.filter( data => data.UserDefine_Code === this.TabCode)[0].VoucherData;
