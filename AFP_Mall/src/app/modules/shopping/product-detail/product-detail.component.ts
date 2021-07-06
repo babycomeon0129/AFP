@@ -246,8 +246,7 @@ export class ProductDetailComponent implements OnInit {
         };
 
         this.appService.toApi('EC', '1204', request).subscribe((data: Response_ECCart) => {
-          console.log(data);
-          // 先判斷1204是否回傳可購買
+          // 先判斷1204是否回傳可購買(防進入商品頁期間，商品已被下架)
           if (data.Product_IsBuy) {
             switch (this.productInfo.Product_Type) {
               case 21: // 電子票券: 直接將購物車資訊帶到確認訂單頁
@@ -297,7 +296,7 @@ export class ProductDetailComponent implements OnInit {
           } else {
             this.buybtnTxt = '銷售一空';
             this.productIsBuy = data.Product_IsBuy;
-            this.modal.show('message', { initialState: { success: true, message: `${this.productInfo.Product_ExtName}已下架，無法購買`, showType: 1 } });
+            this.modal.show('message', { initialState: { success: true, message: `${this.productInfo.Product_ExtName}已下架，無法購買`, showType: 1, singleBtnMsg: `我知道了` } });
           }
         });
       }

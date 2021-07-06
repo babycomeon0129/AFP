@@ -10,7 +10,10 @@ export class ConfirmModalComponent implements OnInit {
   title: string;
   /** 訊息 */
   message: string;
+  /** 是否顯示取消 */
   showCancel = true;
+  /** 確定按鈕文字內容 */
+  checkBtnTxt = '確定';
   @Output() action = new EventEmitter();
   constructor(public bsModalRef: BsModalRef) { }
 

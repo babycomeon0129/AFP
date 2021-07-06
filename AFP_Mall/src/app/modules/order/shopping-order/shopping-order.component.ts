@@ -11,6 +11,7 @@ import {
 import { NgForm } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation } from '@app/animations';
+declare var AppJSInterface: any;
 
 @Component({
   selector: 'app-shopping-order',
@@ -49,11 +50,12 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
   public requestAddress: AFP_UserFavourite = new AFP_UserFavourite();
   /** 是否正在設定預設地址 (控制進入頁面正在設置時不呼叫layerTrig) */
   private settingAddress = true;
+  /** 結帳按鈕開關 */
+  public checkOut = true;
   /** 同頁滑動切換 0: 原頁 1: 行政區選單 2: 縣市選單 3:愛心碼選單 4:新增地址 5: 選擇優惠券 6:寄送方式 7: 發票選取 */
   public layerTrig = 0;
 
-  constructor(public appService: AppService, public modal: ModalService,
-    private router: Router, private meta: Meta, private title: Title) {
+  constructor(public appService: AppService, public modal: ModalService, private router: Router, private meta: Meta, private title: Title) {
     this.title.setTitle('確定訂單｜線上商城 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! 線上商城購物車 - 確認訂單。 如果你有在 Mobii! 平台購物，這裡就會看到你的訂單訊息。請登入註冊 Mobii! 帳號以看到完整內容。' });
     this.meta.updateTag({ content: '確定訂單｜線上商城 - Mobii!', property: 'og:title' });
@@ -737,9 +739,29 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
             List_Order: orders
           };
           this.appService.toApi('EC', '1601', createOrder).subscribe((coResult: Response_CreateOrder) => {
-            this.router.navigate(['/Order/ShoppingPayment'], {
-              state: { data: coResult }
-            });
+            if (coResult.List_DiscontinuedProducts === null) {
+              this.router.navigate(['/Order/ShoppingPayment'], {
+                state: { data: coResult }
+              });
+            } else {
+              this.checkOut = false;
+              if (this.appService.isApp === null) {
+                this.modal.show('message', { initialState: { success: false, message: `${coResult.List_DiscontinuedProducts}已下架，無法購買`, showType: 1, singleBtnMsg: `我知道了`, target: '/Shopping/ShoppingCart' } });
+              } else {
+                // 如果是APP，則按我知道了時APP把此頁關掉
+                this.modal.confirm({ initialState: { message: `${coResult.List_DiscontinuedProducts}已下架，無法購買`, checkBtnTxt: '我知道了', showCancel: false } }).subscribe(res => {
+                  if (res) {
+                    if (navigator.userAgent.match(/android/i)) {
+                      //  Android
+                      AppJSInterface.back();
+                    } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+                      //  IOS
+                      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'back' });
+                    }
+                  }
+                });
+              }
+            }
           });
         }
       });
@@ -801,8 +823,12 @@ class Request_CreateOrder extends Model_ShareData {
 }
 
 class Response_CreateOrder extends Model_ShareData {
+  /** 訂單編號 [多個逗號區隔] */
   OrderNo: string;
+  /** 平台優惠卷ID [使用者優惠卷ID] */
   UserVoucher_ID?: number;
+  /** 下架商品清單 */
+  List_DiscontinuedProducts?: string;
 }
 
 /** 取得結帳所需資訊 */
