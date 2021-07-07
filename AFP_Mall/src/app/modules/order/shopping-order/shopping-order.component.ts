@@ -531,6 +531,7 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
     this.layerTrig = 7;
   }
 
+  /** 確認電子發票資料 */
   confirmInvoice(): void {
     switch (this.info.preInvoice.invoiceMode) {
       case 2: { // 公司發票(三聯式)
@@ -543,6 +544,9 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
             this.modal.show('message', { initialState: { success: false, message: '統一編號格式錯誤，請輸入正確的統一編號', showType: 1 } });
           } else {
             this.info.invoice = this.info.preInvoice;
+            // 去掉前後空白
+            this.info.invoice.invoiceTitle = this.info.preInvoice.invoiceTitle.trim();
+            this.info.invoice.invoiceTaxID = this.info.preInvoice.invoiceTaxID.trim();
             this.info.invoice.message = '三聯式發票 ' + this.info.invoice.invoiceTitle + '/' + this.info.invoice.invoiceTaxID;
             this.layerTrig = 0;
           }
@@ -554,6 +558,8 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
           this.modal.show('message', { initialState: { success: false, message: '請輸入愛心碼', showType: 1 } });
         } else {
           this.info.invoice = this.info.preInvoice;
+          // 去掉前後空白
+          this.info.invoice.loveCode = this.info.preInvoice.loveCode.trim();
           this.info.invoice.message = '發票捐贈 愛心碼:' + this.info.invoice.loveCode;
           this.layerTrig = 0;
         }
@@ -570,14 +576,15 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
         if (this.info.preInvoice.carrierCode.trim() === '') {
           this.modal.show('message', { initialState: { success: false, message: '請輸入正確的手機條碼', showType: 1 } });
         } else {
-          const regexp = /^\/{1}[0-9A-Z]{7}$/g;
+          const regexp = /^\/[0-9A-Z.+-]{7}$/g;
           const regexpOk = regexp.exec(this.info.preInvoice.carrierCode.trim());
           if (regexpOk === null) {
             this.modal.show('message', { initialState: { success: false, message: '手機條碼格式錯誤，請輸入正確的手機條碼', showType: 1 } });
           } else {
             this.info.invoice = this.info.preInvoice;
+            this.info.invoice.carrierCode = this.info.preInvoice.carrierCode.trim();
             this.info.invoice.carrierType = 1;
-            this.info.invoice.message = '手機條碼載具 ' + this.info.invoice.carrierCode;
+            this.info.invoice.message = '手機條碼載具 ' + this.info.invoice.carrierCode;;
             this.layerTrig = 0;
           }
         }
