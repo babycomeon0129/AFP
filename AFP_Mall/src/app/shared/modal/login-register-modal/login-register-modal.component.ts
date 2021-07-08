@@ -79,7 +79,6 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
         } else {
           this.thirdRequest.Account = this.thirdUser.email;
         }
-        console.log(user);
         this.thirdRequest.NickName = this.thirdUser.name;
         this.thirdRequest.Token = this.thirdUser.id;
         this.thirdRequest.JsonData = JSON.stringify(this.thirdUser);
