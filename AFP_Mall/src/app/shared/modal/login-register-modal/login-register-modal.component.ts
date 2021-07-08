@@ -79,12 +79,14 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
         } else {
           this.thirdRequest.Account = this.thirdUser.email;
         }
+        console.log(user);
         this.thirdRequest.NickName = this.thirdUser.name;
         this.thirdRequest.Token = this.thirdUser.id;
         this.thirdRequest.JsonData = JSON.stringify(this.thirdUser);
         this.toThirdLogin();
       }
-     //  this.regClick = false;
+      //TODO: 之前註解此處是為了修復第三方註冊兩次才能成功的問題，但反而導致這測時會多此呼叫而導致重複toThirdLogin()呼叫多次，先取消註解
+      this.regClick = false;
     });
 
     this.signinState = this.appService.getState();
