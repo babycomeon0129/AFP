@@ -93,13 +93,13 @@
     <!-- tab content -->
     <div class="afp-tab-box mt-3 pt-2">
       <div class="afp-tab mb-5">
-        <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs">
+        <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs" #tabSwiper>
           <!-- 優惠券tab -->
           <ul id="nav-tab-member" class="swiper-wrapper nav nav-tabs nav-line mb-2">
             <li *ngFor="let tab of offers; let First = first; let i = index" class="swiper-slide"
               [ngClass]="{'active': TabCode > 0 ? TabCode == tab?.UserDefine_Code : First}">
               <a [ngClass]="{'active show': TabCode > 0 ? TabCode === tab?.UserDefine_Code : First}"
-                (click)="tabCheck(tab.UserDefine_Code);" class="tablist-link w-100">{{tab?.UserDefine_Name}}</a>
+                (click)="tabCheck(tab.UserDefine_Code, i);" class="tablist-link w-100">{{tab?.UserDefine_Name}}</a>
             </li>
           </ul>
         </swiper>

@@ -1,9 +1,11 @@
 import { Location } from '@angular/common';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { AppService } from '@app/app.service';
-import { AFP_VouFlashSale, Request_ECVouFlashSale, Response_ECVouFlashSale, AFP_ChannelVoucher, AFP_Voucher, Model_DictionaryShort } from '@app/_models';
+import { AFP_VouFlashSale, Request_ECVouFlashSale, Response_ECVouFlashSale,
+         AFP_ChannelVoucher, AFP_Voucher, Model_DictionaryShort } from '@app/_models';
 import { SwiperOptions } from 'swiper';
-import { ActivatedRoute } from '@angular/router';
+import { SwiperComponent } from 'ngx-useful-swiper';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { layerAnimation, layerAnimationUp } from '@app/animations';
@@ -15,6 +17,8 @@ import { layerAnimation, layerAnimationUp } from '@app/animations';
   animations: [layerAnimation, layerAnimationUp]
 })
 export class OffersComponent implements OnInit, OnDestroy {
+  @ViewChild('tabSwiper', {static: false}) tabSwiper: SwiperComponent;
+
   /** 上方限時搶購優惠券(最多4筆) */
   public saleTop: AFP_Voucher[];
   /** 找優惠各目錄(下方) */
@@ -78,7 +82,8 @@ export class OffersComponent implements OnInit, OnDestroy {
     }
   };
 
-  constructor(public appService: AppService, private activatedRoute: ActivatedRoute, private meta: Meta, private title: Title, private modal: ModalService ,public location: Location) {
+  constructor(public appService: AppService, private activatedRoute: ActivatedRoute, private router: Router,
+              private meta: Meta, private title: Title, private modal: ModalService, public location: Location) {
     this.title.setTitle('找優惠 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 找優惠。這裡會顯示 Mobii! 合作店家的優惠券，吃喝玩樂、食衣住行，你想得到、想不到的，都在 Mobii! 找優惠裡！' });
     this.meta.updateTag({ content: '找優惠 - Mobii!', property: 'og:title' });
@@ -94,7 +99,6 @@ export class OffersComponent implements OnInit, OnDestroy {
       if (typeof params.search !== 'undefined') {
         this.searchText = params.search;
       }
-
     });
 
   }
@@ -126,7 +130,10 @@ export class OffersComponent implements OnInit, OnDestroy {
       if (this.offers.length > 0 && this.TabCode === 0) {
         this.TabCode = this.offers[0].UserDefine_Code;
       }
-      this.voucherListOrig = this.offers.filter( data => data.UserDefine_Code === this.TabCode)[0].VoucherData;
+      this.offers.forEach((element, index) => {
+        if (element.UserDefine_Code === this.TabCode) { this.tabSwiper.swiper.slideTo(index, 1000, false); }
+      });
+      this.voucherListOrig = this.offers.filter(dataVoucher => dataVoucher.UserDefine_Code === this.TabCode)[0].VoucherData;
       this.voucherList = this.voucherListOrig.concat();
       this.voucherCount = this.voucherList.length;
       this.resetSet();
@@ -135,12 +142,15 @@ export class OffersComponent implements OnInit, OnDestroy {
 
   /** 點擊Tab
    * @param tab 分類編碼
+   * @param i 分類索引
    */
-  tabCheck(tab: number): void {
+  tabCheck(tab: number, i: number): void {
     this.TabCode = tab;
     this.voucherListOrig = this.offers.filter( data => data.UserDefine_Code === this.TabCode)[0].VoucherData;
     this.voucherList = this.voucherListOrig.concat();
     this.voucherCount = this.voucherList.length;
+    this.router.navigate(['/Voucher/Offers'], {queryParams: {tabCode: tab}});
+    this.tabSwiper.swiper.slideTo(i, 1000, false);
   }
 
   /** 使用範圍文字顯示轉換 */
