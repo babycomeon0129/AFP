@@ -47,10 +47,10 @@ export class EventComponent implements OnInit {
   public layerTrig = 0;
 
   constructor(public appService: AppService, private meta: Meta, private title: Title, private modal: ModalService, public location: Location) {
-    this.title.setTitle('點數兌換 - Mobii!');
-    this.meta.updateTag({name : 'description', content: 'Mobii! -點數兌換。這裡會顯示 Mobii! 點數兌換優惠券，想要搶得店家優惠，請先登入註冊 Mobii! 會員。'});
+    this.title.setTitle('M幣商城 - Mobii!');
+    this.meta.updateTag({name : 'description', content: 'Mobii! -M幣商城 Mobii! 點數兌換優惠券，想要搶得店家優惠，請先登入註冊 Mobii! 會員。'});
     this.meta.updateTag({content: '點數兌換 - Mobii!', property: 'og:title'});
-    this.meta.updateTag({content: 'Mobii! -點數兌換。這裡會顯示 Mobii! 點數兌換優惠券，想要搶得店家優惠，請先登入註冊 Mobii! 會員。', property: 'og:description'});
+    this.meta.updateTag({content: 'Mobii! -M幣商城。這裡會顯示 Mobii! 點數兌換優惠券，想要搶得店家優惠，請先登入註冊 Mobii! 會員。', property: 'og:description'});
 
   }
 
