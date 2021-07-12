@@ -33,7 +33,7 @@ export class BackBtnComponent implements OnInit {
       this.location.back();
     } else {
       // 先判斷是否為結帳完成的狀態 (由網址是否帶referrer判定)
-      if (this.route.snapshot.queryParams.referrer === 'OrderComplete') {
+      if (this.route.snapshot.queryParams.referrer === 'OrderComplete' || this.route.snapshot.queryParams.referrer === 'illegal') {
         this.router.navigate([this.url]);
       } else {
         this.location.back();
