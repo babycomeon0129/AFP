@@ -474,8 +474,10 @@ export interface AFP_ECStore {
   ECStore_State?: boolean;
   /** 是否上架(是否顯示於列表) 0:下架 1:上架 */
   ECStore_IsOnline?: boolean;
-  /** 外送點餐地址 */
+  /** 我要外帶連結 */
   ECStore_DeliveryURL?: string;
+  /** 我要外送連結 */
+  ECStore_TakeoutURL?: string;
 }
 
 /** 消費者包 Model */
@@ -966,6 +968,10 @@ export interface Response_ECCart extends Model_ShareData {
   List_Cart: AFP_Cart[];
   /** 商品規格 */
   List_ProdAttr: AFP_ProdAttr[];
+  /** 商品價格變動清單 */
+  List_PriceChange?: string;
+  /** 是否能購買 */
+  Product_IsBuy: boolean;
 }
 
 /** 取得結帳所需資訊 Response */
@@ -988,6 +994,8 @@ export interface Response_GetCheckout extends Model_ShareData {
   UserProfile_Mobile?: string;
   /** Email */
   UserProfile_Email?: string;
+  /** 商品價格變動清單 */
+  List_PriceChange?: string;
 }
 
 /** 取得優惠卷 */
@@ -1676,6 +1684,12 @@ export interface Response_ECVouFlashSale extends Model_ShareData {
   List_VouFlashSale: AFP_Voucher[];
   /** 限時優惠主表 */
   AFP_VouFlashSale: AFP_VouFlashSale;
+  /** 使用範圍 */
+  List_UsedType: Model_DictionaryShort[];
+  /** 優惠卷類型  */
+  List_ShowType: Model_DictionaryShort[];
+  /** 折扣類型使用 */
+  List_VoucherType: Model_DictionaryShort[];
 }
 
 /** 優惠眷限時搶購 */
@@ -1791,6 +1805,12 @@ export interface Response_ECVoucher extends Model_ShareData {
   List_Voucher: AFP_ChannelVoucher[];
   /** 廣告列表 30003 */
   List_ADImg: AFP_ADImg[];
+  /** 使用範圍 */
+  List_UsedType: Model_DictionaryShort[];
+  /** 優惠卷類型 */
+  List_ShowType: Model_DictionaryShort[];
+  /** 折扣類型使用 */
+  List_VoucherType: Model_DictionaryShort[];
 }
 
 /** 頻道優惠卷 */

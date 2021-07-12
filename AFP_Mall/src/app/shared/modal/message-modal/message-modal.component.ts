@@ -16,7 +16,7 @@ export class MessageModalComponent implements OnInit {
   success: boolean;
   /** 視窗內容 */
   message: string;
-  /** 前往連結。單顆按鈕的情況下，如果需要頁面跳轉，需設置。 如設定'GoBack'，則為「返回上一頁」 */
+  /** 前往連結。單顆按鈕的情況下，如果需要頁面跳轉，需設置。 如設定'GoBack'，則為「返回上一頁」。 */
   target: string;
   /** 視窗的小字提醒 */
   note: string;
@@ -72,7 +72,7 @@ export class MessageModalComponent implements OnInit {
     // 先判斷按下確定鍵後是否需要返回上一頁
     if (url === 'GoBack') {
       this.location.back();
-    } else if (url != null && url.replace(/(^s*)|(s*$)/g, '').length !== 0) {  // 判斷是否需要前往特定連結
+    }  else if (url !== null && url !== undefined && url.replace(/(^s*)|(s*$)/g, '').length !== 0) {  // 判斷是否需要前往特定連結
        // 再判斷該連結是否需要傳參
       params === null ? this.router.navigate([url]) : this.router.navigate([url], {queryParams: params});
     }

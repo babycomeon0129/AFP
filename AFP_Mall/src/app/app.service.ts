@@ -194,6 +194,7 @@ export class AppService {
     this.loginState = false;
     this.userFavCodes = [];
     this.pushCount = 0;
+    this.verifyMobileModalOpened = false;
 
     //  APP登出導頁
     if (this.isApp !== null) {

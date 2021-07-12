@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { Model_ShareData } from '@app/_models';
-import { CookieService } from 'ngx-cookie-service';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
@@ -45,7 +44,7 @@ export class OrderCompleteComponent implements OnInit {
       ModelData: this.BindData
     };
 
-    this.appService.openBlock();
+    // this.appService.openBlock();
     this.appService.toApi('Member', '1604', request).subscribe((data: Response_OrderComplete) => {
       this.ResponseModel = data;
       this.appService.isApp = data.IsApp;
@@ -69,7 +68,7 @@ export class OrderCompleteComponent implements OnInit {
         this.title.setTitle('付款失敗｜線上商城 - Mobii!');
         this.meta.updateTag({content: '付款失敗｜線上商城 - Mobii!', property: 'og:title'});
       }
-    }, 3000);
+    }, 10000);
   }
 
   /** 前往商城首頁 */

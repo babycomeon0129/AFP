@@ -201,7 +201,7 @@
             <p class="mobi" hidden>此筆訂單可賺<span class="order-mobi" value="69">69</span>M Points</p>
           </div>
           <div class="col-4 col-lg-3 pl-0">
-            <button type="submit" [disabled]="formCheckout.invalid" [ngClass]="{'unable': formCheckout.invalid}"
+            <button type="submit" [disabled]="formCheckout.invalid || !checkOut" [ngClass]="{'unable': formCheckout.invalid || !checkOut}"
               class="btn index-btn mt-2 py-1 w-100 cart-next">去結帳</button>
           </div>
         </div>
@@ -627,7 +627,7 @@
                 </div>
                 <div class="d-flex align-items-center auto-left">
                   <div class="item">
-                    <input type="text" name="loveCode" placeholder="請輸入愛心碼" class="heartcode"
+                    <input type="text" inputmode="numeric" name="loveCode" placeholder="請輸入愛心碼" class="heartcode" appDigitOnly
                       [(ngModel)]="info.preInvoice.loveCode">
                   </div>
                   <div class="item search-txt pl-2" (click)="layerTrig = 3">
@@ -665,7 +665,7 @@
                 <div class="item-group auto-left">
                   <input type="text" name="invoiceTitle" placeholder="請輸入發票抬頭名稱"
                     [(ngModel)]="info.preInvoice.invoiceTitle">
-                  <input type="text" name="invoiceTaxID" placeholder="請輸入統一編號"
+                  <input type="text" name="invoiceTaxID" placeholder="請輸入統一編號"  inputmode="numeric" appDigitOnly
                     [(ngModel)]="info.preInvoice.invoiceTaxID">
                 </div>
               </li>

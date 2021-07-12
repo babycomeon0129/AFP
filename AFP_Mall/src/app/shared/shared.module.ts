@@ -38,7 +38,7 @@ import { SwiperNavComponent } from './swiper/swiper-nav/swiper-nav.component';
 import { SwiperPanesComponent } from './swiper/swiper-panes/swiper-panes.component';
 // QRCODE
 import { QRCodeModule } from 'angularx-qrcode';
-
+import { MPointComponent } from './widget/m-point/m-point.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +68,7 @@ import { QRCodeModule } from 'angularx-qrcode';
     SwiperPanesComponent,
     BackBtnComponent,
     IndexHeaderComponent,
+    MPointComponent
   ],
   exports: [
     SafePipe,
@@ -95,7 +96,8 @@ import { QRCodeModule } from 'angularx-qrcode';
     IndexHeaderComponent,
     SwiperContentComponent,
     SwiperNavComponent,
-    SwiperPanesComponent
+    SwiperPanesComponent,
+    MPointComponent
   ],
   imports: [
     CommonModule,

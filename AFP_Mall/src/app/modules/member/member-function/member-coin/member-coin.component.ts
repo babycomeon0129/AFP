@@ -3,7 +3,8 @@ import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { AppService } from '@app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { SwiperOptions } from 'swiper';
-import { Model_ShareData, AFP_Game, AFP_UserPoint, AFP_ChannelVoucher, AFP_Voucher } from '@app/_models';
+import { AFP_Game, AFP_UserPoint, AFP_ChannelVoucher, AFP_Voucher } from '@app/_models';
+import { Request_MemberPoint } from '@app/modules/member/_module-member';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation } from '@app/animations';
 
@@ -17,8 +18,8 @@ export class MemberCoinComponent implements OnInit {
   public info: Response_MemberPoint = new Response_MemberPoint();
   public pointHistory: AFP_UserPoint[] = [];
   public pointType = 0;
-  /** 同頁滑動切換 0:本頁 1:點數紀錄 */
-  public layerTrig = 0;
+  /** 同頁滑動切換-點數紀錄顯示與否 0:本頁 1:點數紀錄 */
+  public coinHistoryOpen = 0;
   /** 遊戲列表seeAll顯示與否 */
   public gameSeeAll = false;
 
@@ -42,15 +43,13 @@ export class MemberCoinComponent implements OnInit {
     }
   };
 
-  constructor(public appService: AppService, private route: ActivatedRoute, public router: Router, public modal: ModalService,
-    private meta: Meta, private title: Title) {
+  constructor(public appService: AppService, public router: Router, public modal: ModalService,
+              private meta: Meta, private title: Title, private route: ActivatedRoute, private activatedRoute: ActivatedRoute) {
     this.title.setTitle('Mobii Point - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - M Points。這裡會顯示 Mobii! 用戶擁有的 M Points 點數與歷史使用紀錄。點數累積的方式包括每日登入、玩遊戲、購物、乘車等回饋。' });
     this.meta.updateTag({ content: 'Mobii Point - Mobii!', property: 'og:title' });
     this.meta.updateTag({ content: 'Mobii! - M Points。這裡會顯示 Mobii! 用戶擁有的 M Points 點數與歷史使用紀錄。點數累積的方式包括每日登入、玩遊戲、購物、乘車等回饋。', property: 'og:description' });
 
-    // 從會員中心或任務牆進來則隱藏返回鍵
-    // this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
   ngOnInit() {
@@ -66,24 +65,11 @@ export class MemberCoinComponent implements OnInit {
       this.appService.toApi('Member', '1509', getInfo).subscribe((info: Response_MemberPoint) => {
         this.info = info;
       });
-    } else {
-      this.appService.loginPage();
-    }
-  }
-
-  /** 歷史紀錄 */
-  getHistory(): void {
-    if (this.appService.loginState) {
-      this.appService.openBlock();
-      const getHistory: Request_MemberPoint = {
-        User_Code: sessionStorage.getItem('userCode'),
-        SelectMode: 5,
-        SearchModel: {
-          UserPoint_Type: this.pointType
+      // 取得queryParams參數coinHistoryOpen，點數紀錄顯示與否(0關閉、1開啟)
+      this.activatedRoute.queryParams.subscribe(params => {
+        if (typeof params.coinHistory !== 'undefined' && params.coinHistory === '1') {
+          this.coinHistoryOpen = 1;
         }
-      };
-      this.appService.toApi('Member', '1509', getHistory).subscribe((point: Response_MemberPoint) => {
-        this.pointHistory = point.List_UserPoint;
       });
     } else {
       this.appService.loginPage();
@@ -137,23 +123,41 @@ export class MemberCoinComponent implements OnInit {
       this.appService.onVoucher(voucher);
     }
   }
+
+  /** 歷史紀錄 */
+  getHistory(): void {
+    if (this.appService.loginState) {
+      this.appService.openBlock();
+      const getHistory: Request_MemberPoint = {
+        User_Code: sessionStorage.getItem('userCode'),
+        SelectMode: 5,
+        SearchModel: {
+          UserPoint_Type: this.pointType
+        }
+      };
+      this.appService.toApi('Member', '1509', getHistory).subscribe((point: Response_MemberPoint) => {
+        this.pointHistory = point.List_UserPoint;
+      });
+    } else {
+      this.appService.loginPage();
+    }
+  }
+
+  /** 關閉點數紀錄
+   * 從遊戲館進入, 回到上一頁(避免停留在本頁), 其餘情況關閉layerTrig
+   * 從其他頁面進入, showBack: this.appService.showBack
+   * 配合APP點選歷史紀錄要導去網頁coinHistory: 0關閉、1開啟
+   */
+  coinHistoryClose(): void {
+    if (this.appService.prevUrl.indexOf('GameCenter') > -1) {
+      history.back();
+    } else {
+      this.coinHistoryOpen = 0;
+      this.router.navigate(['/MemberFunction/MemberCoin'], {queryParams: {coinHistory: 0, showBack: this.appService.showBack}});
+    }
+  }
 }
 
-/** 會員點數 RequestModel */
-class Request_MemberPoint extends Model_ShareData {
-  /** 區別操作(通用) 4:查詢-列表  5:查詢-待入帳等 */
-  SelectMode: number;
-  /** 搜尋模組 */
-  SearchModel?: Search_MemberPoint;
-}
-
-/** 會員點數 RequestModel 搜尋模組 */
-class Search_MemberPoint {
-  /** 點數類型 0: 待入賬，1: 獲得，11: 已使用 */
-  UserPoint_Type?: number;
-  /** 優惠卷頻道編碼 */
-  VouChannel_Code?: number;
-}
 
 /** 會員點數 ResponseModel */
 class Response_MemberPoint {

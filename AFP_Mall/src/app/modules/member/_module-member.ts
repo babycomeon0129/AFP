@@ -232,3 +232,50 @@ export interface CardGroup_List {
   /** 字串備用欄位 */
   CardGroup_VarParamB?: string;
 }
+
+
+export class AFP_UserPoint {
+  UserPoint_ID: number;
+  /** 點數類型 */
+  UserPoint_Type: number;
+  /** 文字 */
+  UserPoint_Text: string;
+  /** 副標文字 */
+  UserPoint_SubText: string;
+  /** 增加數量 */
+  UserPoint_AddQuantity: number;
+  /** 點數生效日期 */
+  UserPoint_ActiveDate?: Date;
+  /** 點數有效日期 */
+  UserPoint_LimitDate?: Date;
+  /** 生成日期 */
+  UserPoint_Date?: Date;
+}
+
+/** 會員點數 RequestModel */
+export class Request_MemberPoint extends Model_ShareData {
+  /** 區別操作(通用) 4:查詢-列表  5:查詢-待入帳等 */
+  SelectMode: number;
+  /** 搜尋模組 */
+  SearchModel?: Search_MemberPoint;
+}
+
+/** 會員點數 RequestModel 搜尋模組 */
+export class Search_MemberPoint {
+  /** 點數類型 0: 待入賬，1: 獲得，11: 已使用 */
+  UserPoint_Type?: number;
+  /** 優惠卷頻道編碼 */
+  VouChannel_Code?: number;
+}
+
+/** 會員點數 ResponseModel */
+export class Response_MemberPoint {
+  /** 會員總點數 */
+  TotalPoint: number;
+  /** 即將到期-點數 */
+  DaylinePoint: number;
+  /** 即將到期-日期 */
+  Dayline: Date;
+  /** 會員點數 */
+  List_UserPoint: AFP_UserPoint[];
+}

@@ -2,13 +2,16 @@ import { Component, HostListener, OnInit, ViewChild, ElementRef, AfterViewInit }
 import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
-import { Response_GetCheckout, Request_GetUserVoucher, Response_GetUserVoucher,
-        Request_CheckUserVoucher, Response_CheckUserVoucher, Request_MemberAddress, AFP_Cart, AFP_ECStore,
-        AFP_UserFavourite, AFP_UserVoucher, AFP_VoucherLimit, AFP_Order, Model_ShareData,
-        OrderVoucher, OrderInvoice, OrderStore, OrderPlatform } from '@app/_models';
+import {
+  Response_GetCheckout, Request_GetUserVoucher, Response_GetUserVoucher,
+  Request_CheckUserVoucher, Response_CheckUserVoucher, Request_MemberAddress, AFP_Cart, AFP_ECStore,
+  AFP_UserFavourite, AFP_UserVoucher, AFP_VoucherLimit, AFP_Order, Model_ShareData,
+  OrderVoucher, OrderInvoice, OrderStore, OrderPlatform
+} from '@app/_models';
 import { NgForm } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
-import { layerAnimation} from '@app/animations';
+import { layerAnimation } from '@app/animations';
+declare var AppJSInterface: any;
 
 @Component({
   selector: 'app-shopping-order',
@@ -47,16 +50,19 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
   public requestAddress: AFP_UserFavourite = new AFP_UserFavourite();
   /** 是否正在設定預設地址 (控制進入頁面正在設置時不呼叫layerTrig) */
   private settingAddress = true;
+  /** 結帳按鈕開關 */
+  public checkOut = true;
   /** 同頁滑動切換 0: 原頁 1: 行政區選單 2: 縣市選單 3:愛心碼選單 4:新增地址 5: 選擇優惠券 6:寄送方式 7: 發票選取 */
   public layerTrig = 0;
 
-  constructor(public appService: AppService, public modal: ModalService,
-              private router: Router, private meta: Meta, private title: Title) {
+  constructor(public appService: AppService, public modal: ModalService, private router: Router, private meta: Meta, private title: Title) {
     this.title.setTitle('確定訂單｜線上商城 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! 線上商城購物車 - 確認訂單。 如果你有在 Mobii! 平台購物，這裡就會看到你的訂單訊息。請登入註冊 Mobii! 帳號以看到完整內容。' });
     this.meta.updateTag({ content: '確定訂單｜線上商城 - Mobii!', property: 'og:title' });
-    this.meta.updateTag({ content: 'Mobii! 線上商城購物車 - 確認訂單。 如果你有在 Mobii! 平台購物，這裡就會看到你的訂單訊息。請登入註冊 Mobii! 帳號以看到完整內容。',
-                          property: 'og:description' });
+    this.meta.updateTag({
+      content: 'Mobii! 線上商城購物車 - 確認訂單。 如果你有在 Mobii! 平台購物，這裡就會看到你的訂單訊息。請登入註冊 Mobii! 帳號以看到完整內容。',
+      property: 'og:description'
+    });
   }
 
   ngOnInit() {
@@ -80,6 +86,10 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
       };
       this.appService.toApi('Checkout', '1605', getCheckout).subscribe((data: Response_GetCheckout) => {
         this.checkout = data;
+        // 進入結帳頁時，如商品改變價格，則跳出提醒用戶商品價格改變
+        if (data.List_PriceChange !== null) {
+          this.modal.show('message', { initialState: { success: false, message: `提醒您，${data.List_PriceChange}價格變更了！`, showType: 1, singleBtnMsg: `我知道了` } });
+        }
         // 帶入會員資訊 (姓名、手機、email)
         this.info.name = this.checkout.UserInfo_Name;
         this.info.phone = this.checkout.UserProfile_Mobile;
@@ -150,7 +160,7 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
         backdrop: 'static',
         keyboard: false
       }).subscribe(option => {
-        this.router.navigate(['/Shopping/ShoppingCart'], {queryParams: { referrer: 'illegal' }});
+        this.router.navigate(['/Shopping/ShoppingCart'], { queryParams: { referrer: 'illegal' } });
       });
     }
   }
@@ -521,6 +531,7 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
     this.layerTrig = 7;
   }
 
+  /** 確認電子發票資料 */
   confirmInvoice(): void {
     switch (this.info.preInvoice.invoiceMode) {
       case 2: { // 公司發票(三聯式)
@@ -529,10 +540,13 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
         } else {
           const regexp1 = /^[0-9]{8}$/g;
           const regexp1Ok = regexp1.exec(this.info.preInvoice.invoiceTaxID.trim());
-          if ( regexp1Ok === null ) {
+          if (regexp1Ok === null) {
             this.modal.show('message', { initialState: { success: false, message: '統一編號格式錯誤，請輸入正確的統一編號', showType: 1 } });
           } else {
             this.info.invoice = this.info.preInvoice;
+            // 去掉前後空白
+            this.info.invoice.invoiceTitle = this.info.preInvoice.invoiceTitle.trim();
+            this.info.invoice.invoiceTaxID = this.info.preInvoice.invoiceTaxID.trim();
             this.info.invoice.message = '三聯式發票 ' + this.info.invoice.invoiceTitle + '/' + this.info.invoice.invoiceTaxID;
             this.layerTrig = 0;
           }
@@ -544,6 +558,8 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
           this.modal.show('message', { initialState: { success: false, message: '請輸入愛心碼', showType: 1 } });
         } else {
           this.info.invoice = this.info.preInvoice;
+          // 去掉前後空白
+          this.info.invoice.loveCode = this.info.preInvoice.loveCode.trim();
           this.info.invoice.message = '發票捐贈 愛心碼:' + this.info.invoice.loveCode;
           this.layerTrig = 0;
         }
@@ -560,14 +576,15 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
         if (this.info.preInvoice.carrierCode.trim() === '') {
           this.modal.show('message', { initialState: { success: false, message: '請輸入正確的手機條碼', showType: 1 } });
         } else {
-          const regexp = /^\/{1}[0-9A-Z]{7}$/g;
+          const regexp = /^\/[0-9A-Z.+-]{7}$/g;
           const regexpOk = regexp.exec(this.info.preInvoice.carrierCode.trim());
-          if ( regexpOk === null ) {
+          if (regexpOk === null) {
             this.modal.show('message', { initialState: { success: false, message: '手機條碼格式錯誤，請輸入正確的手機條碼', showType: 1 } });
           } else {
             this.info.invoice = this.info.preInvoice;
+            this.info.invoice.carrierCode = this.info.preInvoice.carrierCode.trim();
             this.info.invoice.carrierType = 1;
-            this.info.invoice.message = '手機條碼載具 ' + this.info.invoice.carrierCode;
+            this.info.invoice.message = '手機條碼載具 ' + this.info.invoice.carrierCode;;
             this.layerTrig = 0;
           }
         }
@@ -715,7 +732,7 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
     }
 
     if (result.success) {
-      this.modal.confirm({ initialState: { message: '提醒您，系統將前往付款頁面，當您按下確定後，須完成付款才會成立訂單，若付款未完成，購物車資料將清空。' } }).subscribe(res => {
+      this.modal.confirm({ initialState: { message: '提醒您，系統將前往付款頁面，當您按下確定後，須完成付款才會成立訂單。' } }).subscribe(res => {
         if (res) {
           // orders.forEach(order => {
           //   order.Order_ChangeAmount = order.Order_ChangeAmount * -1;
@@ -729,9 +746,29 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
             List_Order: orders
           };
           this.appService.toApi('EC', '1601', createOrder).subscribe((coResult: Response_CreateOrder) => {
-            this.router.navigate(['/Order/ShoppingPayment'], {
-              state: { data: coResult }
-            });
+            if (coResult.List_DiscontinuedProducts === null) {
+              this.router.navigate(['/Order/ShoppingPayment'], {
+                state: { data: coResult }
+              });
+            } else {
+              this.checkOut = false;
+              if (this.appService.isApp === null) {
+                this.modal.show('message', { initialState: { success: false, message: `${coResult.List_DiscontinuedProducts}已下架，無法購買`, showType: 1, singleBtnMsg: `我知道了`, target: '/Shopping/ShoppingCart' } });
+              } else {
+                // 如果是APP，則按我知道了時APP把此頁關掉
+                this.modal.confirm({ initialState: { message: `${coResult.List_DiscontinuedProducts}已下架，無法購買`, checkBtnTxt: '我知道了', showCancel: false } }).subscribe(res => {
+                  if (res) {
+                    if (navigator.userAgent.match(/android/i)) {
+                      //  Android
+                      AppJSInterface.back();
+                    } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+                      //  IOS
+                      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'back' });
+                    }
+                  }
+                });
+              }
+            }
           });
         }
       });
@@ -793,8 +830,12 @@ class Request_CreateOrder extends Model_ShareData {
 }
 
 class Response_CreateOrder extends Model_ShareData {
+  /** 訂單編號 [多個逗號區隔] */
   OrderNo: string;
+  /** 平台優惠卷ID [使用者優惠卷ID] */
   UserVoucher_ID?: number;
+  /** 下架商品清單 */
+  List_DiscontinuedProducts?: string;
 }
 
 /** 取得結帳所需資訊 */

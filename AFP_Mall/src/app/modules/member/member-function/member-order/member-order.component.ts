@@ -132,16 +132,4 @@ export class MemberOrderComponent implements OnInit {
     }
   }
 
-  /** 判斷回上一頁
-   * （若從付款完成頁/OrderComplete過來則按「回上一頁」直接前往大首頁）
-   */
-  // conditionBack(): void {
-  //   if (this.route.snapshot.queryParams.referrer === 'OrderComplete') {
-  //     console.log(111);
-  //     this.router.navigate(['/']);
-  //   } else {
-  //     this.location.back();
-  //   }
-  // }
-
 }

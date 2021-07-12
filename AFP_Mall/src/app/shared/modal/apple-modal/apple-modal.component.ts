@@ -45,7 +45,10 @@ export class AppleModalComponent implements OnInit, OnDestroy {
     document.addEventListener('AppleIDSignInOnFailure', (error: any) => {
       this.stopListeningApple();
       this.bsModalRef.hide(); // 關閉視窗
-      this.modal.show('message', { initialState: { success: false, message: 'Apple登入失敗', note: error.detail.error, showType: 1 } });
+      // 如果錯誤並非用戶直接關掉POPUP視窗，則跳錯誤訊息
+      if(error.detail.error !== 'popup_closed_by_user') {
+        this.modal.show('message', { initialState: { success: false, message: 'Apple登入失敗', note: error.detail.error, showType: 1 } });
+      }
     });
 
   }

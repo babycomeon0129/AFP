@@ -60,8 +60,8 @@ export class MemberCardListComponent implements OnInit, AfterViewInit {
         this.UserReoprtList = data.AFP_UserReport;
         this.UserReoprtList.forEach(item => {
           (item.UserReport_ItemCode === 1) ?
-          this.cardThumbnailDef1 = this.UserReoprtList[0].UserReport_ParamI :
-          this.cardThumbnailDef11 = this.UserReoprtList[0].UserReport_ParamI ;
+          this.cardThumbnailDef1 = item.UserReport_ParamI :
+          this.cardThumbnailDef11 = item.UserReport_ParamI ;
         });
       });
     } else {

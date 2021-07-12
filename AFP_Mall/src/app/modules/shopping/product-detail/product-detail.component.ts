@@ -52,6 +52,8 @@ export class ProductDetailComponent implements OnInit {
   public textForShare: string;
   /** APP分享使用的url */
   public APPShareUrl: string;
+  /** 判斷商品是否可購買 */
+  public productIsBuy  = true;
   /** 上方商品圖片輪播 swiper */
   public productImgs: SwiperOptions = {
     pagination: {
@@ -99,7 +101,8 @@ export class ProductDetailComponent implements OnInit {
       this.voucherData = data.AFP_VoucherData;
       this.attrList = data.List_Attribute;
       this.productDirCode = data.AFP_Product.Product_UserDefineCode; // 以回傳資料取代
-      if (this.productInfo.Product_IsBuy) {
+      this.productIsBuy = this.productInfo.Product_IsBuy;
+      if (this.productIsBuy) {
         switch (this.productInfo.Product_Type) {
           case 2:
             this.buybtnTxt = '前往購買';
@@ -213,7 +216,7 @@ export class ProductDetailComponent implements OnInit {
 
   /** 加入購物車 */
   onAddToCart() {
-    if (this.productInfo.Product_IsBuy) {
+    if (this.productIsBuy) {
       if (this.productInfo.Product_Type === 21 && !this.appService.loginState) { // 電子票券: 先確認已登入
         this.appService.loginPage();
       } else if (this.productInfo.Product_Type === 2) { // 外部商品直接外連到外部頁面
@@ -243,50 +246,57 @@ export class ProductDetailComponent implements OnInit {
         };
 
         this.appService.toApi('EC', '1204', request).subscribe((data: Response_ECCart) => {
-          switch (this.productInfo.Product_Type) {
-            case 21: // 電子票券: 直接將購物車資訊帶到確認訂單頁
-              const EcartList: CartStoreList[] = [];
-              const storeInfo: CartStoreList = {
-                StoreCode: data.AFP_Cart.Cart_ECStoreCode,
-                StoreName: data.AFP_Cart.Cart_ECStoreName,
-                CheckedStatus: true,
-                EditMode: true,
-                ProductList: [
-                  {
-                    CartId: data.AFP_Cart.Cart_ID,
-                    DirCode: data.AFP_Cart.Cart_UserDefineCode,
-                    DirName: null,
-                    ProductCode: data.AFP_Cart.Cart_ProductCode,
-                    ProductName: null,
-                    ProductAttrValues: data.AFP_Cart.Cart_AttributeValueName,
-                    ProductQty: 1,
-                    ProductPrice: null,
-                    ProductImg: null,
-                    CheckedStatus: true,
-                    Cart_ProductState: null
+          // 先判斷1204是否回傳可購買(防進入商品頁期間，商品已被下架)
+          if (data.Product_IsBuy) {
+            switch (this.productInfo.Product_Type) {
+              case 21: // 電子票券: 直接將購物車資訊帶到確認訂單頁
+                const EcartList: CartStoreList[] = [];
+                const storeInfo: CartStoreList = {
+                  StoreCode: data.AFP_Cart.Cart_ECStoreCode,
+                  StoreName: data.AFP_Cart.Cart_ECStoreName,
+                  CheckedStatus: true,
+                  EditMode: true,
+                  ProductList: [
+                    {
+                      CartId: data.AFP_Cart.Cart_ID,
+                      DirCode: data.AFP_Cart.Cart_UserDefineCode,
+                      DirName: null,
+                      ProductCode: data.AFP_Cart.Cart_ProductCode,
+                      ProductName: null,
+                      ProductAttrValues: data.AFP_Cart.Cart_AttributeValueName,
+                      ProductQty: 1,
+                      ProductPrice: null,
+                      ProductImg: null,
+                      CheckedStatus: true,
+                      Cart_ProductState: null
+                    }
+                  ]
+                };
+                EcartList.push(storeInfo);
+                this.router.navigate(['/Order/ETicketOrder'], {
+                  state: {
+                    data: { checkoutList: EcartList }
                   }
-                ]
-              };
-              EcartList.push(storeInfo);
-              this.router.navigate(['/Order/ETicketOrder'], {
-                state: {
-                  data: { checkoutList: EcartList }
+                });
+                break;
+              default: // 一般商品
+                // 若沒有購物車碼，則取得後端產生的並設在cookie裡
+                if (this.cartCode === 0) {
+                  this.cookieService.set('cart_code', data.AFP_Cart.Cart_Code.toString(), 90, '/', environment.cookieDomain,
+                    environment.cookieSecure, 'Lax');
+                  this.cartCode = Number(this.cookieService.get('cart_code'));
                 }
-              });
-              break;
-            default: // 一般商品
-              // 若沒有購物車碼，則取得後端產生的並設在cookie裡
-              if (this.cartCode === 0) {
-                this.cookieService.set('cart_code', data.AFP_Cart.Cart_Code.toString(), 90, '/', environment.cookieDomain,
+                // 把購物車商品數設到 cookie
+                this.cookieService.set('cart_count_Mobii', data.Cart_Count.toString(), 90, '/', environment.cookieDomain,
                   environment.cookieSecure, 'Lax');
-                this.cartCode = Number(this.cookieService.get('cart_code'));
-              }
-              // 把購物車商品數設到 cookie
-              this.cookieService.set('cart_count_Mobii', data.Cart_Count.toString(), 90, '/', environment.cookieDomain,
-                environment.cookieSecure, 'Lax');
-              this.cartCount = data.Cart_Count;
-              this.modal.show('message', { initialState: { success: true, message: '加入購物車成功!', showType: 1 } });
-              break;
+                this.cartCount = data.Cart_Count;
+                this.modal.show('message', { initialState: { success: true, message: '加入購物車成功!', showType: 1 } });
+                break;
+            }
+          } else {
+            this.buybtnTxt = '銷售一空';
+            this.productIsBuy = data.Product_IsBuy;
+            this.modal.show('message', { initialState: { success: true, message: `${this.productInfo.Product_ExtName}已下架，無法購買`, showType: 1, singleBtnMsg: `我知道了` } });
           }
         });
       }

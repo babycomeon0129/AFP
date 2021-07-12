@@ -5,14 +5,14 @@
       <div class="index-flex justify-content-between">
         <div class="item two">
           <div class="close-btn">
-            <button [hidden]="appService.isApp !== null" class="btn" onclick="history.back();" data-toggle="tooltip"
+            <button [hidden]="appService.isApp !== null" class="btn" (click)="location.back()" data-toggle="tooltip"
               data-placement="bottom" title="回上一頁">
               <i class="material-icons">&#xe314;</i>
             </button>
           </div>
         </div>
         <div class="item three text-center">
-          <div class="title-name">1元搶購優惠</div>
+          <div class="title-name">M幣商城</div>
         </div>
         <div class="item two">
         </div>
@@ -36,10 +36,27 @@
       </swiper>
     </div>
     <div class="d-block">
+      <!-- 搜尋輸入框 -->
+      <div class="choice-filter-box py-1">
+        <div class="s-bar pl-1">
+          <div class="input-box border border-radius5">
+            <button class="btn"><i class="material-icons">&#xE8B6;</i></button>
+            <input type="text" inputmode="search" placeholder="輸入關鍵字搜尋店家,優惠券" class="border-0 w-80" [(ngModel)]="searchText"
+              (click)="cancelIsOpen = true">
+          </div>
+        </div>
+        <div class="s-btn div-switch" [ngClass]="{'d-none': !cancelIsOpen}">
+          <button class="btn w-100" (click)="searchText = null; cancelIsOpen = false;">取消</button>
+        </div>
+        <div class="filter-box div-switch" [ngClass]="{'d-none': cancelIsOpen}"
+          (click)="layerTrig = 1; searchText = null;">
+          <button class="btn px-1"><i class="material-icons">&#xE152;</i></button>
+        </div>
+      </div>
       <!-- content -->
-      <div *ngIf="voucherList?.length > 0; else elseBlock" class="mycoin-couponbox card-columns one p-3">
-        <div *ngFor="let dir of voucherList">
-          <div *ngFor="let voucher of dir.VoucherData" class="card border-radius5">
+      <div *ngIf="voucherListOrig?.length > 0 else elseBlock" class="mycoin-couponbox card-columns one p-3">
+        <ng-container *ngIf="voucherList?.length > 0 && (voucherList | textFilter : searchText : 1).length > 0; else noVoucherBlock">
+          <div *ngFor="let voucher of voucherList | textFilter : searchText : 1" class="card border-radius5">
             <div class="card-body">
               <div class="card-text">
                 <div class="member-flex">
@@ -94,15 +111,90 @@
               </div>
             </div>
           </div>
+        </ng-container>
+      </div>
+
+      <!-- 規格篩選視窗 -->
+      <div class="modal-backdrop fade show container" *ngIf="layerTrig === 1"></div>
+      <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="layerTrig === 1">
+        <div class="productsOpensort container">
+          <div id="open-sortbox" class="w-100">
+            <div class="open-sort-cont">
+              <label>排序</label>
+              <div class="d-flex sortGroup flex-column">
+                <div class="item" (click)="voucherSort = 1; filterSubmit();"
+                  [ngClass]="{'active defItem': voucherSort === 1}">
+                  即將到期優先</div>
+                <div class="item" (click)="voucherSort = 2; filterSubmit();"
+                  [ngClass]="{'active defItem': voucherSort === 2}">
+                  依上架時間(由新到舊)</div>
+                <div class="item" (click)="voucherSort = 3; filterSubmit();"
+                  [ngClass]="{'active defItem': voucherSort === 3}">
+                  依上架時間(由舊到新)</div>
+              </div>
+              <label>使用範圍</label>
+              <div class="d-flex sortGroup flex-row">
+                <div class="item" *ngFor="let type of useType" (click)="usetypeCheck(type);"
+                  [ngClass]="{'active defItem': type.isSelect}">{{ usetypeTxt(type.Key)}}</div>
+              </div>
+              <label>優惠券類型</label>
+              <ul class="open-sort-ul">
+                <li class="flex-inline-between" *ngFor="let type of showType" [ngClass]="{'active': type.isSelect}"
+                  (click)="seletType(type,'showType');">
+                  <div>{{ type.Value }}</div>
+                  <i class="material-icons done">&#xe876;</i>
+                </li>
+              </ul>
+              <label>折扣類型使用</label>
+              <ul class="open-sort-ul">
+                <li class="flex-inline-between" *ngFor="let type of voucherType" [ngClass]="{'active': type.isSelect}"
+                  (click)="seletType(type, 'voucherType');">
+                  <div>{{ voucherTypeTxt(type.Key) }}</div>
+                  <i class="material-icons done">&#xe876;</i>
+                </li>
+              </ul>
+            </div>
+            <div class="open-sort-title">
+              <div class="flex-inline-between">
+                <div class="title-icon">
+                  <button class="btn" (click)="layerTrig = 0">
+                    <i class="material-icons">&#xe314;</i>
+                  </button>
+                </div>
+                <div class="title-txt">
+                  篩選與排序
+                </div>
+                <div class="title-right"></div>
+              </div>
+              <div class="open-sort-num">
+                符合項目的優惠券 共 {{ voucherCount }} 張
+              </div>
+            </div>
+            <div class="open-sort-footer">
+              <button class="btn all-reset" (click)="resetSet()" [disabled]="!resetOpen">
+                <i class="material-icons loop">&#xe028;</i>全部重設
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
     <ng-template #elseBlock>
-    <div class="no-data" *ngIf="voucherList?.length === 0">
-      <img src="../img/share/Overdue.png">
-      <p>Oops！可惜晚了一步...</p>
-    </div>
-  </ng-template>
+      <div class="no-data" *ngIf="voucherList?.length === 0">
+        <img src="../img/share/Overdue.png">
+        <p>Oops！可惜晚了一步...</p>
+      </div>
+    </ng-template>
+    <!-- 搜尋失敗提醒 -->
+    <ng-template #noVoucherBlock>
+      <div class="no-data-box">
+        <div class="no-data">
+          <img src="img/member/no-member-voucher.png" alt="no-member-voucher">
+          <p>Oops!<br>目前沒有相關優惠券喔！
+          </p>
+        </div>
+      </div>
+    </ng-template>
     <div class="addheight"></div>
     <div class="h-50 d-inline-block"></div>
   </main>

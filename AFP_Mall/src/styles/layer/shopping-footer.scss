@@ -80,6 +80,10 @@ footer{
                 background-color: $onlineshopping-default;
                 color: #fff;
             }
+            &.btn-takeout {
+              background-color: #F99C12;
+              color: #fff;
+            }
         }
     }
     .fixed-shadow{
@@ -91,5 +95,12 @@ footer{
         .item{
             margin-left: 5px;
         }
+    }
+    &.order-icon {
+      display: flex;
+      justify-content: space-around;
+      button.w-45 {
+        width: 45%;
+      }
     }
 }

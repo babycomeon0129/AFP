@@ -12,8 +12,7 @@
           <div class="title-name">我的優惠</div>
         </div>
         <div class="item two">
-          <button class="btn index-btn small-80 fit" (click)="onAddCoupon()" value="msg-mydiscount" data-toggle="modal"
-            data-target="#messageModal" data-dismiss="modal" aria-label="add">
+          <button class="btn index-btn small-80 fit" (click)="onAddCoupon()">
             輸入優惠碼
           </button>
         </div>
@@ -27,14 +26,12 @@
       <div class="afp-tab">
         <div class="nav-tabs-box">
           <!-- Nav tabs -->
-          <ul class="nav-tab-list nav nav-tabs nav-line d-flex justify-content-around" role="tablist">
+          <ul class="nav-tab-list nav nav-tabs nav-line d-flex justify-content-around">
             <li role="presentation" class="active">
-              <a (click)="vSelectMode = 1; readVoucher();" class="tablist-link active" aria-controls="discounttag01"
-                role="tab" data-toggle="tab" aria-selected="true">可用優惠</a>
+              <a (click)="vSelectMode = 1; readVoucher();" class="tablist-link active">可用優惠</a>
             </li>
             <li role="presentation">
-              <a (click)="vSelectMode = 2;readVoucher();" class="tablist-link" aria-controls="discounttag02" role="tab"
-                data-toggle="tab" aria-selected="false">歷史優惠</a>
+              <a (click)="vSelectMode = 2;readVoucher();" class="tablist-link">歷史優惠</a>
             </li>
           </ul>
           <div class="tab-line w-100"></div>
@@ -48,18 +45,22 @@
                 <div class="s-bar pl-1" (click)="searchIsOpen = !searchIsOpen ; searchText = null;">
                   <div class="input-box border border-radius5">
                     <button class="btn"><i class="material-icons">&#xE8B6;</i></button>
-                    <input type="search" [(ngModel)]="searchText" placeholder="輸入關鍵字搜尋店家,優惠券" class="border-0" (click)="cancelIsOpen= true">
+                    <input type="search" [(ngModel)]="searchText" placeholder="輸入關鍵字搜尋店家,優惠券" class="border-0"
+                      (click)="cancelIsOpen= true">
                   </div>
                 </div>
                 <div class="s-btn div-switch" [ngClass]="{'d-none': !cancelIsOpen}">
                   <button class="btn w-100" (click)="searchText = null; cancelIsOpen = false;">取消</button>
                 </div>
-                <div class="filter-box div-switch " (click)="layerTrig = 1; searchText = null;" [ngClass]="{'d-none': cancelIsOpen}">
+                <div class="filter-box div-switch " (click)="layerTrig = 1; searchText = null;"
+                  [ngClass]="{'d-none': cancelIsOpen}">
                   <button class="btn px-1"><i class="material-icons">&#xE152;</i></button>
                 </div>
               </div>
             </div>
-            <div *ngIf="voucherList?.length > 0 && (voucherList | textFilter : searchText : 1).length > 0; else noVoucherBlock" class="filter-outbox">
+            <div
+              *ngIf="voucherList?.length > 0 && (voucherList | textFilter : searchText : 1).length > 0; else noVoucherBlock"
+              class="filter-outbox">
               <div class="filter-main">
                 <div class="mycoin-couponbox card-columns px-3 pb-wrap">
                   <!-- 優惠券 -->
@@ -68,7 +69,7 @@
                       <div class="card-text">
                         <div class="member-flex">
                           <div class="item one">
-                            <div [lazyLoad]="voucher.Voucher_Image" [defaultImage] ="appService.defaultImage"
+                            <div [lazyLoad]="voucher.Voucher_Image" [defaultImage]="appService.defaultImage"
                               (click)="goVDetail(voucher)" class="rwdimg-cover logo-img">
                             </div>
                           </div>
@@ -110,7 +111,8 @@
               <div class="no-data">
                 <img src="img/member/no-member-voucher.png" alt="no-member-voucher">
                 <p *ngIf="!searchText">Oops!<br>{{vSelectMode === 1? '你目前還沒有任何優惠券喔！' : '你沒有任何優惠券的歷史紀錄喔！'}}</p>
-                <p *ngIf="searchText && (voucherList | textFilter : searchText : 1).length === 0">Oops!<br>你沒有搜尋到任何優惠券喔！</p>
+                <p *ngIf="searchText && (voucherList | textFilter : searchText : 1).length === 0">Oops!<br>你沒有搜尋到任何優惠券喔！
+                </p>
               </div>
             </ng-template>
           </div>
@@ -127,19 +129,22 @@
         <div class="open-sort-cont">
           <label>排序</label>
           <div class="d-flex sortGroup flex-column">
-            <div class="item" (click)="voucherSort=1;filterSubmit();" [ngClass]="{'active defItem': voucherSort ===1}">即將到期優先</div>
-            <div class="item" (click)="voucherSort=2;filterSubmit();" [ngClass]="{'active defItem': voucherSort ===2}">依領取時間(由新到舊)</div>
-            <div class="item" (click)="voucherSort=3;filterSubmit();" [ngClass]="{'active defItem': voucherSort ===3}">依領取時間(由舊到新)</div>
+            <div class="item" (click)="voucherSort=1;filterSubmit();" [ngClass]="{'active defItem': voucherSort ===1}">
+              即將到期優先</div>
+            <div class="item" (click)="voucherSort=2;filterSubmit();" [ngClass]="{'active defItem': voucherSort ===2}">
+              依領取時間(由新到舊)</div>
+            <div class="item" (click)="voucherSort=3;filterSubmit();" [ngClass]="{'active defItem': voucherSort ===3}">
+              依領取時間(由舊到新)</div>
           </div>
           <label>使用範圍</label>
           <div class="d-flex sortGroup flex-row">
-            <div class="item defItem" *ngFor="let type of useType;"
-            (click)="utypeCheck(type);" [ngClass]="{'active defItem': type.isSelect}">{{ usetypeTxt(type.Key) }}</div>
+            <div class="item defItem" *ngFor="let type of useType;" (click)="utypeCheck(type);"
+              [ngClass]="{'active defItem': type.isSelect}">{{ usetypeTxt(type.Key) }}</div>
           </div>
           <label>優惠券類型</label>
           <ul class="open-sort-ul">
-            <li class="flex-inline-between defItem" *ngFor="let show of showType;"
-            (click)="seletType(show,'showType');" [ngClass]="{'active': show.isSelect}">
+            <li class="flex-inline-between defItem" *ngFor="let show of showType;" (click)="seletType(show,'showType');"
+              [ngClass]="{'active': show.isSelect}">
               <div>{{ show.Value }}</div>
               <i class="material-icons done">&#xe876;</i>
             </li>
@@ -147,7 +152,7 @@
           <label>折扣類型使用</label>
           <ul class="open-sort-ul">
             <li class="flex-inline-between defItem" *ngFor="let vtype of voucherType;"
-            (click)="seletType(vtype, 'voucherType');" [ngClass]="{'active': vtype.isSelect}">
+              (click)="seletType(vtype, 'voucherType');" [ngClass]="{'active': vtype.isSelect}">
               <div> {{vtypeTxt(vtype.Key)}}</div>
               <i class="material-icons done">&#xe876;</i>
             </li>

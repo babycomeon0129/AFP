@@ -41,8 +41,7 @@
                 <div class="add-favorite">
                   <button
                     (click)="appService.favToggle((appService.userFavCodes.includes(siteCode)? 2 : 1), siteInfo?.ECStore_Type < 2000? 52 : 53, siteCode)"
-                    [ngClass]="{'active': appService.userFavCodes.includes(siteCode)}" data-toggle="modal" type="button"
-                    data-placement="top" title="加入/移除收藏"><img src="../img/share/icon_favorite.png" class="imgicon">
+                    [ngClass]="{'active': appService.userFavCodes.includes(siteCode)}"  type="button" title="加入/移除收藏"><img src="../img/share/icon_favorite.png" class="imgicon">
                   </button>
                 </div>
               </div>
@@ -56,7 +55,8 @@
             <div class="item three p-2">
               <div class="shopping-storebox d-flex flex-row d-inline-block">
                 <div *ngIf="siteInfo?.ECStore_Type < 2000 && siteInfo?.ECStore_Logo !== null" class="img-box mr-2">
-                  <div [lazyLoad]="siteInfo?.ECStore_Logo" [defaultImage]="appService.defaultImage" class="rwdimg-cover rounded-circle">
+                  <div [lazyLoad]="siteInfo?.ECStore_Logo" [defaultImage]="appService.defaultImage"
+                    class="rwdimg-cover rounded-circle">
                   </div>
                 </div>
                 <div class="store-title">
@@ -69,13 +69,11 @@
                 </div>
               </div>
             </div>
-            <div *ngIf="siteInfo?.ECStore_Type < 2000 && this.JustKaUrl !== null"
-              class="item one align-self-end">
-                <button (click)="appService.showJustka(this.JustKaUrl)" type="button"
-                  class="btn shopping-store-btn">
-                  <img src="../../../../img/callcar/category_chat.png" class="h20">
-                  <span>聯絡店家</span>
-                </button>
+            <div *ngIf="siteInfo?.ECStore_Type < 2000 && this.JustKaUrl !== null" class="item one align-self-end">
+              <button (click)="appService.showJustka(this.JustKaUrl)" type="button" class="btn shopping-store-btn">
+                <img src="../../../../img/callcar/category_chat.png" class="h20">
+                <span>聯絡店家</span>
+              </button>
             </div>
           </div>
           <div class="referral-box" *ngIf="ecstoreLink.length > 0">
@@ -84,7 +82,9 @@
             </div>
             <div class="row">
               <!-- 推薦連結，只顯示九顆按鈕 -->
-              <a class="col" *ngFor="let link of ecstoreLink; let i = index;" [hidden]="ecstoreLink.length > 10 ? i > 8 : i > 9" [target]="link.ECStoreLink_URLTarget" [href]="link.ECStoreLink_URL">
+              <a class="col" *ngFor="let link of ecstoreLink; let i = index;"
+                [hidden]="ecstoreLink.length > 10 ? i > 8 : i > 9" [target]="link.ECStoreLink_URLTarget"
+                [href]="link.ECStoreLink_URL">
                 <img [src]="link.ECStoreLink_Icon">
                 <p class="txt-line-clamp1">{{ link.ECStoreLink_Name }}</p>
               </a>
@@ -95,30 +95,24 @@
             </div>
           </div>
           <div class="store-tab-box">
-            <ul class="nav nav-tabs" id="storeTab" role="tablist">
+            <ul class="nav nav-tabs">
               <li class="nav-item">
                 <a [routerLink]="['/Explore/ExploreDetail', siteCode]"
                   [queryParams]="{ navNo: 1, showBack: appService.showBack}" [ngClass]="{'active' : tabNo == 1}"
-                  class="nav-link active" id="store-tab" data-toggle="tab" href="#store" role="tab"
-                  aria-controls="store" aria-selected="true">{{siteInfo?.ECStore_Type < 2000? '店家' : '周邊' }}簡介</a>
+                  class="nav-link active">{{siteInfo?.ECStore_Type < 2000? '店家' : '周邊' }}簡介</a>
               </li>
               <li *ngIf="siteInfo?.ECStore_Type < 2000 && siteInfo?.ECStore_Type !== 1100" class="nav-item">
                 <a [routerLink]="['/Explore/ExploreDetail', siteCode]"
-                  [queryParams]="{ navNo: 3, showBack: appService.showBack }" [ngClass]="{'active' : tabNo == 3}"
-                  class="nav-link" id="shop-tab" data-toggle="tab" href="#shop" role="tab" aria-controls="shop"
-                  aria-selected="false">熱賣商品</a>
+                  [queryParams]="{ navNo: 3, showBack: appService.showBack }" [ngClass]="{'active' : tabNo == 3}"class="nav-link">熱賣商品</a>
               </li>
               <li *ngIf="siteInfo?.ECStore_Type < 2000" class="nav-item">
                 <a [routerLink]="['/Explore/ExploreDetail', siteCode]"
-                  [queryParams]="{ navNo: 2, showBack: appService.showBack }" [ngClass]="{'active' : tabNo == 2}"
-                  class="nav-link" id="ticket-tab" data-toggle="tab" href="#ticket" role="tab" aria-controls="ticket"
-                  aria-selected="false">優惠券</a>
+                  [queryParams]="{ navNo: 2, showBack: appService.showBack }" [ngClass]="{'active' : tabNo == 2}"class="nav-link">優惠券</a>
               </li>
             </ul>
             <div class="tab-content border-t">
               <!-- 商家簡介 -->
-              <div [ngClass]="{'show active' : tabNo == 1}" class="tab-pane fade show active" id="store" role="tabpanel"
-                aria-labelledby="store-tab">
+              <div [ngClass]="{'show active' : tabNo == 1}" class="tab-pane fade show active" id="store">
                 <div class="store-group">
                   <!-- 簡介文字 -->
                   <div class="store-item store-itemopen">
@@ -258,7 +252,7 @@
                 </div>
               </div>
               <!-- 優惠券 -->
-              <div [ngClass]="{'show active' : tabNo == 2}" class="tab-pane fade" id="ticket" role="tabpanel"
+              <div [ngClass]="{'show active' : tabNo == 2}" class="tab-pane fade" id="ticket"
                 aria-labelledby="ticket-tab">
                 <!-- discout -->
                 <div *ngIf="voucherList?.length > 0; else noVoucherBlock" class="mycoin-couponbox card-columns px-3">
@@ -319,9 +313,14 @@
       </div>
     </div>
     <div class="addheight"></div>
-    <!--外送點餐按鈕-->
-    <footer class="success-mode container z-index301" *ngIf="ecStoreExtType !== null && dataLoad">
-      <button class="btn-ok" (click)="sendDelivery()">我要點餐</button>
+    <!--外送 / 外送按鈕-->
+    <footer class="success-mode container z-index301 order-icon" *ngIf="ecStoreExtType">
+      <button class="btn-ok" (click)="sendDelivery(siteInfo?.ECStore_DeliveryURL)"
+      [ngClass]="{'w-45': siteInfo?.ECStore_TakeoutURL !== null}"
+        *ngIf="siteInfo?.ECStore_DeliveryURL !== null">我要外帶</button>
+      <button class="btn-takeout" (click)="sendDelivery(siteInfo?.ECStore_TakeoutURL)"
+      [ngClass]="{'w-45': siteInfo?.ECStore_DeliveryURL !== null}"
+        *ngIf="siteInfo?.ECStore_TakeoutURL !== null">我要外送</button>
     </footer>
 
   </main>
@@ -482,7 +481,8 @@
         </button>
       </div>
       <div class="row">
-        <a class="col" *ngFor="let link of ecstoreLink" [target]="link.ECStoreLink_URLTarget" [href]="link.ECStoreLink_URL">
+        <a class="col" *ngFor="let link of ecstoreLink" [target]="link.ECStoreLink_URLTarget"
+          [href]="link.ECStoreLink_URL">
           <img [src]="link.ECStoreLink_Icon">
           <p class="txt-line-clamp1">{{ link.ECStoreLink_Name }}</p>
         </a>

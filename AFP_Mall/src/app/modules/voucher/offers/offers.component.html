@@ -1,142 +1,238 @@
 <div class="wrap container">
   <header>
-      <!-- header top -->
-      <div class="header-secondary container linebt-row">
-          <div class="index-flex justify-content-between">
-              <div class="item two">
-                  <div class="close-btn" [hidden]="appService.isApp !== null">
-                       <button type="button" class="btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
-                          <i class="material-icons">&#xe314;</i>
-                      </button>
-                  </div>
-              </div>
-              <div class="item three text-center">
-                  <div class="title-name">找優惠</div>
-              </div>
-              <div class="item two">
-              </div>
+    <!-- header top -->
+    <div class="header-secondary container">
+      <div class="index-flex justify-content-between">
+        <div class="item two">
+          <div class="close-btn" [hidden]="appService.isApp !== null">
+            <button type="button" class="btn" (click)="location.back()" title="回上一頁">
+              <i class="material-icons">&#xe314;</i>
+            </button>
           </div>
+        </div>
+        <div class="item three text-center">
+          <div class="title-name">找優惠</div>
+        </div>
+        <div class="item two">
+        </div>
       </div>
+    </div>
   </header>
   <div class="offerslist">
-    <!-- 搜尋暫先隱藏 -->
-      <div class="searchbox d-none">
+    <!-- 搜尋輸入框 -->
+    <div class="choice-filter-box py-1">
+      <div class="s-bar pl-1">
+        <div class="input-box border border-radius5">
           <button class="btn"><i class="material-icons">&#xE8B6;</i></button>
-          <input type="text" placeholder="搜尋" class="border-0">
+          <input type="text" inputmode="search" placeholder="輸入關鍵字搜尋店家,優惠券" class="border-0 w-80" [(ngModel)]="searchText"
+            (click)="cancelIsOpen = true">
+        </div>
       </div>
-      <div [hidden]="saleDistance <= 0 || saleIndex == null" class="flex-inline-between p-2">
-          <div class="item">
-            <span class="p-2">{{saleIndex?.VouFlashSale_ExtName}}</span>
-            <span id="clock">
-              <span id='time-hours'>{{hours}}</span>
-              <span id='time-minutes'>{{minutes | number: '2.0-0'}}</span>
-              <span id='time-seconds'>{{seconds | number: '2.0-0'}}</span>
-            </span>
-          </div>
-          <div class="item small-80"><a [routerLink]="['/Voucher/Sales']">更多優惠券<i class="material-icons chevron_right">&#xe315;</i></a></div>
+      <div class="s-btn div-switch" [ngClass]="{'d-none': !cancelIsOpen}">
+        <button class="btn w-100" (click)="searchText = null; cancelIsOpen = false;">取消</button>
       </div>
-      <div [hidden]="saleDistance <= 0 || saleIndex == null" class="other-discount-list">
-          <div class="row p-2">
-              <div *ngFor="let sale of saleTop" class="col-sm-12 col-md-6 discount-box">
-                  <div class="discount-item">
-                      <a [routerLink]="sale?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', sale?.Voucher_Code] : ['/Voucher/VoucherDetail', sale?.Voucher_UserVoucherCode]" class="item">
-                          <div class="pr-2">
-                              <div class="rwdimgbox-80">
-                                  <div class="rwdimg-cover" [lazyLoad]="sale?.Voucher_Image" [defaultImage]="appService.defaultImage"></div>
-                              </div>
-                          </div>
-                          <div class="discount-text">
-                              <p>{{sale?.Voucher_Title}}</p>
-                              <p><i class="material-icons local_offer">&#xe54e;</i> <span>{{sale?.Voucher_ExtName}}</span></p>
-                              <p>{{sale?.Voucher_UsedOnDate | date: 'yyyy/MM/dd'}} ~ {{sale?.Voucher_UsedOffDate | date: 'yyyy/MM/dd'}}</p>
-                          </div>
-                      </a>
-                      <div class="item ">
-                          <div class="line-box"></div>
-                          <div class="circle circle-top"></div>
-                          <div class="circle circle-bottom"></div>
-                          <div class="d-flex flex-column">
-                              <button
-                                (click)="toVoucher(sale)"
-                                [disabled]="appService.loginState && (sale.Voucher_IsFreq === 0 || sale.Voucher_IsFreq === 3)"
-                                [ngClass]="{'gray-obtn': sale.Voucher_IsFreq === 0 || sale.Voucher_IsFreq === 3, 'index-btn': sale?.Voucher_IsFreq === 1, 'index-outline-btn': sale.Voucher_IsFreq === 2 || sale.Voucher_IsFreq === 5}"
-                                class="btn small-80 sendval">
-                                {{!appService.loginState ? '兌換' : sale?.Voucher_FreqName}}
-                              </button>
-                              <div [hidden]="sale?.Voucher_DedPoint == 0" class="m-quantity small">
-                                <img src="../img/share/mobiicoin_red.png" class="coinimg-m">
-                                {{sale?.Voucher_SpecialPoint > 0? sale?.Voucher_DedPoint : sale?.Voucher_SpecialPoint | currency: '':'':'1.0-2'}}
-                              </div>
-                          </div>
-                      </div>
+      <div class="filter-box div-switch" [ngClass]="{'d-none': cancelIsOpen}"
+        (click)="layerTrig = 1; searchText = null;">
+        <button class="btn px-1"><i class="material-icons">&#xE152;</i></button>
+      </div>
+    </div>
+    <!-- 限時搶購 -->
+    <div [hidden]="saleDistance <= 0 || saleIndex == null" class="flex-inline-between p-2">
+      <div class="item">
+        <span class="p-2">{{saleIndex?.VouFlashSale_ExtName}}</span>
+        <span id="clock">
+          <span id='time-hours'>{{hours}}</span>
+          <span id='time-minutes'>{{minutes | number: '2.0-0'}}</span>
+          <span id='time-seconds'>{{seconds | number: '2.0-0'}}</span>
+        </span>
+      </div>
+      <div class="item small-80"><a [routerLink]="['/Voucher/Sales']">更多優惠券<i
+            class="material-icons chevron_right">&#xe315;</i></a></div>
+    </div>
+    <div [hidden]="saleDistance <= 0 || saleIndex == null" class="other-discount-list">
+      <div class="row p-2">
+        <div *ngFor="let sale of saleTop" class="col-sm-12 col-md-6 discount-box">
+          <div class="discount-item">
+            <a [routerLink]="sale?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', sale?.Voucher_Code] : ['/Voucher/VoucherDetail', sale?.Voucher_UserVoucherCode]"
+              class="item">
+              <div class="pr-2">
+                <div class="rwdimgbox-80">
+                  <div class="rwdimg-cover" [lazyLoad]="sale?.Voucher_Image" [defaultImage]="appService.defaultImage">
                   </div>
+                </div>
               </div>
+              <div class="discount-text">
+                <p>{{sale?.Voucher_Title}}</p>
+                <p><i class="material-icons local_offer">&#xe54e;</i> <span>{{sale?.Voucher_ExtName}}</span></p>
+                <p>{{sale?.Voucher_UsedOnDate | date: 'yyyy/MM/dd'}} ~ {{sale?.Voucher_UsedOffDate | date:
+                  'yyyy/MM/dd'}}</p>
+              </div>
+            </a>
+            <div class="item ">
+              <div class="line-box"></div>
+              <div class="circle circle-top"></div>
+              <div class="circle circle-bottom"></div>
+              <div class="d-flex flex-column">
+                <button (click)="toVoucher(sale)"
+                  [disabled]="appService.loginState && (sale.Voucher_IsFreq === 0 || sale.Voucher_IsFreq === 3)"
+                  [ngClass]="{'gray-obtn': sale.Voucher_IsFreq === 0 || sale.Voucher_IsFreq === 3, 'index-btn': sale?.Voucher_IsFreq === 1, 'index-outline-btn': sale.Voucher_IsFreq === 2 || sale.Voucher_IsFreq === 5}"
+                  class="btn small-80 sendval">
+                  {{!appService.loginState ? '兌換' : sale?.Voucher_FreqName}}
+                </button>
+                <div [hidden]="sale?.Voucher_DedPoint == 0" class="m-quantity small">
+                  <img src="../img/share/mobiicoin_red.png" class="coinimg-m">
+                  {{sale?.Voucher_SpecialPoint > 0? sale?.Voucher_DedPoint : sale?.Voucher_SpecialPoint | currency:
+                  '':'':'1.0-2'}}
+                </div>
+              </div>
+            </div>
           </div>
+        </div>
       </div>
-      <!-- tab content -->
-      <div class="afp-tab-box mt-3 pt-2">
-          <div class="afp-tab mb-5">
-              <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs">
-                  <!-- Nav tabs -->
-                  <ul id="nav-tab-member" class="swiper-wrapper nav nav-tabs nav-line mb-2" role="tablist">
-                    <li *ngFor="let tab of offers; let First = first; let i = index" role="presentation" class="swiper-slide" [ngClass]="{'active': TabCode > 0 ? TabCode == tab?.UserDefine_Code : First}">
-                      <a href="#tag{{i}}" [ngClass]="{'active show': TabCode > 0 ? TabCode == tab?.UserDefine_Code : First}" class="tablist-link w-100" role="tab" data-toggle="tab" aria-selected="true">{{tab?.UserDefine_Name}}</a>
-                    </li>
-                  </ul>
-              </swiper>
-              <!-- Tab panes -->
-              <div class="tab-content pt-2 mb-5">
-                  <div *ngFor="let item of offers; let First = first; let i = index" role="tabpanel" class="tab-pane fade w-100" id="tag{{i}}" [ngClass]="{'active show': TabCode > 0 ? TabCode == item?.UserDefine_Code : First}">
-                      <div class="mycoin-couponbox card-columns px-3">
-                          <div *ngFor="let voucher of item?.VoucherData" class="card border-radius5">
-                              <div class="card-body">
-                              <div class="card-text">
-                                  <div class="member-flex">
-                                      <div [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', voucher?.Voucher_Code] : ['/Voucher/VoucherDetail', voucher?.Voucher_UserVoucherCode]" class="item one">
-                                          <div [lazyLoad]="voucher?.Voucher_Image" [defaultImage] ="appService.defaultImage" class="rwdimg-cover logo-img"></div>
-                                      </div>
-                                      <div class="item three px-2">
-                                          <p>{{voucher?.Voucher_Title}}</p>
-                                          <p>{{voucher?.Voucher_ExtName}}</p>
-                                          <p>{{voucher?.Voucher_UsedOnDate | date: 'yyyy/MM/dd'}} ~ {{voucher?.Voucher_UsedOffDate | date: 'yyyy/MM/dd'}}</p>
-                                      </div>
-                                      <div class="item one">
-                                          <button
-                                            (click)="toVoucher(voucher)"
-                                            [disabled]="appService.loginState && (voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3 || voucher.Voucher_IsFreq === 6)"
-                                            [ngClass]="{'gray-obtn': voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3 || voucher.Voucher_IsFreq === 6,
+    </div>
+    <!-- tab content -->
+    <div class="afp-tab-box mt-3 pt-2">
+      <div class="afp-tab mb-5">
+        <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs" #tabSwiper>
+          <!-- 優惠券tab -->
+          <ul id="nav-tab-member" class="swiper-wrapper nav nav-tabs nav-line mb-2">
+            <li *ngFor="let tab of offers; let First = first; let i = index" class="swiper-slide"
+              [ngClass]="{'active': TabCode > 0 ? TabCode == tab?.UserDefine_Code : First}">
+              <a [ngClass]="{'active show': TabCode > 0 ? TabCode === tab?.UserDefine_Code : First}"
+                (click)="tabCheck(tab.UserDefine_Code, i);" class="tablist-link w-100">{{tab?.UserDefine_Name}}</a>
+            </li>
+          </ul>
+        </swiper>
+        <!-- 優惠券分類列表 -->
+        <div class="tab-content pt-2 mb-5">
+          <div *ngFor="let item of offers; let First = first; let i = index" class="tab-pane fade w-100 active show"
+            [ngClass]="{'active show': TabCode > 0 ? TabCode === item?.UserDefine_Code : First}">
+            <div class="mycoin-couponbox card-columns px-3"
+              *ngIf="voucherList?.length > 0 && (voucherList | textFilter : searchText : 1).length > 0; else noVoucherBlock">
+              <!-- 優惠券列表  -->
+              <div *ngFor="let voucher of voucherList | textFilter : searchText : 1" class="card border-radius5">
+                <div class="card-body">
+                  <div class="card-text">
+                    <div class="member-flex">
+                      <div
+                        [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', voucher?.Voucher_Code] : ['/Voucher/VoucherDetail', voucher?.Voucher_UserVoucherCode]"
+                        class="item one">
+                        <div [lazyLoad]="voucher?.Voucher_Image" [defaultImage]="appService.defaultImage"
+                          class="rwdimg-cover logo-img"></div>
+                      </div>
+                      <div class="item three px-2">
+                        <p>{{voucher?.Voucher_Title}}</p>
+                        <p>{{voucher?.Voucher_ExtName}}</p>
+                        <p>{{voucher?.Voucher_UsedOnDate | date: 'yyyy/MM/dd'}} ~ {{voucher?.Voucher_UsedOffDate | date:
+                          'yyyy/MM/dd'}}</p>
+                      </div>
+                      <div class="item one">
+                        <button (click)="toVoucher(voucher)"
+                          [disabled]="appService.loginState && (voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3 || voucher.Voucher_IsFreq === 6)"
+                          [ngClass]="{'gray-obtn': voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3 || voucher.Voucher_IsFreq === 6,
                                                         'index-btn': voucher?.Voucher_IsFreq === 1,
                                                         'index-outline-btn': voucher.Voucher_IsFreq === 2 || voucher.Voucher_IsFreq === 5}"
-                                            class="btn px-2 small-80 sendval">
-                                            {{!appService.loginState ? '兌換' : voucher?.Voucher_FreqName}}
-                                          </button>
-                                          <div *ngIf="voucher?.Voucher_DedPoint > 0" class="m-quantity small pl-1">
-                                            <img src="../img/share/mobiicoin_red.png" class="coinimg-m">
-                                            {{voucher?.Voucher_SpecialPoint > 0? voucher?.Voucher_SpecialPoint : voucher?.Voucher_DedPoint | currency: '':'':'1.0-2'}}
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                              </div>
-                              <div class="card-footer bg-cardfooter pt-2 pb-0">
-                              <div class="member-flex small-80">
-                                  <div class="item one text-nowrap">
-                                      <img src="../../img/share/{{voucher?.Voucher_ShowType}}_w.png" class="nearbyimg" alt="">{{voucher?.Voucher_ShowTypeName}}
-                                  </div>
-                                  <!-- <div class="item three txt-line-clamp1 text-center">
+                          class="btn px-2 small-80 sendval">
+                          {{!appService.loginState ? '兌換' : voucher?.Voucher_FreqName}}
+                        </button>
+                        <div *ngIf="voucher?.Voucher_DedPoint > 0" class="m-quantity small pl-1">
+                          <img src="../img/share/mobiicoin_red.png" class="coinimg-m">
+                          {{voucher?.Voucher_SpecialPoint > 0? voucher?.Voucher_SpecialPoint : voucher?.Voucher_DedPoint
+                          | currency: '':'':'1.0-2'}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer bg-cardfooter pt-2 pb-0">
+                  <div class="member-flex small-80">
+                    <div class="item one text-nowrap">
+                      <img src="../../img/share/{{voucher?.Voucher_ShowType}}_w.png" class="nearbyimg"
+                        alt="">{{voucher?.Voucher_ShowTypeName}}
+                    </div>
+                    <!-- <div class="item three txt-line-clamp1 text-center">
                                       近高雄巨蛋捷運站
                                   </div> -->
-                                  <div class="item two text-right">
-                                      - {{voucher?.Voucher_UsedTypeName}} -
-                                  </div>
-                              </div>
-                              </div>
-                          </div>
-                      </div>
+                    <div class="item two text-right">
+                      - {{voucher?.Voucher_UsedTypeName}} -
+                    </div>
                   </div>
+                </div>
               </div>
+            </div>
           </div>
+        </div>
       </div>
+    </div>
+    <!-- 搜尋失敗提醒 -->
+    <ng-template #noVoucherBlock>
+      <div class="no-data">
+        <img src="img/member/no-member-voucher.png" alt="no-member-voucher">
+        <p>Oops!<br>目前沒有相關優惠券喔！
+        </p>
+      </div>
+    </ng-template>
   </div>
+
+  <!-- 規格篩選視窗 -->
+  <div class="modal-backdrop fade show container" *ngIf="layerTrig === 1"></div>
+  <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="layerTrig === 1">
+    <div class="productsOpensort container">
+      <div id="open-sortbox" class="w-100">
+        <div class="open-sort-cont">
+          <label>排序</label>
+          <div class="d-flex sortGroup flex-column">
+            <div class="item" (click)="voucherSort = 1; filterSubmit();" [ngClass]="{'active defItem': voucherSort === 1}">
+              即將到期優先</div>
+            <div class="item" (click)="voucherSort = 2; filterSubmit();" [ngClass]="{'active defItem': voucherSort === 2}">
+              依上架時間(由新到舊)</div>
+            <div class="item" (click)="voucherSort = 3; filterSubmit();" [ngClass]="{'active defItem': voucherSort === 3}">
+              依上架時間(由舊到新)</div>
+          </div>
+          <label>使用範圍</label>
+          <div class="d-flex sortGroup flex-row">
+            <div class="item" *ngFor="let type of useType" (click)="usetypeCheck(type);"
+              [ngClass]="{'active defItem': type.isSelect}">{{ usetypeTxt(type.Key)}}</div>
+          </div>
+          <label>優惠券類型</label>
+          <ul class="open-sort-ul">
+            <li class="flex-inline-between" *ngFor="let type of showType" [ngClass]="{'active': type.isSelect}" (click)="seletType(type,'showType');">
+              <div>{{ type.Value }}</div>
+              <i class="material-icons done">&#xe876;</i>
+            </li>
+          </ul>
+          <label>折扣類型使用</label>
+          <ul class="open-sort-ul">
+            <li class="flex-inline-between" *ngFor="let type of voucherType" [ngClass]="{'active': type.isSelect}" (click)="seletType(type, 'voucherType');">
+              <div>{{ voucherTypeTxt(type.Key) }}</div>
+              <i class="material-icons done">&#xe876;</i>
+            </li>
+          </ul>
+        </div>
+        <div class="open-sort-title">
+          <div class="flex-inline-between">
+            <div class="title-icon">
+              <button class="btn" (click)="layerTrig = 0">
+                <i class="material-icons">&#xe314;</i>
+              </button>
+            </div>
+            <div class="title-txt">
+              篩選與排序
+            </div>
+            <div class="title-right"></div>
+          </div>
+          <div class="open-sort-num">
+            符合項目的優惠券 共 {{ voucherCount }} 張
+          </div>
+        </div>
+        <div class="open-sort-footer">
+          <button class="btn all-reset" (click)="resetSet()" [disabled]="!resetOpen">
+            <i class="material-icons loop">&#xe028;</i>全部重設
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 <app-mobile-footer></app-mobile-footer>

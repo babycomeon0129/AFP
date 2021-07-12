@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation } from '@app/animations';
+import { BsModalRef } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-explore-detail',
@@ -18,6 +19,10 @@ import { layerAnimation } from '@app/animations';
 })
 export class ExploreDetailComponent implements OnInit {
   @ViewChild('kvSwiper', { static: false }) kvSwiper: SwiperComponent;
+  /** 緯度 */
+  public lat: number;
+  /** 經度 */
+  public lng: number;
 
   /** 商家/景點詳細編碼 */
   public siteCode: number;
@@ -34,7 +39,7 @@ export class ExploreDetailComponent implements OnInit {
   /** 商家商品 */
   public productList: AFP_Product[] = [];
   /** 判斷是否有外送點餐服務 */
-  public ecStoreExtType: string;
+  public ecStoreExtType = false;
   /** JustKa連結 */
   public JustKaUrl: string;
   /** APP分享使用的url */
@@ -61,18 +66,42 @@ export class ExploreDetailComponent implements OnInit {
   public textForShare: string;
   /** 店家推薦連結 */
   public ecstoreLink : AFP_ECStoreLink[] = [];
-  /** 確認資料是否下載完畢  */
-  public dataLoad = false;
   /** 同頁滑動切換 0:本頁 1:篩選清單 2:篩選-商品分類 3:更多推薦 */
   public layerTrig = 0;
 
-  constructor(public appService: AppService, private route: ActivatedRoute, public modal: ModalService, private meta: Meta, private title: Title) {
+  constructor(public appService: AppService, private route: ActivatedRoute, public modal: ModalService, private meta: Meta, private title: Title, private bsModalRef: BsModalRef ) {
     // 取得商家/景點編碼
     this.siteCode = Number(this.route.snapshot.params.ECStore_Code);
+    if (this.route.snapshot.params.ECStore_Code.tabNo !== undefined) {
+      this.tabNo = Number(this.route.snapshot.params.tabNo);
+    }
   }
 
   ngOnInit() {
-    this.readTabData(1);
+    // 判斷瀏覽器是否支援geolocation API
+    if (navigator.geolocation !== undefined) {
+      // 請求取用使用者現在的位置
+      navigator.geolocation.getCurrentPosition(success => {
+        this.lat = success.coords.latitude;
+        this.lng = success.coords.longitude;
+        this.readTabData(1);
+      }, err => {
+        // 如果用戶不允取分享位置，取預設位置(台北101)
+        this.lat = 25.034306;
+        this.lng = 121.564603;
+        this.readTabData(1);
+      });
+    } else {
+      const initialState = {
+        success: true,
+        message: '該瀏覽器不支援定位功能',
+        showType: 1
+      };
+      this.modal.show('message', { initialState }, this.bsModalRef);
+      this.lat = 25.034306;
+      this.lng = 121.564603;
+      this.readTabData(1);
+    }
 
     // 從外部進來指定分頁
     this.route.queryParams.subscribe(params => {
@@ -89,7 +118,7 @@ export class ExploreDetailComponent implements OnInit {
     this.route.params.subscribe(routeParams => {
       if (this.siteCode !== Number(routeParams.ECStore_Code)) {
         this.siteCode = Number(routeParams.ECStore_Code);
-        this.readTabData(1);
+        this.readTabData(this.tabNo);
       }
     });
     // 若是登入狀態下則顯示收藏狀態
@@ -102,7 +131,6 @@ export class ExploreDetailComponent implements OnInit {
    * @param index 分頁代號
    */
   readTabData(index: number): void {
-    this.tabNo = index;
     const request: Request_AreaDetail = {
       User_Code: sessionStorage.getItem('userCode'),
       SearchModel: {
@@ -112,12 +140,14 @@ export class ExploreDetailComponent implements OnInit {
     };
     // request
     this.appService.openBlock();
-    this.appService.toApi('Area', '1403', request).subscribe((data: Response_AreaDetail) => {
+    this.appService.toApi('Area', '1403', request, this.lat, this.lng).subscribe((data: Response_AreaDetail) => {
       switch (index) {
         //  商家簡介
         case 1: {
           this.siteInfo = data.Model_ECStore;
-          this.ecStoreExtType = this.siteInfo.ECStore_DeliveryURL;
+          if (this.siteInfo.ECStore_DeliveryURL !== null || this.siteInfo.ECStore_TakeoutURL !== null) {
+            this.ecStoreExtType = true;
+          }
           this.ecstoreLink = data.List_ECStoreLink;
           // Enter轉換行
           if (this.siteInfo.ECStore_Features !== null && this.siteInfo.ECStore_Features !== '') {
@@ -166,7 +196,6 @@ export class ExploreDetailComponent implements OnInit {
           break;
         }
       }
-      this.dataLoad = true;
     });
   }
 
@@ -207,12 +236,14 @@ export class ExploreDetailComponent implements OnInit {
     }
   }
 
-  /** 外送點餐按鈕 */
-  sendDelivery(): void {
+  /** 外送/外帶點餐按鈕
+   * @param url 外連連結
+   */
+  sendDelivery(url: string): void {
     // 先判斷是否有登入
     if (this.appService.loginState) {
       // 把商店code帶到DeliveryInfo頁面
-      window.open(this.siteInfo.ECStore_DeliveryURL);
+      window.open(url);
     } else {
       this.appService.loginPage();
     }

@@ -84,7 +84,8 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
         this.thirdRequest.JsonData = JSON.stringify(this.thirdUser);
         this.toThirdLogin();
       }
-     //  this.regClick = false;
+      //TODO: 之前註解此處是為了修復第三方註冊兩次才能成功的問題，但反而導致這測時會多此呼叫而導致重複toThirdLogin()呼叫多次，先取消註解
+      this.regClick = false;
     });
 
     this.signinState = this.appService.getState();
@@ -121,7 +122,10 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
     document.addEventListener('AppleIDSignInOnFailure', (error: any) => {
       this.stopListeningApple();
       this.bsModalRef.hide(); // 關閉視窗
-      this.modal.show('message', { initialState: { success: false, message: 'Apple登入失敗', note: error.detail.error, showType: 1 } });
+      // 如果錯誤並非用戶直接關掉POPUP視窗，則跳錯誤訊息
+      if(error.detail.error !== 'popup_closed_by_user') {
+        this.modal.show('message', { initialState: { success: false, message: 'Apple登入失敗', note: error.detail.error, showType: 1 } });
+      }
     });
 
     // LINE登入資訊
@@ -267,7 +271,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       this.bsModalRef.hide();
       // 提示社群綁定
       const msg = `註冊成功！歡迎加入Mobii!\n小技巧：綁定您的社群帳號，未來就可快速登入囉！`;
-      this.modal.show('message', { initialState: { success: true, message: msg, showType: 6, leftBtnMsg: `下次再說`,  leftBtnUrl: `/`, rightBtnMsg: `立即綁定`, rightBtnUrl: `/Member/ThirdBinding`} });
+      this.modal.show('message', { initialState: { success: true, message: msg, showType: 6, leftBtnMsg: `下次再說`, rightBtnMsg: `立即綁定`, rightBtnUrl: `/Member/ThirdBinding`} });
       // 通知推播
       this.appService.initPush();
     });
