@@ -11,7 +11,7 @@ import { Meta, Title } from '@angular/platform-browser';
   styleUrls: ['../../member/member.scss', './member-favorite.scss']
 })
 export class MemberFavoriteComponent implements OnInit {
-  /** 編輯模式 */
+  /** 編輯模式  false: 編輯  ture: 完成 */
   public editMode = false;
   /** 選擇TAG  53: 探索周邊 51:按讚好物 52: 收藏商店 54: 旅遊行程 */
   public selectedType = 53;
