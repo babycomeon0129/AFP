@@ -14,7 +14,7 @@ export class BackBtnComponent implements OnInit {
   /** 返回鍵樣式，1: < 字型  2: 有透明灰圓圈底的 < 返回鍵 */
   @Input() iconStyle = 1;
   /** 基本的回上一頁功能  0:需要  1: 客製化回上一頁功能 2: 只有獨立開啟頁面時，按返回鍵前往大首頁 */
-  @Input() needGoBack = 0;
+  @Input() mode = 0;
   /** 返回鍵客製化時使用。 預設為首頁 */
   @Input() url = '/';
 
@@ -28,7 +28,7 @@ export class BackBtnComponent implements OnInit {
 
   /** 點擊返回鍵 */
   gotoBack(): void {
-    switch(this.needGoBack) {
+    switch(this.mode) {
       case 0 :
         this.location.back();
         break;
@@ -48,17 +48,6 @@ export class BackBtnComponent implements OnInit {
         }
         break;
     }
-    // 先判斷返回鍵是否只需要基本功能
-    // if (this.needGoBack) {
-    //   this.location.back();
-    // } else {
-    //   // 先判斷是否為結帳完成的狀態 (由網址是否帶referrer判定)
-    //   if (this.route.snapshot.queryParams.referrer === 'OrderComplete' || this.route.snapshot.queryParams.referrer === 'illegal') {
-    //     this.router.navigate([this.url]);
-    //   } else {
-    //     this.location.back();
-    //   }
-    // }
   }
 
 }
