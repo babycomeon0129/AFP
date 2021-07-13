@@ -751,6 +751,7 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
             List_Order: orders
           };
           this.appService.toApi('EC', '1601', createOrder).subscribe((coResult: Response_CreateOrder) => {
+            // 先判斷是否沒有下架商品
             if (coResult.List_DiscontinuedProducts === null) {
               this.router.navigate(['/Order/ShoppingPayment'], {
                 state: { data: coResult }
