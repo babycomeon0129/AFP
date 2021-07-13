@@ -273,19 +273,6 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  /** 回上一頁
-   * 一般遊覽方式下若上一頁不存在(this.appService.prevUrl === '')或是是外站則前往大首頁，
-   * 若是用貼網址的方式(window.history.length === 2)，則會直接前往大首頁，
-   * 其餘情況則正常回上一頁
-   */
-  conditionBack(): void {
-    if (window.history.length === 2 || this.appService.prevUrl === '') {
-      this.router.navigate(['/']);
-    } else {
-      history.back();
-    }
-  }
-
   ngOnDestroy(): void {
     clearInterval(this.checkTimer);
     clearTimeout(this.timer3Mins);
