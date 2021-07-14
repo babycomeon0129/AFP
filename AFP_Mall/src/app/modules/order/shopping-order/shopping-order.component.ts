@@ -11,7 +11,6 @@ import {
 import { NgForm } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation } from '@app/animations';
-declare var AppJSInterface: any;
 
 @Component({
   selector: 'app-shopping-order',
