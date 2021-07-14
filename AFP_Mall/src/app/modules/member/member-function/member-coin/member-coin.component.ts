@@ -144,16 +144,16 @@ export class MemberCoinComponent implements OnInit {
   }
 
   /** 關閉點數紀錄
-   * 從遊戲館進入, 回到上一頁(避免停留在本頁), 其餘情況關閉layerTrig
+   * 從MemberCoin進入, 關閉layerTrig; 其餘情況關閉layerTrig並回到上一頁(避免停留在本頁)
    * 從其他頁面進入, showBack: this.appService.showBack
    * 配合APP點選歷史紀錄要導去網頁coinHistory: 0關閉、1開啟
    */
   coinHistoryClose(): void {
-    if (this.appService.prevUrl.indexOf('GameCenter') > -1) {
-      history.back();
-    } else {
-      this.coinHistoryOpen = 0;
+    this.coinHistoryOpen = 0;
+    if (this.appService.prevUrl.indexOf('MemberCoin') > -1) {
       this.router.navigate(['/MemberFunction/MemberCoin'], {queryParams: {coinHistory: 0, showBack: this.appService.showBack}});
+    } else {
+      history.back();
     }
   }
 }
