@@ -7,7 +7,7 @@ import {
 } from '@app/_models';
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'ngx-useful-swiper';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { layerAnimation, layerAnimationUp } from '@app/animations';
@@ -84,7 +84,7 @@ export class OffersComponent implements OnInit, OnDestroy {
     }
   };
 
-  constructor(public appService: AppService, private activatedRoute: ActivatedRoute, private router: Router,
+  constructor(public appService: AppService, private activatedRoute: ActivatedRoute,
     private meta: Meta, private title: Title, private modal: ModalService, public location: Location) {
     this.title.setTitle('找優惠 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 找優惠。這裡會顯示 Mobii! 合作店家的優惠券，吃喝玩樂、食衣住行，你想得到、想不到的，都在 Mobii! 找優惠裡！' });
@@ -161,7 +161,7 @@ export class OffersComponent implements OnInit, OnDestroy {
     for (let voucher of this.offers) {
       if (voucher.VoucherData.findIndex(data => data.Voucher_ExtName.includes(searchText) || data.Voucher_Title.includes(searchText)) > -1) {
         this.TabCode = voucher.UserDefine_Code;
-        index = this.offers.findIndex( data => data.UserDefine_Code === this.TabCode);
+        index = this.offers.findIndex(data => data.UserDefine_Code === this.TabCode);
         break;
       }
     }
