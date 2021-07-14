@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { ConvertPipe } from './pipe/convert-pipe/convert.pipe';
 import { SafePipe } from './pipe/safe-pipe/safe.pipe';
 import { TextFilterPipe } from './pipe/text-filter-pipe/text-filter.pipe';
+import { LinkifyPipe } from './pipe/linkify-pipe/linkify.pipe';
 // Directive
 import { DigitOnlyDirective } from './directive/digitonly-directive/digit-only.directive';
 import { KeyControllerDirective } from './directive/keycontroller-directive/key-controller.directive';
@@ -68,12 +69,14 @@ import { MPointComponent } from './widget/m-point/m-point.component';
     SwiperPanesComponent,
     BackBtnComponent,
     IndexHeaderComponent,
-    MPointComponent
+    MPointComponent,
+    LinkifyPipe
   ],
   exports: [
     SafePipe,
     ConvertPipe,
     TextFilterPipe,
+    LinkifyPipe,
     ForgetModalComponent,
     VcodeModalComponent,
     PasswordModalComponent,
