@@ -2237,7 +2237,7 @@ export interface Request_MemberQuestion extends Model_ShareData {
 export interface Search_MemberQuestion extends Model_ShareData {
   /**  訊息類型 1: 常見問題 11: 幫助中心 */
   QuestionContent_Mode?: number;
-  /** 分類Code: 1 隱私權政策 2 使用者規範 3 關於我 */
+  /** 分類Code: 1 隱私權政策 2 使用者規範 3 關於我 4 退貨流程 5 點數說明  */
   QuestionContent_CategoryCode?: number;
   /** 常見問題內容 編碼 */
   QuestionContent_Code?: number;

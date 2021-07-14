@@ -764,13 +764,7 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
                 // 如果是APP，則按我知道了時APP把此頁關掉
                 this.modal.confirm({ initialState: { message: `${coResult.List_DiscontinuedProducts}已下架，無法購買`, checkBtnTxt: '我知道了', showCancel: false } }).subscribe(res => {
                   if (res) {
-                    if (navigator.userAgent.match(/android/i)) {
-                      //  Android
-                      AppJSInterface.back();
-                    } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-                      //  IOS
-                      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'back' });
-                    }
+                    this.appService.appWebViewClose();
                   }
                 });
               }

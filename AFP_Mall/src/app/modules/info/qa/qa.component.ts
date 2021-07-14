@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AppService } from '@app/app.service';
 import { Request_MemberQuestion, Response_MemberQuestion, AFP_QuestionCategory, AFP_QuestionContent } from '@app/_models';
 import { Meta, Title } from '@angular/platform-browser';
+import { Location } from '@angular/common';
 import { layerAnimation } from '@app/animations';
-declare var AppJSInterface: any;
 
 @Component({
   selector: 'app-qa',
@@ -21,7 +21,7 @@ export class QAComponent implements OnInit {
   /** 搜尋目標字串 */
   public searchTarget = '';
 
-  constructor(public appService: AppService, private meta: Meta, private title: Title) {
+  constructor(public appService: AppService, private meta: Meta, private title: Title, private location: Location) {
     this.title.setTitle('常見問題 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 常見問題。不論是訂單支付、退貨退款、寄件物流、點數 M Points 或優惠券、會員權益等資訊，你都可以在 Mobii! 的常見問題找到答案。' });
     this.meta.updateTag({ content: '常見問題 - Mobii!', property: 'og:title' });
@@ -68,15 +68,9 @@ export class QAComponent implements OnInit {
   /** 若從APP登入頁進入則按回上一頁時APP把此頁關掉 */
   backIf(): void {
     if (this.fromAppLogin) {
-      if (navigator.userAgent.match(/android/i)) {
-        //  Android
-        AppJSInterface.back();
-      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-        //  IOS
-        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'back' });
-      }
+      this.appService.appWebViewClose();
     } else {
-      history.back();
+      this.location.back();
     }
   }
 

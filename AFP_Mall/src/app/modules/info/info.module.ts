@@ -10,13 +10,17 @@ import { PrivacyComponent } from './privacy/privacy.component';
 import { QAComponent } from './qa/qa.component';
 import { TermsComponent } from './terms/terms.component';
 import { TrafficComponent } from './traffic/traffic.component';
+import { ReturnComponent } from './return/return.component';
+import { MPointsComponent } from './mpoints/mpoints.component';
 
 @NgModule({
   declarations: [
     QAComponent,
     TermsComponent,
     PrivacyComponent,
-    TrafficComponent
+    TrafficComponent,
+    ReturnComponent,
+    MPointsComponent
   ],
   exports: [
     QAComponent,

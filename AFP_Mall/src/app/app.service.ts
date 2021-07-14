@@ -76,8 +76,8 @@ export class AppService {
 
   @BlockUI() blockUI: NgBlockUI;
   constructor(private http: HttpClient, private bsModal: BsModalService, public modal: ModalService, private router: Router,
-              private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService,
-              private swPush: SwPush) {
+    private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService,
+    private swPush: SwPush) {
   }
 
   toApi(ctrl: string, command: string, request: any, lat: number = null, lng: number = null, deviceCode?: string): Observable<any> {
@@ -122,10 +122,10 @@ export class AppService {
             }
             return JSON.parse(data.Data);
           case 9996:
-            this.modal.show('message', { initialState: { success: false, message: data.Base.Rtn_Message, showType: 1,  checkBtnMsg: `確定`, target: 'GoBack'} });
+            this.modal.show('message', { initialState: { success: false, message: data.Base.Rtn_Message, showType: 1, checkBtnMsg: `確定`, target: 'GoBack' } });
             break;
           case 9998: // user資料不完整，讓使用者登出
-            this.modal.show('message', { initialState: { success: false, message: '請先登入', showType: 2,  singleBtnMsg: `重新登入`} });
+            this.modal.show('message', { initialState: { success: false, message: '請先登入', showType: 2, singleBtnMsg: `重新登入` } });
             this.onLogout();
             break;
           default: // 其他錯誤
@@ -225,34 +225,34 @@ export class AppService {
       }, catchError(() => null)));
   }
 
-   /** 登入初始化需帶入的 state，Apple、Line登入都需要用到
-   * @description unix timestamp 前後相反後前4碼+ 10碼隨機英文字母 (大小寫不同)
-   * @returns state 的值
-   */
-    getState(): string {
-      // 取得 unix
-      const dateTime = Date.now();
-      const timestampStr = Math.floor(dateTime / 1000).toString();
-      // 前後相反
-      let reverseTimestamp = '';
-      for (var i = timestampStr.length - 1; i >= 0; i--) {
-        reverseTimestamp += timestampStr[i];
-      }
-      // 取前4碼
-      const timestampFirst4 = reverseTimestamp.substring(0,4);
-      // 取得10個隨機英文字母，組成字串
-      function getRandomInt(max: number) {
-        return Math.floor(Math.random() * max);
-      };
-      const engLettersArr = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
-      let randomEngLetter = '';
-      for (let x = 0; x < 10; x ++) {
-        const randomInt = getRandomInt(engLettersArr.length);
-        randomEngLetter += engLettersArr[randomInt];
-      }
-      // 組成 state
-      return timestampFirst4 + randomEngLetter;
+  /** 登入初始化需帶入的 state，Apple、Line登入都需要用到
+  * @description unix timestamp 前後相反後前4碼+ 10碼隨機英文字母 (大小寫不同)
+  * @returns state 的值
+  */
+  getState(): string {
+    // 取得 unix
+    const dateTime = Date.now();
+    const timestampStr = Math.floor(dateTime / 1000).toString();
+    // 前後相反
+    let reverseTimestamp = '';
+    for (var i = timestampStr.length - 1; i >= 0; i--) {
+      reverseTimestamp += timestampStr[i];
     }
+    // 取前4碼
+    const timestampFirst4 = reverseTimestamp.substring(0, 4);
+    // 取得10個隨機英文字母，組成字串
+    function getRandomInt(max: number) {
+      return Math.floor(Math.random() * max);
+    };
+    const engLettersArr = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+    let randomEngLetter = '';
+    for (let x = 0; x < 10; x++) {
+      const randomInt = getRandomInt(engLettersArr.length);
+      randomEngLetter += engLettersArr[randomInt];
+    }
+    // 組成 state
+    return timestampFirst4 + randomEngLetter;
+  }
 
   /** 打開遮罩 */
   openBlock(): void {
@@ -382,7 +382,7 @@ export class AppService {
             code = voucher.Voucher_UserVoucherCode;
           }
           if (this.route.snapshot.queryParams.showBack === undefined) {
-            this.router.navigate(['/Voucher/VoucherDetail', code], {queryParams: { showBack: false }});
+            this.router.navigate(['/Voucher/VoucherDetail', code], { queryParams: { showBack: false } });
           } else {
             // APP特例處理: 若是從會員過去則要隱藏返回鍵
             if (this.route.snapshot.queryParams.showBack) {
@@ -540,7 +540,7 @@ export class AppService {
   /** 通知APP是否開啟showBackButton
    * @param isShowBt true: 開 , false: 關
    */
-   appShowBackButton(isShowBt: boolean): void {
+  appShowBackButton(isShowBt: boolean): void {
     if (this.isApp !== null) {
       if (navigator.userAgent.match(/android/i)) {
         // Android
@@ -582,6 +582,17 @@ export class AppService {
         //  IOS
         (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'appShare', content: sharedContent + '\n' + APPShareUrl });
       }
+    }
+  }
+
+  /** 通知App關閉web view */
+  appWebViewClose(): void {
+    if (navigator.userAgent.match(/android/i)) {
+      //  Android
+      AppJSInterface.back();
+    } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+      //  IOS
+      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'back' });
     }
   }
 
