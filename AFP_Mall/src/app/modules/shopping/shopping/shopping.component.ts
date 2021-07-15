@@ -136,7 +136,7 @@ export class ShoppingComponent implements OnInit {
   /** 近期熱門商品瀑布流 */
   @HostListener('window: scroll', ['$event'])
   prodWaterfall(event: Event) {
-    if ((window.scrollY + window.innerHeight === document.documentElement.offsetHeight) && this.currentPage < this.totalPage) {
+    if ((Math.floor(window.scrollY + window.innerHeight) >= document.documentElement.offsetHeight -1 ) && this.currentPage < this.totalPage) {
       this.appService.openBlock();
       this.currentPage += 1;
       this.readData(3);

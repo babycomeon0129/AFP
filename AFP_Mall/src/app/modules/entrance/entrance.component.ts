@@ -1,11 +1,11 @@
 import { BsModalRef } from 'ngx-bootstrap';
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
 import { AppService } from '@app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import {
   Response_Home, AFP_ADImg, Model_AreaJsonFile, AFP_Function, Model_TravelJsonFile,
   Model_ShareData, AFP_UserFavourite, Request_Home, AFP_ChannelProduct,
-  AFP_ChannelVoucher} from '@app/_models';
+  AFP_ChannelVoucher, AFP_Product, Request_ECHome, Response_ECHome } from '@app/_models';
 import { SwiperOptions } from 'swiper';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
@@ -13,12 +13,12 @@ import { environment } from '@env/environment';
 import { Meta, Title } from '@angular/platform-browser';
 import { SortablejsOptions } from 'ngx-sortablejs';
 import { layerAnimation } from '@app/animations';
+import { NgxMasonryOptions } from 'ngx-masonry';
 
-declare var $: any;
 
 @Component({
   templateUrl: './entrance.component.html',
-  styleUrls: ['./entrance.scss', '../travel/travel.scss'],
+  styleUrls: ['./entrance.scss', '../shopping/shopping/shopping.scss', '../travel/travel.scss'],
   animations: [layerAnimation]
 })
 export class EntranceComponent implements OnInit {
@@ -181,6 +181,12 @@ export class EntranceComponent implements OnInit {
     updateOnImagesReady: true
   };
 
+  /** 分頁瀑布流效果 */
+  public masonry: NgxMasonryOptions = {
+    itemSelector: '.products-item',
+    gutter: 12
+  };
+
   /** 首頁進場廣告 */
   public adIndex: AFP_ADImg[] = [];
   /** 首頁進場廣告開始時間確認 */
@@ -197,8 +203,14 @@ export class EntranceComponent implements OnInit {
   public deliveryArea: Model_AreaJsonFile[] = [];
   /** 本月旅遊主打 */
   public hitTravel: Model_TravelJsonFile[] = [];
-  /** 現領優惠券 */
+  /** 熱門優惠券 */
   public nowVoucher: AFP_ChannelVoucher[] = [];
+  /** 近期熱門商品 */
+  public hotProducts: AFP_Product[];
+  /** 目前頁數熱門商品瀑布流頁數 */
+  public currentPage = 1;
+  /** 目前頁數熱門商品瀑布流總頁數 */
+  public totalPage: number;
   /** 使用者服務-桌面版 */
   public ft: AFP_Function[] = [];
   /** 使用者服務-手機版上排 */
@@ -259,8 +271,9 @@ export class EntranceComponent implements OnInit {
   /** 關閉 justKa 對話框 */
   public closeMsg = false;
 
-  constructor(public appService: AppService, public bsModalRef: BsModalRef, public modal: ModalService, private router: Router, private meta: Meta, private title: Title, private cookieService: CookieService,
-    public route: ActivatedRoute, private renderer2: Renderer2) {
+  constructor(public appService: AppService, public bsModalRef: BsModalRef, public modal: ModalService,
+              private router: Router, private meta: Meta, private title: Title, private cookieService: CookieService,
+              public route: ActivatedRoute, private renderer2: Renderer2) {
     this.title.setTitle('Mobii!｜綠色城市優惠平台');
     this.meta.updateTag({ name: 'description', content: '使用 Mobii! APP，讓你的移動總是驚喜。乘車、購物、美食、景點、旅行資訊全都包，使用就享點數回饋，每日登入再領 M Points，會員再享獨家彩蛋大禮包。先下載 Mobii APP 看看裡面有什麼好玩的吧？' });
     this.meta.updateTag({ content: 'Mobii!｜綠色城市優惠平台', property: 'og:title' });
@@ -275,10 +288,11 @@ export class EntranceComponent implements OnInit {
     this.readUp();
     this.getHomeservice();
     this.readDown();
-    // 若有登入則顯示名字、M Points及優惠券資訊（手機版）、我的收藏
-    if (this.appService.loginState) {
-      this.appService.showFavorites();
-    }
+    this.readhotProducts(1);
+    // 若有登入則顯示名字、M Points及優惠券資訊（手機版）、我的收藏（MOB-3038首頁改版，因我的旅遊暫時隱藏，故此處也暫隱藏）
+    // if (this.appService.loginState) {
+    //   this.appService.showFavorites();
+    // }
   }
 
   /** 讀取首頁上方資料（皆為廣告及會員資料，我的服務除外） */
@@ -289,7 +303,6 @@ export class EntranceComponent implements OnInit {
     this.appService.openBlock();
     this.appService.toApi('Home', '1021', request).subscribe((data: Response_Home) => {
       // 會員資訊
-      // this.appService.userName = sessionStorage.getItem('userName');
       this.userPoint = data.TotalPoint;
       this.userVoucherCount = data.VoucherCount;
       // 廣告
@@ -318,6 +331,7 @@ export class EntranceComponent implements OnInit {
     };
     // 不使用loading spinner 讓進入首頁可先快速瀏覽上方
     this.appService.toApi('Home', '1022', request).subscribe((data: Response_Home) => {
+      // hitArea、hitTravel、popProducts、deliveryArea 因MOB-3038首頁改版，暫先隱藏，故後端不回傳資料
       this.hitArea = data.List_AreaData;
       this.hitTravel = data.List_TravelData;
       this.popProducts = data.List_ProductData;
@@ -325,6 +339,48 @@ export class EntranceComponent implements OnInit {
       this.nowVoucher = data.List_Voucher;
     });
   }
+
+  /** 讀取資料
+   * @param action 執行動作：1 進入此頁，2 讀取分頁（近期熱門商品瀑布流）
+   */
+   readhotProducts(action: number) {
+    const request: Request_ECHome = {
+      User_Code: sessionStorage.getItem('userCode'),
+      Cart_Count: 0,
+      Model_BasePage: {
+        Model_Page: this.currentPage
+      },
+      SearchModel: {
+        IndexChannel_Code: 31000001,
+        Cart_Code: null
+      }
+    };
+
+    this.appService.toApi('EC', '1201', request).subscribe((data: Response_ECHome) => {
+      switch (action) {
+        case 1:
+          this.hotProducts = data.List_HotProduct;
+          this.totalPage = data.Model_BaseResponse.Model_TotalPage;
+          break;
+        case 2:
+          for (const hotProduct of data.List_HotProduct) {
+            this.hotProducts.push(hotProduct);
+          }
+          break;
+      }
+    });
+  }
+
+  /** 近期熱門商品瀑布流 */
+  @HostListener('window: scroll', ['$event'])
+  prodWaterfall(event: Event) {
+    if ((Math.floor(window.scrollY + window.innerHeight) >= document.documentElement.offsetHeight -1 ) && this.currentPage < this.totalPage) {
+      this.appService.openBlock();
+      this.currentPage ++;
+      this.readhotProducts(2);
+    }
+  }
+
 
   /** 判斷首頁進場廣告開啟 */
   adIndexChenck(): void {
@@ -473,21 +529,6 @@ export class EntranceComponent implements OnInit {
     }
   }
 
-
-  /** 取得swiper-nav output Param（點擊時）
-   * @param mode SelectMode: 1 特賣商品 2 現領優惠券 3 主打店家 4 外送店家 5 旅遊主打
-   * @param idx 索引
-   * @param code 目錄編碼
-   * @param id 頻道編號
-   */
-  readSheetPanes(param: tabParam) {
-    const mode = param.Mode;
-    const idx = param.Idx;
-    const code = param.Code;
-    const id = param.Id;
-    this.readSheet(mode, idx, code, id);
-  }
-
   /** 取得「現領優惠券」、「特賣商品」頁籤資訊（點擊時）
    * @param mode SelectMode: 1 特賣商品 2 現領優惠券 3 主打店家 4 外送店家 5 旅遊主打
    * @param index 索引
@@ -498,7 +539,8 @@ export class EntranceComponent implements OnInit {
     // if mode === 5, get the height of the current pane and set it to the wrap (to avoid jumping caused by height difference)
     if (mode === 5) {
       const travelPane = document.getElementsByClassName('hitTravel tab-pane');
-      this.renderer2.setStyle(document.getElementById('tabContentWrap'), 'minHeight', travelPane[this.activeTravelIndex].scrollHeight + 'px');
+      this.renderer2.setStyle(document.getElementById('tabContentWrap'), 'minHeight',
+        travelPane[this.activeTravelIndex].scrollHeight + 'px');
     }
     // update the index
     this.activeTravelIndex = index;
@@ -636,7 +678,8 @@ class AFP_NewFunction {
    *
    * 0: 系統服務
    * 1: 我的服務
-   * 2+: 後台建置 */
+   * 2+: 後台建置
+   */
   CategaryCode: number;
   /** 使用者服務 */
   Model_Function: AFP_Function[];
@@ -653,18 +696,6 @@ class Request_AFPUpdateUserService extends Model_ShareData {
 /** 使用者服務 ResponseModel */
 class Response_AFPUpdateUserService extends Model_ShareData {
 
-}
-
-/** 取得swiper-nav output Param（點擊時） */
-interface tabParam {
-  /** SelectMode  1: 特賣商品 2: 現領優惠券 3: 主打店家 4: 外送店家 5: 旅遊主打 */
-  Mode: number;
-  /** 索引 */
-  Idx: number;
-  /** 目錄編碼 */
-  Code: number;
-  /** 頻道編號 */
-  Id: number;
 }
 
 /** 抓取首頁其他資訊 */

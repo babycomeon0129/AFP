@@ -23,4 +23,12 @@ export class IndexHeaderComponent implements OnInit {
     this.router.navigate(['/Voucher/Offers'], { queryParams: { search: searchText } });
   }
 
+  /** 前往頁面前判斷登入狀態 */
+  goTo() {
+    if (this.appService.loginState) {
+      this.router.navigate(['/Notification/NotificationList']);
+    } else {
+      this.appService.loginPage();
+    }
+  }
 }

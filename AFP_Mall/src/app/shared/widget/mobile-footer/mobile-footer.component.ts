@@ -26,13 +26,4 @@ export class MobileFooterComponent implements OnInit {
     this.appService.appShowMobileFooter(true);
   }
 
-  /** 前往頁面前判斷登入狀態 */
-  goTo() {
-    if (this.appService.loginState) {
-      this.router.navigate(['/Notification/NotificationList']);
-    } else {
-      this.appService.loginPage();
-    }
-  }
-
 }

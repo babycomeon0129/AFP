@@ -724,7 +724,7 @@ export interface Request_ECHome extends Model_ShareData {
   /** 搜尋Model */
   SearchModel: {
     /** 首頁優惠券頻道編號 */
-    IndexVoucher_Code: number;
+    IndexVoucher_Code?: number;
     /** 首頁商品頻道編號 */
     IndexChannel_Code: number;
     /** 購物車Code */

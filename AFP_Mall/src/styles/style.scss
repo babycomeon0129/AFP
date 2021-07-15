@@ -357,13 +357,17 @@ input[type='search']{
   &:after {
     content: '';
     position: absolute;
-    top: 3px;
-    right: 20%;
+    top: -22px;
+    left: 34px;
     width: 8px;
     height: 8px;
     background-color: #C10E24;
     border: 1px #fff solid;
     border-radius: 100%;
+  }
+  &.menu-dot:after {
+    top: -36px;
+    left: 30px;
   }
 }
 
