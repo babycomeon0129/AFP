@@ -188,7 +188,7 @@
                               <a (click)="goToDetail(item?.ECStore_State, '/Explore/ExploreDetail', item.ECStore_Code)" class="d-flex w-100">
                                 <a class="item-explore">
                                   <div class="img-box rwdimgbox-80">
-                                    <div [lazyLoad]="item.ECStore_Logo" [defaultImage]="appService.defaultImage" class="rwdimg-cover"></div>
+                                    <div [lazyLoad]="item.ECStore_Logo !== null ? item.ECStore_Logo : item.ECStore_Image1" [defaultImage]="appService.defaultImage" class="rwdimg-cover"></div>
                                   </div>
                                 </a>
                                 <a class="item-explore w-100">
