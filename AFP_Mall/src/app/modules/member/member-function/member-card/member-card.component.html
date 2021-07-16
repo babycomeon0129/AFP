@@ -5,8 +5,7 @@
       <div class="index-flex justify-content-between">
         <div class="item two">
           <div class="close-btn">
-            <button type="button" class="btn" [routerLink]="['/Member']" data-toggle="tooltip" data-placement="bottom"
-              title="回上一頁">
+            <button type="button" class="btn" [routerLink]="['/Member']" title="回上一頁">
               <i class="material-icons">&#xe314;</i><span>我的</span>
             </button>
           </div>
@@ -36,7 +35,7 @@
               <div *ngIf="cardGeneral.UserReport_IsShow !== 0">
                 <div class="mycard-container">
                   <button class="btn-card" [disabled]="cardGeneral.UserReport_State === 0"
-                  [routerLink]="['/MemberFunction/MemberCardAdd']" [queryParams]="{ itemCode: cardGeneral.UserReport_ItemCode}">
+                  [routerLink]="['/MemberFunction/MemberCard']" [queryParams]="{showBack: true, itemCode: cardGeneral.UserReport_ItemCode, layerParam: 1}">
                     <div class="card-img-box">
                       <img class="img-icon" src="../img/member/my_ipass_icon.png" [hidden]="cardGeneral.UserReport_ItemCode === 11">
                       <img class="img-icon" src="../img/member/my_easycard_icon.png" [hidden]="cardGeneral.UserReport_ItemCode === 1">
@@ -70,16 +69,246 @@
             </div>
           </div>
         </div>
-        <!-- <a [routerLink]="['/MemberFunction/MemberCardCertificate']" [queryParams]="{ showBack: appService.showBack}">榮民卡</a> -->
         <!-- 已綁定的卡片 -->
-        <div class="card-fixed-bottom" [hidden]="fixedBtn">
-          <a class="btn-tied-card" [routerLink]="['/MemberFunction/MemberCardList']"
-            [queryParams]="{ showBack: appService.showBack}">
+        <div class="card-fixed-bottom tied" [hidden]="layerTrig !== 0">
+          <a class="btn-tied-card" [routerLink]="['/MemberFunction/MemberCard']" [queryParams]="{showBack: true, itemCode: cardItemCode, layerParam: 2}">
             已綁定的卡片<i class="material-icons">&#xe315;</i>
           </a>
         </div>
       </div>
     </div>
   </main>
+
+  <!--新增卡片-->
+  <div class="layerTrig container" [@layerTrigger] *ngIf="layerTrig === 1">
+    <div>
+      <div class="title-box">
+        <div class="item icon-btn">
+          <button class="btn px-0" (click)="inputModelClear()" title="回上一頁" [hidden]="appService.isApp !== null && !appService.showBack"
+          [routerLink]="['/MemberFunction/MemberCard']" [queryParams]="{showBack: true, itemCode: cardItemCode, layerParam: 0}">
+            <i class="material-icons">&#xe314;</i><span>我的卡片</span>
+          </button>
+        </div>
+        <div class="item title-name">新增卡片</div>
+        <div class="item icon-btn"></div>
+      </div>
+      <div class="my-list-box">
+        <form #formAddCard="ngForm" (ngSubmit)="onAddCardSubmit(formAddCard)">
+          <div class="item">
+            <ul>
+              <li class="item">
+                <div class="row text-center">
+                  <div class="col-12 pt-2">
+                    <h5 class="text-muted">卡號位置</h5>
+                  </div>
+                  <div [ngSwitch]="cardItemCode">
+                    <ng-template [ngSwitchCase]="1">
+                      <div class="row">
+                        <div class="col-6 px-0">
+                          <img src="../../img/member/my_ipass1.png" class="img-fluid" [alt]="cardTitle+'卡號位置1'">
+                          <p>{{cardTitle}}</p>
+                        </div>
+                        <div class="col-6 px-0">
+                          <img src="../../img/member/my_ipass2.png" class="img-fluid" [alt]="cardTitle+'卡號位置2'">
+                          <p>{{cardTitle}}聯名卡</p>
+                        </div>
+                      </div>
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="11">
+                      <div class="row">
+                        <div class="col-6 px-0">
+                          <img src="../../img/member/my_easycard1.png" class="img-fluid" [alt]="cardTitle+'卡號位置1'">
+                          <p>{{cardTitle}}</p>
+                        </div>
+                        <div class="col-6 px-0">
+                          <img src="../../img/member/my_easycard2.png" class="img-fluid" [alt]="cardTitle+'卡號位置2'">
+                          <p>{{cardTitle}}聯名卡</p>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </div>
+                </div>
+              </li>
+              <li class="py-1">
+                <strong class="card-info">填寫卡片資料</strong>
+              </li>
+              <li class="card-line-height" [ngClass]="{'bg-light': (cardNumber.touched && cardNumber.invalid)}">
+                <div class="d-flex w-100">
+                  <div class="item">卡片號碼<span class="text-org">*</span></div>
+                  <div class="item input-box">
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" [minlength]="cardNumberMinlength" maxlength="16" name="cardNumber" placeholder="請輸入"
+                    [(ngModel)]="inputModel.cardNumber" #cardNumber="ngModel" appDigitOnly autofocus required>
+                  </div>
+                </div>
+                <div class="small-warning text-right">
+                  <ng-container *ngIf="cardNumber.touched && cardNumber.invalid && (cardNumber.value === undefined || cardNumber.value === '')">
+                    卡片號碼不可為空
+                  </ng-container>
+                  <ng-container *ngIf="cardNumber.touched && cardNumber.invalid && cardNumber.value !== undefined && cardNumber.value !== ''">
+                    卡號長度不足{{cardNumberMinlength}}碼
+                  </ng-container>
+                </div>
+              </li>
+              <li class="card-line-height">
+                <div class="item">名稱</div>
+                <div class="item input-box">
+                  <input type="text" maxlength="50" placeholder="自訂卡片名稱"
+                  name="cardName" [(ngModel)]="inputModel.cardName" #cardName="ngModel">
+                </div>
+              </li>
+              <li class="card-line-height">
+                <div class="d-flex w-100">
+                  <div class="item">身分證字號</div>
+                  <div class="item input-box">
+                    <input type="text" pattern="^[A-Za-z][12]\d{8}$" maxlength="10" placeholder="請輸入"
+                    name="nationalID" [(ngModel)]="inputModel.nationalID" #nationalID="ngModel"
+                    [value]="nationalID.value !== '' ? (nationalID.value | uppercase): ''">
+                  </div>
+                </div>
+                <div class="small-warning text-right">
+                  <ng-container *ngIf="nationalID.touched && nationalID.invalid">
+                    字首為大寫英文＋9組純數字
+                  </ng-container>
+                </div>
+              </li>
+              <li class="d-block">
+                <strong class="card-warning">
+                  <i class="material-icons error_outline">&#xe001;</i>
+                  已記名之卡片，請提供身分證字號驗證
+                </strong>
+                <br>
+                <strong class="card-warning">
+                  <div class="sitem-checkbox py-1">
+                    <div class="icheck-material-blue">
+                        <input id="checkOK" type="checkbox" (change)="isChecked = $event.target.checked" />
+                        <label for="checkOK">我同意艾斯移動（Mobii!平台）使用本卡內之會員個人資料及交易資料，以利發放點數回饋及參與Mobii!平台活動。</label>
+                    </div>
+                  </div>
+                </strong>
+              </li>
+            </ul>
+          </div>
+          <div class="fixed-btn container">
+            <button type="submit" class="btn next-btn w-100"
+            [ngClass]="{'unable': cardNumber.invalid || !isChecked}" [disabled]="cardNumber.invalid || !isChecked">確認</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!--已綁定卡片-->
+  <div class="layerTrig container" [@layerTrigger] *ngIf="layerTrig === 2">
+    <div>
+      <div class="title-box">
+        <div class="item icon-btn">
+          <button class="btn px-0" title="回上一頁" [hidden]="appService.isApp !== null && !appService.showBack"
+          [routerLink]="['/MemberFunction/MemberCard']" [queryParams]="{showBack: true, itemCode: cardItemCode, layerParam: 0}">
+            <i class="material-icons">&#xe314;</i><span>我的卡片</span>
+          </button>
+        </div>
+        <div class="item title-name">已綁定的卡片</div>
+        <div class="item icon-btn"></div>
+      </div>
+      <div>
+        <div class="tied-card-list" *ngIf="cardListLen > 0; else elseBlock">
+          <div class="tied-card-item" *ngFor="let card of cardList">
+            <div class="d-flex" [routerLink]="['/MemberFunction/MemberCardDetail/', card.UserFavourite_ID, card.UserFavourite_TypeCode]">
+              <div class="item">
+                <div class="img-box">
+                  <div *ngIf="card.CardGroup_List !== null; else elseImg">
+                    <div class="img-logo" [lazyLoad]="card.CardGroup_List[0].CardGroup_Thumbnail" [defaultImage]="cardGroupThumbnailDef"></div>
+                  </div>
+                  <ng-template #elseImg>
+                    <div class="img-logo" *ngIf="card.UserFavourite_TypeCode === 1" [lazyLoad]="cardThumbnailDef1" [defaultImage]="cardGroupThumbnailDef"></div>
+                    <div class="img-logo" *ngIf="card.UserFavourite_TypeCode === 11" [lazyLoad]="cardThumbnailDef11" [defaultImage]="cardGroupThumbnailDef"></div>
+                  </ng-template>
+                </div>
+              </div>
+              <div class="item tied-card-content">
+                <div class="tied-card-tag">
+                  <span class="general-card">{{card.UserFavourite_TypeCode === 1 ? '一卡通' : '悠遊卡'}}</span>
+                  <span class="special-card txt-line-clamp1" *ngIf="card.CardGroup_List !== null">
+                    <span *ngFor="let item of card.CardGroup_List">
+                      {{item.CardGroup_Name}}
+                    </span>
+                  </span>
+                </div>
+                <h6 class="txt-line-clamp1 mt-2 mb-1">{{card?.UserFavourite_Text1}}</h6>
+                <p>******{{card?.UserFavourite_Text2}}</p>
+              </div>
+              <div class="item">
+                <button class="btn p-0">
+                  <img src="../../img/member/right.png" class="img-crud" alt="arrow">
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #elseBlock>
+          <div *ngIf="cardListLen === 0">
+            <div class="no-data">
+              <img src="../../img/member/myCardNull.png" alt="no-card">
+              <p>Oops！<br>
+                您目前尚未綁定任何卡片喔！</p>
+            </div>
+          </div>
+          <div *ngIf="cardListLen === null">
+            <div class="loading-box">
+              <div class="loading-img">
+                <span class="loader loader-quart"></span>
+              </div>
+              <p>Loading...</p>
+            </div>
+          </div>
+        </ng-template>
+        <div class="card-fixed-bottom add" [hidden]="layerTrig != 2">
+          <button class="btn card-add-btn" [routerLink]="['/MemberFunction/MemberCard']" [queryParams]="{showBack: true, itemCode: cardItemCode, layerParam: 1}">
+            <img src="../img/member/my_card_add.png" class="h24" alt="my_card_add">
+            <span>新增卡片</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--榮民卡-->
+  <div class="layerTrig container" [@layerTrigger] *ngIf="layerTrig === 3">
+    <div>
+      <div class="title-box">
+        <div class="item icon-btn">
+          <button class="btn px-0" title="回上一頁" [hidden]="appService.isApp !== null && !appService.showBack"
+          [routerLink]="['/MemberFunction/MemberCard']" [queryParams]="{showBack: true, itemCode: cardItemCode, layerParam: 0}">
+            <i class="material-icons">&#xe314;</i>
+          </button>
+        </div>
+        <div class="item title-name">Mobii! 榮民福利卡</div>
+        <div class="item icon-btn"></div>
+      </div>
+      <div class="addCertificate">
+        <form #formAddCertificate="ngForm" id="addcard">
+          <div class="item">
+            <ul>
+              <li class="bg-linear-gray">
+                <img src="../../../../../img/member/veterans.png" class="logo">
+              </li>
+              <li class="border-0">
+                <div class="veterans-info">
+                  <div>榮民證ID<span class="text-org">*</span></div>
+                  <div class="input-box">
+                    <input class="w-100 border-bottom-1" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="16"
+                    placeholder="請輸入" name="cardNumber" [(ngModel)]="inputModel.cardNumber" #cardNumber="ngModel"
+                    autofocus required>
+                  </div>
+                  <div class="py-5">
+                    <button type="submit" class="btn next-btn w-100"
+                    [ngClass]="{'unable': cardNumber.invalid}" [disabled]="cardNumber.invalid">立即綁定</button>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 

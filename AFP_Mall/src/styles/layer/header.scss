@@ -264,7 +264,8 @@
       width: 10px;
       height: 1em;
       border-radius: 0;
-      top: 1em;
+      margin: 0 4px 0 6px;
+      transform: translate(-10px, 10px);
     }
   }
   &.nav {
@@ -329,7 +330,6 @@
     top: -6px;
     right: 8px;
     z-index: 10;
-    transform: translate(-10px, 10px);
   }
   .dropdown ul.dropdown-menu:after {
     content: "";
