@@ -35,8 +35,6 @@ export class MemberFavoriteComponent implements OnInit {
   ngOnInit() {
     // 撈探索周邊
     this.onFavList(53);
-    // 從會員中心進來則隱藏返回鍵
-    //this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
   /** 讀取某類型收藏列表
