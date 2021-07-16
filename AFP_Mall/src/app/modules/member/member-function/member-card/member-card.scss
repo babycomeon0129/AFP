@@ -106,7 +106,8 @@
   margin: 0.25em 0.5em;
 }
 
-.card-fixed-bottom {
+.card-fixed-bottom.tied {
+  min-width: 170px;
   position: fixed;
   bottom: 3em;
   left: 50%;
@@ -119,5 +120,216 @@
     border-radius: 30px;
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
     white-space: nowrap;
+  }
+}
+
+
+/** 新增卡片 */
+.my-list-box {
+  ul {
+    background: $gray-light5;
+    height: calc(100vh - 74px);
+    li {
+      background: #fff;
+      &.bg-light{
+        background: #FFFEF2;
+        border-right: 3px solid #FF3B30;
+        .input-box input[type='text'] {
+          background-color: transparent;
+        }
+      }
+      &:first-child {
+        background: -webkit-linear-gradient(top, #fbfdfd, #eaeaea);
+        background: -o-linear-gradient(bottom, #fbfdfd, #eaeaea);
+        background: -moz-linear-gradient(bottom, #fbfdfd, #eaeaea);
+        background: linear-gradient(to bottom, #fbfdfd, #eaeaea);
+      }
+      &:last-child {
+        background: $gray-light5;
+        border-bottom: none;
+        padding-bottom: 74px;
+      }
+    }
+  }
+  p {
+    background-color: transparent;
+    transform: translateY(-6px);
+    color: $index-default;
+  }
+  .card-line-height {
+    line-height: 2.5em;
+  }
+  .card-info {
+    color: $mission-color;
+    width: 100%;
+    text-align: center;
+  }
+  .card-warning {
+    color: $mission-color;
+    font-size: small;
+  }
+}
+
+.small-warning {
+  transform: translate(-2.3em, 1.7em);
+  position: absolute;
+}
+
+.icheck-material-blue {
+  display: flex;
+  input[type='checkbox'] {
+    min-width: 21px;
+  }
+}
+
+/** 已綁定卡片 */
+.tied-card-list {
+  background: $gray-light5;
+  height: calc(100vh - 74px);
+  padding: 1em;
+  .tied-card-item {
+    margin-bottom: 1em;
+    padding: 1em;
+    background: #fff;
+    border-radius: .5em;
+    .d-flex {
+      align-items: center;
+      .item:first-child {
+        width: 64px;
+      }
+      .item:last-child {
+        width: 34px;
+      }
+      .tied-card-content {
+        width: calc(100% - 98px);
+        padding-left: .75em;
+        padding-right: .75em;
+        line-height: 2em;
+        .tied-card-tag {
+          line-height: 1.5em;
+          width: 100%!important;
+          display: inline-flex;
+        }
+        span {
+          font-size: small;
+          border-radius: 5px;
+          padding: .2em .5em;
+          margin-right: .5em;
+          &.general-card {
+            background: rgba(196, 196, 196, 0.2);
+            color: rgba(130, 130, 130, 1);
+            white-space: nowrap;
+          }
+          &.special-card {
+            background: rgba(255, 242, 235, 1);
+            color: rgba(253, 95, 0, 1);
+            span {
+              border-radius: 0;
+              padding: 0;
+              margin-right: 0;
+              &::after{
+                position: absolute;
+                content: ",";
+                display: contents;
+              }
+              &:last-child::after{
+                position: absolute;
+                content: "";
+                display: contents;
+              }
+            }
+          }
+        }
+        p {
+          white-space: nowrap;
+          color: #818181;
+        }
+      }
+    }
+  }
+
+  .img-box {
+    width: 48px;
+    height: 48px;
+    margin: .5em;
+    .img-logo {
+      border-radius: .15em;
+      width: 100%;
+      height: auto;
+      padding-bottom: 100%;
+      overflow: hidden;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+  }
+  .img-crud {
+    height: 32px;
+  }
+}
+
+.card-fixed-bottom.add {
+  position: fixed;
+  bottom: 2.4em;
+  left: 50%;
+  transform: translateX(-50%);
+  .card-add-btn {
+    min-width: 170px;
+    padding: .75em 1.5em;
+    color: #fff;
+    background: $mission-color;
+    border-radius: 30px;
+    white-space: nowrap;
+    &.unable {
+      color: #fff;
+      background: $gray-unable;
+    }
+    img {
+      padding-right: .5em;
+    }
+    span {
+      vertical-align: middle;
+      font-size: small;
+      font-weight: 700;
+    }
+  }
+}
+
+/** 榮民卡 */
+.addCertificate {
+  .bg-linear-gray {
+    width: 100%;
+    padding: 2em;
+    text-align: center;
+    justify-content: center;
+    background: -webkit-linear-gradient(top, #fbfdfd, #eaeaea);
+    background: -o-linear-gradient(bottom, #fbfdfd, #eaeaea);
+    background: -moz-linear-gradient(bottom, #fbfdfd, #eaeaea);
+    background: linear-gradient(to bottom, #fbfdfd, #eaeaea);
+  }
+  img.logo {
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+    width: 240px;
+    height: 240px;
+    @media (max-width: 767px) {
+      width: 120px;
+      height: 120px;
+    }
+  }
+  .veterans-info {
+    width: 100%;
+    padding: 1.5em;
+    line-height: 2.5em;
+    div {
+      width: 100%;
+    }
+    .input-box input[type='text'] {
+      text-align: left;
+      border-top: 0;
+      border-left: 0;
+      border-right: 0;
+      border-bottom: 1px solid #ccc;
+    }
   }
 }

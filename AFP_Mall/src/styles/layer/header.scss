@@ -260,11 +260,12 @@
     @media (min-width: 768px) {
       content: "";
       border-left: 1px solid $cardfooter-color;
-      position: relative;
+      position: absolute;
       width: 10px;
       height: 14px;
       border-radius: 0;
       margin: 0 4px 0 6px;
+      transform: translate(-10px, 10px);
     }
   }
   &.nav {
@@ -327,7 +328,6 @@
     top: -6px;
     right: 8px;
     z-index: 10;
-    transform: translate(-10px, 10px);
   }
   .dropdown ul.dropdown-menu:after {
     content: "";

@@ -69,7 +69,8 @@ export class MemberCardDetailComponent implements OnInit {
       };
       this.appService.toApi('Member', '1507', request).subscribe((data: Response_MemberMyCard) => {
         if (this.requestCard === null) {
-          this.router.navigate(['/MemberFunction/MemberCard'], { queryParams: { showBack: this.appService.showBack } });
+          this.router.navigate(['/MemberFunction/MemberCard'],
+            {queryParams: {showBack: true, itemCode: this.userFavouriteTypeCode, layerParam: 2}});
         }
         this.requestCard = data.AFP_UserFavourite;
         if (this.requestCard.CardGroup_List !== null) {
@@ -145,17 +146,13 @@ export class MemberCardDetailComponent implements OnInit {
           setTimeout(() => {
             this.modal.show('message', { initialState: { success: true, message: '卡片已刪除', showType: 1 } });
           }, 2000);
-          this.router.navigate(['/MemberFunction/MemberCardList'], { queryParams: { showBack: this.appService.showBack } });
+          this.router.navigate(['/MemberFunction/MemberCard'],
+            {queryParams: {showBack: true, itemCode: this.userFavouriteTypeCode, layerParam: 2}});
           this.requestCard = new AFP_UserFavourite();
         });
       }
       this.bsModalRef.hide();
     });
-  }
-
-  /** 關閉modal */
-  closeModal(): void {
-    this.bsModalRef.hide();
   }
 
 }
