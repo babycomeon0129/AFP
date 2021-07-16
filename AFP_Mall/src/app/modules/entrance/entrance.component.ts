@@ -289,7 +289,7 @@ export class EntranceComponent implements OnInit {
     this.getHomeservice();
     this.readDown();
     this.readhotProducts(1);
-    // 若有登入則顯示名字、M Points及優惠券資訊（手機版）、我的收藏（MOB-3038首頁改版，因我的旅遊暫時隱藏，故此處也暫隱藏）
+    // 若有登入則顯示我的收藏（MOB-3038首頁改版，因我的旅遊暫時隱藏，故此處也暫隱藏）
     // if (this.appService.loginState) {
     //   this.appService.showFavorites();
     // }
