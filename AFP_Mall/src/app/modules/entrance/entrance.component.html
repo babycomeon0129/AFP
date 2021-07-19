@@ -151,30 +151,27 @@
       <h6>熱門商品</h6>
       <!-- masonry products -->
       <div class="products-recently">
-        <div class="grid">
-          <div class="products-sizer"></div>
-          <ngx-masonry [options]="masonry">
-            <div ngxMasonryItem *ngFor="let product of hotProducts" class="products-item">
-              <a [routerLink]="['/Shopping/ProductDetail', product.Product_UserDefineCode, product.Product_Code]">
-                <div class="products-img">
-                  <div class="img-box">
-                    <div class="rwdimg-cover" [lazyLoad]="product?.Product_PrimeImage"
-                      [defaultImage]="appService.defaultImage"></div>
-                  </div>
+        <ngx-masonry [options]="masonry">
+          <div ngxMasonryItem *ngFor="let product of hotProducts" class="products-item">
+            <a [routerLink]="['/Shopping/ProductDetail', product.Product_UserDefineCode, product.Product_Code]">
+              <div class="products-img">
+                <div class="img-box">
+                  <div class="rwdimg-cover" [lazyLoad]="product?.Product_PrimeImage"
+                    [defaultImage]="appService.defaultImage"></div>
                 </div>
-                <div class="products-title">
-                  <p class="txt-line-clamp2">{{product.Product_ExtName}}</p>
-                </div>
-                <div class="products-price">
-                  <div class="price-asking">{{product.Product_SpecialPrice > 0? (product.Product_SpecialPrice |
-                    currency: 'TWD':'$':'1.0-2') : (product.Product_SellPrice | currency: 'TWD':'$':'1.0-0')}}</div>
-                  <div class="price-original" *ngIf="product.Product_SpecialPrice > 0">{{product.Product_SellPrice |
-                    currency: 'TWD':'$':'1.0-2' }}</div>
-                </div>
-              </a>
-            </div>
-          </ngx-masonry>
-        </div>
+              </div>
+              <div class="products-title">
+                <p class="txt-line-clamp2">{{product.Product_ExtName}}</p>
+              </div>
+              <div class="products-price">
+                <div class="price-asking">{{product.Product_SpecialPrice > 0? (product.Product_SpecialPrice |
+                  currency: 'TWD':'$':'1.0-2') : (product.Product_SellPrice | currency: 'TWD':'$':'1.0-0')}}</div>
+                <div class="price-original" *ngIf="product.Product_SpecialPrice > 0">{{product.Product_SellPrice |
+                  currency: 'TWD':'$':'1.0-2' }}</div>
+              </div>
+            </a>
+          </div>
+        </ngx-masonry>
       </div>
     </div>
     <!-- 特賣商品 -->

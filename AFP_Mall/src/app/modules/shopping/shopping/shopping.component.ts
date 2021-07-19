@@ -76,6 +76,7 @@ export class ShoppingComponent implements OnInit {
   /** 分頁瀑布流效果 */
   public masonry: NgxMasonryOptions = {
     itemSelector: '.products-item',
+    transitionDuration: '0s',
     gutter: 12
   };
 
