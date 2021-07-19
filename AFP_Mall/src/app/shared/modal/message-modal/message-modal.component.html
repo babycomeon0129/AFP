@@ -5,10 +5,10 @@
 </button>
 <div class="modal-body">
   <div>
-    <p id="msg-loginok" *ngIf="success" [innerHTML]="message | Safe: 'html'"></p>
-    <p *ngIf="success && voucherName !== null">{{voucherName}}</p>
-    <p id="msg-loginerror" *ngIf="!success">{{message}}</p>
-    <small id="reminder" *ngIf="note !== null">{{note}}</small>
+    <p id="msg-loginok" *ngIf="success" [innerHTML]="message | Safe: 'html'" class="px-3"></p>
+    <p *ngIf="success && voucherName !== null" class="px-3">{{voucherName}}</p>
+    <p id="msg-loginerror" *ngIf="!success" class="px-3">{{message}}</p>
+    <small id="reminder" *ngIf="note !== null" class="px-3">{{note}}</small>
     <div *ngIf="showType == 999 && adImgList.length > 0" class="pt-4">
       <a [href]="adImgList[0].ADImg_URL" [target]="adImgList[0].ADImg_URLTarget" rel="noopener noreferrer">
         <img [src]="adImgList[0].ADImg_Img" class="img-fluid">
