@@ -27,11 +27,11 @@
         <div class="nav-tabs-box">
           <!-- Nav tabs -->
           <ul class="nav-tab-list nav nav-tabs nav-line d-flex justify-content-around">
-            <li role="presentation" class="active">
-              <a (click)="vSelectMode = 1; readVoucher();" class="tablist-link active">可用優惠</a>
+            <li role="presentation">
+              <a (click)="vSelectMode = 1; readVoucher();" class="tablist-link" [ngClass]="{'active': vSelectMode === 1}">可用優惠</a>
             </li>
             <li role="presentation">
-              <a (click)="vSelectMode = 2;readVoucher();" class="tablist-link">歷史優惠</a>
+              <a (click)="vSelectMode = 2;readVoucher();" class="tablist-link" [ngClass]="{'active': vSelectMode === 2}">歷史優惠</a>
             </li>
           </ul>
           <div class="tab-line w-100"></div>
