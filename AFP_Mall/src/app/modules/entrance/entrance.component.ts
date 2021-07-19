@@ -288,7 +288,9 @@ export class EntranceComponent implements OnInit {
     this.readUp();
     this.getHomeservice();
     this.readDown();
-    this.readhotProducts(1);
+    setTimeout(() => {
+      this.readhotProducts(1);
+    }, 1000);
     // 若有登入則顯示我的收藏（MOB-3038首頁改版，因我的旅遊暫時隱藏，故此處也暫隱藏）
     // if (this.appService.loginState) {
     //   this.appService.showFavorites();
