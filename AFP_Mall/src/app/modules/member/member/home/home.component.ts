@@ -38,24 +38,24 @@ export class HomeComponent implements OnInit {
     this.readIndexData();
     this.memberService.readProfileData();
     //  第三方登入取得資料
-    this.authService.authState.subscribe((user) => {
-      if (user != null && this.thirdClick) {
-        this.thirdClick = !this.thirdClick;
-        this.appService.openBlock();
-        this.thirdUser = user;
-        // 社群帳號綁定
-        const request: Request_MemberThird = {
-          SelectMode: 1,
-          User_Code: sessionStorage.getItem('userCode'),
-          Mode: this.memberService.bindMode,
-          Token: this.thirdUser.id,
-          JsonData: JSON.stringify(this.thirdUser)
-        };
-        this.appService.toApi('Member', '1506', request).subscribe((data: Response_MemberThird) => {
-          this.memberService.readThirdData();
-        });
-      }
-    });
+    // this.authService.authState.subscribe((user) => {
+    //   this.thirdUser = user;
+    //   if (this.thirdUser !== null && this.thirdClick) {
+    //     this.thirdClick = !this.thirdClick;
+    //     this.appService.openBlock();
+    //     // 社群帳號綁定
+    //     const request: Request_MemberThird = {
+    //       SelectMode: 1,
+    //       User_Code: sessionStorage.getItem('userCode'),
+    //       Mode: this.memberService.bindMode,
+    //       Token: this.thirdUser.id,
+    //       JsonData: JSON.stringify(this.thirdUser)
+    //     };
+    //     this.appService.toApi('Member', '1506', request).subscribe((data: Response_MemberThird) => {
+    //       this.memberService.readThirdData();
+    //     });
+    //   }
+    // });
   }
 
   /** 讀取首頁資料 */

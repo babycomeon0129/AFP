@@ -1,257 +1,275 @@
 <div class="wrap container">
-    <!--我的收藏-->
-    <header>
-        <div class="header-secondary container">
-            <div class="index-flex justify-content-between">
-                <div class="item two">
-                    <div class="close-btn">
-                        <!--button onclick="history.back()" type="button" class="btn" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
-                            <i class="material-icons">&#xe314;</i>
-                        </!--button-->
-                        <app-back-btn></app-back-btn>
-                    </div>
-                </div>
-                <div class="item three text-center">
-                    <div class="title-name">我的收藏</div>
-                </div>
-                <div class="item two">
-                    <button class="btn item-edit" (click)="editMode = !editMode" [hidden]="!appService.loginState">{{editMode ? '完成' : '編輯'}}</button>
-                </div>
-            </div>
+  <!--我的收藏-->
+  <header>
+    <div class="header-secondary container">
+      <div class="index-flex justify-content-between">
+        <div class="item two">
+          <div class="close-btn">
+            <app-back-btn></app-back-btn>
+          </div>
         </div>
-    </header>
+        <div class="item three text-center">
+          <div class="title-name">我的收藏</div>
+        </div>
+        <div class="item two">
+          <button class="btn item-edit" (click)="editMode = !editMode" [hidden]="!appService.loginState">{{editMode ?
+            '完成' : '編輯'}}</button>
+        </div>
+      </div>
+    </div>
+  </header>
 
-    <div class="myticket">
-          <!-- tab content for record-->
-          <div class="afp-tab-box">
-              <div class="afp-tab">
-                  <div class="nav-tabs-box">
-                      <!-- Nav tabs -->
-                      <ul class="nav-tab-list nav nav-tabs nav-line d-flex justify-content-around">
-                          <li role="presentation">
-                              <a (click)="onFavList(53);" class="tablist-link"  [ngClass]="{'active': selectedType === 53}">探索周邊</a>
-                          </li>
-                          <li role="presentation">
-                              <a (click)="onFavList(51);" class="tablist-link" [ngClass]="{'active': selectedType === 51}">按讚好物</a>
-                          </li>
-                          <li role="presentation">
-                              <a (click)="onFavList(52);" class="tablist-link" [ngClass]="{'active': selectedType === 52}">收藏商店</a>
-                          </li>
-                          <li role="presentation">
-                              <a (click)="onFavList(54);" class="tablist-link" [ngClass]="{'active': selectedType === 54}">旅遊行程</a>
-                          </li>
-                      </ul>
-                      <div class="tab-line w-100"></div>
-                  </div>
-                  <!-- Tab panes -->
-                  <div class="tab-content">
-                    <!-- 探索周邊 -->
-                    <div role="tabpanel" class="tab-pane fade w-100" id="favoritetag01" [ngClass]="{'active show': selectedType === 53}">
-                      <!-- 選擇分類、篩選暫時隱藏 -->
-                        <div class="choice-filter-box py-1 d-none">
-                            <div class="flex-inline-between">
-                                <div class="item center-v">選擇分類</div>
-                                <div class="item pr-2">
-                                    <button class="btn px-0 filter-item" data-filter="type"><i class="material-icons">&#xE313;</i></button>
-                                </div>
-                            </div>
-                            <div class="filter-box">
-                                <button class="btn px-0 open-page"><i class="material-icons">&#xE152;</i></button>
-                            </div>
+  <div class="myticket">
+    <!-- tab content for record-->
+    <div class="afp-tab-box">
+      <div class="afp-tab">
+        <div class="nav-tabs-box">
+          <!-- Nav tabs -->
+          <ul class="nav-tab-list nav nav-tabs nav-line d-flex justify-content-around">
+            <li role="presentation">
+              <a (click)="onFavList(53);" class="tablist-link" [ngClass]="{'active': selectedType === 53}">探索周邊</a>
+            </li>
+            <li role="presentation">
+              <a (click)="onFavList(51);" class="tablist-link" [ngClass]="{'active': selectedType === 51}">按讚好物</a>
+            </li>
+            <li role="presentation">
+              <a (click)="onFavList(52);" class="tablist-link" [ngClass]="{'active': selectedType === 52}">收藏商店</a>
+            </li>
+            <li role="presentation">
+              <a (click)="onFavList(54);" class="tablist-link" [ngClass]="{'active': selectedType === 54}">旅遊行程</a>
+            </li>
+          </ul>
+          <div class="tab-line w-100"></div>
+        </div>
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <!-- 探索周邊 -->
+          <div role="tabpanel" class="tab-pane fade w-100" id="favoritetag01"
+            [ngClass]="{'active show': selectedType === 53}">
+            <!-- 選擇分類、篩選暫時隱藏 -->
+            <div class="choice-filter-box py-1 d-none">
+              <div class="flex-inline-between">
+                <div class="item center-v">選擇分類</div>
+                <div class="item pr-2">
+                  <button class="btn px-0 filter-item" data-filter="type"><i
+                      class="material-icons">&#xE313;</i></button>
+                </div>
+              </div>
+              <div class="filter-box">
+                <button class="btn px-0 open-page"><i class="material-icons">&#xE152;</i></button>
+              </div>
+            </div>
+            <div class="filter-outbox">
+              <div class="filter-main">
+                <div class="mask-container d-none w-100 h-100"></div>
+                <div class="favorite-explore p-0" *ngIf="listArea?.length > 0 else noFavBlock">
+                  <div *ngFor="let item of listArea" id="{{item.ECStore_Code}}" class="d-flex"
+                    [ngClass]="{'brightness': !item.ECStore_State}">
+                    <a (click)="goToDetail(item?.ECStore_State, '/Explore/ExploreDetail', item?.ECStore_Code)"
+                      class="d-flex align-items-start w-100">
+                      <div class="item-explore">
+                        <div class="img-box rwdimgbox-80">
+                          <div [lazyLoad]="item.ECStore_Image1" [defaultImage]="appService.defaultImage"
+                            class="rwdimg-cover"></div>
                         </div>
-                        <div class="filter-outbox">
-                            <div class="filter-main">
-                                <div class="mask-container d-none w-100 h-100"></div>
-                                <div class="favorite-explore p-0" *ngIf="listArea?.length > 0 else noFavBlock">
-                                  <div *ngFor="let item of listArea" id="{{item.ECStore_Code}}" class="d-flex" [ngClass]="{'brightness': !item.ECStore_State}">
-                                    <a (click)="goToDetail(item?.ECStore_State, '/Explore/ExploreDetail', item?.ECStore_Code)" class="d-flex align-items-start w-100">
-                                        <div class="item-explore">
-                                          <div class="img-box rwdimgbox-80">
-                                            <div [lazyLoad]="item.ECStore_Image1" [defaultImage]="appService.defaultImage" class="rwdimg-cover"></div>
-                                          </div>
-                                        </div>
-                                        <div class="item-explore w-100">
-                                            <div class="info-box">
-                                                <ul class="info-list">
-                                                    <li class="info-name">{{item.ECStore_ShowName}}</li>
-                                                    <li class="d-flex align-content-start flex-wrap">
-                                                        <div class="item-ticket">
-                                                          <img src="../../img/share/{{item.ECStore_Type}}.png" alt="icon">
-                                                          {{item.ECStore_TypeName}}
-                                                        </div>
-                                                        <div class="item-ticket" *ngFor="let attr of item.AttrbuteData">
-                                                            {{attr.AttributeValue_Name}}
-                                                        </div>
-                                                    </li>
-                                                    <!-- <li class="flex-inline-between">
+                      </div>
+                      <div class="item-explore w-100">
+                        <div class="info-box">
+                          <ul class="info-list">
+                            <li class="info-name">{{item.ECStore_ShowName}}</li>
+                            <li class="d-flex align-content-start flex-wrap">
+                              <div class="item-ticket">
+                                <img src="../../img/share/{{item.ECStore_Type}}.png" alt="icon">
+                                {{item.ECStore_TypeName}}
+                              </div>
+                              <div class="item-ticket" *ngFor="let attr of item.AttrbuteData">
+                                {{attr.AttributeValue_Name}}
+                              </div>
+                            </li>
+                            <!-- <li class="flex-inline-between">
                                                         <div class="item">近高雄巨蛋捷運站</div>
                                                         <div class="item">&nbsp;</div>
                                                     </li> -->
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <div (click)="onDelFav(listArea, 53, item.ECStore_Code)" *ngIf="editMode" class="item-del ml-auto">
-                                        刪除
-                                    </div>
-                                  </div>
-                                </div>
-                            </div>
-                            <!-- 周邊分類 -->
-                            <div id="type" class="filter-content pb-wrap">
-                                <ul class="open-page-ul">
-                                    <li class="flex-inline-between">
-                                            <div class="">
-                                                全部顯示
-                                            </div>
-                                            <div class="">
-                                                <button class="btn active"><i class="material-icons done">&#xe876;</i></button>
-                                            </div>
-                                    </li>
-                                    <li class="flex-inline-between">
-                                        <div class="">
-                                            熱門
-                                        </div>
-                                        <div class="">
-                                            13274
-                                        </div>
-                                    </li>
-                                    <li class="flex-inline-between">
-                                        <div class="">
-                                            美食
-                                        </div>
-                                        <div class="">
-                                            1231
-                                        </div>
-                                    </li>
-                                    <li class="flex-inline-between">
-                                        <div class="">
-                                            購物
-                                        </div>
-                                        <div class="">
-                                            274
-                                        </div>
-                                    </li>
-                                    <li class="flex-inline-between">
-                                        <div class="">
-                                            景點
-                                        </div>
-                                        <div class="">
-                                            1374
-                                        </div>
-                                    </li>
-                                    <li class="flex-inline-between">
-                                        <div class="">
-                                            遊樂
-                                        </div>
-                                        <div class="">
-                                            1327
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
+                          </ul>
                         </div>
-
-                    </div>
-                    <!-- 按讚好物 -->
-                    <div role="tabpanel" class="tab-pane fade w-100" id="favoritetag03" [ngClass]="{'active show': selectedType === 51}">
-                        <div class="favorite-explore p-0" *ngIf="listProduct?.length > 0 else noFavBlock">
-                          <div *ngFor="let item of listProduct" id="{{item.Product_Code}}" class="d-flex" [ngClass]="{'brightness': !item.Product_State}">
-                              <a (click)="goToDetail(item?.Product_State, '/Shopping/ProductDetail', item?.Product_UserDefineCode, item?.Product_Code)" class="d-flex w-100">
-                                <a class="item-explore">
-                                  <div class="img-box rwdimgbox-80">
-                                    <div [lazyLoad]="item.Product_PrimeImage" [defaultImage]="appService.defaultImage" class="rwdimg-cover"></div>
-                                  </div>
-                                </a>
-                                <a class="item-explore w-100">
-                                    <div class="info-box">
-                                        <ul class="info-list">
-                                            <li class="info-name">{{item.Product_ExtName}}</li>
-                                            <li class="text-right pt-2">
-                                                <span class="price-asking">{{item?.Product_SpecialPrice > 0? (item?.Product_SpecialPrice | currency: 'TWD':'$':'1.0-2') : (item?.Product_SellPrice | currency: 'TWD':'$':'1.0-0')}}</span>
-                                                <span class="price-original ml-1" *ngIf="item?.Product_SpecialPrice > 0">{{item?.Product_SellPrice | currency: 'TWD':'$':'1.0-2' }}</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </a>
-                              </a>
-                              <div (click)="onDelFav(listProduct, 51, item.Product_Code)" *ngIf="editMode" class="item-del">
-                                刪除
-                              </div>
-                          </div>
-                        </div>
-                    </div>
-                      <!-- 線上商店 -->
-                    <div role="tabpanel" class="tab-pane fade w-100" id="favoritetag04" [ngClass]="{'active show': selectedType === 52}">
-                        <div class="favorite-explore p-0" *ngIf="listEcstore?.length > 0 else noFavBlock">
-                            <div *ngFor="let item of listEcstore" id="{{item.ECStore_Code}}" class="d-flex" [ngClass]="{'brightness': !item.ECStore_State}">
-                              <a (click)="goToDetail(item?.ECStore_State, '/Explore/ExploreDetail', item.ECStore_Code)" class="d-flex w-100">
-                                <a class="item-explore">
-                                  <div class="img-box rwdimgbox-80">
-                                    <div [lazyLoad]="item.ECStore_Logo" [defaultImage]="appService.defaultImage" class="rwdimg-cover"></div>
-                                  </div>
-                                </a>
-                                <a class="item-explore w-100">
-                                    <div class="info-box">
-                                        <ul class="info-list">
-                                            <li class="info-name">{{item.ECStore_ShowName}}</li>
-                                            <li class="info-province"></li>
-                                        </ul>
-                                    </div>
-                                </a>
-                              </a>
-                              <div (click)="onDelFav(listEcstore, 52, item.ECStore_Code)" *ngIf="editMode" class="item-del">
-                                刪除
-                              </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 旅遊行程 -->
-                    <div role="tabpanel" class="tab-pane fade w-100" id="favoritetag02" [ngClass]="{'active show': selectedType === 54}">
-                        <div class="favorite-explore p-0" *ngIf="listTravel?.length > 0 else noFavBlock">
-                          <div *ngFor="let item of listTravel" id="{{item.Travel_Code}}" class="d-flex" [ngClass]="{'brightness': !item.Travel_State}">
-                              <a (click)="goToTour(item.Travel_State, item)" class="d-flex align-items-start w-100">
-                                  <div class="item-explore">
-                                    <div class="img-box rwdimgbox-80">
-                                      <div [lazyLoad]="item.Travel_Img" [defaultImage] ="appService.defaultImage" class="rwdimg-cover"></div>
-                                    </div>
-                                  </div>
-                                  <div class="item-explore w-100">
-                                      <div class="info-box">
-                                          <ul class="info-list">
-                                              <li class="info-name">{{item.Travel_Title}}</li>
-                                              <li class="d-flex align-content-start flex-wrap">
-                                                  <div *ngFor="let attr of item.AttrbuteData " class="item-ticket">
-                                                      {{attr.AttributeValue_Name}}
-                                                  </div>
-                                              </li>
-                                              <li class="flex-inline-between">
-                                                  <div class="item">
-                                                      <i class="material-icons text-member">&#xE0C8;</i>
-                                                      <span>{{item.Travel_LocalTitle}}</span>
-                                                  </div>
-                                                  <div class="item"><span class="price-asking">{{item.Travel_SubTitle}}</span></div>
-                                              </li>
-                                          </ul>
-                                      </div>
-                                  </div>
-                              </a>
-                              <div (click)="onDelFav(listTravel, 54, item.Travel_Code)" *ngIf="editMode" class="item-del ml-auto">
-                                    刪除
-                              </div>
-                          </div>
-                        </div>
+                      </div>
+                    </a>
+                    <div (click)="onDelFav(listArea, 53, item.ECStore_Code)" *ngIf="editMode" class="item-del ml-auto">
+                      刪除
                     </div>
                   </div>
-                  <ng-template #noFavBlock>
-                    <div class="no-data">
-                      <img src="img/member/no-favorite.png" alt="no-favorite">
-                      <p>Oops!<br>你目前還沒有任何收藏紀錄喔！</p>
-                    </div>
-                  </ng-template>
+                </div>
               </div>
+              <!-- 周邊分類 -->
+              <div id="type" class="filter-content pb-wrap">
+                <ul class="open-page-ul">
+                  <li class="flex-inline-between">
+                    <div class="">
+                      全部顯示
+                    </div>
+                    <div class="">
+                      <button class="btn active"><i class="material-icons done">&#xe876;</i></button>
+                    </div>
+                  </li>
+                  <li class="flex-inline-between">
+                    <div class="">
+                      熱門
+                    </div>
+                    <div class="">
+                      13274
+                    </div>
+                  </li>
+                  <li class="flex-inline-between">
+                    <div class="">
+                      美食
+                    </div>
+                    <div class="">
+                      1231
+                    </div>
+                  </li>
+                  <li class="flex-inline-between">
+                    <div class="">
+                      購物
+                    </div>
+                    <div class="">
+                      274
+                    </div>
+                  </li>
+                  <li class="flex-inline-between">
+                    <div class="">
+                      景點
+                    </div>
+                    <div class="">
+                      1374
+                    </div>
+                  </li>
+                  <li class="flex-inline-between">
+                    <div class="">
+                      遊樂
+                    </div>
+                    <div class="">
+                      1327
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
           </div>
+          <!-- 按讚好物 -->
+          <div role="tabpanel" class="tab-pane fade w-100" id="favoritetag03"
+            [ngClass]="{'active show': selectedType === 51}">
+            <div class="favorite-explore p-0" *ngIf="listProduct?.length > 0 else noFavBlock">
+              <div *ngFor="let item of listProduct" id="{{item.Product_Code}}" class="d-flex"
+                [ngClass]="{'brightness': !item.Product_State}">
+                <a (click)="goToDetail(item?.Product_State, '/Shopping/ProductDetail', item?.Product_UserDefineCode, item?.Product_Code)"
+                  class="d-flex w-100">
+                  <a class="item-explore">
+                    <div class="img-box rwdimgbox-80">
+                      <div [lazyLoad]="item.Product_PrimeImage" [defaultImage]="appService.defaultImage"
+                        class="rwdimg-cover"></div>
+                    </div>
+                  </a>
+                  <a class="item-explore w-100">
+                    <div class="info-box">
+                      <ul class="info-list">
+                        <li class="info-name">{{item.Product_ExtName}}</li>
+                        <li class="text-right pt-2">
+                          <span class="price-asking">{{item?.Product_SpecialPrice > 0? (item?.Product_SpecialPrice |
+                            currency: 'TWD':'$':'1.0-2') : (item?.Product_SellPrice | currency:
+                            'TWD':'$':'1.0-0')}}</span>
+                          <span class="price-original ml-1"
+                            *ngIf="item?.Product_SpecialPrice > 0">{{item?.Product_SellPrice | currency:
+                            'TWD':'$':'1.0-2' }}</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </a>
+                </a>
+                <div (click)="onDelFav(listProduct, 51, item.Product_Code)" *ngIf="editMode" class="item-del">
+                  刪除
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 線上商店 -->
+          <div role="tabpanel" class="tab-pane fade w-100" id="favoritetag04"
+            [ngClass]="{'active show': selectedType === 52}">
+            <div class="favorite-explore p-0" *ngIf="listEcstore?.length > 0 else noFavBlock">
+              <div *ngFor="let item of listEcstore" id="{{item.ECStore_Code}}" class="d-flex"
+                [ngClass]="{'brightness': !item.ECStore_State}">
+                <a (click)="goToDetail(item?.ECStore_State, '/Explore/ExploreDetail', item.ECStore_Code)"
+                  class="d-flex w-100">
+                  <a class="item-explore">
+                    <div class="img-box rwdimgbox-80">
+                      <div [lazyLoad]="item.ECStore_Logo !== null ? item.ECStore_Logo : item.ECStore_Image1"
+                        [defaultImage]="appService.defaultImage" class="rwdimg-cover"></div>
+                    </div>
+                  </a>
+                  <a class="item-explore w-100">
+                    <div class="info-box">
+                      <ul class="info-list">
+                        <li class="info-name">{{item.ECStore_ShowName}}</li>
+                        <li class="info-province"></li>
+                      </ul>
+                    </div>
+                  </a>
+                </a>
+                <div (click)="onDelFav(listEcstore, 52, item.ECStore_Code)" *ngIf="editMode" class="item-del">
+                  刪除
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 旅遊行程 -->
+          <div role="tabpanel" class="tab-pane fade w-100" id="favoritetag02"
+            [ngClass]="{'active show': selectedType === 54}">
+            <div class="favorite-explore p-0" *ngIf="listTravel?.length > 0 else noFavBlock">
+              <div *ngFor="let item of listTravel" id="{{item.Travel_Code}}" class="d-flex"
+                [ngClass]="{'brightness': !item.Travel_State}">
+                <a (click)="goToTour(item.Travel_State, item)" class="d-flex align-items-start w-100">
+                  <div class="item-explore">
+                    <div class="img-box rwdimgbox-80">
+                      <div [lazyLoad]="item.Travel_Img" [defaultImage]="appService.defaultImage" class="rwdimg-cover">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="item-explore w-100">
+                    <div class="info-box">
+                      <ul class="info-list">
+                        <li class="info-name">{{item.Travel_Title}}</li>
+                        <li class="d-flex align-content-start flex-wrap">
+                          <div *ngFor="let attr of item.AttrbuteData " class="item-ticket">
+                            {{attr.AttributeValue_Name}}
+                          </div>
+                        </li>
+                        <li class="flex-inline-between">
+                          <div class="item">
+                            <i class="material-icons text-member">&#xE0C8;</i>
+                            <span>{{item.Travel_LocalTitle}}</span>
+                          </div>
+                          <div class="item"><span class="price-asking">{{item.Travel_SubTitle}}</span></div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </a>
+                <div (click)="onDelFav(listTravel, 54, item.Travel_Code)" *ngIf="editMode" class="item-del ml-auto">
+                  刪除
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #noFavBlock>
+          <div class="no-data">
+            <img src="img/member/no-favorite.png" alt="no-favorite">
+            <p>Oops!<br>你目前還沒有任何收藏紀錄喔！</p>
+          </div>
+        </ng-template>
+      </div>
     </div>
+  </div>
 </div>
 
 <!-- <app-pc-footer></app-pc-footer> -->

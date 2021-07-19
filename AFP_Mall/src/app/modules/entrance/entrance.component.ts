@@ -289,7 +289,7 @@ export class EntranceComponent implements OnInit {
     this.getHomeservice();
     this.readDown();
     this.readhotProducts(1);
-    // 若有登入則顯示名字、M Points及優惠券資訊（手機版）、我的收藏（MOB-3038首頁改版，因我的旅遊暫時隱藏，故此處也暫隱藏）
+    // 若有登入則顯示我的收藏（MOB-3038首頁改版，因我的旅遊暫時隱藏，故此處也暫隱藏）
     // if (this.appService.loginState) {
     //   this.appService.showFavorites();
     // }
@@ -321,17 +321,19 @@ export class EntranceComponent implements OnInit {
   /** 讀取首頁下方資料（中間大廣告以下各區塊） */
   readDown() {
     const request: Request_Home = {
-      User_Code: sessionStorage.getItem('userCode'),
-      SearchModel: {
-        IndexArea_Code: 100001,
-        IndexTravel_Code: 21001,
-        IndexChannel_Code: 10000001,
-        IndexDelivery_Code: 300001
-      }
+      User_Code: sessionStorage.getItem('userCode')
+      // // hitArea、hitTravel、popProducts、deliveryArea 因MOB-3038首頁改版，暫先隱藏，故不加上SearchModel請求資料
+      // ,
+      // SearchModel: {
+      //   IndexArea_Code: 100001,
+      //   IndexTravel_Code: 21001,
+      //   IndexChannel_Code: 10000001,
+      //   IndexDelivery_Code: 300001
+      // }
     };
     // 不使用loading spinner 讓進入首頁可先快速瀏覽上方
     this.appService.toApi('Home', '1022', request).subscribe((data: Response_Home) => {
-      // hitArea、hitTravel、popProducts、deliveryArea 因MOB-3038首頁改版，暫先隱藏，故後端不回傳資料
+      // hitArea、hitTravel、popProducts、deliveryArea 因MOB-3038首頁改版，暫先隱藏，故不加上SearchModel請求資料
       this.hitArea = data.List_AreaData;
       this.hitTravel = data.List_TravelData;
       this.popProducts = data.List_ProductData;

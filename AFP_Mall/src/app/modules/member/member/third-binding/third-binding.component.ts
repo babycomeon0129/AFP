@@ -37,9 +37,9 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
 
     this.readThirdData();
     this.authService.authState.subscribe((user: SocialUser) => {
+      this.thirdUser = user;
       // 為了FB登入特例處理，多判斷 this.bindMode > 0 才呼叫API
-      if (user !== null && this.bindMode > 0) {
-        this.thirdUser = user;
+      if (this.thirdUser !== null && this.bindMode > 0) {
         this.thirdRequest = {
           SelectMode: 1,
           User_Code: sessionStorage.getItem('userCode'),
