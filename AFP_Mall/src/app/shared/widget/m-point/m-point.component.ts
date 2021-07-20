@@ -33,8 +33,6 @@ export class MPointComponent implements OnInit {
       this.appService.toApi('Member', '1509', getInfo).subscribe((info: Response_MemberPoint) => {
         this.info = info;
       });
-    } else {
-      this.appService.loginPage();
     }
   }
 

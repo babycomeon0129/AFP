@@ -106,10 +106,11 @@
               <li>
                 <div class="item">E-mail<span *ngIf="editMode" class="text-org">*</span></div>
                 <div class="item input-box">
-                  <input type="email" name="UserEmail" [placeholder]="editMode? '請輸入' : ''" class="txt-line-clamp1"
+                  <ng-container *ngIf="!editMode">{{ memberService.userProfile.UserProfile_HiddenEmail}}</ng-container>
+                  <input type="email" name="UserEmail" [placeholder]="editMode? '請輸入' : ''" class="txt-line-clamp1" [ngClass]="{'d-none': !editMode}"
                     #UserEmail="ngModel" [(ngModel)]="memberService.userProfile.UserProfile_Email"
                     [ngClass]="{'warning-red': editMode && formProfile.submitted && UserEmail.errors?.required}"
-                    [readOnly]="!editMode" pattern="[A-Za-z0-9\*._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$" required>
+                    pattern="[A-Za-z0-9\*._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$" required>
                 </div>
                 <small class="ml-3 text-danger" *ngIf="editMode && UserEmail.dirty && UserEmail.errors?.pattern">E-mail格式有誤</small>
               </li>
