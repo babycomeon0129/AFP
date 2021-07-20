@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { AppService } from '@app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { AFP_UserPoint, Response_MemberPoint, Request_MemberPoint } from '@app/modules/member/_module-member';
@@ -11,12 +11,14 @@ import { AFP_UserPoint, Response_MemberPoint, Request_MemberPoint } from '@app/m
 })
 export class MPointComponent implements OnInit {
 
+  /** 會員點數 Response */
   public info: Response_MemberPoint = new Response_MemberPoint();
+  /** 會員點數 */
   public pointHistory: AFP_UserPoint[] = [];
+  /** 點數類型 */
   public pointType = 0;
 
-  constructor(public appService: AppService, private route: ActivatedRoute,
-              public router: Router, public modal: ModalService) { }
+  constructor(public appService: AppService, public router: Router, public modal: ModalService) { }
 
   ngOnInit(): void {
     if (this.appService.loginState) {

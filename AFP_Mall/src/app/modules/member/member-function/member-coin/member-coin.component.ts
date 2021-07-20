@@ -15,8 +15,11 @@ import { layerAnimation } from '@app/animations';
   animations: [layerAnimation]
 })
 export class MemberCoinComponent implements OnInit {
+  /** 會員點數 Response */
   public info: Response_MemberPoint = new Response_MemberPoint();
+  /** 會員點數 */
   public pointHistory: AFP_UserPoint[] = [];
+  /** 點數類型 */
   public pointType = 0;
   /** 同頁滑動切換-點數紀錄顯示與否 0:本頁 1:點數紀錄 */
   public coinHistoryOpen = 0;
