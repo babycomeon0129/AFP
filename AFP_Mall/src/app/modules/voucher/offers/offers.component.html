@@ -25,7 +25,7 @@
         <div class="input-box border border-radius5">
           <button class="btn"><i class="material-icons">&#xE8B6;</i></button>
           <input type="text" inputmode="search" placeholder="輸入關鍵字搜尋店家,優惠券" class="border-0 w-80" [(ngModel)]="searchText"
-            (click)="cancelIsOpen = true" (keyup)="searchTextTab(searchText)">
+            (click)="cancelIsOpen = true" (keydown)="searchTextTab(searchText)">
         </div>
       </div>
       <div class="s-btn div-switch" [ngClass]="{'d-none': !cancelIsOpen}">
