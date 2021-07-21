@@ -11,7 +11,6 @@ import {
 import { NgForm } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation } from '@app/animations';
-declare var AppJSInterface: any;
 
 @Component({
   selector: 'app-shopping-order',
@@ -472,7 +471,11 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
       this.tempOrder.Order_RecCountry = 886;
       this.tempOrder.Order_RecCity = address.UserFavourite_Number1;
       this.tempOrder.Order_RecCityArea = address.UserFavourite_Number2;
+      this.tempOrder.Order_RecName = address.UserFavourite_Text1;
+      this.tempOrder.Order_RecTel = address.UserFavourite_Text2;
       this.tempOrder.Order_RecAddress = address.UserFavourite_Text3;
+      this.info.name = address.UserFavourite_Text1;
+      this.info.phone = address.UserFavourite_Text2;
     } else {
       this.modal.show('message', { initialState: { success: false, message: '尚未有物流可以配送選擇地址,請選擇其他地址!', showType: 1 } });
       return false;
@@ -495,6 +498,7 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
     this.choiceNum = num;
   }
 
+  /** 確認外送方式 */
   confirmDeliveryWay() {
     if (this.holdStore.order.Order_ShippingAmount !== this.tempOrder.Order_ShippingAmount && this.userVouchers.length > 0) {
       this.info.totalDiscount = 0;
@@ -746,6 +750,7 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
             List_Order: orders
           };
           this.appService.toApi('EC', '1601', createOrder).subscribe((coResult: Response_CreateOrder) => {
+            // 先判斷是否沒有下架商品
             if (coResult.List_DiscontinuedProducts === null) {
               this.router.navigate(['/Order/ShoppingPayment'], {
                 state: { data: coResult }
@@ -753,18 +758,12 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
             } else {
               this.checkOut = false;
               if (this.appService.isApp === null) {
-                this.modal.show('message', { initialState: { success: false, message: `${coResult.List_DiscontinuedProducts}已下架，無法購買`, showType: 1, singleBtnMsg: `我知道了`, target: '/Shopping/ShoppingCart' } });
+                this.modal.show('message', { initialState: { success: false, message: `${coResult.List_DiscontinuedProducts}已下架，無法購買`, queryParams1:  { referrer: 'illegal' } , showType: 1, singleBtnMsg: `我知道了`, target: '/Shopping/ShoppingCart' } });
               } else {
                 // 如果是APP，則按我知道了時APP把此頁關掉
                 this.modal.confirm({ initialState: { message: `${coResult.List_DiscontinuedProducts}已下架，無法購買`, checkBtnTxt: '我知道了', showCancel: false } }).subscribe(res => {
                   if (res) {
-                    if (navigator.userAgent.match(/android/i)) {
-                      //  Android
-                      AppJSInterface.back();
-                    } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-                      //  IOS
-                      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'back' });
-                    }
+                    this.appService.appWebViewClose();
                   }
                 });
               }

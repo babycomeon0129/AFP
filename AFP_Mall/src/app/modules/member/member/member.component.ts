@@ -58,6 +58,8 @@ export class Response_MemberProfile extends Model_ShareData {
   UserProfile_Birthday: Date;
   /** E-Mail */
   UserProfile_Email: string;
+  /** 隱碼E-Mail */
+  UserProfile_HiddenEmail: string;
   /** 手機號碼 */
   UserProfile_Mobile: string;
   /** 是否有護照 */

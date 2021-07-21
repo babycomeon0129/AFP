@@ -131,80 +131,109 @@
         [arrows]="false" [contImg]="false" [contBackground]="'rwdimg-cover h37'"></app-swiper-content>
     </div>
 
-    <!--【app-swiper-nav參數設定】
-          swiperOptionNav: swiper設定
-          slidesNav: 資料源
-          readSheetMode: 1 特賣商品 2 現領優惠券 3 主打店家 4 外送店家 5 旅遊主打
-          readSheetNav: 輸出參數
-        【app-swiper-panes參數設定】
-          swiperOptionPanes: swiper設定
-          slidesPanes: 資料源
-          readSheetMode: 1 特賣商品 2 現領優惠券 3 主打店家 4 外送店家 5 旅遊主打 -->
-    <!-- 線上點餐推薦 -->
-    <div *ngIf="deliveryArea?.length > 0" class="explore-block container px-3 pb-3">
-      <h6>線上點餐推薦</h6>
-      <div class="afp-tab-box">
-        <div class="afp-tab">
-          <nav>
-            <app-swiper-nav [swiperOptionNav]="boxTabs" [slidesNav]="deliveryArea" [readSheetMode]="4"
-              (readSheetNav)="readSheetPanes($event)"></app-swiper-nav>
-          </nav>
-          <app-swiper-panes [swiperOptionPanes]="boxTFeature" [slidesPanes]="deliveryArea" [readSheetMode]="4">
-          </app-swiper-panes>
-        </div>
-      </div>
-    </div>
-    <!-- 主打店家 -->
-    <div *ngIf="hitArea?.length > 0" class="explore-block container px-3 pb-3">
-      <h6>主打店家</h6>
-      <div class="afp-tab-box">
-        <div class="afp-tab">
-          <nav>
-            <app-swiper-nav [swiperOptionNav]="boxTabs" [slidesNav]="hitArea" [readSheetMode]="3"
-              (readSheetNav)="readSheetPanes($event)"></app-swiper-nav>
-          </nav>
-          <app-swiper-panes [swiperOptionPanes]="boxTFeature" [slidesPanes]="hitArea" [readSheetMode]="3">
-          </app-swiper-panes>
-        </div>
-      </div>
-    </div>
-    <!-- 現領優惠券 -->
+    <!-- 熱門優惠券 -->
     <div *ngIf="nowVoucher?.length > 0" class="offers-list container my-2 px-3">
-      <h6>現領優惠券</h6>
+      <h6>熱門優惠券</h6>
       <div class="afp-tab-box">
         <div class="afp-tab mb-3">
           <nav>
             <app-swiper-nav [swiperOptionNav]="boxTabs" [slidesNav]="nowVoucher" [readSheetMode]="2"
-              (readSheetNav)="readSheetPanes($event)"></app-swiper-nav>
+              (readSheetNav)="readSheet($event.Mode, $event.Idx, $event.Code, $event.Id)"></app-swiper-nav>
           </nav>
           <app-swiper-panes [swiperOptionPanes]="boxOffer" [slidesPanes]="nowVoucher" [readSheetMode]="2">
           </app-swiper-panes>
         </div>
       </div>
     </div>
+
+    <!-- 熱門商品瀑布流 -->
+    <div *ngIf="hotProducts?.length > 0" class="onsale-list container my-2 px-3">
+      <h6>熱門商品</h6>
+      <!-- masonry products -->
+      <div class="products-recently">
+        <ngx-masonry [options]="masonry">
+          <div ngxMasonryItem *ngFor="let product of hotProducts" class="products-item">
+            <a [routerLink]="['/Shopping/ProductDetail', product.Product_UserDefineCode, product.Product_Code]">
+              <div class="products-img">
+                <div class="img-box">
+                  <div class="rwdimg-cover" [lazyLoad]="product?.Product_PrimeImage"
+                    [defaultImage]="appService.defaultImage"></div>
+                </div>
+              </div>
+              <div class="products-title">
+                <p class="txt-line-clamp2">{{product.Product_ExtName}}</p>
+              </div>
+              <div class="products-price">
+                <div class="price-asking">{{product.Product_SpecialPrice > 0? (product.Product_SpecialPrice |
+                  currency: 'TWD':'$':'1.0-2') : (product.Product_SellPrice | currency: 'TWD':'$':'1.0-0')}}</div>
+                <div class="price-original" *ngIf="product.Product_SpecialPrice > 0">{{product.Product_SellPrice |
+                  currency: 'TWD':'$':'1.0-2' }}</div>
+              </div>
+            </a>
+          </div>
+        </ngx-masonry>
+      </div>
+    </div>
     <!-- 特賣商品 -->
-    <div *ngIf="popProducts?.length > 0" class="onsale-list container my-2 px-3">
+    <!-- <div *ngIf="popProducts?.length > 0" class="onsale-list container my-2 px-3">
       <h6>特賣商品</h6>
       <div class="afp-tab-box">
         <div class="afp-tab">
           <nav>
             <app-swiper-nav [swiperOptionNav]="prodTabs" [slidesNav]="popProducts" [readSheetMode]="1"
-              (readSheetNav)="readSheetPanes($event)"></app-swiper-nav>
+              (readSheetNav)="readSheet($event.Mode, $event.Idx, $event.Code, $event.Id)"></app-swiper-nav>
           </nav>
           <app-swiper-panes [swiperOptionPanes]="boxOffer" [slidesPanes]="popProducts" [readSheetMode]="1">
           </app-swiper-panes>
         </div>
       </div>
-    </div>
+    </div> -->
+
+    <!--【app-swiper-nav參數設定】
+          swiperOptionNav: swiper設定
+          slidesNav: 資料源
+          readSheetMode: 1 特賣商品 2 熱門優惠券 3 主打店家 4 外送店家 5 旅遊主打
+          readSheetNav: 輸出參數
+        【app-swiper-panes參數設定】
+          swiperOptionPanes: swiper設定
+          slidesPanes: 資料源
+          readSheetMode: 1 特賣商品 2 熱門優惠券 3 主打店家 4 外送店家 5 旅遊主打 -->
+    <!-- 線上點餐推薦 -->
+    <!-- <div *ngIf="deliveryArea?.length > 0" class="explore-block container px-3 pb-3">
+      <h6>線上點餐推薦</h6>
+      <div class="afp-tab-box">
+        <div class="afp-tab">
+          <nav>
+            <app-swiper-nav [swiperOptionNav]="boxTabs" [slidesNav]="deliveryArea" [readSheetMode]="4"
+              (readSheetNav)="readSheet($event.Mode, $event.Idx, $event.Code, $event.Id)"></app-swiper-nav>
+          </nav>
+          <app-swiper-panes [swiperOptionPanes]="boxTFeature" [slidesPanes]="deliveryArea" [readSheetMode]="4">
+          </app-swiper-panes>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- 主打店家 -->
+    <!-- <div *ngIf="hitArea?.length > 0" class="explore-block container px-3 pb-3">
+      <h6>主打店家</h6>
+      <div class="afp-tab-box">
+        <div class="afp-tab">
+          <nav>
+            <app-swiper-nav [swiperOptionNav]="boxTabs" [slidesNav]="hitArea" [readSheetMode]="3"
+              (readSheetNav)="readSheet($event.Mode, $event.Idx, $event.Code, $event.Id)"></app-swiper-nav>
+          </nav>
+          <app-swiper-panes [swiperOptionPanes]="boxTFeature" [slidesPanes]="hitArea" [readSheetMode]="3">
+          </app-swiper-panes>
+        </div>
+      </div>
+    </div> -->
 
     <!-- 本月旅遊主打 -->
-    <div *ngIf="hitTravel?.length > 0" class="travel-featuredlist container px-3 pb-3">
+    <!-- <div *ngIf="hitTravel?.length > 0" class="travel-featuredlist container px-3 pb-3">
       <h6>本月旅遊主打</h6>
-      <!-- tab content -->
       <div class="afp-tab-box">
         <div class="afp-tab">
           <swiper class="nav-tabs-box tablist-swiper swiper-container" [config]="boxTabs">
-            <!-- Nav tabs -->
             <ul id="nav-tab-featured" class="swiper-wrapper nav nav-tabs mb-2" role="tablist">
               <li *ngFor="let item of hitTravel; let i = index; let blFirst=first;"
                 (click)="readSheet(5, i, item?.UserDefine_Code, item?.UserDefine_ChannelID)"
@@ -215,7 +244,6 @@
               </li>
             </ul>
           </swiper>
-          <!-- Tab panes -->
           <div id="tabContentWrap" class="tab-content w-100 mt-2">
             <div *ngFor="let item of hitTravel;let blFirst=first;" id="Code{{item.UserDefine_Code}}" role="tabpanel"
               class="tab-pane hitTravel" [ngClass]="{'show': blFirst, 'active': blFirst}">
@@ -258,7 +286,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </main>
   <!-- 進場廣告 -->
   <div class="enterbox" *ngIf="appService.adIndexOpen && adIndexTime && adIndex.length > 0">

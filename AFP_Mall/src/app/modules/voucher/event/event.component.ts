@@ -210,9 +210,9 @@ export class EventComponent implements OnInit {
 
   /** 全部重設(按鈕) */
   resetSet(): void {
-    this.showType.forEach(item => item.Key !== 0 ? item.isSelect = false : item.isSelect = true);
-    this.voucherType.forEach(item => item.Key !== 0 ? item.isSelect = false : item.isSelect = true);
-    this.useType.forEach(item => item.Key !== 0 ? item.isSelect = false : item.isSelect = true);
+    this.showType.forEach(item => item.isSelect = item.Key === 0 );
+    this.voucherType.forEach(item => item.isSelect = item.Key === 0 );
+    this.useType.forEach(item => item.isSelect = item.Key === 0 );
     this.voucherSort = 1;
     this.resetOpen = false;
     this.voucherCount = this.voucherListOrig.length;

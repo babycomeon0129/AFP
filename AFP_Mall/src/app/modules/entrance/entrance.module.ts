@@ -6,6 +6,7 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 import { SortablejsModule } from 'ngx-sortablejs';
+import { NgxMasonryModule } from 'ngx-masonry';
 
 import { EntranceRoutingModule } from './entrance-routing.module';
 import { SharedModule } from '@app/shared/shared.module';
@@ -24,7 +25,8 @@ import { EntranceComponent } from './entrance.component';
     LazyLoadImageModule,
     NgxUsefulSwiperModule,
     SharedModule,
-    SortablejsModule
+    SortablejsModule,
+    NgxMasonryModule
   ],
   exports: [
     EntranceComponent

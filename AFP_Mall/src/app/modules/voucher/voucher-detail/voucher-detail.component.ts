@@ -52,8 +52,6 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
     } else {
       this.selectMode = 5;
     }
-    // APP特例處理: 若是從會員進來則顯示返回鍵
-    // this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
   ngOnInit() {
@@ -270,19 +268,6 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
     } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
       //  IOS
       (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'goAppExploreDetail', storeId: code });
-    }
-  }
-
-  /** 回上一頁
-   * 一般遊覽方式下若上一頁不存在(this.appService.prevUrl === '')或是是外站則前往大首頁，
-   * 若是用貼網址的方式(window.history.length === 2)，則會直接前往大首頁，
-   * 其餘情況則正常回上一頁
-   */
-  conditionBack(): void {
-    if (window.history.length === 2 || this.appService.prevUrl === '') {
-      this.router.navigate(['/']);
-    } else {
-      history.back();
     }
   }
 

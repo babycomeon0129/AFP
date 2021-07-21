@@ -70,10 +70,10 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     //  FB、Google 第三方登入取得資料
-    this.authService.authState.subscribe((user) => {
-      if (user != null && this.regClick) {
+    this.authService.authState.subscribe((user: SocialUser) => {
+      this.thirdUser = user;
+      if (this.thirdUser !== null && this.regClick) {
         this.appService.openBlock();
-        this.thirdUser = user;
         if (user.provider === 'FACEBOOK' && user.email === undefined) {
           this.thirdRequest.Account = 'fb' + this.thirdUser.id;
         } else {
@@ -83,9 +83,8 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
         this.thirdRequest.Token = this.thirdUser.id;
         this.thirdRequest.JsonData = JSON.stringify(this.thirdUser);
         this.toThirdLogin();
+        this.regClick = false;
       }
-      //TODO: 之前註解此處是為了修復第三方註冊兩次才能成功的問題，但反而導致這測時會多此呼叫而導致重複toThirdLogin()呼叫多次，先取消註解
-      this.regClick = false;
     });
 
     this.signinState = this.appService.getState();

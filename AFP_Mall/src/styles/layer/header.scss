@@ -260,11 +260,11 @@
     @media (min-width: 768px) {
       content: "";
       border-left: 1px solid $cardfooter-color;
-      position: relative;
+      position: absolute;
       width: 10px;
-      height: 14px;
+      height: 1em;
       border-radius: 0;
-      margin: 0 4px 0 6px;
+      transform: translate(2px, 1em);
     }
   }
   &.nav {
@@ -304,8 +304,9 @@
     margin-top: 20px;
     min-width: 8.5rem;
     padding: 0.5em 1em;
+    font-size: 11px;
     li {
-      padding: 0.25em 0;
+      padding: 0.5em 0;
       text-align: center;
       border-bottom: 0.5px solid rgba(182, 192, 213, 0.5);
       &:last-child {
@@ -313,6 +314,7 @@
       }
     }
     img {
+      margin-right: .25em;
       width: 24px;
       height: 24px;
       vertical-align: bottom;
@@ -327,7 +329,6 @@
     top: -6px;
     right: 8px;
     z-index: 10;
-    transform: translate(-10px, 10px);
   }
   .dropdown ul.dropdown-menu:after {
     content: "";

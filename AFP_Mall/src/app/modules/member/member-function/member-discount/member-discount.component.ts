@@ -56,8 +56,6 @@ export class MemberDiscountComponent implements OnInit {
 
   ngOnInit() {
     this.readVoucher();
-    // 從會員中心進來則隱藏返回鍵
-    // this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
   /** 讀取優惠券 */
@@ -191,9 +189,9 @@ export class MemberDiscountComponent implements OnInit {
 
   /** 全部重設(按鈕) */
   resetSet(): void {
-    this.showType.forEach(item => item.Key !== 0 ? item.isSelect = false : item.isSelect = true);
-    this.voucherType.forEach(item => item.Key !== 0 ? item.isSelect = false : item.isSelect = true);
-    this.useType.forEach(item => item.Key !== 0 ? item.isSelect = false : item.isSelect = true);
+    this.showType.forEach(item => item.isSelect = item.Key === 0 );
+    this.voucherType.forEach(item => item.isSelect = item.Key === 0 );
+    this.useType.forEach(item => item.isSelect = item.Key === 0 );
     this.voucherSort = 1;
     this.voucherCount = this.voucherListOrig.length;
     this.voucherList = this.voucherListOrig.concat();

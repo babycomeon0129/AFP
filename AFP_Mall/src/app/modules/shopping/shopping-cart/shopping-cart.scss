@@ -141,3 +141,7 @@ input[type=number]::-webkit-outer-spin-button {
     opacity: .55;
   }
 }
+
+.btn-outline-dark.focus, .btn-outline-dark:focus {
+  box-shadow: none;
+}

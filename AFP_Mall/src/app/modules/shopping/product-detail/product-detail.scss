@@ -387,3 +387,7 @@
       }
   }
 }
+
+.btn-outline-dark.focus, .btn-outline-dark:focus {
+  box-shadow: none;
+}
