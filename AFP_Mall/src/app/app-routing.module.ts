@@ -21,6 +21,7 @@ const routes: Routes = [
   { path: 'Member', loadChildren: () => import('./modules/member/member/member.module').then(m => m.MemberModule)},
   { path: 'MemberFunction', loadChildren: () => import('./modules/member/member-function/member-function.module').then(m => m.MemberFunctionModule)},
   { path: 'Delivery', loadChildren: () => import('./modules/delivery/delivery.module').then(m => m.DeliveryModule)},
+  { path: 'Event', loadChildren: () => import('./modules/event/event.module').then(m => m.EventModule)},
   { path: 'ForApp', loadChildren: () => import('./modules/for-app/for-app.module').then(m => m.ForAppModule)},
   { path: 'Error500', component: Error500Component},
   { path: 'Error503', component: Error503Component},
