@@ -143,13 +143,21 @@ export class MemberCardComponent implements OnInit {
     this.appService.toApi('Member', '1507', request).subscribe((data: Response_MemberMyCard) => {
       setTimeout(() => {
         if (this.cardLimit === 2 && this.cardList.length <= this.cardLimitMax) {
-          this.modal.show('message', {
-            initialState: { success: true, message: '綁定成功', note: '【溫馨提醒】本卡尚未完成卡片記名作業，如需記名請至官網操作完成。', showType: 1 }
-          });
+          if (request.AFP_UserFavourite.UserFavourite_Text3 === '') {
+            this.modal.show('message', {
+              initialState: { success: true, message: '綁定成功', note: '【溫馨提醒】本卡尚未完成卡片記名作業，如需記名請至官網操作完成。', showType: 1 }
+            });
+          } else {
+            this.modal.show('message', {
+              initialState: { success: true, message: '綁卡成功', showType: 1 }
+            });
+          }
         }
       }, 2000);
+      console.log(form.value.nationalID, request);
       /** 路由參數切換 {showBack: true 非原生頁,code 卡片類型(1一卡通、11悠遊卡),layer 功能切換(0我的卡片、1新增卡片、2卡片列表、3榮民卡)} */
       this.router.navigate(['/MemberFunction/MemberCard'], { queryParams: { showBack: true, itemCode: this.cardItemCode, layerParam: 2 } });
+      this.readCardList();
       form.resetForm();
     });
   }
