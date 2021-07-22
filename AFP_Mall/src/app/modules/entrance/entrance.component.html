@@ -308,91 +308,93 @@
   </div>
 
   <div class="layerTrig" [@layerTrigger] *ngIf="layerTrig === 1">
-    <div class="setting" [ngClass]="{'edit-mode': editFunction}">
-      <div class="aside-header">
-        <div>
-          <button class="btn px-0 close-btn" (click)="layerTrig = 0" data-toggle="tooltip" data-placement="bottom"
-            title="回上一頁">
-            <i class="material-icons">&#xe314;</i>
-          </button>
-        </div>
-        <div class="edit-title-box">
-          <div class="edit-item edit-title-cancel" (click)="editClose();">取消</div>
-          <div class="edit-item edit-title">編輯我的服務</div>
-          <div class="edit-item edit-title-save" (click)="updateUserService();">確定</div>
-        </div>
-      </div>
-      <div class="service-sysbox bb3-solid">
-        <!-- 系統服務 -->
-        <div class="title-item pt-3">
-          系統服務
-        </div>
-        <div class="title-group">
-          <div class="title-box">
-            <div class="sys-item" *ngFor="let icon of ftTop">
-              <img [lazyLoad]="icon.Function_Icon" [defaultImage]="appService.defaultImage" [alt]="icon.Function_Name"
-                (click)="FunctionLink(icon, false)">
-              <p>{{icon.Function_Name}}</p>
-            </div>
+    <div class="container float-left">
+      <div class="setting" [ngClass]="{'edit-mode': editFunction}">
+        <div class="aside-header">
+          <div>
+            <button class="btn px-0 close-btn" (click)="layerTrig = 0" data-toggle="tooltip" data-placement="bottom"
+              title="回上一頁">
+              <i class="material-icons">&#xe314;</i>
+            </button>
+          </div>
+          <div class="edit-title-box">
+            <div class="edit-item edit-title-cancel" (click)="editClose();">取消</div>
+            <div class="edit-item edit-title">編輯我的服務</div>
+            <div class="edit-item edit-title-save" (click)="updateUserService();">確定</div>
           </div>
         </div>
-      </div>
-      <div class="service-box bt1-solid" [hidden]="!appService.loginState">
-        <!-- 我的服務 -->
-        <div class="title-item pt-3">
-          我的服務<span class="pl-2 small text-muted editnote1">長按可以拖動排序</span>
-          <div class="editbox">
-            <button (click)="editOpen()" class="btn title-item edit-btn fit small-80 border-radius5 py-0">自訂捷徑</button>
+        <div class="service-sysbox bb3-solid">
+          <!-- 系統服務 -->
+          <div class="title-item pt-3">
+            系統服務
           </div>
-        </div>
-        <div class="service-title">
-          <div class="main-link edit-link sort-block" id="myService" [sortablejs]="ftBottom"
-            [sortablejsOptions]="options">
-            <div class="link-item mysvc remove-item" *ngFor="let icon of ftBottom;"
-              [attr.data-cat]="icon.Function_CategaryCode" [attr.data-act]="icon.Function_IsActive"
-              [attr.data-code]="icon.Function_Code"
-              (click)="serviceClick(icon.Function_Code, icon.Function_CategaryCode, icon.Function_IsActive);">
-              <a [href]="!editFunction ? icon.Function_URL : 'javascript:;' | Safe: 'url'"
-                [appKeyController]="editFunction" [keyControl]="'target'" [keyValue]="icon?.Function_URLTarget"
-                rel="noopener noreferrer">
-                <img [lazyLoad]="icon.Function_Icon" [defaultImage]="appService.defaultImage"
-                  [alt]="icon.Function_Name">
+          <div class="title-group">
+            <div class="title-box">
+              <div class="sys-item" *ngFor="let icon of ftTop">
+                <img [lazyLoad]="icon.Function_Icon" [defaultImage]="appService.defaultImage" [alt]="icon.Function_Name"
+                  (click)="FunctionLink(icon, false)">
                 <p>{{icon.Function_Name}}</p>
-              </a>
+              </div>
             </div>
           </div>
         </div>
-        <div class="w-100 text-right text-danger small-70 pb-3 editnote h24">
-          <ng-container *ngIf="noticeNine">
-            至多可選擇9種服務
-          </ng-container>
-          <ng-container *ngIf="noticeFour">
-            請至少選擇4種服務
-          </ng-container>
-        </div>
-      </div>
-      <div class="service-box bt1-solid" id="moreServiceList">
-        <!-- 更多服務 -->
-        <ng-container *ngFor="let item of serviceList">
-          <ng-container *ngIf="item?.Model_Function.length > 0">
-            <div class="title-item pt-3">{{item.CategaryName}}</div>
-            <div class="main-link edit-link items0">
-              <div class="link-item" *ngFor="let icon of item.Model_Function;"
-                (click)="serviceClick(icon.Function_Code, item.CategaryCode, icon.Function_IsActive);"
-                [ngClass]="{'remove-item': !icon?.isAdd && icon.Function_IsActive, 'add-item':icon?.isAdd && icon.Function_IsActive,'disable' : icon.Function_IsActive === 0}">
-                <a [href]="!editFunction && icon.Function_IsActive ? icon.Function_URL : 'javascript:;' | Safe: 'url'"
+        <div class="service-box bt1-solid" [hidden]="!appService.loginState">
+          <!-- 我的服務 -->
+          <div class="title-item pt-3">
+            我的服務<span class="pl-2 small text-muted editnote1">長按可以拖動排序</span>
+            <div class="editbox">
+              <button (click)="editOpen()" class="btn title-item edit-btn fit small-80 border-radius5 py-0">自訂捷徑</button>
+            </div>
+          </div>
+          <div class="service-title">
+            <div class="main-link edit-link sort-block" id="myService" [sortablejs]="ftBottom"
+              [sortablejsOptions]="options">
+              <div class="link-item mysvc remove-item" *ngFor="let icon of ftBottom;"
+                [attr.data-cat]="icon.Function_CategaryCode" [attr.data-act]="icon.Function_IsActive"
+                [attr.data-code]="icon.Function_Code"
+                (click)="serviceClick(icon.Function_Code, icon.Function_CategaryCode, icon.Function_IsActive);">
+                <a [href]="!editFunction ? icon.Function_URL : 'javascript:;' | Safe: 'url'"
                   [appKeyController]="editFunction" [keyControl]="'target'" [keyValue]="icon?.Function_URLTarget"
                   rel="noopener noreferrer">
-                  <div class="img-box">
-                    <img [lazyLoad]="icon.Function_Icon" [defaultImage]="appService.defaultImage"
-                      [alt]="icon.Function_Name">
-                  </div>
+                  <img [lazyLoad]="icon.Function_Icon" [defaultImage]="appService.defaultImage"
+                    [alt]="icon.Function_Name">
                   <p>{{icon.Function_Name}}</p>
                 </a>
               </div>
             </div>
+          </div>
+          <div class="w-100 text-right text-danger small-70 pb-3 editnote h24">
+            <ng-container *ngIf="noticeNine">
+              至多可選擇9種服務
+            </ng-container>
+            <ng-container *ngIf="noticeFour">
+              請至少選擇4種服務
+            </ng-container>
+          </div>
+        </div>
+        <div class="service-box bt1-solid" id="moreServiceList">
+          <!-- 更多服務 -->
+          <ng-container *ngFor="let item of serviceList">
+            <ng-container *ngIf="item?.Model_Function.length > 0">
+              <div class="title-item pt-3">{{item.CategaryName}}</div>
+              <div class="main-link edit-link items0">
+                <div class="link-item" *ngFor="let icon of item.Model_Function;"
+                  (click)="serviceClick(icon.Function_Code, item.CategaryCode, icon.Function_IsActive);"
+                  [ngClass]="{'remove-item': !icon?.isAdd && icon.Function_IsActive, 'add-item':icon?.isAdd && icon.Function_IsActive,'disable' : icon.Function_IsActive === 0}">
+                  <a [href]="!editFunction && icon.Function_IsActive ? icon.Function_URL : 'javascript:;' | Safe: 'url'"
+                    [appKeyController]="editFunction" [keyControl]="'target'" [keyValue]="icon?.Function_URLTarget"
+                    rel="noopener noreferrer">
+                    <div class="img-box">
+                      <img [lazyLoad]="icon.Function_Icon" [defaultImage]="appService.defaultImage"
+                        [alt]="icon.Function_Name">
+                    </div>
+                    <p>{{icon.Function_Name}}</p>
+                  </a>
+                </div>
+              </div>
+            </ng-container>
           </ng-container>
-        </ng-container>
+        </div>
       </div>
     </div>
   </div>
