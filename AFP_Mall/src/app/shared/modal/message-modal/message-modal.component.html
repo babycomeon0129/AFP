@@ -5,10 +5,12 @@
 </button>
 <div class="modal-body">
   <div>
-    <p id="msg-loginok" *ngIf="success" [innerHTML]="message | Safe: 'html'" class="px-3"></p>
-    <p *ngIf="success && voucherName !== null" class="px-3">{{voucherName}}</p>
-    <p id="msg-loginerror" *ngIf="!success" class="px-3">{{message}}</p>
-    <small id="reminder" *ngIf="note !== null" class="px-3">{{note}}</small>
+    <div class="px-3">
+      <p *ngIf="success" [innerHTML]="message | Safe: 'html'"></p>
+      <p *ngIf="success && voucherName !== null">{{voucherName}}</p>
+      <p *ngIf="!success">{{message}}</p>
+      <small id="reminder" *ngIf="note !== null">{{note}}</small>
+    </div>
     <div *ngIf="showType == 999 && adImgList.length > 0" class="pt-4">
       <a [href]="adImgList[0].ADImg_URL" [target]="adImgList[0].ADImg_URLTarget" rel="noopener noreferrer">
         <img [src]="adImgList[0].ADImg_Img" class="img-fluid">
@@ -21,21 +23,6 @@
       <button type="button" *ngIf="showType  <= 3" class="btn btn-login px-0 w-50" (click)="clickSingleBtn()">
         {{singleBtnMsg}}
       </button>
-      <!--button type="button" *ngIf="showType === 2" class="btn btn-login px-0 w-50" (click)="appService.loginPage(); goToUrl(target)">
-        重新登入
-      </!--button -->
-      <!--button type="button" *ngIf="showType === 3" class="btn btn-login px-0 w-50" (click)="doReset()">
-        確認
-      </!--button -->
-      <!--button type="button" *ngIf="showType === 4" class="btn btn-login px-0 w-50" [routerLink]="['/']" (click)="goToUrl(target)">
-        下次再說
-      </!--button>
-      <button type="button" *ngIf="showType === 4" class="btn btn-login px-0 w-50" [routerLink]="['/Member/ThirdBinding']" (click)="goToUrl(target)">
-        立即綁定
-      </button -->
-      <!--button type="button" *ngIf="showType === 5" class="btn btn-login px-0 w-50" (click)="goToUrl(target)">
-        {{singleBtnMsg}}
-      </!--button -->
       <!-- 雙顆按鈕，左右按鈕內容、連結全客製化 -->
       <button type="button" *ngIf="showType === 6" class="btn px-0 w-50" (click)="goToUrl(leftBtnUrl, queryParams1)"
       [disabled]="leftBtnUrl === null" [ngClass]="{'btn-login': leftBtnUrl !== null, 'small-80': leftBtnUrl === null}">

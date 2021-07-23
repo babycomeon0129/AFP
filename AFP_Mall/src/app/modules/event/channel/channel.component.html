@@ -3,19 +3,37 @@
     <div class="container">
       <div class="channel-header-box">
         <div class="channel-header-item">
-          活動資訊
+          <span (click)="openInfoModal()">活動資訊</span>
         </div>
         <div class="channel-header-title">
           <img src="../../../../img/channel/channel-title.png">
         </div>
         <div class="channel-header-item">
-          <span>Hi 訪客</span>
+          <span class="hi-user">Hi 訪客訪客訪客訪客訪客訪客</span>
           <button class="btn channel-btn">立即綁卡</button>
         </div>
       </div>
     </div>
   </div>
   <main>
-    content
+    <!-- 上方廣告 -->
+    <div *ngIf="adMid?.length > 0" class="top-banner">
+      <app-swiper-content [swiperOption]="boxAD" [slides]="adMid"
+        [aClass]="''" [slideClass]="''" [pagination]="true"
+        [arrows]="false" [contImg]="false" [contBackground]="'rwdimg-cover h55'"></app-swiper-content>
+    </div>
+    <!-- Icon -->
+    <div class="for-pc">
+      <app-swiper-icon [swiperOption]="boxIconPC" [slides]="icon" [arrows]="true"></app-swiper-icon>
+    </div>
+    <div class="for-mobile">
+      <app-swiper-icon [swiperOption]="boxIcon" [slides]="icon" [arrows]="false"></app-swiper-icon>
+    </div>
+    <!-- 中間大廣告 -->
+    <div *ngIf="adMid1?.length > 0" class="big-banner container p-3">
+      <app-swiper-content [swiperOption]="boxAD1" [slides]="adMid1"
+        [aClass]="''" [slideClass]="''" [pagination]="true"
+        [arrows]="false" [contImg]="false" [contBackground]="'rwdimg-cover h37'"></app-swiper-content>
+    </div>
   </main>
 </div>

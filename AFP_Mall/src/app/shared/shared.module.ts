@@ -25,6 +25,7 @@ import { PasswordModalComponent } from './modal/password-modal/password-modal.co
 import { ReceiptModalComponent } from './modal/receipt-modal/receipt-modal.component';
 import { VcodeModalComponent } from './modal/vcode-modal/vcode-modal.component';
 import { VerifyMobileModalComponent } from './modal/verify-mobile-modal/verify-mobile-modal.component';
+import { InfoModalComponent } from './modal/info-modal/info-modal.component';
 // Widget
 import { PCFooterComponent } from './widget/pc-footer/pc-footer.component';
 import { MobileFooterComponent } from './widget/mobile-footer/mobile-footer.component';
@@ -40,6 +41,7 @@ import { SwiperPanesComponent } from './swiper/swiper-panes/swiper-panes.compone
 // QRCODE
 import { QRCodeModule } from 'angularx-qrcode';
 import { MPointComponent } from './widget/m-point/m-point.component';
+import { SwiperIconComponent } from './swiper/swiper-icon/swiper-icon.component';
 
 @NgModule({
   declarations: [
@@ -65,12 +67,14 @@ import { MPointComponent } from './widget/m-point/m-point.component';
     PCFooterComponent,
     MobileFooterComponent,
     SwiperContentComponent,
+    SwiperIconComponent,
     SwiperNavComponent,
     SwiperPanesComponent,
     BackBtnComponent,
     IndexHeaderComponent,
     MPointComponent,
-    LinkifyPipe
+    LinkifyPipe,
+    InfoModalComponent
   ],
   exports: [
     SafePipe,
@@ -100,7 +104,9 @@ import { MPointComponent } from './widget/m-point/m-point.component';
     SwiperContentComponent,
     SwiperNavComponent,
     SwiperPanesComponent,
-    MPointComponent
+    SwiperIconComponent,
+    MPointComponent,
+    InfoModalComponent
   ],
   imports: [
     CommonModule,
@@ -126,6 +132,7 @@ import { MPointComponent } from './widget/m-point/m-point.component';
     LoginRegisterModalComponent,
     VerifyMobileModalComponent,
     AppleModalComponent,
+    InfoModalComponent,
   ]
 })
 export class SharedModule {}

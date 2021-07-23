@@ -13,6 +13,7 @@ import { AFP_ADImg, AFP_VerifiedInfo } from '@app/_models';
 export class MessageModalComponent implements OnInit {
   /** 1: 預設 2: 前往登入 3: 前往重設密碼 6: 左右按鈕內容、連結全客製化(視窗需要兩顆按鈕) 999: 核銷優惠券成功時(顯示一張廣告圖) */
   showType = 1;
+  /** 成功及錯誤顯示切換 */
   success: boolean;
   /** 視窗內容 */
   message: string;
@@ -36,12 +37,13 @@ export class MessageModalComponent implements OnInit {
   rightBtnMsg: string;
   /** 右邊按鈕連結 (視窗需要2顆確認按鈕時使用) */
   rightBtnUrl: string;
-  /** 網址傳參 (連結跳轉須加上參數時使用，預設為單顆按鈕/ 雙顆按鈕左邊按鈕的傳參)*/
+  /** 網址傳參 (連結跳轉須加上參數時使用，預設為單顆按鈕/ 雙顆按鈕左邊按鈕的傳參) */
   queryParams1: object;
   /** 網址傳參2 (連結跳轉須加上參數時使用，預設為雙顆按鈕時右邊按鈕的傳參) */
   queryParams2: object;
 
-  constructor(public bsModalRef: BsModalRef, public modal: ModalService, private router: Router, public appService: AppService, private location: Location) { }
+  constructor(public bsModalRef: BsModalRef, public modal: ModalService, private router: Router,
+              public appService: AppService, private location: Location) { }
 
   ngOnInit() {
   }

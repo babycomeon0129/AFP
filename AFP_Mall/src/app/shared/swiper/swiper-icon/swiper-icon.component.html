@@ -1,0 +1,26 @@
+<div class="icon-box">
+  <swiper class="index-icon " [config]="swiperOption">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide" *ngFor="let item of slides">
+        <div class="item">
+          <a href="javascript:;" (click)="FunctionLink(item, false)"
+            [ngClass]="{'disable' : item.Function_IsActive == 0}">
+            <div class="img-box">
+              <img [src]="item?.Function_Icon" [alt]="item?.Function_Name">
+            </div>{{item.Function_Name}}
+          </a>
+        </div>
+      </div>
+      <div class="swiper-slide for-mobile">
+        <a href="javascript:;" (click)="layerTrig = 1">
+          <div class="img-box">
+            <img src="img/index/icons/category3_more.png" alt="more">
+          </div>
+          <p>更多服務</p>
+        </a>
+      </div>
+    </div>
+  </swiper>
+  <div *ngIf="arrows" class="swiper-button-next"></div>
+  <div *ngIf="arrows" class="swiper-button-prev"></div>
+</div>

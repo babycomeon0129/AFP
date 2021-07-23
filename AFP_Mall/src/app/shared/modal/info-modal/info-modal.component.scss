@@ -1,0 +1,22 @@
+.info-box {
+  color: #717171;
+  background: #f9f9f9;
+  border-bottom-left-radius: .5em;
+  border-bottom-right-radius: .5em;
+  padding: 1em;
+  text-align: left;
+  height: 100%;
+  max-height: 75vh;
+  overflow-y: auto;
+}
+.info-title {
+  width: 100%;
+  text-align: center;
+  padding-top: 1em;
+  color: #13334C;
+  font-weight: 700;
+  font-size: large;
+}
+.modal-body {
+  margin-top: .5em;
+}

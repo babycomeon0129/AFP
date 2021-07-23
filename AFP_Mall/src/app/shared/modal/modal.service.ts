@@ -15,7 +15,6 @@ import { MsgShareModalComponent } from './msg-share-modal/msg-share-modal.compon
 import { LoginRegisterModalComponent } from './login-register-modal/login-register-modal.component';
 import { VerifyMobileModalComponent } from './verify-mobile-modal/verify-mobile-modal.component';
 import { AppleModalComponent } from './apple-modal/apple-modal.component';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -118,9 +117,9 @@ export class ModalService {
     return ModalRef.content.action;
   }
 
-  public showMsg(options?: ModalOptions): void {
-    this.bsModalService.show(MessageModalComponent, options);
-  }
+  // public showMsg(options?: ModalOptions): void {
+  //   this.bsModalService.show(MessageModalComponent, options);
+  // }
 
   public addCoupon(options: ModalOptions): Observable<any> {
     const ModalRef =  this.bsModalService.show(CouponModalComponent, options);
