@@ -21,12 +21,16 @@
     <div class="p-3">
       <h6 class="py-2">遊戲館</h6>
       <div class="member-flex flex-coinbn">
-        <div *ngFor="let item of info.List_Game" [routerLink]="['/GameCenter/Game', item.Game_Code]" [queryParams]="{ showBack: true}" class="item">
+        <div *ngFor="let item of info.List_Game" [routerLink]="['/GameCenter/Game', item.Game_Code]"
+          [queryParams]="{ showBack: true}" class="item">
           <img [lazyLoad]="item.Game_Image" class="img-fluid border-radius5" [defaultImage]="appService.defaultImage">
-          <div class="badge-box" [hidden]="item.Game_Tag === null"><p class="badge">{{ item.Game_Tag }}</p></div>
+          <div class="badge-box" [hidden]="item.Game_Tag === null">
+            <p class="badge">{{ item.Game_Tag }}</p>
+          </div>
         </div>
         <div class="w-100">
-          <button [routerLink]="['/GameCenter']" [queryParams]="{ showBack: true}" class="btn see-all"> See All > </button>
+          <button [routerLink]="['/GameCenter']" [queryParams]="{ showBack: true}" class="btn see-all"> See All >
+          </button>
         </div>
       </div>
     </div>
@@ -72,8 +76,7 @@
                           [disabled]="voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3"
                           [ngClass]="{'gray-obtn': voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3,
                                       'index-btn': voucher?.Voucher_IsFreq === 1,
-                                      'index-outline-btn': voucher.Voucher_IsFreq === 2 || voucher.Voucher_IsFreq === 5}"
-                          class="btn px-2 small-80 sendval">
+                                      'index-outline-btn': voucher.Voucher_IsFreq === 2 || voucher.Voucher_IsFreq === 5}" class="btn px-2 small-80 sendval">
                           {{!appService.loginState ? '兌換' : voucher?.Voucher_FreqName}}
                         </button>
                         <div [hidden]="voucher?.Voucher_DedPoint == 0" class="m-quantity small pl-1">
@@ -112,7 +115,8 @@
     <div class="mycoinrecord">
       <div class="title-box">
         <div class="item icon-btn">
-          <button class="btn px-0" (click)="coinHistoryClose()" data-toggle="tooltip" data-placement="bottom" title="回上一頁" [hidden]="appService.isApp !== null && !appService.showBack">
+          <button class="btn px-0" (click)="coinHistoryClose()" data-toggle="tooltip" data-placement="bottom"
+            title="回上一頁" [hidden]="appService.isApp !== null && !appService.showBack">
             <i class="material-icons">&#xe314;</i>
           </button>
         </div>
@@ -129,7 +133,7 @@
           </div>
           <div class="item one coin-right">
             <!--前去Mission頁時將appService.tLayer清空，避免callLayer失效-->
-            <button class="btn" [routerLink]="['/Mission']" (click)="coinHistoryOpen = 0;">
+            <button class="btn" [routerLink]="['/Mission']" [queryParams]="{coinHistory: 0}">
               賺取點數
             </button>
           </div>

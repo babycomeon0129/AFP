@@ -70,8 +70,11 @@ export class MemberCoinComponent implements OnInit {
       });
       // 取得queryParams參數coinHistoryOpen，點數紀錄顯示與否(0關閉、1開啟)
       this.activatedRoute.queryParams.subscribe(params => {
-        if (typeof params.coinHistory !== 'undefined' && params.coinHistory === '1') {
-          this.coinHistoryOpen = 1;
+        if (typeof params.coinHistory !== 'undefined') {
+          this.coinHistoryOpen = Number(params.coinHistory);
+        }
+        if (params.coinHistory === '1') {
+          this.getHistory();
         }
       });
     } else {

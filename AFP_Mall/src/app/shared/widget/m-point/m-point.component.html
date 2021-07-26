@@ -9,7 +9,7 @@
             <span class="coin-txt">{{info.TotalPoint | currency:'TWD':'':'1.0-2'}}</span>
           </div>
           <div class="coin-history">
-            <button class="btn" (click)="getHistory();">
+            <button class="btn" [routerLink]="['/MemberFunction/MemberCoin']" [queryParams]="{coinHistory: 1, showBack: this.appService.showBack}">
               點數紀錄
             </button>
           </div>

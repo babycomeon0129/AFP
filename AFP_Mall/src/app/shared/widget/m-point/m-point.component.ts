@@ -35,25 +35,4 @@ export class MPointComponent implements OnInit {
       });
     }
   }
-
-  /** 歷史紀錄 */
-  getHistory(): void {
-    if (this.appService.loginState) {
-      this.appService.openBlock();
-      const getHistory: Request_MemberPoint = {
-        User_Code: sessionStorage.getItem('userCode'),
-        SelectMode: 5,
-        SearchModel: {
-          UserPoint_Type: this.pointType
-        }
-      };
-      this.appService.toApi('Member', '1509', getHistory).subscribe((point: Response_MemberPoint) => {
-        this.pointHistory = point.List_UserPoint;
-        this.router.navigate(['/MemberFunction/MemberCoin'], {queryParams: {coinHistory: 1, showBack: this.appService.showBack}});
-      });
-    } else {
-      this.appService.loginPage();
-    }
-  }
-
 }
