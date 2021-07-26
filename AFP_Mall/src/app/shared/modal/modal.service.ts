@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap';
 import { ForgetModalComponent } from './forget-modal/forget-modal.component';
-import { VcodeModalComponent } from './vcode-modal/vcode-modal.component';
 import { FavoriteModalComponent } from './favorite-modal/favorite-modal.component';
 import { MessageModalComponent } from './message-modal/message-modal.component';
 import { PasswordModalComponent } from './password-modal/password-modal.component';
@@ -28,9 +27,6 @@ export class ModalService {
     switch (show) {
       case 'forget':
         this.bsModalService.show(ForgetModalComponent, config);
-        break;
-      case 'vcode':
-        this.bsModalService.show(VcodeModalComponent, config);
         break;
       case 'password':
         this.bsModalService.show(PasswordModalComponent, config);
@@ -69,9 +65,6 @@ export class ModalService {
     switch (template) {
       case 'forget':
         this.bsModalService.show(ForgetModalComponent, options);
-        break;
-      case 'vcode':
-        this.bsModalService.show(VcodeModalComponent, options);
         break;
       case 'password':
         this.bsModalService.show(PasswordModalComponent, options);

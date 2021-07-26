@@ -23,7 +23,6 @@ import { MissionModalComponent } from './modal/mission-modal/mission-modal.compo
 import { MsgShareModalComponent } from './modal/msg-share-modal/msg-share-modal.component';
 import { PasswordModalComponent } from './modal/password-modal/password-modal.component';
 import { ReceiptModalComponent } from './modal/receipt-modal/receipt-modal.component';
-import { VcodeModalComponent } from './modal/vcode-modal/vcode-modal.component';
 import { VerifyMobileModalComponent } from './modal/verify-mobile-modal/verify-mobile-modal.component';
 // Widget
 import { PCFooterComponent } from './widget/pc-footer/pc-footer.component';
@@ -47,7 +46,6 @@ import { MPointComponent } from './widget/m-point/m-point.component';
     ConvertPipe,
     TextFilterPipe,
     ForgetModalComponent,
-    VcodeModalComponent,
     PasswordModalComponent,
     MessageModalComponent,
     FavoriteModalComponent,
@@ -78,7 +76,6 @@ import { MPointComponent } from './widget/m-point/m-point.component';
     TextFilterPipe,
     LinkifyPipe,
     ForgetModalComponent,
-    VcodeModalComponent,
     PasswordModalComponent,
     MessageModalComponent,
     FavoriteModalComponent,
@@ -113,7 +110,6 @@ import { MPointComponent } from './widget/m-point/m-point.component';
   ],
   entryComponents: [
     ForgetModalComponent,
-    VcodeModalComponent,
     PasswordModalComponent,
     MessageModalComponent,
     FavoriteModalComponent,
