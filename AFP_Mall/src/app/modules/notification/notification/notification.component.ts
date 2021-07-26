@@ -4,6 +4,7 @@ import { Request_MemberMsg, Response_MemberMsg, AFP_MemberMsgTitle, AFP_IMessage
 import { Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation } from '@app/animations';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-notification',
@@ -27,7 +28,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
   /** JustKaUrl網址初始 */
   public JustKaUrl = '';
 
-  constructor(public appService: AppService, private router: Router, private meta: Meta, private title: Title) {
+  constructor(public appService: AppService, private router: Router, private meta: Meta, private title: Title, private cookieService: CookieService) {
     this.title.setTitle('通知 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 通知。如果你在 Mobii! 平台上購物，通知則會顯示你的訂單相關進度，包括商品的出貨狀態、送貨狀態。或者如果有未解的任務，Mobii! 平台亦會透過通知來提醒使用者相關訊息。' });
     this.meta.updateTag({ content: '通知 - Mobii!', property: 'og:title' });
@@ -50,6 +51,8 @@ export class NotificationComponent implements OnInit, OnDestroy {
       this.JustKaUrl = data.JustKaUrl;
       // 將通知都視為已讀
       this.appService.pushCount = 0;
+      this.cookieService.delete('pushCount');
+
     });
     // 若是從訊息詳情點擊分類進來則直接開啟該分類列表
     if (history.state.data !== undefined) {

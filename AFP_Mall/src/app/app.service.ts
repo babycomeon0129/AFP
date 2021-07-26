@@ -52,7 +52,7 @@ export class AppService {
   /** lazyload 的初始圖片 */
   public defaultImage = '/img/share/eee.jpg';
   /** 推播訊息數量 */
-  public pushCount = 0;
+  public pushCount = Number(this.cookieService.get('pushCount')) || 0;
   /** GUID (推播使用) */
   public deviceCode: string;
   /** firebase 推播 token */
@@ -493,6 +493,8 @@ export class AppService {
       this.swPush.messages.subscribe(msg => {
         // count msg length and show red point
         this.pushCount += 1;
+        console.log(msg,this.pushCount);
+        this.cookieService.set('pushCount', JSON.stringify(this.pushCount), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       });
     }
   }
