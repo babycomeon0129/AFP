@@ -48,11 +48,12 @@ export class GameCenterComponent implements OnInit {
 
   /** 前往遊戲
    * @param gameCode 就是GameCode
+   * @param gameType 遊戲類型
    */
-  goGame(gameCode: number): void {
+  goGame(gameCode: number, gameType: number): void {
     if (this.appService.loginState) {
       this.activatedRoute.snapshot.queryParams.showBack === 'true' ?
-      this.router.navigate(['/GameCenter/Game', gameCode], {queryParams: {showBack: true}}) : this.router.navigate(['/GameCenter/Game', gameCode]);
+        this.router.navigate(['/GameCenter/Game', gameCode], { queryParams: { GameType: gameType, showBack: true } }) : this.router.navigate(['/GameCenter/Game', gameCode], { queryParams: { GameType: gameType } });
     } else {
       this.appService.loginPage();
     }
