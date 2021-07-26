@@ -1,0 +1,18 @@
+::ng-deep .big-banner{
+  .swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction {
+    bottom: 2px
+  }
+  .swiper-container-horizontal>.swiper-pagination-bullets .swiper-pagination-bullet {
+    margin: 0 2px;
+  }
+  .swiper-pagination-bullet {
+    width: 26px;
+    height: 3px;
+    border-radius: 8px;
+    opacity: 1;
+    background: #DADADA;
+    &-active {
+      background-color: #FFB26B;
+    }
+  }
+}

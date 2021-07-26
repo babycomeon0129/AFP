@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { ActivatedRoute } from '@angular/router';
 import { InfoModalComponent } from '@app/shared/modal/info-modal/info-modal.component';
 import { SwiperOptions } from 'swiper';
 @Component({
@@ -27,10 +28,10 @@ export class ChannelComponent implements OnInit {
   public boxAD1: SwiperOptions = {
     pagination: {
       el: '.swiper-pagination',
-      clickable: true
+      clickable: true,
     },
-    slidesPerView: 1.3,
-    spaceBetween: 10,
+    slidesPerView: 1.2,
+    spaceBetween: 6,
     autoplay: {
       delay: 3000,
       disableOnInteraction: false
@@ -61,6 +62,9 @@ export class ChannelComponent implements OnInit {
     slidesPerGroup: 5,
     loop: false
   };
+  /** 同頁滑動切換 0:本頁 1:更多服務 */
+  public layerTrig = 0;
+
   /** 假資料 */
   public adMid = [{
     'ADImg_ID': 173,
@@ -214,8 +218,173 @@ export class ChannelComponent implements OnInit {
         'Function_IsActive': 1
     }
   ];
-
-  constructor(private modalService: BsModalService) { }
+  public iconMore = [
+    {
+        'Function_ID': 85,
+        'Function_Code': 1006,
+        'Function_CategaryCode': 10015,
+        'Function_Name': '彩蛋',
+        'Function_URL': '/Notification/NotificationDetail/380061081528577',
+        'Function_Icon': 'http://54.150.124.230:38085//Upload/Images/20200825/ec6c3f93-e394-4aac-8018-b5964ec75313.png',
+        'Function_IsTop': 0,
+        'Function_IsOther': 0,
+        'Function_Sort': 0,
+        'Function_URLTarget': '_self',
+        'Function_IsActive': 1
+    },
+    {
+        'Function_ID': 44,
+        'Function_Code': 10014,
+        'Function_CategaryCode': 10011,
+        'Function_Name': '一元搶購',
+        'Function_URL': '/Voucher/Event',
+        'Function_Icon': 'http://54.150.124.230:38085//Upload/Images/20200519/30874134-3c8a-45ca-bb05-141b95436060.jpg',
+        'Function_IsTop': 0,
+        'Function_IsOther': 0,
+        'Function_Sort': 0,
+        'Function_URLTarget': '_blank',
+        'Function_IsActive': 1
+    },
+    {
+        'Function_ID': 9,
+        'Function_Code': 10009,
+        'Function_CategaryCode': 10015,
+        'Function_Name': '遊戲',
+        'Function_URL': '/GameCenter',
+        'Function_Icon': 'http://54.150.124.230:38085//Upload/Images/20200519/f8d07653-40aa-4bb8-93d4-56a5b075a556.png',
+        'Function_IsTop': 0,
+        'Function_IsOther': 0,
+        'Function_Sort': 0,
+        'Function_URLTarget': '_self',
+        'Function_IsActive': 1
+    },
+    {
+        'Function_ID': 42,
+        'Function_Code': 10016,
+        'Function_CategaryCode': 10013,
+        'Function_Name': '交通訂票',
+        'Function_URL': '/Shopping/ProductList/210058666369001',
+        'Function_Icon': 'http://54.150.124.230:38085//Upload/Images/20200409/e8bbd771-1f48-4ee5-8dd1-4e7e563c4ea9.png',
+        'Function_IsTop': 0,
+        'Function_IsOther': 0,
+        'Function_Sort': 0,
+        'Function_URLTarget': '_blank',
+        'Function_IsActive': 1
+    },
+    {
+        'Function_ID': 49,
+        'Function_Code': 10010,
+        'Function_CategaryCode': 10014,
+        'Function_Name': '新聞',
+        'Function_URL': 'https://www.ettoday.net/',
+        'Function_Icon': 'http://54.150.124.230:38085//Upload/Images/20200810/d8091f44-5707-4b9d-8677-27c8b942e6fa.png',
+        'Function_IsTop': 0,
+        'Function_IsOther': 0,
+        'Function_Sort': 0,
+        'Function_URLTarget': '_blank',
+        'Function_IsActive': 1
+    },
+    {
+        'Function_ID': 25,
+        'Function_Code': 20010,
+        'Function_CategaryCode': 10011,
+        'Function_Name': '自動測試用',
+        'Function_URL': '/Shopping/ProductList/210064605585471',
+        'Function_Icon': 'http://54.150.124.230:38085//Upload/Images/20210610/bfb8b863-4573-4dc3-9685-fb4232d10a7c.png',
+        'Function_IsTop': 0,
+        'Function_IsOther': 0,
+        'Function_Sort': 0,
+        'Function_URLTarget': '_self',
+        'Function_IsActive': 1
+    },
+    {
+        'Function_ID': 3,
+        'Function_Code': 10003,
+        'Function_CategaryCode': 10016,
+        'Function_Name': '線上商城',
+        'Function_URL': '/Shopping',
+        'Function_Icon': 'http://54.150.124.230:38085//Upload/Images/20200409/2d0b4c02-9b8b-4ccb-a69f-ca2865dd6929.png',
+        'Function_IsTop': 0,
+        'Function_IsOther': 0,
+        'Function_Sort': 0,
+        'Function_URLTarget': '_self',
+        'Function_IsActive': 1
+    },
+    {
+        'Function_ID': 4,
+        'Function_Code': 10004,
+        'Function_CategaryCode': 10016,
+        'Function_Name': '找優惠',
+        'Function_URL': '/Voucher/Offers',
+        'Function_Icon': 'http://54.150.124.230:38085//Upload/Images/20200519/7167852c-e161-4262-aa48-42a2feae14a1.jpg',
+        'Function_IsTop': 0,
+        'Function_IsOther': 0,
+        'Function_Sort': 0,
+        'Function_URLTarget': '_self',
+        'Function_IsActive': 1
+    },
+    {
+        'Function_ID': 46,
+        'Function_Code': 10017,
+        'Function_CategaryCode': 10013,
+        'Function_Name': '道路救援',
+        'Function_URL': 'http://www.24tms.com.tw/ugC_Home.asp?hidStyle=_Roads&hidURL=ugC_RoadRescue',
+        'Function_Icon': 'http://54.150.124.230:38085//Upload/Images/20200810/1fc00f21-55ee-4717-b68b-94619dd1b031.png',
+        'Function_IsTop': 0,
+        'Function_IsOther': 0,
+        'Function_Sort': 0,
+        'Function_URLTarget': '_blank',
+        'Function_IsActive': 1
+    },
+    {
+        'Function_ID': 3,
+        'Function_Code': 10003,
+        'Function_CategaryCode': 10016,
+        'Function_Name': '線上商城',
+        'Function_URL': '/Shopping',
+        'Function_Icon': 'http://54.150.124.230:38085//Upload/Images/20200409/2d0b4c02-9b8b-4ccb-a69f-ca2865dd6929.png',
+        'Function_IsTop': 0,
+        'Function_IsOther': 0,
+        'Function_Sort': 0,
+        'Function_URLTarget': '_self',
+        'Function_IsActive': 1
+    },
+    {
+        'Function_ID': 4,
+        'Function_Code': 10004,
+        'Function_CategaryCode': 10016,
+        'Function_Name': '找優惠',
+        'Function_URL': '/Voucher/Offers',
+        'Function_Icon': 'http://54.150.124.230:38085//Upload/Images/20200519/7167852c-e161-4262-aa48-42a2feae14a1.jpg',
+        'Function_IsTop': 0,
+        'Function_IsOther': 0,
+        'Function_Sort': 0,
+        'Function_URLTarget': '_self',
+        'Function_IsActive': 1
+    },
+    {
+        'Function_ID': 46,
+        'Function_Code': 10017,
+        'Function_CategaryCode': 10013,
+        'Function_Name': '道路救援',
+        'Function_URL': 'http://www.24tms.com.tw/ugC_Home.asp?hidStyle=_Roads&hidURL=ugC_RoadRescue',
+        'Function_Icon': 'http://54.150.124.230:38085//Upload/Images/20200810/1fc00f21-55ee-4717-b68b-94619dd1b031.png',
+        'Function_IsTop': 0,
+        'Function_IsOther': 0,
+        'Function_Sort': 0,
+        'Function_URLTarget': '_blank',
+        'Function_IsActive': 1
+    }
+  ];
+  constructor(private modalService: BsModalService, private activatedRoute: ActivatedRoute) {
+    /** 取得queryParams設定LayerTrig(更多服務) */
+    this.activatedRoute.queryParams.subscribe(params => {
+      console.log(params);
+      if (typeof params.layerTrig !== 'undefined') {
+        this.layerTrig = parseInt(params.layerTrig, 10);
+      }
+    });
+  }
 
   ngOnInit(): void {
   }
