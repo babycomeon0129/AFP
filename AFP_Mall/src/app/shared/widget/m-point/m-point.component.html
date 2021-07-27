@@ -6,7 +6,7 @@
         <div class="flex-inline-between">
           <div class="coin-point">
             <img src="../img/share/mobiicoin_red.png" class="coinimg-m">
-            <span class="coin-txt">{{info.TotalPoint | currency:'TWD':'':'1.0-2'}}</span>
+            <span class="coin-txt">{{info.TotalPoint === undefined ? '－' : info.TotalPoint | currency:'TWD':'':'1.0-2'}}</span>
           </div>
           <div class="coin-history">
             <button class="btn" [routerLink]="['/MemberFunction/MemberCoin']" [queryParams]="{coinHistory: 1, showBack: this.appService.showBack}">
