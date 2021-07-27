@@ -494,7 +494,7 @@ export class AppService {
         // count msg length and show red point
         this.pushCount += 1;
         console.log(msg,this.pushCount);
-        this.cookieService.set('pushCount', JSON.stringify(this.pushCount), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+        this.cookieService.set('pushCount', this.pushCount.toString(), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       });
     }
   }
