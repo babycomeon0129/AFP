@@ -54,7 +54,7 @@
         </div>
       </div>
       <!-- content -->
-      <div *ngIf="voucherListOrig?.length > 0 else elseBlock" class="mycoin-couponbox card-columns one p-3">
+      <div *ngIf="voucherList?.length > 0 else elseBlock" class="mycoin-couponbox card-columns one p-3">
         <ng-container *ngIf="voucherList?.length > 0 && (voucherList | textFilter : searchText : 1).length > 0; else noVoucherBlock">
           <div *ngFor="let voucher of voucherList | textFilter : searchText : 1" class="card border-radius5">
             <div class="card-body">
