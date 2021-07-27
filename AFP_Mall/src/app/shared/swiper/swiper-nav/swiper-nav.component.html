@@ -1,9 +1,8 @@
-<swiper class="nav-tabs-box swiper-container" [config]="swiperOptionNav">
+<swiper class="nav-tabs-box swiper-container" [ngClass]="template" [config]="swiperOptionNav">
   <ul class="swiper-wrapper nav nav-tabs nav-swiper" role="tablist">
-    <li role="presentation" class="swiper-slide"
+    <li role="presentation" class="swiper-slide" [ngClass]="{'active': blFirst}"
       *ngFor="let item of slidesNav; let i = index; let blFirst = first"
-      (click)="readSheetParam(readSheetMode, i, item?.UserDefine_Code, item?.UserDefine_ChannelID)"
-      [ngClass]="{'active': blFirst}">
+      (click)="readSheetParam(readSheetMode, i, item?.UserDefine_Code, item?.UserDefine_ChannelID)">
       <a href="#Code{{item.UserDefine_Code}}" [id]="'T'+item.UserDefine_Code" class="tablist-link" [ngClass]="{'show active': blFirst}"
         attr.aria-controls="Code{{item.UserDefine_Code}}" role="tab" data-toggle="tab"
         [attr.aria-selected]="blFirst">{{item.UserDefine_Name}}</a>

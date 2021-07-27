@@ -2,7 +2,9 @@
   <div *ngFor="let item of slidesPanes; let blFirst=first; let i=index"
     role="tabpanel" class="tab-pane fade"  [ngClass]="{'show active': blFirst}"
     [attr.aria-labelledby]="'T'+item.UserDefine_Code" id="Code{{item.UserDefine_Code}}" >
-      <swiper class="swiper-container" [config]="swiperOptionPanes"
+
+      <!-- mobii首頁 swiper -->
+      <swiper class="swiper-container" *ngIf="template === undefined" [config]="swiperOptionPanes"
       [ngClass]="{'onsale-products': readSheetMode === 1 || readSheetMode === 2, 'travel-featuredbox': readSheetMode === 3 || readSheetMode === 4}">
         <div class="swiper-wrapper">
           <!-- 現領優惠券 -->
@@ -68,6 +70,32 @@
             </div>
           </div>
         </div>
+      </swiper>
+
+      <!-- channel樣版 swiper -->
+      <swiper class="swiper-container" *ngIf="template !== undefined" [config]="swiperOptionPanes" [ngClass]="template">
+        <div class="swiper-wrapper">
+          <!-- channel-template1樣版 -->
+          <div class="swiper-slide" *ngFor="let inside of item.VoucherData">
+            <div class="products-item"
+            [routerLink]="inside?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', inside?.Voucher_Code] : ['/Voucher/VoucherDetail', inside?.Voucher_UserVoucherCode]">
+              <div class="products-content">
+                <div class="products-img">
+                  <div class="img-box">
+                    <div class="rwdimg-cover" [lazyLoad]="inside.Voucher_Image"
+                      [defaultImage]="appService.defaultImage"></div>
+                  </div>
+                </div>
+                <div class="products-news" *ngIf="inside.Voucher_ExtName !== ''">
+                  <p>{{inside.Voucher_ExtName}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="pagination" class="swiper-pagination"></div>
+        <div *ngIf="arrows" class="swiper-button-prev"></div>
+        <div *ngIf="arrows" class="swiper-button-next"></div>
       </swiper>
   </div>
 </div>

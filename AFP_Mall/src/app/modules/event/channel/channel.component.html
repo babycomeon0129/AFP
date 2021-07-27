@@ -22,19 +22,14 @@
         [aClass]="''" [slideClass]="''" [pagination]="false"
         [arrows]="false" [contImg]="false" [contBackground]="'rwdimg-cover h55'"></app-swiper-content>
     </div>
-    <!--【app-swiper-icon參數設定】
-          swiperOption: swiper設定
-          slides: 資料源(icon)
-          slidesMore: 資料源(更多服務)
-          arrows: pre,next箭頭是否顯示
-          layerTrig: 更多服務是否開啟(0關閉,1開啟) -->
-    <div [ngClass]="{'fixed-top': layerTrig === 1}">
+    <!-- 服務icon -->
+    <div>
       <div class="channel-icon">
         <div class="for-pc">
-          <app-swiper-icon [swiperOption]="boxIconPC" [slides]="icon" [slidesMore]="" [arrows]="true"></app-swiper-icon>
+          <app-swiper-icon [swiperOption]="boxIconPC" [slides]="icon" [arrows]="true"></app-swiper-icon>
         </div>
         <div class="for-mobile">
-          <app-swiper-icon [swiperOption]="boxIcon" [slides]="icon" [slidesMore]="iconMore" [arrows]="false"></app-swiper-icon>
+          <app-swiper-icon [swiperOption]="boxIcon" [slides]="icon" [arrows]="false"></app-swiper-icon>
         </div>
       </div>
     </div>
@@ -44,5 +39,46 @@
         [aClass]="''" [slideClass]="''" [pagination]="true"
         [arrows]="false" [contImg]="false" [contBackground]="'rwdimg-cover h37 border-radius5'"></app-swiper-content>
     </div>
+    <!-- 專屬新聞 -->
+    <section class="channel-section">
+      <h6>專屬新聞</h6>
+      <div class="channel-swiper-box">
+        <app-swiper-nav [swiperOptionNav]="boxTabs" [slidesNav]="channel1" [readSheetMode]="2" [template]="'channel-template1'"
+          (readSheetNav)="readSheet($event.Mode, $event.Idx, $event.Code, $event.Id)"></app-swiper-nav>
+        <app-swiper-panes [swiperOptionPanes]="boxChannel1" [slidesPanes]="channel1" [readSheetMode]="2"
+          [template]="'channel-template1-panes'"></app-swiper-panes>
+      </div>
+    </section>
+    <!-- 專屬優惠券 -->
+    <section class="channel-section">
+      <h6>專屬優惠券</h6>
+      <div class="channel-swiper-box shadow">
+        <app-swiper-nav [swiperOptionNav]="boxTabs" [slidesNav]="channel1" [readSheetMode]="2" [template]="'channel-template2'"
+          (readSheetNav)="readSheet($event.Mode, $event.Idx, $event.Code, $event.Id)"></app-swiper-nav>
+        <app-swiper-panes [swiperOptionPanes]="boxChannel2" [slidesPanes]="channel1" [readSheetMode]="2"
+          [template]="'channel-template2-panes'" [pagination]="true" [arrows]="true"></app-swiper-panes>
+      </div>
+    </section>
   </main>
+
+  <!-- 更多服務icon(滑頁) -->
+  <div class="more-icon-box" [ngClass]="{'fixed-top': layerTrig === 1}">
+    <div class="layerTrig container" [@layerTrigger] *ngIf="layerTrig === 1">
+      <div>
+        <div class="head-top">
+          <!-- 點擊帶queryParams控制父層class -->
+          <button class="btn" (click)="layerTrig = 0" [routerLink]="'/Event'" [queryParams]="{layerTrig: 0}">
+            <i class="material-icons">&#xe314;</i><span>返回</span>
+          </button>
+        </div>
+        <div class="row">
+          <a class="col" *ngFor="let link of iconMore" [target]="link.Function_URLTarget"
+            [href]="link.Function_URL">
+            <img [src]="link.Function_Icon">
+            <p class="txt-line-clamp1">{{ link.Function_Name }}</p>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

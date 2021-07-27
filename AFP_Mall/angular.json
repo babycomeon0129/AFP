@@ -36,6 +36,7 @@
               "src/google74b45d0284996f7b.html"
             ],
             "styles": [
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/ngx-bootstrap/datepicker/bs-datepicker.scss",
               "node_modules/swiper/css/swiper.min.css",
@@ -181,6 +182,7 @@
               "src/manifest.json"
             ],
             "styles": [
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss"
             ],
             "scripts": []

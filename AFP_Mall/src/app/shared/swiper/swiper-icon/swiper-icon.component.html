@@ -1,6 +1,3 @@
-<!-- 因為channel-icon有用到transform定位，影響layerTrigger動畫，為解決動畫偏移，故做以下處理
-  (當layerTrig=1時，mask-white白遮罩底層；layerTrig=0，more-icon-box設為d-none) -->
-<div class="mask-white" *ngIf="layerTrig === 1"></div>
 <div class="icon-box">
   <swiper class="index-icon " [config]="swiperOption">
     <div class="swiper-wrapper">
@@ -28,23 +25,3 @@
   <div *ngIf="arrows" class="swiper-button-prev"></div>
 </div>
 
-<div class="more-icon-box" [ngClass]="{'d-none': layerTrig === 0}">
-  <!-- 更多服務icon -->
-  <div class="layerTrig container" [@layerTrigger] *ngIf="layerTrig === 1">
-    <div>
-      <div class="head-top">
-        <!-- 點擊帶queryParams控制父層class -->
-        <button class="btn" (click)="layerTrig = 0" [routerLink]="'/Event'" [queryParams]="{layerTrig: 0}">
-          <i class="material-icons">&#xe314;</i><span>返回</span>
-        </button>
-      </div>
-      <div class="row">
-        <a class="col" *ngFor="let link of slidesMore" [target]="link.Function_URLTarget"
-          [href]="link.Function_URL">
-          <img [src]="link.Function_Icon">
-          <p class="txt-line-clamp1">{{ link.Function_Name }}</p>
-        </a>
-      </div>
-    </div>
-  </div>
-</div>

@@ -120,6 +120,11 @@ export class EntranceComponent implements OnInit {
         slidesPerView: 8,
         spaceBetween: 20,
       }
+    },
+    on: {
+      click() {
+        this.slideTo(this.clickedIndex);
+      }
     }
   };
 
@@ -135,6 +140,11 @@ export class EntranceComponent implements OnInit {
       1024: {
         slidesPerView: 8,
         spaceBetween: 20,
+      }
+    },
+    on: {
+      click() {
+        this.slideTo(this.clickedIndex);
       }
     }
   };
@@ -157,7 +167,12 @@ export class EntranceComponent implements OnInit {
     observer: true,
     observeParents: true,
     preloadImages: true,
-    updateOnImagesReady: true
+    updateOnImagesReady: true,
+    on: {
+      click() {
+        this.slideTo(this.clickedIndex);
+      }
+    }
   };
 
   /** 主打店家、本月旅遊主打內容 swiper */
@@ -178,7 +193,12 @@ export class EntranceComponent implements OnInit {
     observer: true,
     observeParents: true,
     preloadImages: true,
-    updateOnImagesReady: true
+    updateOnImagesReady: true,
+    on: {
+      click() {
+        this.slideTo(this.clickedIndex);
+      }
+    }
   };
 
   /** 分頁瀑布流效果 */

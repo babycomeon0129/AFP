@@ -7,10 +7,19 @@ import { AppService } from '@app/app.service';
   styleUrls: ['./swiper-panes.component.scss']
 })
 export class SwiperPanesComponent implements OnInit {
-
+  /** Input 參數說明
+   * swiperOptionPanes: swiper Option設定
+   * slidesPanes: 資料源
+   * template: 樣版
+   * pagination: 分頁 顯示/隱藏
+   * arrows: 箭頭 顯示/隱藏
+   * readSheetMode: 點擊模式
+   */
   @Input() slidesPanes: any;
   @Input() swiperOptionPanes: string;
-  @Input() swiperStyle: string;
+  @Input() template: string;
+  @Input() pagination: boolean;
+  @Input() arrows: boolean;
   @Input() readSheetMode: any;
 
 

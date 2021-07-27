@@ -17,7 +17,7 @@ export class SwiperContentComponent implements OnInit {
   @Input() pagination: boolean;
   /** swiper是否顯示點點分頁(true顯示,false隱藏) */
   @Input() arrows: boolean;
-  /** swiper顯示圖片還是顯示背景圖片(true顯示圖片,false隱藏而顯示背景圖片) */
+  /** swiper顯示圖片還是顯示背景圖片(true顯示圖片,false隱藏而顯示背景圖片,與contImg擇一使用) */
   @Input() contImg: boolean;
   @Input() contBackground: string;
   /** swiper初始選項 */

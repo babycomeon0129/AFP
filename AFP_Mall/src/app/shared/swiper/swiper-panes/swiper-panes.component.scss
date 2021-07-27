@@ -125,3 +125,32 @@
     }
   }
 }
+
+.channel-template1-panes {
+  .products-content {
+    position: relative;
+    border-radius: .5em;
+    overflow: hidden;
+    .products-news {
+      width: 100%;
+      height: 3em;
+      position: absolute;
+      bottom: 0;
+      padding: .25em .5em;
+      font-size: small;
+      text-align: left;
+      color: white;
+      background: linear-gradient(transparent, #000);
+      p {
+        width:auto;
+        height: 3em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+         -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        line-height: 1.1em;
+      }
+    }
+  }
+}

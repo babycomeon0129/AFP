@@ -4,22 +4,18 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AFP_Function } from '@app/_models';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ConfirmModalComponent } from './../../modal/confirm-modal/confirm-modal.component';
-import { layerAnimation } from '@app/animations';
 
 @Component({
   selector: 'app-swiper-icon',
   templateUrl: './swiper-icon.component.html',
-  styleUrls: ['./swiper-icon.component.scss'],
-  animations: [layerAnimation]
+  styleUrls: ['./swiper-icon.component.scss']
 })
 export class SwiperIconComponent implements OnInit {
   modalRef: BsModalRef;
   message: string;
   /** swiper資料來源 */
   @Input() slides: any;
-  /** 更多服務資料來源 */
-  @Input() slidesMore: any;
-  /** swiper是否顯示點點分頁(true顯示,false隱藏) */
+  /** swiper是否顯示箭頭分頁(true顯示,false隱藏) */
   @Input() arrows: boolean;
   /** swiper初始選項 */
   @Input() swiperOption: string ;
