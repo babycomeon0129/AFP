@@ -21,7 +21,7 @@
     <div class="p-3">
       <h6 class="py-2">遊戲館</h6>
       <div class="member-flex flex-coinbn">
-        <div *ngFor="let item of info.List_Game" [routerLink]="['/GameCenter/Game', item.Game_Code]"
+        <div *ngFor="let item of info.List_Game" [routerLink]="['/GameCenter/Game', item.Game_Code]" [queryParams]="{GameType: item.Game_Type}"
           [queryParams]="{ showBack: true}" class="item">
           <img [lazyLoad]="item.Game_Image" class="img-fluid border-radius5" [defaultImage]="appService.defaultImage">
           <div class="badge-box" [hidden]="item.Game_Tag === null">

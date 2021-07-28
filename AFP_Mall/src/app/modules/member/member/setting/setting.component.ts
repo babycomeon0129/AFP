@@ -51,4 +51,9 @@ export class SettingComponent implements OnInit {
     }
   }
 
+  test(){
+    this.location.back()
+    console.log(this.location);
+  }
+
 }
