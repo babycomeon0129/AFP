@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AFP_ADImg, Request_ECVoucher, Response_ECVoucher, AFP_Voucher, Model_DictionaryShort } from '@app/_models';
 import { AppService } from 'src/app/app.service';
 import { SwiperOptions } from 'swiper';
