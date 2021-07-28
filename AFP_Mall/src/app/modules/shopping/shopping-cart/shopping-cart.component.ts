@@ -42,10 +42,8 @@ export class ShoppingCartComponent implements OnInit {
 
   ngOnInit() {
     this.cartCode = Number(this.cookieService.get('cart_code'));
-    this.cartCount = Number(this.cookieService.get('cart_count_Mobii'));
+    this.cartCount = Number(this.cookieService.get('cart_count_Mobii')) || 0;
     this.showCartData();
-    // APP從會員中心→我的收藏→商品詳細→購物車要顯示返回鍵
-    // this.appService.showBack = this.route.snapshot.queryParams.showBack === 'true';
   }
 
   /** 讀取、整理、顯示購物車資料 */

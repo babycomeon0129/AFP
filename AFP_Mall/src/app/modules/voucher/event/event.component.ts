@@ -55,7 +55,6 @@ export class EventComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.voucherList);
     this.readData();
   }
 
