@@ -35,4 +35,13 @@ export class MPointComponent implements OnInit {
       });
     }
   }
+
+  /** 到點數紀錄頁 */
+  goToMpointHistory(): void {
+    if (this.appService.loginState) {
+      this.router.navigate(['/MemberFunction/MemberCoin'], { queryParams: { coinHistory: 1, showBack: this.appService.showBack } });
+    } else {
+      this.appService.loginPage();
+    }
+  }
 }
