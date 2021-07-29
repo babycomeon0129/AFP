@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation } from '@app/animations';
 import { CookieService } from 'ngx-cookie-service';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-notification',
@@ -51,7 +52,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
       this.JustKaUrl = data.JustKaUrl;
       // 將通知都視為已讀
       this.appService.pushCount = 0;
-      this.cookieService.delete('pushCount');
+      this.cookieService.delete('pushCount', '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
 
     });
     // 若是從訊息詳情點擊分類進來則直接開啟該分類列表
@@ -89,9 +90,9 @@ export class NotificationComponent implements OnInit, OnDestroy {
     // 若為訂單通知，則前往訂單，否則僅做開合
     if (msg.IMessage_OrderNo != null) {
       if (msg.IMessage_OrderType === 21) {
-        this.router.navigate(['/MemberFunction/ETicketOrderDetail', msg.IMessage_OrderNo], {queryParams: {showBack: true}});
+        this.router.navigate(['/MemberFunction/ETicketOrderDetail', msg.IMessage_OrderNo], { queryParams: { showBack: true } });
       } else {
-        this.router.navigate(['/MemberFunction/MyOrderDetail', msg.IMessage_OrderNo], {queryParams: {showBack: true}});
+        this.router.navigate(['/MemberFunction/MyOrderDetail', msg.IMessage_OrderNo], { queryParams: { showBack: true } });
       }
     }
     // TODO: [寫法]activeStatus 預設其實為undefined不是false
