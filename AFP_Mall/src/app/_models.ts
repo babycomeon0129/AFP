@@ -2098,6 +2098,7 @@ export class AFP_IMessage {
   IMessage_BigImg: string;
   /** 是否顯示CTA按鈕 */
   IMessage_IsShowCTA: number;
+  /** 顯示了解更多 */
   activeStatus: boolean;
 }
 
@@ -2224,6 +2225,7 @@ export interface Model_CustomerDetail {
 export interface Response_AFPReadMobile {
   /** 新消費者包資訊(加密後),如有錯誤則回傳空值 */
   CustomerDetail: string;
+  /** 帳號是否存在 ture 存在 false 不存在 */
   IsExist: boolean;
 }
 
