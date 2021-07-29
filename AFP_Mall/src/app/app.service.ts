@@ -22,7 +22,6 @@ import { LoginRegisterModalComponent } from './shared/modal/login-register-modal
 import { JustkaModalComponent } from './shared/modal/justka-modal/justka-modal.component';
 import { MsgShareModalComponent } from './shared/modal/msg-share-modal/msg-share-modal.component';
 
-declare var $: any;
 declare var AppJSInterface: any;
 
 @Injectable({
@@ -532,21 +531,6 @@ export class AppService {
       d = Math.floor(d / 16);
       return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
     });
-  }
-
-  /** 通知APP是否開啟BottomBar
-   * @param isOpen true: 開 , false: 關
-   */
-  appShowMobileFooter(isOpen: boolean): void {
-    if (this.isApp !== null) {
-      if (navigator.userAgent.match(/android/i)) {
-        //  Android
-        AppJSInterface.showBottomBar(isOpen);
-      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-        //  IOS
-        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showBottomBar', isShow: isOpen });
-      }
-    }
   }
 
   /** 通知APP是否開啟showBackButton
