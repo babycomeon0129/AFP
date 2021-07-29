@@ -37,7 +37,6 @@ export class NotificationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
     const request: Request_MemberMsg = {
       User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 4,
@@ -50,15 +49,14 @@ export class NotificationComponent implements OnInit, OnDestroy {
       this.categoryMsg = data.List_MsgTitle;
       this.latestList = data.List_Message;
       this.JustKaUrl = data.JustKaUrl;
-      // 將通知都視為已讀
-      this.appService.pushCount = 0;
-      this.cookieService.delete('pushCount', '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-
     });
     // 若是從訊息詳情點擊分類進來則直接開啟該分類列表
     if (history.state.data !== undefined) {
       this.showCategoryList(history.state.data.cateName, history.state.data.cateCode);
     }
+    // 將通知都視為已讀
+    this.appService.pushCount = 0;
+    this.cookieService.delete('pushCount', '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
   }
 
   /**
