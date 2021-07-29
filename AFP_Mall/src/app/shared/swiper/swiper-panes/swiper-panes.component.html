@@ -75,7 +75,6 @@
       <!-- channel樣版 swiper -->
       <swiper class="swiper-container" *ngIf="template !== undefined" [config]="swiperOptionPanes" [ngClass]="template">
         <div class="swiper-wrapper">
-          <!-- channel-template1樣版 -->
           <div class="swiper-slide" *ngFor="let inside of item.VoucherData">
             <div class="products-item"
             [routerLink]="inside?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', inside?.Voucher_Code] : ['/Voucher/VoucherDetail', inside?.Voucher_UserVoucherCode]">
@@ -86,16 +85,27 @@
                       [defaultImage]="appService.defaultImage"></div>
                   </div>
                 </div>
-                <div class="products-news" *ngIf="inside.Voucher_ExtName !== ''">
+                <div class="channel-content" *ngIf="template === 'channel-template1-panes'">
+                  <p *ngIf="inside.Voucher_ExtName !== ''">{{inside.Voucher_ExtName}}</p>
+                </div>
+                <div class="channel-content" *ngIf="template === 'channel-template2-panes'">
+                  <p>{{inside.Voucher_Title}}</p>
+                  <small>{{inside.Voucher_ExtName}}</small>
+                </div>
+                <div class="channel-content" *ngIf="template === 'channel-template3-panes'">
                   <p>{{inside.Voucher_ExtName}}</p>
+                  <div class="spacialprice">
+                    {{inside.Voucher_SpecialPrice > 0? (inside.Voucher_SpecialPrice | currency: 'TWD':'$':'1.0-2') : ''}}</div>
+                  <div class="sellprice">
+                    {{inside.Voucher_SellPrice | currency: 'TWD':'$':'1.0-2' }}</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div *ngIf="pagination" class="swiper-pagination"></div>
-        <div *ngIf="arrows" class="swiper-button-prev"></div>
-        <div *ngIf="arrows" class="swiper-button-next"></div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
       </swiper>
   </div>
 </div>

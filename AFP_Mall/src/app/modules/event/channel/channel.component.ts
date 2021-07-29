@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { AppService } from '@app/app.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ActivatedRoute } from '@angular/router';
 import { InfoModalComponent } from '@app/shared/modal/info-modal/info-modal.component';
@@ -123,6 +124,14 @@ export class ChannelComponent implements OnInit {
 
   /** 專屬優惠券 panes swiper */
   public boxChannel2: SwiperOptions = {
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
     slidesPerView: 3,
     spaceBetween: 10,
     breakpoints: {
@@ -150,6 +159,10 @@ export class ChannelComponent implements OnInit {
       }
     }
   };
+  /** 判斷 justKa客服modal 顯示與否 */
+  public show = false;
+  /** 關閉 justKa 對話框 */
+  public closeMsg = false;
 
   /** 假資料 */
   public adMid = [{
@@ -508,7 +521,9 @@ export class ChannelComponent implements OnInit {
                 "List_VoucherLimit": [],
                 "VoucherUseCount": null,
                 "Voucher_ReceiveDate": null,
-                "Voucher_IsScan": 0
+                "Voucher_IsScan": 0,
+                "Voucher_SpecialPrice": 1500,
+                "Voucher_SellPrice": 1200
             },
             {
                 "Voucher_ID": 554,
@@ -550,7 +565,9 @@ export class ChannelComponent implements OnInit {
                 "List_VoucherLimit": [],
                 "VoucherUseCount": null,
                 "Voucher_ReceiveDate": null,
-                "Voucher_IsScan": 0
+                "Voucher_IsScan": 0,
+                "Voucher_SpecialPrice": 0,
+                "Voucher_SellPrice": 590
             },
             {
                 "Voucher_ID": 461,
@@ -592,7 +609,53 @@ export class ChannelComponent implements OnInit {
                 "List_VoucherLimit": [],
                 "VoucherUseCount": null,
                 "Voucher_ReceiveDate": null,
-                "Voucher_IsScan": 0
+                "Voucher_IsScan": 0,
+                "Voucher_SpecialPrice": 2300,
+                "Voucher_SellPrice": 2300
+            },
+            {
+                "Voucher_ID": 461,
+                "Voucher_Code": 460064343500682,
+                "Voucher_UserVoucherCode": null,
+                "Voucher_CountryCode": 886,
+                "Discount_Amount": 0,
+                "Voucher_UsedType": 3,
+                "Voucher_UsedTypeName": null,
+                "Voucher_ShowType": 2200,
+                "Voucher_ShowTypeName": null,
+                "Voucher_Title": "三明堂三明堂三明堂",
+                "Voucher_URLTarget": null,
+                "Voucher_URL": null,
+                "Voucher_IsFreq": 1,
+                "Voucher_FreqName": "兌換",
+                "Voucher_Type": 11,
+                "Voucher_CompanyCode": 110064340449969,
+                "Voucher_ECStoreCode": 290064341918799,
+                "Voucher_ExtName": "消費定食滿250元贈小點乙份 消費定食滿250元贈小點乙份",
+                "Voucher_DedPoint": 0,
+                "Voucher_SpecialPoint": 0,
+                "Voucher_Image": "http://54.150.124.230:38085//Upload/Images/20201016/c2a503cc-fb1d-42f8-b56d-cafc7dc5330f.jpg",
+                "Voucher_ReleasedCount": 0,
+                "Voucher_IssuanceLimit": 0,
+                "Voucher_ReceiveLimit": 0,
+                "Voucher_UsedLimitType": 0,
+                "Voucher_UsedLimit": 0,
+                "Voucher_CheckLimit": null,
+                "Voucher_FeeType": null,
+                "Voucher_UsedOnDate": "2020-10-16T10:53:48",
+                "Voucher_UsedOffDate": "2021-11-30T23:59:59",
+                "Voucher_OnlineDate": "2020-10-16T10:53:48",
+                "Voucher_OfflineDate": "2021-11-30T23:59:59",
+                "Voucher_State": 0,
+                "Voucher_Content": null,
+                "Voucher_Note": null,
+                "VoucherRange_Prod": [],
+                "List_VoucherLimit": [],
+                "VoucherUseCount": null,
+                "Voucher_ReceiveDate": null,
+                "Voucher_IsScan": 0,
+                "Voucher_SpecialPrice": 11800,
+                "Voucher_SellPrice": 11500
             }
         ]
     },
@@ -621,8 +684,9 @@ export class ChannelComponent implements OnInit {
         "VoucherData": []
     }
   ];
+  public footerHtml = "注意事項：<br>媽小里家再即會色外出查賣收？時象案，創選告類，早的樣式自演等明，朋輕內間，管童苦行皮腳種時輕應西野：程熱斯民作油得當我舉案也？字成樣日張華李，學起作變老要足開民門氣有去在音不小清創選告類，早的樣式自演等明，朋輕內間，管童苦行皮腳種時輕應西野：程熱斯民作油得當我舉案也？字成樣日張華李，學起作變老要足開民門創選告類，早的樣式自演學起作變老要足開民門...<a href='#'><繼續閱讀></a>"
 
-  constructor(private modalService: BsModalService, private activatedRoute: ActivatedRoute) {
+  constructor(public appService: AppService, private modalService: BsModalService, private activatedRoute: ActivatedRoute) {
     /** 取得queryParams設定LayerTrig(更多服務) */
     this.activatedRoute.queryParams.subscribe(params => {
       if (typeof params.layerTrig !== 'undefined') {
@@ -650,5 +714,16 @@ export class ChannelComponent implements OnInit {
    */
    readSheet(mode: number, index: number, menuCode: number, channelCode?: number): void {
     console.log(mode, index, menuCode, channelCode);
+  }
+
+  /** justKa點擊事件（justKa modal 顯示與否） */
+   toggle() {
+    this.show = !this.show;
+    if (this.show) {
+      const JustKaUrl = 'https://biz.justka.ai/webapp/home?q=a2d422f6-b4bc-4e1d-9ca0-7b4db3258f35&a=d3f53a60-db70-11e9-8a34-2a2ae2dbcce4'
+      this.appService.showJustka(JustKaUrl);
+    } else {
+      document.querySelector('body').classList.remove('modal-open');
+    }
   }
 }

@@ -11,8 +11,6 @@ export class SwiperPanesComponent implements OnInit {
    * swiperOptionPanes: swiper Option設定
    * slidesPanes: 資料源
    * template: 樣版
-   * pagination: 分頁 顯示/隱藏
-   * arrows: 箭頭 顯示/隱藏
    * readSheetMode: 點擊模式
    */
   @Input() slidesPanes: any;

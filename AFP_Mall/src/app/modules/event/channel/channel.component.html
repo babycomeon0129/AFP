@@ -56,28 +56,54 @@
         <app-swiper-nav [swiperOptionNav]="boxTabs" [slidesNav]="channel1" [readSheetMode]="2" [template]="'channel-template2'"
           (readSheetNav)="readSheet($event.Mode, $event.Idx, $event.Code, $event.Id)"></app-swiper-nav>
         <app-swiper-panes [swiperOptionPanes]="boxChannel2" [slidesPanes]="channel1" [readSheetMode]="2"
-          [template]="'channel-template2-panes'" [pagination]="true" [arrows]="true"></app-swiper-panes>
+          [template]="'channel-template2-panes'"></app-swiper-panes>
       </div>
     </section>
+    <!-- 專屬優惠商品 -->
+    <section class="channel-section">
+      <h6>專屬優惠商品</h6>
+      <div class="channel-swiper-box shadow">
+        <app-swiper-nav [swiperOptionNav]="boxTabs" [slidesNav]="channel1" [readSheetMode]="2" [template]="'channel-template3'"
+          (readSheetNav)="readSheet($event.Mode, $event.Idx, $event.Code, $event.Id)"></app-swiper-nav>
+        <app-swiper-panes [swiperOptionPanes]="boxChannel2" [slidesPanes]="channel1" [readSheetMode]="2"
+          [template]="'channel-template3-panes'"></app-swiper-panes>
+      </div>
+    </section>
+    <section class="channel-footer">
+      <div *ngIf="footerHtml" [innerHTML]="footerHtml | Safe: 'html'"></div>
+    </section>
+    <!--web service (justKa)-->
+    <div class="bearservice">
+      <div class="scroll-top-wrapper">
+        <span class="scroll-top-inner">
+          <button (click)="toggle();" type="button" id="webservice">
+            <img src="../../../../../../img/index/icons/for-pc/icon_service.png" class="justka-img"></button>
+        </span>
+        <div class="justka-msg" [ngClass]="{'d-none': closeMsg }">
+          <button (click)="closeMsg = true" type="button">×</button>
+          <p>哈囉您好！有需要幫忙的地方，歡迎找我喔！</p>
+        </div>
+      </div>
+    </div>
   </main>
+</div>
 
-  <!-- 更多服務icon(滑頁) -->
-  <div class="more-icon-box" [ngClass]="{'fixed-top': layerTrig === 1}">
-    <div class="layerTrig container" [@layerTrigger] *ngIf="layerTrig === 1">
-      <div>
-        <div class="head-top">
-          <!-- 點擊帶queryParams控制父層class -->
-          <button class="btn" (click)="layerTrig = 0" [routerLink]="'/Event'" [queryParams]="{layerTrig: 0}">
-            <i class="material-icons">&#xe314;</i><span>返回</span>
-          </button>
-        </div>
-        <div class="row">
-          <a class="col" *ngFor="let link of iconMore" [target]="link.Function_URLTarget"
-            [href]="link.Function_URL">
-            <img [src]="link.Function_Icon">
-            <p class="txt-line-clamp1">{{ link.Function_Name }}</p>
-          </a>
-        </div>
+<!-- 更多服務icon(滑頁) -->
+<div class="more-icon-box" [ngClass]="{'open': layerTrig === 1}">
+  <div class="layerTrig container" [@layerTrigger] *ngIf="layerTrig === 1">
+    <div>
+      <div class="head-top">
+        <!-- 點擊帶queryParams控制父層class -->
+        <button class="btn" (click)="layerTrig = 0" [routerLink]="'/Event'" [queryParams]="{layerTrig: 0}">
+          <i class="material-icons">&#xe314;</i><span>返回</span>
+        </button>
+      </div>
+      <div class="row">
+        <a class="col" *ngFor="let link of iconMore" [target]="link.Function_URLTarget"
+          [href]="link.Function_URL">
+          <img [src]="link.Function_Icon">
+          <p class="txt-line-clamp1">{{ link.Function_Name }}</p>
+        </a>
       </div>
     </div>
   </div>
