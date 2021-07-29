@@ -6,8 +6,10 @@ import { AppService } from 'src/app/app.service';
 import { ModalService } from '../modal.service';
 import { AuthService, SocialUser, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 import { NgForm } from '@angular/forms';
-import { Model_ShareData, Response_AFPLogin, Request_AFPAccount, Request_AFPVerifyCode,
-  Response_AFPVerifyCode, Request_AFPReadMobile, Response_AFPReadMobile, Request_AFPThird } from '@app/_models';
+import {
+  Model_ShareData, Response_AFPLogin, Request_AFPAccount, Request_AFPVerifyCode,
+  Response_AFPVerifyCode, Request_AFPReadMobile, Response_AFPReadMobile, Request_AFPThird
+} from '@app/_models';
 import { CookieService } from 'ngx-cookie-service';
 import jwt_decode from 'jwt-decode';
 declare var AppleID: any;
@@ -65,7 +67,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   constructor(
     public bsModalRef: BsModalRef, private authService: AuthService, private appService: AppService, public modal: ModalService,
     private cookieService: CookieService, private router: Router, private route: ActivatedRoute) {
-      this.detectApple();
+    this.detectApple();
   }
 
   ngOnInit() {
@@ -95,7 +97,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       scope: 'email name',
       redirectURI: environment.AppleSignInURI,
       state: this.signinState,
-      usePopup : true
+      usePopup: true
     });
 
     // Apple 登入授權成功，第三方登入取得資料
@@ -122,7 +124,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       this.stopListeningApple();
       this.bsModalRef.hide(); // 關閉視窗
       // 如果錯誤並非用戶直接關掉POPUP視窗，則跳錯誤訊息
-      if(error.detail.error !== 'popup_closed_by_user') {
+      if (error.detail.error !== 'popup_closed_by_user') {
         this.modal.show('message', { initialState: { success: false, message: 'Apple登入失敗', note: error.detail.error, showType: 1 } });
       }
     });
@@ -207,7 +209,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
 
   /** 註冊-發送手機驗證碼 */
   sendRegVCode(): void {
-    this.remainingSec = 60;
+    this.appService.openBlock();
     const request: Request_AFPVerifyCode = {
       SelectMode: 11,
       VerifiedAction: 1,
@@ -219,16 +221,20 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
     };
 
     this.appService.toApi('AFPAccount', '1112', request).subscribe((data: Response_AFPVerifyCode) => {
-      // 開始倒數
-      this.vCodeTimer = setInterval(() => {
-        this.remainingSec -= 1;
-        if (this.remainingSec <= 0) {
-          clearInterval(this.vCodeTimer);
-        }
-      }, 1000);
-      // 接使用者編碼
-      this.registerRequest.VerifiedInfo.CheckValue = data.VerifiedInfo.CheckValue;
-      document.getElementById('registeredCheck1').focus();
+      // 如後端驗證成功，data才會有值，故先判斷是否成功再進行按鈕時間倒數
+      if (data !== null) {
+        this.remainingSec = 60;
+        // 開始倒數
+        this.vCodeTimer = setInterval(() => {
+          this.remainingSec -= 1;
+          if (this.remainingSec <= 0) {
+            clearInterval(this.vCodeTimer);
+          }
+        }, 1000);
+        // 接使用者編碼
+        this.registerRequest.VerifiedInfo.CheckValue = data.VerifiedInfo.CheckValue;
+        document.getElementById('registeredCheck1').focus();
+      }
     });
   }
 
@@ -270,7 +276,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       this.bsModalRef.hide();
       // 提示社群綁定
       const msg = `註冊成功！歡迎加入Mobii!\n小技巧：綁定您的社群帳號，未來就可快速登入囉！`;
-      this.modal.show('message', { initialState: { success: true, message: msg, showType: 6, leftBtnMsg: `下次再說`, rightBtnMsg: `立即綁定`, rightBtnUrl: `/Member/ThirdBinding`} });
+      this.modal.show('message', { initialState: { success: true, message: msg, showType: 6, leftBtnMsg: `下次再說`, rightBtnMsg: `立即綁定`, rightBtnUrl: `/Member/ThirdBinding` } });
       // 通知推播
       this.appService.initPush();
     });
@@ -297,8 +303,8 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
 
   /** 停止聽取Apple登入的DOM event */
   stopListeningApple(): void {
-    document.removeEventListener('AppleIDSignInOnSuccess', (authData: any) => {});
-    document.removeEventListener('AppleIDSignInOnFailure', (error: any) => {});
+    document.removeEventListener('AppleIDSignInOnSuccess', (authData: any) => { });
+    document.removeEventListener('AppleIDSignInOnFailure', (error: any) => { });
   }
 
   ngOnDestroy(): void {
