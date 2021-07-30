@@ -34,14 +34,6 @@ export class AppService {
   public userName: string;
   /** App訪問 */
   public isApp = null;
-  /** callLayer 側邊滑入頁面 */
-  public tLayer = [];
-  /** callLayer 呼叫頁面 z-index */
-  public layerIdx = 1;
-  /** callLayerUp 下方上滑頁面 */
-  public tLayerUp = [];
-  /** callsortLayer 篩選頁面 */
-  public sLayer = [];
   /** 我的收藏物件陣列 */
   public userFavArr = [];
   /** 我的收藏編碼陣列 */
@@ -265,7 +257,7 @@ export class AppService {
   }
 
   /** 顯示我的收藏 */
-  showFavorites() {
+  showFavorites(): void {
     // get favorite from session and turn it from string to json
     if (sessionStorage.getItem('userFavorites') != null) {
       this.userFavArr = JSON.parse(sessionStorage.getItem('userFavorites'));
@@ -284,7 +276,7 @@ export class AppService {
    * @param favType 51 商品, 52 商家, 53 周邊, 54 行程
    * @param favCode 商品/商家/周邊/行程編碼
    */
-  favToggle(favAction: number, favType: number, favCode?: number) {
+  favToggle(favAction: number, favType: number, favCode?: number): void {
     const request: Request_MemberFavourite = {
       SelectMode: favAction,
       User_Code: sessionStorage.getItem('userCode'),
@@ -316,7 +308,7 @@ export class AppService {
   }
 
   /** 讀取購物車 (主要為更新數量) */
-  readCart() {
+  readCart(): void {
     const request: Request_ECCart = {
       SelectMode: 4, // 固定讀取
       User_Code: sessionStorage.getItem('userCode'),
@@ -335,7 +327,7 @@ export class AppService {
    * @param voucher 所選優惠券資訊
    * Voucher_FreqName: 0 已兌換 1 兌換 2 去商店 3 已使用 4 兌換完畢（限一元搶購） 5 使用 6 已逾期（限我的優惠+優惠券詳細） 7 未生效（限我的優惠+優惠券詳細） 8 使用中
    */
-  onVoucher(voucher: AFP_Voucher) {
+  onVoucher(voucher: AFP_Voucher): void {
     if (this.loginState) {
       switch (voucher.Voucher_IsFreq) {
         case 1:
@@ -408,7 +400,7 @@ export class AppService {
   }
 
   //  App導頁用
-  AppRouter(active: string, type = 0) {
+  AppRouter(active: string, type = 0): void {
     if (this.isApp === null) {
       this.router.navigate([active]);
     } else {
@@ -422,7 +414,7 @@ export class AppService {
   }
 
   /** 判斷跳出網頁或APP的登入頁 */
-  loginPage() {
+  loginPage(): void {
     if (this.isApp == null) {
      // this.modal.openModal('loginRegister');
       this.bsModal.show(LoginRegisterModalComponent, { class: 'modal-full'});
@@ -447,7 +439,7 @@ export class AppService {
   /** 初始化推播
    * (註冊 service worker、告訴 firebase.messaging 服務之後的訊息請交由此 SW 處理、取得token、產生/取得 deviceCode、傳送給後端並取得新消費者包)
    */
-  initPush() {
+  initPush(): void {
     if (environment.swActivate) {
       // 不重複初始化
       if (!firebase.apps.length) {
@@ -509,7 +501,7 @@ export class AppService {
   }
 
   /** 推播-取得含device code的新消費者包 */
-  toPushApi() {
+  toPushApi(): void {
     const request: Request_AFPPushToken = {
       User_Code: sessionStorage.getItem('userCode'),
       Token: this.firebaseToken
@@ -565,7 +557,7 @@ export class AppService {
    * @param sharedContent 分享內容文案
    * @param APPShareUrl APP分享時使用的url（直接抓當前url在APP中會帶入使用者相關資訊因此不使用）
    */
-  shareContent(sharedContent: string, APPShareUrl: string) {
+  shareContent(sharedContent: string, APPShareUrl: string): void {
     if (this.isApp === null) {
       // web
       // this.modal.show('msgShare', { initialState: { sharedText: sharedContent } });
