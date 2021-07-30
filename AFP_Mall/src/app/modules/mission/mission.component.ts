@@ -33,8 +33,6 @@ export class MissionComponent implements OnInit {
     this.meta.updateTag({ content: 'Mobii! - 任務。這裡會顯示 Mobii! 用戶在 Mobii! 平台上的任務，包括每日登入、每日遊戲可以拿回饋點數 M Points，三不五時會更換使用者要完成的任務。請先登入註冊以開啟功能。', property: 'og:description' });
 
     this.route.queryParams.subscribe(params => {
-      // 從會員中心進來則隱藏返回鍵
-     // this.appService.showBack = params.showBack === 'true';
       // 根據url params的tabNo，賦予tabNo值。如果沒有url params沒有tabNo，則初始值11(每日任務)
       this.tabNo = typeof params.tabNo !== 'undefined' ? parseInt(params.tabNo, 10) : 11;
       this.tabChange();
