@@ -33,7 +33,7 @@ export class AppService {
   /** 使用者暱稱 */
   public userName: string;
   /** App訪問 */
-  public isApp = null;
+  public isApp: number = null;
   /** callLayer 側邊滑入頁面 */
   public tLayer = [];
   /** callLayer 呼叫頁面 z-index */
@@ -424,8 +424,8 @@ export class AppService {
   /** 判斷跳出網頁或APP的登入頁 */
   loginPage() {
     if (this.isApp == null) {
-     // this.modal.openModal('loginRegister');
-      this.bsModal.show(LoginRegisterModalComponent, { class: 'modal-full'});
+      // this.modal.openModal('loginRegister');
+      this.bsModal.show(LoginRegisterModalComponent, { class: 'modal-full' });
     } else {
       if (navigator.userAgent.match(/android/i)) {
         //  Android
@@ -531,34 +531,6 @@ export class AppService {
       d = Math.floor(d / 16);
       return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
     });
-  }
-
-  /** 通知APP是否開啟showBackButton
-   * @param isShowBt true: 開 , false: 關
-   */
-  appShowBackButton(isShowBt: boolean): void {
-    if (this.isApp !== null) {
-      if (navigator.userAgent.match(/android/i)) {
-        // Android
-        AppJSInterface.showBackButton(isShowBt);
-      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-        // IOS
-        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showBackButton', isShow: isShowBt });
-      }
-    }
-  }
-
-  /** 通知App關閉Web view 的關閉按鈕 (true : 關閉) */
-  appWebViewbutton(isOpen: boolean): void {
-    if (this.isApp !== null) {
-      if (navigator.userAgent.match(/android/i)) {
-        //  Android
-        AppJSInterface.showCloseButton(isOpen);
-      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-        //  IOS
-        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showCloseButton', isShow: isOpen });
-      }
-    }
   }
 
   /** 分享功能

@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
     // App訪問
     this.activatedRoute.queryParams.subscribe(params => {
       if (this.appService.isApp == null && typeof params.isApp !== 'undefined') {
-        this.appService.isApp = params.isApp;
+        this.appService.isApp = Number(params.isApp);
       }
 
       if (typeof params.loginType !== 'undefined') {
