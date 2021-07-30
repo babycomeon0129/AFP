@@ -28,8 +28,7 @@ export class ForgetModalComponent implements OnDestroy {
   public existingAccount = true;
 
 
-  constructor(public bsModalRef: BsModalRef, private appService: AppService,
-    private bsModal: BsModalService) { }
+  constructor(public bsModalRef: BsModalRef, private appService: AppService, private bsModal: BsModalService) { }
 
   /** 檢查帳號是否已存在 */
   checkAccount(): void {
