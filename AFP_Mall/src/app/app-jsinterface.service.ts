@@ -53,4 +53,26 @@ export class AppJSInterfaceService {
       }
     }
   }
+
+  /** 通知App關閉web view */
+  appWebViewClose(): void {
+    if (navigator.userAgent.match(/android/i)) {
+      //  Android
+      AppJSInterface.back();
+    } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+      //  IOS
+      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'back' });
+    }
+  }
+
+  /** 如果是app，開啟商家詳細頁時導到原生商家詳細頁 */
+  goAppExploreDetail(code: string): void {
+    if (navigator.userAgent.match(/android/i)) {
+      //  Android
+      AppJSInterface.goAppExploreDetail(code);
+    } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+      //  IOS
+      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'goAppExploreDetail', storeId: code });
+    }
+  }
 }

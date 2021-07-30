@@ -554,17 +554,6 @@ export class AppService {
     }
   }
 
-  /** 通知App關閉web view */
-  appWebViewClose(): void {
-    if (navigator.userAgent.match(/android/i)) {
-      //  Android
-      AppJSInterface.back();
-    } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-      //  IOS
-      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'back' });
-    }
-  }
-
 }
 
 
