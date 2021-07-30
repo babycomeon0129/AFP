@@ -8,7 +8,6 @@ import { PasswordModalComponent } from './password-modal/password-modal.componen
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 import { CouponModalComponent } from './coupon-modal/coupon-modal.component';
 import { JustkaModalComponent } from './justka-modal/justka-modal.component';
-import { MissionModalComponent } from './mission-modal/mission-modal.component';
 import { ReceiptModalComponent } from './receipt-modal/receipt-modal.component';
 import { MsgShareModalComponent } from './msg-share-modal/msg-share-modal.component';
 import { LoginRegisterModalComponent } from './login-register-modal/login-register-modal.component';
@@ -40,9 +39,6 @@ export class ModalService {
         break;
       case 'justka':
         this.bsModalService.show(JustkaModalComponent, config);
-        break;
-      case 'mission':
-        this.bsModalService.show(MissionModalComponent, config);
         break;
       case 'receipt':
         this.bsModalService.show(ReceiptModalComponent, config);
@@ -77,9 +73,6 @@ export class ModalService {
         break;
       case 'justka':
         this.bsModalService.show(JustkaModalComponent, options);
-        break;
-      case 'mission':
-        this.bsModalService.show(MissionModalComponent, options);
         break;
       case 'receipt':
         this.bsModalService.show(ReceiptModalComponent, options);

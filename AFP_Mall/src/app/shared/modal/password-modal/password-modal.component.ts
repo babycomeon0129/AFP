@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { BsModalRef } from 'ngx-bootstrap';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { AppService } from 'src/app/app.service';
 import { AFP_VerifiedInfo } from '@app/_models';
-import { ModalService } from '../modal.service';
+import { MessageModalComponent } from '../message-modal/message-modal.component';
 
 @Component({
   selector: 'app-password-modal',
@@ -23,7 +23,7 @@ export class PasswordModalComponent {
   /** 二次密碼可見用 */
   public repwdEyes = false;
 
-  constructor(public bsModalRef: BsModalRef, private appService: AppService, public modalService: ModalService) { }
+  constructor(public bsModalRef: BsModalRef, private appService: AppService, private bsModal: BsModalService) { }
 
   /** 註冊送出 */
   onSubmit(): void {
@@ -34,9 +34,11 @@ export class PasswordModalComponent {
         VerifiedInfo: this.VerifiedInfo
       };
       this.appService.toApi('Home', '1103', resetpwd).subscribe((data: any) => {
-        if ( data !== null ) {
-          this.modalService.show('message',
-          { initialState: { success: true, message: '密碼已設定完成，請重新登入', showType: 2, checkBtnMsg: `重新登入`}}, this.bsModalRef);
+        if (data !== null) {
+          // this.modalService.show('message',
+          //   { initialState: { success: true, message: '密碼已設定完成，請重新登入', showType: 2, checkBtnMsg: `重新登入` } }, this.bsModalRef);
+            this.bsModal.show(MessageModalComponent, { initialState: { success: true, message: '密碼已設定完成，請重新登入', showType: 2, checkBtnMsg: `重新登入` } });
+            this.bsModalRef.hide();
         }
       });
     }
