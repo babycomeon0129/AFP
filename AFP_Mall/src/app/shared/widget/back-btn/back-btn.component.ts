@@ -41,7 +41,7 @@ export class BackBtnComponent implements OnInit {
       }
       break;
       case 2 :
-        if (window.history.length === 2 || this.appService.prevUrl === '') {
+        if (window.history.length <= 2 || this.appService.prevUrl === '' || this.appService.prevUrl === '/') {
           this.router.navigate(['/']);
         } else {
           this.location.back();

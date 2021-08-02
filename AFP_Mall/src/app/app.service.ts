@@ -10,15 +10,18 @@ import { BsModalService } from 'ngx-bootstrap';
 import { MessageModalComponent } from './shared/modal/message-modal/message-modal.component';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { environment } from '@env/environment';
-import { ModalService } from './shared/modal/modal.service';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from 'angularx-social-login';
 import { SwPush } from '@angular/service-worker';
 import firebase from 'firebase/app';
 import 'firebase/messaging';
+import { VerifyMobileModalComponent } from './shared/modal/verify-mobile-modal/verify-mobile-modal.component';
+import { FavoriteModalComponent } from './shared/modal/favorite-modal/favorite-modal.component';
+import { LoginRegisterModalComponent } from './shared/modal/login-register-modal/login-register-modal.component';
+import { JustkaModalComponent } from './shared/modal/justka-modal/justka-modal.component';
+import { MsgShareModalComponent } from './shared/modal/msg-share-modal/msg-share-modal.component';
 
-declare var $: any;
 declare var AppJSInterface: any;
 
 @Injectable({
@@ -52,7 +55,7 @@ export class AppService {
   /** lazyload 的初始圖片 */
   public defaultImage = '/img/share/eee.jpg';
   /** 推播訊息數量 */
-  public pushCount = 0;
+  public pushCount = Number(this.cookieService.get('pushCount')) || 0;
   /** GUID (推播使用) */
   public deviceCode: string;
   /** firebase 推播 token */
@@ -75,7 +78,7 @@ export class AppService {
   public lineSigninState: string;
 
   @BlockUI() blockUI: NgBlockUI;
-  constructor(private http: HttpClient, private bsModal: BsModalService, public modal: ModalService, private router: Router,
+  constructor(private http: HttpClient, private bsModal: BsModalService, private router: Router,
     private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService,
     private swPush: SwPush) {
   }
@@ -102,7 +105,7 @@ export class AppService {
                 // 「一般登入」、「第三方登入」、「登入後讀購物車數量」、「推播」不引導驗證手機
                 if (command !== '1104' && command !== '1105' && command !== '1204' && command !== '1113') {
                   if (!this.verifyMobileModalOpened) {
-                    this.modal.openModal('verifyMobile');
+                    this.bsModal.show(VerifyMobileModalComponent);
                     this.verifyMobileModalOpened = true;
                   }
                 }
@@ -121,11 +124,13 @@ export class AppService {
                 this.router.navigate(['/']);
             }
             return JSON.parse(data.Data);
-          case 9996:
-            this.modal.show('message', { initialState: { success: false, message: data.Base.Rtn_Message, showType: 1, checkBtnMsg: `確定`, target: 'GoBack' } });
+          case 9996: // 查無商品詳細頁資料
+            // this.modal.show('message', { initialState: { success: false, message: data.Base.Rtn_Message, showType: 1, checkBtnMsg: `確定`, target: 'GoBack' } });
+            this.bsModal.show(MessageModalComponent, { initialState: { success: false, message: data.Base.Rtn_Message, showType: 1, checkBtnMsg: `確定`, target: 'GoBack' } });
             break;
           case 9998: // user資料不完整，讓使用者登出
-            this.modal.show('message', { initialState: { success: false, message: '請先登入', showType: 2, singleBtnMsg: `重新登入` } });
+            // this.modal.show('message', { initialState: { success: false, message: '請先登入', showType: 2, singleBtnMsg: `重新登入` } });
+            this.bsModal.show(MessageModalComponent, { initialState: { success: false, message: '請先登入', showType: 2, singleBtnMsg: `重新登入` } });
             this.onLogout();
             break;
           default: // 其他錯誤
@@ -300,7 +305,9 @@ export class AppService {
         // update favorites to array
         this.showFavorites();
         if (favAction === 1) {
-          this.modal.openModal('favorite');
+          // this.modal.openModal('favorite');
+          this.bsModal.show(FavoriteModalComponent);
+
         }
       });
     } else {
@@ -354,7 +361,8 @@ export class AppService {
                 type: 1,
                 message: `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-ok.png"><p>兌換成功！</p></div>`
               };
-              this.modal.show('message', { initialState });
+              // this.modal.show('message', { initialState });
+              this.bsModal.show(MessageModalComponent, { initialState });
             }
           });
           break;
@@ -416,7 +424,8 @@ export class AppService {
   /** 判斷跳出網頁或APP的登入頁 */
   loginPage() {
     if (this.isApp == null) {
-      this.modal.openModal('loginRegister');
+     // this.modal.openModal('loginRegister');
+      this.bsModal.show(LoginRegisterModalComponent, { class: 'modal-full'});
     } else {
       if (navigator.userAgent.match(/android/i)) {
         //  Android
@@ -431,7 +440,8 @@ export class AppService {
 
   /** 打開JustKa iframe */
   showJustka(url: string): void {
-    this.modal.show('justka', { initialState: { justkaUrl: url } });
+    // this.modal.show('justka', { initialState: { justkaUrl: url } });
+    this.bsModal.show(JustkaModalComponent, { initialState: { justkaUrl: url } });
   }
 
   /** 初始化推播
@@ -493,6 +503,7 @@ export class AppService {
       this.swPush.messages.subscribe(msg => {
         // count msg length and show red point
         this.pushCount += 1;
+        this.cookieService.set('pushCount', this.pushCount.toString(), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       });
     }
   }
@@ -520,21 +531,6 @@ export class AppService {
       d = Math.floor(d / 16);
       return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
     });
-  }
-
-  /** 通知APP是否開啟BottomBar
-   * @param isOpen true: 開 , false: 關
-   */
-  appShowMobileFooter(isOpen: boolean): void {
-    if (this.isApp !== null) {
-      if (navigator.userAgent.match(/android/i)) {
-        //  Android
-        AppJSInterface.showBottomBar(isOpen);
-      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-        //  IOS
-        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showBottomBar', isShow: isOpen });
-      }
-    }
   }
 
   /** 通知APP是否開啟showBackButton
@@ -572,7 +568,8 @@ export class AppService {
   shareContent(sharedContent: string, APPShareUrl: string) {
     if (this.isApp === null) {
       // web
-      this.modal.show('msgShare', { initialState: { sharedText: sharedContent } });
+      // this.modal.show('msgShare', { initialState: { sharedText: sharedContent } });
+      this.bsModal.show(MsgShareModalComponent, { initialState: { sharedText: sharedContent } });
     } else {
       // APP: 呼叫APP分享功能
       if (navigator.userAgent.match(/android/i)) {

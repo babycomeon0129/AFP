@@ -1,6 +1,6 @@
-<div class="modal-header" data-dismiss="modal" aria-label="Close">
+<div class="modal-header">
 </div>
-<button type="button" class="close text-right" data-dismiss="modal" aria-label="Close" (click)="bsModalRef.hide()">
+<button type="button" class="close text-right" (click)="bsModalRef.hide()">
   <span aria-hidden="true">&times;&ensp;</span>
 </button>
 <div class="modal-body">
@@ -21,28 +21,15 @@
       <button type="button" *ngIf="showType  <= 3" class="btn btn-login px-0 w-50" (click)="clickSingleBtn()">
         {{singleBtnMsg}}
       </button>
-      <!--button type="button" *ngIf="showType === 2" class="btn btn-login px-0 w-50" (click)="appService.loginPage(); goToUrl(target)">
-        重新登入
-      </!--button -->
-      <!--button type="button" *ngIf="showType === 3" class="btn btn-login px-0 w-50" (click)="doReset()">
-        確認
-      </!--button -->
-      <!--button type="button" *ngIf="showType === 4" class="btn btn-login px-0 w-50" [routerLink]="['/']" (click)="goToUrl(target)">
-        下次再說
-      </!--button>
-      <button type="button" *ngIf="showType === 4" class="btn btn-login px-0 w-50" [routerLink]="['/Member/ThirdBinding']" (click)="goToUrl(target)">
-        立即綁定
-      </button -->
-      <!--button type="button" *ngIf="showType === 5" class="btn btn-login px-0 w-50" (click)="goToUrl(target)">
-        {{singleBtnMsg}}
-      </!--button -->
       <!-- 雙顆按鈕，左右按鈕內容、連結全客製化 -->
       <button type="button" *ngIf="showType === 6" class="btn px-0 w-50" (click)="goToUrl(leftBtnUrl, queryParams1)"
-      [disabled]="leftBtnUrl === null" [ngClass]="{'btn-login': leftBtnUrl !== null, 'small-80': leftBtnUrl === null}">
+        [disabled]="leftBtnUrl === null"
+        [ngClass]="{'btn-login': leftBtnUrl !== null, 'small-80': leftBtnUrl === null}">
         {{ leftBtnMsg }}
       </button>
       <button type="button" *ngIf="showType === 6" class="btn px-0 w-50" (click)="goToUrl(rightBtnUrl, queryParams2)"
-      [disabled]="rightBtnUrl === null" [ngClass]="{'btn-login': rightBtnUrl !== null, 'small-80': rightBtnUrl === null}">
+        [disabled]="rightBtnUrl === null"
+        [ngClass]="{'btn-login': rightBtnUrl !== null, 'small-80': rightBtnUrl === null}">
         {{ rightBtnMsg }}
       </button>
     </div>

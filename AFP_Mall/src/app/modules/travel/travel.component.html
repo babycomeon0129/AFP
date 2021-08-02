@@ -36,15 +36,13 @@
               <a [href]="item.Function_URL" [target]="item.Function_URLTarget"
                 *ngIf="item.Function_URL.indexOf('http') != -1" rel="noopener noreferrer">
                 <div class="travel-bgbox">
-                  <img [lazyLoad]="item.Function_Icon" [defaultImage]="appService.defaultImage"
-                    [alt]="item.Function_Name">
+                  <img [src]="item.Function_Icon" [alt]="item.Function_Name">
                 </div>
                 <div class="travel-txt">{{item.Function_Name}}</div>
               </a>
               <a [routerLink]="[item.Function_URL]" *ngIf="item.Function_URL.indexOf('http') == -1">
                 <div class="travel-bgbox">
-                  <img [lazyLoad]="item.Function_Icon" [defaultImage]="appService.defaultImage"
-                    [alt]="item.Function_Name">
+                  <img [src]="item.Function_Icon" [alt]="item.Function_Name">
                 </div>
                 <div class="travel-txt">{{item.Function_Name}}</div>
               </a>

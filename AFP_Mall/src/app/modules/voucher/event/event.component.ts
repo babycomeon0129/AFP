@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AFP_ADImg, Request_ECVoucher, Response_ECVoucher, AFP_Voucher, Model_DictionaryShort } from '@app/_models';
 import { AppService } from 'src/app/app.service';
 import { SwiperOptions } from 'swiper';
@@ -17,9 +17,9 @@ export class EventComponent implements OnInit {
   /** 置頂圖片 */
   public coverImg: AFP_ADImg[];
   /** 優惠券列表(原始名單) */
-  public voucherListOrig: AFP_Voucher[] = [];
+  public voucherListOrig: AFP_Voucher[];
   /** 優惠券列表 */
-  public voucherList: AFP_Voucher[] = [];
+  public voucherList: AFP_Voucher[];
    /** 優惠券排序: 1 依即將到期優先 2 依上架時間(由新到舊) 3 依上架時間(由舊到新) */
    public voucherSort = 1;
    /** 優惠券使用類型分類 */

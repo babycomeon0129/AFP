@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { AppService } from '@app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { AFP_UserPoint, Response_MemberPoint, Request_MemberPoint } from '@app/modules/member/_module-member';
@@ -11,12 +11,14 @@ import { AFP_UserPoint, Response_MemberPoint, Request_MemberPoint } from '@app/m
 })
 export class MPointComponent implements OnInit {
 
+  /** 會員點數 Response */
   public info: Response_MemberPoint = new Response_MemberPoint();
+  /** 會員點數 */
   public pointHistory: AFP_UserPoint[] = [];
+  /** 點數類型 */
   public pointType = 0;
 
-  constructor(public appService: AppService, private route: ActivatedRoute,
-              public router: Router, public modal: ModalService) { }
+  constructor(public appService: AppService, public router: Router, public modal: ModalService) { }
 
   ngOnInit(): void {
     if (this.appService.loginState) {
@@ -34,24 +36,12 @@ export class MPointComponent implements OnInit {
     }
   }
 
-  /** 歷史紀錄 */
-  getHistory(): void {
+  /** 到點數紀錄頁 */
+  goToMpointHistory(): void {
     if (this.appService.loginState) {
-      this.appService.openBlock();
-      const getHistory: Request_MemberPoint = {
-        User_Code: sessionStorage.getItem('userCode'),
-        SelectMode: 5,
-        SearchModel: {
-          UserPoint_Type: this.pointType
-        }
-      };
-      this.appService.toApi('Member', '1509', getHistory).subscribe((point: Response_MemberPoint) => {
-        this.pointHistory = point.List_UserPoint;
-        this.router.navigate(['/MemberFunction/MemberCoin'], {queryParams: {coinHistory: 1, showBack: this.appService.showBack}});
-      });
+      this.router.navigate(['/MemberFunction/MemberCoin'], { queryParams: { coinHistory: 1, showBack: this.appService.showBack } });
     } else {
       this.appService.loginPage();
     }
   }
-
 }

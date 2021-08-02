@@ -113,7 +113,7 @@
     </div>
 
     <!-- Hot products -->
-    <div *ngFor="let dir of channelProducts" class="container mb-2 px-3 pt-3 border-t5" id="shopping-hotproductsbox">
+    <div *ngFor="let dir of channelProducts" class="container mb-2 px-3 pt-3 border-t5" id="shopping-hotproductsbox" [hidden]="dir?.ProductData.length === 0">
       <h6>{{dir.UserDefine_Name}}</h6>
       <swiper class="shopping-products swiper-container" [config]="shoppingProd">
         <div class="swiper-wrapper">
