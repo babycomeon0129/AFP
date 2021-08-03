@@ -33,9 +33,6 @@ export class AppService {
   /** 使用者暱稱 */
   public userName: string;
   /** App訪問 */
-<<<<<<< HEAD
-  public isApp = null;
-=======
   public isApp: number = null;
   /** callLayer 側邊滑入頁面 */
   public tLayer = [];
@@ -45,7 +42,6 @@ export class AppService {
   public tLayerUp = [];
   /** callsortLayer 篩選頁面 */
   public sLayer = [];
->>>>>>> MOB-3217-interface
   /** 我的收藏物件陣列 */
   public userFavArr = [];
   /** 我的收藏編碼陣列 */
