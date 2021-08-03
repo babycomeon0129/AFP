@@ -8,6 +8,7 @@ import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation } from '@app/animations';
+import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 declare var AppJSInterface: any;
 
 @Component({
@@ -45,7 +46,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
   public layerTrig = 0;
 
   constructor(public appService: AppService, private route: ActivatedRoute, private router: Router,
-              public modal: ModalService, private meta: Meta, private title: Title) {
+              public modal: ModalService, private meta: Meta, private title: Title, private appJSInterfaceService: AppJSInterfaceService) {
     this.voucherCode = this.route.snapshot.params.Voucher_Code;
     if (this.voucherCode.toString().substring(0, 2) === '46') {
       this.selectMode = 4;
@@ -188,7 +189,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
         case 5:
           // 使用
           this.layerTrig = 1;
-          this.appService.appShowBackButton(true);
+          this.appJSInterfaceService.appShowBackButton(true);
           this.checkWritenOff();
           break;
       }
@@ -242,7 +243,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
   closeQRCode(): void {
     this.router.navigate(['/Voucher/VoucherDetail', this.voucherCode], {queryParams: { showBack: this.appService.showBack }});
     this.layerTrig = 0;
-    this.appService.appShowBackButton(false);
+    this.appJSInterfaceService.appShowBackButton(false);
     clearInterval(this.checkTimer);
     clearTimeout(this.timer3Mins);
   }
@@ -250,23 +251,12 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
   /** 前往ExploreDetail(App特例處理，從會員中心進來顯示返回鍵) */
   goExploreDetail( ECStore_Code: string ): void {
     if (this.appService.isApp !== null) {
-      this.goAppExploreDetail(ECStore_Code);
+      this.appJSInterfaceService.goAppExploreDetail(ECStore_Code);
     } else {
       const navigationExtras: NavigationExtras = {
         queryParams: { showBack: this.route.snapshot.queryParams.showBack }
       };
       this.router.navigate(['/Explore/ExploreDetail', ECStore_Code], navigationExtras);
-    }
-  }
-
-   /** 如果是app，開啟商家詳細頁時導到原生商家詳細頁 */
-   goAppExploreDetail(code: string): void {
-    if (navigator.userAgent.match(/android/i)) {
-      //  Android
-      AppJSInterface.goAppExploreDetail(code);
-    } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-      //  IOS
-      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'goAppExploreDetail', storeId: code });
     }
   }
 

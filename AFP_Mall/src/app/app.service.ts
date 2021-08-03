@@ -33,7 +33,19 @@ export class AppService {
   /** 使用者暱稱 */
   public userName: string;
   /** App訪問 */
+<<<<<<< HEAD
   public isApp = null;
+=======
+  public isApp: number = null;
+  /** callLayer 側邊滑入頁面 */
+  public tLayer = [];
+  /** callLayer 呼叫頁面 z-index */
+  public layerIdx = 1;
+  /** callLayerUp 下方上滑頁面 */
+  public tLayerUp = [];
+  /** callsortLayer 篩選頁面 */
+  public sLayer = [];
+>>>>>>> MOB-3217-interface
   /** 我的收藏物件陣列 */
   public userFavArr = [];
   /** 我的收藏編碼陣列 */
@@ -416,8 +428,8 @@ export class AppService {
   /** 判斷跳出網頁或APP的登入頁 */
   loginPage(): void {
     if (this.isApp == null) {
-     // this.modal.openModal('loginRegister');
-      this.bsModal.show(LoginRegisterModalComponent, { class: 'modal-full'});
+      // this.modal.openModal('loginRegister');
+      this.bsModal.show(LoginRegisterModalComponent, { class: 'modal-full' });
     } else {
       if (navigator.userAgent.match(/android/i)) {
         //  Android
@@ -525,34 +537,6 @@ export class AppService {
     });
   }
 
-  /** 通知APP是否開啟showBackButton
-   * @param isShowBt true: 開 , false: 關
-   */
-  appShowBackButton(isShowBt: boolean): void {
-    if (this.isApp !== null) {
-      if (navigator.userAgent.match(/android/i)) {
-        // Android
-        AppJSInterface.showBackButton(isShowBt);
-      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-        // IOS
-        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showBackButton', isShow: isShowBt });
-      }
-    }
-  }
-
-  /** 通知App關閉Web view 的關閉按鈕 (true : 關閉) */
-  appWebViewbutton(isOpen: boolean): void {
-    if (this.isApp !== null) {
-      if (navigator.userAgent.match(/android/i)) {
-        //  Android
-        AppJSInterface.showCloseButton(isOpen);
-      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-        //  IOS
-        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showCloseButton', isShow: isOpen });
-      }
-    }
-  }
-
   /** 分享功能
    * @param sharedContent 分享內容文案
    * @param APPShareUrl APP分享時使用的url（直接抓當前url在APP中會帶入使用者相關資訊因此不使用）
@@ -571,17 +555,6 @@ export class AppService {
         //  IOS
         (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'appShare', content: sharedContent + '\n' + APPShareUrl });
       }
-    }
-  }
-
-  /** 通知App關閉web view */
-  appWebViewClose(): void {
-    if (navigator.userAgent.match(/android/i)) {
-      //  Android
-      AppJSInterface.back();
-    } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-      //  IOS
-      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'back' });
     }
   }
 
