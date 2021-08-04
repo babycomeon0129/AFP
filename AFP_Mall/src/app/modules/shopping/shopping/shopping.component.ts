@@ -100,6 +100,8 @@ export class ShoppingComponent implements OnInit {
    */
   readData(action: number) {
     const request: Request_ECHome = {
+      // SelectMode 1:  讀取商城所有資料 2:只有熱門商品資料，用於熱門商品瀑布流
+      SelectMode: action !== 3 ? 1 : 2,
       User_Code: sessionStorage.getItem('userCode'),
       Cart_Count: this.cartCount,
       Model_BasePage: {
