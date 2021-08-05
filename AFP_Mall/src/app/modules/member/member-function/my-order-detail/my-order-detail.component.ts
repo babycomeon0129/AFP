@@ -6,7 +6,7 @@ import { Request_MemberOrder, Response_MemberOrder, AFP_MemberOrder, AFP_ECStore
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation } from '@app/animations';
-
+import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 @Component({
   selector: 'app-my-order-detail',
   templateUrl: './my-order-detail.component.html',
@@ -42,7 +42,7 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
   public layerTrig = 0;
 
   constructor(private route: ActivatedRoute, public appService: AppService, private modal: ModalService, private router: Router,
-              private meta: Meta, private title: Title) {
+              private meta: Meta, private title: Title, private appJSInterfaceService: AppJSInterfaceService) {
     this.title.setTitle('訂單詳情 - Mobii!');
     this.meta.updateTag({name : 'description', content: ''});
     this.meta.updateTag({content: '訂單詳情 - Mobii!', property: 'og:title'});
@@ -106,6 +106,8 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
           this.orderInfo.OrderState = 3;
           this.orderInfo.Order_AppreciationDate = data.AFP_MemberOrder.Order_AppreciationDate;
           this.layerTrig = 0;
+          // 點選「取貨」需call 原生關閉返回鍵(MOB-3197)
+          this.appJSInterfaceService.appShowBackButton(false);
           this.modal.show('message', { initialState: { success: true, message: '收貨愉快!', showType: 1, note: '提醒您，如有退貨需求，請於商品猶豫期內提出申請。'}});
           return false;
         }
@@ -123,7 +125,8 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
   /** 前往商店詳細頁 */
   goToECStore(): void {
     if ( this.storeInfo.ECStore_State) {
-      this.router.navigate(['/Explore/ExploreDetail', this.storeInfo.ECStore_Code], { queryParams: { showBack: this.appService.showBack } });
+      this.router.navigate(['/Explore/ExploreDetail', this.storeInfo.ECStore_Code],
+        { queryParams: { showBack: this.appService.showBack } });
     } else {
       this.modal.show('message', { initialState: { success: false, message: 'Oops！該商店營運調整中！', showType: 1}});
     }
@@ -132,9 +135,11 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
   /** 前往商品詳細頁
    * @param UserDefineCode 目錄編碼
    * @param ItemCode 項目編碼
+   * App特例處理，需要CALL原生商品詳細頁(MOB-3197)
    */
   goToProductDetail(UserDefineCode: number, ItemCode: number, Product_State: boolean): void {
     if (Product_State) {
+      this.appJSInterfaceService.goAppShoppingDetail(ItemCode);
       this.router.navigate(['/Shopping/ProductDetail', UserDefineCode, ItemCode], { queryParams: { showBack: this.appService.showBack } });
     } else {
       this.modal.show('message', { initialState: { success: false, message: 'Oops！該商品已全部銷售完畢囉！', showType: 1}});

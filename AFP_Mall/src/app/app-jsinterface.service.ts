@@ -75,4 +75,15 @@ export class AppJSInterfaceService {
       (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'goAppExploreDetail', storeId: code });
     }
   }
+
+  /** 如果是app，開啟產品資訊頁時導到原生產品資訊頁 */
+  goAppShoppingDetail(code: number): void {
+    if (navigator.userAgent.match(/android/i)) {
+      //  Android
+      AppJSInterface.goAppShoppingDetail(code);
+    } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+      //  IOS
+      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'goAppShoppingDetail', productId: code });
+    }
+  }
 }
