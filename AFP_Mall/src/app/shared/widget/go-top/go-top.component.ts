@@ -17,11 +17,11 @@ export class GoTopComponent implements OnInit {
   /** 偵聽Y捲軸是否滑動 */
   @HostListener('window: scroll', ['$event'])
   scrollY(): void {
-    this.display = (window.scrollY > 0) ? true : false;
+    this.display = (window.scrollY > 0);
   }
 
   /** 點擊置頂 */
-  goTop() {
+  goTop(): void {
     window.scrollTo({
       top: 0,
       left: 0,
