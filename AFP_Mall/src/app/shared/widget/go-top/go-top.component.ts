@@ -1,4 +1,4 @@
-import { style } from '@angular/animations';
+
 import { Component, OnInit, HostListener } from '@angular/core';
 
 @Component({
@@ -15,7 +15,7 @@ export class GoTopComponent implements OnInit {
   }
 
   /** 偵聽Y捲軸是否滑動 */
-  @HostListener('window: scroll', ['$event'])
+  @HostListener('window: scroll')
   scrollY(): void {
     this.display = (window.scrollY > 0);
   }
