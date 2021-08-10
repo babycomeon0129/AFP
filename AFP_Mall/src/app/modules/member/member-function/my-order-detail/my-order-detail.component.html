@@ -57,7 +57,7 @@
     </ul>
 </div>
 <div class="order-box">
-    <div class="order-subtitle" (click)="goToECStore()">
+    <div class="order-subtitle" (click)="goToECStore(storeInfo?.ECStore_Code)">
         <i class="material-icons">&#xE8D1;</i><span class="store-name">{{storeInfo?.ECStore_ShowName}}</span>
     </div>
     <ul class="order-shop-list">

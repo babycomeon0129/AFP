@@ -122,13 +122,19 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
     }, 180000);
   }
 
-  /** 前往商店詳細頁 */
-  goToECStore(): void {
-    if ( this.storeInfo.ECStore_State) {
-      this.router.navigate(['/Explore/ExploreDetail', this.storeInfo.ECStore_Code],
-        { queryParams: { showBack: this.appService.showBack } });
+  /** 前往商店詳細頁
+   * App特例處理，需要CALL原生商店詳細頁(MOB-3197)
+   */
+  goToECStore(storeCode: number): void {
+    if (this.appService.isApp !== null) {
+      this.appJSInterfaceService.goAppExploreDetail(storeCode.toString());
     } else {
-      this.modal.show('message', { initialState: { success: false, message: 'Oops！該商店營運調整中！', showType: 1}});
+      if ( this.storeInfo.ECStore_State) {
+        this.router.navigate(['/Explore/ExploreDetail', this.storeInfo.ECStore_Code],
+          { queryParams: { showBack: this.appService.showBack } });
+      } else {
+        this.modal.show('message', { initialState: { success: false, message: 'Oops！該商店營運調整中！', showType: 1}});
+      }
     }
   }
 
@@ -140,7 +146,7 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
   goToProductDetail(UserDefineCode: number, ItemCode: number, Product_State: boolean): void {
     if (Product_State) {
       (this.appService.isApp !== null) ?
-        this.appJSInterfaceService.goAppShoppingDetail(ItemCode) :
+        this.appJSInterfaceService.goAppShoppingDetail(this.productsData[0].ItemInfoPart_TableNo) :
         this.router.navigate(['/Shopping/ProductDetail', UserDefineCode, ItemCode],
         { queryParams: { showBack: this.appService.showBack } });
     } else {
