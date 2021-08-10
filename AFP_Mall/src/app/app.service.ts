@@ -62,7 +62,7 @@ export class AppService {
   /** 推播訊息數量 */
   public pushCount = Number(this.cookieService.get('pushCount')) || 0;
   /** GUID (推播使用) */
-  public deviceCode = this.cookieService.get('M_DeviceCode') || null ;
+  public deviceCode = localStorage.getItem('M_DeviceCode') || null;
   /** firebase 推播 token */
   public firebaseToken: string;
   /** 首頁進場廣告是否開啟 (要再確認過瀏覽器版本後打開) */
@@ -536,7 +536,9 @@ export class AppService {
     this.angularFireMessaging.requestToken.subscribe(
       (token) => {
         console.log(token);
-        this.toPushApi(token);
+        if (this.loginState) {
+          this.toPushApi(token);
+        }
       },
       (err) => {
         console.error('Unable to get permission to notify.', err);
@@ -550,7 +552,7 @@ export class AppService {
       (payload) => {
         console.log("new message received. ", payload);
         this.currentMessage.next(payload);
-        this.pushCount ++ ;
+        this.pushCount++;
         this.cookieService.set('pushCount', this.pushCount.toString(), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       });
   }
@@ -559,8 +561,8 @@ export class AppService {
   toPushApi(token: string): void {
     if (this.deviceCode === null) {
       this.deviceCode = this.guid();
-      // sessionStorage.setItem('M_DeviceCode', this.deviceCode);
-      this.cookieService.set('M_DeviceCode', this.deviceCode, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+      localStorage.setItem('M_DeviceCode', this.deviceCode);
+      // this.cookieService.set('M_DeviceCode', this.deviceCode, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
 
     }
     const request: Request_AFPPushToken = {
