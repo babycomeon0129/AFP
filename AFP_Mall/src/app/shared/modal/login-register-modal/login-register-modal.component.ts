@@ -142,7 +142,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   onSubmit(form: NgForm): void {
     this.appService.openBlock();
     this.loginRequest.Cart_Count = Number(this.cookieService.get('cart_count'));
-    this.appService.toApi('AFPAcount', '1104', this.loginRequest).subscribe((data: Response_AFPLogin) => {
+    this.appService.toApi('AFPAccount', '1104', this.loginRequest).subscribe((data: Response_AFPLogin) => {
       sessionStorage.setItem('userName', data.Model_UserInfo.Customer_Name);
       sessionStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
       sessionStorage.setItem('CustomerInfo', data.Model_UserInfo.CustomerInfo);
@@ -190,7 +190,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
 
   /** 進行本站第三方登入 */
   toThirdLogin(): void {
-    this.appService.toApi('AFPAcount', '1105', this.thirdRequest).subscribe((data: Response_AFPLogin) => {
+    this.appService.toApi('AFPAccount', '1105', this.thirdRequest).subscribe((data: Response_AFPLogin) => {
       // 塞Session
       sessionStorage.setItem('userName', data.Model_UserInfo.Customer_Name);
       sessionStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
@@ -264,7 +264,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   onRegSubmit(): void {
     this.registerRequest.VerifiedInfo.VerifiedPhone = this.registerRequest.AFPAccount;
     this.appService.openBlock();
-    this.appService.toApi('AFPAcount', '1101', this.registerRequest).subscribe((data: Response_AFPLogin) => {
+    this.appService.toApi('AFPAccount', '1101', this.registerRequest).subscribe((data: Response_AFPLogin) => {
       // 後端自動登入，前端直接接login response
       sessionStorage.setItem('userName', data.Model_UserInfo.Customer_Name);
       sessionStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
