@@ -1,26 +1,29 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import {
   Response_APIModel, Request_MemberFavourite, Response_MemberFavourite, AFP_Voucher,
   Request_MemberUserVoucher, Response_MemberUserVoucher, Request_ECCart, Response_ECCart, Model_ShareData
 } from '@app/_models';
 import { BsModalService } from 'ngx-bootstrap';
-import { MessageModalComponent } from './shared/modal/message-modal/message-modal.component';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { environment } from '@env/environment';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from 'angularx-social-login';
-import { SwPush } from '@angular/service-worker';
-import firebase from 'firebase/app';
-import 'firebase/messaging';
+//import { SwPush } from '@angular/service-worker';
+// import firebase from 'firebase/app';
+// import 'firebase/messaging';
+// 推播
+import { AngularFireMessaging } from '@angular/fire/messaging';
+// Component
 import { VerifyMobileModalComponent } from './shared/modal/verify-mobile-modal/verify-mobile-modal.component';
 import { FavoriteModalComponent } from './shared/modal/favorite-modal/favorite-modal.component';
 import { LoginRegisterModalComponent } from './shared/modal/login-register-modal/login-register-modal.component';
 import { JustkaModalComponent } from './shared/modal/justka-modal/justka-modal.component';
 import { MsgShareModalComponent } from './shared/modal/msg-share-modal/msg-share-modal.component';
+import { MessageModalComponent } from './shared/modal/message-modal/message-modal.component';
 
 declare var AppJSInterface: any;
 
@@ -54,10 +57,12 @@ export class AppService {
   public currentUrl = this.router.url;
   /** lazyload 的初始圖片 */
   public defaultImage = '/img/share/eee.jpg';
+  /** 當前訊息 */
+  public currentMessage = new BehaviorSubject(null);
   /** 推播訊息數量 */
   public pushCount = Number(this.cookieService.get('pushCount')) || 0;
   /** GUID (推播使用) */
-  public deviceCode: string;
+  public deviceCode = this.cookieService.get('M_DeviceCode') || null ;
   /** firebase 推播 token */
   public firebaseToken: string;
   /** 首頁進場廣告是否開啟 (要再確認過瀏覽器版本後打開) */
@@ -79,8 +84,14 @@ export class AppService {
 
   @BlockUI() blockUI: NgBlockUI;
   constructor(private http: HttpClient, private bsModal: BsModalService, private router: Router,
-    private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService,
-    private swPush: SwPush) {
+    private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService, private angularFireMessaging: AngularFireMessaging) {
+    // firebase message設置。這裡在幹嘛我也不是很懂
+    // 詳：https://stackoverflow.com/questions/61244212/fcm-messaging-issue
+    this.angularFireMessaging.messages.subscribe(
+      (_messaging: AngularFireMessaging) => {
+        _messaging.onMessage = _messaging.onMessage.bind(_messaging);
+        _messaging.onTokenRefresh = _messaging.onTokenRefresh.bind(_messaging);
+      });
   }
 
   toApi(ctrl: string, command: string, request: any, lat: number = null, lng: number = null, deviceCode?: string): Observable<any> {
@@ -447,74 +458,117 @@ export class AppService {
   /** 初始化推播
    * (註冊 service worker、告訴 firebase.messaging 服務之後的訊息請交由此 SW 處理、取得token、產生/取得 deviceCode、傳送給後端並取得新消費者包)
    */
-  initPush(): void {
-    if (environment.swActivate) {
-      // 不重複初始化
-      if (!firebase.apps.length) {
-        firebase.initializeApp(environment.firebaseConfig);
-        const messaging = firebase.messaging();
-        if ('serviceWorker' in navigator) {
-          // 註冊 service worker
-          navigator.serviceWorker.ready.then(registration => {
-            if (
-              !!registration &&
-              registration.active &&
-              registration.active.state &&
-              registration.active.state === 'activated'
-            ) {
-              messaging.useServiceWorker(registration); // 告訴 firebase.messaging 服務之後的訊息請交由此 SW 處理
-              if (Notification.permission !== 'denied') {
-                Notification
-                  .requestPermission()
-                  .then((permission) => {
-                    if (permission === 'granted') {
-                      // 取得token
-                      messaging.getToken().then(token => {
-                        this.firebaseToken = token;
-                        // send token to BE
-                        // get GUID (device code) from session, or generate one if there's no
-                        if (sessionStorage.getItem('M_DeviceCode') !== null) {
-                          this.deviceCode = sessionStorage.getItem('M_DeviceCode');
-                        } else {
-                          this.deviceCode = this.guid();
-                          sessionStorage.setItem('M_DeviceCode', this.deviceCode);
-                        }
-                        this.toPushApi();
-                      });
-                    } else {
-                      console.warn('The notification permission was not granted and blocked instead.');
-                    }
-                  });
-              }
-            } else {
-              console.warn('No active service worker found, not able to get firebase messaging.');
-            }
-          }, (error) => {
-            console.log('Service worker registration failed:', error);
-          });
-        } else {
-          console.log('Service workers are not supported.');
-        }
-      } else {
-        firebase.app();
-        this.toPushApi();
-      }
+  // initPush(): void {
+  //   if (environment.swActivate) {
+  //     // 不重複初始化
+  //     if (!firebase.apps.length) {
+  //       firebase.initializeApp(environment.firebaseConfig);
+  //       const messaging = firebase.messaging();
+  //       if ('serviceWorker' in navigator) {
+  //         // 註冊 service worker
+  //         navigator.serviceWorker.ready.then(registration => {
+  //           if (
+  //             !!registration &&
+  //             registration.active &&
+  //             registration.active.state &&
+  //             registration.active.state === 'activated'
+  //           ) {
+  //             messaging.useServiceWorker(registration); // 告訴 firebase.messaging 服務之後的訊息請交由此 SW 處理
+  //             if (Notification.permission !== 'denied') {
+  //               Notification
+  //                 .requestPermission()
+  //                 .then((permission) => {
+  //                   if (permission === 'granted') {
+  //                     // 取得token
+  //                     messaging.getToken().then(token => {
+  //                       this.firebaseToken = token;
+  //                       // send token to BE
+  //                       // get GUID (device code) from session, or generate one if there's no
+  //                       if (sessionStorage.getItem('M_DeviceCode') !== null) {
+  //                         this.deviceCode = sessionStorage.getItem('M_DeviceCode');
+  //                       } else {
+  //                         this.deviceCode = this.guid();
+  //                         sessionStorage.setItem('M_DeviceCode', this.deviceCode);
+  //                       }
+  //                       this.toPushApi();
+  //                     });
+  //                   } else {
+  //                     console.warn('The notification permission was not granted and blocked instead.');
+  //                   }
+  //                 });
+  //             }
+  //           } else {
+  //             console.warn('No active service worker found, not able to get firebase messaging.');
+  //           }
+  //         }, (error) => {
+  //           console.log('Service worker registration failed:', error);
+  //         });
+  //       } else {
+  //         console.log('Service workers are not supported.');
+  //       }
+  //     } else {
+  //       firebase.app();
+  //       this.toPushApi();
+  //     }
 
-      this.swPush.messages.subscribe(msg => {
-        // count msg length and show red point
-        this.pushCount += 1;
+  //     // this.swPush.messages.subscribe(msg => {
+  //     //   // count msg length and show red point
+  //     //   this.pushCount += 1;
+  //     //   this.cookieService.set('pushCount', this.pushCount.toString(), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+  //     // });
+  //   }
+  // }
+
+  /** 推播-取得含device code的新消費者包 */
+  // toPushApi(): void {
+  //   const request: Request_AFPPushToken = {
+  //     User_Code: sessionStorage.getItem('userCode'),
+  //     Token: this.firebaseToken
+  //   };
+  //   this.toApi('Home', '1113', request, null, null, this.deviceCode).subscribe((data: Response_AFPPushToken) => {
+  //     sessionStorage.setItem('CustomerInfo', data.CustomerInfo);
+  //     this.cookieService.set('CustomerInfo', data.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+  //   });
+  // }
+
+  /** 向firebase message 請求token */
+  getPushPermission(): void {
+    this.angularFireMessaging.requestToken.subscribe(
+      (token) => {
+        console.log(token);
+        this.toPushApi(token);
+      },
+      (err) => {
+        console.error('Unable to get permission to notify.', err);
+      }
+    );
+  }
+
+  /** 接收推播訊息 */
+  receiveMessage(): void {
+    this.angularFireMessaging.messages.subscribe(
+      (payload) => {
+        console.log("new message received. ", payload);
+        this.currentMessage.next(payload);
+        this.pushCount ++ ;
         this.cookieService.set('pushCount', this.pushCount.toString(), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       });
-    }
   }
 
   /** 推播-取得含device code的新消費者包 */
-  toPushApi(): void {
+  toPushApi(token: string): void {
+    if (this.deviceCode === null) {
+      this.deviceCode = this.guid();
+      // sessionStorage.setItem('M_DeviceCode', this.deviceCode);
+      this.cookieService.set('M_DeviceCode', this.deviceCode, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+
+    }
     const request: Request_AFPPushToken = {
       User_Code: sessionStorage.getItem('userCode'),
-      Token: this.firebaseToken
+      Token: token
     };
     this.toApi('Home', '1113', request, null, null, this.deviceCode).subscribe((data: Response_AFPPushToken) => {
+      console.log(data);
       sessionStorage.setItem('CustomerInfo', data.CustomerInfo);
       this.cookieService.set('CustomerInfo', data.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
     });

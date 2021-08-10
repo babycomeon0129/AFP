@@ -1,3 +1,4 @@
+import { CloudMessagingService } from './../../service/cloud-messaging.service';
 import { Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { environment } from '@env/environment';
@@ -157,7 +158,8 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       this.appService.showFavorites();
       this.appService.readCart();
       // 通知推播
-      this.appService.initPush();
+      // this.appService.initPush();
+      this.appService.getPushPermission();
     });
   }
 
@@ -206,7 +208,8 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       this.appService.showFavorites();
       this.appService.readCart();
       // 通知推播
-      this.appService.initPush();
+      // this.appService.initPush();
+      this.appService.getPushPermission();
     });
   }
 
@@ -282,7 +285,8 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       // this.modal.show('message', { initialState: { success: true, message: msg, showType: 6, leftBtnMsg: `下次再說`, rightBtnMsg: `立即綁定`, rightBtnUrl: `/Member/ThirdBinding` } });
       this.bsModal.show(MessageModalComponent, { initialState: { success: true, message: msg, showType: 6, leftBtnMsg: `下次再說`, rightBtnMsg: `立即綁定`, rightBtnUrl: `/Member/ThirdBinding` } });
       // 通知推播
-      this.appService.initPush();
+      // this.appService.initPush();
+      this.appService.getPushPermission();
     });
   }
 
