@@ -86,7 +86,7 @@ export class AppComponent implements OnInit {
         this.thirdRequest.Mode = Number(params.Mode);
         this.thirdRequest.Account = params.Token;
         this.thirdRequest.Token = params.Token;
-        this.appService.toApi('Home', '1105', this.thirdRequest).subscribe((data: Response_AFPLogin) => {
+        this.appService.toApi('AFPAcount', '1105', this.thirdRequest).subscribe((data: Response_AFPLogin) => {
           // 塞Session
           sessionStorage.setItem('userName', data.Model_UserInfo.Customer_Name);
           sessionStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
