@@ -249,7 +249,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
   }
 
   /** 前往ExploreDetail(App特例處理，從會員中心進來顯示返回鍵) */
-  goExploreDetail( ECStore_Code: string ): void {
+  goExploreDetail( ECStore_Code: number ): void {
     if (this.appService.isApp !== null) {
       this.appJSInterfaceService.goAppExploreDetail(ECStore_Code);
     } else {

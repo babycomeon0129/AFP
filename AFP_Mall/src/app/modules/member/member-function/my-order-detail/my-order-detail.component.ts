@@ -127,7 +127,7 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
    */
   goToECStore(storeCode: number): void {
     if (this.appService.isApp !== null) {
-      this.appJSInterfaceService.goAppExploreDetail(storeCode.toString());
+      this.appJSInterfaceService.goAppExploreDetail(storeCode);
     } else {
       if ( this.storeInfo.ECStore_State) {
         this.router.navigate(['/Explore/ExploreDetail', this.storeInfo.ECStore_Code],
@@ -146,7 +146,7 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
   goToProductDetail(UserDefineCode: number, ItemCode: number, Product_State: boolean): void {
     if (Product_State) {
       (this.appService.isApp !== null) ?
-        this.appJSInterfaceService.goAppShoppingDetail(this.productsData[0].ItemInfoPart_TableNo) :
+        this.appJSInterfaceService.goAppShoppingDetail(ItemCode, UserDefineCode) :
         this.router.navigate(['/Shopping/ProductDetail', UserDefineCode, ItemCode],
         { queryParams: { showBack: this.appService.showBack } });
     } else {
