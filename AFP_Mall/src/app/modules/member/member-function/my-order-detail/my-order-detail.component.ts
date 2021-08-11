@@ -42,7 +42,7 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
   public layerTrig = 0;
 
   constructor(private route: ActivatedRoute, public appService: AppService, private modal: ModalService, private router: Router,
-              private meta: Meta, private title: Title, private appJSInterfaceService: AppJSInterfaceService) {
+              private meta: Meta, private title: Title, public appJSInterfaceService: AppJSInterfaceService) {
     this.title.setTitle('訂單詳情 - Mobii!');
     this.meta.updateTag({name : 'description', content: ''});
     this.meta.updateTag({content: '訂單詳情 - Mobii!', property: 'og:title'});
@@ -90,10 +90,6 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
 
   /** 取貨（每五秒確認一次，若持續三分鐘則停止並跳出連線逾時訊息） */
   claimOrder(): void {
-    // 點選「取貨」需call 原生關閉返回鍵(MOB-3197)
-    if (this.appService.isApp !== null) {
-      this.appJSInterfaceService.appShowBackButton(true);
-    }
     // 每5秒問一次API是否已取貨
     this.checkTimer = setInterval(() => {
       const request: Request_MemberCheckStatus = {
@@ -160,7 +156,6 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
   stopClaim(): void {
     clearInterval(this.checkTimer);
     this.layerTrig = 0;
-    if (this.appService.isApp !== null) { this.appJSInterfaceService.appShowBackButton(false); }
     clearTimeout(this.timer3Mins);
   }
 
