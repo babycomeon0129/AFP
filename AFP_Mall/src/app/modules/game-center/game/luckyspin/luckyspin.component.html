@@ -58,7 +58,7 @@
                   <!-- 遊玩按鈕 -->
                   <div [ngClass]="{'playbox9': gameData?.AFP_Game.Game_TypeSpace === 8, 'playbox': gameData?.AFP_Game.Game_TypeSpace === 12}" id="play">
                     <button (click)="play()"
-                      [disabled]=" playTimes === 0 || gameData?.AFP_Game?.Game_DedPoint > totalPoints || playingStatus"
+                      [disabled]=" playTimes === 0 || (gameData?.AFP_Game?.Game_DedPoint > totalPoints && totalPoints !== null) || playingStatus"
                       type="button" id="playagain" class="btn p-0">
                       <img *ngIf="gameData?.AFP_Game.Game_TypeSpace === 8" src="../img/mission/playbox9.png">
                       <img *ngIf="gameData?.AFP_Game.Game_TypeSpace === 12" src="../img/mission/playbox.png">

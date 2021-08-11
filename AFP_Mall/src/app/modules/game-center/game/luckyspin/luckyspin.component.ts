@@ -15,7 +15,7 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
   /** 遊戲資料（遊戲名稱、類型、格數、上方圖片、規則、遊玩一次所需點數。每次玩完不更新） */
   @Input() gameData: Response_Games;
   /** 呼叫父層的noticeAlert方法 (跳出視窗，提醒點數不足或已達遊玩次數上限) */
-  @Output() noticeAlert =  new EventEmitter();
+  @Output() noticeAlert = new EventEmitter();
   /** 呼叫父層的noGameStateAlert方法，遊戲為不可遊玩狀態的提醒視窗 */
   @Output() noGameStateAlert = new EventEmitter();
   /** 總點數（每玩完一次即更新） */
@@ -37,7 +37,7 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
   /** 提示視窗(向上) 0: 本頁 1: 開獎資訊 */
   public layerTrigUp = 0;
 
-  constructor(public appService: AppService, public modal: ModalService, private router: Router, private route: ActivatedRoute, private renderer2: Renderer2 ){
+  constructor(public appService: AppService, public modal: ModalService, private router: Router, private route: ActivatedRoute, private renderer2: Renderer2) {
     this.currentUrl = this.router.url;
   }
 
@@ -66,28 +66,32 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
   }
 
   /** 按下play鍵 */
-  play() {
-    // 按下play鍵之後，先判斷該遊戲是否為可遊玩狀態，0: 不可遊玩(未完成綁卡等條件，條件由後端判定) 1:可遊玩
-    if (!this.gameData.GameState) {
-      this.noGameStateAlert.emit();
-    } else {
-      // 跳出扣點確認視窗，如果Game_DedPoint為0點，不需要跳Alert
-      if (this.gameData.AFP_Game.Game_DedPoint > 0) {
-        // 先跳確認扣除點數視窗，按下確認才允許進行遊戲
-        this.modal
-          .confirm({
-            initialState: {
-              message: `請確定是否扣除 Mobii! Points ${this.gameData.AFP_Game.Game_DedPoint} 點玩「${this.gameData.AFP_Game.Game_ExtName}」？`,
-            },
-          })
-          .subscribe((res) => {
-            if (res) {
-              this.startGame();
-            }
-          });
+  play(): void {
+    if (this.appService.loginState) {
+      // 按下play鍵之後，先判斷該遊戲是否為可遊玩狀態，0: 不可遊玩(未完成綁卡等條件，條件由後端判定) 1:可遊玩
+      if (!this.gameData.GameState) {
+        this.noGameStateAlert.emit();
       } else {
-        this.startGame();
+        // 跳出扣點確認視窗，如果Game_DedPoint為0點，不需要跳Alert
+        if (this.gameData.AFP_Game.Game_DedPoint > 0) {
+          // 先跳確認扣除點數視窗，按下確認才允許進行遊戲
+          this.modal
+            .confirm({
+              initialState: {
+                message: `請確定是否扣除 Mobii! Points ${this.gameData.AFP_Game.Game_DedPoint} 點玩「${this.gameData.AFP_Game.Game_ExtName}」？`,
+              },
+            })
+            .subscribe((res) => {
+              if (res) {
+                this.startGame();
+              }
+            });
+        } else {
+          this.startGame();
+        }
       }
+    } else {
+      this.appService.loginPage();
     }
   }
 
