@@ -181,7 +181,7 @@
     <div class="useoffers">
         <div class="title-box">
             <div class="item icon-btn">
-                <button class="btn px-0" (click)="stopClaim();appJSInterfaceService.appShowBackButton(false)" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                <button class="btn px-0" (click)="stopClaim();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
                     <i class="material-icons">&#xe314;</i>
                 </button>
             </div>
@@ -206,7 +206,7 @@
 <ul>
     <li>
         <div class="item pick">
-            <button type="button" class="btn index-btn w-100" (click)="claimOrder(); layerTrig = 1; appJSInterfaceService.appShowBackButton(true)">取貨</button>
+            <button type="button" class="btn index-btn w-100" (click)="claimOrder(); layerTrig = 1">取貨</button>
         </div>
     </li>
 </ul>

@@ -35,8 +35,10 @@ export class AppJSInterfaceService {
       if (navigator.userAgent.match(/android/i)) {
         // Android
         AppJSInterface.showBackButton(isShowBt);
+        console.log('android isShow', isShowBt);
       } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
         // IOS
+        console.log('ios isShow', isShowBt);
         (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showBackButton', isShow: isShowBt });
       }
     }
