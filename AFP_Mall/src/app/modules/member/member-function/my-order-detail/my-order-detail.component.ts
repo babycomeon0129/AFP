@@ -98,16 +98,17 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
         QRCode: this.orderInfo.Order_QRCode
       };
       this.appService.toApi('Member', '1516', request).subscribe((data: Response_MemberCheckStatus) => {
+        // 點選「取貨」需call 原生關閉返回鍵(MOB-3197)
+        this.appJSInterfaceService.appShowBackButton(true);
         // 若已取貨(鑑賞日期 !== null)，則跳出訊息，3秒後clearInterval()、回到上一頁
         if (data.AFP_MemberOrder.Order_AppreciationDate !== null) {
           clearInterval(this.checkTimer);
           clearTimeout(this.timer3Mins);
-          // 點選「取貨」需call 原生關閉返回鍵(MOB-3197)
-          if (this.appService.isApp !== null) { this.appJSInterfaceService.appShowBackButton(true); }
           // 將訂單詳情狀態顯示為「完成」
           this.orderInfo.OrderState = 3;
           this.orderInfo.Order_AppreciationDate = data.AFP_MemberOrder.Order_AppreciationDate;
           this.layerTrig = 0;
+          this.appJSInterfaceService.appShowBackButton(false);
           this.modal.show('message', { initialState: { success: true, message: '收貨愉快!', showType: 1, note: '提醒您，如有退貨需求，請於商品猶豫期內提出申請。'}});
           return false;
         }
@@ -158,6 +159,7 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
   stopClaim(): void {
     clearInterval(this.checkTimer);
     this.layerTrig = 0;
+    if (this.appService.isApp !== null) { this.appJSInterfaceService.appShowBackButton(false); }
     clearTimeout(this.timer3Mins);
   }
 
