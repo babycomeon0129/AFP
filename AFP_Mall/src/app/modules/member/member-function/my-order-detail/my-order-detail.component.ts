@@ -103,7 +103,7 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
           clearInterval(this.checkTimer);
           clearTimeout(this.timer3Mins);
           // 點選「取貨」需call 原生關閉返回鍵(MOB-3197)
-          if (this.appService.isApp !== null) { this.appJSInterfaceService.appShowBackButton(false); }
+          if (this.appService.isApp !== null) { this.appJSInterfaceService.appShowBackButton(true); }
           // 將訂單詳情狀態顯示為「完成」
           this.orderInfo.OrderState = 3;
           this.orderInfo.Order_AppreciationDate = data.AFP_MemberOrder.Order_AppreciationDate;
