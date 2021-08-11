@@ -90,8 +90,6 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
 
   /** 取貨（每五秒確認一次，若持續三分鐘則停止並跳出連線逾時訊息） */
   claimOrder(): void {
-    // 點選「取貨」需call 原生關閉返回鍵(MOB-3197)
-    if (this.appService.isApp !== null) { this.appJSInterfaceService.appShowBackButton(false); }
     // 每5秒問一次API是否已取貨
     this.checkTimer = setInterval(() => {
       const request: Request_MemberCheckStatus = {
@@ -104,6 +102,8 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
         if (data.AFP_MemberOrder.Order_AppreciationDate !== null) {
           clearInterval(this.checkTimer);
           clearTimeout(this.timer3Mins);
+          // 點選「取貨」需call 原生關閉返回鍵(MOB-3197)
+          if (this.appService.isApp !== null) { this.appJSInterfaceService.appShowBackButton(false); }
           // 將訂單詳情狀態顯示為「完成」
           this.orderInfo.OrderState = 3;
           this.orderInfo.Order_AppreciationDate = data.AFP_MemberOrder.Order_AppreciationDate;
