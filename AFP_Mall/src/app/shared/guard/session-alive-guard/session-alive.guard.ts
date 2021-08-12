@@ -32,14 +32,6 @@ export class SessionAliveGuard implements CanActivate {
           }
         }
 
-        // if (localStorage.getItem('userCode') !== null && localStorage.getItem('CustomerInfo') !== null
-        // && this.appService.loginState === false) {
-        //   sessionStorage.setItem('userName', localStorage.getItem('userName'));
-        //   sessionStorage.setItem('userCode', localStorage.getItem('userCode'));
-        //   sessionStorage.setItem('CustomerInfo', localStorage.getItem('CustomerInfo'));
-        //   // sessionStorage.setItem('userFavorites', '');
-        //   this.appService.loginState = true;
-        // }
       }
 
       return true;

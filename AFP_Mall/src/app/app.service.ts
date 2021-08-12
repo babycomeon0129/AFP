@@ -1,3 +1,4 @@
+import { ModalService } from '@app/shared/modal/modal.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
@@ -84,7 +85,7 @@ export class AppService {
 
   @BlockUI() blockUI: NgBlockUI;
   constructor(private http: HttpClient, private bsModal: BsModalService, private router: Router,
-    private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService, private angularFireMessaging: AngularFireMessaging) {
+    private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService, private angularFireMessaging: AngularFireMessaging, private modal: ModalService) {
     // firebase message設置。這裡在幹嘛我也不是很懂
     // 詳：https://stackoverflow.com/questions/61244212/fcm-messaging-issue
     this.angularFireMessaging.messages.subscribe(
@@ -203,9 +204,8 @@ export class AppService {
     if (this.cookieService.get('Mobii_ThirdLogin') === 'true') {
       this.authService.signOut();
     }
-    // 清除session、cookie、localStorage、我的收藏資料，重置登入狀態及通知數量
+    // 清除session、cookie、我的收藏資料，重置登入狀態及通知數量
     sessionStorage.clear();
-    localStorage.clear();
     this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
     this.loginState = false;
     this.userFavCodes = [];
@@ -347,35 +347,33 @@ export class AppService {
    * Voucher_FreqName: 0 已兌換 1 兌換 2 去商店 3 已使用 4 兌換完畢（限一元搶購） 5 使用 6 已逾期（限我的優惠+優惠券詳細） 7 未生效（限我的優惠+優惠券詳細） 8 使用中
    */
   onVoucher(voucher: AFP_Voucher): void {
+    // 點擊兌換時先進行登入判斷
     if (this.loginState) {
       switch (voucher.Voucher_IsFreq) {
         case 1:
-          // 加入到「我的優惠券」
-          const request: Request_MemberUserVoucher = {
-            User_Code: sessionStorage.getItem('userCode'),
-            SelectMode: 1, // 新增
-            Voucher_Code: voucher.Voucher_Code, // 優惠券Code
-            Voucher_ActivityCode: null, // 優惠代碼
-            SearchModel: {
-              SelectMode: null
-            }
-          };
-          this.toApi('Member', '1510', request).subscribe((data: Response_MemberUserVoucher) => {
-            // 按鈕顯示改變
-            voucher.Voucher_UserVoucherCode = data.AFP_UserVoucher.UserVoucher_Code;
-            voucher.Voucher_IsFreq = data.Model_Voucher.Voucher_IsFreq;
-            voucher.Voucher_FreqName = data.Model_Voucher.Voucher_FreqName;
-            voucher.Voucher_ReleasedCount += 1;
-            if (voucher.Voucher_DedPoint > 0) {
-              const initialState = {
-                success: true,
-                type: 1,
-                message: `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-ok.png"><p>兌換成功！</p></div>`
-              };
-              // this.modal.show('message', { initialState });
-              this.bsModal.show(MessageModalComponent, { initialState });
-            }
-          });
+          // 先判斷是否需要扣點才能兌換，如需扣點必須先跳扣點提示
+          if (voucher.Voucher_DedPoint > 0) {
+            this.modal.confirm({
+              initialState: {
+                message: `請確定是否扣除 Mobii! Points ${voucher.Voucher_DedPoint} 點兌換「${voucher.Voucher_ExtName}」？`
+              }
+            }).subscribe(res => {
+              // 點選確定扣點
+              if (res) {
+                this.exchangeVoucher(voucher);
+              } else {
+                // 點選取消扣點
+                const initialState = {
+                  success: true,
+                  type: 1,
+                  message: `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-failed.png"><p>兌換失敗！</p></div>`
+                };
+                this.bsModal.show(MessageModalComponent, { initialState });
+              }
+            });
+          } else {
+            this.exchangeVoucher(voucher);
+          }
           break;
         case 2:
           // 導去該優惠券商店的商品tab
@@ -416,6 +414,37 @@ export class AppService {
     } else {
       this.loginPage();
     }
+  }
+
+  /** 兌換優惠券 */
+  exchangeVoucher(voucher: AFP_Voucher): void {
+    // 加入到「我的優惠券」
+    const request: Request_MemberUserVoucher = {
+      User_Code: sessionStorage.getItem('userCode'),
+      SelectMode: 1, // 新增
+      Voucher_Code: voucher.Voucher_Code, // 優惠券Code
+      Voucher_ActivityCode: null, // 優惠代碼
+      SearchModel: {
+        SelectMode: null
+      }
+    };
+    this.toApi('Member', '1510', request).subscribe((data: Response_MemberUserVoucher) => {
+      // 按鈕顯示改變
+      voucher.Voucher_UserVoucherCode = data.AFP_UserVoucher.UserVoucher_Code;
+      voucher.Voucher_IsFreq = data.Model_Voucher.Voucher_IsFreq;
+      voucher.Voucher_FreqName = data.Model_Voucher.Voucher_FreqName;
+      voucher.Voucher_ReleasedCount += 1;
+      // 如果是扣點才能兌換的優惠券，需跳兌換成功提示
+      if (voucher.Voucher_DedPoint > 0) {
+        const initialState = {
+          success: true,
+          type: 1,
+          message: `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-ok.png"><p>兌換成功！</p></div>`
+        };
+        // this.modal.show('message', { initialState });
+        this.bsModal.show(MessageModalComponent, { initialState });
+      }
+    });
   }
 
   //  App導頁用

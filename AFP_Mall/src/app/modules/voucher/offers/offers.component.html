@@ -73,7 +73,7 @@
               <div class="circle circle-top"></div>
               <div class="circle circle-bottom"></div>
               <div class="d-flex flex-column">
-                <button (click)="toVoucher(sale)"
+                <button (click)="appService.onVoucher(sale)"
                   [disabled]="appService.loginState && (sale.Voucher_IsFreq === 0 || sale.Voucher_IsFreq === 3)"
                   [ngClass]="{'gray-obtn': sale.Voucher_IsFreq === 0 || sale.Voucher_IsFreq === 3, 'index-btn': sale?.Voucher_IsFreq === 1, 'index-outline-btn': sale.Voucher_IsFreq === 2 || sale.Voucher_IsFreq === 5}"
                   class="btn small-80 sendval">
@@ -127,7 +127,7 @@
                           'yyyy/MM/dd'}}</p>
                       </div>
                       <div class="item one">
-                        <button (click)="toVoucher(voucher)"
+                        <button (click)="appService.onVoucher(voucher)"
                           [disabled]="appService.loginState && (voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3 || voucher.Voucher_IsFreq === 6)"
                           [ngClass]="{'gray-obtn': voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3 || voucher.Voucher_IsFreq === 6,
                                                         'index-btn': voucher?.Voucher_IsFreq === 1,

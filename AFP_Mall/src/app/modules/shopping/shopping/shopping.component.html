@@ -91,7 +91,7 @@
                 <div class="circle circle-top"></div>
                 <div class="circle circle-bottom"></div>
                 <div class="d-flex flex-column">
-                  <button (click)="toVoucher(voucher)"
+                  <button (click)="appService.onVoucher(voucher)"
                     [disabled]="appService.loginState && (voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3)"
                     [ngClass]="{'gray-obtn': voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3,
                                 'index-btn': voucher.Voucher_IsFreq === 1,
