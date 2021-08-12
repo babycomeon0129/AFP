@@ -106,6 +106,10 @@ export class AppService {
       xEyes_DeviceCode: deviceCode === undefined ? '' : deviceCode
     });
 
+    if(command === '1500') {
+      console.log(`session:${sessionStorage.getItem('CustomerInfo')}`);
+      console.log(headers);
+    }
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
       .pipe(map((data: Response_APIModel) => {
         this.blockUI.stop();
