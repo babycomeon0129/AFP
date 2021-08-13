@@ -106,7 +106,7 @@ export class AppService {
       xEyes_DeviceCode: deviceCode === undefined ? '' : deviceCode
     });
 
-    if(command === '1500') {
+    if (command === '1500') {
       console.log(`session:${sessionStorage.getItem('CustomerInfo')}`);
       console.log(headers);
     }
@@ -568,7 +568,10 @@ export class AppService {
   getPushPermission(): void {
     this.angularFireMessaging.requestToken.subscribe(
       (token) => {
-        console.log(token);
+        if (this.deviceCode === null) {
+          this.deviceCode = this.guid();
+          localStorage.setItem('M_DeviceCode', this.deviceCode);
+        }
         if (this.loginState) {
           this.toPushApi(token);
         }
@@ -592,18 +595,11 @@ export class AppService {
 
   /** 推播-取得含device code的新消費者包 */
   toPushApi(token: string): void {
-    if (this.deviceCode === null) {
-      this.deviceCode = this.guid();
-      localStorage.setItem('M_DeviceCode', this.deviceCode);
-      // this.cookieService.set('M_DeviceCode', this.deviceCode, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-
-    }
     const request: Request_AFPPushToken = {
       User_Code: sessionStorage.getItem('userCode'),
       Token: token
     };
     this.toApi('Home', '1113', request, null, null, this.deviceCode).subscribe((data: Response_AFPPushToken) => {
-      console.log(data);
       sessionStorage.setItem('CustomerInfo', data.CustomerInfo);
       this.cookieService.set('CustomerInfo', data.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
     });

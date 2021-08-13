@@ -93,12 +93,12 @@ export class OffersComponent implements OnInit, OnDestroy {
 
     this.activatedRoute.queryParams.subscribe(params => {
       //  目標Tab
-      if (typeof params.tabCode !== 'undefined') {
+      if (params.tabCode !== undefined) {
         this.TabCode = Number(params.tabCode);
       }
 
       // 搜尋文字
-      if (typeof params.search !== 'undefined') {
+      if (params.search !== undefined || params.search !== '') {
         this.searchText = params.search;
       }
     });
@@ -167,7 +167,7 @@ export class OffersComponent implements OnInit, OnDestroy {
     }
 
     // 如果輸入文字完全搜不到優惠券，便跳到第一個tab
-    if (index === 0) {
+    if (index === 0 && searchText !== undefined ) {
       this.TabCode = this.TabCode = this.offers[0].UserDefine_Code;
     }
     // TAB滑動到可見位置
