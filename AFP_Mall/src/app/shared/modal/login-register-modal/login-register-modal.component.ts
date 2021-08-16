@@ -226,7 +226,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       }
     };
 
-    this.appService.toApi('AFPAcount', '1112', request).subscribe((data: Response_AFPVerifyCode) => {
+    this.appService.toApi('AFPAccount', '1112', request).subscribe((data: Response_AFPVerifyCode) => {
       // 如後端驗證成功，data才會有值，故先判斷是否成功再進行按鈕時間倒數
       if (data !== null) {
         this.remainingSec = 60;
