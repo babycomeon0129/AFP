@@ -43,7 +43,7 @@ export class GameComponent implements OnInit {
         this.noGameStateAlert();
       } else {
         // 若可玩次數 === 0或是所剩點數不夠遊玩一次則跳提醒視窗
-        if (this.gameData.AFP_Game.Game_PlayCount === 0 || this.gameData.AFP_Game.Game_DedPoint > this.gameData.TotalPoint) {
+        if (this.gameData.AFP_Game.Game_PlayCount === 0 || (this.gameData.AFP_Game.Game_DedPoint > this.gameData.TotalPoint && this.gameData.TotalPoint !== null)) {
           this.noticeAlert();
         }
       }

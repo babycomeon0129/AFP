@@ -1,8 +1,8 @@
 import { AppService } from 'src/app/app.service';
 import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { environment } from '@env/environment';
-import { BsModalRef } from 'ngx-bootstrap';
-import { ModalService } from '../modal.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { MessageModalComponent } from '../message-modal/message-modal.component';
 declare var AppleID: any;
 
 @Component({
@@ -17,7 +17,7 @@ export class AppleModalComponent implements OnInit, OnDestroy {
   /** Apple 登入 state */
   public appleSigninState: string;
 
-  constructor(public bsModalRef: BsModalRef, private appService: AppService, public modal: ModalService) { }
+  constructor(public bsModalRef: BsModalRef, private appService: AppService, private bsModal: BsModalService) { }
 
   ngOnInit() {
     this.appleSigninState = this.appService.getState();
@@ -27,17 +27,17 @@ export class AppleModalComponent implements OnInit, OnDestroy {
       scope: 'email name',
       redirectURI: environment.AppleSignInURI,
       state: this.appleSigninState,
-      usePopup : true
+      usePopup: true
     });
 
     // Apple 登入授權成功，第三方登入取得資料
-    document.addEventListener('AppleIDSignInOnSuccess', (authData: CustomEvent)  => {
+    document.addEventListener('AppleIDSignInOnSuccess', (authData: CustomEvent) => {
       if (authData.detail.state === this.appleSigninState) {
         this.stopListeningApple();
         this.appleUser.emit(authData.detail);
         this.bsModalRef.hide();
-      }else {
-        this.modal.show('message', { initialState: { success: false, message: 'Apple登入出現錯誤', showType: 1 } });
+      } else {
+        this.bsModal.show(MessageModalComponent, { initialState: { success: false, message: 'Apple登入出現錯誤', showType: 1 } });
       }
     });
 
@@ -46,17 +46,17 @@ export class AppleModalComponent implements OnInit, OnDestroy {
       this.stopListeningApple();
       this.bsModalRef.hide(); // 關閉視窗
       // 如果錯誤並非用戶直接關掉POPUP視窗，則跳錯誤訊息
-      if(error.detail.error !== 'popup_closed_by_user') {
-        this.modal.show('message', { initialState: { success: false, message: 'Apple登入失敗', note: error.detail.error, showType: 1 } });
+      if (error.detail.error !== 'popup_closed_by_user') {
+        this.bsModal.show(MessageModalComponent, { initialState: { success: false, message: 'Apple登入失敗', note: error.detail.error, showType: 1 } });
       }
     });
 
   }
 
-   /** 停止聽取Apple登入的DOM event */
-   stopListeningApple(): void {
-    document.removeEventListener('AppleIDSignInOnSuccess', (authData: any) => {});
-    document.removeEventListener('AppleIDSignInOnFailure', (error: any) => {});
+  /** 停止聽取Apple登入的DOM event */
+  stopListeningApple(): void {
+    document.removeEventListener('AppleIDSignInOnSuccess', (authData: any) => { });
+    document.removeEventListener('AppleIDSignInOnFailure', (error: any) => { });
   }
 
   ngOnDestroy() {

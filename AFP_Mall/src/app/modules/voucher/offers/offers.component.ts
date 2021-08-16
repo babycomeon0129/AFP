@@ -93,12 +93,12 @@ export class OffersComponent implements OnInit, OnDestroy {
 
     this.activatedRoute.queryParams.subscribe(params => {
       //  目標Tab
-      if (typeof params.tabCode !== 'undefined') {
+      if (params.tabCode !== undefined) {
         this.TabCode = Number(params.tabCode);
       }
 
       // 搜尋文字
-      if (typeof params.search !== 'undefined') {
+      if (params.search !== undefined || params.search !== '') {
         this.searchText = params.search;
       }
     });
@@ -167,7 +167,7 @@ export class OffersComponent implements OnInit, OnDestroy {
     }
 
     // 如果輸入文字完全搜不到優惠券，便跳到第一個tab
-    if (index === 0) {
+    if (index === 0 && searchText !== undefined ) {
       this.TabCode = this.TabCode = this.offers[0].UserDefine_Code;
     }
     // TAB滑動到可見位置
@@ -299,36 +299,6 @@ export class OffersComponent implements OnInit, OnDestroy {
   resetStatus(): void {
     if (this.showType[0].isSelect && this.voucherType[0].isSelect && this.useType[0].isSelect) {
       this.resetOpen = false;
-    }
-  }
-
-  /** 兌換優惠券
-   * @param voucher 優惠券詳細
-   */
-  toVoucher(voucher: AFP_Voucher): void {
-    if (this.appService.loginState) {
-      if (voucher.Voucher_DedPoint > 0 && voucher.Voucher_IsFreq === 1) {
-        this.modal.confirm({
-          initialState: {
-            message: `請確定是否扣除 Mobii! Points ${voucher.Voucher_DedPoint} 點兌換「${voucher.Voucher_ExtName}」？`
-          }
-        }).subscribe(res => {
-          if (res) {
-            this.appService.onVoucher(voucher);
-          } else {
-            const initialState = {
-              success: true,
-              type: 1,
-              message: `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-failed.png"><p>兌換失敗！</p></div>`
-            };
-            this.modal.show('message', { initialState });
-          }
-        });
-      } else {
-        this.appService.onVoucher(voucher);
-      }
-    } else {
-      this.appService.loginPage();
     }
   }
 

@@ -117,14 +117,14 @@
           <div class="order-box">
               <div class="order-method-box">
                   <ul class="method-list">
-                      <li class="index-flex" (click)="toChoiceVoucher();appService.appWebViewbutton(true);">
+                      <li class="index-flex" (click)="toChoiceVoucher();appJSInterfaceService.appWebViewbutton(true);">
                           <div class="item three"><i class="material-icons reverse">&#xE54E;</i>使用優惠券、折扣碼</div>
                           <div class="item one discount-price text-right">
                             <span class="store1-discount-price">-{{info.totalDiscount | currency: 'TWD':'$':'1.0-2'}}</span>
                             <i class="material-icons">&#xe315;</i>
                           </div>
                       </li>
-                      <li class="index-flex invobox" (click)="checkout?.List_Cart[0].Cart_ProdReceiptPrice >= checkout?.List_Cart[0].Cart_Amount? toInvoice(1) : toInvoice(0); appService.appWebViewbutton(true);">
+                      <li class="index-flex invobox" (click)="checkout?.List_Cart[0].Cart_ProdReceiptPrice >= checkout?.List_Cart[0].Cart_Amount? toInvoice(1) : toInvoice(0); appJSInterfaceService.appWebViewbutton(true);">
                           <div class="item d-flex d-inline">
                             <div class="invo-box"><i class="material-icons">&#xE8B0;</i></div>電子發票/收據
                           </div>
@@ -187,7 +187,7 @@
               <div class="header-secondary container linebt-row">
                   <div class="index-flex justify-content-between">
                       <div class="item one">
-                          <div class="close-btn" (click)="layerTrig = 0 ; appService.appWebViewbutton(false);">
+                          <div class="close-btn" (click)="layerTrig = 0 ; appJSInterfaceService.appWebViewbutton(false);">
                               <i class="material-icons">&#xe314;</i>
                           </div>
                       </div>
@@ -320,10 +320,10 @@
                     <div class="total-footer">
                       <div class="item-group">
                         <div class="item">
-                          <button type="button" class="cancel-btn" (click)="layerTrig = 0;appService.appWebViewbutton(false);">取消</button>
+                          <button type="button" class="cancel-btn" (click)="layerTrig = 0;appJSInterfaceService.appWebViewbutton(false);">取消</button>
                         </div>
                         <div class="item">
-                          <button type="button" class="submit-btn" (click)="confirmVoucher();appService.appWebViewbutton(false);">確定</button>
+                          <button type="button" class="submit-btn" (click)="confirmVoucher();appJSInterfaceService.appWebViewbutton(false);">確定</button>
                         </div>
                       </div>
                     </div>
@@ -343,7 +343,7 @@
           <div class="header-secondary container linebt-row">
             <div class="index-flex justify-content-between">
                 <div class="item two">
-                  <div class="close-btn" (click)="layerTrig = 0; appService.appWebViewbutton(false);" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                  <div class="close-btn" (click)="layerTrig = 0; appJSInterfaceService.appWebViewbutton(false);" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
                   <i class="material-icons">&#xe314;</i>
                 </div>
                 </div>
@@ -416,7 +416,7 @@
           </main>
           <footer class="success-mode container fixed-bottom">
             <button type="button" [ngClass]="info.preInvoice.invoiceMode > 0 ? 'btn-ok' : 'btn gray-btn'"
-              (click)="info.preInvoice.invoiceMode > 0 && confirmInvoice();appService.appWebViewbutton(false);">確認</button>
+              (click)="info.preInvoice.invoiceMode > 0 && confirmInvoice();appJSInterfaceService.appWebViewbutton(false);">確認</button>
           </footer>
         </form>
       </div>
@@ -428,7 +428,7 @@
             <div class="header-secondary container linebt-row">
                 <div class="index-flex justify-content-between">
                     <div class="item two">
-                        <div class="close-btn" (click)="layerTrig = 0; appService.appWebViewbutton(false);" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                        <div class="close-btn" (click)="layerTrig = 0; appJSInterfaceService.appWebViewbutton(false);" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
                             <i class="material-icons">&#xe314;</i>
                         </div>
                     </div>
@@ -471,7 +471,7 @@
             </main>
             <footer class="success-mode container fixed-bottom">
                 <button [ngClass]="info.preInvoice.invoiceMode > 0 ? 'btn-ok' : 'btn gray-btn'"
-                  (click)="info.preInvoice.invoiceMode > 0 && confirmInvoice();appService.appWebViewbutton(false);" type="button">
+                  (click)="info.preInvoice.invoiceMode > 0 && confirmInvoice();appJSInterfaceService.appWebViewbutton(false);" type="button">
                   確認
                 </button>
             </footer>
@@ -495,7 +495,7 @@
               <div class="title-txt">
               </div>
           </div>
-          <ul class="open-page-ul" id="queryhcode" (click)="layerTrig = 0;appService.appWebViewbutton(false);">
+          <ul class="open-page-ul" id="queryhcode" (click)="layerTrig = 0;appJSInterfaceService.appWebViewbutton(false);">
               <li class="flex-inline-between" value="119">
                   <div class="item">
                       社團法人台灣流浪動物希望協會

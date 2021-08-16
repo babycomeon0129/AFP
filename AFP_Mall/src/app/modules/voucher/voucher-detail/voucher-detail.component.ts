@@ -8,13 +8,14 @@ import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation } from '@app/animations';
+import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 declare var AppJSInterface: any;
 
 @Component({
   selector: 'app-voucher-detail',
   templateUrl: './voucher-detail.component.html',
   styleUrls: ['./voucher-detail.scss'],
-  animations: [ layerAnimation ]
+  animations: [layerAnimation]
 })
 export class VoucherDetailComponent implements OnInit, OnDestroy {
   /** UUID */
@@ -45,7 +46,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
   public layerTrig = 0;
 
   constructor(public appService: AppService, private route: ActivatedRoute, private router: Router,
-              public modal: ModalService, private meta: Meta, private title: Title) {
+    public modal: ModalService, private meta: Meta, private title: Title, private appJSInterfaceService: AppJSInterfaceService) {
     this.voucherCode = this.route.snapshot.params.Voucher_Code;
     if (this.voucherCode.toString().substring(0, 2) === '46') {
       this.selectMode = 4;
@@ -115,25 +116,29 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
    * @param voucher 優惠券詳細
    */
   toVoucher(voucher: AFP_Voucher): void {
-    if (voucher.Voucher_DedPoint > 0 && voucher.Voucher_IsFreq === 1) {
-      this.modal.confirm({
-        initialState: {
-          message: `請確定是否扣除 Mobii! Points ${voucher.Voucher_DedPoint} 點兌換「${voucher.Voucher_ExtName}」？`
-        }
-      }).subscribe(res => {
-        if (res) {
-          this.onVoucher(voucher);
-        } else {
-          const initialState = {
-            success: true,
-            type: 1,
-            message: `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-failed.png"><p>兌換失敗！</p></div>`
-          };
-          this.modal.show('message', { initialState });
-        }
-      });
+    if (this.appService.loginState) {
+      if (voucher.Voucher_DedPoint > 0 && voucher.Voucher_IsFreq === 1) {
+        this.modal.confirm({
+          initialState: {
+            message: `請確定是否扣除 Mobii! Points ${voucher.Voucher_DedPoint} 點兌換「${voucher.Voucher_ExtName}」？`
+          }
+        }).subscribe(res => {
+          if (res) {
+            this.onVoucher(voucher);
+          } else {
+            const initialState = {
+              success: true,
+              type: 1,
+              message: `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-failed.png"><p>兌換失敗！</p></div>`
+            };
+            this.modal.show('message', { initialState });
+          }
+        });
+      } else {
+        this.onVoucher(voucher);
+      }
     } else {
-      this.onVoucher(voucher);
+      this.appService.loginPage();
     }
   }
 
@@ -142,59 +147,54 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
    * Voucher_FreqName: 0 已兌換 1 兌換 2 去商店 3 已使用 4 兌換完畢（限一元搶購） 5 使用 6 已逾期（限我的優惠+優惠券詳細） 7 未生效（限我的優惠+優惠券詳細）
    */
   onVoucher(voucher: AFP_Voucher): void {
-    if (this.appService.loginState) {
-      switch (voucher.Voucher_IsFreq) {
-        case 1:
-          // 兌換（加入到「我的優惠券」）
-          const request: Request_MemberUserVoucher = {
-            User_Code: sessionStorage.getItem('userCode'),
-            SelectMode: 1, // 新增
-            Voucher_Code: voucher.Voucher_Code, // 優惠券Code
-            Voucher_ActivityCode: null, // 優惠代碼
-            SearchModel: {
-              SelectMode: null
-            }
-          };
-          this.appService.toApi('Member', '1510', request).subscribe((data: Response_MemberUserVoucher) => {
-            // 按鈕顯示改變
-            voucher.Voucher_IsFreq = data.Model_Voucher.Voucher_IsFreq;
-            voucher.Voucher_FreqName = data.Model_Voucher.Voucher_FreqName;
-            // 放上QRCode
-            this.userVoucher = data.AFP_UserVoucher;
-            // 如果這個券用點數兌換，跳成功視窗
-            if (voucher.Voucher_DedPoint > 0) {
-              const initialState = {
-                success: true,
-                type: 1,
-                message: `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-ok.png"><p>兌換成功！</p></div>`
-              };
-              this.modal.show('message', { initialState });
-            }
-          });
-          break;
-        case 2:
-          // 去商店
-          if (voucher.Voucher_URL !== null) {
-            if (voucher.Voucher_URL.substring(0, 1) === '/') {
-              const navigationExtras: NavigationExtras = {
-                queryParams: { navNo: 3 }
-              };
-              this.router.navigate([voucher.Voucher_URL], navigationExtras);
-            } else {
-              window.open(voucher.Voucher_URL, voucher.Voucher_URLTarget);
-            }
+    switch (voucher.Voucher_IsFreq) {
+      case 1:
+        // 兌換（加入到「我的優惠券」）
+        const request: Request_MemberUserVoucher = {
+          User_Code: sessionStorage.getItem('userCode'),
+          SelectMode: 1, // 新增
+          Voucher_Code: voucher.Voucher_Code, // 優惠券Code
+          Voucher_ActivityCode: null, // 優惠代碼
+          SearchModel: {
+            SelectMode: null
           }
-          break;
-        case 5:
-          // 使用
-          this.appService.tLayer = []; // APP 特例處理(APP QRCode的返回鍵是history.back()不是backLayer())
-          this.layerTrig = 1;
-          this.appService.appShowBackButton(true);
-          this.checkWritenOff();
-          break;
-      }
-    } else {
-      this.appService.loginPage();
+        };
+        this.appService.toApi('Member', '1510', request).subscribe((data: Response_MemberUserVoucher) => {
+          // 按鈕顯示改變
+          voucher.Voucher_IsFreq = data.Model_Voucher.Voucher_IsFreq;
+          voucher.Voucher_FreqName = data.Model_Voucher.Voucher_FreqName;
+          // 放上QRCode
+          this.userVoucher = data.AFP_UserVoucher;
+          // 如果這個券用點數兌換，跳成功視窗
+          if (voucher.Voucher_DedPoint > 0) {
+            const initialState = {
+              success: true,
+              type: 1,
+              message: `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-ok.png"><p>兌換成功！</p></div>`
+            };
+            this.modal.show('message', { initialState });
+          }
+        });
+        break;
+      case 2:
+        // 去商店
+        if (voucher.Voucher_URL !== null) {
+          if (voucher.Voucher_URL.substring(0, 1) === '/') {
+            const navigationExtras: NavigationExtras = {
+              queryParams: { navNo: 3 }
+            };
+            this.router.navigate([voucher.Voucher_URL], navigationExtras);
+          } else {
+            window.open(voucher.Voucher_URL, voucher.Voucher_URLTarget);
+          }
+        }
+        break;
+      case 5:
+        // 使用
+        this.layerTrig = 1;
+        this.appJSInterfaceService.appShowBackButton(true);
+        this.checkWritenOff();
+        break;
     }
   }
 
@@ -223,9 +223,14 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
           this.voucherData.VoucherUseCount = usedTimes + 1;
           clearTimeout(this.timer3Mins);
           this.layerTrig = 0;
+          this.appJSInterfaceService.appShowBackButton(false);
           // showType: 999核銷成功後顯示廣告圖片
-          this.modal.show('message', { initialState: { success: true, message: data.AFP_UserVoucher.VoucherUsedMessage,
-            showType: 999, adImgList: data.List_ADImg, voucherName: data.AFP_UserVoucher.Voucher_Name } });
+          this.modal.show('message', {
+            initialState: {
+              success: true, message: data.AFP_UserVoucher.VoucherUsedMessage,
+              showType: 999, adImgList: data.List_ADImg, voucherName: data.AFP_UserVoucher.Voucher_Name
+            }
+          });
           return false;
         }
       });
@@ -236,38 +241,28 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
       this.modal.show('message', { initialState: { success: false, message: '連線逾時，請重新操作。', showType: 1 } });
       clearInterval(this.checkTimer);
       this.layerTrig = 0;
+      this.appJSInterfaceService.appShowBackButton(false);
     }, 180000);
   }
 
   /** 關閉顯示QR Code */
   closeQRCode(): void {
-    this.router.navigate(['/Voucher/VoucherDetail', this.voucherCode], {queryParams: { showBack: this.appService.showBack }});
+    this.router.navigate(['/Voucher/VoucherDetail', this.voucherCode], { queryParams: { showBack: this.appService.showBack } });
     this.layerTrig = 0;
-    this.appService.appShowBackButton(false);
+    this.appJSInterfaceService.appShowBackButton(false);
     clearInterval(this.checkTimer);
     clearTimeout(this.timer3Mins);
   }
 
   /** 前往ExploreDetail(App特例處理，從會員中心進來顯示返回鍵) */
-  goExploreDetail( ECStore_Code: string ): void {
+  goExploreDetail(ECStore_Code: number): void {
     if (this.appService.isApp !== null) {
-      this.goAppExploreDetail(ECStore_Code);
+      this.appJSInterfaceService.goAppExploreDetail(ECStore_Code);
     } else {
       const navigationExtras: NavigationExtras = {
         queryParams: { showBack: this.route.snapshot.queryParams.showBack }
       };
       this.router.navigate(['/Explore/ExploreDetail', ECStore_Code], navigationExtras);
-    }
-  }
-
-   /** 如果是app，開啟商家詳細頁時導到原生商家詳細頁 */
-   goAppExploreDetail(code: string): void {
-    if (navigator.userAgent.match(/android/i)) {
-      //  Android
-      AppJSInterface.goAppExploreDetail(code);
-    } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-      //  IOS
-      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'goAppExploreDetail', storeId: code });
     }
   }
 

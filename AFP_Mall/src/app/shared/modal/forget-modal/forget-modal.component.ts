@@ -1,8 +1,9 @@
 import { Component, OnDestroy } from '@angular/core';
-import { BsModalRef } from 'ngx-bootstrap';
-import { ModalService } from '../modal.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { AppService } from 'src/app/app.service';
 import { Response_AFPVerifyCode, Request_AFPVerifyCode, Request_AFPReadMobile, Response_AFPReadMobile } from '@app/_models';
+import { LoginRegisterModalComponent } from '../login-register-modal/login-register-modal.component';
+import { MessageModalComponent } from '../message-modal/message-modal.component';
 
 @Component({
   selector: 'app-forget-modal',
@@ -27,8 +28,7 @@ export class ForgetModalComponent implements OnDestroy {
   public existingAccount = true;
 
 
-  constructor(public bsModalRef: BsModalRef, public modal: ModalService, private appService: AppService,
-              private modalService: ModalService) { }
+  constructor(public bsModalRef: BsModalRef, private appService: AppService, private bsModal: BsModalService) { }
 
   /** 檢查帳號是否已存在 */
   checkAccount(): void {
@@ -75,18 +75,25 @@ export class ForgetModalComponent implements OnDestroy {
           VerifiedInfo: data.VerifiedInfo,
           checkBtnMsg: `確認`
         };
-        this.modalService.show('message', { initialState });
+        // this.modalService.show('message', { initialState });
+        this.bsModal.show(MessageModalComponent, { initialState })
         this.closeModal();
       }
     });
   }
 
-  closeModal(): void {
+  /** 點擊返回 */
+  goBackBtn(): void {
+    //this.modal.openModal('loginRegister', bsModalRef);
+    this.bsModal.show(LoginRegisterModalComponent);
     this.bsModalRef.hide();
     clearInterval(this.vcodeCount);
+
   }
 
-  stopVcodeCount(): void {
+  /** 關閉視窗 */
+  closeModal(): void {
+    this.bsModalRef.hide();
     clearInterval(this.vcodeCount);
   }
 

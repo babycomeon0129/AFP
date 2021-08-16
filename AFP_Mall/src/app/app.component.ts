@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
   public thirdRequest: Request_AFPThird = new Request_AFPThird();
 
   constructor(private router: Router, public appService: AppService, private activatedRoute: ActivatedRoute, public modal: ModalService,
-              private cookieService: CookieService, private differs: KeyValueDiffers, private appJSInterfaceService: AppJSInterfaceService) {
+    private cookieService: CookieService, private differs: KeyValueDiffers, private appJSInterfaceService: AppJSInterfaceService) {
     this.serviceDiffer = this.differs.find({}).create();
     if (sessionStorage.getItem('CustomerInfo') !== null && sessionStorage.getItem('userCode') !== null
       && sessionStorage.getItem('userName') !== null) {
@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
     // App訪問
     this.activatedRoute.queryParams.subscribe(params => {
       if (this.appService.isApp == null && typeof params.isApp !== 'undefined') {
-        this.appService.isApp = params.isApp;
+        this.appService.isApp = Number(params.isApp);
       }
 
       if (typeof params.loginType !== 'undefined') {
@@ -82,7 +82,7 @@ export class AppComponent implements OnInit {
       }
 
       // 第三方登入(LINE)
-      if(params.Mobii_ThirdLogin === 'true' && params.Mode !== undefined && params.Token !== undefined && !this.appService.loginState) {
+      if (params.Mobii_ThirdLogin === 'true' && params.Mode !== undefined && params.Token !== undefined && !this.appService.loginState) {
         this.thirdRequest.Mode = Number(params.Mode);
         this.thirdRequest.Account = params.Token;
         this.thirdRequest.Token = params.Token;
@@ -102,15 +102,16 @@ export class AppComponent implements OnInit {
           this.appService.showFavorites();
           this.appService.readCart();
           // 通知推播
-          this.appService.initPush();
+          // this.appService.initPush();
+          this.appService.getPushPermission();
         });
       }
 
       // 第三方登入失敗 (目前只有Line)
-      if(params.Mobii_ThirdLogin === 'false' && params.Mode !== undefined &&  params.Error === '2' && !this.appService.loginState) {
+      if (params.Mobii_ThirdLogin === 'false' && params.Mode !== undefined && params.Error === '2' && !this.appService.loginState) {
         let errMessage: string = '';
-        switch(params.Mode) {
-          case '2' :
+        switch (params.Mode) {
+          case '2':
             errMessage = 'Line@';
             break;
         }
@@ -120,18 +121,20 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.appService.getPushPermission();
+    this.appService.receiveMessage();
     // 當路由器成功完成路由的解析階段時，先通知app將footer關閉(開啟則靠app-mobile-footer通知開啟)
-    this.router.events.pipe(filter(event => event instanceof ResolveEnd ))
-                      .subscribe((event: ResolveEnd ) => {
-                                    window.scrollTo(0, 0);
-                                    this.appJSInterfaceService.appShowMobileFooter(false);
-                                    // 取得前一頁面url
-                                    this.appService.prevUrl = this.appService.currentUrl;
-                                    this.appService.currentUrl = event.url;
-                                    this.appService.verifyMobileModalOpened = false;
-                                  });
+    this.router.events.pipe(filter(event => event instanceof ResolveEnd))
+      .subscribe((event: ResolveEnd) => {
+        window.scrollTo(0, 0);
+        this.appJSInterfaceService.appShowMobileFooter(false);
+        // 取得前一頁面url
+        this.appService.prevUrl = this.appService.currentUrl;
+        this.appService.currentUrl = event.url;
+        this.appService.verifyMobileModalOpened = false;
+      });
     this.detectOld();
-    this.appService.initPush();
+    // this.appService.initPush();
   }
 
   /** 獲取這個 outlet 指令的值（透過 #outlet="outlet"），並根據當前活動路由的自訂資料返回一個表示動畫狀態的字串值。用此資料來控制各個路由之間該執行哪個轉場 */
@@ -197,7 +200,7 @@ export class AppComponent implements OnInit {
     if (result !== undefined) {
       this.isOld = true;
       this.appService.adIndexOpen = false;
-      this.targetToUpdate = result.type === 0 ? '裝置' :'瀏覽器';
+      this.targetToUpdate = result.type === 0 ? '裝置' : '瀏覽器';
     } else {
       this.isOld = false;
       this.appService.adIndexOpen = true;
@@ -216,7 +219,7 @@ export class AppComponent implements OnInit {
           if (url.includes('?')) {
             // 若url原有參數則帶著前往
             url = url.split('?')[0];
-            this.router.navigate([url], {queryParams: this.activatedRoute.snapshot.queryParams});
+            this.router.navigate([url], { queryParams: this.activatedRoute.snapshot.queryParams });
           } else {
             this.router.navigate([url]);
           }

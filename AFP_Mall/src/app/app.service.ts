@@ -1,26 +1,30 @@
+import { ModalService } from '@app/shared/modal/modal.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import {
   Response_APIModel, Request_MemberFavourite, Response_MemberFavourite, AFP_Voucher,
   Request_MemberUserVoucher, Response_MemberUserVoucher, Request_ECCart, Response_ECCart, Model_ShareData
 } from '@app/_models';
 import { BsModalService } from 'ngx-bootstrap';
-import { MessageModalComponent } from './shared/modal/message-modal/message-modal.component';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { environment } from '@env/environment';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from 'angularx-social-login';
-import { SwPush } from '@angular/service-worker';
-import firebase from 'firebase/app';
-import 'firebase/messaging';
+//import { SwPush } from '@angular/service-worker';
+// import firebase from 'firebase/app';
+// import 'firebase/messaging';
+// 推播
+import { AngularFireMessaging } from '@angular/fire/messaging';
+// Component
 import { VerifyMobileModalComponent } from './shared/modal/verify-mobile-modal/verify-mobile-modal.component';
 import { FavoriteModalComponent } from './shared/modal/favorite-modal/favorite-modal.component';
 import { LoginRegisterModalComponent } from './shared/modal/login-register-modal/login-register-modal.component';
 import { JustkaModalComponent } from './shared/modal/justka-modal/justka-modal.component';
 import { MsgShareModalComponent } from './shared/modal/msg-share-modal/msg-share-modal.component';
+import { MessageModalComponent } from './shared/modal/message-modal/message-modal.component';
 
 declare var AppJSInterface: any;
 
@@ -33,7 +37,7 @@ export class AppService {
   /** 使用者暱稱 */
   public userName: string;
   /** App訪問 */
-  public isApp = null;
+  public isApp: number = null;
   /** callLayer 側邊滑入頁面 */
   public tLayer = [];
   /** callLayer 呼叫頁面 z-index */
@@ -54,10 +58,12 @@ export class AppService {
   public currentUrl = this.router.url;
   /** lazyload 的初始圖片 */
   public defaultImage = '/img/share/eee.jpg';
+  /** 當前訊息 */
+  public currentMessage = new BehaviorSubject(null);
   /** 推播訊息數量 */
   public pushCount = Number(this.cookieService.get('pushCount')) || 0;
   /** GUID (推播使用) */
-  public deviceCode: string;
+  public deviceCode = localStorage.getItem('M_DeviceCode') || null;
   /** firebase 推播 token */
   public firebaseToken: string;
   /** 首頁進場廣告是否開啟 (要再確認過瀏覽器版本後打開) */
@@ -79,8 +85,14 @@ export class AppService {
 
   @BlockUI() blockUI: NgBlockUI;
   constructor(private http: HttpClient, private bsModal: BsModalService, private router: Router,
-    private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService,
-    private swPush: SwPush) {
+    private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService, private angularFireMessaging: AngularFireMessaging, private modal: ModalService) {
+    // firebase message設置。這裡在幹嘛我也不是很懂
+    // 詳：https://stackoverflow.com/questions/61244212/fcm-messaging-issue
+    this.angularFireMessaging.messages.subscribe(
+      (_messaging: AngularFireMessaging) => {
+        _messaging.onMessage = _messaging.onMessage.bind(_messaging);
+        _messaging.onTokenRefresh = _messaging.onTokenRefresh.bind(_messaging);
+      });
   }
 
   toApi(ctrl: string, command: string, request: any, lat: number = null, lng: number = null, deviceCode?: string): Observable<any> {
@@ -94,6 +106,10 @@ export class AppService {
       xEyes_DeviceCode: deviceCode === undefined ? '' : deviceCode
     });
 
+    if (command === '1500') {
+      console.log(`session:${sessionStorage.getItem('CustomerInfo')}`);
+      console.log(headers);
+    }
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
       .pipe(map((data: Response_APIModel) => {
         this.blockUI.stop();
@@ -192,9 +208,8 @@ export class AppService {
     if (this.cookieService.get('Mobii_ThirdLogin') === 'true') {
       this.authService.signOut();
     }
-    // 清除session、cookie、localStorage、我的收藏資料，重置登入狀態及通知數量
+    // 清除session、cookie、我的收藏資料，重置登入狀態及通知數量
     sessionStorage.clear();
-    localStorage.clear();
     this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
     this.loginState = false;
     this.userFavCodes = [];
@@ -265,7 +280,7 @@ export class AppService {
   }
 
   /** 顯示我的收藏 */
-  showFavorites() {
+  showFavorites(): void {
     // get favorite from session and turn it from string to json
     if (sessionStorage.getItem('userFavorites') != null) {
       this.userFavArr = JSON.parse(sessionStorage.getItem('userFavorites'));
@@ -284,7 +299,7 @@ export class AppService {
    * @param favType 51 商品, 52 商家, 53 周邊, 54 行程
    * @param favCode 商品/商家/周邊/行程編碼
    */
-  favToggle(favAction: number, favType: number, favCode?: number) {
+  favToggle(favAction: number, favType: number, favCode?: number): void {
     const request: Request_MemberFavourite = {
       SelectMode: favAction,
       User_Code: sessionStorage.getItem('userCode'),
@@ -316,7 +331,7 @@ export class AppService {
   }
 
   /** 讀取購物車 (主要為更新數量) */
-  readCart() {
+  readCart(): void {
     const request: Request_ECCart = {
       SelectMode: 4, // 固定讀取
       User_Code: sessionStorage.getItem('userCode'),
@@ -335,36 +350,34 @@ export class AppService {
    * @param voucher 所選優惠券資訊
    * Voucher_FreqName: 0 已兌換 1 兌換 2 去商店 3 已使用 4 兌換完畢（限一元搶購） 5 使用 6 已逾期（限我的優惠+優惠券詳細） 7 未生效（限我的優惠+優惠券詳細） 8 使用中
    */
-  onVoucher(voucher: AFP_Voucher) {
+  onVoucher(voucher: AFP_Voucher): void {
+    // 點擊兌換時先進行登入判斷
     if (this.loginState) {
       switch (voucher.Voucher_IsFreq) {
         case 1:
-          // 加入到「我的優惠券」
-          const request: Request_MemberUserVoucher = {
-            User_Code: sessionStorage.getItem('userCode'),
-            SelectMode: 1, // 新增
-            Voucher_Code: voucher.Voucher_Code, // 優惠券Code
-            Voucher_ActivityCode: null, // 優惠代碼
-            SearchModel: {
-              SelectMode: null
-            }
-          };
-          this.toApi('Member', '1510', request).subscribe((data: Response_MemberUserVoucher) => {
-            // 按鈕顯示改變
-            voucher.Voucher_UserVoucherCode = data.AFP_UserVoucher.UserVoucher_Code;
-            voucher.Voucher_IsFreq = data.Model_Voucher.Voucher_IsFreq;
-            voucher.Voucher_FreqName = data.Model_Voucher.Voucher_FreqName;
-            voucher.Voucher_ReleasedCount += 1;
-            if (voucher.Voucher_DedPoint > 0) {
-              const initialState = {
-                success: true,
-                type: 1,
-                message: `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-ok.png"><p>兌換成功！</p></div>`
-              };
-              // this.modal.show('message', { initialState });
-              this.bsModal.show(MessageModalComponent, { initialState });
-            }
-          });
+          // 先判斷是否需要扣點才能兌換，如需扣點必須先跳扣點提示
+          if (voucher.Voucher_DedPoint > 0) {
+            this.modal.confirm({
+              initialState: {
+                message: `請確定是否扣除 Mobii! Points ${voucher.Voucher_DedPoint} 點兌換「${voucher.Voucher_ExtName}」？`
+              }
+            }).subscribe(res => {
+              // 點選確定扣點
+              if (res) {
+                this.exchangeVoucher(voucher);
+              } else {
+                // 點選取消扣點
+                const initialState = {
+                  success: true,
+                  type: 1,
+                  message: `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-failed.png"><p>兌換失敗！</p></div>`
+                };
+                this.bsModal.show(MessageModalComponent, { initialState });
+              }
+            });
+          } else {
+            this.exchangeVoucher(voucher);
+          }
           break;
         case 2:
           // 導去該優惠券商店的商品tab
@@ -407,8 +420,39 @@ export class AppService {
     }
   }
 
+  /** 兌換優惠券 */
+  exchangeVoucher(voucher: AFP_Voucher): void {
+    // 加入到「我的優惠券」
+    const request: Request_MemberUserVoucher = {
+      User_Code: sessionStorage.getItem('userCode'),
+      SelectMode: 1, // 新增
+      Voucher_Code: voucher.Voucher_Code, // 優惠券Code
+      Voucher_ActivityCode: null, // 優惠代碼
+      SearchModel: {
+        SelectMode: null
+      }
+    };
+    this.toApi('Member', '1510', request).subscribe((data: Response_MemberUserVoucher) => {
+      // 按鈕顯示改變
+      voucher.Voucher_UserVoucherCode = data.AFP_UserVoucher.UserVoucher_Code;
+      voucher.Voucher_IsFreq = data.Model_Voucher.Voucher_IsFreq;
+      voucher.Voucher_FreqName = data.Model_Voucher.Voucher_FreqName;
+      voucher.Voucher_ReleasedCount += 1;
+      // 如果是扣點才能兌換的優惠券，需跳兌換成功提示
+      if (voucher.Voucher_DedPoint > 0) {
+        const initialState = {
+          success: true,
+          type: 1,
+          message: `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-ok.png"><p>兌換成功！</p></div>`
+        };
+        // this.modal.show('message', { initialState });
+        this.bsModal.show(MessageModalComponent, { initialState });
+      }
+    });
+  }
+
   //  App導頁用
-  AppRouter(active: string, type = 0) {
+  AppRouter(active: string, type = 0): void {
     if (this.isApp === null) {
       this.router.navigate([active]);
     } else {
@@ -422,10 +466,10 @@ export class AppService {
   }
 
   /** 判斷跳出網頁或APP的登入頁 */
-  loginPage() {
+  loginPage(): void {
     if (this.isApp == null) {
-     // this.modal.openModal('loginRegister');
-      this.bsModal.show(LoginRegisterModalComponent, { class: 'modal-full'});
+      // this.modal.openModal('loginRegister');
+      this.bsModal.show(LoginRegisterModalComponent, { class: 'modal-full' });
     } else {
       if (navigator.userAgent.match(/android/i)) {
         //  Android
@@ -447,72 +491,113 @@ export class AppService {
   /** 初始化推播
    * (註冊 service worker、告訴 firebase.messaging 服務之後的訊息請交由此 SW 處理、取得token、產生/取得 deviceCode、傳送給後端並取得新消費者包)
    */
-  initPush() {
-    if (environment.swActivate) {
-      // 不重複初始化
-      if (!firebase.apps.length) {
-        firebase.initializeApp(environment.firebaseConfig);
-        const messaging = firebase.messaging();
-        if ('serviceWorker' in navigator) {
-          // 註冊 service worker
-          navigator.serviceWorker.ready.then(registration => {
-            if (
-              !!registration &&
-              registration.active &&
-              registration.active.state &&
-              registration.active.state === 'activated'
-            ) {
-              messaging.useServiceWorker(registration); // 告訴 firebase.messaging 服務之後的訊息請交由此 SW 處理
-              if (Notification.permission !== 'denied') {
-                Notification
-                  .requestPermission()
-                  .then((permission) => {
-                    if (permission === 'granted') {
-                      // 取得token
-                      messaging.getToken().then(token => {
-                        this.firebaseToken = token;
-                        // send token to BE
-                        // get GUID (device code) from session, or generate one if there's no
-                        if (sessionStorage.getItem('M_DeviceCode') !== null) {
-                          this.deviceCode = sessionStorage.getItem('M_DeviceCode');
-                        } else {
-                          this.deviceCode = this.guid();
-                          sessionStorage.setItem('M_DeviceCode', this.deviceCode);
-                        }
-                        this.toPushApi();
-                      });
-                    } else {
-                      console.warn('The notification permission was not granted and blocked instead.');
-                    }
-                  });
-              }
-            } else {
-              console.warn('No active service worker found, not able to get firebase messaging.');
-            }
-          }, (error) => {
-            console.log('Service worker registration failed:', error);
-          });
-        } else {
-          console.log('Service workers are not supported.');
-        }
-      } else {
-        firebase.app();
-        this.toPushApi();
-      }
+  // initPush(): void {
+  //   if (environment.swActivate) {
+  //     // 不重複初始化
+  //     if (!firebase.apps.length) {
+  //       firebase.initializeApp(environment.firebaseConfig);
+  //       const messaging = firebase.messaging();
+  //       if ('serviceWorker' in navigator) {
+  //         // 註冊 service worker
+  //         navigator.serviceWorker.ready.then(registration => {
+  //           if (
+  //             !!registration &&
+  //             registration.active &&
+  //             registration.active.state &&
+  //             registration.active.state === 'activated'
+  //           ) {
+  //             messaging.useServiceWorker(registration); // 告訴 firebase.messaging 服務之後的訊息請交由此 SW 處理
+  //             if (Notification.permission !== 'denied') {
+  //               Notification
+  //                 .requestPermission()
+  //                 .then((permission) => {
+  //                   if (permission === 'granted') {
+  //                     // 取得token
+  //                     messaging.getToken().then(token => {
+  //                       this.firebaseToken = token;
+  //                       // send token to BE
+  //                       // get GUID (device code) from session, or generate one if there's no
+  //                       if (sessionStorage.getItem('M_DeviceCode') !== null) {
+  //                         this.deviceCode = sessionStorage.getItem('M_DeviceCode');
+  //                       } else {
+  //                         this.deviceCode = this.guid();
+  //                         sessionStorage.setItem('M_DeviceCode', this.deviceCode);
+  //                       }
+  //                       this.toPushApi();
+  //                     });
+  //                   } else {
+  //                     console.warn('The notification permission was not granted and blocked instead.');
+  //                   }
+  //                 });
+  //             }
+  //           } else {
+  //             console.warn('No active service worker found, not able to get firebase messaging.');
+  //           }
+  //         }, (error) => {
+  //           console.log('Service worker registration failed:', error);
+  //         });
+  //       } else {
+  //         console.log('Service workers are not supported.');
+  //       }
+  //     } else {
+  //       firebase.app();
+  //       this.toPushApi();
+  //     }
 
-      this.swPush.messages.subscribe(msg => {
-        // count msg length and show red point
-        this.pushCount += 1;
+  //     // this.swPush.messages.subscribe(msg => {
+  //     //   // count msg length and show red point
+  //     //   this.pushCount += 1;
+  //     //   this.cookieService.set('pushCount', this.pushCount.toString(), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+  //     // });
+  //   }
+  // }
+
+  /** 推播-取得含device code的新消費者包 */
+  // toPushApi(): void {
+  //   const request: Request_AFPPushToken = {
+  //     User_Code: sessionStorage.getItem('userCode'),
+  //     Token: this.firebaseToken
+  //   };
+  //   this.toApi('Home', '1113', request, null, null, this.deviceCode).subscribe((data: Response_AFPPushToken) => {
+  //     sessionStorage.setItem('CustomerInfo', data.CustomerInfo);
+  //     this.cookieService.set('CustomerInfo', data.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+  //   });
+  // }
+
+  /** 向firebase message 請求token */
+  getPushPermission(): void {
+    this.angularFireMessaging.requestToken.subscribe(
+      (token) => {
+        if (this.deviceCode === null) {
+          this.deviceCode = this.guid();
+          localStorage.setItem('M_DeviceCode', this.deviceCode);
+        }
+        if (this.loginState) {
+          this.toPushApi(token);
+        }
+      },
+      (err) => {
+        console.error('Unable to get permission to notify.', err);
+      }
+    );
+  }
+
+  /** 接收推播訊息 */
+  receiveMessage(): void {
+    this.angularFireMessaging.messages.subscribe(
+      (payload) => {
+        console.log("new message received. ", payload);
+        this.currentMessage.next(payload);
+        this.pushCount++;
         this.cookieService.set('pushCount', this.pushCount.toString(), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       });
-    }
   }
 
   /** 推播-取得含device code的新消費者包 */
-  toPushApi() {
+  toPushApi(token: string): void {
     const request: Request_AFPPushToken = {
       User_Code: sessionStorage.getItem('userCode'),
-      Token: this.firebaseToken
+      Token: token
     };
     this.toApi('Home', '1113', request, null, null, this.deviceCode).subscribe((data: Response_AFPPushToken) => {
       sessionStorage.setItem('CustomerInfo', data.CustomerInfo);
@@ -533,39 +618,11 @@ export class AppService {
     });
   }
 
-  /** 通知APP是否開啟showBackButton
-   * @param isShowBt true: 開 , false: 關
-   */
-  appShowBackButton(isShowBt: boolean): void {
-    if (this.isApp !== null) {
-      if (navigator.userAgent.match(/android/i)) {
-        // Android
-        AppJSInterface.showBackButton(isShowBt);
-      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-        // IOS
-        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showBackButton', isShow: isShowBt });
-      }
-    }
-  }
-
-  /** 通知App關閉Web view 的關閉按鈕 (true : 關閉) */
-  appWebViewbutton(isOpen: boolean): void {
-    if (this.isApp !== null) {
-      if (navigator.userAgent.match(/android/i)) {
-        //  Android
-        AppJSInterface.showCloseButton(isOpen);
-      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-        //  IOS
-        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showCloseButton', isShow: isOpen });
-      }
-    }
-  }
-
   /** 分享功能
    * @param sharedContent 分享內容文案
    * @param APPShareUrl APP分享時使用的url（直接抓當前url在APP中會帶入使用者相關資訊因此不使用）
    */
-  shareContent(sharedContent: string, APPShareUrl: string) {
+  shareContent(sharedContent: string, APPShareUrl: string): void {
     if (this.isApp === null) {
       // web
       // this.modal.show('msgShare', { initialState: { sharedText: sharedContent } });
@@ -579,17 +636,6 @@ export class AppService {
         //  IOS
         (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'appShare', content: sharedContent + '\n' + APPShareUrl });
       }
-    }
-  }
-
-  /** 通知App關閉web view */
-  appWebViewClose(): void {
-    if (navigator.userAgent.match(/android/i)) {
-      //  Android
-      AppJSInterface.back();
-    } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-      //  IOS
-      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'back' });
     }
   }
 

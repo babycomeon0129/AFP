@@ -5,15 +5,15 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://54.150.124.230:38086/api/',
+  apiUrl: 'https://sit-afpapi.mobii.ai/api/',
   FBApiKey: '349758176149496',
   GoogleApiKey: '260499247538-ctoucp9t09ufdpgqmd4ac368lfpgmorm.apps.googleusercontent.com',
-  cookieDomain: '54.150.124.230',
-  cookieSecure: false,
+  cookieDomain: 'sit.mobii.ai',
+  cookieSecure: true,
   /** Apple登入redirectURI */
-  AppleSignInURI: 'https://www-uat.mobii.ai',
+  AppleSignInURI: 'https://sit.mobii.ai',
   /** 是否啟用 service worker（for 推播服務） */
-  swActivate: false,
+  swActivate: true,
   firebaseConfig: {
     apiKey: 'AIzaSyCjtBdCm4T5SdndyaCGHN-S7LJQaLxftsE',
     authDomain: 'afp-consumer-sit.firebaseapp.com',

@@ -19,7 +19,6 @@ import { ForgetModalComponent } from './modal/forget-modal/forget-modal.componen
 import { JustkaModalComponent } from './modal/justka-modal/justka-modal.component';
 import { LoginRegisterModalComponent } from './modal/login-register-modal/login-register-modal.component';
 import { MessageModalComponent } from './modal/message-modal/message-modal.component';
-import { MissionModalComponent } from './modal/mission-modal/mission-modal.component';
 import { MsgShareModalComponent } from './modal/msg-share-modal/msg-share-modal.component';
 import { PasswordModalComponent } from './modal/password-modal/password-modal.component';
 import { ReceiptModalComponent } from './modal/receipt-modal/receipt-modal.component';
@@ -39,6 +38,7 @@ import { SwiperPanesComponent } from './swiper/swiper-panes/swiper-panes.compone
 // QRCODE
 import { QRCodeModule } from 'angularx-qrcode';
 import { MPointComponent } from './widget/m-point/m-point.component';
+import { GoTopComponent } from './widget/go-top/go-top.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +52,6 @@ import { MPointComponent } from './widget/m-point/m-point.component';
     ConfirmModalComponent,
     CouponModalComponent,
     JustkaModalComponent,
-    MissionModalComponent,
     ReceiptModalComponent,
     MsgShareModalComponent,
     LoginRegisterModalComponent,
@@ -68,7 +67,8 @@ import { MPointComponent } from './widget/m-point/m-point.component';
     BackBtnComponent,
     IndexHeaderComponent,
     MPointComponent,
-    LinkifyPipe
+    LinkifyPipe,
+    GoTopComponent
   ],
   exports: [
     SafePipe,
@@ -82,7 +82,6 @@ import { MPointComponent } from './widget/m-point/m-point.component';
     ConfirmModalComponent,
     CouponModalComponent,
     JustkaModalComponent,
-    MissionModalComponent,
     ReceiptModalComponent,
     MsgShareModalComponent,
     LoginRegisterModalComponent,
@@ -97,7 +96,8 @@ import { MPointComponent } from './widget/m-point/m-point.component';
     SwiperContentComponent,
     SwiperNavComponent,
     SwiperPanesComponent,
-    MPointComponent
+    MPointComponent,
+    GoTopComponent
   ],
   imports: [
     CommonModule,
@@ -116,7 +116,6 @@ import { MPointComponent } from './widget/m-point/m-point.component';
     ConfirmModalComponent,
     CouponModalComponent,
     JustkaModalComponent,
-    MissionModalComponent,
     ReceiptModalComponent,
     MsgShareModalComponent,
     LoginRegisterModalComponent,

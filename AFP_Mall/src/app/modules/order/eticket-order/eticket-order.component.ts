@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { NgForm } from '@angular/forms';
 import { layerAnimation,  layerAnimationUp} from '@app/animations';
+import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 
 @Component({
   selector: 'app-eticket-order',
@@ -32,7 +33,7 @@ export class ETicketOrderComponent implements OnInit {
   /** 同頁滑動切換 0: 原頁 1: 使用優惠券、折扣碼 3:收據選取 4: 愛心碼選單 */
   public layerTrig = 0;
 
-  constructor(public modal: ModalService, private router: Router, public appService: AppService) {
+  constructor(public modal: ModalService, private router: Router, public appService: AppService, public appJSInterfaceService: AppJSInterfaceService) {
     if (history.state.data !== undefined) {
       const afpCart: AFP_Cart[] = [];
       // 以購物車 ID 取得結帳相關資訊

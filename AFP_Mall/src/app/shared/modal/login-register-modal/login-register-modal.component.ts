@@ -1,9 +1,9 @@
-import { ActivatedRoute, Router } from '@angular/router';
+import { CloudMessagingService } from './../../service/cloud-messaging.service';
+import { Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { environment } from '@env/environment';
-import { BsModalRef } from 'ngx-bootstrap';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { AppService } from 'src/app/app.service';
-import { ModalService } from '../modal.service';
 import { AuthService, SocialUser, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 import { NgForm } from '@angular/forms';
 import {
@@ -12,6 +12,8 @@ import {
 } from '@app/_models';
 import { CookieService } from 'ngx-cookie-service';
 import jwt_decode from 'jwt-decode';
+import { MessageModalComponent } from '../message-modal/message-modal.component';
+import { ForgetModalComponent } from '../forget-modal/forget-modal.component';
 declare var AppleID: any;
 
 @Component({
@@ -65,8 +67,8 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   public newThirdRequest: NewThirdRequest = new NewThirdRequest();
 
   constructor(
-    public bsModalRef: BsModalRef, private authService: AuthService, private appService: AppService, public modal: ModalService,
-    private cookieService: CookieService, private router: Router, private route: ActivatedRoute) {
+    public bsModalRef: BsModalRef, private authService: AuthService, private appService: AppService,
+    private cookieService: CookieService, private router: Router, public bsModal: BsModalService) {
     this.detectApple();
   }
 
@@ -115,7 +117,8 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
         this.thirdRequest.JsonData = JSON.stringify(this.appleUser);
         this.toThirdLogin();
       } else {
-        this.modal.show('message', { initialState: { success: false, message: 'Apple登入出現錯誤', showType: 1 } });
+        // this.modal.show('message', { initialState: { success: false, message: 'Apple登入出現錯誤', showType: 1 } });
+        this.bsModal.show(MessageModalComponent, { initialState: { success: false, message: 'Apple登入出現錯誤', showType: 1 } });
       }
     });
 
@@ -125,7 +128,8 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       this.bsModalRef.hide(); // 關閉視窗
       // 如果錯誤並非用戶直接關掉POPUP視窗，則跳錯誤訊息
       if (error.detail.error !== 'popup_closed_by_user') {
-        this.modal.show('message', { initialState: { success: false, message: 'Apple登入失敗', note: error.detail.error, showType: 1 } });
+        // his.modal.show('message', { initialState: { success: false, message: 'Apple登入失敗', note: error.detail.error, showType: 1 } });
+        this.bsModal.show(MessageModalComponent, { initialState: { success: false, message: 'Apple登入失敗', note: error.detail.error, showType: 1 } });
       }
     });
 
@@ -154,7 +158,8 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       this.appService.showFavorites();
       this.appService.readCart();
       // 通知推播
-      this.appService.initPush();
+      // this.appService.initPush();
+      this.appService.getPushPermission();
     });
   }
 
@@ -203,7 +208,8 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       this.appService.showFavorites();
       this.appService.readCart();
       // 通知推播
-      this.appService.initPush();
+      // this.appService.initPush();
+      this.appService.getPushPermission();
     });
   }
 
@@ -276,10 +282,18 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       this.bsModalRef.hide();
       // 提示社群綁定
       const msg = `註冊成功！歡迎加入Mobii!\n小技巧：綁定您的社群帳號，未來就可快速登入囉！`;
-      this.modal.show('message', { initialState: { success: true, message: msg, showType: 6, leftBtnMsg: `下次再說`, rightBtnMsg: `立即綁定`, rightBtnUrl: `/Member/ThirdBinding` } });
+      // this.modal.show('message', { initialState: { success: true, message: msg, showType: 6, leftBtnMsg: `下次再說`, rightBtnMsg: `立即綁定`, rightBtnUrl: `/Member/ThirdBinding` } });
+      this.bsModal.show(MessageModalComponent, { initialState: { success: true, message: msg, showType: 6, leftBtnMsg: `下次再說`, rightBtnMsg: `立即綁定`, rightBtnUrl: `/Member/ThirdBinding` } });
       // 通知推播
-      this.appService.initPush();
+      // this.appService.initPush();
+      this.appService.getPushPermission();
     });
+  }
+
+  /** 跳至忘記密碼視窗 */
+  goToforget(): void {
+    this.bsModal.show(ForgetModalComponent);
+    this.bsModalRef.hide();
   }
 
   /** 判斷是否為Apple設備 */

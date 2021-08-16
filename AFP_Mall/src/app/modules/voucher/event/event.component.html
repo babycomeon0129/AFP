@@ -73,7 +73,7 @@
                       'yyyy/MM/dd'}}</p>
                   </div>
                   <div class="item one">
-                    <button (click)="toVoucher(voucher)"
+                    <button (click)="appService.onVoucher(voucher)"
                       [disabled]="appService.loginState && (voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3 || voucher.Voucher_IsFreq === 4)"
                       [ngClass]="{'gray-obtn': voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3 || voucher.Voucher_IsFreq === 4,
                                       'index-btn': voucher.Voucher_IsFreq === 1,

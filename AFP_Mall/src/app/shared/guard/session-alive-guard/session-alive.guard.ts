@@ -20,7 +20,7 @@ export class SessionAliveGuard implements CanActivate {
         // cookie有值: 將cookie資訊塞入session
         // cookie無值: 無動作
         // return true(都可繼續訪問)
-      if (sessionStorage.getItem('userCode') == null || sessionStorage.getItem('CustomerInfo') == null) {
+      if (sessionStorage.getItem('userCode') === null || sessionStorage.getItem('CustomerInfo') === null) {
         if (this.cookieService.get('userCode').length > 0 && this.cookieService.get('CustomerInfo').length > 0) {
           if (this.CheckUser(this.cookieService.get('userCode'), this.cookieService.get('CustomerInfo'))) {
             sessionStorage.setItem('userName', this.cookieService.get('userName'));
@@ -32,14 +32,6 @@ export class SessionAliveGuard implements CanActivate {
           }
         }
 
-        // if (localStorage.getItem('userCode') !== null && localStorage.getItem('CustomerInfo') !== null
-        // && this.appService.loginState === false) {
-        //   sessionStorage.setItem('userName', localStorage.getItem('userName'));
-        //   sessionStorage.setItem('userCode', localStorage.getItem('userCode'));
-        //   sessionStorage.setItem('CustomerInfo', localStorage.getItem('CustomerInfo'));
-        //   // sessionStorage.setItem('userFavorites', '');
-        //   this.appService.loginState = true;
-        // }
       }
 
       return true;
@@ -54,9 +46,12 @@ export class SessionAliveGuard implements CanActivate {
     const request: Request_AuthUser = {
       SearchModel: {UserInfoCode: userCode, CustomerInfo: customerInfo }
     };
+    console.log(`1500:${customerInfo}`);
     // 登入驗證是否正確
     return new Promise(resolve => {
       this.appService.toApi('Member', '1500', request).subscribe((data: Response_AuthUser) => {
+        console.log(`1500 response`);
+        console.log(data);
         if (!data.CheckState) {
           //  驗證失敗，清除Cookie
           this.cookieService.deleteAll();

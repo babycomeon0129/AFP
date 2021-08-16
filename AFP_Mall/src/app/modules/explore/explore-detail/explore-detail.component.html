@@ -31,7 +31,6 @@
             <div class="swiper-pagination"></div>
             <div class="shopping-storeup">
               <div class="back-go">
-                <!-- button type="button" onclick="history.back();" #clickbtn data-toggle="tooltip" data-placement="top" title="回上一頁" [hidden]="appService.isApp !== null && !appService.showBack"><img src="../img/share/icon_back.png" class="imgicon"></!-->
                 <app-back-btn [iconStyle]="2"></app-back-btn>
               </div>
               <div class="ml-auto d-flex d-inline align-items-center">
@@ -273,7 +272,7 @@
                               date: 'yyyy/MM/dd' }}</p>
                           </div>
                           <div class="item one">
-                            <button (click)="toVoucher(voucher)"
+                            <button (click)="appService.onVoucher(voucher)"
                               [disabled]="appService.loginState && (voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3)"
                               [ngClass]="{'gray-obtn': voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3,
                                                               'index-btn': voucher.Voucher_IsFreq === 1,

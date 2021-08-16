@@ -57,7 +57,7 @@
     </ul>
 </div>
 <div class="order-box">
-    <div class="order-subtitle" (click)="goToECStore()">
+    <div class="order-subtitle" (click)="goToECStore(storeInfo?.ECStore_Code)">
         <i class="material-icons">&#xE8D1;</i><span class="store-name">{{storeInfo?.ECStore_ShowName}}</span>
     </div>
     <ul class="order-shop-list">
@@ -181,7 +181,7 @@
     <div class="useoffers">
         <div class="title-box">
             <div class="item icon-btn">
-                <button class="btn px-0" (click)="stopClaim()" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                <button class="btn px-0" (click)="stopClaim();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
                     <i class="material-icons">&#xe314;</i>
                 </button>
             </div>

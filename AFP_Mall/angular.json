@@ -29,6 +29,7 @@
             "aot": false,
             "assets": [
               "src/favicon.ico",
+              "src/firebase-messaging-sw.js",
               "src/manifest.json",
               "src/img",
               "src/assets",
@@ -63,6 +64,23 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
+              "assets": [
+                {
+                  "glob": "firebase-messaging-sw.js",
+                  "input": "src/service-worker/prod",
+                  "output": "/"
+                },
+                {
+                  "glob": "manifest.json",
+                  "input": "src/service-worker/prod",
+                  "output": "/"
+                },
+                "src/favicon.ico",
+                "src/img",
+                "src/assets",
+                "src/sitemap.xml",
+                "src/google74b45d0284996f7b.html"
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -83,9 +101,7 @@
                   "maximumWarning": "6kb",
                   "maximumError": "50kb"
                 }
-              ],
-              "serviceWorker": true,
-              "ngswConfigPath": "ngsw-config.json"
+              ]
             },
             "sit": {
               "fileReplacements": [
@@ -94,6 +110,21 @@
                   "with": "src/environments/environment.sit.ts"
                 }
               ],
+              "assets": [
+                {
+                  "glob": "firebase-messaging-sw.js",
+                  "input": "src/service-worker/sit",
+                  "output": "/"
+                },
+                {
+                  "glob": "manifest.json",
+                  "input": "src/service-worker/sit",
+                  "output": "/"
+                },
+                "src/favicon.ico",
+                "src/img",
+                "src/assets"
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": true,
@@ -114,9 +145,7 @@
                   "maximumWarning": "6kb",
                   "maximumError": "50kb"
                 }
-              ],
-              "serviceWorker": false,
-              "ngswConfigPath": "ngsw-config.json"
+              ]
             },
             "uat": {
               "fileReplacements": [
@@ -125,6 +154,21 @@
                   "with": "src/environments/environment.uat.ts"
                 }
               ],
+              "assets": [
+                {
+                  "glob": "firebase-messaging-sw.js",
+                  "input": "src/service-worker/uat",
+                  "output": "/"
+                },
+                {
+                  "glob": "manifest.json",
+                  "input": "src/service-worker/uat",
+                  "output": "/"
+                },
+                "src/favicon.ico",
+                "src/img",
+                "src/assets"
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": true,
@@ -145,9 +189,7 @@
                   "maximumWarning": "6kb",
                   "maximumError": "50kb"
                 }
-              ],
-              "serviceWorker": true,
-              "ngswConfigPath": "ngsw-config.json"
+              ]
             }
           }
         },
@@ -178,6 +220,7 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
+              "src/firebase-messaging-sw.js",
               "src/manifest.json"
             ],
             "styles": [

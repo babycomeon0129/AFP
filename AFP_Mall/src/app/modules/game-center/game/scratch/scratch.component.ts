@@ -104,35 +104,39 @@ export class ScratchComponent implements OnInit, AfterViewInit {
   /** 使用者在畫布的行為事件-用者按下滑鼠按鈕時開始繪製 */
   eventDown(ev: { preventDefault: () => void; }): void {
     ev.preventDefault();
-    // 先判斷該遊戲是否為可遊玩狀態，0: 不可遊玩(未完成綁卡等條件，條件由後端判定) 1:可遊玩
-    if (this.gameData.GameState) {
-      // 若可玩次數 === 0或是所剩點數不夠遊完一次，則阻擋使用者進行遊戲
-      if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
-        this.mousedown = false;
-        this.noticeAlert.emit();
-      } else {
-        // 先判斷是否允許進行遊戲
-        if (!this.goPlay) {
-          // 跳出扣點確認視窗，如果Game_DedPoint為0點，不需要跳Alert
-          if (this.gameData.AFP_Game.Game_DedPoint > 0) {
-            this.modal
-              .confirm({
-                initialState: {
-                  message: `請確定是否扣除 Mobii! Points ${this.gameData.AFP_Game.Game_DedPoint} 點玩「${this.gameData.AFP_Game.Game_ExtName}」？`,
-                },
-              })
-              .subscribe((res) => {
-                this.goPlay = res === true;
-              });
-          } else {
-            this.goPlay = true;
-          }
+    if (this.appService.loginState) {
+      // 先判斷該遊戲是否為可遊玩狀態，0: 不可遊玩(未完成綁卡等條件，條件由後端判定) 1:可遊玩
+      if (this.gameData.GameState) {
+        // 若可玩次數 === 0或是所剩點數不夠遊完一次，則阻擋使用者進行遊戲
+        if (this.playTimes === 0 || this.gameData.AFP_Game.Game_DedPoint > this.totalPoints) {
+          this.mousedown = false;
+          this.noticeAlert.emit();
         } else {
-          this.mousedown = true;
+          // 先判斷是否允許進行遊戲
+          if (!this.goPlay) {
+            // 跳出扣點確認視窗，如果Game_DedPoint為0點，不需要跳Alert
+            if (this.gameData.AFP_Game.Game_DedPoint > 0) {
+              this.modal
+                .confirm({
+                  initialState: {
+                    message: `請確定是否扣除 Mobii! Points ${this.gameData.AFP_Game.Game_DedPoint} 點玩「${this.gameData.AFP_Game.Game_ExtName}」？`,
+                  },
+                })
+                .subscribe((res) => {
+                  this.goPlay = res === true;
+                });
+            } else {
+              this.goPlay = true;
+            }
+          } else {
+            this.mousedown = true;
+          }
         }
+      } else {
+        this.noGameStateAlert.emit();
       }
     } else {
-      this.noGameStateAlert.emit();
+      this.appService.loginPage();
     }
   }
   /** 使用者在畫布的行為事件-放開滑鼠按鈕的動作、在刮刮樂touchend的動作。當出現上述動作時，停止繪製 */
