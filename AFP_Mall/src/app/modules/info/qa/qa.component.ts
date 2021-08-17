@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AppService } from '@app/app.service';
 import { Request_MemberQuestion, Response_MemberQuestion, AFP_QuestionCategory, AFP_QuestionContent } from '@app/_models';
@@ -21,8 +22,10 @@ export class QAComponent implements OnInit {
   public qaDataCopy: AFP_QuestionCategory[];
   /** 搜尋目標字串 */
   public searchTarget = '';
+  /** collapse Q */
+  collapseCode: number;
 
-  constructor(public appService: AppService, private meta: Meta, private title: Title, private location: Location,private appJSInterfaceService: AppJSInterfaceService) {
+  constructor(public appService: AppService, private meta: Meta, private title: Title, private location: Location, private appJSInterfaceService: AppJSInterfaceService, private route: ActivatedRoute) {
     this.title.setTitle('常見問題 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 常見問題。不論是訂單支付、退貨退款、寄件物流、點數 M Points 或優惠券、會員權益等資訊，你都可以在 Mobii! 的常見問題找到答案。' });
     this.meta.updateTag({ content: '常見問題 - Mobii!', property: 'og:title' });
@@ -49,6 +52,38 @@ export class QAComponent implements OnInit {
       // 如果大分類內沒有任何QA內容，先篩選掉
       this.qaDataCopy = data.List_QuestionCategory.filter((list: AFP_QuestionCategory) => list.List_QuestionContent.length > 0);
       this.qaData = JSON.parse(JSON.stringify(this.qaDataCopy));
+      this.qaData.forEach(data => {
+        data.Collapse = true;
+        data.List_QuestionContent.forEach(content => {
+          content.A_Collapse = true;
+          content.Q_Collapse = true;
+        })
+      });
+      console.log(this.qaData);
+    });
+  }
+
+  /** 問題目錄開合 */
+  cateCollapse(catCode: number): void {
+    this.qaData.forEach(data => {
+      if (data.QuestionCategory_Code == catCode) {
+        data.List_QuestionContent.forEach(qa => {
+          qa.Q_Collapse = !qa.Q_Collapse;
+        });
+      }
+    });
+  }
+
+  /** 問題列表開合 */
+  qalistCollapse(catCode: number, contentCode: number): void {
+    this.qaData.forEach(data => {
+      if (data.QuestionCategory_Code === catCode) {
+        data.List_QuestionContent.forEach(qa => {
+          if (qa.QuestionContent_Code === contentCode) {
+            qa.A_Collapse = !qa.A_Collapse;
+          }
+        });
+      }
     });
   }
 

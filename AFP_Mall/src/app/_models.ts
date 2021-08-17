@@ -2256,7 +2256,7 @@ export interface Response_MemberQuestion {
 }
 
 /** 常見問題分類 */
-export interface AFP_QuestionCategory {
+export class AFP_QuestionCategory {
   /** 常見問題分類名稱 */
   QuestionCategory_Name: string;
   /** 常見問題分類編碼 */
@@ -2269,10 +2269,12 @@ export interface AFP_QuestionCategory {
   QuestionCategory_EndDate: Date;
   /** 常見問題內容 */
   List_QuestionContent: AFP_QuestionContent[];
+  /** 是否Collapse展開，前端新增 */
+  Collapse: boolean;
 }
 
 /** 常見問題內容 */
-export interface AFP_QuestionContent {
+export class AFP_QuestionContent {
   /** 訊息類型 */
   QuestionContent_Mode: number;
   /** 類別Code */
@@ -2291,4 +2293,8 @@ export interface AFP_QuestionContent {
   QuestionContent_Sort: number;
   /** 狀態 0:無效 1:有效 9:刪除 */
   QuestionContent_State: number;
+  /** 是否Collapse展開，前端新增(問題) */
+  Q_Collapse: boolean;
+  /** 是否Collapse展開，前端新增(答案) */
+  A_Collapse: boolean;
 }

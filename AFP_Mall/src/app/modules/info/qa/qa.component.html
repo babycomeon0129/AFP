@@ -22,8 +22,7 @@
           <ng-container *ngFor="let cate of qaData">
             <ul class="cateList">
               <li>
-                <button class="btn px-0 w-100 text-left" type="button" data-toggle="collapse" attr.data-target="{{'#c' + cate?.QuestionCategory_Code}}"
-                  attr.aria-controls="{{'#c' + cate?.QuestionCategory_Code}}" aria-expanded="false">
+                <button class="btn px-0 w-100 text-left" type="button" (click)="cateCollapse(cate.QuestionCategory_Code)" [attr.aria-expanded]="!cate.Collapse" aria-controls="collapseBasic">
                     {{cate?.QuestionCategory_Name}} <span class="float-right"><i class="material-icons expand_more">&#xe5cf;</i></span>
                 </button>
               </li>
@@ -31,14 +30,14 @@
               <ul class="qList">
                 <!-- 問題 -->
                 <ng-container *ngFor="let q of cate?.List_QuestionContent">
-                  <li id="{{'c' + cate?.QuestionCategory_Code}}" class="collapse row">
+                  <li class="row"  [collapse]="q.Q_Collapse" [isAnimated]="true">
                     <div class="col-12">
-                        <button class="btn px-0 w-100 text-left" type="button" data-toggle="collapse" attr.data-target="{{'#q' + q?.QuestionContent_Code}}" attr.aria-controls="{{'#' + q?.QuestionContent_Code}}" aria-expanded="false">
+                        <button class="btn px-0 w-100 text-left" type="button" (click)="qalistCollapse(q.QuestionContent_CategoryCode, q.QuestionContent_Code)">
                             {{q?.QuestionContent_Title}}
                         </button>
                     </div>
                     <!-- 答案 -->
-                    <div id="{{'q' + q?.QuestionContent_Code}}" class="collapse col-12">
+                    <div class="col-12" [collapse]="q.A_Collapse" [isAnimated]="true">
                       <div class="abox" [innerHTML]="q?.QuestionContent_Body"></div>
                     </div>
                   </li>

@@ -22,6 +22,8 @@ import { SortablejsModule } from 'ngx-sortablejs';
 
 // Member-MyProfile birthday datepicker
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+// Collapse
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { zhCnLocale } from 'ngx-bootstrap/locale';
 defineLocale('zh-cn', zhCnLocale);
@@ -114,6 +116,7 @@ export function provideConfig() {
       AngularFireAuthModule,
       AngularFireMessagingModule,
       AngularFireModule.initializeApp(environment.firebaseConfig),
+      CollapseModule.forRoot()
   ],
   exports: [
     AppComponent
