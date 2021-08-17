@@ -40,7 +40,8 @@
                 <div class="add-favorite">
                   <button
                     (click)="appService.favToggle((appService.userFavCodes.includes(siteCode)? 2 : 1), siteInfo?.ECStore_Type < 2000? 52 : 53, siteCode)"
-                    [ngClass]="{'active': appService.userFavCodes.includes(siteCode)}"  type="button" title="加入/移除收藏"><img src="../img/share/icon_favorite.png" class="imgicon">
+                    [ngClass]="{'active': appService.userFavCodes.includes(siteCode)}" type="button"
+                    title="加入/移除收藏"><img src="../img/share/icon_favorite.png" class="imgicon">
                   </button>
                 </div>
               </div>
@@ -102,11 +103,13 @@
               </li>
               <li *ngIf="siteInfo?.ECStore_Type < 2000 && siteInfo?.ECStore_Type !== 1100" class="nav-item">
                 <a [routerLink]="['/Explore/ExploreDetail', siteCode]"
-                  [queryParams]="{ navNo: 3, showBack: appService.showBack }" [ngClass]="{'active' : tabNo == 3}"class="nav-link">熱賣商品</a>
+                  [queryParams]="{ navNo: 3, showBack: appService.showBack }" [ngClass]="{'active' : tabNo == 3}"
+                  class="nav-link">熱賣商品</a>
               </li>
               <li *ngIf="siteInfo?.ECStore_Type < 2000" class="nav-item">
                 <a [routerLink]="['/Explore/ExploreDetail', siteCode]"
-                  [queryParams]="{ navNo: 2, showBack: appService.showBack }" [ngClass]="{'active' : tabNo == 2}"class="nav-link">優惠券</a>
+                  [queryParams]="{ navNo: 2, showBack: appService.showBack }" [ngClass]="{'active' : tabNo == 2}"
+                  class="nav-link">優惠券</a>
               </li>
             </ul>
             <div class="tab-content border-t">
@@ -315,10 +318,10 @@
     <!--外送 / 外送按鈕-->
     <footer class="success-mode container z-index301 order-icon" *ngIf="ecStoreExtType">
       <button class="btn-ok" (click)="sendDelivery(siteInfo?.ECStore_DeliveryURL)"
-      [ngClass]="{'w-45': siteInfo?.ECStore_TakeoutURL !== null}"
+        [ngClass]="{'w-45': siteInfo?.ECStore_TakeoutURL !== null}"
         *ngIf="siteInfo?.ECStore_DeliveryURL !== null">我要外帶</button>
       <button class="btn-takeout" (click)="sendDelivery(siteInfo?.ECStore_TakeoutURL)"
-      [ngClass]="{'w-45': siteInfo?.ECStore_DeliveryURL !== null}"
+        [ngClass]="{'w-45': siteInfo?.ECStore_DeliveryURL !== null}"
         *ngIf="siteInfo?.ECStore_TakeoutURL !== null">我要外送</button>
     </footer>
 

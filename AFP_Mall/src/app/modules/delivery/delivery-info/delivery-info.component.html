@@ -3,91 +3,96 @@
 
   <!--我的地址2-->
   <div class="myaddress">
-      <div class="headerbox container title-box">
-          <div class="item icon-btn">
-              <button class="btn px-0" onclick="history.back()" data-toggle="tooltip" data-placement="bottom" title="回上一頁" hidden>
-                  <i class="material-icons">&#xe314;</i>
-              </button>
-          </div>
-          <div class="item title-name">填寫點餐資訊</div>
-          <div class="item ctrl-btn"></div>
+    <div class="headerbox container title-box">
+      <div class="item icon-btn">
+        <button class="btn px-0" onclick="history.back()" data-toggle="tooltip" data-placement="bottom" title="回上一頁"
+          hidden>
+          <i class="material-icons">&#xe314;</i>
+        </button>
       </div>
-      <form #deliveryInfo="ngForm" (ngSubmit)="deliveryInfo.form.valid && deliverySubmit(deliveryInfo)">
-        <div class="my-address-list L2height">
-            <ul class="bg-white">
-                <li>
-                    <div class="item w-84">
-                        <p>訂購人姓名</p>
-                        <small class="text-danger" *ngIf="Vname.invalid && Vname.touched">收件人姓名為必填</small>
-                    </div>
-                    <div class="item auto-left">
-                        <input type="text" #Vname="ngModel" class="form-control" id="Vname" name="Vname" placeholder="請輸入"
-                        [(ngModel)]="deliveryForm.RecName" required>
-                    </div>
-                </li>
-                <li class="index-flex">
-                    <div class="item one">
-                      <p>電子信箱</p>
-                      <small class="text-danger" *ngIf="Vmail.touched && Vmail.value ===''">E-mail為必填</small>
-                      <small class="text-danger" *ngIf="Vmail.invalid && Vmail.dirty && Vmail.value !==''">E-mail格式有誤</small>
-                    </div>
-                    <div class="item two auto-left">
-                        <input type="email" #Vmail="ngModel" class="form-control" id="Vmail" name="Vmail" placeholder="請輸入"
-                        [(ngModel)]="deliveryForm.RecEmail" pattern="[A-Za-z0-9\*._%+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}$" required>
-                    </div>
-
-                </li>
-                <li class="index-flex">
-                    <div class="item one">
-                      <p>手機號碼</p>
-                      <small class="text-danger" *ngIf="Vphone.touched && Vphone.value ===''">手機號碼為必填</small>
-                      <small class="text-danger" *ngIf="Vphone.invalid && Vphone.dirty && Vphone.value !==''">手機號碼格式有誤</small>
-                      </div>
-                    <div class="item two auto-left">
-                        <input type="tel" #Vphone="ngModel" name="Vphone" class="form-control" id="Vphone" placeholder="請輸入" pattern="^09\d{8}$"
-                        [(ngModel)]="deliveryForm.RecMobile" appDigitOnly maxlength="10" required>
-                    </div>
-                </li>
-                <li>
-                    <div class="item">縣市</div>
-                    <div class="item auto-left citydefault" (click)="layerTrig = 1">
-                        <span class="text-muted">{{ deliveryForm.RecCityValue }}</span><i class="material-icons">&#xe315;</i>
-                    </div>
-                </li>
-                <li>
-                    <div class="item">
-                      <p>行政區</p>
-                      <small class="text-danger" *ngIf="Vdistrict.invalid && deliveryClick">行政區為必填</small>
-                    </div>
-                    <div class="item auto-left distdefault"  (click)="layerTrig = 2; districtCheck($event.isTrusted);" #tdistrict>
-                        <span class="text-muted">{{ deliveryForm.RecCityAreaValue ? deliveryForm.RecCityAreaValue: '請選擇' }}</span><i class="material-icons">&#xe315;</i>
-                    </div>
-                    <input type="hidden" name="Vdistrict" #Vdistrict="ngModel" [(ngModel)]="deliveryForm.RecCityAreaValue" required>
-                </li>
-                <li class="flex-column">
-                    <div class="item w-100">
-                      <p>詳細地址 <small class="text-muted">里道路或街名，巷弄號</small></p>
-                      <small class="text-danger" *ngIf="Vaddr.invalid && Vaddr.touched">詳細地址為必填</small>
-                      </div>
-                    <div class="item w-100">
-                        <input type="text" #Vaddr="ngModel" placeholder="請輸入地址" id="Vaddr" name="Vaddr"
-                        [(ngModel)]="deliveryForm.RecAddress" required>
-                    </div>
-                </li>
-            </ul>
-            <div class="px-3 py-4 bg-gray8">
-                <label class="radio-box">我同意將以上資料傳送給「有無外送」建立訂單
-                    <input type="checkbox" name="checkbox" class="store1" [(ngModel)]="agreeCheck">
-                    <span class="checkmark"></span>
-                </label>
+      <div class="item title-name">填寫點餐資訊</div>
+      <div class="item ctrl-btn"></div>
+    </div>
+    <form #deliveryInfo="ngForm" (ngSubmit)="deliveryInfo.form.valid && deliverySubmit(deliveryInfo)">
+      <div class="my-address-list L2height">
+        <ul class="bg-white">
+          <li>
+            <div class="item w-84">
+              <p>訂購人姓名</p>
+              <small class="text-danger" *ngIf="Vname.invalid && Vname.touched">收件人姓名為必填</small>
+            </div>
+            <div class="item auto-left">
+              <input type="text" #Vname="ngModel" class="form-control" id="Vname" name="Vname" placeholder="請輸入"
+                [(ngModel)]="deliveryForm.RecName" required>
+            </div>
+          </li>
+          <li class="index-flex">
+            <div class="item one">
+              <p>電子信箱</p>
+              <small class="text-danger" *ngIf="Vmail.touched && Vmail.value ===''">E-mail為必填</small>
+              <small class="text-danger" *ngIf="Vmail.invalid && Vmail.dirty && Vmail.value !==''">E-mail格式有誤</small>
+            </div>
+            <div class="item two auto-left">
+              <input type="email" #Vmail="ngModel" class="form-control" id="Vmail" name="Vmail" placeholder="請輸入"
+                [(ngModel)]="deliveryForm.RecEmail" pattern="[A-Za-z0-9\*._%+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}$" required>
             </div>
 
+          </li>
+          <li class="index-flex">
+            <div class="item one">
+              <p>手機號碼</p>
+              <small class="text-danger" *ngIf="Vphone.touched && Vphone.value ===''">手機號碼為必填</small>
+              <small class="text-danger" *ngIf="Vphone.invalid && Vphone.dirty && Vphone.value !==''">手機號碼格式有誤</small>
+            </div>
+            <div class="item two auto-left">
+              <input type="tel" #Vphone="ngModel" name="Vphone" class="form-control" id="Vphone" placeholder="請輸入"
+                pattern="^09\d{8}$" [(ngModel)]="deliveryForm.RecMobile" appDigitOnly maxlength="10" required>
+            </div>
+          </li>
+          <li>
+            <div class="item">縣市</div>
+            <div class="item auto-left citydefault" (click)="layerTrig = 1">
+              <span class="text-muted">{{ deliveryForm.RecCityValue }}</span><i class="material-icons">&#xe315;</i>
+            </div>
+          </li>
+          <li>
+            <div class="item">
+              <p>行政區</p>
+              <small class="text-danger" *ngIf="Vdistrict.invalid && deliveryClick">行政區為必填</small>
+            </div>
+            <div class="item auto-left distdefault" (click)="layerTrig = 2; districtCheck($event.isTrusted);"
+              #tdistrict>
+              <span class="text-muted">{{ deliveryForm.RecCityAreaValue ? deliveryForm.RecCityAreaValue: '請選擇'
+                }}</span><i class="material-icons">&#xe315;</i>
+            </div>
+            <input type="hidden" name="Vdistrict" #Vdistrict="ngModel" [(ngModel)]="deliveryForm.RecCityAreaValue"
+              required>
+          </li>
+          <li class="flex-column">
+            <div class="item w-100">
+              <p>詳細地址 <small class="text-muted">里道路或街名，巷弄號</small></p>
+              <small class="text-danger" *ngIf="Vaddr.invalid && Vaddr.touched">詳細地址為必填</small>
+            </div>
+            <div class="item w-100">
+              <input type="text" #Vaddr="ngModel" placeholder="請輸入地址" id="Vaddr" name="Vaddr"
+                [(ngModel)]="deliveryForm.RecAddress" required>
+            </div>
+          </li>
+        </ul>
+        <div class="px-3 py-4 bg-gray8">
+          <label class="radio-box">我同意將以上資料傳送給「有無外送」建立訂單
+            <input type="checkbox" name="checkbox" class="store1" [(ngModel)]="agreeCheck">
+            <span class="checkmark"></span>
+          </label>
         </div>
-        <div class="fixed-btn container">
-            <button class="btn next-btn w-100 unable" type="submit"
-            [ngClass]="{'unable': !agreeCheck || deliveryInfo.form.invalid}" [disabled]="!agreeCheck || deliveryInfo.form.invalid">下一步</button>
-        </div>
-      </form>
+
+      </div>
+      <div class="fixed-btn container">
+        <button class="btn next-btn w-100 unable" type="submit"
+          [ngClass]="{'unable': !agreeCheck || deliveryInfo.form.invalid}"
+          [disabled]="!agreeCheck || deliveryInfo.form.invalid">下一步</button>
+      </div>
+    </form>
   </div>
 
 
@@ -96,56 +101,56 @@
   <div class="modal-backdrop fade show container" *ngIf="layerTrig === 1"></div>
   <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="layerTrig === 1">
     <div id="open-pagebox" class="city">
-        <div class="open-page-title flex-inline-between">
-            <div class="title-icon">
-                <button class="btn" (click)="layerTrig = 0">
-                    <i class="material-icons">&#xe314;</i>
-                </button>
-            </div>
-            <div class="title-txt">
-                縣市
-            </div>
-            <div class="title-txt">
-            </div>
+      <div class="open-page-title flex-inline-between">
+        <div class="title-icon">
+          <button class="btn" (click)="layerTrig = 0">
+            <i class="material-icons">&#xe314;</i>
+          </button>
         </div>
-        <ul class="open-page-ul" id="citylist">
-            <li *ngFor="let city of cityList" class="flex-inline-between"
-            [ngClass]="{'active' : deliveryForm.RecCityValue === city.UserReport_ItemName}"
-            (click)="cityCheck(city.UserReport_ItemName,city.UserReport_ItemCode);layerTrig = 2">
-                <div class="item">{{city.UserReport_ItemName}}</div>
-                <div class="item"><i class="material-icons done">&#xe876;</i></div>
-            </li>
-        </ul>
+        <div class="title-txt">
+          縣市
+        </div>
+        <div class="title-txt">
+        </div>
+      </div>
+      <ul class="open-page-ul" id="citylist">
+        <li *ngFor="let city of cityList" class="flex-inline-between"
+          [ngClass]="{'active' : deliveryForm.RecCityValue === city.UserReport_ItemName}"
+          (click)="cityCheck(city.UserReport_ItemName,city.UserReport_ItemCode);layerTrig = 2">
+          <div class="item">{{city.UserReport_ItemName}}</div>
+          <div class="item"><i class="material-icons done">&#xe876;</i></div>
+        </li>
+      </ul>
     </div>
   </div>
   <div class="modal-backdrop fade show container" *ngIf="layerTrig === 2"></div>
   <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="layerTrig === 2">
     <div id="open-pagebox1" class="dist">
-        <div class="open-page-title flex-inline-between">
-            <div class="close-btn">
-                <button class="btn" (click)="layerTrig = 1">
-                    <i class="material-icons">&#xe314;</i>
-                </button>
-            </div>
-            <div class="title-txt">
-                行政區
-            </div>
-            <div class="title-txt">
-            </div>
+      <div class="open-page-title flex-inline-between">
+        <div class="close-btn">
+          <button class="btn" (click)="layerTrig = 1">
+            <i class="material-icons">&#xe314;</i>
+          </button>
         </div>
-        <ul class="open-page-ul" id="distlist">
-          <li class="flex-inline-between" *ngFor="let district of districtList"
+        <div class="title-txt">
+          行政區
+        </div>
+        <div class="title-txt">
+        </div>
+      </div>
+      <ul class="open-page-ul" id="distlist">
+        <li class="flex-inline-between" *ngFor="let district of districtList"
           [ngClass]="{'active' : deliveryForm.RecCityAreaValue === district.UserReport_ItemName}"
           [hidden]="district.UserReport_UpItemCode !== deliveryForm.RecCityKey"
           (click)="cityAreaCheck(district.UserReport_ItemName, district.UserReport_ItemCode); layerTrig = 0">
-            <div class="item">
-              {{district.UserReport_ItemName}}
-            </div>
-            <div class="item">
-                <i class="material-icons done">&#xe876;</i>
-            </div>
+          <div class="item">
+            {{district.UserReport_ItemName}}
+          </div>
+          <div class="item">
+            <i class="material-icons done">&#xe876;</i>
+          </div>
         </li>
-        </ul>
+      </ul>
     </div>
   </div>
 </div>
