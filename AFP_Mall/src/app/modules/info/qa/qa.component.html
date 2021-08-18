@@ -1,51 +1,54 @@
 <div class="wrap container">
   <!--常見問題2-->
   <div class="myfaq">
-      <div class="headerbox container title-box border-b">
-          <div class="item icon-btn">
-              <button class="btn px-0" (click)="backIf()" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
-                  <i class="material-icons">&#xe314;</i>
+    <div class="headerbox container title-box border-b">
+      <div class="item icon-btn">
+        <button class="btn px-0" (click)="backIf()" title="回上一頁">
+          <i class="material-icons">&#xe314;</i>
+        </button>
+      </div>
+      <div class="item title-name">常見問題</div>
+      <div class="item icon-btn"></div>
+    </div>
+    <div class="faqbox pb-5 mb-5">
+      <div class="input-box border border-radius5 my-2 bg-eee mx-2">
+        <button class="btn d-flex w-100"><i class="material-icons">&#xE8B6;</i>
+          <input [(ngModel)]="searchTarget" (change)="search()" type="search" placeholder="搜尋" class="border-0 bg-eee">
+        </button>
+      </div>
+      <!-- 問題類別總列表 -->
+      <ul>
+        <!-- 類別 -->
+        <ng-container *ngFor="let cate of qaData">
+          <ul class="cateList">
+            <li>
+              <button class="btn px-0 w-100 text-left" type="button" (click)="cateCollapse(cate.QuestionCategory_Code)"
+                [attr.aria-expanded]="!cate.Collapse" aria-controls="collapseBasic">
+                {{cate?.QuestionCategory_Name}} <span class="float-right"><i
+                    class="material-icons expand_more">&#xe5cf;</i></span>
               </button>
-          </div>
-          <div class="item title-name">常見問題</div>
-          <div class="item icon-btn"></div>
-      </div>
-      <div class="faqbox pb-5 mb-5">
-        <div class="input-box border border-radius5 my-2 bg-eee mx-2">
-          <button class="btn d-flex w-100"><i class="material-icons">&#xE8B6;</i>
-            <input [(ngModel)]="searchTarget" (change)="search()" type="search" placeholder="搜尋" class="border-0 bg-eee">
-          </button>
-        </div>
-        <!-- 問題類別總列表 -->
-        <ul>
-          <!-- 類別 -->
-          <ng-container *ngFor="let cate of qaData">
-            <ul class="cateList">
-              <li>
-                <button class="btn px-0 w-100 text-left" type="button" (click)="cateCollapse(cate.QuestionCategory_Code)" [attr.aria-expanded]="!cate.Collapse" aria-controls="collapseBasic">
-                    {{cate?.QuestionCategory_Name}} <span class="float-right"><i class="material-icons expand_more">&#xe5cf;</i></span>
-                </button>
-              </li>
-              <!-- 問題列表 -->
-              <ul class="qList">
-                <!-- 問題 -->
-                <ng-container *ngFor="let q of cate?.List_QuestionContent">
-                  <li class="row"  [collapse]="q.Q_Collapse" [isAnimated]="true">
-                    <div class="col-12">
-                        <button class="btn px-0 w-100 text-left" type="button" (click)="qalistCollapse(q.QuestionContent_CategoryCode, q.QuestionContent_Code)">
-                            {{q?.QuestionContent_Title}}
-                        </button>
-                    </div>
-                    <!-- 答案 -->
-                    <div class="col-12" [collapse]="q.A_Collapse" [isAnimated]="true">
-                      <div class="abox" [innerHTML]="q?.QuestionContent_Body"></div>
-                    </div>
-                  </li>
-                </ng-container>
-              </ul>
+            </li>
+            <!-- 問題列表 -->
+            <ul class="qList">
+              <!-- 問題 -->
+              <ng-container *ngFor="let q of cate?.List_QuestionContent">
+                <li class="row" [collapse]="q.Q_Collapse" [isAnimated]="true">
+                  <div class="col-12">
+                    <button class="btn px-0 w-100 text-left" type="button"
+                      (click)="qalistCollapse(q.QuestionContent_CategoryCode, q.QuestionContent_Code)">
+                      {{q?.QuestionContent_Title}}
+                    </button>
+                  </div>
+                  <!-- 答案 -->
+                  <div class="col-12" [collapse]="q.A_Collapse" [isAnimated]="true">
+                    <div class="abox" [innerHTML]="q?.QuestionContent_Body"></div>
+                  </div>
+                </li>
+              </ng-container>
             </ul>
-          </ng-container>
-        </ul>
-      </div>
+          </ul>
+        </ng-container>
+      </ul>
+    </div>
   </div>
 </div>

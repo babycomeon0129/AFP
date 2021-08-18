@@ -2269,7 +2269,7 @@ export class AFP_QuestionCategory {
   QuestionCategory_EndDate: Date;
   /** 常見問題內容 */
   List_QuestionContent: AFP_QuestionContent[];
-  /** 是否Collapse展開，前端新增 */
+  /** 是否Collapse展開，用於目錄箭頭轉向，前端新增 true: 向下（問題列表收和） false: 向上（問題列表展開） */
   Collapse: boolean;
 }
 
@@ -2293,8 +2293,8 @@ export class AFP_QuestionContent {
   QuestionContent_Sort: number;
   /** 狀態 0:無效 1:有效 9:刪除 */
   QuestionContent_State: number;
-  /** 是否Collapse展開，前端新增(問題) */
+  /** 控制問題清單是否展開，前端新增 true: 收合 false: 展開 */
   Q_Collapse: boolean;
-  /** 是否Collapse展開，前端新增(答案) */
+  /** 控制答案清單是否展開，前端新增 true: 收合 false: 展開 */
   A_Collapse: boolean;
 }
