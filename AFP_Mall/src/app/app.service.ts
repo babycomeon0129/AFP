@@ -218,7 +218,7 @@ export class AppService {
 
     //  APP登出導頁
     if (this.isApp !== null) {
-      window.location.href = '/AppLogout';
+      window.location.href = '/ForApp/AppLogout';
     }
   }
 
