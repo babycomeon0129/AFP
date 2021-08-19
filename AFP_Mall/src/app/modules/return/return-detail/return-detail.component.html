@@ -1,109 +1,108 @@
 <div class="wrap container">
   <header class="fixed-top container">
-      <!-- header top -->
-      <div class="header-secondary container linebt-row">
-          <div class="index-flex justify-content-between">
-              <div class="item two">
-                  <div class="close-btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
-                      <i class="material-icons">&#xe314;</i>
-                  </div>
-              </div>
-              <div class="item three text-center">
-                  <div class="title-name">退貨詳情</div>
-              </div>
-              <div class="item two text-right">
-                  <button type="button" class="btn bluedk-outline-btn bt-small mr-1" (click)="layerTrig = 1">退貨說明</button>
-              </div>
-          </div>
+    <!-- header top -->
+    <div class="header-secondary container linebt-row">
+      <div class="index-flex justify-content-between">
+        <div class="item two">
+          <app-back-btn [mode]="1"></app-back-btn>
+        </div>
+        <div class="item three text-center">
+          <div class="title-name">退貨詳情</div>
+        </div>
+        <div class="item two text-right">
+          <button type="button" class="btn bluedk-outline-btn bt-small mr-1" (click)="layerTrig = 1">退貨說明</button>
+        </div>
       </div>
+    </div>
   </header>
   <div class="order-status">
-      <div class="item"><i class="material-icons">&#xE85D;</i></div>
-      <div class="item">
-          <p class="">{{StrTitle}}</p>
-          <p class="small-80">{{StrSubTitle}}</p>
-      </div>
+    <div class="item"><i class="material-icons">&#xE85D;</i></div>
+    <div class="item">
+      <p class="">{{StrTitle}}</p>
+      <p class="small-80">{{StrSubTitle}}</p>
+    </div>
   </div>
   <div class="order-info">
-      <ul>
-          <li class="flex-inline-between">
-              <div class="item">客服單編號</div>
-              <div class="item">{{ServiceModel.Services_TableNo}}</div>
-          </li>
-      </ul>
+    <ul>
+      <li class="flex-inline-between">
+        <div class="item">客服單編號</div>
+        <div class="item">{{ServiceModel.Services_TableNo}}</div>
+      </li>
+    </ul>
   </div>
   <div class="order-box">
-      <div class="order-method-box">
-          <ul class="method-list">
-              <li class="index-flex">
-                  <div class="item one">選擇方式</div>
-                  <div class="item three item-right">
-                      退貨
-                  </div>
-              </li>
-              <li class="index-flex">
-                  <div class="item one">原因</div>
-                  <div class="item three item-right">
-                    {{showReason(ServiceModel.Services_Reason)}}
-                  </div>
-              </li>
-              <li [hidden]="allETicket" class="index-flex">
-                  <div class="item one">備註</div>
-                  <div class="item three item-right">
-                      {{ServiceModel.Services_OtherMsg}}
-                  </div>
-              </li>
-              <li [hidden]="allETicket" class="index-flex">
-                  <div class="item">取件地址</div>
-                  <div class="item-group send completed returned">
-                      <div class="item small">
-                          {{ServiceModel.Services_Address}}<br>
-                          {{ServiceModel.Services_CName}}<br>
-                          {{ServiceModel.Services_CPhone}}
-                      </div>
-                  </div>
-              </li>
-              <li class="index-flex">
-                  <div class="item one">訂單編號</div>
-                  <div class="item three item-right">
-                     {{ServiceModel?.Services_OrderTableNo}}
-                  </div>
-              </li>
-          </ul>
-      </div>
+    <div class="order-method-box">
+      <ul class="method-list">
+        <li class="index-flex">
+          <div class="item one">選擇方式</div>
+          <div class="item three item-right">
+            退貨
+          </div>
+        </li>
+        <li class="index-flex">
+          <div class="item one">原因</div>
+          <div class="item three item-right">
+            {{showReason(ServiceModel.Services_Reason)}}
+          </div>
+        </li>
+        <li [hidden]="allETicket" class="index-flex">
+          <div class="item one">備註</div>
+          <div class="item three item-right">
+            {{ServiceModel.Services_OtherMsg}}
+          </div>
+        </li>
+        <li [hidden]="allETicket" class="index-flex">
+          <div class="item">取件地址</div>
+          <div class="item-group send completed returned">
+            <div class="item small">
+              {{ServiceModel.Services_Address}}<br>
+              {{ServiceModel.Services_CName}}<br>
+              {{ServiceModel.Services_CPhone}}
+            </div>
+          </div>
+        </li>
+        <li class="index-flex">
+          <div class="item one">訂單編號</div>
+          <div class="item three item-right">
+            {{ServiceModel?.Services_OrderTableNo}}
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
   <div class="order-box">
-      <div class="order-subtitle">
-          <i class="material-icons">&#xE8D1;</i><span class="store-name">{{ECStore?.ECStore_ShowName}}</span>
-      </div>
-      <ul class="order-shop-list">
-          <li *ngFor="let product of ListItemInfo">
-              <div class="item rwdimgbox-80">
-                <div [lazyLoad]="product?.Product_ShowImg" [defaultImage]="appService.defaultImage" class="rwdimg-cover"></div>
-              </div>
-              <div class="item item-txt">
-                <p>{{product?.ItemInfoPart_ItemName}}</p>
-                <p>規格：{{product?.ItemInfoPart_AttributeValueName}}</p>
-                <p class="order-price auto-top">{{product?.ItemInfoPart_PayAmount | currency: 'TWD':'$':'1.0-2'}}</p>
-              </div>
-              <div class="item item-num order-quantity">x{{product?.ItemInfoPart_Quantity}}</div>
-          </li>
-      </ul>
+    <div class="order-subtitle">
+      <i class="material-icons">&#xE8D1;</i><span class="store-name">{{ECStore?.ECStore_ShowName}}</span>
+    </div>
+    <ul class="order-shop-list">
+      <li *ngFor="let product of ListItemInfo">
+        <div class="item rwdimgbox-80">
+          <div [lazyLoad]="product?.Product_ShowImg" [defaultImage]="appService.defaultImage" class="rwdimg-cover">
+          </div>
+        </div>
+        <div class="item item-txt">
+          <p>{{product?.ItemInfoPart_ItemName}}</p>
+          <p>規格：{{product?.ItemInfoPart_AttributeValueName}}</p>
+          <p class="order-price auto-top">{{product?.ItemInfoPart_PayAmount | currency: 'TWD':'$':'1.0-2'}}</p>
+        </div>
+        <div class="item item-num order-quantity">x{{product?.ItemInfoPart_Quantity}}</div>
+      </li>
+    </ul>
   </div>
   <div class="border-t5 w-100"></div>
   <div class="order-box">
-      <div class="total-price-box">
-          <ul>
-              <li class="total-pay index-flex">
-                  <div class="item">訂單金額</div>
-                  <div class="item text-right order-sumtotal">{{Order?.PayOrder_PayAmount | currency: 'TWD':'$':'1.0-2'}}</div>
-              </li>
-              <li class="total-way index-flex">
-                  <div class="item text-bluedk">付款方式</div>
-                  <div class="item two text-right text-bluedk">{{Order?.PaymentShowName + ' ' + '*' + Order?.Card4No}}</div>
-              </li>
-          </ul>
-      </div>
+    <div class="total-price-box">
+      <ul>
+        <li class="total-pay index-flex">
+          <div class="item">訂單金額</div>
+          <div class="item text-right order-sumtotal">{{Order?.PayOrder_PayAmount | currency: 'TWD':'$':'1.0-2'}}</div>
+        </li>
+        <li class="total-way index-flex">
+          <div class="item text-bluedk">付款方式</div>
+          <div class="item two text-right text-bluedk">{{Order?.PaymentShowName + ' ' + '*' + Order?.Card4No}}</div>
+        </li>
+      </ul>
+    </div>
   </div>
   <div class="addheight"></div>
 
@@ -111,46 +110,45 @@
   <div class="modal-backdrop fade show container" *ngIf="layerTrig === 1"></div>
   <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="layerTrig === 1">
     <div id="open-pagebox" class="returnInfo">
-        <div class="open-page-title flex-inline-between">
-            <div class="title-icon">
-                <button class="btn" (click)="layerTrig = 0">
-                    <i class="material-icons">&#xe314;</i>
-                </button>
-            </div>
-            <div class="title-txt">
-                退貨說明
-            </div>
-            <div class="title-txt">
-            </div>
+      <div class="open-page-title flex-inline-between">
+        <div class="title-icon">
+          <button class="btn" (click)="layerTrig = 0">
+            <i class="material-icons">&#xe314;</i>
+          </button>
         </div>
-        <div class="p-3 text-bluedk">
-            <h6>【退貨原則】</h6>
-            <p>
-                會員所購買的商品均享有商品猶豫期。退回之商品必須於猶豫期內寄回。 <br>
-                辦理退貨時，商品必須是全新狀態與完整包裝(請注意保持商品本體、配件、贈品、保證書、原廠包裝及所有附隨文件或資料的完整性，切勿缺漏任何配件或損毀原廠外盒)。退回商品無法回復原狀者，恐將影響退貨權益或需負擔部分費用。
-            </p>
-            <h6>【商品猶豫期計算】</h6>
-            <p>
-                宅配商品之猶豫期為商店出貨日+20天，例：商店出貨日為2020/4/1，則商品猶豫期計算至2020/4/21止，超過期限將不提供退貨服務。<br>
-                自取商品之猶豫期為取貨期限+7天，例：取貨期限為2020/4/1，則商品猶豫期計算至2020/4/8止，超過期限將不提供退貨服務。
-            </p>
+        <div class="title-txt">
+          退貨說明
+        </div>
+        <div class="title-txt">
+        </div>
+      </div>
+      <div class="p-3 text-bluedk">
+        <h6>【退貨原則】</h6>
+        <p>
+          會員所購買的商品均享有商品猶豫期。退回之商品必須於猶豫期內寄回。 <br>
+          辦理退貨時，商品必須是全新狀態與完整包裝(請注意保持商品本體、配件、贈品、保證書、原廠包裝及所有附隨文件或資料的完整性，切勿缺漏任何配件或損毀原廠外盒)。退回商品無法回復原狀者，恐將影響退貨權益或需負擔部分費用。
+        </p>
+        <h6>【商品猶豫期計算】</h6>
+        <p>
+          宅配商品之猶豫期為商店出貨日+20天，例：商店出貨日為2020/4/1，則商品猶豫期計算至2020/4/21止，超過期限將不提供退貨服務。<br>
+          自取商品之猶豫期為取貨期限+7天，例：取貨期限為2020/4/1，則商品猶豫期計算至2020/4/8止，超過期限將不提供退貨服務。
+        </p>
 
-            <h6>【退貨處理】</h6>
-            <p>
-                貨運司機將於退貨申請確認後3~7天內與你聯繫取件，請保持手機暢通以利聯絡，請將你所訂購之完整商品、配件、贈品、原包裝置入原外包裝箱內，以利後續退貨作業。<br>
-                退款方式：確認退貨後，款項將退至原信用卡帳戶中。
-            </p>
-        </div>
+        <h6>【退貨處理】</h6>
+        <p>
+          貨運司機將於退貨申請確認後3~7天內與你聯繫取件，請保持手機暢通以利聯絡，請將你所訂購之完整商品、配件、贈品、原包裝置入原外包裝箱內，以利後續退貨作業。<br>
+          退款方式：確認退貨後，款項將退至原信用卡帳戶中。
+        </p>
+      </div>
     </div>
   </div>
 </div>
 <footer [hidden]="allETicket" class="shopping-cartfooter container fixed-bottom">
   <ul>
-      <li>
-          <div class="item">
-              <button type="button" class="btn index-outline-btn w-100 font-bold"
-              (click)="goToDialog()">問答紀錄</button>
-          </div>
-      </li>
+    <li>
+      <div class="item">
+        <button type="button" class="btn index-outline-btn w-100 font-bold" (click)="goToDialog()">問答紀錄</button>
+      </div>
+    </li>
   </ul>
 </footer>
