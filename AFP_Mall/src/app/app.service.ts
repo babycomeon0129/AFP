@@ -451,20 +451,6 @@ export class AppService {
     });
   }
 
-  //  App導頁用
-  AppRouter(active: string, type = 0): void {
-    if (this.isApp === null) {
-      this.router.navigate([active]);
-    } else {
-      if (type === 0) {
-        window.location.href = '/AppRedirect';
-      } else {
-        // (告訴APP畫面有轉換)
-        window.location.href = active;
-      }
-    }
-  }
-
   /** 判斷跳出網頁或APP的登入頁 */
   loginPage(): void {
     if (this.isApp == null) {
