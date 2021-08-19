@@ -193,7 +193,7 @@ export class MissionComponent implements OnInit {
     if (this.appService.loginState) {
       if (this.appService.isApp !== null) {
         const navigationExtras: NavigationExtras = {
-          queryParams: { showBack: true }
+          queryParams: { showBack: this.appService.showBack }
         };
         this.router.navigate(['/MemberFunction/MemberCoin'], navigationExtras);
       } else {
