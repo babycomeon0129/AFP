@@ -20,7 +20,7 @@ export class OrderCompleteComponent implements OnInit {
   /** 回傳結果 */
   public ResponseModel: Response_OrderComplete;
   /** 訂單商品類型 1: 一般商品 21: 電子票券 */
-  private orderType = 1;
+  private orderType = 21;
 
   constructor(private route: ActivatedRoute, public appService: AppService, private router: Router, private meta: Meta, private title: Title) {
     this.title.setTitle('付款確認中｜線上商城 - Mobii!');
