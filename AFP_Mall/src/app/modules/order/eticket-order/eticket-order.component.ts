@@ -33,7 +33,7 @@ export class ETicketOrderComponent implements OnInit {
   /** 同頁滑動切換 0: 原頁 1: 使用優惠券、折扣碼 3:收據選取 4: 愛心碼選單 */
   public layerTrig = 0;
 
-  constructor(public modal: ModalService, private router: Router, public appService: AppService, public appJSInterfaceService: AppJSInterfaceService) {
+  constructor(public modal: ModalService, private router: Router, public appService: AppService, public callApp: AppJSInterfaceService) {
     if (history.state.data !== undefined) {
       const afpCart: AFP_Cart[] = [];
       // 以購物車 ID 取得結帳相關資訊

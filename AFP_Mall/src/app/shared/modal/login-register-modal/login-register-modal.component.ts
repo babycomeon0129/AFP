@@ -1,4 +1,3 @@
-import { CloudMessagingService } from './../../service/cloud-messaging.service';
 import { Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { environment } from '@env/environment';

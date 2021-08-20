@@ -46,7 +46,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
   public layerTrig = 0;
 
   constructor(public appService: AppService, private route: ActivatedRoute, private router: Router,
-    public modal: ModalService, private meta: Meta, private title: Title, private appJSInterfaceService: AppJSInterfaceService) {
+    public modal: ModalService, private meta: Meta, private title: Title, private callApp: AppJSInterfaceService) {
     this.voucherCode = this.route.snapshot.params.Voucher_Code;
     if (this.voucherCode.toString().substring(0, 2) === '46') {
       this.selectMode = 4;
@@ -192,7 +192,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
       case 5:
         // 使用
         this.layerTrig = 1;
-        this.appJSInterfaceService.appShowBackButton(true);
+        this.callApp.appShowBackButton(true);
         this.checkWritenOff();
         break;
     }
@@ -223,7 +223,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
           this.voucherData.VoucherUseCount = usedTimes + 1;
           clearTimeout(this.timer3Mins);
           this.layerTrig = 0;
-          this.appJSInterfaceService.appShowBackButton(false);
+          this.callApp.appShowBackButton(false);
           // showType: 999核銷成功後顯示廣告圖片
           this.modal.show('message', {
             initialState: {
@@ -241,7 +241,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
       this.modal.show('message', { initialState: { success: false, message: '連線逾時，請重新操作。', showType: 1 } });
       clearInterval(this.checkTimer);
       this.layerTrig = 0;
-      this.appJSInterfaceService.appShowBackButton(false);
+      this.callApp.appShowBackButton(false);
     }, 180000);
   }
 
@@ -249,7 +249,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
   closeQRCode(): void {
     this.router.navigate(['/Voucher/VoucherDetail', this.voucherCode], { queryParams: { showBack: this.appService.showBack } });
     this.layerTrig = 0;
-    this.appJSInterfaceService.appShowBackButton(false);
+    this.callApp.appShowBackButton(false);
     clearInterval(this.checkTimer);
     clearTimeout(this.timer3Mins);
   }
@@ -257,7 +257,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
   /** 前往ExploreDetail(App特例處理，從會員中心進來顯示返回鍵) */
   goExploreDetail(ECStore_Code: number): void {
     if (this.appService.isApp !== null) {
-      this.appJSInterfaceService.goAppExploreDetail(ECStore_Code);
+      this.callApp.goAppExploreDetail(ECStore_Code);
     } else {
       const navigationExtras: NavigationExtras = {
         queryParams: { showBack: this.route.snapshot.queryParams.showBack }

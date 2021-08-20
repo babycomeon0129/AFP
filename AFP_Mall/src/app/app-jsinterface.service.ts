@@ -1,4 +1,3 @@
-import { AFP_UserDefine } from './_models';
 import { Injectable } from '@angular/core';
 import { AppService } from './app.service';
 declare var AppJSInterface: any;

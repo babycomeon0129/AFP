@@ -106,13 +106,13 @@
           <ul class="method-list">
             <!-- 寄送方式 - 選擇寄送方式 -->
             <li class="index-flex" [hidden]="store.order.Order_DeliveryWays > 0"
-              (click)="clickDeliveryWay(store);appJSInterfaceService.appWebViewbutton(true);">
+              (click)="clickDeliveryWay(store);callApp.appWebViewbutton(true);">
               <div class="item"><i class="material-icons">&#xE558;</i>寄送方式</div>
               <div class="item delivery-txt text-right"><span>請選擇寄送方式</span><i class="material-icons">&#xe315;</i></div>
             </li>
             <!-- 寄送方式 - 選擇後 -->
             <li class="index-flex" [hidden]="!(store.order.Order_DeliveryWays > 0)"
-              (click)="clickDeliveryWay(store);appJSInterfaceService.appWebViewbutton(true);">
+              (click)="clickDeliveryWay(store);callApp.appWebViewbutton(true);">
               <div class="item"><i class="material-icons">&#xE558;</i>寄送方式</div>
               <div class="item delivery-txt text-right delivery-price">
                 {{store.order.Order_DeliveryWays === 1 ? '宅配' : '自取'}}
@@ -150,12 +150,12 @@
       <div class="order-box">
         <div class="order-method-box">
           <ul class="method-list">
-            <li class="index-flex" (click)="toChoiceVoucher(); appJSInterfaceService.appWebViewbutton(true);">
+            <li class="index-flex" (click)="toChoiceVoucher(); callApp.appWebViewbutton(true);">
               <div class="item three"><i class="material-icons reverse">&#xE54E;</i>使用優惠券、折扣碼</div>
               <div class="item one discount-price text-right"><span class="store1-discount-price">-{{info.totalDiscount
                   | currency: 'TWD':'$':'1.0-2'}}</span><i class="material-icons">&#xe315;</i></div>
             </li>
-            <li class="index-flex" (click)="toInvoice(); appJSInterfaceService.appWebViewbutton(true);">
+            <li class="index-flex" (click)="toInvoice(); callApp.appWebViewbutton(true);">
               <div class="item d-flex d-inline">
                 <div class="invo-box"><i class="material-icons">&#xE8B0;</i></div>電子發票
               </div>
@@ -216,7 +216,7 @@
         <div class="header-secondary container linebt-row">
           <div class="index-flex justify-content-between">
             <div class="item one">
-              <div class="close-btn" (click)="layerTrig = 0; appJSInterfaceService.appWebViewbutton(false);">
+              <div class="close-btn" (click)="layerTrig = 0; callApp.appWebViewbutton(false);">
                 <i class="material-icons">&#xe314;</i>
               </div>
             </div>
@@ -357,11 +357,11 @@
               <div class="item-group">
                 <div class="item">
                   <button type="button" class="cancel-btn"
-                    (click)="layerTrig = 0;appJSInterfaceService.appWebViewbutton(false);">取消</button>
+                    (click)="layerTrig = 0;callApp.appWebViewbutton(false);">取消</button>
                 </div>
                 <div class="item">
                   <button type="button" class="submit-btn"
-                    (click)="confirmVoucher();appJSInterfaceService.appWebViewbutton(false);">確定</button>
+                    (click)="confirmVoucher();callApp.appWebViewbutton(false);">確定</button>
                 </div>
               </div>
             </div>
@@ -382,7 +382,7 @@
         <div class="header-secondary container linebt-row">
           <div class="index-flex justify-content-between">
             <div class="item two">
-              <div class="close-btn" (click)="layerTrig = 0; appJSInterfaceService.appWebViewbutton(false);">
+              <div class="close-btn" (click)="layerTrig = 0; callApp.appWebViewbutton(false);">
                 <i class="material-icons">&#xe314;</i>
               </div>
             </div>
@@ -478,7 +478,7 @@
           <div class="small-80 text-gray text-center w-100" [ngClass]="{'d-none': tempOrder.Order_ECLogisticsID > 0}">
             ＊所選地址不在商店配送範圍，請重新選擇</div>
           <button type="button" [ngClass]="tempOrder.Order_ECLogisticsID > 0 ? 'btn-ok' : 'btn gray-btn'"
-            (click)="tempOrder.Order_ECLogisticsID > 0 && confirmDeliveryWay();appJSInterfaceService.appWebViewbutton(false);">確認</button>
+            (click)="tempOrder.Order_ECLogisticsID > 0 && confirmDeliveryWay();callApp.appWebViewbutton(false);">確認</button>
         </footer>
       </form>
     </div>
@@ -603,7 +603,7 @@
         <div class="header-secondary container linebt-row">
           <div class="index-flex justify-content-between">
             <div class="item two">
-              <div class="close-btn" (click)="layerTrig = 0; appJSInterfaceService.appWebViewbutton(false);" data-toggle="tooltip"
+              <div class="close-btn" (click)="layerTrig = 0; callApp.appWebViewbutton(false);" data-toggle="tooltip"
                 data-placement="bottom" title="回上一頁">
                 <i class="material-icons">&#xe314;</i>
               </div>
@@ -677,7 +677,7 @@
         </main>
         <footer class="success-mode container fixed-bottom">
           <button type="button" [ngClass]="info.preInvoice.invoiceMode > 0 ? 'btn-ok' : 'btn gray-btn'"
-            (click)="info.preInvoice.invoiceMode > 0 && confirmInvoice();appJSInterfaceService.appWebViewbutton(false);">確認</button>
+            (click)="info.preInvoice.invoiceMode > 0 && confirmInvoice();callApp.appWebViewbutton(false);">確認</button>
         </footer>
       </form>
     </div>
