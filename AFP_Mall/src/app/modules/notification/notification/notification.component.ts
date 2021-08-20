@@ -88,9 +88,9 @@ export class NotificationComponent implements OnInit, OnDestroy {
     // 若為訂單通知，則前往訂單，否則僅做開合
     if (msg.IMessage_OrderNo != null) {
       if (msg.IMessage_OrderType === 21) {
-        this.router.navigate(['/MemberFunction/ETicketOrderDetail', msg.IMessage_OrderNo], { queryParams: { showBack: true } });
+        this.router.navigate(['/MemberFunction/ETicketOrderDetail', msg.IMessage_OrderNo]);
       } else {
-        this.router.navigate(['/MemberFunction/MyOrderDetail', msg.IMessage_OrderNo], { queryParams: { showBack: true } });
+        this.router.navigate(['/MemberFunction/MyOrderDetail', msg.IMessage_OrderNo]);
       }
     }
     // TODO: [寫法]activeStatus 預設其實為undefined不是false
