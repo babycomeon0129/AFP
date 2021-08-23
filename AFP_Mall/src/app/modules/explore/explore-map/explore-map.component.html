@@ -1,88 +1,96 @@
 <div class="wrap container">
   <header>
-      <div class="header-secondary container">
-          <div class="index-flex justify-content-between">
-              <div class="item two">
-                  <div class="close-btn">
-                       <button type="button" class="btn" onclick="history.back()" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
-                          <i class="material-icons">&#xe314;</i>
-                      </button>
-                  </div>
-              </div>
-              <div class="item three text-center">
-                  <div class="title-name">周邊地圖</div>
-              </div>
-              <div class="item two">
-                  <button [routerLink]="['/Explore/ExploreList']" type="button" class="btn p-0 btnList"><i class="material-icons format_list_bulleted">&#xe241;</i></button>
-              </div>
+    <div class="header-secondary container">
+      <div class="index-flex justify-content-between">
+        <div class="item two">
+          <div class="close-btn">
+            <!-- 因分類加上tabCode，為避免多次點擊分類造成history.back只會在同頁兜轉，此頁返回鍵統一回到首頁 -->
+            <button type="button" class="btn" [routerLink]="'/'">
+              <i class="material-icons">&#xe314;</i>
+            </button>
           </div>
+        </div>
+        <div class="item three text-center">
+          <div class="title-name">周邊地圖</div>
+        </div>
+        <div class="item two">
+          <button [routerLink]="['/Explore/ExploreList']" type="button" class="btn p-0 btnList">
+            <i class="material-icons format_list_bulleted">&#xe241;</i></button>
+        </div>
       </div>
+    </div>
   </header>
   <div class="pb-0">
-      <div class="choice-filter-box h3em bt-line">
-          <div class="flex-inline-between">
-              <div class="item center-v">{{areaMenuName}}</div>
-          </div>
-          <div class="filter-box center-v">
-              <button class="btn px-0 filter-item1" data-filter="type" (click)="toggleCategoryFilter()" [ngClass]="{'active': dirFilterOpen}">
-                <i class="material-icons">&#xE152;</i>
-              </button>
-          </div>
+    <div class="choice-filter-box h3em bt-line">
+      <div class="flex-inline-between">
+        <div class="item center-v">{{areaMenuName}}</div>
       </div>
-      <div class="filterWrap">
-          <div class="mask-container w-100 h-100" [ngClass]="{'d-block': dirFilterOpen}"></div>
-          <div id="type" [ngClass]="{'d-block': dirFilterOpen}" class="filter-content pb-wrap">
-              <ul [ngClass]="{'is-open': dirFilterOpen}" class="open-page-ul bt-line">
-                  <li *ngFor="let dir of menuList" (click)="readAreaData(dir?.UserDefine_Code)" [ngClass]="{'active': areaMenuCode === dir?.UserDefine_Code}"
-                    [hidden]="dir?.UserDefine_ProdCount <= 0"  class="flex-inline-between">
-                      <div>
-                          {{dir?.UserDefine_Name}}
-                      </div>
-                      <div *ngIf="areaMenuCode === dir?.UserDefine_Code">
-                          <i class="material-icons check">&#xe5ca;</i>
-                      </div>
-                  </li>
-              </ul>
-          </div>
+      <div class="filter-box center-v">
+        <button class="btn px-0 filter-item1" data-filter="type" (click)="toggleCategoryFilter()"
+          [ngClass]="{'active': dirFilterOpen}">
+          <i class="material-icons">&#xE152;</i>
+        </button>
       </div>
-      <div class="explore-swiper">
-          <swiper class="explore-map swiper-container" [config]="infoCard" #usefulSwiper>
-              <div id="info-card" class="swiper-wrapper">
-                  <div *ngFor="let spot of AreaList" class="swiper-slide">
-                      <div class="card-item sm">
-                          <div class="img-box rwdimgbox-60">
-                              <div [lazyLoad]="spot?.ECStore_Image1" [defaultImage] ="appService.defaultImage" [routerLink]="['/Explore/ExploreDetail', spot?.ECStore_Code]" class="rwdimg-cover"></div>
-                          </div>
-                          <div class="info-box">
-                              <ul class="info-list">
-                                  <li class="info-name">{{spot?.ECStore_ShowName}}</li>
-                                  <li>
-                                      <div class="shopping-store-badge">
-                                          <span class="badge badge-pill text-explore"><img src="../img/share/{{spot?.ECStore_Type}}.png" alt="">{{spot?.ECStore_TypeName}}</span>
-                                          <span class="badge badge-pill text-explore" style="display: none;">折價券</span>
-                                      </div>
-                                  </li>
-                                  <li class="info-near">
-                                      <div class="item auto-left">距離<span>{{spot?.ECStore_Distance | currency: '':'':'1.0-0'}}</span>m</div>
-                                  </li>
-                              </ul>
-                          </div>
-                      </div>
-                  </div>
+    </div>
+    <div class="filterWrap">
+      <div class="mask-container w-100 h-100" [ngClass]="{'d-block': dirFilterOpen}"></div>
+      <div id="type" [ngClass]="{'d-block': dirFilterOpen}" class="filter-content pb-wrap">
+        <ul [ngClass]="{'is-open': dirFilterOpen}" class="open-page-ul bt-line">
+          <li *ngFor="let dir of menuList" (click)="readAreaData(dir?.UserDefine_Code)"
+            [routerLink]="['/Explore/ExploreMap']" [queryParams]="{ areaMenuCode: dir?.UserDefine_Code}"
+            [ngClass]="{'active': areaMenuCode === dir?.UserDefine_Code}"
+            [hidden]="dir?.UserDefine_ProdCount <= 0" class="flex-inline-between">
+            <div>
+              {{dir?.UserDefine_Name}}
+            </div>
+            <div *ngIf="areaMenuCode === dir?.UserDefine_Code">
+              <i class="material-icons check">&#xe5ca;</i>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="explore-swiper">
+      <swiper class="explore-map swiper-container" [config]="infoCard" #usefulSwiper>
+        <div id="info-card" class="swiper-wrapper">
+          <div *ngFor="let spot of AreaList" class="swiper-slide">
+            <div class="card-item sm">
+              <div class="img-box rwdimgbox-60">
+                <div [lazyLoad]="spot?.ECStore_Image1" [defaultImage]="appService.defaultImage"
+                  [routerLink]="['/Explore/ExploreDetail', spot?.ECStore_Code]" class="rwdimg-cover"></div>
               </div>
-          </swiper>
-      </div>
-      <agm-map #AgmMap id="map" [latitude]="lat" [longitude]="lng" [zoom]="zoomValue" (mapReady)="onMapReady($event)">
-        <agm-marker  [latitude]="lat" [longitude]="lng" [iconUrl]="userUrl"></agm-marker>
-        <agm-marker  *ngFor="let Area of AreaList; let i = index"
-        [latitude]="Area.ECStore_Lat" [longitude]="Area.ECStore_Lng" [iconUrl]="'../../../img/callcar/map/' + Area.ECStore_Type + '.svg'"
+              <div class="info-box">
+                <ul class="info-list">
+                  <li class="info-name">{{spot?.ECStore_ShowName}}</li>
+                  <li>
+                    <div class="shopping-store-badge">
+                      <span class="badge badge-pill text-explore"><img src="../img/share/{{spot?.ECStore_Type}}.png"
+                          alt="">{{spot?.ECStore_TypeName}}</span>
+                      <span class="badge badge-pill text-explore" style="display: none;">折價券</span>
+                    </div>
+                  </li>
+                  <li class="info-near">
+                    <div class="item auto-left">距離<span>{{spot?.ECStore_Distance | currency: '':'':'1.0-0'}}</span>m
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </swiper>
+    </div>
+    <agm-map #AgmMap id="map" [latitude]="lat" [longitude]="lng" [zoom]="zoomValue" (mapReady)="onMapReady($event)">
+      <agm-marker [latitude]="lat" [longitude]="lng" [iconUrl]="userUrl"></agm-marker>
+      <agm-marker *ngFor="let Area of AreaList; let i = index" [latitude]="Area.ECStore_Lat"
+        [longitude]="Area.ECStore_Lng" [iconUrl]="'../../../img/callcar/map/' + Area.ECStore_Type + '.svg'"
         (markerClick)="selectSpot(i)"></agm-marker>
-        <agm-info-window *ngFor="let Area of AreaList;" [latitude]="Area?.ECStore_Lat+0.001" [longitude]="Area?.ECStore_Lng"
-          [isOpen]="openedWindow === Area?.ECStore_Code? true : false">
-          <h5>{{Area?.ECStore_ShowName}}</h5>
-          <p>目前所選</p>
-        </agm-info-window>
-      </agm-map>
+      <agm-info-window *ngFor="let Area of AreaList;" [latitude]="Area?.ECStore_Lat+0.001"
+        [longitude]="Area?.ECStore_Lng" [isOpen]="openedWindow === Area?.ECStore_Code? true : false">
+        <h5>{{Area?.ECStore_ShowName}}</h5>
+        <p>目前所選</p>
+      </agm-info-window>
+    </agm-map>
   </div>
 
 </div>
