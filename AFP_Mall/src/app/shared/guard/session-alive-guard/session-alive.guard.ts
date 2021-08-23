@@ -46,12 +46,9 @@ export class SessionAliveGuard implements CanActivate {
     const request: Request_AuthUser = {
       SearchModel: {UserInfoCode: userCode, CustomerInfo: customerInfo }
     };
-    console.log(`1500:${customerInfo}`);
     // 登入驗證是否正確
     return new Promise(resolve => {
       this.appService.toApi('Member', '1500', request).subscribe((data: Response_AuthUser) => {
-        console.log(`1500 response`);
-        console.log(data);
         if (!data.CheckState) {
           //  驗證失敗，清除Cookie
           this.cookieService.deleteAll();
