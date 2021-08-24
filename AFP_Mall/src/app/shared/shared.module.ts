@@ -19,11 +19,9 @@ import { ForgetModalComponent } from './modal/forget-modal/forget-modal.componen
 import { JustkaModalComponent } from './modal/justka-modal/justka-modal.component';
 import { LoginRegisterModalComponent } from './modal/login-register-modal/login-register-modal.component';
 import { MessageModalComponent } from './modal/message-modal/message-modal.component';
-import { MissionModalComponent } from './modal/mission-modal/mission-modal.component';
 import { MsgShareModalComponent } from './modal/msg-share-modal/msg-share-modal.component';
 import { PasswordModalComponent } from './modal/password-modal/password-modal.component';
 import { ReceiptModalComponent } from './modal/receipt-modal/receipt-modal.component';
-import { VcodeModalComponent } from './modal/vcode-modal/vcode-modal.component';
 import { VerifyMobileModalComponent } from './modal/verify-mobile-modal/verify-mobile-modal.component';
 import { InfoModalComponent } from './modal/info-modal/info-modal.component';
 // Widget
@@ -42,6 +40,7 @@ import { SwiperPanesComponent } from './swiper/swiper-panes/swiper-panes.compone
 import { QRCodeModule } from 'angularx-qrcode';
 import { MPointComponent } from './widget/m-point/m-point.component';
 import { SwiperIconComponent } from './swiper/swiper-icon/swiper-icon.component';
+import { GoTopComponent } from './widget/go-top/go-top.component';
 
 @NgModule({
   declarations: [
@@ -49,14 +48,12 @@ import { SwiperIconComponent } from './swiper/swiper-icon/swiper-icon.component'
     ConvertPipe,
     TextFilterPipe,
     ForgetModalComponent,
-    VcodeModalComponent,
     PasswordModalComponent,
     MessageModalComponent,
     FavoriteModalComponent,
     ConfirmModalComponent,
     CouponModalComponent,
     JustkaModalComponent,
-    MissionModalComponent,
     ReceiptModalComponent,
     MsgShareModalComponent,
     LoginRegisterModalComponent,
@@ -74,7 +71,8 @@ import { SwiperIconComponent } from './swiper/swiper-icon/swiper-icon.component'
     IndexHeaderComponent,
     MPointComponent,
     LinkifyPipe,
-    InfoModalComponent
+    InfoModalComponent,
+    GoTopComponent
   ],
   exports: [
     SafePipe,
@@ -82,14 +80,12 @@ import { SwiperIconComponent } from './swiper/swiper-icon/swiper-icon.component'
     TextFilterPipe,
     LinkifyPipe,
     ForgetModalComponent,
-    VcodeModalComponent,
     PasswordModalComponent,
     MessageModalComponent,
     FavoriteModalComponent,
     ConfirmModalComponent,
     CouponModalComponent,
     JustkaModalComponent,
-    MissionModalComponent,
     ReceiptModalComponent,
     MsgShareModalComponent,
     LoginRegisterModalComponent,
@@ -106,7 +102,9 @@ import { SwiperIconComponent } from './swiper/swiper-icon/swiper-icon.component'
     SwiperPanesComponent,
     SwiperIconComponent,
     MPointComponent,
-    InfoModalComponent
+    InfoModalComponent,
+    MPointComponent,
+    GoTopComponent
   ],
   imports: [
     CommonModule,
@@ -119,14 +117,12 @@ import { SwiperIconComponent } from './swiper/swiper-icon/swiper-icon.component'
   ],
   entryComponents: [
     ForgetModalComponent,
-    VcodeModalComponent,
     PasswordModalComponent,
     MessageModalComponent,
     FavoriteModalComponent,
     ConfirmModalComponent,
     CouponModalComponent,
     JustkaModalComponent,
-    MissionModalComponent,
     ReceiptModalComponent,
     MsgShareModalComponent,
     LoginRegisterModalComponent,

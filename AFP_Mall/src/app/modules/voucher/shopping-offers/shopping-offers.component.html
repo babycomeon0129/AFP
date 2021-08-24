@@ -1,86 +1,92 @@
 <div class="wrap container">
 
   <header>
-      <div class="header-secondary">
-          <div class="index-flex justify-content-between">
-              <div class="item two">
-                  <div class="close-btn" [hidden]="appService.isApp !== null">
-                      <button class="btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
-                          <i class="material-icons">&#xe314;</i>
-                      </button>
-                  </div>
-              </div>
-              <div class="item three text-center">
-                  <div class="title-name">線上優惠專區</div>
-              </div>
-              <div class="item two">
-                  <div class="top-item climate text-right">
-                    <button [routerLink]="['/Shopping/ShoppingCart']" [queryParams]="{isApp: appService.isApp}" class="badge-img px-0" data-toggle="tooltip" data-placement="bottom" title="購物車">
-                      <span *ngIf="cartCount > 0" class="badge badge-on">{{cartCount > 99 ? '99+' : cartCount}}</span>
-                      <img src="../img/shopping/icon_shoppingcart.svg">
-                    </button>
-                  </div>
-              </div>
+    <div class="header-secondary">
+      <div class="index-flex justify-content-between">
+        <div class="item two">
+          <div class="close-btn" [hidden]="appService.isApp !== null">
+            <button class="btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+              <i class="material-icons">&#xe314;</i>
+            </button>
           </div>
+        </div>
+        <div class="item three text-center">
+          <div class="title-name">線上優惠專區</div>
+        </div>
+        <div class="item two">
+          <div class="top-item climate text-right">
+            <button [routerLink]="['/Shopping/ShoppingCart']" [queryParams]="{isApp: appService.isApp}"
+              class="badge-img px-0" data-toggle="tooltip" data-placement="bottom" title="購物車">
+              <span *ngIf="cartCount > 0" class="badge badge-on">{{cartCount > 99 ? '99+' : cartCount}}</span>
+              <img src="../img/shopping/icon_shoppingcart.svg">
+            </button>
+          </div>
+        </div>
       </div>
+    </div>
 
   </header>
 
 
   <main>
-      <!-- Swiper for kv banner-->
-      <div class="kvbn-box">
-        <swiper class="shoppingkv swiper-container" [config]="adTop">
-            <div class="swiper-wrapper">
-                <div *ngFor="let cover of coverImg" class="swiper-slide">
-                    <a [href]="(cover?.ADImg_URL === '/')? 'javascript:;' : cover.ADImg_URL" rel="noopener noreferrer">
-                      <div [lazyLoad]="cover?.ADImg_Img" [defaultImage] ="appService.defaultImage" class="kvbn-img"></div>
-                    </a>
+    <!-- Swiper for kv banner-->
+    <div class="kvbn-box">
+      <swiper class="shoppingkv swiper-container" [config]="adTop">
+        <div class="swiper-wrapper">
+          <div *ngFor="let cover of coverImg" class="swiper-slide">
+            <a [href]="(cover?.ADImg_URL === '/')? 'javascript:;' : cover.ADImg_URL" rel="noopener noreferrer">
+              <div [lazyLoad]="cover?.ADImg_Img" [defaultImage]="appService.defaultImage" class="kvbn-img"></div>
+            </a>
+          </div>
+        </div>
+      </swiper>
+    </div>
+    <!-- discout -->
+    <div class="other-discount-list-w">
+      <div *ngFor="let store of voucherList">
+        <h6 class="p-2">{{store.UserDefine_Name}}</h6>
+        <div class="row p-2">
+          <div *ngFor="let voucher of store.VoucherData" class="col-sm-12 col-md-6 discount-box">
+            <div class="discount-item">
+              <div class="item">
+                <div
+                  [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', voucher?.Voucher_Code] : ['/Voucher/VoucherDetail', voucher?.Voucher_UserVoucherCode]"
+                  [queryParams]="{showBack: appService.showBack}" class="rwdimgbox-80">
+                  <div class="rwdimg-cover" [lazyLoad]="voucher?.Voucher_Image"
+                    [defaultImage]="appService.defaultImage"></div>
                 </div>
-            </div>
-        </swiper>
-      </div>
-      <!-- discout -->
-      <div class="other-discount-list-w">
-          <div *ngFor="let store of voucherList">
-            <h6 class="p-2">{{store.UserDefine_Name}}</h6>
-            <div class="row p-2">
-                <div *ngFor="let voucher of store.VoucherData" class="col-sm-12 col-md-6 discount-box">
-                    <div class="discount-item">
-                        <div class="item">
-                            <div (click)="voucher?.Voucher_UserVoucherCode === null? appService.AppRouter('Voucher/VoucherDetail/' + voucher.Voucher_Code, 1) : appService.AppRouter('Voucher/VoucherDetail/' + voucher.Voucher_UserVoucherCode, 1)" class="rwdimgbox-80">
-                                <div class="rwdimg-cover" [lazyLoad]="voucher?.Voucher_Image" [defaultImage]="appService.defaultImage"></div>
-                            </div>
-                        </div>
-                        <div class="item discount-text">
-                            <p>{{voucher.Voucher_Title}}</p>
-                            <p><i class="material-icons local_offer">&#xe54e;</i> <span>{{voucher.Voucher_ExtName}}</span></p>
-                            <p>{{voucher.Voucher_UsedOnDate | date: 'yyyy/MM/dd'}} ~ {{voucher.Voucher_UsedOffDate | date: 'yyyy/MM/dd'}}</p>
-                        </div>
-                        <div class="item ">
-                            <div class="line-box"></div>
-                            <div class="circle circle-top"></div>
-                            <div class="circle circle-bottom"></div>
-                            <div class="d-flex flex-column">
-                                <button (click)="appService.onVoucher(voucher)"
-                                  [disabled]="appService.loginState && (voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3)"
-                                  [ngClass]="{'gray-obtn': voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3,
+              </div>
+              <div class="item discount-text">
+                <p>{{voucher.Voucher_Title}}</p>
+                <p><i class="material-icons local_offer">&#xe54e;</i> <span>{{voucher.Voucher_ExtName}}</span></p>
+                <p>{{voucher.Voucher_UsedOnDate | date: 'yyyy/MM/dd'}} ~ {{voucher.Voucher_UsedOffDate | date:
+                  'yyyy/MM/dd'}}</p>
+              </div>
+              <div class="item ">
+                <div class="line-box"></div>
+                <div class="circle circle-top"></div>
+                <div class="circle circle-bottom"></div>
+                <div class="d-flex flex-column">
+                  <button (click)="appService.onVoucher(voucher)"
+                    [disabled]="appService.loginState && (voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3)"
+                    [ngClass]="{'gray-obtn': voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3,
                                               'index-btn': voucher.Voucher_IsFreq === 1,
                                               'index-outline-btn': voucher.Voucher_IsFreq === 2 || voucher.Voucher_IsFreq === 5}"
-                                  class="btn index-btn small-80 sendval">
-                                  {{!appService.loginState ? '兌換' : voucher.Voucher_FreqName}}
-                                </button>
-                                <div *ngIf="voucher.Voucher_DedPoint > 0" class="m-quantity small">
-                                  <img src="../img/share/mobiicoin_red.png" class="coinimg-m">
-                                  {{voucher.Voucher_SpecialPoint > 0? voucher.Voucher_SpecialPoint : voucher.Voucher_DedPoint | currency: '':'':'1.0-2'}}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    class="btn index-btn small-80 sendval">
+                    {{!appService.loginState ? '兌換' : voucher.Voucher_FreqName}}
+                  </button>
+                  <div *ngIf="voucher.Voucher_DedPoint > 0" class="m-quantity small">
+                    <img src="../img/share/mobiicoin_red.png" class="coinimg-m">
+                    {{voucher.Voucher_SpecialPoint > 0? voucher.Voucher_SpecialPoint : voucher.Voucher_DedPoint |
+                    currency: '':'':'1.0-2'}}
+                  </div>
                 </div>
+              </div>
             </div>
           </div>
+        </div>
       </div>
+    </div>
 
 
   </main>

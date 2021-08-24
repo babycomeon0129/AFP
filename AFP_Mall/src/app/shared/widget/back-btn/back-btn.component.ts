@@ -13,7 +13,7 @@ export class BackBtnComponent implements OnInit {
 
   /** 返回鍵樣式，1: < 字型  2: 有透明灰圓圈底的 < 返回鍵 */
   @Input() iconStyle = 1;
-  /** 基本的回上一頁功能  0:需要  1: 客製化回上一頁功能 2: 只有獨立開啟頁面時，按返回鍵前往大首頁 */
+  /** 返回鍵功能  0:最基本的回到上一頁  1: 客製化回上一頁功能 2: 只有獨立開啟頁面時，按返回鍵前往大首頁 */
   @Input() mode = 0;
   /** 返回鍵客製化時使用。 預設為首頁 */
   @Input() url = '/';
@@ -41,7 +41,7 @@ export class BackBtnComponent implements OnInit {
       }
       break;
       case 2 :
-        if (window.history.length === 2 || this.appService.prevUrl === '') {
+        if (window.history.length <= 2 || this.appService.prevUrl === '' || this.appService.prevUrl === '/') {
           this.router.navigate(['/']);
         } else {
           this.location.back();

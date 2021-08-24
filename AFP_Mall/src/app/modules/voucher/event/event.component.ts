@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AFP_ADImg, Request_ECVoucher, Response_ECVoucher, AFP_Voucher, Model_DictionaryShort } from '@app/_models';
 import { AppService } from 'src/app/app.service';
 import { SwiperOptions } from 'swiper';
@@ -17,9 +17,9 @@ export class EventComponent implements OnInit {
   /** 置頂圖片 */
   public coverImg: AFP_ADImg[];
   /** 優惠券列表(原始名單) */
-  public voucherListOrig: AFP_Voucher[] = [];
+  public voucherListOrig: AFP_Voucher[];
   /** 優惠券列表 */
-  public voucherList: AFP_Voucher[] = [];
+  public voucherList: AFP_Voucher[];
    /** 優惠券排序: 1 依即將到期優先 2 依上架時間(由新到舊) 3 依上架時間(由舊到新) */
    public voucherSort = 1;
    /** 優惠券使用類型分類 */
@@ -75,36 +75,6 @@ export class EventComponent implements OnInit {
       this.voucherCount = this.voucherList.length;
       this.resetSet();
     });
-  }
-
-  /** 兌換優惠券
-   * @param voucher 優惠券詳細
-   */
-  toVoucher(voucher: AFP_Voucher): void {
-    if ( this.appService.loginState) {
-      if (voucher.Voucher_DedPoint > 0 && voucher.Voucher_IsFreq === 1) {
-        this.modal.confirm({
-          initialState: {
-            message: `請確定是否扣除 Mobii! Points ${voucher.Voucher_DedPoint} 點兌換「${voucher.Voucher_ExtName}」？`
-          }
-        }).subscribe( res => {
-          if ( res) {
-            this.appService.onVoucher(voucher);
-          } else {
-            const initialState = {
-              success: true,
-              type: 1,
-              message: `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-failed.png"><p>兌換失敗！</p></div>`
-            };
-            this.modal.show('message', {initialState});
-          }
-        });
-      } else {
-        this.appService.onVoucher(voucher);
-      }
-    } else {
-      this.appService.loginPage();
-    }
   }
 
   /** 使用範圍文字顯示轉換 */

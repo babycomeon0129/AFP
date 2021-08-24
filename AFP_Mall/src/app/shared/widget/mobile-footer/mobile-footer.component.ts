@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 import { AppService } from '@app/app.service';
 
-declare var AppJSInterface: any;
 
 @Component({
   selector: 'app-mobile-footer',
@@ -18,12 +18,12 @@ export class MobileFooterComponent implements OnInit {
   // 'MyProfile', 'MyPayment', 'CellVerification', 'MyAddress', 'PasswordUpdate', 'ThirdBinding', 'DeliveryInfo', 'Game/', 'VoucherDetail',
   // 'NotificationDetail', 'Terms', 'Privacy', 'QA', 'Error404', 'Error500', 'Error503'];
 
-  constructor(public appService: AppService, public router: Router) { }
+  constructor(public appService: AppService, public router: Router, private callApp: AppJSInterfaceService) { }
 
   ngOnInit() {
     this.currentUrl = this.router.url;
     // 初始時告訴app開啟footer
-    this.appService.appShowMobileFooter(true);
+    this.callApp.appShowMobileFooter(true);
   }
 
 }

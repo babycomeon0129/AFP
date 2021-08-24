@@ -1,10 +1,10 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { BsModalRef } from 'ngx-bootstrap';
-import { ModalService } from '../modal.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { AFP_ADImg, AFP_VerifiedInfo } from '@app/_models';
+import { PasswordModalComponent } from '../password-modal/password-modal.component';
 
 @Component({
   selector: 'app-message-modal',
@@ -42,8 +42,8 @@ export class MessageModalComponent implements OnInit {
   /** 網址傳參2 (連結跳轉須加上參數時使用，預設為雙顆按鈕時右邊按鈕的傳參) */
   queryParams2: object;
 
-  constructor(public bsModalRef: BsModalRef, public modal: ModalService, private router: Router,
-              public appService: AppService, private location: Location) { }
+
+  constructor(public bsModalRef: BsModalRef, private bsModal: BsModalService, private router: Router, public appService: AppService, private location: Location) { }
 
   ngOnInit() {
   }
@@ -89,7 +89,9 @@ export class MessageModalComponent implements OnInit {
       const initialState = {
         VerifiedInfo: this.VerifiedInfo
       };
-      this.modal.show('password', { initialState }, this.bsModalRef);
+      this.bsModal.show(PasswordModalComponent, { initialState });
+      this.bsModalRef.hide();
+      // this.modal.show('password', { initialState }, this.bsModalRef);
     }
   }
 

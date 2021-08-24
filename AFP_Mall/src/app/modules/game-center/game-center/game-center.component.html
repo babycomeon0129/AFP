@@ -11,6 +11,10 @@
           <div class="title-name">遊戲館</div>
         </div>
         <div class="item two">
+          <button (click)="appService.loginPage()" *ngIf="!appService.loginState" type="button"
+            class="m-topbox-item btn bluedk-outline-btn btw-small">
+            登入/註冊
+          </button>
         </div>
       </div>
     </div>
@@ -49,8 +53,7 @@
           <div role="tabpanel" class="tab-pane fade w-100 active show" id="tabPane1">
             <div *ngIf="showGameList?.length >= 1; else elseBlock" class="game-list p-3">
               <div class="member-flex flex-gamebn">
-                <div *ngFor="let game of showGameList"
-                  (click)="goGame(game.Game_Code)" class="item">
+                <div *ngFor="let game of showGameList" (click)="goGame(game.Game_Code, game.Game_Type)" class="item">
                   <img [lazyLoad]="game?.Game_Image" alt="" class="img-fluid border-radius5"
                     [defaultImage]="appService.defaultImage">
                   <div class="badge-box" [hidden]="game.Game_Tag === null">

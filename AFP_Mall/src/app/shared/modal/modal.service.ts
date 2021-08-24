@@ -2,14 +2,12 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap';
 import { ForgetModalComponent } from './forget-modal/forget-modal.component';
-import { VcodeModalComponent } from './vcode-modal/vcode-modal.component';
 import { FavoriteModalComponent } from './favorite-modal/favorite-modal.component';
 import { MessageModalComponent } from './message-modal/message-modal.component';
 import { PasswordModalComponent } from './password-modal/password-modal.component';
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 import { CouponModalComponent } from './coupon-modal/coupon-modal.component';
 import { JustkaModalComponent } from './justka-modal/justka-modal.component';
-import { MissionModalComponent } from './mission-modal/mission-modal.component';
 import { ReceiptModalComponent } from './receipt-modal/receipt-modal.component';
 import { MsgShareModalComponent } from './msg-share-modal/msg-share-modal.component';
 import { LoginRegisterModalComponent } from './login-register-modal/login-register-modal.component';
@@ -28,9 +26,6 @@ export class ModalService {
       case 'forget':
         this.bsModalService.show(ForgetModalComponent, config);
         break;
-      case 'vcode':
-        this.bsModalService.show(VcodeModalComponent, config);
-        break;
       case 'password':
         this.bsModalService.show(PasswordModalComponent, config);
         break;
@@ -43,9 +38,6 @@ export class ModalService {
         break;
       case 'justka':
         this.bsModalService.show(JustkaModalComponent, config);
-        break;
-      case 'mission':
-        this.bsModalService.show(MissionModalComponent, config);
         break;
       case 'receipt':
         this.bsModalService.show(ReceiptModalComponent, config);
@@ -69,9 +61,6 @@ export class ModalService {
       case 'forget':
         this.bsModalService.show(ForgetModalComponent, options);
         break;
-      case 'vcode':
-        this.bsModalService.show(VcodeModalComponent, options);
-        break;
       case 'password':
         this.bsModalService.show(PasswordModalComponent, options);
         break;
@@ -83,9 +72,6 @@ export class ModalService {
         break;
       case 'justka':
         this.bsModalService.show(JustkaModalComponent, options);
-        break;
-      case 'mission':
-        this.bsModalService.show(MissionModalComponent, options);
         break;
       case 'receipt':
         this.bsModalService.show(ReceiptModalComponent, options);

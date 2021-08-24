@@ -6,6 +6,9 @@ import { NgModule } from '@angular/core';
 import { InfoRoutingModule } from './info-routing.module';
 import { SharedModule } from '@app/shared/shared.module';
 
+// Collapse
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+
 import { PrivacyComponent } from './privacy/privacy.component';
 import { QAComponent } from './qa/qa.component';
 import { TermsComponent } from './terms/terms.component';
@@ -33,7 +36,8 @@ import { MPointsComponent } from './mpoints/mpoints.component';
     FormsModule,
     RouterModule,
     InfoRoutingModule,
-    SharedModule
+    SharedModule,
+    CollapseModule
   ]
 })
 export class InfoModule {}

@@ -1,6 +1,6 @@
-<div class="modal-header" data-dismiss="modal" aria-label="Close">
+<div class="modal-header">
 </div>
-<button type="button" class="close text-right" data-dismiss="modal" aria-label="Close" (click)="bsModalRef.hide()">
+<button type="button" class="close text-right" (click)="bsModalRef.hide()">
   <span aria-hidden="true">&times;&ensp;</span>
 </button>
 <div class="modal-body">
@@ -25,11 +25,13 @@
       </button>
       <!-- 雙顆按鈕，左右按鈕內容、連結全客製化 -->
       <button type="button" *ngIf="showType === 6" class="btn px-0 w-50" (click)="goToUrl(leftBtnUrl, queryParams1)"
-      [disabled]="leftBtnUrl === null" [ngClass]="{'btn-login': leftBtnUrl !== null, 'small-80': leftBtnUrl === null}">
+        [disabled]="leftBtnUrl === null"
+        [ngClass]="{'btn-login': leftBtnUrl !== null, 'small-80': leftBtnUrl === null}">
         {{ leftBtnMsg }}
       </button>
       <button type="button" *ngIf="showType === 6" class="btn px-0 w-50" (click)="goToUrl(rightBtnUrl, queryParams2)"
-      [disabled]="rightBtnUrl === null" [ngClass]="{'btn-login': rightBtnUrl !== null, 'small-80': rightBtnUrl === null}">
+        [disabled]="rightBtnUrl === null"
+        [ngClass]="{'btn-login': rightBtnUrl !== null, 'small-80': rightBtnUrl === null}">
         {{ rightBtnMsg }}
       </button>
     </div>

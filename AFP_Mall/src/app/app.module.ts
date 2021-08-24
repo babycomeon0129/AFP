@@ -22,6 +22,8 @@ import { SortablejsModule } from 'ngx-sortablejs';
 
 // Member-MyProfile birthday datepicker
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+// Collapse
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { zhCnLocale } from 'ngx-bootstrap/locale';
 defineLocale('zh-cn', zhCnLocale);
@@ -34,7 +36,13 @@ import { Error500Component } from './modules/error500/error500.component';
 import { Error503Component } from './modules/error503/error503.component';
 
 // Service Worker
-import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
+// import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
+// fireBase
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireModule } from '@angular/fire';
+
 
 // 第三方登入 config
 export function provideConfig() {
@@ -103,7 +111,12 @@ export function provideConfig() {
     BsDatepickerModule.forRoot(),
     LazyLoadImageModule,
     SortablejsModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.swActivate })
+    // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.swActivate })
+    AngularFireDatabaseModule,
+      AngularFireAuthModule,
+      AngularFireMessagingModule,
+      AngularFireModule.initializeApp(environment.firebaseConfig),
+      CollapseModule.forRoot()
   ],
   exports: [
     AppComponent
@@ -121,13 +134,13 @@ export function provideConfig() {
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {
-  constructor(swUpdate: SwUpdate) {
-    if (swUpdate.isEnabled) {
-      console.log('服務工作者被允許運作。');
-      swUpdate.available.subscribe((event) => {
-        console.log(`服務工作者偵測到有可供使用的新版本。目前版本：${event.current}，可供使用的新版本：${event.available}，頁面將自動重整。`);
-        window.location.reload();
-      });
-    }
-  }
+  // constructor(swUpdate: SwUpdate) {
+  //   if (swUpdate.isEnabled) {
+  //     console.log('服務工作者被允許運作。');
+  //     swUpdate.available.subscribe((event) => {
+  //       console.log(`服務工作者偵測到有可供使用的新版本。目前版本：${event.current}，可供使用的新版本：${event.available}，頁面將自動重整。`);
+  //       window.location.reload();
+  //     });
+  //   }
+  // }
 }

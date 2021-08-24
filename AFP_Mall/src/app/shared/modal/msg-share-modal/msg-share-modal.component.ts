@@ -1,8 +1,7 @@
 import { environment } from '@env/environment';
-import { ModalService } from '../modal.service';
 import { Component, OnInit } from '@angular/core';
-import { BsModalRef } from 'ngx-bootstrap';
-import { AppService } from 'src/app/app.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { MessageModalComponent } from '../message-modal/message-modal.component';
 
 @Component({
   selector: 'app-msg-share-modal',
@@ -15,7 +14,7 @@ export class MsgShareModalComponent implements OnInit {
   /** 分享時所帶文字 */
   sharedText: string;
 
-  constructor(public bsModalRef: BsModalRef, public appService: AppService, public modal: ModalService) {
+  constructor(public bsModalRef: BsModalRef, private bsModal: BsModalService) {
   }
 
   ngOnInit() {
@@ -66,7 +65,7 @@ export class MsgShareModalComponent implements OnInit {
       document.execCommand('copy');
     }
     document.body.removeChild(el);
-    this.modal.show('message', { initialState: { success: true, message: '已複製網址!', showType: 1 } });
+    this.bsModal.show(MessageModalComponent,{ initialState: { success: true, message: '已複製網址!', showType: 1 } });
   }
 
   /** 取得設備iOS版本
@@ -85,10 +84,6 @@ export class MsgShareModalComponent implements OnInit {
     } else {
       return null;
     }
-  }
-
-  closeModal(): void {
-    this.bsModalRef.hide();
   }
 
   /**

@@ -19,22 +19,28 @@ export class OrderCompleteComponent implements OnInit {
   public countdown: NodeJS.Timer;
   /** 回傳結果 */
   public ResponseModel: Response_OrderComplete;
+  /** 訂單商品類型 1: 一般商品 21: 電子票券 */
+  private orderType = 21;
 
   constructor(private route: ActivatedRoute, public appService: AppService, private router: Router, private meta: Meta, private title: Title) {
     this.title.setTitle('付款確認中｜線上商城 - Mobii!');
-    this.meta.updateTag({name : 'description', content: ''});
-    this.meta.updateTag({content: '付款確認中｜線上商城 - Mobii!', property: 'og:title'});
-    this.meta.updateTag({content: '', property: 'og:description'});
+    this.meta.updateTag({ name: 'description', content: '' });
+    this.meta.updateTag({ content: '付款確認中｜線上商城 - Mobii!', property: 'og:title' });
+    this.meta.updateTag({ content: '', property: 'og:description' });
   }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      if (typeof params.PayOrderNo !== 'undefined') {
+      if (params.PayOrderNo !== undefined) {
         this.PayOrderNo = Number(params.PayOrderNo);
       }
 
-      if (typeof params.ModelData !== 'undefined') {
+      if (params.ModelData !== undefined) {
         this.BindData = params.ModelData;
+      }
+
+      if (params.Order_Type !== undefined) {
+        this.orderType = Number(params.Order_Type);
       }
     });
 
@@ -44,16 +50,15 @@ export class OrderCompleteComponent implements OnInit {
       ModelData: this.BindData
     };
 
-    // this.appService.openBlock();
     this.appService.toApi('Member', '1604', request).subscribe((data: Response_OrderComplete) => {
       this.ResponseModel = data;
       this.appService.isApp = data.IsApp;
       if (this.ResponseModel.Success) {
         this.title.setTitle('付款成功｜線上商城 - Mobii!');
-        this.meta.updateTag({content: '付款成功｜線上商城 - Mobii!', property: 'og:title'});
+        this.meta.updateTag({ content: '付款成功｜線上商城 - Mobii!', property: 'og:title' });
       } else {
         this.title.setTitle('付款失敗｜線上商城 - Mobii!');
-        this.meta.updateTag({content: '付款失敗｜線上商城 - Mobii!', property: 'og:title'});
+        this.meta.updateTag({ content: '付款失敗｜線上商城 - Mobii!', property: 'og:title' });
       }
       // 使用 web
       if (data.IsApp === 0) {
@@ -66,7 +71,7 @@ export class OrderCompleteComponent implements OnInit {
       if (this.ResponseModel === undefined) {
         this.ResponseModel = new Response_OrderComplete();
         this.title.setTitle('付款失敗｜線上商城 - Mobii!');
-        this.meta.updateTag({content: '付款失敗｜線上商城 - Mobii!', property: 'og:title'});
+        this.meta.updateTag({ content: '付款失敗｜線上商城 - Mobii!', property: 'og:title' });
       }
     }, 10000);
   }
@@ -75,6 +80,15 @@ export class OrderCompleteComponent implements OnInit {
   GoECIndex(): void {
     if (this.appService.isApp != null) {
       location.href = '/Shopping';
+    } else {
+      this.router.navigate(['/Shopping']);
+    }
+  }
+
+  /** 前往重新購買，一般商品前往購物車，電子票券前往商城首頁 */
+  goRepurchase(): void {
+    if (this.orderType === 1) {
+      this.router.navigate(['/Shopping/ShoppingCart'], { queryParams: { referrer: 'illegal' } });
     } else {
       this.router.navigate(['/Shopping']);
     }

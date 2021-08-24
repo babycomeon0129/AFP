@@ -7,6 +7,7 @@ import { AFP_UserFavourite, AFP_UserReport, AFP_ADImg,
          Request_MemberMyCard, Response_MemberMyCard } from '@app/modules/member/_module-member';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation } from '@app/animations';
+import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 @Component({
   selector: 'app-member-card',
   templateUrl: './member-card.component.html',
@@ -60,7 +61,7 @@ export class MemberCardComponent implements OnInit {
   public cardTypeImg2: string;
 
   constructor(public appService: AppService, public modal: ModalService, private router: Router,
-              private route: ActivatedRoute, private meta: Meta, private title: Title) {
+              private route: ActivatedRoute, private meta: Meta, private title: Title, private callApp: AppJSInterfaceService) {
     this.title.setTitle('我的卡片 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 我的卡片。你可以新增信用卡、悠遊卡或一卡通等卡片，並在 Mobii! APP 或網頁上，使用這些卡片來購物、支付或乘車。' });
     this.meta.updateTag({ content: '我的卡片 - Mobii!', property: 'og:title' });
@@ -75,7 +76,7 @@ export class MemberCardComponent implements OnInit {
 
   ngOnInit() {
     this.readCardList();
-    this.appService.appShowMobileFooter(false);
+    this.callApp.appShowMobileFooter(false);
   }
 
   /** 讀取卡片列表 */
@@ -143,13 +144,20 @@ export class MemberCardComponent implements OnInit {
     this.appService.toApi('Member', '1507', request).subscribe((data: Response_MemberMyCard) => {
       setTimeout(() => {
         if (this.cardLimit === 2 && this.cardList.length <= this.cardLimitMax) {
-          this.modal.show('message', {
-            initialState: { success: true, message: '綁定成功', note: '【溫馨提醒】本卡尚未完成卡片記名作業，如需記名請至官網操作完成。', showType: 1 }
-          });
+          if (request.AFP_UserFavourite.UserFavourite_Text3 === '') {
+            this.modal.show('message', {
+              initialState: { success: true, message: '綁定成功', note: '【溫馨提醒】本卡尚未完成卡片記名作業，如需記名請至官網操作完成。', showType: 1 }
+            });
+          } else {
+            this.modal.show('message', {
+              initialState: { success: true, message: '綁卡成功', showType: 1 }
+            });
+          }
         }
       }, 2000);
       /** 路由參數切換 {showBack: true 非原生頁,code 卡片類型(1一卡通、11悠遊卡),layer 功能切換(0我的卡片、1新增卡片、2卡片列表、3榮民卡)} */
       this.router.navigate(['/MemberFunction/MemberCard'], { queryParams: { showBack: true, itemCode: this.cardItemCode, layerParam: 2 } });
+      this.readCardList();
       form.resetForm();
     });
   }

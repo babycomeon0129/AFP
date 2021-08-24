@@ -48,11 +48,12 @@ export class GameCenterComponent implements OnInit {
 
   /** 前往遊戲
    * @param gameCode 就是GameCode
+   * @param gameType 遊戲類型
    */
-  goGame(gameCode: number): void {
+  goGame(gameCode: number, gameType: number): void {
     if (this.appService.loginState) {
       this.activatedRoute.snapshot.queryParams.showBack === 'true' ?
-      this.router.navigate(['/GameCenter/Game', gameCode], {queryParams: {showBack: true}}) : this.router.navigate(['/GameCenter/Game', gameCode]);
+        this.router.navigate(['/GameCenter/Game', gameCode], { queryParams: { GameType: gameType, showBack: true } }) : this.router.navigate(['/GameCenter/Game', gameCode], { queryParams: { GameType: gameType } });
     } else {
       this.appService.loginPage();
     }
@@ -62,7 +63,7 @@ export class GameCenterComponent implements OnInit {
   /** 讀取TAG列表
    * @param tabType 1:一般會員, 2:綁卡會員
    */
-  onTabList(tabType: number) {
+  onTabList(tabType: number): void {
     this.selectedType = tabType;
     this.showGameList = this.gameList.filter(game => game.Game_ConditionType === tabType);
   }

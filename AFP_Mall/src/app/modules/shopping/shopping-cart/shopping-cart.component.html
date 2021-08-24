@@ -4,9 +4,6 @@
         <div class="index-flex justify-content-between">
             <div class="item two">
                 <div class="close-btn">
-                    <!--button type="button" (click)="conditionBack()" class="btn px-0" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
-                        <i class="material-icons">&#xe314;</i>
-                    </!--button-->
                     <app-back-btn [mode]="1" [url]="'Shopping'"></app-back-btn>
                 </div>
             </div>
@@ -104,7 +101,7 @@
             <div class='d-flex flex-column justify-content-center align-items-center h-auto' *ngIf="nocartShow">
               <img src="../../img/shopping/nocart.png" class='nocart'>
               <p class='p-2 w-100 text-center'>購物車內還沒有商品？<br>我OK! 你先買～</p>
-              <button type='button' class='btn index-btn m-2 w-75 cart-next' (click)="appService.AppRouter('/Shopping')">立馬去買</button>
+              <button type='button' class='btn index-btn m-2 w-75 cart-next' [routerLink]="['/Shopping']">立馬去買</button>
             </div>
           </ng-template>
       </div>

@@ -70,8 +70,11 @@ export class MemberCoinComponent implements OnInit {
       });
       // 取得queryParams參數coinHistoryOpen，點數紀錄顯示與否(0關閉、1開啟)
       this.activatedRoute.queryParams.subscribe(params => {
-        if (typeof params.coinHistory !== 'undefined' && params.coinHistory === '1') {
-          this.coinHistoryOpen = 1;
+        if (typeof params.coinHistory !== 'undefined') {
+          this.coinHistoryOpen = Number(params.coinHistory);
+        }
+        if (params.coinHistory === '1') {
+          this.getHistory();
         }
       });
     } else {
@@ -98,32 +101,6 @@ export class MemberCoinComponent implements OnInit {
         };
         this.router.navigate(['/Voucher/VoucherDetail', code], navigationExtras);
       }
-    }
-  }
-
-  /** 兌換優惠券
-   * @param voucher 優惠券詳細
-   */
-  toVoucher(voucher: AFP_Voucher): void {
-    if (voucher.Voucher_DedPoint > 0 && voucher.Voucher_IsFreq === 1) {
-      this.modal.confirm({
-        initialState: {
-          message: `請確定是否扣除 Mobii! Points ${voucher.Voucher_DedPoint} 點兌換「${voucher.Voucher_ExtName}」？`
-        }
-      }).subscribe(res => {
-        if (res) {
-          this.appService.onVoucher(voucher);
-        } else {
-          const initialState = {
-            success: true,
-            type: 1,
-            message: `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-failed.png"><p>兌換失敗！</p></div>`
-          };
-          this.modal.show('message', { initialState });
-        }
-      });
-    } else {
-      this.appService.onVoucher(voucher);
     }
   }
 

@@ -11,6 +11,7 @@ import {
 import { NgForm } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation } from '@app/animations';
+import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 
 @Component({
   selector: 'app-shopping-order',
@@ -54,7 +55,7 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
   /** 同頁滑動切換 0: 原頁 1: 行政區選單 2: 縣市選單 3:愛心碼選單 4:新增地址 5: 選擇優惠券 6:寄送方式 7: 發票選取 */
   public layerTrig = 0;
 
-  constructor(public appService: AppService, public modal: ModalService, private router: Router, private meta: Meta, private title: Title) {
+  constructor(public appService: AppService, public modal: ModalService, private router: Router, private meta: Meta, private title: Title, public callApp: AppJSInterfaceService) {
     this.title.setTitle('確定訂單｜線上商城 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! 線上商城購物車 - 確認訂單。 如果你有在 Mobii! 平台購物，這裡就會看到你的訂單訊息。請登入註冊 Mobii! 帳號以看到完整內容。' });
     this.meta.updateTag({ content: '確定訂單｜線上商城 - Mobii!', property: 'og:title' });
@@ -763,7 +764,7 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
                 // 如果是APP，則按我知道了時APP把此頁關掉
                 this.modal.confirm({ initialState: { message: `${coResult.List_DiscontinuedProducts}已下架，無法購買`, checkBtnTxt: '我知道了', showCancel: false } }).subscribe(res => {
                   if (res) {
-                    this.appService.appWebViewClose();
+                    this.callApp.appWebViewClose();
                   }
                 });
               }

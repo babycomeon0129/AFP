@@ -27,7 +27,7 @@
           <div class="bg-white flex-inline-between px-2 brder-mission">
               <div class="d-flex align-items-center">
                   <img src="../img/share/mobiicoin_red.png" class="h24">
-                  <span class="mobiicoin-num">{{totalPoints | currency: '':'':'1.0-0'}}</span>
+                  <span class="mobiicoin-num">{{totalPoints === null ? '-' : totalPoints | currency: '':'':'1.0-0'}}</span>
               </div>
               <!-- 可玩次數暫以每次花費點數取代 -->
               <div class="d-none">
@@ -58,7 +58,7 @@
                   <!-- 遊玩按鈕 -->
                   <div [ngClass]="{'playbox9': gameData?.AFP_Game.Game_TypeSpace === 8, 'playbox': gameData?.AFP_Game.Game_TypeSpace === 12}" id="play">
                     <button (click)="play()"
-                      [disabled]=" playTimes === 0 || gameData?.AFP_Game?.Game_DedPoint > totalPoints || playingStatus"
+                      [disabled]=" playTimes === 0 || (gameData?.AFP_Game?.Game_DedPoint > totalPoints && totalPoints !== null) || playingStatus"
                       type="button" id="playagain" class="btn p-0">
                       <img *ngIf="gameData?.AFP_Game.Game_TypeSpace === 8" src="../img/mission/playbox9.png">
                       <img *ngIf="gameData?.AFP_Game.Game_TypeSpace === 12" src="../img/mission/playbox.png">

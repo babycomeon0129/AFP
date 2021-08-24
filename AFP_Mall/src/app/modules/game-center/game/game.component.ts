@@ -35,14 +35,15 @@ export class GameComponent implements OnInit {
 
     this.appService.toApi('Games', '1701', request).subscribe((data: Response_Games) => {
       this.gameData = data;
-      this.gameType = data.AFP_Game.Game_Type;
+      // 此行放在constructor會有因生命週期導致顯示不完全問題，故放於此處
+      this.gameType = Number(this.route.snapshot.queryParams.GameType);
       this.alertInfo = data.Model_AlertInfo;
       // 先判斷該遊戲是否為可遊玩狀態，0: 不可遊玩(未完成綁卡等條件，條件由後端判定) 1:可遊玩
       if (!data.GameState) {
         this.noGameStateAlert();
       } else {
         // 若可玩次數 === 0或是所剩點數不夠遊玩一次則跳提醒視窗
-        if (this.gameData.AFP_Game.Game_PlayCount === 0 || this.gameData.AFP_Game.Game_DedPoint > this.gameData.TotalPoint) {
+        if (this.gameData.AFP_Game.Game_PlayCount === 0 || (this.gameData.AFP_Game.Game_DedPoint > this.gameData.TotalPoint && this.gameData.TotalPoint !== null)) {
           this.noticeAlert();
         }
       }

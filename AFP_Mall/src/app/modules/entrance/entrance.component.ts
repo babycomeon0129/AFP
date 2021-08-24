@@ -317,7 +317,7 @@ export class EntranceComponent implements OnInit {
   }
 
   /** 讀取首頁上方資料（皆為廣告及會員資料，我的服務除外） */
-  readUp() {
+  readUp(): void {
     const request: Request_Home = {
       User_Code: sessionStorage.getItem('userCode')
     };
@@ -340,17 +340,9 @@ export class EntranceComponent implements OnInit {
   }
 
   /** 讀取首頁下方資料（中間大廣告以下各區塊） */
-  readDown() {
+  readDown(): void {
     const request: Request_Home = {
       User_Code: sessionStorage.getItem('userCode')
-      // // hitArea、hitTravel、popProducts、deliveryArea 因MOB-3038首頁改版，暫先隱藏，故不加上SearchModel請求資料
-      // ,
-      // SearchModel: {
-      //   IndexArea_Code: 100001,
-      //   IndexTravel_Code: 21001,
-      //   IndexChannel_Code: 10000001,
-      //   IndexDelivery_Code: 300001
-      // }
     };
     // 不使用loading spinner 讓進入首頁可先快速瀏覽上方
     this.appService.toApi('Home', '1022', request).subscribe((data: Response_Home) => {
@@ -366,8 +358,10 @@ export class EntranceComponent implements OnInit {
   /** 讀取資料
    * @param action 執行動作：1 進入此頁，2 讀取分頁（近期熱門商品瀑布流）
    */
-   readhotProducts(action: number) {
+   readhotProducts(action: number): void {
     const request: Request_ECHome = {
+      // SelectMode 1:  讀取商城所有資料 2:只有熱門商品資料，用於熱門商品瀑布流
+      SelectMode: 2,
       User_Code: sessionStorage.getItem('userCode'),
       Cart_Count: 0,
       Model_BasePage: {
@@ -396,7 +390,7 @@ export class EntranceComponent implements OnInit {
 
   /** 近期熱門商品瀑布流 */
   @HostListener('window: scroll', ['$event'])
-  prodWaterfall(event: Event) {
+  prodWaterfall(event: Event): void {
     if ((Math.floor(window.scrollY + window.innerHeight) >= document.documentElement.offsetHeight -1 ) && this.currentPage < this.totalPage) {
       this.appService.openBlock();
       this.currentPage ++;
@@ -616,7 +610,6 @@ export class EntranceComponent implements OnInit {
           } else {
             // this.router.navigate([Link.Function_URL]);
             window.open(Link.Function_URL, Link.Function_URLTarget);
-            this.appService.tLayer = []; // 清空tLayer避免前往頁面也有callLayer時會失效
           }
         }
       }
@@ -654,7 +647,7 @@ export class EntranceComponent implements OnInit {
   }
 
   /** justKa點擊事件（justKa modal 顯示與否）*/
-  toggle() {
+  toggle(): void {
     this.show = !this.show;
     if (this.show) {
       this.modal.show('justka',

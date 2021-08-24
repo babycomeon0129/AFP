@@ -12,25 +12,38 @@
 .justka-msg {
   position: fixed;
   width: 200px;
-  padding: 0.75em 1em;
-  bottom: 65px;
-  right: 110px;
+  padding: 0.5em 1em;
+  bottom: 105px;
+  right: 86px;
   background: rgba(255, 255, 255, 0.6);
-  border-top-left-radius: 0.25em;
-  border-top-right-radius: 0.25em;
-  border-bottom-left-radius: 0.25em;
+  backdrop-filter: blur(12.7907px);
+  border-radius: 7px 7px 0px 7px;
+  &::before {
+    content: '';
+    position: absolute;
+    width: 200px;
+    height: 56px;
+    top:0; right:0; bottom:0; left:0;
+    box-sizing: border-box;
+    border-radius: 7px 7px 0px 7px;
+    z-index: -1;
+    margin: -10px;
+  }
   border: 1px solid $gray-unable;
   @media (max-width: 767px) {
-    bottom: 105px;
-    right: 100px;
+    right: calc((100% - 370px) / 2);
   }
   @media (max-width: 570px) {
-    bottom: 105px;
-    right: 80px;
+    right: 86px;
   }
-  @media (max-width: 375px) {
-    bottom: 82px;
-    right: 76px;
+  @media (min-width: 768px) and (max-width: 991px) {
+    right: calc((100% - 530px) / 2);
+  }
+  @media (min-width: 992px) {
+    right: calc((100% - 780px) / 2);
+  }
+  @media (min-width: 1200px) {
+    right: calc((100% - 960px) / 2);
   }
   p {
     font-size: small;
@@ -58,44 +71,36 @@
   width: 95px;
   height: 101px;
   line-height: 3em;
-  right: 10px;
-  bottom: 10px;
+  right: 0;
+  bottom: 42px;
   padding-top: 0px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   border-bottom-left-radius: 10px;
-  img.justka-img {
-    width: 95px;
-    display: block;
+  @media (max-width: 767px) {
+    right: calc((100% - 540px) / 2);
+  }
+  @media (max-width: 570px) {
+    right: 0;
+  }
+  @media (min-width: 768px) and (max-width: 991px) {
+    right: calc((100% - 720px) / 2);
+  }
+  @media (min-width: 992px) {
+    right: calc((100% - 960px) / 2);
+  }
+  @media (min-width: 1200px) {
+    right: calc((100% - 1140px) / 2);
   }
   button {
     background: transparent;
     border: 0;
     outline: none;
-  }
-  @media (max-width: 767px) {
-    width: 75px;
-    bottom: 35px;
-    right: 30px;
     img.justka-img {
-      width: 75px;
-    }
-  }
-  @media (max-width: 570px) {
-    width: 64px;
-    bottom: 30px;
-    right: 10px;
-    img.justka-img {
-      width: 64px;
-    }
-  }
-  @media (max-width: 375px) {
-    width: 64px;
-    bottom: 10px;
-    right: 10px;
-    img.justka-img {
-      width: 64px;
+      width: 74px;
+      height: 72px;
+      display: block;
     }
   }
 }
