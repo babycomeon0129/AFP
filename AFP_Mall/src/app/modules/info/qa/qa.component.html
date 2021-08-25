@@ -23,7 +23,6 @@
           <ul class="cateList">
             <li>
               <button class="btn px-0 w-100 text-left" type="button" (click)="cateCollapse(cate.QuestionCategory_Code)"
-              [routerLink]="['/Info/QA']" [queryParams]="{catCode: cate.QuestionCategory_Code}"
                 [attr.aria-expanded]="!cate.Collapse" aria-controls="collapseBasic">
                 {{cate?.QuestionCategory_Name}} <span class="float-right"><i
                     class="material-icons expand_more">&#xe5cf;</i></span>
@@ -33,8 +32,7 @@
             <ul class="qList">
               <!-- 問題 -->
               <ng-container *ngFor="let q of cate?.List_QuestionContent">
-                <li class="row" [collapse]="q.Q_Collapse" [isAnimated]="true"
-                [routerLink]="['/Info/QA']" [queryParams]="{catCode: q.QuestionContent_CategoryCode, contentCode: q.QuestionContent_Code}">
+                <li class="row" [collapse]="q.Q_Collapse" [isAnimated]="true">
                   <div class="col-12">
                     <button class="btn px-0 w-100 text-left" type="button"
                       (click)="qalistCollapse(q.QuestionContent_CategoryCode, q.QuestionContent_Code)">
