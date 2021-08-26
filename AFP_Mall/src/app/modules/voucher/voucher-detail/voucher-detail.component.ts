@@ -192,7 +192,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
       case 5:
         // 使用
         this.layerTrig = 1;
-        this.callApp.appShowBackButton(true);
+        this.callApp.appShowBackButton(false);
         this.checkWritenOff();
         break;
     }
@@ -223,7 +223,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
           this.voucherData.VoucherUseCount = usedTimes + 1;
           clearTimeout(this.timer3Mins);
           this.layerTrig = 0;
-          this.callApp.appShowBackButton(false);
+          this.callApp.appShowBackButton(true);
           // showType: 999核銷成功後顯示廣告圖片
           this.modal.show('message', {
             initialState: {
@@ -241,7 +241,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
       this.modal.show('message', { initialState: { success: false, message: '連線逾時，請重新操作。', showType: 1 } });
       clearInterval(this.checkTimer);
       this.layerTrig = 0;
-      this.callApp.appShowBackButton(false);
+      this.callApp.appShowBackButton(true);
     }, 180000);
   }
 
@@ -249,7 +249,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
   closeQRCode(): void {
     this.router.navigate(['/Voucher/VoucherDetail', this.voucherCode], { queryParams: { showBack: this.appService.showBack } });
     this.layerTrig = 0;
-    this.callApp.appShowBackButton(false);
+    this.callApp.appShowBackButton(true);
     clearInterval(this.checkTimer);
     clearTimeout(this.timer3Mins);
   }

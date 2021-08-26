@@ -91,7 +91,7 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
   /** 取貨（每五秒確認一次，若持續三分鐘則停止並跳出連線逾時訊息） */
   claimOrder(): void {
     // 點選「取貨」需call 原生關閉返回鍵(MOB-3197)
-    this.callApp.appShowBackButton(true);
+    this.callApp.appShowBackButton(false);
     // 每5秒問一次API是否已取貨
     this.checkTimer = setInterval(() => {
       const request: Request_MemberCheckStatus = {
@@ -158,7 +158,7 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
   stopClaim(): void {
     clearInterval(this.checkTimer);
     this.layerTrig = 0;
-    this.callApp.appShowBackButton(false);
+    this.callApp.appShowBackButton(true);
     clearTimeout(this.timer3Mins);
   }
 
