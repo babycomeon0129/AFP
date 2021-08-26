@@ -26,7 +26,7 @@ export class AppJSInterfaceService {
     }
   }
 
-  /** 通知APP是否開啟showBackButton
+  /** 通知APP是否開啟返回鍵
    * @param isShowBt true: 開 , false: 關
    */
    appShowBackButton(isShowBt: boolean): void {

@@ -1,6 +1,7 @@
+import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import {
   Request_MemberOrder, Response_MemberOrder, AFP_ECStore, AFP_MemberOrder, AFP_ItemInfoPart, Request_MemberAddress,
   Response_MemberAddress, AFP_UserFavourite, AFP_Services, AFP_UserReport, Request_MemberServices, Response_MemberServices
@@ -33,7 +34,7 @@ export class ReturnComponent implements OnInit {
   /** 同頁滑動切換 0:本頁 1:退貨說明 2:退貨原因 3:寄送方式 4:新增地址 5: 縣市清單 6:行政區清單 */
   public layerTrig = 0;
 
-  constructor(private route: ActivatedRoute, public appService: AppService, private modal: ModalService, private router: Router) {
+  constructor(private route: ActivatedRoute, public appService: AppService, private modal: ModalService, private router: Router, public callApp: AppJSInterfaceService) {
     this.orderNo = this.route.snapshot.params.Order_TableNo;
     const request: Request_MemberOrder = {
       User_Code: sessionStorage.getItem('userCode'),

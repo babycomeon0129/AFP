@@ -60,7 +60,7 @@
               </div>
             </div>
           </li>
-          <li class="index-flex" (click)="layerTrig = 2">
+          <li class="index-flex" (click)="layerTrig = 2; callApp.appShowBackButton(false)">
             <div class="item one">原因</div>
             <div class="item two item-right d-flex d-inline">
               <span class="reason-txt w-100">{{showReason(servicesModel.Services_Reason)}}</span>
@@ -109,7 +109,7 @@
     <div class="returnReason">
       <div class="title-box">
         <div class="item icon-btn">
-          <button class="btn px-0" (click)="layerTrig = 0" data-toggle="tooltip" data-placement="bottom"
+          <button class="btn px-0" (click)="layerTrig = 0; callApp.appShowBackButton(true)" data-toggle="tooltip" data-placement="bottom"
             title="回上一頁">
             <i class="material-icons">&#xe314;</i>
           </button>
