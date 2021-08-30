@@ -1732,9 +1732,15 @@ export interface Response_Games extends Model_ShareData {
   TotalPoint: number;
   /** 中獎獎品 */
   GameReward: AFP_GamePart;
+  /** 廣告圖 */
   ADImg_Theme: AFP_ADImg[];
   /** 遊戲可遊玩狀態 0 : 不可遊玩(未完成綁卡等條件未完成) 1 : 可遊玩 */
   GameState: boolean;
+  /**遊戲類型 (目前只影響 畫面上 "玩一次消耗 x 點，尚可玩 y 次的" 顯示方式)
+    1 : 一般遊戲(未設遊玩條件或綁卡群的遊戲)
+    2 : 特殊遊戲(綁了任務的遊戲)
+  */
+  GameType: number;
   /** 遊戲 Alert 資訊 */
   Model_AlertInfo: Model_AlertInfo;
 }

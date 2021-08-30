@@ -1,76 +1,92 @@
 <div class="wrap container">
   <header>
-      <div class="header-secondary container linebt-row">
-          <div class="index-flex justify-content-between">
-              <div class="item two">
-                  <div class="close-btn">
-                       <!--button type="button" class="btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+    <div class="header-secondary container linebt-row">
+      <div class="index-flex justify-content-between">
+        <div class="item two">
+          <div class="close-btn">
+            <!--button type="button" class="btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
                           <i class="material-icons">&#xe314;</i>
                       </!--button-->
-                      <app-back-btn></app-back-btn>
-                  </div>
-              </div>
-              <div class="item three text-center">
-                  <div class="title-name">{{gameData?.AFP_Game?.Game_ExtName}}</div>
-              </div>
-              <div class="item two">
-                  <button type="button" class="btn bluedk-outline-btn bt-small" (click)="layerTrig = 1">活動規則</button>
-              </div>
+            <app-back-btn></app-back-btn>
           </div>
+        </div>
+        <div class="item three text-center">
+          <div class="title-name">{{gameData?.AFP_Game?.Game_ExtName}}</div>
+        </div>
+        <div class="item two">
+          <button type="button" class="btn bluedk-outline-btn bt-small" (click)="layerTrig = 1">活動規則</button>
+        </div>
       </div>
+    </div>
   </header>
   <div class="missionlist pb-0">
-      <div>
-        <img src={{gameData?.AFP_Game?.Game_ADImage}} class="img-fluid">
+    <div>
+      <img src={{gameData?.AFP_Game?.Game_ADImage}} class="img-fluid">
+    </div>
+    <div class="bg-mission p-3">
+      <div class="bg-white flex-inline-between px-2 brder-mission">
+        <div class="d-flex align-items-center">
+          <img src="../img/share/mobiicoin_red.png" class="h24">
+          <span class="mobiicoin-num">{{totalPoints === null ? '-' : totalPoints | currency: '':'':'1.0-0'}}</span>
+        </div>
+        <!-- 可玩次數暫以每次花費點數取代 -->
+        <div class="d-none">
+          可玩次數&ensp;<span class="mobiicoin-num">{{playTimes === -1? '不限' : playTimes | currency:
+            '':'':'1.0-0'}}</span>&ensp;次
+        </div>
+        <!-- 每次花費點數：一般遊戲 -->
+        <div class="d-flex align-items-center dedpoint" *ngIf="gameData.GameType === 1">
+          玩一次消耗&ensp;<span class="mobiicoin-num">{{gameData?.AFP_Game?.Game_DedPoint}}</span>&ensp;點
+          <ng-container *ngIf="playTimes >= 0">，尚可玩&ensp;<span class="mobiicoin-num">{{playTimes}}</span>&ensp;次
+          </ng-container>
+        </div>
+        <!-- 每次花費點數：特殊遊戲 -->
+        <div class="d-flex align-items-center dedpoint" *ngIf="gameData.GameType === 2">
+          <ng-container *ngIf="gameData?.AFP_Game?.Game_DedPoint > 0">
+            玩一次消耗&ensp;<span class="mobiicoin-num">{{gameData?.AFP_Game?.Game_DedPoint}}</span>&ensp;點，
+          </ng-container>
+          尚可玩&ensp;<span class="mobiicoin-num">{{playTimes}}</span>&ensp;次
+        </div>
       </div>
-      <div class="bg-mission p-3">
-          <div class="bg-white flex-inline-between px-2 brder-mission">
-              <div class="d-flex align-items-center">
-                  <img src="../img/share/mobiicoin_red.png" class="h24">
-                  <span class="mobiicoin-num">{{totalPoints === null ? '-' : totalPoints | currency: '':'':'1.0-0'}}</span>
-              </div>
-              <!-- 可玩次數暫以每次花費點數取代 -->
-              <div class="d-none">
-                  可玩次數&ensp;<span class="mobiicoin-num">{{playTimes === -1? '不限' : playTimes | currency: '':'':'1.0-0'}}</span>&ensp;次
-              </div>
-              <!-- 每次花費點數 -->
-              <div class="d-flex align-items-center dedpoint">
-                玩一次消耗&ensp;<span class="mobiicoin-num">{{gameData?.AFP_Game?.Game_DedPoint}}</span>&ensp;點
-                <ng-container *ngIf="playTimes >= 0">，尚可玩&ensp;<span class="mobiicoin-num">{{playTimes}}</span>&ensp;次</ng-container>
+    </div>
+    <div class="luckspin-box">
+      <div class="conopybox-top">
+        <section class="conopybox">
+          <div class="item canopy-l"></div>
+          <div class="item canopy-c"></div>
+          <div class="item canopy-r"></div>
+        </section>
+      </div>
+      <div class="luckspin-cont">
+        <div class="luckspin-contbox" [ngClass]="{'no9': gameData?.AFP_Game.Game_TypeSpace === 8}">
+          <!-- 獎品品項 -->
+          <div *ngFor="let item of prizeList; let i = index" id="{{item?.GamePart_ID}}" class="contbox">
+            <img [lazyLoad]="item?.GamePart_State === 0? '/img/mission/thanks.png' : item?.GamePart_ItemImage"
+              [defaultImage]="appService.defaultImage">
+            <p>{{item?.GamePart_State === 0? '再接再厲' : item?.GamePart_ItemName}}</p>
+          </div>
+          <!-- 遊玩按鈕 -->
+          <div
+            [ngClass]="{'playbox9': gameData?.AFP_Game.Game_TypeSpace === 8, 'playbox': gameData?.AFP_Game.Game_TypeSpace === 12}"
+            id="play">
+            <button (click)="play()"
+              [disabled]=" playTimes === 0 || (gameData?.AFP_Game?.Game_DedPoint > totalPoints && totalPoints !== null) || playingStatus"
+              type="button" id="playagain" class="btn p-0">
+              <img *ngIf="gameData?.AFP_Game.Game_TypeSpace === 8" src="../img/mission/playbox9.png">
+              <img *ngIf="gameData?.AFP_Game.Game_TypeSpace === 12" src="../img/mission/playbox.png">
+            </button>
+            <div id="rundot" *ngIf="gameData?.AFP_Game.Game_TypeSpace === 12">
+              <div class="dot"></div>
+              <div class="dot1"></div>
+              <div class="dot2"></div>
             </div>
           </div>
+        </div>
       </div>
-      <div class="luckspin-box">
-          <div class="conopybox-top">
-              <section class="conopybox">
-                  <div class="item canopy-l"></div>
-                  <div class="item canopy-c"></div>
-                  <div class="item canopy-r"></div>
-              </section>
-          </div>
-          <div class="luckspin-cont">
-              <div class="luckspin-contbox" [ngClass]="{'no9': gameData?.AFP_Game.Game_TypeSpace === 8}">
-                  <!-- 獎品品項 -->
-                  <div *ngFor="let item of prizeList; let i = index" id="{{item?.GamePart_ID}}" class="contbox">
-                    <img [lazyLoad]="item?.GamePart_State === 0? '/img/mission/thanks.png' : item?.GamePart_ItemImage" [defaultImage]="appService.defaultImage">
-                    <p>{{item?.GamePart_State === 0? '再接再厲' : item?.GamePart_ItemName}}</p>
-                  </div>
-                  <!-- 遊玩按鈕 -->
-                  <div [ngClass]="{'playbox9': gameData?.AFP_Game.Game_TypeSpace === 8, 'playbox': gameData?.AFP_Game.Game_TypeSpace === 12}" id="play">
-                    <button (click)="play()"
-                      [disabled]=" playTimes === 0 || (gameData?.AFP_Game?.Game_DedPoint > totalPoints && totalPoints !== null) || playingStatus"
-                      type="button" id="playagain" class="btn p-0">
-                      <img *ngIf="gameData?.AFP_Game.Game_TypeSpace === 8" src="../img/mission/playbox9.png">
-                      <img *ngIf="gameData?.AFP_Game.Game_TypeSpace === 12" src="../img/mission/playbox.png">
-                    </button>
-                    <div id="rundot" *ngIf="gameData?.AFP_Game.Game_TypeSpace === 12"><div class="dot"></div><div class="dot1"></div><div class="dot2"></div></div>
-                  </div>
-              </div>
-          </div>
-      </div>
-      <div class="warning-note">
-        本公司知悉並同意 Apple Inc. 不負有提供任何關於「本遊戲活動頁」活動系統維護及支援服務之義務，且 Apple Inc. 不需負擔任何與「本遊戲活動頁」活動有關的第三方索賠問題，如有前述情事發生將由本公司自行承擔
-      </div>
+    </div>
+    <div class="warning-note">
+      本公司知悉並同意 Apple Inc. 不負有提供任何關於「本遊戲活動頁」活動系統維護及支援服務之義務，且 Apple Inc. 不需負擔任何與「本遊戲活動頁」活動有關的第三方索賠問題，如有前述情事發生將由本公司自行承擔
+    </div>
   </div>
 
 
@@ -78,37 +94,39 @@
   <div class="modal-backdrop fade show container" *ngIf="layerTrig === 1"></div>
   <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="layerTrig === 1">
     <div id="open-pagebox" class="luckspin-rules">
-        <div class="open-page-title index-flex">
-          <div class="item one title-icon">
-              <button class="btn" (click)="layerTrig = 0">
-                  <i class="material-icons">&#xe314;</i>
-              </button>
-          </div>
-          <div class="item two title-txt text-center">
-              活動規則
-          </div>
-          <div class="item one title-txt">
-          </div>
+      <div class="open-page-title index-flex">
+        <div class="item one title-icon">
+          <button class="btn" (click)="layerTrig = 0">
+            <i class="material-icons">&#xe314;</i>
+          </button>
         </div>
-        <div class="rulescontext px-4 py-3" [innerHTML]="gameData?.AFP_Game?.Game_RuleText"></div>
+        <div class="item two title-txt text-center">
+          活動規則
+        </div>
+        <div class="item one title-txt">
+        </div>
+      </div>
+      <div class="rulescontext px-4 py-3" [innerHTML]="gameData?.AFP_Game?.Game_RuleText"></div>
     </div>
   </div>
   <!-- 中奬 -->
   <div class="modal-backdrop fade show container" *ngIf="layerTrigUp === 1"></div>
   <div class="layerTrigUp container" [@layerTriggerUp] *ngIf="layerTrigUp === 1">
-      <div class="winmsg">
-        <button type="button" class="btn winbtn" (click)="playAgain();">×</button>
-          <div class="winbox w-100">
-              <div class="wincontbox">
-                  <img [lazyLoad]="prizeData?.GamePart_State === 0? '/img/mission/thanks.png' : prizeData?.GamePart_ItemImage" [defaultImage]="appService.defaultImage">
-                  <p>{{prizeData?.GamePart_State === 0? '再接再厲' : prizeData?.GamePart_ItemName}}</p>
-              </div>
-          </div>
-          <div *ngIf="prizeData?.GamePart_State === 1" class="text-mission pb-3">{{prizeResponse()?.msg}}</div>
-          <div class="d-flex d-inline justify-content-center">
-            <button type="button" class="btn index-outline-btn w-50 mx-2" (click)="playAgain()">再玩一次</button>
-            <button type="button" class="btn index-btn w-50 mx-2" [hidden]="prizeData?.GamePart_State === 0" [routerLink]="[prizeResponse()?.page]" (click)="layerTrigUp = 0">前往查看</button>
-          </div>
+    <div class="winmsg">
+      <button type="button" class="btn winbtn" (click)="playAgain();">×</button>
+      <div class="winbox w-100">
+        <div class="wincontbox">
+          <img [lazyLoad]="prizeData?.GamePart_State === 0? '/img/mission/thanks.png' : prizeData?.GamePart_ItemImage"
+            [defaultImage]="appService.defaultImage">
+          <p>{{prizeData?.GamePart_State === 0? '再接再厲' : prizeData?.GamePart_ItemName}}</p>
+        </div>
       </div>
+      <div *ngIf="prizeData?.GamePart_State === 1" class="text-mission pb-3">{{prizeResponse()?.msg}}</div>
+      <div class="d-flex d-inline justify-content-center">
+        <button type="button" class="btn index-outline-btn w-50 mx-2" (click)="playAgain()">再玩一次</button>
+        <button type="button" class="btn index-btn w-50 mx-2" [hidden]="prizeData?.GamePart_State === 0"
+          [routerLink]="[prizeResponse()?.page]" (click)="layerTrigUp = 0">前往查看</button>
+      </div>
+    </div>
   </div>
 </div>
