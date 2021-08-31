@@ -23,6 +23,7 @@ export class BackBtnComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       this.appService.showBack = params.showBack === 'true';
+      console.log(this.appService.showBack);
     });
   }
 

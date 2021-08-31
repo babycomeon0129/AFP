@@ -131,7 +131,7 @@
                 date:'yyyy/MM/dd'}}）</p>
             </div>
             <div class="item one coin-right">
-              <button class="btn" [routerLink]="['/Mission']">
+              <button class="btn" [routerLink]="['/Mission']" [queryParams]="{showBack: appService.showBack}">
                 賺取點數
               </button>
             </div>

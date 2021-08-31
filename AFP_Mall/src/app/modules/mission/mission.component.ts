@@ -73,7 +73,7 @@ export class MissionComponent implements OnInit {
   /** 配合分頁代號tabNo切換，顯示內容 */
   tabChange(): void {
     if (this.allMission.length !== 0) {
-       this.listMission = this.allMission.filter(data => data.TabCode === this.tabNo)[0].List_Mission;
+      this.listMission = this.allMission.filter(data => data.TabCode === this.tabNo)[0].List_Mission;
     }
   }
 
@@ -191,14 +191,7 @@ export class MissionComponent implements OnInit {
   /** 前往MemberCoin頁 */
   conditionGo(): void {
     if (this.appService.loginState) {
-      if (this.appService.isApp !== null) {
-        const navigationExtras: NavigationExtras = {
-          queryParams: { showBack: this.appService.showBack }
-        };
-        this.router.navigate(['/MemberFunction/MemberCoin'], navigationExtras);
-      } else {
-        this.router.navigate(['/MemberFunction/MemberCoin']);
-      }
+      this.router.navigate(['/MemberFunction/MemberCoin'], { queryParams: { showBack: this.appService.showBack } });
     } else {
       this.appService.loginPage();
     }
