@@ -5,7 +5,8 @@
 .bg-m1{
   background-color: #f9621d;
 }
-.scratch-cont{
+.scratch-cont-box {
+  display: block;
   padding: 2em 1em 1em 1em;
   top: -10px;
   z-index: -1;
@@ -14,33 +15,35 @@
   background: -o-linear-gradient(#f9621d,#e00602);
   background: -moz-linear-gradient(#f9621d,#e00602);
   background: linear-gradient(#f9621d,#e00602);
-  width: 100%;
-  height: 880px;
-  @media (max-width: 991px) {
-      height: 600px;
-  }
-  @media (max-width: 480px) {
-      height: 500px;
-  }
-  @media (max-width: 375px) {
-      height: 400px;
-  }
   h5{
-    position: relative;
     font-weight: 700;
     width: 100%;
     text-align: center;
+    padding-bottom: 1em;
   }
+}
+.scratch-cont{
+  width: 100%;
+  height: 100%;
 }
 
 .scratchBox {
-  display: flex;
+  position: relative;
+  width: 100%;
+  height: 880px;
+  display: block;
   justify-content: center;
-  margin-top: 1em;
+  @media (max-width: 991px) {
+      height: 500px;
+  }
+  @media (max-width: 480px) {
+      height: 400px;
+  }
+  @media (max-width: 375px) {
+      height: 300px;
+  }
   canvas{
     position: absolute;
-    margin-top: 1em;
-    margin-bottom: 0.5em;
     background-size: contain;
     background-repeat: inherit;
     width: 800px;
@@ -50,19 +53,16 @@
         width: 500px;
         height: 480px;
         font-size: 30px;
-        margin-bottom: 0.5em;
     }
     @media (max-width: 480px) {
         width: 390px;
         height: 375px;
         font-size: 24px;
-        margin-bottom: 3em;
     }
     @media (max-width: 375px) {
         width: 300px;
         height: 290px;
         font-size: 18px;
-        margin-bottom: 3em;
     }
     &#bottom {
       animation: opacityIn 1.5s infinite;
@@ -71,6 +71,9 @@
   }
   @keyframes opacityIn {
     0% {
+      opacity: 0;
+    }
+    50% {
       opacity: 0;
     }
     100% {
