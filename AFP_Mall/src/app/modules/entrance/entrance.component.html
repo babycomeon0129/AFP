@@ -20,8 +20,8 @@
     <section class="mobii-search-box">
       <div class="s-bar-gray mobile">
         <div class="input-box border-radius5 d-flex">
-          <button class="btn" (click)="serchOffers($event.target.value);"><i class="material-icons">&#xE8B6;</i></button>
-          <input type="text" inputmode="search" placeholder="搜尋優惠券" class="border-0" (keyup.enter)="serchOffers($event.target.value);">
+          <button class="btn" (click)="searchOffers($event.target.value);"><i class="material-icons">&#xE8B6;</i></button>
+          <input type="text" inputmode="search" placeholder="搜尋優惠券" class="border-0" (keyup.enter)="searchOffers($event.target.value);">
         </div>
       </div>
     </section>
@@ -274,7 +274,7 @@
                             {{inside.Travel_LocalTitle}}
                           </div>
                           <div class="item-keyword">
-                            <span *ngFor="let attrData of inside.AttrbuteData">{{attrData.AttributeValue_Name}}</span>
+                            <span *ngFor="let attrData of inside.AttributeData">{{attrData.AttributeValue_Name}}</span>
                           </div>
                         </div>
                       </a>

@@ -212,7 +212,7 @@ export interface AreaJsonFile_ECStore {
   /** 距離 */
   ECStore_Distance?: number;
   /** 規格資料 */
-  AttrbuteData?: AreaJsonFile_Attrbute[];
+  AttributeData?: AreaJsonFile_Attribute[];
   /** 是否上架(是否顯示) 0: 下架(預設) 1: 上架 */
   ECStore_IsOnline: boolean;
   /** 資料狀態 0: 無效 1: 效(預設) 9: 刪除 */
@@ -220,7 +220,7 @@ export interface AreaJsonFile_ECStore {
 }
 
 /** 規格 */
-export interface AreaJsonFile_Attrbute {
+export interface AreaJsonFile_Attribute {
   /** 商店編碼 */
   ECStore_Code?: number;
   /** 商店名稱(前台) 1：索引 2：規格(預設) */
@@ -302,13 +302,13 @@ export interface TravelJsonFile_Travel {
   /** 地點副標 */
   Travel_LocalTitle?: string;
   /** 規格資料 */
-  AttrbuteData?: TravelJsonFile_Attrbute[];
+  AttributeData?: TravelJsonFile_Attribute[];
   /** 狀態 0:無效 1:有效 9:刪除 */
   Travel_State?: boolean;
 }
 
 /** 規格 */
-export interface TravelJsonFile_Attrbute {
+export interface TravelJsonFile_Attribute {
   /** 行程編碼 */
   Travel_Code?: number;
   /** 類型 0: 索引 1: 規格(預設) */
@@ -1958,13 +1958,13 @@ export class OrderPlatform {
   topFreightStore?: OrderStore;
 }
 
-/** 會員中心 - 我的票卷 ReuqestModel */
+/** 會員中心 - 我的票卷 RequestModel */
 export interface Request_MemberTicket extends Model_ShareData {
   /** 搜尋模組 */
   SearchModel: Search_MemberTicket;
 }
 
-/** 會員中心 - 我的票券 ReuqestModel 搜尋模組 */
+/** 會員中心 - 我的票券 RequestModel 搜尋模組 */
 export interface Search_MemberTicket {
   /** 票券編號 */
   UserTicket_Code?: number;
@@ -2231,7 +2231,7 @@ export interface Model_CustomerDetail {
 export interface Response_AFPReadMobile {
   /** 新消費者包資訊(加密後),如有錯誤則回傳空值 */
   CustomerDetail: string;
-  /** 帳號是否存在 ture 存在 false 不存在 */
+  /** 帳號是否存在 true 存在 false 不存在 */
   IsExist: boolean;
 }
 
