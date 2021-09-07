@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
 import { Error404Component } from './modules/error404/error404.component';
-import { Error500Component } from './modules/error500/error500.component';
-import { Error503Component } from './modules/error503/error503.component';
 
 
 const routes: Routes = [
@@ -22,8 +20,6 @@ const routes: Routes = [
   { path: 'MemberFunction', loadChildren: () => import('./modules/member/member-function/member-function.module').then(m => m.MemberFunctionModule)},
   { path: 'Delivery', loadChildren: () => import('./modules/delivery/delivery.module').then(m => m.DeliveryModule)},
   { path: 'ForApp', loadChildren: () => import('./modules/for-app/for-app.module').then(m => m.ForAppModule)},
-  { path: 'Error500', component: Error500Component},
-  { path: 'Error503', component: Error503Component},
   { path: '**', component: Error404Component }
 ];
 

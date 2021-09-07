@@ -573,6 +573,8 @@ export interface AFP_Product {
   Product_UsedOffDate: Date;
   /** 資料狀態 0:無效 1:有效 */
   Product_State: boolean;
+  /** 是否已加入我的收藏 */
+  Product_IsFav: boolean;
 
 }
 

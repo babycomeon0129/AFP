@@ -32,8 +32,6 @@ defineLocale('zh-cn', zhCnLocale);
 import { AppComponent } from './app.component';
 import { MessageModalComponent } from './shared/modal/message-modal/message-modal.component';
 import { Error404Component } from './modules/error404/error404.component';
-import { Error500Component } from './modules/error500/error500.component';
-import { Error503Component } from './modules/error503/error503.component';
 
 // Service Worker
 // import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
@@ -66,8 +64,6 @@ export function provideConfig() {
   declarations: [
     AppComponent,
     Error404Component,
-    Error500Component,
-    Error503Component
   ],
   imports: [
     BrowserModule,
