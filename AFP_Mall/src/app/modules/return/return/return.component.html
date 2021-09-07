@@ -4,9 +4,7 @@
     <div class="header-secondary container linebt-row">
       <div class="index-flex justify-content-between">
         <div class="item two">
-          <div class="close-btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
-            <i class="material-icons">&#xe314;</i>
-          </div>
+          <app-back-btn></app-back-btn>
         </div>
         <div class="item three text-center">
           <div class="title-name">退貨</div>
@@ -62,7 +60,7 @@
               </div>
             </div>
           </li>
-          <li class="index-flex" (click)="layerTrig = 2">
+          <li class="index-flex" (click)="layerTrig = 2; callApp.appShowBackButton(false)">
             <div class="item one">原因</div>
             <div class="item two item-right d-flex d-inline">
               <span class="reason-txt w-100">{{showReason(servicesModel.Services_Reason)}}</span>
@@ -75,7 +73,7 @@
               <input type="text" placeholder="補充更多退款/退貨的原因" [(ngModel)]="servicesModel.Services_OtherMsg">
             </div>
           </li>
-          <li class="index-flex" (click)="readMemberAddress();layerTrig = 3">
+          <li class="index-flex" (click)="readMemberAddress();layerTrig = 3; callApp.appShowBackButton(false)">
             <div class="item">取件地址</div>
             <div class="item-group item-right d-flex d-inline">
               <span class="item small w-100">
@@ -111,7 +109,7 @@
     <div class="returnReason">
       <div class="title-box">
         <div class="item icon-btn">
-          <button class="btn px-0" (click)="layerTrig = 0" data-toggle="tooltip" data-placement="bottom"
+          <button class="btn px-0" (click)="layerTrig = 0; callApp.appShowBackButton(true)" data-toggle="tooltip" data-placement="bottom"
             title="回上一頁">
             <i class="material-icons">&#xe314;</i>
           </button>
@@ -146,7 +144,7 @@
     <div class="myaddress">
       <div class="title-box">
         <div class="item icon-btn">
-          <button class="btn px-0" (click)="layerTrig = 0" data-toggle="tooltip" data-placement="bottom"
+          <button class="btn px-0" (click)="layerTrig = 0; callApp.appShowBackButton(true)" data-toggle="tooltip" data-placement="bottom"
             title="回上一頁">
             <i class="material-icons">&#xe314;</i>
           </button>

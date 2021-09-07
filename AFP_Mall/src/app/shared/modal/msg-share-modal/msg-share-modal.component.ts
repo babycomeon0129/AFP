@@ -86,10 +86,6 @@ export class MsgShareModalComponent implements OnInit {
     }
   }
 
-  closeModal(): void {
-    this.bsModalRef.hide();
-  }
-
   /**
    * FB Share Dialog display的方式
    *

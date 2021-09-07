@@ -323,14 +323,6 @@ export class EntranceComponent implements OnInit {
   readDown(): void {
     const request: Request_Home = {
       User_Code: sessionStorage.getItem('userCode')
-      // // hitArea、hitTravel、popProducts、deliveryArea 因MOB-3038首頁改版，暫先隱藏，故不加上SearchModel請求資料
-      // ,
-      // SearchModel: {
-      //   IndexArea_Code: 100001,
-      //   IndexTravel_Code: 21001,
-      //   IndexChannel_Code: 10000001,
-      //   IndexDelivery_Code: 300001
-      // }
     };
     // 不使用loading spinner 讓進入首頁可先快速瀏覽上方
     this.appService.toApi('Home', '1022', request).subscribe((data: Response_Home) => {

@@ -1732,9 +1732,15 @@ export interface Response_Games extends Model_ShareData {
   TotalPoint: number;
   /** 中獎獎品 */
   GameReward: AFP_GamePart;
+  /** 廣告圖 */
   ADImg_Theme: AFP_ADImg[];
   /** 遊戲可遊玩狀態 0 : 不可遊玩(未完成綁卡等條件未完成) 1 : 可遊玩 */
   GameState: boolean;
+  /**遊戲類型 (目前只影響 畫面上 "玩一次消耗 x 點，尚可玩 y 次的" 顯示方式)
+    1 : 一般遊戲(未設遊玩條件或綁卡群的遊戲)
+    2 : 特殊遊戲(綁了任務的遊戲)
+  */
+  GameType: number;
   /** 遊戲 Alert 資訊 */
   Model_AlertInfo: Model_AlertInfo;
 }
@@ -2269,6 +2275,8 @@ export interface AFP_QuestionCategory {
   QuestionCategory_EndDate: Date;
   /** 常見問題內容 */
   List_QuestionContent: AFP_QuestionContent[];
+  /** 是否Collapse展開，用於目錄箭頭轉向，前端新增 true: 向下（問題列表收合） false: 向上（問題列表展開） */
+  Collapse: boolean;
 }
 
 /** 常見問題內容 */
@@ -2291,4 +2299,8 @@ export interface AFP_QuestionContent {
   QuestionContent_Sort: number;
   /** 狀態 0:無效 1:有效 9:刪除 */
   QuestionContent_State: number;
+  /** 控制問題清單是否展開，前端新增 true: 收合 false: 展開 */
+  Q_Collapse: boolean;
+  /** 控制答案清單是否展開，前端新增 true: 收合 false: 展開 */
+  A_Collapse: boolean;
 }

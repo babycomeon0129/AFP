@@ -1,4 +1,3 @@
-import { ModalService } from '@app/shared/modal/modal.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
@@ -7,7 +6,7 @@ import {
   Response_APIModel, Request_MemberFavourite, Response_MemberFavourite, AFP_Voucher,
   Request_MemberUserVoucher, Response_MemberUserVoucher, Request_ECCart, Response_ECCart, Model_ShareData
 } from '@app/_models';
-import { BsModalService } from 'ngx-bootstrap';
+import { BsModalService, ModalOptions } from 'ngx-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { environment } from '@env/environment';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
@@ -25,6 +24,7 @@ import { LoginRegisterModalComponent } from './shared/modal/login-register-modal
 import { JustkaModalComponent } from './shared/modal/justka-modal/justka-modal.component';
 import { MsgShareModalComponent } from './shared/modal/msg-share-modal/msg-share-modal.component';
 import { MessageModalComponent } from './shared/modal/message-modal/message-modal.component';
+import { ConfirmModalComponent } from './shared/modal/confirm-modal/confirm-modal.component';
 
 declare var AppJSInterface: any;
 
@@ -85,7 +85,7 @@ export class AppService {
 
   @BlockUI() blockUI: NgBlockUI;
   constructor(private http: HttpClient, private bsModal: BsModalService, private router: Router,
-    private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService, private angularFireMessaging: AngularFireMessaging, private modal: ModalService) {
+    private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService, private angularFireMessaging: AngularFireMessaging, private bsModalService: BsModalService) {
     // firebase message設置。這裡在幹嘛我也不是很懂
     // 詳：https://stackoverflow.com/questions/61244212/fcm-messaging-issue
     this.angularFireMessaging.messages.subscribe(
@@ -106,10 +106,6 @@ export class AppService {
       xEyes_DeviceCode: deviceCode === undefined ? '' : deviceCode
     });
 
-    if (command === '1500') {
-      console.log(`session:${sessionStorage.getItem('CustomerInfo')}`);
-      console.log(headers);
-    }
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
       .pipe(map((data: Response_APIModel) => {
         this.blockUI.stop();
@@ -141,11 +137,9 @@ export class AppService {
             }
             return JSON.parse(data.Data);
           case 9996: // 查無商品詳細頁資料
-            // this.modal.show('message', { initialState: { success: false, message: data.Base.Rtn_Message, showType: 1, checkBtnMsg: `確定`, target: 'GoBack' } });
             this.bsModal.show(MessageModalComponent, { initialState: { success: false, message: data.Base.Rtn_Message, showType: 1, checkBtnMsg: `確定`, target: 'GoBack' } });
             break;
           case 9998: // user資料不完整，讓使用者登出
-            // this.modal.show('message', { initialState: { success: false, message: '請先登入', showType: 2, singleBtnMsg: `重新登入` } });
             this.bsModal.show(MessageModalComponent, { initialState: { success: false, message: '請先登入', showType: 2, singleBtnMsg: `重新登入` } });
             this.onLogout();
             break;
@@ -218,7 +212,7 @@ export class AppService {
 
     //  APP登出導頁
     if (this.isApp !== null) {
-      window.location.href = '/AppLogout';
+      window.location.href = '/ForApp/AppLogout';
     }
   }
 
@@ -320,7 +314,6 @@ export class AppService {
         // update favorites to array
         this.showFavorites();
         if (favAction === 1) {
-          // this.modal.openModal('favorite');
           this.bsModal.show(FavoriteModalComponent);
 
         }
@@ -357,7 +350,7 @@ export class AppService {
         case 1:
           // 先判斷是否需要扣點才能兌換，如需扣點必須先跳扣點提示
           if (voucher.Voucher_DedPoint > 0) {
-            this.modal.confirm({
+            this.confirm({
               initialState: {
                 message: `請確定是否扣除 Mobii! Points ${voucher.Voucher_DedPoint} 點兌換「${voucher.Voucher_ExtName}」？`
               }
@@ -402,22 +395,18 @@ export class AppService {
           } else {
             code = voucher.Voucher_UserVoucherCode;
           }
-          if (this.route.snapshot.queryParams.showBack === undefined) {
-            this.router.navigate(['/Voucher/VoucherDetail', code], { queryParams: { showBack: false } });
-          } else {
-            // APP特例處理: 若是從會員過去則要隱藏返回鍵
-            if (this.route.snapshot.queryParams.showBack) {
-              const navigationExtras: NavigationExtras = {
-                queryParams: { showBack: true }
-              };
-              this.router.navigate(['/Voucher/VoucherDetail', code], navigationExtras);
-            }
-          }
+          this.router.navigate(['/Voucher/VoucherDetail', code], { queryParams: { showBack: this.showBack}});
           break;
       }
     } else {
       this.loginPage();
     }
+  }
+
+  /** 確認視窗(爲解決循環依賴，僅提供appservice使用) */
+  confirm(options: ModalOptions): Observable<any> {
+    const ModalRef = this.bsModalService.show(ConfirmModalComponent, options);
+    return ModalRef.content.action;
   }
 
   /** 兌換優惠券 */
@@ -445,30 +434,14 @@ export class AppService {
           type: 1,
           message: `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-ok.png"><p>兌換成功！</p></div>`
         };
-        // this.modal.show('message', { initialState });
         this.bsModal.show(MessageModalComponent, { initialState });
       }
     });
   }
 
-  //  App導頁用
-  AppRouter(active: string, type = 0): void {
-    if (this.isApp === null) {
-      this.router.navigate([active]);
-    } else {
-      if (type === 0) {
-        window.location.href = '/AppRedirect';
-      } else {
-        // (告訴APP畫面有轉換)
-        window.location.href = active;
-      }
-    }
-  }
-
   /** 判斷跳出網頁或APP的登入頁 */
   loginPage(): void {
     if (this.isApp == null) {
-      // this.modal.openModal('loginRegister');
       this.bsModal.show(LoginRegisterModalComponent, { class: 'modal-full' });
     } else {
       if (navigator.userAgent.match(/android/i)) {
@@ -484,7 +457,6 @@ export class AppService {
 
   /** 打開JustKa iframe */
   showJustka(url: string): void {
-    // this.modal.show('justka', { initialState: { justkaUrl: url } });
     this.bsModal.show(JustkaModalComponent, { initialState: { justkaUrl: url } });
   }
 
@@ -625,7 +597,6 @@ export class AppService {
   shareContent(sharedContent: string, APPShareUrl: string): void {
     if (this.isApp === null) {
       // web
-      // this.modal.show('msgShare', { initialState: { sharedText: sharedContent } });
       this.bsModal.show(MsgShareModalComponent, { initialState: { sharedText: sharedContent } });
     } else {
       // APP: 呼叫APP分享功能

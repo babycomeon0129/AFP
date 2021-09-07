@@ -1,30 +1,36 @@
-<div class="modal-header" data-dismiss="modal" aria-label="Close">
+<div class="modal-header">
 </div>
-<button type="button" class="close text-right" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+<button type="button" class="close text-right" (click)="bsModalRef.hide()">
   <span aria-hidden="true">&times;&ensp;</span>
 </button>
 <div class="modal-body">
   <div id="msg-share" class="container">
     <div class="mb-5">
-        <h6 class="dataTit p-2">分享給好友</h6>
-        <!-- fb post -->
-        <a href="https://www.facebook.com/sharer.php?display=popup&amp;u={{pageUrl}}&amp;quote={{sharedText}}">
-          <button class="btn bg-fb border-radius30 small-80 w-80 text-white m-2" type="button"><img src="../img/share/facebook-w.png" class="h24 mx-2">用 Facebook 分享</button>
-        </a>
-        <!-- fb messenger for PC -->
-        <a href="http://www.facebook.com/dialog/send?app_id={{FBAppID}}&amp;link={{pageUrl}}&amp;redirect_uri={{pageUrl}}" class="d-none d-lg-block">
-          <button class="btn bg-mess border-radius30 small-80 w-80 text-white m-2" type="button"><img src="../img/share/messenger-w.png" class="h24 mx-2">用 Messenger 傳送</button>
-        </a>
-        <!-- fb messenger for mobile -->
-        <a [href]="'fb-messenger://share/?link=' + pageUrl | Safe: 'url'" class="d-lg-none">
-          <button class="btn bg-mess border-radius30 small-80 w-80 text-white m-2" type="button"><img src="../img/share/messenger-w.png" class="h24 mx-2">用 Messenger 傳送</button>
-        </a>
-        <!-- LINE -->
-        <a href="https://social-plugins.line.me/lineit/share?url={{pageUrl}}&amp;text={{sharedText}}">
-          <button class="btn bg-line border-radius30 small-80 w-80 text-white m-2" type="button"><img src="../img/share/line-w.png" class="h24 mx-2">用 LINE 傳送</button>
-        </a>
-        <!-- 複製網址 -->
-        <button class="btn bg-eee border-radius30 small-80 w-80 text-bluedk m-2" type="button" (click)="onCopyUrl(); closeModal()"><img src="../img/share/copyicon-s.png" class="h24 mx-2">複製連結</button>
+      <h6 class="dataTit p-2">分享給好友</h6>
+      <!-- fb post -->
+      <a href="https://www.facebook.com/sharer.php?display=popup&amp;u={{pageUrl}}&amp;quote={{sharedText}}">
+        <button class="btn bg-fb border-radius30 small-80 w-80 text-white m-2" type="button"><img
+            src="../img/share/facebook-w.png" class="h24 mx-2">用 Facebook 分享</button>
+      </a>
+      <!-- fb messenger for PC -->
+      <a href="http://www.facebook.com/dialog/send?app_id={{FBAppID}}&amp;link={{pageUrl}}&amp;redirect_uri={{pageUrl}}"
+        class="d-none d-lg-block">
+        <button class="btn bg-mess border-radius30 small-80 w-80 text-white m-2" type="button"><img
+            src="../img/share/messenger-w.png" class="h24 mx-2">用 Messenger 傳送</button>
+      </a>
+      <!-- fb messenger for mobile -->
+      <a [href]="'fb-messenger://share/?link=' + pageUrl | Safe: 'url'" class="d-lg-none">
+        <button class="btn bg-mess border-radius30 small-80 w-80 text-white m-2" type="button"><img
+            src="../img/share/messenger-w.png" class="h24 mx-2">用 Messenger 傳送</button>
+      </a>
+      <!-- LINE -->
+      <a href="https://social-plugins.line.me/lineit/share?url={{pageUrl}}&amp;text={{sharedText}}">
+        <button class="btn bg-line border-radius30 small-80 w-80 text-white m-2" type="button">
+          <img src="../img/share/line-w.png" class="h24 mx-2">用 LINE 傳送</button>
+      </a>
+      <!-- 複製網址 -->
+      <button class="btn bg-eee border-radius30 small-80 w-80 text-bluedk m-2" type="button"
+        (click)="onCopyUrl(); bsModalRef.hide()"><img src="../img/share/copyicon-s.png" class="h24 mx-2">複製連結</button>
     </div>
   </div>
 </div>

@@ -115,14 +115,14 @@ export class MemberOrderComponent implements OnInit {
     switch (type) {
       case 1:
         if (this.Common_selectedState === 4) {
-          this.router.navigate(['/Return/ReturnDetail', order.ServiceTableNo]);
+          this.router.navigate(['/Return/ReturnDetail', order.ServiceTableNo], { queryParams: { showBack: this.appService.showBack } });
         } else {
           this.router.navigate(['/MemberFunction/MyOrderDetail', order.Order_TableNo], { queryParams: { orderState: this.Common_selectedState, showBack: this.appService.showBack } });
         }
         break;
       case 21:
         if (this.ETicket_selectedState === 4) {
-          this.router.navigate(['/Return/ReturnDetail', order.ServiceTableNo]);
+          this.router.navigate(['/Return/ReturnDetail', order.ServiceTableNo], { queryParams: { showBack: this.appService.showBack } });
         } else {
           this.router.navigate(['/MemberFunction/ETicketOrderDetail', order.Order_TableNo], { queryParams: { orderState: this.ETicket_selectedState, showBack: this.appService.showBack } });
         }

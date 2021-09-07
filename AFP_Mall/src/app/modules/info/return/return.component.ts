@@ -18,7 +18,7 @@ export class ReturnComponent implements OnInit {
   /** 是否從APP登入頁進入（若從APP登入頁進入則按回上一頁時APP把此頁關掉） */
   public fromAppLogin = false;
 
-  constructor(public appService: AppService, private meta: Meta, private title: Title, private location: Location, private appJSInterfaceService: AppJSInterfaceService) {
+  constructor(public appService: AppService, private meta: Meta, private title: Title, private location: Location, private callApp: AppJSInterfaceService) {
     this.title.setTitle('退貨流程 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 退貨流程。描述Mobii! 平台針對商品進行退貨，以及如何處理後續例如款項退回、商品寄回等細節項目。' });
     this.meta.updateTag({ content: '退貨流程 - Mobii!', property: 'og:title' });
@@ -52,7 +52,7 @@ export class ReturnComponent implements OnInit {
   /** 若從APP登入頁進入則按回上一頁時APP把此頁關掉 */
   backIf(): void {
     if (this.fromAppLogin) {
-      this.appJSInterfaceService.appWebViewClose();
+      this.callApp.appWebViewClose();
     } else {
       this.location.back();
     }

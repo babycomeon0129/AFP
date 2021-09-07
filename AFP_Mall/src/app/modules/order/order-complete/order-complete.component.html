@@ -80,7 +80,7 @@
         <div class="container text-center">
           <div class="row">
             <div class="col-12">
-              <button *ngIf="appService.isApp === null" class="btn index-btn btn-ok w-50" [routerLink]="['/Shopping/ShoppingCart']" [queryParams]="{referrer: 'illegal'}">重新購買</button>
+              <button *ngIf="appService.isApp === null" class="btn index-btn btn-ok w-50" (click)="goRepurchase()">重新購買</button>
             </div>
           </div>
         </div>

@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
   public thirdRequest: Request_AFPThird = new Request_AFPThird();
 
   constructor(private router: Router, public appService: AppService, private activatedRoute: ActivatedRoute, public modal: ModalService,
-    private cookieService: CookieService, private differs: KeyValueDiffers, private appJSInterfaceService: AppJSInterfaceService) {
+    private cookieService: CookieService, private differs: KeyValueDiffers, private callApp: AppJSInterfaceService) {
     this.serviceDiffer = this.differs.find({}).create();
     if (sessionStorage.getItem('CustomerInfo') !== null && sessionStorage.getItem('userCode') !== null
       && sessionStorage.getItem('userName') !== null) {
@@ -127,7 +127,7 @@ export class AppComponent implements OnInit {
     this.router.events.pipe(filter(event => event instanceof ResolveEnd))
       .subscribe((event: ResolveEnd) => {
         window.scrollTo(0, 0);
-        this.appJSInterfaceService.appShowMobileFooter(false);
+        this.callApp.appShowMobileFooter(false);
         // 取得前一頁面url
         this.appService.prevUrl = this.appService.currentUrl;
         this.appService.currentUrl = event.url;

@@ -50,8 +50,8 @@
             <div class="discount-item">
               <div class="item">
                 <div
-                  (click)="voucher?.Voucher_UserVoucherCode === null? appService.AppRouter('Voucher/VoucherDetail/' + voucher.Voucher_Code, 1) : appService.AppRouter('Voucher/VoucherDetail/' + voucher.Voucher_UserVoucherCode, 1)"
-                  class="rwdimgbox-80">
+                  [routerLink]="voucher?.Voucher_UserVoucherCode === null? ['/Voucher/VoucherDetail', voucher?.Voucher_Code] : ['/Voucher/VoucherDetail', voucher?.Voucher_UserVoucherCode]"
+                  [queryParams]="{showBack: appService.showBack}" class="rwdimgbox-80">
                   <div class="rwdimg-cover" [lazyLoad]="voucher?.Voucher_Image"
                     [defaultImage]="appService.defaultImage"></div>
                 </div>

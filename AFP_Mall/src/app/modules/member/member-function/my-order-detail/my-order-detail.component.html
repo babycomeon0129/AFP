@@ -164,6 +164,7 @@
               [ngClass]="{'unable': orderInfo?.OrderState < 2 || ((trialEndDate !== null && today > trialEndDate) && orderInfo?.ServiceTableNo == null)}"
               [disabled]="orderInfo?.OrderState < 2 || ((trialEndDate !== null && today > trialEndDate) && orderInfo?.ServiceTableNo == null)"
               [routerLink]="orderInfo?.ServiceTableNo === null? ['/Return', orderInfo?.Order_TableNo] : ['/Return/ReturnDetail', orderInfo?.ServiceTableNo]"
+              [queryParams]="{ showBack: appService.showBack }"
               type="button" class="btn bluedk-outline-btn w-100">
               {{orderInfo?.ServiceTableNo === null? '退貨' : '退貨詳情'}}
             </button>

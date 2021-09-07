@@ -1,4 +1,3 @@
-import { AFP_UserDefine } from './_models';
 import { Injectable } from '@angular/core';
 import { AppService } from './app.service';
 declare var AppJSInterface: any;
@@ -27,7 +26,7 @@ export class AppJSInterfaceService {
     }
   }
 
-  /** 通知APP是否開啟showBackButton
+  /** 通知APP是否開啟返回鍵
    * @param isShowBt true: 開 , false: 關
    */
    appShowBackButton(isShowBt: boolean): void {
@@ -42,7 +41,9 @@ export class AppJSInterfaceService {
     }
   }
 
-  /** 通知App關閉Web view 的關閉按鈕 (true : 關閉) */
+  /** 通知App關閉Web view 的關閉按鈕
+   * @param isOpen true: 關閉 false: 開啟
+   */
   appWebViewbutton(isOpen: boolean): void {
     if (this.appService.isApp !== null) {
       if (navigator.userAgent.match(/android/i)) {
@@ -66,7 +67,9 @@ export class AppJSInterfaceService {
     }
   }
 
-  /** 如果是app，開啟商家詳細頁時導到原生商家詳細頁 */
+  /** 如果是app，開啟商家詳細頁時導到原生商家詳細頁
+   * @param code 商店code
+   */
   goAppExploreDetail(code: number): void {
     if (navigator.userAgent.match(/android/i)) {
       //  Android
