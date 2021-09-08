@@ -84,7 +84,6 @@ export class ForgetModalComponent implements OnDestroy {
 
   /** 點擊返回 */
   goBackBtn(): void {
-    //this.modal.openModal('loginRegister', bsModalRef);
     this.bsModal.show(LoginRegisterModalComponent);
     this.bsModalRef.hide();
     clearInterval(this.vcodeCount);

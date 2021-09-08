@@ -20,42 +20,6 @@ import { AppleModalComponent } from './apple-modal/apple-modal.component';
 export class ModalService {
   constructor(public bsModalService: BsModalService, public bsModalRef: BsModalRef) { }
 
-  public openModal(show: string, bsModalRef: BsModalRef = null) {
-    if (bsModalRef != null) { bsModalRef.hide(); }
-    const config: ModalOptions = { class: 'modal-full' };
-    switch (show) {
-      case 'forget':
-        this.bsModalService.show(ForgetModalComponent, config);
-        break;
-      case 'password':
-        this.bsModalService.show(PasswordModalComponent, config);
-        break;
-      case 'message':
-        const Msgconfig: ModalOptions = { class: 'modal-sm modal-smbox' };
-        this.bsModalService.show(MessageModalComponent, Msgconfig);
-        break;
-      case 'favorite':
-        this.bsModalService.show(FavoriteModalComponent, config);
-        break;
-      case 'justka':
-        this.bsModalService.show(JustkaModalComponent, config);
-        break;
-      case 'receipt':
-        this.bsModalService.show(ReceiptModalComponent, config);
-        break;
-      case 'msgShare':
-        this.bsModalService.show(MsgShareModalComponent, config);
-        break;
-      case 'loginRegister':
-        this.bsModalService.show(LoginRegisterModalComponent, config);
-        break;
-      case 'verifyMobile':
-        const ignoreBackdropClick: ModalOptions = { ignoreBackdropClick: true }; // 點擊黑幕不消失
-        this.bsModalService.show(VerifyMobileModalComponent, ignoreBackdropClick);
-        break;
-    }
-  }
-
   public show(template: string, options: ModalOptions, hideTemplate?: BsModalRef): void {
     if (hideTemplate != null) { hideTemplate.hide(); }
     switch (template) {
@@ -102,10 +66,6 @@ export class ModalService {
   public confirm(options: ModalOptions): Observable<any> {
     const ModalRef =  this.bsModalService.show(ConfirmModalComponent, options);
     return ModalRef.content.action;
-  }
-
-  public showMsg(options?: ModalOptions): void {
-    this.bsModalService.show(MessageModalComponent, options);
   }
 
   public addCoupon(options: ModalOptions): Observable<any> {

@@ -38,14 +38,6 @@ export class AppService {
   public userName: string;
   /** App訪問 */
   public isApp: number = null;
-  /** callLayer 側邊滑入頁面 */
-  public tLayer = [];
-  /** callLayer 呼叫頁面 z-index */
-  public layerIdx = 1;
-  /** callLayerUp 下方上滑頁面 */
-  public tLayerUp = [];
-  /** callsortLayer 篩選頁面 */
-  public sLayer = [];
   /** 我的收藏物件陣列 */
   public userFavArr = [];
   /** 我的收藏編碼陣列 */
@@ -85,7 +77,8 @@ export class AppService {
 
   @BlockUI() blockUI: NgBlockUI;
   constructor(private http: HttpClient, private bsModal: BsModalService, private router: Router,
-    private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService, private angularFireMessaging: AngularFireMessaging, private bsModalService: BsModalService) {
+              private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService,
+              private angularFireMessaging: AngularFireMessaging, private bsModalService: BsModalService) {
     // firebase message設置。這裡在幹嘛我也不是很懂
     // 詳：https://stackoverflow.com/questions/61244212/fcm-messaging-issue
     this.angularFireMessaging.messages.subscribe(
