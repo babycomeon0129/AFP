@@ -63,7 +63,7 @@ export function provideConfig() {
 @NgModule({
   declarations: [
     AppComponent,
-    Error404Component,
+    Error404Component
   ],
   imports: [
     BrowserModule,

@@ -74,6 +74,8 @@ export class AppService {
   public showBack = false;
   /** line 登入用 state (用於取code) */
   public lineSigninState: string;
+  /** Eyes登入裝置類型 0 : Web 1 : iOS 2 : Android */
+  public loginDeviceType: string;
 
   @BlockUI() blockUI: NgBlockUI;
   constructor(private http: HttpClient, private bsModal: BsModalService, private router: Router,
@@ -94,10 +96,12 @@ export class AppService {
       xEyes_Command: command,
       xEyes_X: (lng != null) ? lng.toString() : '',
       xEyes_Y: (lat != null) ? lat.toString() : '',
-      xEyes_DeviceType: (this.isApp != null) ? '1' : '0',
+      xEyes_DeviceType: (this.isApp != null) ? this.loginDeviceType : '0',
       xEyes_CustomerInfo: (sessionStorage.getItem('CustomerInfo') !== null) ? sessionStorage.getItem('CustomerInfo') : '',
-      xEyes_DeviceCode: deviceCode === undefined ? '' : deviceCode
+      xEyes_DeviceCode: deviceCode === undefined ? '' : deviceCode,
+      Authorization: (sessionStorage.getItem('IDToken') !== null) ? 'Bearer ' + sessionStorage.getItem('IDToken') : ''
     });
+
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
       .pipe(map((data: Response_APIModel) => {
@@ -222,7 +226,7 @@ export class AppService {
       xEyes_Command: command,
       xEyes_X: (lng != null) ? lng.toString() : '',
       xEyes_Y: (lat != null) ? lat.toString() : '',
-      xEyes_DeviceType: (this.isApp != null) ? '1' : '0',
+      xEyes_DeviceType: (this.isApp != null) ? this.loginDeviceType : '0',
       xEyes_CustomerInfo: (sessionStorage.getItem('CustomerInfo') !== null) ? sessionStorage.getItem('CustomerInfo') : ''
     });
 
@@ -437,12 +441,15 @@ export class AppService {
   loginPage(): void {
     if (this.isApp == null) {
       this.bsModal.show(LoginRegisterModalComponent, { class: 'modal-full' });
+      this.loginDeviceType = '0';
     } else {
       if (navigator.userAgent.match(/android/i)) {
         //  Android
+        this.loginDeviceType = '2';
         AppJSInterface.login();
       } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
         //  IOS
+        this.loginDeviceType = '1';
         (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'login' });
       }
     }

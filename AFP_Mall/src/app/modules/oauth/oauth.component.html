@@ -1,0 +1,14 @@
+<p>DeviceType: {{loginDeviceType}}</p>
+<p>DeviceCode: {{appService.deviceCode}}</p>
+<div>
+
+
+  <form action="http://localhost:55254/api/Oauth/RedirectToAuthorize" method="POST" #postOauthlogin (ngSubmit)="signInWithOauth(postOauthlogin)">
+    <div>
+      <input type="hidden" name="DeviceType" [value]="loginDeviceType">
+      <input type="hidden" name="DeviceCode" [value]="appService.deviceCode">
+      <input type="hidden" name="UserRedirectUri" [value]="'http://localhost:4200/'">
+      <button type="submit buttonText">登入/註冊</button>
+    </div>
+  </form>
+</div>
