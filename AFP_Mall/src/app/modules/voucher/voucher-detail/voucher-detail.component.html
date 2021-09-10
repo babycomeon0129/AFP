@@ -22,9 +22,8 @@
       </div>
       <div class="ticket-content">
         <div [hidden]="selectMode === 5" class="add-sharebox">
-          <button (click)="appService.shareContent(textForShare, APPShareUrl)"
-            class="btn add-share msg-open" type="button" value="msg-share"><img src="../img/share/icon_share.png"
-              class="imgicon"></button>
+          <button (click)="appService.shareContent(textForShare, APPShareUrl)" class="btn add-share msg-open"
+            type="button" value="msg-share"><img src="../img/share/icon_share.png" class="imgicon"></button>
         </div>
         <div class="img-box">
           <img [lazyLoad]="voucherData?.Voucher_Image" [alt]="voucherData?.Voucher_ExtName"
@@ -38,7 +37,8 @@
           <div class="item one text-right">
             <div class="shopping-store-badge">
               <span class="badge badge-pill text-explore">
-                <img *ngIf="voucherData?.Voucher_ShowType !== null" src="../../img/share/{{voucherData?.Voucher_ShowType}}.png" alt="">
+                <img *ngIf="voucherData?.Voucher_ShowType !== null"
+                  src="../../img/share/{{voucherData?.Voucher_ShowType}}.png" alt="">
                 {{voucherData?.Voucher_ShowTypeName}}
               </span>
             </div>
@@ -50,19 +50,43 @@
             <p [innerHTML]="voucherData?.Voucher_Content | linkify"></p>
           </div>
         </div>
+        <!-- 顯示可用店家 -->
         <div *ngIf="storeData?.length > 0" class="ticket-detailrow">
-          <a *ngFor="let store of storeData" (click)="goExploreDetail(store.ECStore_Code)"
+          <!-- 前三筆店家直接顯示 -->
+          <a *ngFor="let store of storeData.slice(0, 3)" (click)="goExploreDetail(store.ECStore_Code)"
             class="d-flex p-3">
             <div class="item item-icon">
               <i class="material-icons location_on">&#xe0c8;</i>
             </div>
-            <div class="item">
+            <div class="item w-100">
               {{store?.ECStore_ShowName}}
             </div>
-            <div class="item auto-left">
+            <div class="item">
               <i class="material-icons">&#xe315;</i>
             </div>
           </a>
+          <!-- 第四筆起的店家進行收合 -->
+          <div id="collapseStore" [collapse]="!storeCollapse" [isAnimated]="true">
+            <a *ngFor="let store of storeData.slice(3, storeData.length)" (click)="goExploreDetail(store.ECStore_Code)"
+              class="d-flex p-3">
+              <div class="item item-icon">
+                <i class="material-icons location_on">&#xe0c8;</i>
+              </div>
+              <div class="item w-100">
+                {{store?.ECStore_ShowName}}
+              </div>
+              <div class="item">
+                <i class="material-icons">&#xe315;</i>
+              </div>
+            </a>
+          </div>
+          <!-- 店家收合控制按鈕 -->
+          <div class="collapse-button" *ngIf="storeData?.length > 3" (click)="storeCollapse = !storeCollapse">
+            <button [attr.aria-expanded]="!storeCollapse"
+              aria-controls="collapseStore" class="btn" type="button">
+              <i class="material-icons expand_more" [ngClass]="{'tranform180': storeCollapse}">&#xe5cf;</i>
+            </button>
+          </div>
         </div>
         <div class="ticket-detailrow">
           <div class="d-flex p-3">
@@ -96,7 +120,8 @@
                       'index-btn': voucherData?.Voucher_IsFreq === 1,
                       'index-outline-btn': voucherData?.Voucher_IsFreq === 2 || voucherData?.Voucher_IsFreq === 5,
                       'w-50': voucherData?.Voucher_DedPoint > 0,
-                      'w-100': voucherData?.Voucher_DedPoint <= 0 || selectMode === 5}" type="button" id="claimBtn" class="btn msg-open">
+                      'w-100': voucherData?.Voucher_DedPoint <= 0 || selectMode === 5}" type="button" id="claimBtn"
+          class="btn msg-open">
           {{appService.loginState ? voucherData?.Voucher_FreqName : '兌換'}}
         </button>
       </div>
@@ -109,8 +134,7 @@
       <div class="title-box">
         <div class="item icon-btn">
           <!-- APP特例處理: 從哪進入都需要web返回鍵 -->
-          <button type="button" (click)="closeQRCode()"
-            class="btn px-0" title="回上一頁">
+          <button type="button" (click)="closeQRCode()" class="btn px-0" title="回上一頁">
             <i class="material-icons">&#xe314;</i>
           </button>
         </div>

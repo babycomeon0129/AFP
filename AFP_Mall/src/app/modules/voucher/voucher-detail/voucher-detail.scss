@@ -7,6 +7,11 @@
     a{
         color: $blue-dark;
         cursor: pointer;
+        border-top: 1px solid #eee;
+        justify-content: space-between;
+        &:first-child {
+          border-top: none;
+        }
     }
     .ticket-top-bg{
         height: 26px;
@@ -78,3 +83,18 @@
     }
 }
 
+i {
+  &.expand_more {
+    color: $member-default;
+    font-size: xx-large;
+  }
+}
+
+.collapse-button {
+  text-align: center;
+  border-top: 1px solid #eee;
+}
+
+.tranform180 {
+  transform: rotate(180deg);
+}

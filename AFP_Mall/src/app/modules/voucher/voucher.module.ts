@@ -16,6 +16,9 @@ import { SalesComponent } from './sales/sales.component';
 import { ShoppingOffersComponent } from './shopping-offers/shopping-offers.component';
 import { VoucherDetailComponent } from './voucher-detail/voucher-detail.component';
 
+// Collapse
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+
 @NgModule({
   declarations: [
     EventComponent,
@@ -39,7 +42,8 @@ import { VoucherDetailComponent } from './voucher-detail/voucher-detail.componen
     NgxUsefulSwiperModule,
     SharedModule,
     QRCodeModule,
-    FormsModule
+    FormsModule,
+    CollapseModule
   ]
 })
 export class VoucherModule {}

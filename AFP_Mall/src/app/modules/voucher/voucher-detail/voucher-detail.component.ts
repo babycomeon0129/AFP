@@ -30,6 +30,8 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
   public userVoucher: AFP_UserVoucher;
   /** 實體分店資訊 */
   public storeData: AFP_ECStore[];
+   /** 實體分店資訊收合 true: 打開 false: 收起 */
+   public storeCollapse = false;
   /** 今日日期 */
   public today = new Date();
   /** 優惠券下架日期 */
@@ -44,6 +46,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
   public APPShareUrl: string;
   /** 同頁滑動切換 0:本頁 1:使用優惠券 */
   public layerTrig = 0;
+
 
   constructor(public appService: AppService, private route: ActivatedRoute, private router: Router,
     public modal: ModalService, private meta: Meta, private title: Title, private callApp: AppJSInterfaceService) {
