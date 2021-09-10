@@ -16,8 +16,6 @@ declare var AppJSInterface: any;
 export class OauthComponent implements OnInit {
   /** Eyes登入裝置類型 0 : Web 1 : iOS 2 : Android */
   public loginDeviceType: string;
-  /** 登入狀態 */
-  public loginState = false;
   constructor(public appService: AppService, private router: Router, private cookieService: CookieService) { }
 
   ngOnInit() {

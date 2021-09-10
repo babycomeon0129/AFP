@@ -13,16 +13,16 @@
 </div>
 <hr class="border m-3">
 <!-- 未登入 -->
-<button (click)="appService.loginPage();loginState=true" *ngIf="!loginState" type="button"
+<button (click)="appService.loginPage();loginState=true" type="button"
   class="m-topbox-item btn bluedk-outline-btn btw-small">
   登入/註冊
 </button>
-<!-- 電腦版 登入 -->
-<div *ngIf="loginState">
+<!-- 登入 -->
+<div>
   <a [routerLink]="['/Member']">你好，{{appService.userName}}</a>
 </div>
 <!-- 登出 -->
-<button (click)="onLogout();loginState=false" *ngIf="loginState" type="button"
+<button (click)="onLogout();loginState=false" type="button"
   class="m-topbox-item btn bluedk-outline-btn btw-small">
   登出
 </button>
