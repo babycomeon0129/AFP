@@ -3,7 +3,7 @@
 <button type="button" class="close text-right" (click)="bsModalRef.hide()">
   <span aria-hidden="true">&times;&ensp;</span>
 </button>
-<div class="modal-body">
+<div class="modal-body" *ngIf="subModal===0; else elseBlock">
   <div id="msg-share" class="container">
     <div class="mb-5">
       <h6 class="dataTit p-2">分享給好友</h6>
@@ -30,7 +30,21 @@
       </a>
       <!-- 複製網址 -->
       <button class="btn bg-eee border-radius30 small-80 w-80 text-bluedk m-2" type="button"
-        (click)="onCopyUrl(); bsModalRef.hide()"><img src="../img/share/copyicon-s.png" class="h24 mx-2">複製連結</button>
+        (click)="onCopyUrl();"><img src="../img/share/copyicon-s.png" class="h24 mx-2">複製連結</button>
     </div>
   </div>
 </div>
+<ng-template #elseBlock>
+  <div class="modal-body">
+    <div>
+      <p class="px-3">已複製網址!</p>
+    </div>
+    <div id="msg-noselected">
+      <div class="text-center border-bottom-radius5">
+        <button type="button" class="btn btn-login px-0 w-50" (click)="bsModalRef.hide()">
+          確定
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
