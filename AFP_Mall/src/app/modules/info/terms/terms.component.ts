@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { Request_MemberQuestion, Response_MemberQuestion } from '@app/_models';
 import { Meta, Title } from '@angular/platform-browser';
 import { Location } from '@angular/common';

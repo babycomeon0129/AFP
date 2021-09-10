@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { Router } from '@angular/router';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { AFP_ADImg, AFP_VerifiedInfo } from '@app/_models';
 import { PasswordModalComponent } from '../password-modal/password-modal.component';
 

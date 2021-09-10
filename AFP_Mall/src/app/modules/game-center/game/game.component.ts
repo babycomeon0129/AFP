@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { Model_AlertInfo, Request_Games, Response_Games } from '@app/_models';
 import { Meta, Title } from '@angular/platform-browser';
 import { ModalService } from '@app/shared/modal/modal.service';

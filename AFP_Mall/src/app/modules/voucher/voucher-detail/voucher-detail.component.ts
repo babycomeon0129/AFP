@@ -3,7 +3,7 @@ import {
   Model_ShareData, AFP_Voucher, AFP_UserVoucher, AFP_ECStore, Request_MemberUserVoucher,
   Response_MemberUserVoucher, Request_MemberCheckStatus, Response_MemberCheckStatus
 } from '@app/_models';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
