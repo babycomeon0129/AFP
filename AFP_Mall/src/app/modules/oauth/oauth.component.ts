@@ -4,6 +4,8 @@ import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { AppService } from '@app/app.service';
 import { CookieService } from 'ngx-cookie-service';
+import { environment } from '@env/environment';
+import { Router } from '@angular/router';
 
 declare var AppJSInterface: any;
 @Component({
@@ -14,7 +16,9 @@ declare var AppJSInterface: any;
 export class OauthComponent implements OnInit {
   /** Eyes登入裝置類型 0 : Web 1 : iOS 2 : Android */
   public loginDeviceType: string;
-  constructor(public appService: AppService, private cookieService: CookieService) { }
+  /** 登入狀態 */
+  public loginState = false;
+  constructor(public appService: AppService, private router: Router, private cookieService: CookieService) { }
 
   ngOnInit() {
     this.loginPage();
@@ -23,9 +27,9 @@ export class OauthComponent implements OnInit {
     (document.getElementById('postOauthlogin') as HTMLFormElement).submit();
     this.appService.openBlock();
   }
-  onSubmit(form: NgForm): void {
-    console.log(this);
-  }
+  // onSubmit(form: NgForm): void {
+  //   console.log(this);
+  // }
 
   /** 判斷跳出網頁或APP的登入頁 */
   loginPage(): void {
@@ -42,5 +46,10 @@ export class OauthComponent implements OnInit {
         (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'login' });
       }
     }
+  }
+  onLogout(): void {
+    sessionStorage.clear();
+    this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+    this.router.navigate(['/']);
   }
 }

@@ -2,7 +2,6 @@
 <p>DeviceCode: {{appService.deviceCode}}</p>
 <div>
 
-
   <form action="http://localhost:55254/api/Oauth/RedirectToAuthorize" method="POST" #postOauthlogin (ngSubmit)="signInWithOauth(postOauthlogin)">
     <div>
       <input type="hidden" name="DeviceType" [value]="loginDeviceType">
@@ -12,3 +11,18 @@
     </div>
   </form>
 </div>
+<hr class="border m-3">
+<!-- 未登入 -->
+<button (click)="appService.loginPage();loginState=true" *ngIf="!loginState" type="button"
+  class="m-topbox-item btn bluedk-outline-btn btw-small">
+  登入/註冊
+</button>
+<!-- 電腦版 登入 -->
+<div *ngIf="loginState">
+  <a [routerLink]="['/Member']">你好，{{appService.userName}}</a>
+</div>
+<!-- 登出 -->
+<button (click)="onLogout();loginState=false" *ngIf="loginState" type="button"
+  class="m-topbox-item btn bluedk-outline-btn btw-small">
+  登出
+</button>
