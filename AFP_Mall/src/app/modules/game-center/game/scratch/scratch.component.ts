@@ -170,10 +170,7 @@ export class ScratchComponent implements OnInit, AfterViewInit {
         (this.w === 390) ? offsetSizeY = 50 : offsetSizeY = 75;
 
       const x = ev.pageX - this.topCanvas.offsetLeft - offsetSizeX;
-      let y = ev.pageY - this.topCanvas.offsetHeight;
-      (navigator.vendor.indexOf('Apple') > -1) ?
-        y = y - this.h :
-        y = y - offsetSizeY;
+      const y = ev.pageY - this.topCanvas.offsetHeight - offsetSizeY;
 
       this.ctxTop.beginPath();
       this.ctxTop.moveTo(x, y);
