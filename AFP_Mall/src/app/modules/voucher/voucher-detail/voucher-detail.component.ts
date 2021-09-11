@@ -9,7 +9,6 @@ import { ModalService } from '@app/shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation } from '@app/animations';
 import { AppJSInterfaceService } from '@app/app-jsinterface.service';
-declare var AppJSInterface: any;
 
 @Component({
   selector: 'app-voucher-detail',
@@ -231,7 +230,9 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
           this.modal.show('message', {
             initialState: {
               success: true, message: data.AFP_UserVoucher.VoucherUsedMessage,
-              showType: 999, adImgList: data.List_ADImg, voucherName: data.AFP_UserVoucher.Voucher_Name
+              showType: 999,
+              adImgList: data.List_ADImg,
+              voucherName: data.AFP_UserVoucher.Voucher_Name
             }
           });
           return false;

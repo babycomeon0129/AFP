@@ -536,7 +536,8 @@ button.btn{
   border-radius: 30px;
   white-space: nowrap;
   &:hover{
-    color: $blue-dark;
+    color: #fff;
+    background: $index-default-trigger;
   }
   &.unable{
     color: #fff;
