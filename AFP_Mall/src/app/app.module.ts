@@ -30,7 +30,7 @@ defineLocale('zh-cn', zhCnLocale);
 
 // Component
 import { AppComponent } from './app.component';
-import { MessageModalComponent } from './shared/modal/message-modal/message-modal.component';
+// import { MessageModalComponent } from './shared/modal/message-modal/message-modal.component';
 import { Error404Component } from './modules/error404/error404.component';
 
 // Service Worker
@@ -123,7 +123,7 @@ export function provideConfig() {
       provide: AuthServiceConfig,
       useFactory: provideConfig
     },
-    MessageModalComponent,
+    // MessageModalComponent,
     CookieService
   ],
   bootstrap: [AppComponent],

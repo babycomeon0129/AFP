@@ -12,7 +12,7 @@ import { environment } from '@env/environment';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from 'angularx-social-login';
-//import { SwPush } from '@angular/service-worker';
+// import { SwPush } from '@angular/service-worker';
 // import firebase from 'firebase/app';
 // import 'firebase/messaging';
 // 推播
@@ -78,9 +78,9 @@ export class AppService {
   public loginDeviceType: string;
 
   @BlockUI() blockUI: NgBlockUI;
-  constructor(private http: HttpClient, private bsModal: BsModalService, private router: Router,
+  constructor(private http: HttpClient, private router: Router, private bsModalService: BsModalService,
               private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService,
-              private angularFireMessaging: AngularFireMessaging, private bsModalService: BsModalService) {
+              private angularFireMessaging: AngularFireMessaging) {
     // firebase message設置。這裡在幹嘛我也不是很懂
     // 詳：https://stackoverflow.com/questions/61244212/fcm-messaging-issue
     this.angularFireMessaging.messages.subscribe(
@@ -114,7 +114,7 @@ export class AppService {
                 // 「一般登入」、「第三方登入」、「登入後讀購物車數量」、「推播」不引導驗證手機
                 if (command !== '1104' && command !== '1105' && command !== '1204' && command !== '1113') {
                   if (!this.verifyMobileModalOpened) {
-                    this.bsModal.show(VerifyMobileModalComponent);
+                    this.bsModalService.show(VerifyMobileModalComponent);
                     this.verifyMobileModalOpened = true;
                   }
                 }
@@ -134,14 +134,14 @@ export class AppService {
             }
             return JSON.parse(data.Data);
           case 9996: // 查無商品詳細頁資料
-            this.bsModal.show(MessageModalComponent, { initialState: { success: false, message: data.Base.Rtn_Message, showType: 1, checkBtnMsg: `確定`, target: 'GoBack' } });
+            this.bsModalService.show(MessageModalComponent, { initialState: { success: false, message: data.Base.Rtn_Message, showType: 1, checkBtnMsg: `確定`, target: 'GoBack' } });
             break;
           case 9998: // user資料不完整，讓使用者登出
-            this.bsModal.show(MessageModalComponent, { initialState: { success: false, message: '請先登入', showType: 2, singleBtnMsg: `重新登入` } });
+            this.bsModalService.show(MessageModalComponent, { initialState: { success: false, message: '請先登入', showType: 2, singleBtnMsg: `重新登入` } });
             this.onLogout();
             break;
           default: // 其他錯誤
-            this.bsModal.show(MessageModalComponent
+            this.bsModalService.show(MessageModalComponent
               , {
                 class: 'modal-sm modal-smbox', initialState: {
                   success: false, message: data.Base.Rtn_Message
@@ -176,7 +176,7 @@ export class AppService {
     return this.http.post(environment.apiUrl + ctrl, request, { headers })
       .pipe(map((data: Response_APIModel) => {
         if (data.Base.Rtn_State !== 1) {
-          this.bsModal.show(MessageModalComponent
+          this.bsModalService.show(MessageModalComponent
             , {
               class: 'modal-sm modal-smbox', initialState: {
                 success: false, message: data.Base.Rtn_Message
@@ -237,9 +237,9 @@ export class AppService {
   }
 
   /** 登入初始化需帶入的 state，Apple、Line登入都需要用到
-  * @description unix timestamp 前後相反後前4碼+ 10碼隨機英文字母 (大小寫不同)
-  * @returns state 的值
-  */
+   * @description unix timestamp 前後相反後前4碼+ 10碼隨機英文字母 (大小寫不同)
+   * @returns state 的值
+   */
   getState(): string {
     // 取得 unix
     const dateTime = Date.now();
@@ -312,7 +312,7 @@ export class AppService {
         // update favorites to array
         this.showFavorites();
         if (favAction === 1) {
-          this.bsModal.show(FavoriteModalComponent);
+          this.bsModalService.show(FavoriteModalComponent);
 
         }
       });
@@ -332,7 +332,8 @@ export class AppService {
     };
 
     this.toApi('EC', '1204', request).subscribe((data: Response_ECCart) => {
-      this.cookieService.set('cart_count_Mobii', data.Cart_Count.toString(), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+      this.cookieService.set('cart_count_Mobii', data.Cart_Count.toString(), 90, '/',
+                              environment.cookieDomain, environment.cookieSecure, 'Lax');
     });
   }
 
@@ -363,7 +364,7 @@ export class AppService {
                   type: 1,
                   message: `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-failed.png"><p>兌換失敗！</p></div>`
                 };
-                this.bsModal.show(MessageModalComponent, { initialState });
+                this.bsModalService.show(MessageModalComponent, { initialState });
               }
             });
           } else {
@@ -432,7 +433,7 @@ export class AppService {
           type: 1,
           message: `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-ok.png"><p>兌換成功！</p></div>`
         };
-        this.bsModal.show(MessageModalComponent, { initialState });
+        this.bsModalService.show(MessageModalComponent, { initialState });
       }
     });
   }
@@ -440,7 +441,7 @@ export class AppService {
   /** 判斷跳出網頁或APP的登入頁 */
   loginPage(): void {
     if (this.isApp == null) {
-      this.bsModal.show(LoginRegisterModalComponent, { class: 'modal-full' });
+      this.bsModalService.show(LoginRegisterModalComponent, { class: 'modal-full' });
       this.loginDeviceType = '0';
     } else {
       if (navigator.userAgent.match(/android/i)) {
@@ -458,7 +459,7 @@ export class AppService {
 
   /** 打開JustKa iframe */
   showJustka(url: string): void {
-    this.bsModal.show(JustkaModalComponent, { initialState: { justkaUrl: url } });
+    this.bsModalService.show(JustkaModalComponent, { initialState: { justkaUrl: url } });
   }
 
   /** 向firebase message 請求token */
@@ -522,7 +523,7 @@ export class AppService {
   shareContent(sharedContent: string, APPShareUrl: string): void {
     if (this.isApp === null) {
       // web
-      this.bsModal.show(MsgShareModalComponent, { initialState: { sharedText: sharedContent } });
+      this.bsModalService.show(MsgShareModalComponent, { initialState: { sharedText: sharedContent } });
     } else {
       // APP: 呼叫APP分享功能
       if (navigator.userAgent.match(/android/i)) {

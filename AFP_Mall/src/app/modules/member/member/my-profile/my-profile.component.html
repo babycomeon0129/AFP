@@ -32,12 +32,13 @@
         <div class="my-list-box">
           <ul>
             <form #formProfile="ngForm" id="formProfile" (ngSubmit)="formProfile.form.valid && onProfileSubmit(formProfile)">
+              <!-- MOB-3425 前端隱藏
               <li>
                 <div class="item">帳號</div>
                 <div class="item input-box">
                   {{memberService.userProfile.UserAccount}}
                 </div>
-              </li>
+              </li> -->
               <li>
                 <div class="item">姓名</div>
                 <div class="item input-box">

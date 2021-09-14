@@ -37,17 +37,18 @@ export class SettingComponent implements OnInit {
   }
 
   /** 判斷是否為App，如果是則跳到App原生  */
-  goIf(): void {
-    if (this.appService.isApp === null) {
-      this.router.navigate(['/Member/ThirdBinding']);
-    } else {
-      if (navigator.userAgent.match(/android/i)) {
-        //  Android
-        BindingSocialJSInterface.goAppBindingSocialPage();
-      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-        //  IOS
-        (window as any).webkit.messageHandlers.BindingSocialJSInterface.postMessage({ action: 'goAppBindingSocialPage' });
-      }
-    }
-  }
+  // MOB-3425 前端隱藏
+  // goIf(): void {
+  //   if (this.appService.isApp === null) {
+  //     this.router.navigate(['/Member/ThirdBinding']);
+  //   } else {
+  //     if (navigator.userAgent.match(/android/i)) {
+  //       //  Android
+  //       BindingSocialJSInterface.goAppBindingSocialPage();
+  //     } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+  //       //  IOS
+  //       (window as any).webkit.messageHandlers.BindingSocialJSInterface.postMessage({ action: 'goAppBindingSocialPage' });
+  //     }
+  //   }
+  // }
 }
