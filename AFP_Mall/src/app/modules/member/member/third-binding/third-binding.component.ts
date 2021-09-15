@@ -3,6 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Request_MemberThird, Response_MemberThird } from '../member.component';
 import { AuthService, SocialUser, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 import { AppService } from 'src/app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import jwt_decode from 'jwt-decode';
 import { environment } from '@env/environment';
@@ -29,7 +30,8 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
   public newThirdRequest: NewThirdBindRequest = new NewThirdBindRequest();
 
 
-  constructor(public appService: AppService, private authService: AuthService, public modal: ModalService, private router: ActivatedRoute) {
+  constructor(public appService: AppService, private oauthService: OauthService,
+              private authService: AuthService, public modal: ModalService, private router: ActivatedRoute) {
     this.detectApple();
   }
 
@@ -114,7 +116,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
         }
       });
     } else {
-      this.appService.loginPage();
+      this.oauthService.loginPage();
     }
   }
 
@@ -154,7 +156,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
           break;
       }
     } else {
-      this.appService.loginPage();
+      this.oauthService.loginPage();
     }
   }
 

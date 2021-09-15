@@ -2,6 +2,7 @@ import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppService } from 'src/app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Request_AFPVerifyCode, Response_AFPVerifyCode } from '@app/_models';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { MemberService } from '../../member.service';
@@ -34,7 +35,8 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
   /** 是否因強制驗證被導至此 */
   public toVerifyCell = false;
 
-  constructor(public appService: AppService, public modal: ModalService, public memberService: MemberService, private route: ActivatedRoute,
+  constructor(public appService: AppService, private oauthService: OauthService, private activatedRoute: ActivatedRoute,
+              private memberService: MemberService, private modal: ModalService,
               public router: Router, private meta: Meta, private title: Title, public location: Location) {
     this.title.setTitle('手機驗證 - Mobii!');
     this.meta.updateTag({name : 'description', content: ''});
@@ -43,7 +45,8 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    if (this.route.snapshot.queryParams.toVerifyMobile !== undefined && this.route.snapshot.queryParams.toVerifyMobile === 'true') {
+    if (this.activatedRoute.snapshot.queryParams.toVerifyMobile !== undefined &&
+        this.activatedRoute.snapshot.queryParams.toVerifyMobile === 'true') {
       // 第三方登入後因強制驗證被導至此
       this.toVerifyCell = true;
       this.shownSection = 0;
@@ -51,7 +54,7 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
       if (this.appService.loginState) {
         this.readCellNumber();
       } else {
-        this.appService.loginPage();
+        this.oauthService.loginPage();
         this.shownSection = 0;
       }
     }

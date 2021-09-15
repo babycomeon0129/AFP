@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Model_ShareData } from '@app/_models';
 import { AppService } from '@app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
@@ -26,7 +27,9 @@ export class MissionComponent implements OnInit {
   /** 第三方登入 (目前僅適用於Line) */
 
 
-  constructor(public appService: AppService, public modal: ModalService, private router: Router, private route: ActivatedRoute, private meta: Meta, private title: Title) {
+  constructor(public appService: AppService, public oauthService: OauthService,
+              public modal: ModalService, private router: Router, private route: ActivatedRoute,
+              private meta: Meta, private title: Title) {
     this.title.setTitle('任務 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 任務。這裡會顯示 Mobii! 用戶在 Mobii! 平台上的任務，包括每日登入、每日遊戲可以拿回饋點數 M Points，三不五時會更換使用者要完成的任務。請先登入註冊以開啟功能。' });
     this.meta.updateTag({ content: '任務 - Mobii!', property: 'og:title' });
@@ -119,7 +122,7 @@ export class MissionComponent implements OnInit {
    */
   buttonAction(mission: AFP_Mission): void {
     if (!this.appService.loginState) {
-      this.appService.loginPage(); // 需登入才能前往任務
+      this.oauthService.loginPage(); // 需登入才能前往任務
     } else {
       switch (mission.Mission_ClickState) {
         case 2: // 前往任務
@@ -193,7 +196,7 @@ export class MissionComponent implements OnInit {
     if (this.appService.loginState) {
       this.router.navigate(['/MemberFunction/MemberCoin'], { queryParams: { showBack: this.appService.showBack } });
     } else {
-      this.appService.loginPage();
+      this.oauthService.loginPage();
     }
   }
 

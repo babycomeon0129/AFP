@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Model_ShareData, AFP_ADImg, AFP_Game } from '@app/_models';
 import { AppService } from '@app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
@@ -20,7 +21,9 @@ export class GameCenterComponent implements OnInit {
   /** 選擇TAG  0:一般會員, 1:綁卡會員 */
   public selectedType = 0;
 
-  constructor(public appService: AppService, private router: Router, public modal: ModalService, private meta: Meta, private title: Title, private activatedRoute: ActivatedRoute) {
+  constructor(public appService: AppService, public oauthService: OauthService,
+              private router: Router, public modal: ModalService,
+              private meta: Meta, private title: Title, private activatedRoute: ActivatedRoute) {
     this.title.setTitle('遊戲 - Mobii!');
     this.meta.updateTag({
       name: 'description',
@@ -55,7 +58,7 @@ export class GameCenterComponent implements OnInit {
       this.activatedRoute.snapshot.queryParams.showBack === 'true' ?
         this.router.navigate(['/GameCenter/Game', gameCode], { queryParams: { GameType: gameType, showBack: true } }) : this.router.navigate(['/GameCenter/Game', gameCode], { queryParams: { GameType: gameType } });
     } else {
-      this.appService.loginPage();
+      this.oauthService.loginPage();
     }
   }
 

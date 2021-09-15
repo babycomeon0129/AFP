@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
+
 import { SessionAliveGuard } from 'src/app/shared/guard/session-alive-guard/session-alive.guard';
-import { OauthComponent } from './oauth.component';
+import { OauthLoginComponent } from './oauth-login/oauth-login.component';
+import { OauthComponent } from './oauth/oauth.component';
 
 const routes: Routes = [
-  { path: '',
-    canActivate: [SessionAliveGuard],
-    component: OauthComponent, data: {animation: 'Oauth'},
-  }
+  { path: '', canActivate: [SessionAliveGuard], component: OauthLoginComponent },
+  { path: 'Oauth', canActivate: [SessionAliveGuard], component: OauthComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class OauthRoutingModule {}
+export class OauthRoutingModule { }

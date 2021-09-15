@@ -20,7 +20,7 @@
           </div>
           <div class="align-self-center">
             <div *ngIf="!appService.loginState" class="d-block">
-              <button type="button" class="btn white-outline-btn btw-small" (click)="appService.loginPage()">登入/註冊<img
+              <button type="button" class="btn white-outline-btn btw-small" (click)="oauthService.loginPage()">登入/註冊<img
                   src="../img/share/forward_w.png" class="h20"></button>
             </div>
             <div *ngIf="appService.loginState" class="small-80">哈囉！{{appService.userName}}</div>

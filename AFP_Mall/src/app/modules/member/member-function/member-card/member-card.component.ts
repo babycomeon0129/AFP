@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
@@ -60,7 +61,7 @@ export class MemberCardComponent implements OnInit {
   /** 卡號位置圖2 */
   public cardTypeImg2: string;
 
-  constructor(public appService: AppService, public modal: ModalService, private router: Router,
+  constructor(public appService: AppService, private oauthService: OauthService, public modal: ModalService, private router: Router,
               private route: ActivatedRoute, private meta: Meta, private title: Title, private callApp: AppJSInterfaceService) {
     this.title.setTitle('我的卡片 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 我的卡片。你可以新增信用卡、悠遊卡或一卡通等卡片，並在 Mobii! APP 或網頁上，使用這些卡片來購物、支付或乘車。' });
@@ -116,7 +117,7 @@ export class MemberCardComponent implements OnInit {
         });
       });
     } else {
-      this.appService.loginPage();
+      this.oauthService.loginPage();
     }
   }
 

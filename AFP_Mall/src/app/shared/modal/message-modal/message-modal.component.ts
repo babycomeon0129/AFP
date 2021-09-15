@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { AFP_ADImg, AFP_VerifiedInfo } from '@app/_models';
 import { PasswordModalComponent } from '../password-modal/password-modal.component';
 
@@ -41,7 +42,9 @@ export class MessageModalComponent implements OnInit {
   /** 網址傳參2 (連結跳轉須加上參數時使用，預設為雙顆按鈕時右邊按鈕的傳參) */
   queryParams2: object;
 
-  constructor(public bsModalRef: BsModalRef, private bsModal: BsModalService, private router: Router, public appService: AppService, private location: Location) { }
+  constructor(public bsModalRef: BsModalRef, private bsModal: BsModalService,
+              private router: Router, public appService: AppService, private oauthService: OauthService,
+              private location: Location) { }
 
   ngOnInit() {
   }
@@ -53,7 +56,7 @@ export class MessageModalComponent implements OnInit {
         this.goToUrl(this.target, this.queryParams1);
         break;
       case 2:
-        this.appService.loginPage();
+        this.oauthService.loginPage();
         this.bsModalRef.hide();
         break;
       case 3:

@@ -4,6 +4,7 @@ import {
   Response_MemberUserVoucher, Request_MemberCheckStatus, Response_MemberCheckStatus
 } from '@app/_models';
 import { AppService } from 'src/app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
@@ -45,8 +46,8 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
   /** 同頁滑動切換 0:本頁 1:使用優惠券 */
   public layerTrig = 0;
 
-  constructor(public appService: AppService, private route: ActivatedRoute, private router: Router,
-    public modal: ModalService, private meta: Meta, private title: Title, private callApp: AppJSInterfaceService) {
+  constructor(public appService: AppService, private oauthService: OauthService, private route: ActivatedRoute, private router: Router,
+              public modal: ModalService, private meta: Meta, private title: Title, private callApp: AppJSInterfaceService) {
     this.voucherCode = this.route.snapshot.params.Voucher_Code;
     if (this.voucherCode.toString().substring(0, 2) === '46') {
       this.selectMode = 4;
@@ -138,7 +139,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
         this.onVoucher(voucher);
       }
     } else {
-      this.appService.loginPage();
+      this.oauthService.loginPage();
     }
   }
 

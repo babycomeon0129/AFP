@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Model_ShareData, AFP_ADImg } from '@app/_models';
 import { Request_MemberThird, Response_MemberThird } from '../member.component';
 import { Router } from '@angular/router';
@@ -31,7 +32,9 @@ export class HomeComponent implements OnInit {
   };
 
 
-  constructor(public appService: AppService, private router: Router, public modal: ModalService, public memberService: MemberService, private authService: AuthService) {
+  constructor(public appService: AppService, private oauthService: OauthService,
+              private router: Router, public modal: ModalService,
+              public memberService: MemberService, private authService: AuthService) {
   }
 
   ngOnInit() {
@@ -75,7 +78,7 @@ export class HomeComponent implements OnInit {
     if (this.appService.loginState) {
       this.router.navigate(['/Member/Setting']);
     } else {
-      this.appService.loginPage();
+      this.oauthService.loginPage();
     }
   }
 
@@ -105,7 +108,7 @@ export class HomeComponent implements OnInit {
    */
   pageRoute(page: string, pageCode: number): void {
     if (!this.appService.loginState) {
-      this.appService.loginPage();
+      this.oauthService.loginPage();
     } else {
       if (page === '0') {
         this.modal.show('message', { initialState: { success: true, message: '敬請期待!', showType: 1 } });

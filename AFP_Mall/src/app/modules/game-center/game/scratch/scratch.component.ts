@@ -1,6 +1,7 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, Input, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { AppService } from 'src/app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Response_Games, Request_Games, AFP_GamePart } from '@app/_models';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { layerAnimation, layerAnimationUp } from '@app/animations';
@@ -52,7 +53,7 @@ export class ScratchComponent implements OnInit, AfterViewInit {
   /** 允許進行遊戲。需使用者點擊扣點確認視窗的「確認」才允許進行遊戲 */
   public goPlay = false;
 
-  constructor(public appService: AppService, public modal: ModalService, private route: ActivatedRoute) {
+  constructor(public appService: AppService, public oauthService: OauthService, public modal: ModalService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -136,7 +137,7 @@ export class ScratchComponent implements OnInit, AfterViewInit {
         this.noGameStateAlert.emit();
       }
     } else {
-      this.appService.loginPage();
+      this.oauthService.loginPage();
     }
   }
   /** 使用者在畫布的行為事件-放開滑鼠按鈕的動作、在刮刮樂touchend的動作。當出現上述動作時，停止繪製 */

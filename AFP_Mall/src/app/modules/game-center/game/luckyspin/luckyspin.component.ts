@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, AfterViewInit, Renderer2, EventEmitter } from '@angular/core';
 import { AppService } from '@app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Response_Games, Request_Games, AFP_GamePart } from '@app/_models';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -37,7 +38,9 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
   /** 提示視窗(向上) 0: 本頁 1: 開獎資訊 */
   public layerTrigUp = 0;
 
-  constructor(public appService: AppService, public modal: ModalService, private router: Router, private route: ActivatedRoute, private renderer2: Renderer2) {
+  constructor(public appService: AppService, private oauthService: OauthService,
+              public modal: ModalService, private router: Router,
+              private route: ActivatedRoute, private renderer2: Renderer2) {
     this.currentUrl = this.router.url;
   }
 
@@ -91,7 +94,7 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
         }
       }
     } else {
-      this.appService.loginPage();
+      this.oauthService.loginPage();
     }
   }
 

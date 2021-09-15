@@ -1,6 +1,7 @@
 import { environment } from '@env/environment';
 import { Component, OnInit } from '@angular/core';
 import { AppService } from '@app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Request_ECCart, Response_ECCart, AFP_Cart, CartStoreList, ProductInfo } from '@app/_models';
 import { CookieService } from 'ngx-cookie-service';
@@ -32,8 +33,9 @@ export class ShoppingCartComponent implements OnInit {
   /** 空購物車圖示顯示 */
   public nocartShow = false;
 
-  constructor(public appService: AppService, public modal: ModalService, private cookieService: CookieService, private router: Router,
-    private route: ActivatedRoute, private meta: Meta, private title: Title) {
+  constructor(public appService: AppService, private oauthService: OauthService,
+              public modal: ModalService, private cookieService: CookieService, private router: Router,
+              private route: ActivatedRoute, private meta: Meta, private title: Title) {
     this.title.setTitle('購物車｜線上商城 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! 線上商城購物車。你是不是…還有商品在購物車裡忘了結帳？趕快結帳把購物車清空，賺取 Mobii! M Points 回饋點數吧！我 OK，你先買！' });
     this.meta.updateTag({ content: '購物車｜線上商城 - Mobii!', property: 'og:title' });
@@ -332,7 +334,7 @@ export class ShoppingCartComponent implements OnInit {
     } else {
       if (!this.appService.loginState) {
         // 若未登入，則跳出登入視窗
-        this.appService.loginPage();
+        this.oauthService.loginPage();
       } else {
         // 已登入
         // (若有更動過的商品)更改商品數

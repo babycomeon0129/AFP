@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppService } from '@app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 
 @Component({
   selector: 'app-index-header',
@@ -11,7 +12,7 @@ export class IndexHeaderComponent implements OnInit {
   /** 只在電腦版顯示 */
   @Input() forPc = false;
 
-  constructor(public appService: AppService, private router: Router) { }
+  constructor(public appService: AppService, public oauthService: OauthService, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -28,7 +29,7 @@ export class IndexHeaderComponent implements OnInit {
     if (this.appService.loginState) {
       this.router.navigate(['/Notification/NotificationList']);
     } else {
-      this.appService.loginPage();
+      this.oauthService.loginPage();
     }
   }
 }

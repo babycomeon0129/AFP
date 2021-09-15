@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Model_ShareData } from '@app/_models';
 import { AppService } from 'src/app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 
@@ -14,7 +15,8 @@ export class MemberFoodComponent implements OnInit {
   public foodList: AFP_DeliveryOrder[];
 
 
-  constructor(public appService: AppService, private meta: Meta, private title: Title, private route: ActivatedRoute) {
+  constructor(public appService: AppService, private oauthService: OauthService,
+              private meta: Meta, private title: Title, private route: ActivatedRoute) {
     this.title.setTitle('我的點餐 - Mobii!');
     this.meta.updateTag({ name: 'description', content: '' });
     this.meta.updateTag({ content: '我的點餐 - Mobii!', property: 'og:title' });
@@ -34,7 +36,7 @@ export class MemberFoodComponent implements OnInit {
         this.foodList = data.List_DeliveryOrder;
       });
     } else {
-      this.appService.loginPage();
+      this.oauthService.loginPage();
     }
   }
 

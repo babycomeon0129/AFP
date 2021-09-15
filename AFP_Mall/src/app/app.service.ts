@@ -25,6 +25,7 @@ import { JustkaModalComponent } from './shared/modal/justka-modal/justka-modal.c
 import { MsgShareModalComponent } from './shared/modal/msg-share-modal/msg-share-modal.component';
 import { MessageModalComponent } from './shared/modal/message-modal/message-modal.component';
 import { ConfirmModalComponent } from './shared/modal/confirm-modal/confirm-modal.component';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 
 declare var AppJSInterface: any;
 
@@ -74,13 +75,11 @@ export class AppService {
   public showBack = false;
   /** line 登入用 state (用於取code) */
   public lineSigninState: string;
-  /** Eyes登入裝置類型 0 : Web 1 : iOS 2 : Android */
-  public loginDeviceType: string;
 
   @BlockUI() blockUI: NgBlockUI;
   constructor(private http: HttpClient, private router: Router, private bsModalService: BsModalService,
               private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService,
-              private angularFireMessaging: AngularFireMessaging) {
+              private angularFireMessaging: AngularFireMessaging, private oauthService: OauthService) {
     // firebase message設置。這裡在幹嘛我也不是很懂
     // 詳：https://stackoverflow.com/questions/61244212/fcm-messaging-issue
     this.angularFireMessaging.messages.subscribe(
@@ -96,7 +95,7 @@ export class AppService {
       xEyes_Command: command,
       xEyes_X: (lng != null) ? lng.toString() : '',
       xEyes_Y: (lat != null) ? lat.toString() : '',
-      xEyes_DeviceType: (this.isApp != null) ? this.loginDeviceType : '0',
+      xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginDeviceType : '0',
       xEyes_CustomerInfo: (sessionStorage.getItem('CustomerInfo') !== null) ? sessionStorage.getItem('CustomerInfo') : '',
       xEyes_DeviceCode: deviceCode === undefined ? '' : deviceCode,
       Authorization: (sessionStorage.getItem('IDToken') !== null) ? 'Bearer ' + sessionStorage.getItem('IDToken') : ''
@@ -226,7 +225,7 @@ export class AppService {
       xEyes_Command: command,
       xEyes_X: (lng != null) ? lng.toString() : '',
       xEyes_Y: (lat != null) ? lat.toString() : '',
-      xEyes_DeviceType: (this.isApp != null) ? this.loginDeviceType : '0',
+      xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginDeviceType : '0',
       xEyes_CustomerInfo: (sessionStorage.getItem('CustomerInfo') !== null) ? sessionStorage.getItem('CustomerInfo') : ''
     });
 
@@ -317,7 +316,7 @@ export class AppService {
         }
       });
     } else {
-      this.loginPage();
+      this.oauthService.loginPage();
     }
   }
 
@@ -398,7 +397,7 @@ export class AppService {
           break;
       }
     } else {
-      this.loginPage();
+      this.oauthService.loginPage();
     }
   }
 
@@ -442,15 +441,12 @@ export class AppService {
   loginPage(): void {
     if (this.isApp == null) {
       this.bsModalService.show(LoginRegisterModalComponent, { class: 'modal-full' });
-      this.loginDeviceType = '0';
     } else {
       if (navigator.userAgent.match(/android/i)) {
         //  Android
-        this.loginDeviceType = '2';
         AppJSInterface.login();
       } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
         //  IOS
-        this.loginDeviceType = '1';
         (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'login' });
       }
     }

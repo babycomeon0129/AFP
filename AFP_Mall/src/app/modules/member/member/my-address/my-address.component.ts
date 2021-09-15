@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { AFP_UserFavourite, AFP_UserReport, Request_MemberAddress, Response_MemberAddress } from '@app/_models';
 import { NgForm } from '@angular/forms';
 import { ModalService } from '@app/shared/modal/modal.service';
@@ -32,7 +33,8 @@ export class MyAddressComponent implements OnInit {
   /** 同頁滑動切換 0: 本頁 1:縣市區  2:行政區 */
   public layerTrig = 0;
 
-  constructor(public appService: AppService, public modal: ModalService, private meta: Meta, private title: Title) {
+  constructor(public appService: AppService, private oauthService: OauthService,
+              public modal: ModalService, private meta: Meta, private title: Title) {
     this.title.setTitle('我的地址 - Mobii!');
     this.meta.updateTag({ name: 'description', content: '' });
     this.meta.updateTag({ content: '我的地址 - Mobii!', property: 'og:title' });
@@ -68,7 +70,7 @@ export class MyAddressComponent implements OnInit {
         }
       });
     } else {
-      this.appService.loginPage();
+      this.oauthService.loginPage();
     }
   }
 
@@ -104,7 +106,7 @@ export class MyAddressComponent implements OnInit {
       this.addressId = addressID;
       this.showDetail = true;
     } else {
-      this.appService.loginPage();
+      this.oauthService.loginPage();
     }
   }
 

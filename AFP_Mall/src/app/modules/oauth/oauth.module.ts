@@ -1,25 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-
 
 import { OauthRoutingModule } from './oauth-routing.module';
-import { SharedModule } from '@app/shared/shared.module';
-
-import { OauthComponent } from './oauth.component';
+import { OauthComponent } from './oauth/oauth.component';
+import { OauthLoginComponent } from './oauth-login/oauth-login.component';
 
 @NgModule({
   declarations: [
-    OauthComponent
+    OauthComponent,
+    OauthLoginComponent
+  ],
+  exports: [
+    OauthComponent,
+    OauthLoginComponent
   ],
   imports: [
     CommonModule,
-    RouterModule,
-    OauthRoutingModule,
-    SharedModule,
-  ],
-  exports: [
-    OauthComponent
+    OauthRoutingModule
   ]
 })
-export class OauthModule {}
+export class OauthModule { }

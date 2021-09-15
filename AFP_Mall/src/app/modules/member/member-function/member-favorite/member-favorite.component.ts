@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Request_MemberFavourite, Response_MemberFavourite, TravelJsonFile_Travel, AreaJsonFile_ECStore, AFP_ECStore, AFP_Product } from '@app/_models';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -24,8 +25,9 @@ export class MemberFavoriteComponent implements OnInit {
   /** 旅遊行程 */
   public listTravel: TravelJsonFile_Travel[] = [];
 
-  constructor(public appService: AppService, public modal: ModalService, private route: ActivatedRoute, private router: Router,
-    private meta: Meta, private title: Title) {
+  constructor(public appService: AppService, private oauthService: OauthService,
+              public modal: ModalService, private route: ActivatedRoute, private router: Router,
+              private meta: Meta, private title: Title) {
     this.title.setTitle('我的收藏 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 我的收藏。這裡會顯示 Mobii! 用戶按讚收藏的檔案，包括周邊、商品、店家以及旅遊行程。請先登入註冊以開啟功能。' });
     this.meta.updateTag({ content: '我的收藏 - Mobii!', property: 'og:title' });
@@ -74,7 +76,7 @@ export class MemberFavoriteComponent implements OnInit {
         }
       });
     } else {
-      this.appService.loginPage();
+      this.oauthService.loginPage();
     }
   }
 

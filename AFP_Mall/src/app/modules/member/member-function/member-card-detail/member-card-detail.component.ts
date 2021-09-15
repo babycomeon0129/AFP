@@ -4,6 +4,7 @@ import { ModalService } from '@app/shared/modal/modal.service';
 import { AFP_UserFavourite, Request_MemberMyCard, Response_MemberMyCard } from '@app/modules/member/_module-member';
 import { NgForm } from '@angular/forms';
 import { AppService } from 'src/app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 
@@ -32,7 +33,7 @@ export class MemberCardDetailComponent implements OnInit {
   /** 卡片類型 */
   public userFavouriteTypeCode: string;
 
-  constructor(public appService: AppService, public modal: ModalService, public bsModalRef: BsModalRef,
+  constructor(public appService: AppService, private oauthService: OauthService, public modal: ModalService, public bsModalRef: BsModalRef,
               private meta: Meta, private title: Title, private route: ActivatedRoute, private router: Router) {
     this.title.setTitle('我的卡片 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 我的卡片。你可以新增信用卡、悠遊卡或一卡通等卡片，並在 Mobii! APP 或網頁上，使用這些卡片來購物、支付或乘車。' });
@@ -94,7 +95,7 @@ export class MemberCardDetailComponent implements OnInit {
         }
       });
     } else {
-      this.appService.loginPage();
+      this.oauthService.loginPage();
     }
   }
 
