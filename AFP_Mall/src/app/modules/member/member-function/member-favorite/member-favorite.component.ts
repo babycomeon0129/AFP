@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Request_MemberFavourite, Response_MemberFavourite, TravelJsonFile_Travel, AreaJsonFile_ECStore, AFP_ECStore, AFP_Product } from '@app/_models';
 import { ModalService } from '@app/shared/modal/modal.service';

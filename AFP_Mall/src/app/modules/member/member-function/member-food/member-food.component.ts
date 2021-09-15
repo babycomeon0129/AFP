@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Model_ShareData } from '@app/_models';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';

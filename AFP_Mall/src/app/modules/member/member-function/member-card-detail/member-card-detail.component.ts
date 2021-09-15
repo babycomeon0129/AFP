@@ -3,7 +3,7 @@ import { BsModalRef } from 'ngx-bootstrap';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { AFP_UserFavourite, Request_MemberMyCard, Response_MemberMyCard } from '@app/modules/member/_module-member';
 import { NgForm } from '@angular/forms';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';

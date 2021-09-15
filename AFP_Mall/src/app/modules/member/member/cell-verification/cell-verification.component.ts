@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Request_AFPVerifyCode, Response_AFPVerifyCode } from '@app/_models';
 import { ModalService } from '@app/shared/modal/modal.service';

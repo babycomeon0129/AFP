@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { Request_MemberOrder, Response_MemberOrder, AFP_MemberOrder, AFP_ECStore, AFP_ItemInfoPart, AFP_Voucher
         , Request_MemberCheckStatus, Response_MemberCheckStatus, AFP_UserReport } from '@app/_models';
 import { ModalService } from '@app/shared/modal/modal.service';

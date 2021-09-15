@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 
 @Component({

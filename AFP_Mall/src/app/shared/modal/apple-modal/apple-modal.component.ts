@@ -1,4 +1,4 @@
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { environment } from '@env/environment';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';

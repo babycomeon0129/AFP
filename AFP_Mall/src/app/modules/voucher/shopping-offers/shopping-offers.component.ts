@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { AFP_ChannelVoucher, AFP_ADImg, Request_ECVoucher, Response_ECVoucher, AFP_Voucher } from '@app/_models';
 import { SwiperOptions } from 'swiper';
 import { CookieService } from 'ngx-cookie-service';

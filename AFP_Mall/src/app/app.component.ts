@@ -2,7 +2,7 @@ import { AppJSInterfaceService } from './app-jsinterface.service';
 import { environment } from '@env/environment';
 import { Component, KeyValueDiffer, KeyValueDiffers, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ResolveEnd } from '@angular/router';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { ModalService } from './shared/modal/modal.service';
 import { CookieService } from 'ngx-cookie-service';
 import { RouterOutlet } from '@angular/router';
