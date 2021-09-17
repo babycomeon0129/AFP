@@ -7,7 +7,7 @@ declare var AppJSInterface: any;
 })
 export class OauthService {
 
-  /** Eyes登入裝置類型 0 : Web 1 : iOS 2 : Android */
+  /** Eyes登入裝置類型 0:Web 1:iOS 2:Android */
   public loginDeviceType: string;
 
   constructor(private router: Router) {}

@@ -129,9 +129,15 @@ export class AppComponent implements OnInit {
         window.scrollTo(0, 0);
         this.callApp.appShowMobileFooter(false);
         // 取得前一頁面url
-        this.appService.prevUrl = this.appService.currentUrl;
-        this.appService.currentUrl = event.url;
+        this.appService.prevUrl = event.url;
         this.appService.verifyMobileModalOpened = false;
+        /** 取得艾斯驗證流程結束後要回去的頁面 */
+        const fromOriginUri = localStorage.getItem('M_fromOriginUri');
+        const currentUri = localStorage.getItem('M_currentUri');
+        if (currentUri !== event.url) { // 頁面重整除外
+          (fromOriginUri === null) ? localStorage.setItem('M_fromOriginUri', '/') : localStorage.setItem('M_fromOriginUri', currentUri);
+          localStorage.setItem('M_currentUri', event.url);
+        }
       });
     this.detectOld();
     // this.appService.initPush();
@@ -215,7 +221,7 @@ export class AppComponent implements OnInit {
           // 登入時重新訪問目前頁面以讀取會員相關資料
           this.router.routeReuseStrategy.shouldReuseRoute = () => false; // 判斷是否同一路由
           this.router.onSameUrlNavigation = 'reload';
-          let url = this.appService.currentUrl;
+          let url = this.router.url;
           if (url.includes('?')) {
             // 若url原有參數則帶著前往
             url = url.split('?')[0];

@@ -15,7 +15,8 @@ declare var AppJSInterface: any;
   styleUrls: ['./oauth.component.scss']
 })
 export class OauthComponent implements OnInit {
-  constructor(public appService: AppService, public oauthService: OauthService, private router: Router, private cookieService: CookieService) { }
+  constructor(public appService: AppService, public oauthService: OauthService,
+              public router: Router, private cookieService: CookieService) { }
 
   ngOnInit() {
   }
