@@ -2,11 +2,11 @@
 <p>DeviceCode: {{appService.deviceCode}}</p>
 <div>
 
-  <form action="http://localhost:55254/api/Oauth/RedirectToAuthorize" method="POST" #postOauthlogin (ngSubmit)="signInWithOauth(postOauthlogin)">
+  <form action="{{apiUrl}}" method="POST" #postOauthlogin (ngSubmit)="signInWithOauth(postOauthlogin)">
     <div>
-      <input type="hidden" name="DeviceType" [value]="oauthService.loginDeviceType">
-      <input type="hidden" name="DeviceCode" [value]="appService.deviceCode">
-      <input type="hidden" name="UserRedirectUri" [value]="'http://localhost:4200/'">
+      <input type="hidden" name="DeviceType" [value]="oauthRequest.deviceType">
+      <input type="hidden" name="DeviceCode" [value]="oauthRequest.deviceCode">
+      <input type="hidden" name="UserRedirectUri" [value]="oauthRequest.fromOriginUri">
       <button type="submit buttonText" class="btn bluedk-outline-btn btw-small">Line 登入</button>
     </div>
   </form>

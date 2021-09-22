@@ -138,6 +138,7 @@ export class AppComponent implements OnInit {
           (fromOriginUri === null) ? localStorage.setItem('M_fromOriginUri', '/') : localStorage.setItem('M_fromOriginUri', currentUri);
           localStorage.setItem('M_currentUri', event.url);
         }
+        if (fromOriginUri !== event.url) { this.appService.prevUrl = fromOriginUri; }
       });
     this.detectOld();
     // this.appService.initPush();
