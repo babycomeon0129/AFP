@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { AFP_VerifiedInfo } from '@app/_models';
 import { MessageModalComponent } from '../message-modal/message-modal.component';
 
@@ -35,8 +35,6 @@ export class PasswordModalComponent {
       };
       this.appService.toApi('Home', '1103', resetpwd).subscribe((data: any) => {
         if (data !== null) {
-          // this.modalService.show('message',
-          //   { initialState: { success: true, message: '密碼已設定完成，請重新登入', showType: 2, checkBtnMsg: `重新登入` } }, this.bsModalRef);
             this.bsModal.show(MessageModalComponent, { initialState: { success: true, message: '密碼已設定完成，請重新登入', showType: 2, checkBtnMsg: `重新登入` } });
             this.bsModalRef.hide();
         }

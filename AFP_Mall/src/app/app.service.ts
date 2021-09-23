@@ -38,14 +38,6 @@ export class AppService {
   public userName: string;
   /** App訪問 */
   public isApp: number = null;
-  /** callLayer 側邊滑入頁面 */
-  public tLayer = [];
-  /** callLayer 呼叫頁面 z-index */
-  public layerIdx = 1;
-  /** callLayerUp 下方上滑頁面 */
-  public tLayerUp = [];
-  /** callsortLayer 篩選頁面 */
-  public sLayer = [];
   /** 我的收藏物件陣列 */
   public userFavArr = [];
   /** 我的收藏編碼陣列 */
@@ -85,7 +77,8 @@ export class AppService {
 
   @BlockUI() blockUI: NgBlockUI;
   constructor(private http: HttpClient, private bsModal: BsModalService, private router: Router,
-    private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService, private angularFireMessaging: AngularFireMessaging, private bsModalService: BsModalService) {
+              private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService,
+              private angularFireMessaging: AngularFireMessaging, private bsModalService: BsModalService) {
     // firebase message設置。這裡在幹嘛我也不是很懂
     // 詳：https://stackoverflow.com/questions/61244212/fcm-messaging-issue
     this.angularFireMessaging.messages.subscribe(
@@ -310,6 +303,7 @@ export class AppService {
     if (this.loginState) {
       this.toApi('Member', '1511', request).subscribe((data: Response_MemberFavourite) => {
         // update favorites to session
+        console.log(data);
         sessionStorage.setItem('userFavorites', JSON.stringify(data.List_UserFavourite));
         // update favorites to array
         this.showFavorites();
@@ -459,82 +453,6 @@ export class AppService {
   showJustka(url: string): void {
     this.bsModal.show(JustkaModalComponent, { initialState: { justkaUrl: url } });
   }
-
-  /** 初始化推播
-   * (註冊 service worker、告訴 firebase.messaging 服務之後的訊息請交由此 SW 處理、取得token、產生/取得 deviceCode、傳送給後端並取得新消費者包)
-   */
-  // initPush(): void {
-  //   if (environment.swActivate) {
-  //     // 不重複初始化
-  //     if (!firebase.apps.length) {
-  //       firebase.initializeApp(environment.firebaseConfig);
-  //       const messaging = firebase.messaging();
-  //       if ('serviceWorker' in navigator) {
-  //         // 註冊 service worker
-  //         navigator.serviceWorker.ready.then(registration => {
-  //           if (
-  //             !!registration &&
-  //             registration.active &&
-  //             registration.active.state &&
-  //             registration.active.state === 'activated'
-  //           ) {
-  //             messaging.useServiceWorker(registration); // 告訴 firebase.messaging 服務之後的訊息請交由此 SW 處理
-  //             if (Notification.permission !== 'denied') {
-  //               Notification
-  //                 .requestPermission()
-  //                 .then((permission) => {
-  //                   if (permission === 'granted') {
-  //                     // 取得token
-  //                     messaging.getToken().then(token => {
-  //                       this.firebaseToken = token;
-  //                       // send token to BE
-  //                       // get GUID (device code) from session, or generate one if there's no
-  //                       if (sessionStorage.getItem('M_DeviceCode') !== null) {
-  //                         this.deviceCode = sessionStorage.getItem('M_DeviceCode');
-  //                       } else {
-  //                         this.deviceCode = this.guid();
-  //                         sessionStorage.setItem('M_DeviceCode', this.deviceCode);
-  //                       }
-  //                       this.toPushApi();
-  //                     });
-  //                   } else {
-  //                     console.warn('The notification permission was not granted and blocked instead.');
-  //                   }
-  //                 });
-  //             }
-  //           } else {
-  //             console.warn('No active service worker found, not able to get firebase messaging.');
-  //           }
-  //         }, (error) => {
-  //           console.log('Service worker registration failed:', error);
-  //         });
-  //       } else {
-  //         console.log('Service workers are not supported.');
-  //       }
-  //     } else {
-  //       firebase.app();
-  //       this.toPushApi();
-  //     }
-
-  //     // this.swPush.messages.subscribe(msg => {
-  //     //   // count msg length and show red point
-  //     //   this.pushCount += 1;
-  //     //   this.cookieService.set('pushCount', this.pushCount.toString(), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-  //     // });
-  //   }
-  // }
-
-  /** 推播-取得含device code的新消費者包 */
-  // toPushApi(): void {
-  //   const request: Request_AFPPushToken = {
-  //     User_Code: sessionStorage.getItem('userCode'),
-  //     Token: this.firebaseToken
-  //   };
-  //   this.toApi('Home', '1113', request, null, null, this.deviceCode).subscribe((data: Response_AFPPushToken) => {
-  //     sessionStorage.setItem('CustomerInfo', data.CustomerInfo);
-  //     this.cookieService.set('CustomerInfo', data.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-  //   });
-  // }
 
   /** 向firebase message 請求token */
   getPushPermission(): void {

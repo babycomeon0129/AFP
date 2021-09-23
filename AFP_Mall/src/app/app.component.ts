@@ -2,7 +2,7 @@ import { AppJSInterfaceService } from './app-jsinterface.service';
 import { environment } from '@env/environment';
 import { Component, KeyValueDiffer, KeyValueDiffers, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ResolveEnd } from '@angular/router';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { ModalService } from './shared/modal/modal.service';
 import { CookieService } from 'ngx-cookie-service';
 import { RouterOutlet } from '@angular/router';
@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
   public thirdRequest: Request_AFPThird = new Request_AFPThird();
 
   constructor(private router: Router, public appService: AppService, private activatedRoute: ActivatedRoute, public modal: ModalService,
-    private cookieService: CookieService, private differs: KeyValueDiffers, private callApp: AppJSInterfaceService) {
+              private cookieService: CookieService, private differs: KeyValueDiffers, private callApp: AppJSInterfaceService) {
     this.serviceDiffer = this.differs.find({}).create();
     if (sessionStorage.getItem('CustomerInfo') !== null && sessionStorage.getItem('userCode') !== null
       && sessionStorage.getItem('userName') !== null) {
@@ -109,7 +109,7 @@ export class AppComponent implements OnInit {
 
       // 第三方登入失敗 (目前只有Line)
       if (params.Mobii_ThirdLogin === 'false' && params.Mode !== undefined && params.Error === '2' && !this.appService.loginState) {
-        let errMessage: string = '';
+        let errMessage = '';
         switch (params.Mode) {
           case '2':
             errMessage = 'Line@';

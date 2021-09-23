@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import {
   Response_GetCheckout, Request_GetUserVoucher, Response_GetUserVoucher,

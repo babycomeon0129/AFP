@@ -3,13 +3,12 @@ import {
   Model_ShareData, AFP_Voucher, AFP_UserVoucher, AFP_ECStore, Request_MemberUserVoucher,
   Response_MemberUserVoucher, Request_MemberCheckStatus, Response_MemberCheckStatus
 } from '@app/_models';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation } from '@app/animations';
 import { AppJSInterfaceService } from '@app/app-jsinterface.service';
-declare var AppJSInterface: any;
 
 @Component({
   selector: 'app-voucher-detail',
@@ -30,6 +29,8 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
   public userVoucher: AFP_UserVoucher;
   /** 實體分店資訊 */
   public storeData: AFP_ECStore[];
+   /** 實體分店資訊收合 true: 打開 false: 收起 */
+   public storeCollapse = false;
   /** 今日日期 */
   public today = new Date();
   /** 優惠券下架日期 */
@@ -44,6 +45,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
   public APPShareUrl: string;
   /** 同頁滑動切換 0:本頁 1:使用優惠券 */
   public layerTrig = 0;
+
 
   constructor(public appService: AppService, private route: ActivatedRoute, private router: Router,
     public modal: ModalService, private meta: Meta, private title: Title, private callApp: AppJSInterfaceService) {
@@ -228,7 +230,9 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
           this.modal.show('message', {
             initialState: {
               success: true, message: data.AFP_UserVoucher.VoucherUsedMessage,
-              showType: 999, adImgList: data.List_ADImg, voucherName: data.AFP_UserVoucher.Voucher_Name
+              showType: 999,
+              adImgList: data.List_ADImg,
+              voucherName: data.AFP_UserVoucher.Voucher_Name
             }
           });
           return false;

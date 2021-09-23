@@ -6,7 +6,7 @@ import {
 } from '@app/_models';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Router } from '@angular/router';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { NgForm } from '@angular/forms';
 import { layerAnimation,  layerAnimationUp} from '@app/animations';
 import { AppJSInterfaceService } from '@app/app-jsinterface.service';

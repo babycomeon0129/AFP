@@ -82,7 +82,7 @@
                                 <img src="../../img/share/{{item.ECStore_Type}}.png" alt="icon">
                                 {{item.ECStore_TypeName}}
                               </div>
-                              <div class="item-ticket" *ngFor="let attr of item.AttrbuteData">
+                              <div class="item-ticket" *ngFor="let attr of item.AttributeData">
                                 {{attr.AttributeValue_Name}}
                               </div>
                             </li>
@@ -239,7 +239,7 @@
                       <ul class="info-list">
                         <li class="info-name">{{item.Travel_Title}}</li>
                         <li class="d-flex align-content-start flex-wrap">
-                          <div *ngFor="let attr of item.AttrbuteData " class="item-ticket">
+                          <div *ngFor="let attr of item.AttributeData " class="item-ticket">
                             {{attr.AttributeValue_Name}}
                           </div>
                         </li>

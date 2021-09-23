@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { Request_MemberUserVoucher} from '@app/_models';
 import { NgForm } from '@angular/forms';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 
 @Component({
   selector: 'app-coupon-modal',

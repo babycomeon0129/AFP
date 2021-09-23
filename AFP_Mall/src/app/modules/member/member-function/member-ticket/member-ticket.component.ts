@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { Request_MemberTicket, Response_MemberTicket, AFP_UserTicket } from '@app/_models';
 import { layerAnimation } from '@app/animations';

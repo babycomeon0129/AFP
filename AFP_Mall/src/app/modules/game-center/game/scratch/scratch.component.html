@@ -50,18 +50,20 @@
               </section>
           </div>
       </div>
-      <div class="scratch-cont">
+      <div class="scratch-cont-box">
         <h5>SCRATCH HERE</h5>
-        <div class="scratchBox">
-          <canvas id="bottom" #bottomCanvas></canvas>
-          <canvas id="top" #topCanvas
-          (touchstart)="eventDown($event)"
-          (touchend)="eventUp($event)"
-          (touchmove)="eventMove($event)"
-          (mousedown)="eventDown($event)"
-          (mousemove)="eventMove($event)"
-          (mouseup)="eventUp($event)"
-          ></canvas>
+        <div class="scratch-cont">
+          <div class="scratchBox">
+            <canvas id="bottom" #bottomCanvas></canvas>
+            <canvas id="top" #topCanvas
+            (touchstart)="eventDown($event)"
+            (touchend)="eventUp($event)"
+            (touchmove)="eventMove($event)"
+            (mousedown)="eventDown($event)"
+            (mousemove)="eventMove($event)"
+            (mouseup)="eventUp($event)"
+            ></canvas>
+          </div>
         </div>
       </div>
       <div class="warning-note">

@@ -1,6 +1,6 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, Input, AfterViewInit, Output, EventEmitter } from '@angular/core';
-import { AppService } from 'src/app/app.service';
+import { AppService } from '@app/app.service';
 import { Response_Games, Request_Games, AFP_GamePart } from '@app/_models';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { layerAnimation, layerAnimationUp } from '@app/animations';
@@ -44,7 +44,7 @@ export class ScratchComponent implements OnInit, AfterViewInit {
   /** 開獎結果 */
   public prizeData: AFP_GamePart;
   /** 避免重疊開啟開獎結果視窗 0: 初始 1: 開啟 2以上：不開啟 */
-  public prizeOpen = 0
+  public prizeOpen = 0;
   /** 同頁滑動切換 0: 本頁 1: 活動規則 */
   public layerTrig = 0;
   /** 視窗滑動切換(往上) 0: 本頁 1: 開獎資訊 */
@@ -70,7 +70,7 @@ export class ScratchComponent implements OnInit, AfterViewInit {
 
     /** 上層畫面繪製 */
     // this.imgTop.src = '../img/mission/scratch-no.png';
-    // 為避免canvas CROS問題，設置crossOrigin及在src加上時間戳記
+    // 為避免canvas CROSS問題，設置crossOrigin及在src加上時間戳記
     if (this.gameData.AFP_Game.Game_ScratchItemImage) {
       this.imgTop.crossOrigin = 'Anonymous';
       this.imgTop.src = `${this.gameData.AFP_Game.Game_ScratchItemImage}?temp=${(new Date()).valueOf()}`;
@@ -82,7 +82,7 @@ export class ScratchComponent implements OnInit, AfterViewInit {
   /** 刮刮樂底部畫面繪製 */
   drawBot(): void {
     // 清除區域，為了點擊再來一次進行頁面重繪
-    this.ctxBot.canvas.style.opacity = '1';
+    this.ctxBot.canvas.style.opacity = '0';
     this.ctxBot.drawImage(this.imgBot, 0, 0, this.w, this.h);
     this.ctxBot.clearRect(0, 0, this.w, this.h);
   }
@@ -268,7 +268,9 @@ export class ScratchComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     /** 刮刮樂畫面繪製 */
-    this.drawBot();
+    this.imgBot.onload = () => {
+      this.drawBot();
+    };
     this.imgTop.onload = () => {
       this.drawTop();
     };
