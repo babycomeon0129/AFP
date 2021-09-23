@@ -6,7 +6,7 @@ import { OauthService } from '@app/modules/oauth/oauth.service';
 import { SwiperOptions } from 'swiper';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
-import { MemberService } from '../../member.service';
+import { MemberService } from '@app/modules/member/member.service';
 
 @Component({
   selector: 'app-member-order',

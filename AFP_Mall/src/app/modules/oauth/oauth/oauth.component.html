@@ -2,22 +2,22 @@
 <p>DeviceCode: {{appService.deviceCode}}</p>
 <div>
 
-  <form action="{{apiUrl}}" method="POST" #postOauthlogin (ngSubmit)="signInWithOauth(postOauthlogin)">
+  <form action="{{loginApiUrl}}" #postOauthlogin (ngSubmit)="signInWithOauth(postOauthlogin)">
     <div>
       <input type="hidden" name="DeviceType" [value]="oauthRequest.deviceType">
       <input type="hidden" name="DeviceCode" [value]="oauthRequest.deviceCode">
       <input type="hidden" name="UserRedirectUri" [value]="oauthRequest.fromOriginUri">
-      <button type="submit buttonText" class="btn bluedk-outline-btn btw-small">Line 登入</button>
+      <button type="submit buttonText" class="btn bluedk-outline-btn btw-small">Oauth2登入</button>
     </div>
   </form>
 </div>
 <hr class="border m-3">
 <!-- 未登入 -->
-<button (click)="appService.loginPage();loginState=true" type="button"
+<button (click)="appService.loginPage();appService.loginState=true" type="button"
 class="m-topbox-item btn bluedk-outline-btn btw-small">
   old 登入/註冊
 </button>
-<button (click)="oauthService.loginPage();loginState=true" type="button"
+<button (click)="oauthService.loginPage();appService.loginState=true" type="button"
   class="m-topbox-item btn bluedk-outline-btn btw-small">
   new 登入/註冊
 </button>
@@ -26,7 +26,7 @@ class="m-topbox-item btn bluedk-outline-btn btw-small">
   <a [routerLink]="['/Member']">你好，{{appService.userName}}</a>
 </div>
 <!-- 登出 -->
-<button (click)="appService.onLogout();loginState=false" type="button"
+<button (click)="appService.onLogout();appService.loginState=false" type="button"
   class="m-topbox-item btn bluedk-outline-btn btw-small">
   登出
 </button>

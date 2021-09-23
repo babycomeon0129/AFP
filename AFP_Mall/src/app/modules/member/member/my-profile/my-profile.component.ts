@@ -5,7 +5,7 @@ import { AppService } from '@app/app.service';
 import { Model_ShareData, AFP_UserFavourite } from '@app/_models';
 import { Response_MemberProfile } from '../member.component';
 import { ModalService } from '@app/shared/modal/modal.service';
-import { MemberService } from '../../member.service';
+import { MemberService } from '@app/modules/member/member.service';
 import { layerAnimation, layerAnimationUp } from '@app/animations';
 import { Meta, Title } from '@angular/platform-browser';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';

@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
   };
 
 
-  constructor(public appService: AppService, private oauthService: OauthService,
+  constructor(public appService: AppService, public oauthService: OauthService,
               private router: Router, public modal: ModalService,
               public memberService: MemberService, private authService: AuthService) {
   }

@@ -15,17 +15,18 @@ declare var AppJSInterface: any;
   styleUrls: ['./oauth.component.scss']
 })
 export class OauthComponent implements OnInit {
-  public apiUrl = 'https://afpapi-uuat.mobii.ai/api/v1/login';
+  public loginApiUrl = 'https://login-uuat.mobii.ai/auth/api/v1/login';
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
       Authorization: (sessionStorage.getItem('userCode') === null ) ? '' : 'Bearer ' + sessionStorage.getItem('userCode')
     })
   };
   public oauthRequest = {
     deviceType: 0,
     deviceCode: 170052617006867,
-    fromOriginUri: 'http://localhost:4200/'
+    fromOriginUri: 'https://www-uuat.mobii.ai/Login/Oauth'
   };
   constructor(public appService: AppService, public oauthService: OauthService,
               public router: Router, private cookieService: CookieService,
@@ -38,7 +39,7 @@ export class OauthComponent implements OnInit {
   //   this.appService.openBlock();
   // }
   signInWithOauth(form: NgForm): void {
-    this.http.post<OauthLoginRequest>(this.apiUrl, this.oauthRequest, this.httpOptions)
+    this.http.post<OauthLoginRequest>(this.loginApiUrl, this.oauthRequest, this.httpOptions)
       .subscribe((data: OauthLoginRequest) => {
         console.log(data);
         console.log(this.oauthRequest);
@@ -64,7 +65,7 @@ export class OauthComponent implements OnInit {
 }
 
 /** 登入 API Request interface
- * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/mobii-api
+ * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/oauth2-api
  */
 export interface OauthLoginRequest {
   deviceType: number;
