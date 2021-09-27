@@ -96,7 +96,8 @@ export class AppService {
       xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginDeviceType : '0',
       xEyes_CustomerInfo: (sessionStorage.getItem('CustomerInfo') !== null) ? sessionStorage.getItem('CustomerInfo') : '',
       xEyes_DeviceCode: deviceCode === undefined ? '' : deviceCode,
-      Authorization: (sessionStorage.getItem('IDToken') !== null) ? 'Bearer ' + sessionStorage.getItem('IDToken') : ''
+      Authorization: 'Bearer 1234567'
+      // Authorization: (sessionStorage.getItem('IDToken') !== null) ? 'Bearer ' + sessionStorage.getItem('IDToken') : ''
     });
 
 
@@ -224,7 +225,8 @@ export class AppService {
       xEyes_X: (lng != null) ? lng.toString() : '',
       xEyes_Y: (lat != null) ? lat.toString() : '',
       xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginDeviceType : '0',
-      xEyes_CustomerInfo: (sessionStorage.getItem('CustomerInfo') !== null) ? sessionStorage.getItem('CustomerInfo') : ''
+      Authorization: 'Bearer 1234567'
+      // xEyes_CustomerInfo: (sessionStorage.getItem('CustomerInfo') !== null) ? sessionStorage.getItem('CustomerInfo') : ''
     });
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })

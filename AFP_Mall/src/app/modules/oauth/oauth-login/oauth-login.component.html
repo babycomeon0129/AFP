@@ -1,15 +1,73 @@
 <div class="wrap container">
-  <div class="logo-box">
-    <img alt="logo" src="/img/share/mlogo.png">
-  </div>
-  <div class="content">
-    <h3 class="w-100 text-center">帳號升級公告</h3>
-    <p class="w-100 text-center text-danger">原 Mobii! 會員，也需重新註冊 艾斯會員帳號</p>
-    <p>為了提升系統效能與登入的安全性，將進行系統帳號升級，原 Mobii! 會員帳號將升級為艾斯會員帳號。</p>
-    <p>若已是Mobii!會員，仍須重新進行手機驗證，無論是用一般手機還是用第三方登入方式，請務必<span class="text-danger">以當初註冊於 Mobii! 的手機號碼進行驗證</span>。原會員資料、M Points、已領取之優惠券、商品訂單與既有服務並不會受到影響。</p>
-    <p>用一般手機註冊之 Mobii! 舊會員者，請用<span class="text-danger">重新註冊</span>方式進行升級綁定；若未曾註冊過 Mobii! 帳號，則手機驗證完後，便會直接成為 Mobii! 會員。</p>
-    <form #oauthLogin="ngForm" (ngSubmit)="onSubmit(oauthLogin)" id="oauth-login">
-      <button type="submit" class="btn index-btn w-100 login-ok">前往登入註冊</button>
-    </form>
-  </div>
+  <header>
+      <div class="header-secondary container linebt-row">
+          <div class="index-flex justify-content-between">
+              <div class="item two">
+                  <div [hidden]="appService.isApp !== null" class="close-btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                      <i class="material-icons">&#xe314;</i>
+                  </div>
+              </div>
+              <div class="item three text-center">
+                  <div class="title-name">{{viewType === 0 ? "帳號升級公告" : "帳號整併"}}</div>
+              </div>
+              <div class="item two text-right">
+                  <div class="close-btn"></div>
+              </div>
+          </div>
+      </div>
+  </header>
+  <main>
+    <div class="content">
+      <div class="logo-box">
+        <img alt="logo" src="/img/share/mlogo.png">
+      </div>
+      <div *ngIf="viewType===0" class="px-3">
+        <p class="w-100 text-center text-danger">原 Mobii! 會員，也需重新註冊 艾斯會員帳號</p>
+        <p>為了提升系統效能與登入的安全性，將進行系統帳號升級，原 Mobii! 會員帳號將升級為艾斯會員帳號。</p>
+        <p>若已是Mobii!會員，仍須重新進行手機驗證，無論是用一般手機還是用第三方登入方式，請務必<span class="text-danger">以當初註冊於 Mobii! 的手機號碼進行驗證</span>。原會員資料、M Points、已領取之優惠券、商品訂單與既有服務並不會受到影響。</p>
+        <p>用一般手機註冊之 Mobii! 舊會員者，請用<span class="text-danger">重新註冊</span>方式進行升級綁定；若未曾註冊過 Mobii! 帳號，則手機驗證完後，便會直接成為 Mobii! 會員。</p>
+      </div>
+      <div *ngIf="viewType===1">
+        <p class="text-center">你有多個 Mobii 會員帳號，<br>請選擇一個要綁定的 Mobii帳號</p>
+        <ul>
+          <li>
+            <div class="form-inline">
+              <input type="radio" name="checkUUID" (click)="checkUUID('i123456',$event)"
+                class="form-check-input radioBgOrg" id="i123456">
+              <label class="form-check-label" for="i123456">
+                <div class="p-3">
+                  UUID：123456<br>
+                  目前點數：7600<br>
+                  上次登入時間：2021/09/09 18:20<br>
+                </div>
+              </label>
+            </div>
+          </li>
+          <li>
+            <div class="form-inline">
+              <input type="radio" name="checkUUID"  (click)="checkUUID('i567890',$event)"
+                class="form-check-input radioBgOrg" id="i567890">
+              <label class="form-check-label" for="i567890">
+                <div class="p-3">
+                  UUID：567890<br>
+                  目前點數：21<br>
+                  上次登入時間：2020/12/23 10:05<br>
+                </div>
+              </label>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </main>
+  <footer class="shopping-cartfooter order-go-pay">
+    <div class="fixed-bottom container fixed-shadow">
+      <form *ngIf="viewType===0" #oauthLogin="ngForm" (ngSubmit)="onSubmit(oauthLogin)" id="oauthLogin" class="p-3">
+        <button type="submit" class="btn index-btn w-100 login-ok">前往登入註冊</button>
+      </form>
+      <form *ngIf="viewType===1" #oauthBind="ngForm" (ngSubmit)="onSubmit(oauthBind)" id="oauthBind" class="p-3">
+        <button type="submit" class="btn index-btn w-100 login-ok">立即升級綁定</button>
+      </form>
+    </div>
+  </footer>
 </div>

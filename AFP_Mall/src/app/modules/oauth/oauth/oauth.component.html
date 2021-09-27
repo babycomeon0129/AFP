@@ -1,15 +1,18 @@
-<p>DeviceType: {{oauthService.loginDeviceType}}</p>
-<p>DeviceCode: {{appService.deviceCode}}</p>
+<p>DeviceType: {{oauthRequest.DeviceType}}</p>
+<p>DeviceCode: {{oauthRequest.DeviceCode}}</p>
+<p>fromOriginUri: {{oauthRequest.fromOriginUri}}</p>
 <div>
 
-  <form action="{{loginApiUrl}}" #postOauthlogin (ngSubmit)="signInWithOauth(postOauthlogin)">
+  <!-- <form action="{{loginApiUrl}}" method="POST" id="postOauthlogin" #postOauthlogin (ngSubmit)="onSubmit(postOauthlogin)">
     <div>
-      <input type="hidden" name="DeviceType" [value]="oauthRequest.deviceType">
-      <input type="hidden" name="DeviceCode" [value]="oauthRequest.deviceCode">
-      <input type="hidden" name="UserRedirectUri" [value]="oauthRequest.fromOriginUri">
-      <button type="submit buttonText" class="btn bluedk-outline-btn btw-small">Oauth2登入</button>
+      <input type="hidden" name="DeviceType" [value]="oauthRequest.DeviceType">
+      <input type="hidden" name="DeviceCode" [value]="oauthRequest.DeviceCode">
+      <input type="hidden" name="fromOriginUri" [value]="oauthRequest.fromOriginUri">
+      <button type="submit" class="btn bluedk-outline-btn btw-small">FormPost 登入</button>
     </div>
-  </form>
+  </form> -->
+  <button type="button" class="btn bluedk-outline-btn btw-small" (click)="showConfigResponse()">Ajax 登入</button>
+
 </div>
 <hr class="border m-3">
 <!-- 未登入 -->
