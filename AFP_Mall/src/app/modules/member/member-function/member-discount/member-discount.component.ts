@@ -85,7 +85,7 @@ export class MemberDiscountComponent implements OnInit {
         }
       });
     } else {
-      this.oauthService.loginPage();
+      this.oauthService.loginPage(this.appService.currentUri);
     }
   }
 
@@ -219,7 +219,7 @@ export class MemberDiscountComponent implements OnInit {
         }
       });
     } else {
-      this.oauthService.loginPage();
+      this.oauthService.loginPage(this.appService.currentUri);
     }
   }
 

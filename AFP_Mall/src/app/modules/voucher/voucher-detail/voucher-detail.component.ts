@@ -140,7 +140,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
         this.onVoucher(voucher);
       }
     } else {
-      this.oauthService.loginPage();
+      this.oauthService.loginPage(this.appService.currentUri);
     }
   }
 

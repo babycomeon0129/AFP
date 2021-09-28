@@ -79,7 +79,7 @@ export class MemberCoinComponent implements OnInit {
         }
       });
     } else {
-      this.oauthService.loginPage();
+      this.oauthService.loginPage(this.appService.currentUri);
     }
   }
 
@@ -111,7 +111,7 @@ export class MemberCoinComponent implements OnInit {
         this.pointHistory = point.List_UserPoint;
       });
     } else {
-      this.oauthService.loginPage();
+      this.oauthService.loginPage(this.appService.currentUri);
     }
   }
 

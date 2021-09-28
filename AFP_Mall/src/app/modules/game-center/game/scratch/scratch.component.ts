@@ -137,7 +137,7 @@ export class ScratchComponent implements OnInit, AfterViewInit {
         this.noGameStateAlert.emit();
       }
     } else {
-      this.oauthService.loginPage();
+      this.oauthService.loginPage(this.appService.currentUri);
     }
   }
   /** 使用者在畫布的行為事件-放開滑鼠按鈕的動作、在刮刮樂touchend的動作。當出現上述動作時，停止繪製 */

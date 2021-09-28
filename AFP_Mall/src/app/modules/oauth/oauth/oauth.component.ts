@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { Observable, throwError, BehaviorSubject, from } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { AppService } from '@app/app.service';
-import { OauthService, eyesLoginAPI46111 } from '@app/modules/oauth/oauth.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '@env/environment';
 import { Router } from '@angular/router';
@@ -15,20 +15,15 @@ declare var AppJSInterface: any;
   styleUrls: ['./oauth.component.scss']
 })
 export class OauthComponent implements OnInit {
-  public loginApiUrl = 'https://login-uuat.mobii.ai/auth/api/v1/login';
+  public pathname = location.pathname;
   public httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'multipart/form-data',
       'Access-Control-Allow-Origin': '*',
     })
   };
-  public oauthRequest = {
-    DeviceType: 0,
-    DeviceCode: 170052617006867,
-    fromOriginUri: 'Login/Oauth'
-  };
+
   headers: string[] = [];
-  config: eyesLoginAPI46111 | undefined;
   constructor(public appService: AppService, public oauthService: OauthService,
               public router: Router, private cookieService: CookieService,
               private http: HttpClient) { }
@@ -42,7 +37,7 @@ export class OauthComponent implements OnInit {
   // }
 
   showConfigResponse() {
-    this.oauthService.getConfigResponse(this.oauthRequest).subscribe((data: any) => { });
+    this.oauthService.loginPage(this.appService.currentUri);
   }
   // signInWithOauth(form: NgForm): void {
   //   (document.getElementById('postOauthlogin') as HTMLFormElement).submit();

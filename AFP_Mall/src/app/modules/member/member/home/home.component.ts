@@ -78,7 +78,7 @@ export class HomeComponent implements OnInit {
     if (this.appService.loginState) {
       this.router.navigate(['/Member/Setting']);
     } else {
-      this.oauthService.loginPage();
+      this.oauthService.loginPage(this.appService.currentUri);
     }
   }
 
@@ -108,7 +108,7 @@ export class HomeComponent implements OnInit {
    */
   pageRoute(page: string, pageCode: number): void {
     if (!this.appService.loginState) {
-      this.oauthService.loginPage();
+      this.oauthService.loginPage(this.appService.currentUri);
     } else {
       if (page === '0') {
         this.modal.show('message', { initialState: { success: true, message: '敬請期待!', showType: 1 } });

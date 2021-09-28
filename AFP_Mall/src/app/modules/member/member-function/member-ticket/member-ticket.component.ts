@@ -53,7 +53,7 @@ export class MemberTicketComponent implements OnInit {
         this.ticketList = data.List_UserTicket;
       });
     } else {
-      this.oauthService.loginPage();
+      this.oauthService.loginPage(this.appService.currentUri);
     }
   }
 

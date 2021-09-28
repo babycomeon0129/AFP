@@ -220,7 +220,7 @@ export class ExploreDetailComponent implements OnInit {
       // 把商店code帶到DeliveryInfo頁面
       window.open(url);
     } else {
-      this.oauthService.loginPage();
+      this.oauthService.loginPage(this.appService.currentUri);
     }
   }
 

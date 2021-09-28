@@ -122,7 +122,7 @@ export class MissionComponent implements OnInit {
    */
   buttonAction(mission: AFP_Mission): void {
     if (!this.appService.loginState) {
-      this.oauthService.loginPage(); // 需登入才能前往任務
+      this.oauthService.loginPage(this.appService.currentUri); // 需登入才能前往任務
     } else {
       switch (mission.Mission_ClickState) {
         case 2: // 前往任務
@@ -196,7 +196,7 @@ export class MissionComponent implements OnInit {
     if (this.appService.loginState) {
       this.router.navigate(['/MemberFunction/MemberCoin'], { queryParams: { showBack: this.appService.showBack } });
     } else {
-      this.oauthService.loginPage();
+      this.oauthService.loginPage(this.appService.currentUri);
     }
   }
 

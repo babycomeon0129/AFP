@@ -89,7 +89,7 @@ export class MemberOrderComponent implements OnInit {
         this.orderList = data.List_MemberOrder;
       });
     } else {
-      this.oauthService.loginPage();
+      this.oauthService.loginPage(this.appService.currentUri);
     }
   }
 

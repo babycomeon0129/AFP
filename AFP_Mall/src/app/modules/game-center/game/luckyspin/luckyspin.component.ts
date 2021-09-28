@@ -94,7 +94,7 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
         }
       }
     } else {
-      this.oauthService.loginPage();
+      this.oauthService.loginPage(this.appService.currentUri);
     }
   }
 

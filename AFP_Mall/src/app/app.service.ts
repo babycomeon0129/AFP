@@ -47,6 +47,8 @@ export class AppService {
   public showAPPHint = true;
   /** 前一頁url */
   public prevUrl = '';
+  /** 當前url */
+  public currentUri: string;
   /** lazyload 的初始圖片 */
   public defaultImage = '/img/share/eee.jpg';
   /** 當前訊息 */
@@ -93,7 +95,7 @@ export class AppService {
       xEyes_Command: command,
       xEyes_X: (lng != null) ? lng.toString() : '',
       xEyes_Y: (lat != null) ? lat.toString() : '',
-      xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginDeviceType : '0',
+      xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.DeviceType : '0',
       xEyes_CustomerInfo: (sessionStorage.getItem('CustomerInfo') !== null) ? sessionStorage.getItem('CustomerInfo') : '',
       xEyes_DeviceCode: deviceCode === undefined ? '' : deviceCode,
       Authorization: 'Bearer 1234567'
@@ -106,30 +108,31 @@ export class AppService {
         this.blockUI.stop();
         switch (data.Base.Rtn_State) {
           case 1: // Response OK
+            /** 手機驗證需要在eyesmedia-identity驗證, 故隱藏 */
             // 手機是否驗證
-            switch (data.Verification.MobileVerified) {
-              case 1:
-                // 「一般登入」、「第三方登入」、「登入後讀購物車數量」、「推播」不引導驗證手機
-                if (command !== '1104' && command !== '1105' && command !== '1204' && command !== '1113') {
-                  if (!this.verifyMobileModalOpened) {
-                    this.bsModalService.show(VerifyMobileModalComponent);
-                    this.verifyMobileModalOpened = true;
-                  }
-                }
-                break;
-              case 2:
-              case 3:
-                break;
-              case 4:
-                sessionStorage.setItem('userCode', data.Verification.UserCode);
-                sessionStorage.setItem('CustomerInfo', data.Verification.CustomerInfo);
-                this.cookieService.set('userCode', data.Verification.UserCode, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-                this.cookieService.set('CustomerInfo', data.Verification.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-                break;
-              default:
-                this.onLogout();
-                this.router.navigate(['/']);
-            }
+            // switch (data.Verification.MobileVerified) {
+            //   case 1:
+            //     // 「一般登入」、「第三方登入」、「登入後讀購物車數量」、「推播」不引導驗證手機
+            //     if (command !== '1104' && command !== '1105' && command !== '1204' && command !== '1113') {
+            //       if (!this.verifyMobileModalOpened) {
+            //         this.bsModalService.show(VerifyMobileModalComponent);
+            //         this.verifyMobileModalOpened = true;
+            //       }
+            //     }
+            //     break;
+            //   case 2:
+            //   case 3:
+            //     break;
+            //   case 4:
+            //     sessionStorage.setItem('userCode', data.Verification.UserCode);
+            //     sessionStorage.setItem('CustomerInfo', data.Verification.CustomerInfo);
+            //     this.cookieService.set('userCode', data.Verification.UserCode, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+            //     this.cookieService.set('CustomerInfo', data.Verification.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+            //     break;
+            //   default:
+            //     this.onLogout();
+            //     this.router.navigate(['/']);
+            // }
             return JSON.parse(data.Data);
           case 9996: // 查無商品詳細頁資料
             this.bsModalService.show(MessageModalComponent, { initialState: { success: false, message: data.Base.Rtn_Message, showType: 1, checkBtnMsg: `確定`, target: 'GoBack' } });
@@ -224,9 +227,9 @@ export class AppService {
       xEyes_Command: command,
       xEyes_X: (lng != null) ? lng.toString() : '',
       xEyes_Y: (lat != null) ? lat.toString() : '',
-      xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginDeviceType : '0',
-      Authorization: 'Bearer 1234567'
-      // xEyes_CustomerInfo: (sessionStorage.getItem('CustomerInfo') !== null) ? sessionStorage.getItem('CustomerInfo') : ''
+      xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.DeviceType : '0',
+      Authorization: 'Bearer 1234567',
+      xEyes_CustomerInfo: (sessionStorage.getItem('CustomerInfo') !== null) ? sessionStorage.getItem('CustomerInfo') : ''
     });
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
@@ -316,7 +319,7 @@ export class AppService {
         }
       });
     } else {
-      this.oauthService.loginPage();
+      this.oauthService.loginPage(this.currentUri);
     }
   }
 
@@ -397,7 +400,7 @@ export class AppService {
           break;
       }
     } else {
-      this.oauthService.loginPage();
+      this.oauthService.loginPage(this.currentUri);
     }
   }
 
@@ -466,7 +469,8 @@ export class AppService {
           this.deviceCode = this.guid();
           localStorage.setItem('M_DeviceCode', this.deviceCode);
         }
-        if (this.loginState) {
+        console.log(this.cookieService.get('idtoken'));
+        if (this.loginState && this.cookieService.get('idtoken') !== '') {
           this.toPushApi(token);
         }
       },

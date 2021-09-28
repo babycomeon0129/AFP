@@ -6,70 +6,42 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map, retry } from 'rxjs/operators';
 import { environment } from '@env/environment';
 import { CookieService } from 'ngx-cookie-service';
+import { FormGroup } from '@angular/forms';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { OauthLoginComponent } from '../oauth/oauth-login/oauth-login.component';
 
 declare var AppJSInterface: any;
 @Injectable({
   providedIn: 'root'
 })
 export class OauthService {
-
-  /** Eyes登入裝置類型 0:Web 1:iOS 2:Android */
-  public loginDeviceType: string;
+  /** Mobii login API url */
   public loginApiUrl = 'https://login-uuat.mobii.ai/auth/api/v1/login';
-
+  /** Mobii login所需要的Request
+   * @param DeviceType 登入裝置類型 0:Web 1:iOS 2:Android
+   * @param fromOriginUri 登入流程結束後要回去的頁面
+   */
+  public loginRequest = {
+    DeviceType: '',
+    fromOriginUri: ''
+  };
+  /** eyesmedia-identity API url */
+  public authorizationUri: string;
+  /** eyesmedia-identity所需要的Form Body */
+  public loginEyesData = {
+    accountId: '',
+    clientId: '',
+    state: '',
+    scope: '',
+    redirectUri: '',
+    homeUri: '',
+    responseType: '',
+    viewConfig: ''
+  };
+  @BlockUI() blockUI: NgBlockUI;
   constructor(private router: Router, private http: HttpClient, private cookieService: CookieService) {}
 
-  toApiEyes46111(dataJson: any): Observable<any> {
-    const obj = JSON.parse(dataJson);
-    // const fd = new FormData(obj);
-    // fd.append('clientId', obj.clientId);
-    // fd.append('scope', obj.scope);
-    // fd.append('redirectUri', obj.redirectUri);
-    // fd.append('homeUri', obj.homeUri);
-    // fd.append('state', obj.state);
-    // fd.append('responseType', obj.responseType);
-    // fd.append('accountId', obj.accountId);
-    // fd.append('viewConfig', obj.viewConfig);
-
-    const dataEyes46111 = {
-      clientId: '7a198a98-871d-4d36-866d-3b246488a2cc',
-      scope: 'profile,email',
-      redirectUri: 'https://login-uuat.mobii.ai/auth/api/v1/oauth2callback',
-      homeUri: 'https://login-uuat.mobii.ai/auth/api/v1/home',
-      state: '086306',
-      responseType: 'code',
-      accountId: 'd3f53a60-db70-11e9-8a34-2a2ae2dbcce4',
-      viewConfig: '{"prodType":"Mobii"}'
-    };
-    console.log('46111', dataJson);
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Access-Control-Allow-Origin': '*'
-    });
-    return this.http.post(obj.AuthorizationUri, { Data: JSON.stringify(dataEyes46111) }, { headers })
-      .pipe(map((data: eyesLoginAPI46111) => {
-        console.log('46111OK', data);
-        return data;
-      }, catchError(() => null)));
-  }
-  // toApiEyes46111(): void {
-  //   const dataEyes46111 = {
-  //     clientId: '7a198a98-871d-4d36-866d-3b246488a2cc',
-  //     scope: 'profile,email',
-  //     redirectUri: 'https://login-uuat.mobii.ai/auth/api/v1/oauth2callback',
-  //     homeUri: 'https://login-uuat.mobii.ai/auth/api/v1/home',
-  //     state: '086306',
-  //     responseType: 'code',
-  //     accountId: 'd3f53a60-db70-11e9-8a34-2a2ae2dbcce4',
-  //     viewConfig: '{"prodType":"Mobii"}'
-  //   };
-  //   const XHR = new XMLHttpRequest();
-  //   // const FD  = new FormData();
-  //   XHR.open('POST', 'https://uatid.justka.ai/oauth2');
-  //   XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-  //   XHR.setRequestHeader('Access-Control-Allow-Origin', '*');
-  //   XHR.send(JSON.stringify(dataEyes46111));
-  // }
+  /** 從後端取得viewConfig to eyesmedia-identity  */
   getConfigResponse(request: any): Observable<any> {
     return this.http.post(this.loginApiUrl, { Data: JSON.stringify(request) })
       .pipe(map((data: oauthLoginRequest) => {
@@ -81,35 +53,50 @@ export class OauthService {
       }, catchError(() => null)));
   }
 
-  /** 判斷跳出網頁或APP的登入頁 */
-  loginPage(): void {
+  /** Form POST to eyesmedia-identity */
+  toApiEyes46111(dataJson: any) {
+    const obj = JSON.parse(dataJson);
+    this.loginEyesData.clientId = obj.clientId;
+    this.loginEyesData.scope = obj.scope;
+    this.loginEyesData.redirectUri = obj.redirectUri;
+    this.loginEyesData.homeUri = obj.homeUri;
+    this.loginEyesData.state = obj.state;
+    this.loginEyesData.responseType = obj.responseType;
+    this.loginEyesData.accountId = obj.accountId;
+    this.loginEyesData.viewConfig = obj.viewConfig;
+    this.authorizationUri = obj.AuthorizationUri;
+    this.openBlock();
+    setTimeout(() => {
+      (document.getElementById('oauthlogin') as HTMLFormElement).submit();
+    }, 1000);
+  }
+
+  /** 判斷跳出網頁或APP的登入頁
+   * pathname由登入按鈕帶入，傳給fromOriginUri
+   */
+  loginPage(pathname: string): void {
     if (navigator.userAgent.match(/android/i)) {
       //  Android
-      this.loginDeviceType = '2';
+      this.loginRequest.DeviceType = '2';
       AppJSInterface.login();
     } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
       //  IOS
-      this.loginDeviceType = '1';
+      this.loginRequest.DeviceType = '1';
       (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'login' });
     } else {
+      this.loginRequest.fromOriginUri = pathname;
+      localStorage.setItem('M_fromOriginUri', pathname);
+      this.loginRequest.DeviceType = '0';
       this.router.navigate(['/Login']);
-      this.loginDeviceType = '0';
     }
+  }
+
+  /** 打開遮罩 */
+  openBlock(): void {
+    this.blockUI.start('Loading...'); // Start blocking
   }
 }
 
-
-export interface eyesLoginAPI46111 {
-  AuthorizationUri: string;
-  accountId: string;
-  clientId: string;
-  state: string;
-  scope: string;
-  redirectUri: string;
-  homeUri: string;
-  responseType: string;
-  viewConfig: string;
-}
 
 /** 登入 API Request interface
  * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/oauth2-api
@@ -121,3 +108,5 @@ export interface oauthLoginRequest {
   messageDatetime: string;
   data: string;
 }
+
+

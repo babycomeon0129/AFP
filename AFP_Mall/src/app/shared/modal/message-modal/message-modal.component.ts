@@ -37,7 +37,7 @@ export class MessageModalComponent implements OnInit {
   rightBtnMsg: string;
   /** 右邊按鈕連結 (視窗需要2顆確認按鈕時使用) */
   rightBtnUrl: string;
-  /** 網址傳參 (連結跳轉須加上參數時使用，預設為單顆按鈕/ 雙顆按鈕左邊按鈕的傳參)*/
+  /** 網址傳參 (連結跳轉須加上參數時使用，預設為單顆按鈕/ 雙顆按鈕左邊按鈕的傳參) */
   queryParams1: object;
   /** 網址傳參2 (連結跳轉須加上參數時使用，預設為雙顆按鈕時右邊按鈕的傳參) */
   queryParams2: object;
@@ -56,7 +56,7 @@ export class MessageModalComponent implements OnInit {
         this.goToUrl(this.target, this.queryParams1);
         break;
       case 2:
-        this.oauthService.loginPage();
+        this.oauthService.loginPage(this.appService.currentUri);
         this.bsModalRef.hide();
         break;
       case 3:
@@ -86,7 +86,7 @@ export class MessageModalComponent implements OnInit {
     if (this.appService.isApp !== null) {
       this.bsModalRef.hide();
     } else {
-      // 將VerifiedInfot傳到password modal那裏
+      // 將VerifiedInfo傳到password modal那裏
       const initialState = {
         VerifiedInfo: this.VerifiedInfo
       };

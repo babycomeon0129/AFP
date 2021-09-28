@@ -220,7 +220,7 @@ export class ProductDetailComponent implements OnInit {
   onAddToCart() {
     if (this.productIsBuy) {
       if (this.productInfo.Product_Type === 21 && !this.appService.loginState) { // 電子票券: 先確認已登入
-        this.oauthService.loginPage();
+        this.oauthService.loginPage(this.appService.currentUri);
       } else if (this.productInfo.Product_Type === 2) { // 外部商品直接外連到外部頁面
         window.open(this.productInfo.Product_URL);
       } else {  // 一般商品 & 電子票券(已登入) 走以下流程
