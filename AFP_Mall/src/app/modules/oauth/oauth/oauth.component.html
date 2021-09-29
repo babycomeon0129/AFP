@@ -1,4 +1,4 @@
-<p>DeviceType: {{oauthService.loginRequest.DeviceType}}</p>
+<p>deviceType: {{oauthService.loginRequest.deviceType}}</p>
 <p>fromOriginUri: {{oauthService.loginRequest.fromOriginUri}}</p>
 <p>authorizationUri: {{oauthService.authorizationUri}}</p>
 <div>
@@ -10,7 +10,7 @@
 class="m-topbox-item btn bluedk-outline-btn btw-small">
   old 登入/註冊
 </button>
-<button (click)="oauthService.loginPage(pathname);appService.loginState=true" type="button"
+<button (click)="oauthService.loginPage(pathname)" type="button"
   class="m-topbox-item btn bluedk-outline-btn btw-small">
   new 登入/註冊
 </button>

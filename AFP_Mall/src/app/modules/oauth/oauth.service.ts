@@ -18,12 +18,12 @@ export class OauthService {
   /** Mobii login API url */
   public loginApiUrl = 'https://login-uuat.mobii.ai/auth/api/v1/login';
   /** Mobii login所需要的Request
-   * @param DeviceType 登入裝置類型 0:Web 1:iOS 2:Android
-   * @param fromOriginUri 登入流程結束後要回去的頁面
+   * @param deviceType 登入裝置類型 0:Web 1:iOS 2:Android
+   * @param fromOriginUri 登入流程結束後要回去的頁面 預設首頁
    */
   public loginRequest = {
-    DeviceType: '',
-    fromOriginUri: ''
+    deviceType: 0,
+    fromOriginUri: '/'
   };
   /** eyesmedia-identity API url */
   public authorizationUri: string;
@@ -41,21 +41,21 @@ export class OauthService {
   @BlockUI() blockUI: NgBlockUI;
   constructor(private router: Router, private http: HttpClient, private cookieService: CookieService) {}
 
-  /** 從後端取得viewConfig to eyesmedia-identity  */
-  getConfigResponse(request: any): Observable<any> {
+  /** 「登入1-1-3」從後端取得資料  */
+  toOauthRequest(request: RequestOauthLogin): Observable<any> {
+    this.openBlock();
     return this.http.post(this.loginApiUrl, { Data: JSON.stringify(request) })
-      .pipe(map((data: oauthLoginRequest) => {
-        if (data.errorCode === '996600001') {
-          const jData = JSON.stringify(data.data);
-          this.toApiEyes46111(jData);
-          return data.data;
-        }
-      }, catchError(() => null)));
+      .pipe(map((data: ResponseOauthLogin) => {
+          if (data.errorCode === '996600001') {
+            console.log('1-1-3ok:', data.errorCode);
+            return this.toApiEyes46111(data.data);
+          }
+        }, catchError(() => null)));
   }
 
-  /** Form POST to eyesmedia-identity */
+  /** 「登入1-1-4」從後端取得的資料，FormPost給艾斯身份識別渲染用 */
   toApiEyes46111(dataJson: any) {
-    const obj = JSON.parse(dataJson);
+    const obj = JSON.parse(JSON.stringify(dataJson));
     this.loginEyesData.clientId = obj.clientId;
     this.loginEyesData.scope = obj.scope;
     this.loginEyesData.redirectUri = obj.redirectUri;
@@ -65,28 +65,32 @@ export class OauthService {
     this.loginEyesData.accountId = obj.accountId;
     this.loginEyesData.viewConfig = obj.viewConfig;
     this.authorizationUri = obj.AuthorizationUri;
-    this.openBlock();
+    console.log('1-1-4toForm:', this.loginEyesData);
     setTimeout(() => {
-      (document.getElementById('oauthlogin') as HTMLFormElement).submit();
-    }, 1000);
+      this.blockUI.stop();
+      console.log('1-1-5toEyes FormPost:', this.authorizationUri);
+      (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
+    }, 1500);
   }
 
-  /** 判斷跳出網頁或APP的登入頁
-   * pathname由登入按鈕帶入，傳給fromOriginUri
+  /** 「登入1-1-1」判斷跳出網頁或APP的登入頁
+   * App：原生登入後取得idtoken，傳給後端。若無多重帳號由後端轉App；若有多重帳號則fromOriginUri由後端提供
+   * Web：pathname由登入按鈕帶入，做為返回依據，為避免重整資料遺失暫存於sessionStorage
    */
   loginPage(pathname: string): void {
     if (navigator.userAgent.match(/android/i)) {
       //  Android
-      this.loginRequest.DeviceType = '2';
+      this.loginRequest.deviceType = 2;
       AppJSInterface.login();
     } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
       //  IOS
-      this.loginRequest.DeviceType = '1';
+      this.loginRequest.deviceType = 1;
       (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'login' });
     } else {
-      this.loginRequest.fromOriginUri = pathname;
-      localStorage.setItem('M_fromOriginUri', pathname);
-      this.loginRequest.DeviceType = '0';
+      //  Web
+      this.loginRequest.deviceType = 0;
+      this.loginRequest.fromOriginUri = (pathname !== null ) ? pathname : '/';
+      sessionStorage.setItem('M_fromOriginUri', pathname);
       this.router.navigate(['/Login']);
     }
   }
@@ -101,12 +105,30 @@ export class OauthService {
 /** 登入 API Request interface
  * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/oauth2-api
  */
-export interface oauthLoginRequest {
+
+export interface RequestOauthLogin {
+  deviceType: number;
+  deviceCode?: string;
+  fromOriginUri: string;
+}
+
+export interface ResponseOauthLogin {
   messageId: string;
   errorCode: string;
   errorDesc: string;
   messageDatetime: string;
   data: string;
+}
+
+export interface RequestOauthLoginEyes {
+  accountId: string;
+  clientId: string;
+  state: string;
+  scope: string;
+  redirectUri: string;
+  homeUri: string;
+  responseType: string;
+  viewConfig: string;
 }
 
 

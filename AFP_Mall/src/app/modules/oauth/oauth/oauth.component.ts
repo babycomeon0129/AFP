@@ -37,6 +37,7 @@ export class OauthComponent implements OnInit {
   // }
 
   showConfigResponse() {
+    /** 「登入1-1」傳送按鈕當下頁面給後端，做為返回依據 */
     this.oauthService.loginPage(this.appService.currentUri);
   }
   // signInWithOauth(form: NgForm): void {

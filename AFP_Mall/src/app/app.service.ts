@@ -95,7 +95,7 @@ export class AppService {
       xEyes_Command: command,
       xEyes_X: (lng != null) ? lng.toString() : '',
       xEyes_Y: (lat != null) ? lat.toString() : '',
-      xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.DeviceType : '0',
+      xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
       xEyes_CustomerInfo: (sessionStorage.getItem('CustomerInfo') !== null) ? sessionStorage.getItem('CustomerInfo') : '',
       xEyes_DeviceCode: deviceCode === undefined ? '' : deviceCode,
       Authorization: 'Bearer 1234567'
@@ -227,7 +227,7 @@ export class AppService {
       xEyes_Command: command,
       xEyes_X: (lng != null) ? lng.toString() : '',
       xEyes_Y: (lat != null) ? lat.toString() : '',
-      xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.DeviceType : '0',
+      xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
       Authorization: 'Bearer 1234567',
       xEyes_CustomerInfo: (sessionStorage.getItem('CustomerInfo') !== null) ? sessionStorage.getItem('CustomerInfo') : ''
     });

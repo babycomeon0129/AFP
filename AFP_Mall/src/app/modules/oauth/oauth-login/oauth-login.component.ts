@@ -1,7 +1,8 @@
+import { async } from '@angular/core/testing';
 import { style } from '@angular/animations';
 import { Router } from '@angular/router';
 import { AppService } from '@app/app.service';
-import { OauthService } from '@app/modules/oauth/oauth.service';
+import { OauthService, RequestOauthLogin } from '@app/modules/oauth/oauth.service';
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
@@ -22,13 +23,9 @@ export class OauthLoginComponent implements OnInit {
     this.viewType = 0;
   }
   onLoginEyes() {
-    if (this.oauthService.loginRequest.fromOriginUri === '' && localStorage.getItem('M_fromOriginUri') !== undefined) {
-      this.oauthService.loginRequest.fromOriginUri = localStorage.getItem('M_fromOriginUri');
-    } else if (this.oauthService.loginRequest.fromOriginUri === null) {
-      this.oauthService.loginRequest.fromOriginUri = '/';
-    }
-    console.log('onLoginEyes', this.oauthService.loginRequest);
-    this.oauthService.getConfigResponse(this.oauthService.loginRequest).subscribe((data: any) => { });
+    /** 「登入1-1-2」提供登入所需Request給後端，以便response取得後端提供的資料 */
+    console.log('1-1-2req:', this.oauthService.loginRequest);
+    (this.oauthService.toOauthRequest(this.oauthService.loginRequest)).subscribe((data: RequestOauthLogin) => {});
   }
   // onSubmit(form: NgForm) {
   //   localStorage.setItem('M_loginCheckBox', form.value.loginCheck);
