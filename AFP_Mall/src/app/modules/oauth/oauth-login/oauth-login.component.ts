@@ -22,10 +22,11 @@ export class OauthLoginComponent implements OnInit {
   ngOnInit() {
     this.viewType = 0;
   }
-  onLoginEyes() {
-    /** 「登入1-1-2」提供登入所需Request給後端，以便response取得後端提供的資料 */
-    console.log('1-1-2req:', this.oauthService.loginRequest);
-    (this.oauthService.toOauthRequest(this.oauthService.loginRequest)).subscribe((data: RequestOauthLogin) => {});
+  async onLoginEyes() {
+    /** 「登入1-2-1」AJAX提供登入所需Request給後端，以便response取得後端提供的資料，再FORM POST給艾斯識別 */
+    console.log('1-2-1:ajax request to BE', this.oauthService.loginRequest);
+    (await ((this.oauthService.toOauthRequest(this.oauthService.loginRequest)))).subscribe((data: RequestOauthLogin) => {});
+
   }
   // onSubmit(form: NgForm) {
   //   localStorage.setItem('M_loginCheckBox', form.value.loginCheck);
