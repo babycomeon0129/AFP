@@ -54,7 +54,7 @@ export class OauthService {
         }, catchError(() => null)));
   }
 
-  /** 「登入1-2-3」從後端取得的資料，FormPost給艾斯身份識別渲染用 */
+  /** 「登入1-2-3」從後端取得的資料帶入表單，FormPost給艾斯身份識別渲染用 */
   toApiEyes46111(dataJson: any) {
     const obj = JSON.parse(JSON.stringify(dataJson));
     this.loginEyesData.clientId = obj.clientId;
