@@ -66,12 +66,11 @@ export class OauthService {
     this.loginEyesData.accountId = obj.accountId;
     this.loginEyesData.viewConfig = obj.viewConfig;
     this.authorizationUri = obj.AuthorizationUri;
-    console.log('1-2-3:ajax data to form', this.loginEyesData);
-    setTimeout(() => {
-      this.blockUI.stop();
-      console.log('1-2-4:form submit to identity');
-      (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
-    }, 1500);
+    console.log('1-2-3:ajax data to form:', this.loginEyesData);
+    // setTimeout(() => {
+    //   this.blockUI.stop();
+    //   (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
+    // }, 1500);
   }
 
   /** 「登入1-1-1」判斷跳出網頁或APP的登入頁
