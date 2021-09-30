@@ -23,7 +23,8 @@ export class OauthService {
    */
   public loginRequest = {
     deviceType: 0,
-    fromOriginUri: '/'
+    deviceCode: localStorage.getItem('M_DeviceCode') || null,
+    fromOriginUri: sessionStorage.getItem('M_fromOriginUri') || '/'
   };
   /** eyesmedia-identity API url */
   public authorizationUri: string;
@@ -41,19 +42,19 @@ export class OauthService {
   @BlockUI() blockUI: NgBlockUI;
   constructor(private router: Router, private http: HttpClient, private cookieService: CookieService) {}
 
-  /** 「登入1-1-3」從後端取得資料  */
-  toOauthRequest(request: RequestOauthLogin): Observable<any> {
+  /** 「登入1-2-2」從後端取得資料AJAX  */
+  async toOauthRequest(request: RequestOauthLogin): Promise<Observable<any>> {
     this.openBlock();
     return this.http.post(this.loginApiUrl, { Data: JSON.stringify(request) })
-      .pipe(map((data: ResponseOauthLogin) => {
+      .pipe(await map((data: ResponseOauthLogin) => {
           if (data.errorCode === '996600001') {
-            console.log('1-1-3ok:', data.errorCode);
+            console.log('1-2-2:ajax ok:', data.errorCode);
             return this.toApiEyes46111(data.data);
           }
         }, catchError(() => null)));
   }
 
-  /** 「登入1-1-4」從後端取得的資料，FormPost給艾斯身份識別渲染用 */
+  /** 「登入1-2-3」從後端取得的資料，FormPost給艾斯身份識別渲染用 */
   toApiEyes46111(dataJson: any) {
     const obj = JSON.parse(JSON.stringify(dataJson));
     this.loginEyesData.clientId = obj.clientId;
@@ -65,12 +66,11 @@ export class OauthService {
     this.loginEyesData.accountId = obj.accountId;
     this.loginEyesData.viewConfig = obj.viewConfig;
     this.authorizationUri = obj.AuthorizationUri;
-    console.log('1-1-4toForm:', this.loginEyesData);
-    setTimeout(() => {
-      this.blockUI.stop();
-      console.log('1-1-5toEyes FormPost:', this.authorizationUri);
-      (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
-    }, 1500);
+    console.log('1-2-3:ajax data to form:', this.loginEyesData);
+    // setTimeout(() => {
+    //   this.blockUI.stop();
+    //   (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
+    // }, 1500);
   }
 
   /** 「登入1-1-1」判斷跳出網頁或APP的登入頁
