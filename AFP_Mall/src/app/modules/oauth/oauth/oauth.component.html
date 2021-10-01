@@ -1,18 +1,14 @@
-<p>deviceType: {{oauthService.loginRequest.deviceType}}</p>
-<p>fromOriginUri: {{oauthService.loginRequest.fromOriginUri}}</p>
-<p>authorizationUri: {{oauthService.authorizationUri}}</p>
+<h1>艾斯識別登入</h1>
 <div>
-  <button type="button" class="btn bluedk-outline-btn btw-small" (click)="showConfigResponse()">Ajax 登入</button>
+  <!-- 「登入1-1」傳送按鈕(當下頁面)給後端，做為返回依據 -->
+  <button type="button" class="btn bluedk-outline-btn btw-small" (click)="oauthService.loginPage(this.appService.currentUri)">Ajax 登入</button>
 </div>
 <hr class="border m-3">
+<h1>舊Mobii登入</h1>
 <!-- 未登入 -->
 <button (click)="appService.loginPage();appService.loginState=true" type="button"
 class="m-topbox-item btn bluedk-outline-btn btw-small">
   old 登入/註冊
-</button>
-<button (click)="oauthService.loginPage(pathname)" type="button"
-  class="m-topbox-item btn bluedk-outline-btn btw-small">
-  new 登入/註冊
 </button>
 <!-- 登入 -->
 <div>

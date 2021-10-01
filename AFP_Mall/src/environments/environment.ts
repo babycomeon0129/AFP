@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:55254/api/',
+  loginUrl: 'https://login-uuat.mobii.ai/auth/api/v1/login',
   FBApiKey: '349758176149496',
   GoogleApiKey: '260499247538-ctoucp9t09ufdpgqmd4ac368lfpgmorm.apps.googleusercontent.com',
   cookieDomain: 'localhost',

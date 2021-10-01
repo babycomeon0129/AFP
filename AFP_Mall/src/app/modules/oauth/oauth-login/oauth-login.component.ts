@@ -1,10 +1,8 @@
-import { async } from '@angular/core/testing';
-import { style } from '@angular/animations';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppService } from '@app/app.service';
-import { OauthService, RequestOauthLogin } from '@app/modules/oauth/oauth.service';
-import { Component, ElementRef, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { OauthService, ResponseOauthLogin, OauthLoginViewConfig } from '@app/modules/oauth/oauth.service';
+import { Component, ElementRef, OnInit, AfterViewInit } from '@angular/core';
+
 
 @Component({
   selector: 'app-oauth-login',
@@ -12,21 +10,51 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./oauth-login.component.scss',
     '../../../../styles/layer/shopping-footer.scss'],
 })
-export class OauthLoginComponent implements OnInit {
+export class OauthLoginComponent implements OnInit, AfterViewInit {
   /** 頁面切換 0:帳號升級公告 1:帳號整併 */
-  public viewType: number;
-
+  public viewType = 0;
+  /** 艾斯身份識別登入API uri */
+  public AuthorizationUri: string;
+  /** 艾斯身份識別登入 */
+  public viewData: OauthLoginViewConfig[] = [];
+  public viewList = [];
   constructor(public appService: AppService, public oauthService: OauthService, private router: Router,
-              public el: ElementRef) {}
+              public el: ElementRef, private activatedRoute: ActivatedRoute) {
+    /** 「登入1-1-3」APP訪問 */
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.appService.loginRequest.deviceType =
+        (typeof params.deviceType !== 'undefined') ? Number(params.deviceType) : 0;
+      this.appService.loginRequest.deviceCode =
+        (typeof params.deviceCode !== 'undefined') ? params.deviceCode : localStorage.getItem('M_DeviceCode');
+      this.appService.loginRequest.fromOriginUri =
+        (typeof params.fromOriginUri !== 'undefined') ? params.fromOriginUri : '/';
+    });
+  }
 
   ngOnInit() {
-    this.viewType = 0;
+    this.getViewData();
   }
-  async onLoginEyes() {
-    /** 「登入1-2-1」AJAX提供登入所需Request給後端，以便response取得後端提供的資料，再FORM POST給艾斯識別 */
-    console.log('1-2-1:ajax request to BE', this.oauthService.loginRequest);
-    (await ((this.oauthService.toOauthRequest(this.oauthService.loginRequest)))).subscribe((data: RequestOauthLogin) => {});
+  getViewData() {
+    /** 「登入1-2」AJAX提供登入所需Request給後端，以便response取得後端提供的資料 */
+    this.appService.openBlock();
+    (this.oauthService.toOauthRequest(this.appService.loginRequest)).subscribe((data: OauthLoginViewConfig) => {
+      /** 「登入1-2-2」取得Response資料，讓Form渲染 */
+      this.viewData = Object.assign(data);
+      this.AuthorizationUri = data.AuthorizationUri;
+      this.viewList = Object.entries(data).map(([key, val]) => {
+        return {name: key, value: val};
+      });
+      this.appService.blockUI.stop();
+    });
+  }
 
+  onLoginEyes() {
+    /** 「登入1-3」FORM POST給艾斯識別 */
+    localStorage.setItem('M_upgrade', 'ok');
+    (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
+  }
+
+  ngAfterViewInit() {
   }
   // onSubmit(form: NgForm) {
   //   localStorage.setItem('M_loginCheckBox', form.value.loginCheck);

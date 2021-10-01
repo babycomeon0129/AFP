@@ -3,7 +3,7 @@
       <div class="header-secondary container linebt-row">
           <div class="index-flex justify-content-between">
               <div class="item two">
-                  <div [hidden]="appService.isApp !== null" class="close-btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                  <div *ngIf="appService.isApp !== 1" [hidden]="viewType !== 0" class="close-btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
                       <i class="material-icons">&#xe314;</i>
                   </div>
               </div>
@@ -64,16 +64,11 @@
     <div class="fixed-bottom container fixed-shadow">
       <div *ngIf="viewType===0" class="p-3">
         <button type="button" (click)="onLoginEyes()" class="btn index-btn w-100 login-ok">前往登入註冊</button>
-        <form [(action)]="oauthService.authorizationUri" method="POST" id="oauthLoginForm" #oauthLoginForm>
-          <input type="hidden" name="clientId" [(value)]="oauthService.loginEyesData.clientId">
-          <input type="hidden" name="scope" [(value)]="oauthService.loginEyesData.scope">
-          <input type="hidden" name="redirectUri" [(value)]="oauthService.loginEyesData.redirectUri">
-          <input type="hidden" name="homeUri" [(value)]="oauthService.loginEyesData.homeUri">
-          <input type="hidden" name="state" [(value)]="oauthService.loginEyesData.state">
-          <input type="hidden" name="responseType" [(value)]="oauthService.loginEyesData.responseType">
-          <input type="hidden" name="accountId" [(value)]="oauthService.loginEyesData.accountId">
-          <input type="hidden" name="viewConfig" [(value)]="oauthService.loginEyesData.viewConfig">
-        </form>
+          <form [(action)]="AuthorizationUri" method="POST" id="oauthLoginForm" #oauthLoginForm>
+            <div *ngFor="let item of viewList">
+              <input type="hidden" [name]="item.name" [value]="item.value" *ngIf="item.name !=='AuthorizationUri'">
+            </div>
+          </form>
       </div>
       <div *ngIf="viewType===1" class="p-3">
         <button type="button" class="btn index-btn w-100 login-ok">立即升級綁定</button>

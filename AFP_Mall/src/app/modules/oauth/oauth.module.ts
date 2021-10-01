@@ -1,3 +1,4 @@
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -21,6 +22,7 @@ import { OauthLoginComponent } from './oauth-login/oauth-login.component';
     FormsModule,
     HttpClientModule,
     OauthRoutingModule
-  ]
+  ],
+  providers: [OauthService]
 })
 export class OauthModule { }

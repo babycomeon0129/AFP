@@ -3,6 +3,7 @@ import { environment } from '@env/environment';
 import { Component, KeyValueDiffer, KeyValueDiffers, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ResolveEnd } from '@angular/router';
 import { AppService } from '@app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { ModalService } from './shared/modal/modal.service';
 import { CookieService } from 'ngx-cookie-service';
 import { RouterOutlet } from '@angular/router';
@@ -28,7 +29,8 @@ export class AppComponent implements OnInit {
   public thirdRequest: Request_AFPThird = new Request_AFPThird();
 
   constructor(private router: Router, public appService: AppService, private activatedRoute: ActivatedRoute, public modal: ModalService,
-              private cookieService: CookieService, private differs: KeyValueDiffers, private callApp: AppJSInterfaceService) {
+              private cookieService: CookieService, private differs: KeyValueDiffers, private callApp: AppJSInterfaceService,
+              public oauthService: OauthService) {
     this.serviceDiffer = this.differs.find({}).create();
     if (sessionStorage.getItem('CustomerInfo') !== null && sessionStorage.getItem('userCode') !== null
       && sessionStorage.getItem('userName') !== null) {
@@ -42,6 +44,7 @@ export class AppComponent implements OnInit {
         this.appService.isApp = Number(params.isApp);
       }
 
+      // 任務用
       if (typeof params.loginType !== 'undefined') {
         if (params.loginType == 1) {
           // APP 為登入狀態則將該 webview 也同步為登入
@@ -81,42 +84,42 @@ export class AppComponent implements OnInit {
         this.cookieService.set('cart_code', params.cartCode, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       }
 
-      // 第三方登入(LINE)
-      if (params.Mobii_ThirdLogin === 'true' && params.Mode !== undefined && params.Token !== undefined && !this.appService.loginState) {
-        this.thirdRequest.Mode = Number(params.Mode);
-        this.thirdRequest.Account = params.Token;
-        this.thirdRequest.Token = params.Token;
-        this.appService.toApi('AFPAccount', '1105', this.thirdRequest).subscribe((data: Response_AFPLogin) => {
-          // 塞Session
-          sessionStorage.setItem('userName', data.Model_UserInfo.Customer_Name);
-          sessionStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
-          sessionStorage.setItem('CustomerInfo', data.Model_UserInfo.CustomerInfo);
-          sessionStorage.setItem('userFavorites', JSON.stringify(data.List_UserFavourite));
-          this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-          this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-          this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-          this.cookieService.set('Mobii_ThirdLogin', 'true', 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-          this.appService.userName = data.Model_UserInfo.Customer_Name;
-          this.appService.loginState = true;
-          this.appService.userLoggedIn = true;
-          this.appService.showFavorites();
-          this.appService.readCart();
-          // 通知推播
-          // this.appService.initPush();
-          this.appService.getPushPermission();
-        });
-      }
+      // // 第三方登入(LINE)
+      // if (params.Mobii_ThirdLogin === 'true' && params.Mode !== undefined && params.Token !== undefined && !this.appService.loginState) {
+      //   this.thirdRequest.Mode = Number(params.Mode);
+      //   this.thirdRequest.Account = params.Token;
+      //   this.thirdRequest.Token = params.Token;
+      //   this.appService.toApi('AFPAccount', '1105', this.thirdRequest).subscribe((data: Response_AFPLogin) => {
+      //     // 塞Session
+      //     sessionStorage.setItem('userName', data.Model_UserInfo.Customer_Name);
+      //     sessionStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
+      //     sessionStorage.setItem('CustomerInfo', data.Model_UserInfo.CustomerInfo);
+      //     sessionStorage.setItem('userFavorites', JSON.stringify(data.List_UserFavourite));
+      //     this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+      //     this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+      //     this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+      //     this.cookieService.set('Mobii_ThirdLogin', 'true', 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+      //     this.appService.userName = data.Model_UserInfo.Customer_Name;
+      //     this.appService.loginState = true;
+      //     this.appService.userLoggedIn = true;
+      //     this.appService.showFavorites();
+      //     this.appService.readCart();
+      //     // 通知推播
+      //     // this.appService.initPush();
+      //     this.appService.getPushPermission();
+      //   });
+      // }
 
-      // 第三方登入失敗 (目前只有Line)
-      if (params.Mobii_ThirdLogin === 'false' && params.Mode !== undefined && params.Error === '2' && !this.appService.loginState) {
-        let errMessage = '';
-        switch (params.Mode) {
-          case '2':
-            errMessage = 'Line@';
-            break;
-        }
-        this.modal.show('message', { initialState: { success: false, message: `${errMessage}驗證失敗，請重新取得授權`, showType: 1 } });
-      }
+      // // 第三方登入失敗 (目前只有Line)
+      // if (params.Mobii_ThirdLogin === 'false' && params.Mode !== undefined && params.Error === '2' && !this.appService.loginState) {
+      //   let errMessage = '';
+      //   switch (params.Mode) {
+      //     case '2':
+      //       errMessage = 'Line@';
+      //       break;
+      //   }
+      //   this.modal.show('message', { initialState: { success: false, message: `${errMessage}驗證失敗，請重新取得授權`, showType: 1 } });
+      // }
     });
   }
 

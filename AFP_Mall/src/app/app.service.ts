@@ -33,12 +33,23 @@ declare var AppJSInterface: any;
   providedIn: 'root'
 })
 export class AppService {
+
+  /** Mobii login所需要的Request
+   * @param deviceType 登入裝置類型 0:Web 1:iOS 2:Android
+   * @param fromOriginUri 登入流程結束後要回去的頁面(預設首頁)
+   */
+  public loginRequest = {
+    deviceType: 0,
+    deviceCode: '',
+    fromOriginUri: ''
+  };
   /** 登入狀態 */
   public loginState = false;
-  /** 使用者暱稱 */
-  public userName: string;
   /** App訪問 */
   public isApp: number = null;
+
+  /** 使用者暱稱 */
+  public userName: string;
   /** 我的收藏物件陣列 */
   public userFavArr = [];
   /** 我的收藏編碼陣列 */
@@ -95,7 +106,7 @@ export class AppService {
       xEyes_Command: command,
       xEyes_X: (lng != null) ? lng.toString() : '',
       xEyes_Y: (lat != null) ? lat.toString() : '',
-      xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
+      xEyes_DeviceType: (this.isApp != null) ? this.loginRequest.deviceType.toString() : '0',
       xEyes_CustomerInfo: (sessionStorage.getItem('CustomerInfo') !== null) ? sessionStorage.getItem('CustomerInfo') : '',
       xEyes_DeviceCode: deviceCode === undefined ? '' : deviceCode,
       Authorization: 'Bearer 1234567'
@@ -227,7 +238,7 @@ export class AppService {
       xEyes_Command: command,
       xEyes_X: (lng != null) ? lng.toString() : '',
       xEyes_Y: (lat != null) ? lat.toString() : '',
-      xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
+      xEyes_DeviceType: (this.isApp != null) ? this.loginRequest.deviceType.toString() : '0',
       Authorization: 'Bearer 1234567',
       xEyes_CustomerInfo: (sessionStorage.getItem('CustomerInfo') !== null) ? sessionStorage.getItem('CustomerInfo') : ''
     });

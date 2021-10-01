@@ -1,105 +1,58 @@
+import { environment } from '@env/environment';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, retry } from 'rxjs/operators';
-import { environment } from '@env/environment';
 import { CookieService } from 'ngx-cookie-service';
-import { FormGroup } from '@angular/forms';
-import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { OauthLoginComponent } from '../oauth/oauth-login/oauth-login.component';
 
 declare var AppJSInterface: any;
 @Injectable({
   providedIn: 'root'
 })
 export class OauthService {
-  /** Mobii login API url */
-  public loginApiUrl = 'https://login-uuat.mobii.ai/auth/api/v1/login';
-  /** Mobii login所需要的Request
-   * @param deviceType 登入裝置類型 0:Web 1:iOS 2:Android
-   * @param fromOriginUri 登入流程結束後要回去的頁面 預設首頁
-   */
-  public loginRequest = {
-    deviceType: 0,
-    deviceCode: localStorage.getItem('M_DeviceCode') || null,
-    fromOriginUri: sessionStorage.getItem('M_fromOriginUri') || '/'
-  };
-  /** eyesmedia-identity API url */
-  public authorizationUri: string;
-  /** eyesmedia-identity所需要的Form Body */
-  public loginEyesData = {
-    accountId: '',
-    clientId: '',
-    state: '',
-    scope: '',
-    redirectUri: '',
-    homeUri: '',
-    responseType: '',
-    viewConfig: ''
-  };
-  @BlockUI() blockUI: NgBlockUI;
+
   constructor(private router: Router, private http: HttpClient, private cookieService: CookieService) {}
 
   /** 「登入1-2-2」從後端取得資料AJAX  */
-  async toOauthRequest(request: RequestOauthLogin): Promise<Observable<any>> {
-    this.openBlock();
-    return this.http.post(this.loginApiUrl, { Data: JSON.stringify(request) })
-      .pipe(await map((data: ResponseOauthLogin) => {
-          if (data.errorCode === '996600001') {
-            console.log('1-2-2:ajax ok:', data.errorCode);
-            return this.toApiEyes46111(data.data);
-          }
-        }, catchError(() => null)));
+  toOauthRequest(req: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    const request = {
+      deviceType: req.deviceType,
+      deviceCode: req.deviceCode,
+      fromOriginUri: req.fromOriginUri
+    };
+    console.log(JSON.stringify(request));
+    return this.http.post(environment.loginUrl, { Data: JSON.stringify(request) }, { headers })
+      .pipe(map((data: ResponseOauthLogin) => {
+        if (data.errorCode !== '996600001') {
+          // 不成功導回登入頁
+          this.router.navigate(['/Login'], {queryParams: {fromOriginUri: req.fromOriginUri}});
+        }
+        return data.data;
+      }, catchError(() => null)));
   }
 
-  /** 「登入1-2-3」從後端取得的資料帶入表單，FormPost給艾斯身份識別渲染用 */
-  toApiEyes46111(dataJson: any) {
-    const obj = JSON.parse(JSON.stringify(dataJson));
-    this.loginEyesData.clientId = obj.clientId;
-    this.loginEyesData.scope = obj.scope;
-    this.loginEyesData.redirectUri = obj.redirectUri;
-    this.loginEyesData.homeUri = obj.homeUri;
-    this.loginEyesData.state = obj.state;
-    this.loginEyesData.responseType = obj.responseType;
-    this.loginEyesData.accountId = obj.accountId;
-    this.loginEyesData.viewConfig = obj.viewConfig;
-    this.authorizationUri = obj.AuthorizationUri;
-    console.log('1-2-3:ajax data to form', this.loginEyesData);
-    setTimeout(() => {
-      this.blockUI.stop();
-      console.log('1-2-4:form submit to identity');
-      (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
-    }, 1500);
-  }
 
-  /** 「登入1-1-1」判斷跳出網頁或APP的登入頁
-   * App：原生登入後取得idtoken，傳給後端。若無多重帳號由後端轉App；若有多重帳號則fromOriginUri由後端提供
-   * Web：pathname由登入按鈕帶入，做為返回依據，為避免重整資料遺失暫存於sessionStorage
+  /** 「登入1-1-2」判斷跳出網頁或APP的登入頁
+   * App：原生點擊登入按鈕（帶queryParams：isApp,deviceType,deviceCode），統一由Web向艾斯識別驗證idtoken
+   * Web：登入按鈕帶入pathname，做為返回依據
    */
   loginPage(pathname: string): void {
     if (navigator.userAgent.match(/android/i)) {
-      //  Android
-      this.loginRequest.deviceType = 2;
+      //  Android call webView
       AppJSInterface.login();
     } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-      //  IOS
-      this.loginRequest.deviceType = 1;
+      //  IOS call webView
       (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'login' });
     } else {
       //  Web
-      this.loginRequest.deviceType = 0;
-      this.loginRequest.fromOriginUri = (pathname !== null ) ? pathname : '/';
-      sessionStorage.setItem('M_fromOriginUri', pathname);
-      this.router.navigate(['/Login']);
+      this.router.navigate(['/Login'], {queryParams: {fromOriginUri: pathname}});
     }
   }
 
-  /** 打開遮罩 */
-  openBlock(): void {
-    this.blockUI.start('Loading...'); // Start blocking
-  }
 }
 
 
@@ -118,10 +71,10 @@ export interface ResponseOauthLogin {
   errorCode: string;
   errorDesc: string;
   messageDatetime: string;
-  data: string;
+  data: Res_ViewConfig[];
 }
-
-export interface RequestOauthLoginEyes {
+export class Res_ViewConfig {
+  AuthorizationUri: string;
   accountId: string;
   clientId: string;
   state: string;
@@ -131,5 +84,14 @@ export interface RequestOauthLoginEyes {
   responseType: string;
   viewConfig: string;
 }
-
-
+export interface OauthLoginViewConfig {
+  AuthorizationUri: string;
+  accountId: string;
+  clientId: string;
+  state: string;
+  scope: string;
+  redirectUri: string;
+  homeUri: string;
+  responseType: string;
+  viewConfig: string;
+}
