@@ -12,20 +12,25 @@ declare var AppJSInterface: any;
 })
 export class OauthService {
 
+  /** Mobii login所需要的Request
+   * @param deviceType 登入裝置類型 0:Web 1:iOS 2:Android
+   * @param fromOriginUri 登入流程結束後要回去的頁面(預設首頁)
+   */
+   public loginRequest = {
+    deviceType: 0,
+    deviceCode: '',
+    fromOriginUri: ''
+  };
+
   constructor(private router: Router, private http: HttpClient, private cookieService: CookieService) {}
 
-  /** 「登入1-2-2」從後端取得資料AJAX  */
-  toOauthRequest(req: any): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-    const request = {
-      deviceType: req.deviceType,
-      deviceCode: req.deviceCode,
-      fromOriginUri: req.fromOriginUri
-    };
-    console.log(JSON.stringify(request));
-    return this.http.post(environment.loginUrl, { Data: JSON.stringify(request) }, { headers })
+  /** 「登入1-2-2」從後端取得資料AJAX POST給後端，以便取得viewConfig資料  */
+  toOauthRequest(req: RequestOauthLogin): Observable<any> {
+    const formData = new FormData();
+    formData.append('deviceType', req.deviceType.toString());
+    formData.append('deviceCode', req.deviceCode);
+    formData.append('fromOriginUri', req.fromOriginUri);
+    return this.http.post(environment.loginUrl, formData)
       .pipe(map((data: ResponseOauthLogin) => {
         if (data.errorCode !== '996600001') {
           // 不成功導回登入頁
@@ -55,14 +60,13 @@ export class OauthService {
 
 }
 
-
 /** 登入 API Request interface
  * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/oauth2-api
  */
 
 export interface RequestOauthLogin {
   deviceType: number;
-  deviceCode?: string;
+  deviceCode: string;
   fromOriginUri: string;
 }
 

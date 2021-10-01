@@ -1,8 +1,8 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppService } from '@app/app.service';
-import { OauthService, ResponseOauthLogin, OauthLoginViewConfig } from '@app/modules/oauth/oauth.service';
+import { OauthService, RequestOauthLogin, OauthLoginViewConfig } from '@app/modules/oauth/oauth.service';
 import { Component, ElementRef, OnInit, AfterViewInit } from '@angular/core';
-
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-oauth-login',
@@ -15,18 +15,19 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   public viewType = 0;
   /** 艾斯身份識別登入API uri */
   public AuthorizationUri: string;
-  /** 艾斯身份識別登入 */
+  /** 艾斯身份識別登入 列表 */
   public viewData: OauthLoginViewConfig[] = [];
+  /** 艾斯身份識別登入 FormPost渲染 */
   public viewList = [];
   constructor(public appService: AppService, public oauthService: OauthService, private router: Router,
               public el: ElementRef, private activatedRoute: ActivatedRoute) {
     /** 「登入1-1-3」APP訪問 */
     this.activatedRoute.queryParams.subscribe(params => {
-      this.appService.loginRequest.deviceType =
+      this.oauthService.loginRequest.deviceType =
         (typeof params.deviceType !== 'undefined') ? Number(params.deviceType) : 0;
-      this.appService.loginRequest.deviceCode =
+      this.oauthService.loginRequest.deviceCode =
         (typeof params.deviceCode !== 'undefined') ? params.deviceCode : localStorage.getItem('M_DeviceCode');
-      this.appService.loginRequest.fromOriginUri =
+      this.oauthService.loginRequest.fromOriginUri =
         (typeof params.fromOriginUri !== 'undefined') ? params.fromOriginUri : '/';
     });
   }
@@ -35,10 +36,10 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     this.getViewData();
   }
   getViewData() {
-    /** 「登入1-2」AJAX提供登入所需Request給後端，以便response取得後端提供的資料 */
+    /** 「登入1-2-1」AJAX提供登入所需Request給後端，以便response取得後端提供的資料 */
     this.appService.openBlock();
-    (this.oauthService.toOauthRequest(this.appService.loginRequest)).subscribe((data: OauthLoginViewConfig) => {
-      /** 「登入1-2-2」取得Response資料，讓Form渲染 */
+    (this.oauthService.toOauthRequest(this.oauthService.loginRequest)).subscribe((data: OauthLoginViewConfig) => {
+      /** 「登入1-2-3」取得Response資料，讓Form渲染 */
       this.viewData = Object.assign(data);
       this.AuthorizationUri = data.AuthorizationUri;
       this.viewList = Object.entries(data).map(([key, val]) => {

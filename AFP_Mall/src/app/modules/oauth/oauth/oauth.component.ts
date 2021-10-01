@@ -13,18 +13,10 @@ declare var AppJSInterface: any;
   styleUrls: ['./oauth.component.scss']
 })
 export class OauthComponent implements OnInit {
-  public pathname = location.pathname;
-  public httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'multipart/form-data',
-      'Access-Control-Allow-Origin': '*',
-    })
-  };
 
   headers: string[] = [];
   constructor(public appService: AppService, public oauthService: OauthService,
-              public router: Router, private cookieService: CookieService,
-              private http: HttpClient) { }
+              public router: Router, private cookieService: CookieService) { }
 
   ngOnInit() {
   }
