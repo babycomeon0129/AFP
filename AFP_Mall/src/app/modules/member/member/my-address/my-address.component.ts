@@ -70,7 +70,7 @@ export class MyAddressComponent implements OnInit {
         }
       });
     } else {
-      this.oauthService.loginPage(this.appService.currentUri);
+      this.oauthService.loginPage(this.appService.pathnameUri);
     }
   }
 
@@ -106,7 +106,7 @@ export class MyAddressComponent implements OnInit {
       this.addressId = addressID;
       this.showDetail = true;
     } else {
-      this.oauthService.loginPage(this.appService.currentUri);
+      this.oauthService.loginPage(this.appService.pathnameUri);
     }
   }
 

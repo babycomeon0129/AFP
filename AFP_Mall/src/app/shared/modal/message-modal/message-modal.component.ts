@@ -2,10 +2,8 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { Router } from '@angular/router';
-import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
 import { AFP_ADImg, AFP_VerifiedInfo } from '@app/_models';
-import { PasswordModalComponent } from '../password-modal/password-modal.component';
 
 @Component({
   selector: 'app-message-modal',
@@ -24,11 +22,13 @@ export class MessageModalComponent implements OnInit {
   /** 廣告圖 */
   adImgList: AFP_ADImg[];
   /** 重設密碼用 */
-  VerifiedInfo: AFP_VerifiedInfo;
+  // VerifiedInfo: AFP_VerifiedInfo;
   /** 優惠券名稱 */
   voucherName: string;
   /** 確認按鈕內容 (視窗只有1顆確認按鈕時使用)，預設內容為「確定」，如需更換內容，須設置 */
-  singleBtnMsg = '確定';
+  checkBtnMsg = '確定';
+  /** 確認按鈕連結 (視窗只有1顆確認按鈕時使用) */
+  checkBtnUrl: string;
   /** 左邊按鈕內容 (視窗需要2顆確認按鈕時使用) */
   leftBtnMsg: string;
   /** 左邊按鈕連結 (視窗需要2顆確認按鈕時使用) */
@@ -43,7 +43,7 @@ export class MessageModalComponent implements OnInit {
   queryParams2: object;
 
   constructor(public bsModalRef: BsModalRef, private bsModal: BsModalService,
-              private router: Router, public appService: AppService, private oauthService: OauthService,
+              private router: Router, private oauthService: OauthService,
               private location: Location) { }
 
   ngOnInit() {
@@ -56,11 +56,8 @@ export class MessageModalComponent implements OnInit {
         this.goToUrl(this.target, this.queryParams1);
         break;
       case 2:
-        this.oauthService.loginPage(this.appService.currentUri);
+        this.oauthService.loginPage(location.pathname);
         this.bsModalRef.hide();
-        break;
-      case 3:
-        this.doReset();
         break;
     }
   }
@@ -74,27 +71,11 @@ export class MessageModalComponent implements OnInit {
     this.bsModalRef.hide();
     // 先判斷按下確定鍵後是否需要返回上一頁
     if (url === 'GoBack') {
-      this.location.back();
+      history.back();
     }  else if (url !== null && url !== undefined && url.replace(/(^s*)|(s*$)/g, '').length !== 0) {  // 判斷是否需要前往特定連結
        // 再判斷該連結是否需要傳參
       params === null ? this.router.navigate([url]) : this.router.navigate([url], {queryParams: params});
     }
   }
-
-  /** 跳轉至忘記密碼 */
-  doReset(): void {
-    if (this.appService.isApp !== null) {
-      this.bsModalRef.hide();
-    } else {
-      // 將VerifiedInfo傳到password modal那裏
-      const initialState = {
-        VerifiedInfo: this.VerifiedInfo
-      };
-      this.bsModal.show(PasswordModalComponent, { initialState });
-      this.bsModalRef.hide();
-      // this.modal.show('password', { initialState }, this.bsModalRef);
-    }
-  }
-
 
 }

@@ -8,7 +8,6 @@ import { ActivatedRoute } from '@angular/router';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation } from '@app/animations';
-import { BsModalRef } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-explore-detail',
@@ -71,8 +70,8 @@ export class ExploreDetailComponent implements OnInit {
   public layerTrig = 0;
 
   constructor(public appService: AppService, private oauthService: OauthService,
-              private route: ActivatedRoute, public modal: ModalService,
-              private meta: Meta, private title: Title, private bsModalRef: BsModalRef ) {
+              private route: ActivatedRoute, private modal: ModalService,
+              private meta: Meta, private title: Title ) {
     // 取得商家/景點編碼
     this.siteCode = Number(this.route.snapshot.params.ECStore_Code);
     if (this.route.snapshot.params.ECStore_Code.tabNo !== undefined) {
@@ -95,12 +94,8 @@ export class ExploreDetailComponent implements OnInit {
         this.readTabData(1);
       });
     } else {
-      const initialState = {
-        success: true,
-        message: '該瀏覽器不支援定位功能',
-        showType: 1
-      };
-      this.modal.show('message', { initialState }, this.bsModalRef);
+      this.modal.show('message', { class: 'modal-dialog-centered',
+        initialState: { success: true, message: '該瀏覽器不支援定位功能', showType: 1 } });
       this.lat = 25.034306;
       this.lng = 121.564603;
       this.readTabData(1);
@@ -220,7 +215,7 @@ export class ExploreDetailComponent implements OnInit {
       // 把商店code帶到DeliveryInfo頁面
       window.open(url);
     } else {
-      this.oauthService.loginPage(this.appService.currentUri);
+      this.oauthService.loginPage(this.appService.pathnameUri);
     }
   }
 

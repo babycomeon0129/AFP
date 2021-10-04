@@ -95,7 +95,7 @@ export class MemberCardDetailComponent implements OnInit {
         }
       });
     } else {
-      this.oauthService.loginPage(this.appService.currentUri);
+      this.oauthService.loginPage(this.appService.pathnameUri);
     }
   }
 

@@ -67,20 +67,6 @@ button.close {
     padding-left: 0;
   }
 }
-#messageModal {
-  .modal-body > div {
-    display: none;
-    padding: 0;
-    .border-t {
-      border-bottom-left-radius: 0.5em;
-      border-bottom-right-radius: 0.5em;
-    }
-  }
-  .modal-body {
-    padding: 0;
-    margin-top: 0;
-  }
-}
 
 .modal-body {
   margin-top: 1.2em;
@@ -88,12 +74,6 @@ button.close {
   padding: 0;
   > div {
     padding: 1em 0 0 0;
-    &#msg-noselected {
-      > div:last-child {
-        border-top: 1px #eee solid;
-        padding: 0;
-      }
-    }
   }
   .logo-box {
     img {

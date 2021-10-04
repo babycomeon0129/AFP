@@ -68,7 +68,7 @@ export class ShoppingCartComponent implements OnInit {
       }
       // 進入購物車頁時，如商品改變價格，則跳出提醒用戶商品價格改變
       if(data.List_PriceChange !== null ) {
-        this.modal.show('message', { initialState: { success: false, message: `提醒您，${data.List_PriceChange}價格變更了！`, showType: 1, singleBtnMsg: `我知道了` } });
+        this.modal.show('message', { initialState: { success: false, message: `提醒您，${data.List_PriceChange}價格變更了！`, showType: 1, checkBtnMsg: `我知道了` } });
       }
       // loop後端傳來的每樣商品資訊
       for (const store of data.List_Cart) {
@@ -334,7 +334,7 @@ export class ShoppingCartComponent implements OnInit {
     } else {
       if (!this.appService.loginState) {
         // 若未登入，則跳出登入視窗
-        this.oauthService.loginPage(this.appService.currentUri);
+        this.oauthService.loginPage(this.appService.pathnameUri);
       } else {
         // 已登入
         // (若有更動過的商品)更改商品數

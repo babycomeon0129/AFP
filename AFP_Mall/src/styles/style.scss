@@ -529,7 +529,6 @@ button.btn{
   white-space: nowrap;
 }
 .edit-btn,
-.next-btn,
 .index-btn{
   color: #fff;
   background: $index-default;
@@ -551,6 +550,12 @@ button.btn{
     text-align: center;
     display: inline-block;
     padding: .25em .5em;
+  }
+  &.right-btn {
+    color: #fff;
+    background: #F99C12;
+    border-radius: 30px;
+    white-space: nowrap;
   }
 }
 .index-outline-btn{

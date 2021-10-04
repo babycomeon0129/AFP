@@ -116,7 +116,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
         }
       });
     } else {
-      this.oauthService.loginPage(this.appService.currentUri);
+      this.oauthService.loginPage(this.appService.pathnameUri);
     }
   }
 
@@ -156,7 +156,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
           break;
       }
     } else {
-      this.oauthService.loginPage(this.appService.currentUri);
+      this.oauthService.loginPage(this.appService.pathnameUri);
     }
   }
 

@@ -4,7 +4,6 @@ import { Response_AreaIndex, AFP_UserDefine, Request_AreaIndex, AreaJsonFile_ECS
 import { ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 import { ModalService } from '@app/shared/modal/modal.service';
-import { BsModalRef } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-explore-list',
@@ -30,7 +29,7 @@ export class ExploreListComponent implements OnInit {
   public dataOk = false;
 
   constructor(public appService: AppService, private route: ActivatedRoute, private meta: Meta, private title: Title,
-              private modal: ModalService, private bsModalRef: BsModalRef) {
+              private modal: ModalService) {
     // 若有從外部帶一指定目錄編碼
     if (this.route.snapshot.params.AreaMenu_Code !== undefined) {
       this.areaMenuCode = Number(this.route.snapshot.params.AreaMenu_Code);
@@ -60,12 +59,8 @@ export class ExploreListComponent implements OnInit {
           this.readData();
         });
       } else {
-        const initialState = {
-          success: true,
-          message: '該瀏覽器不支援定位功能',
-          showType: 1
-        };
-        this.modal.show('message', { initialState }, this.bsModalRef);
+        this.modal.show('message', { class: 'modal-dialog-centered',
+          initialState: { success: true, message: '該瀏覽器不支援定位功能', showType: 1 } });
         this.lat = 25.034306;
         this.lng = 121.564603;
         this.readData();

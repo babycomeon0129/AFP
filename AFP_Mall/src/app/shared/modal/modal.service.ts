@@ -77,5 +77,4 @@ export class ModalService {
     const ModalRef =  this.bsModalService.show(AppleModalComponent, options);
     return ModalRef.content.appleUser;
   }
-
 }

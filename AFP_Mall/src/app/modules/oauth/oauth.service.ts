@@ -55,8 +55,8 @@ export class OauthService {
     } else {
       //  Web
       this.loginRequest.fromOriginUri = pathname;
-      localStorage.setItem('M_fromOriginUri', pathname);
-      console.log(pathname);
+      sessionStorage.setItem('M_fromOriginUri', pathname);
+      console.log('M_fromOriginUri', pathname);
       this.router.navigate(['/Login']);
     }
   }

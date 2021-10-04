@@ -49,7 +49,7 @@ export class AppService {
   /** 前一頁url */
   public prevUrl = '';
   /** 當前url */
-  public currentUri: string;
+  public pathnameUri: string;
   /** lazyload 的初始圖片 */
   public defaultImage = '/img/share/eee.jpg';
   /** 當前訊息 */
@@ -99,7 +99,7 @@ export class AppService {
       xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
       xEyes_CustomerInfo: (sessionStorage.getItem('CustomerInfo') !== null) ? sessionStorage.getItem('CustomerInfo') : '',
       xEyes_DeviceCode: deviceCode === undefined ? '' : deviceCode,
-      Authorization: 'Bearer 1234567'
+      Authorization: 'Bearer ' + sessionStorage.getItem('M_idToken'),
       // Authorization: (sessionStorage.getItem('IDToken') !== null) ? 'Bearer ' + sessionStorage.getItem('IDToken') : ''
     });
 
@@ -136,20 +136,17 @@ export class AppService {
             // }
             return JSON.parse(data.Data);
           case 9996: // 查無商品詳細頁資料
-            this.bsModalService.show(MessageModalComponent, { initialState: { success: false, message: data.Base.Rtn_Message, showType: 1, checkBtnMsg: `確定`, target: 'GoBack' } });
+            this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
+              initialState: { success: false, message: data.Base.Rtn_Message, showType: 1, checkBtnMsg: `確定`, target: 'GoBack' } });
             break;
           case 9998: // user資料不完整，讓使用者登出
-            this.bsModalService.show(MessageModalComponent, { initialState: { success: false, message: '請先登入', showType: 2, singleBtnMsg: `重新登入` } });
+            this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
+              initialState: { success: false, message: `請先登入`, showType: 2, checkBtnMsg: `重新登入`, target: 'GoBack' } });
             this.onLogout();
             break;
           default: // 其他錯誤
-            this.bsModalService.show(MessageModalComponent
-              , {
-                class: 'modal-sm modal-smbox', initialState: {
-                  success: false, message: data.Base.Rtn_Message
-                  , target: data.Base.Rtn_URL
-                }
-              });
+            this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
+              initialState: { success: false, message: data.Base.Rtn_Message, showType: 2, target: data.Base.Rtn_URL } });
             throw new Error('bad request');
         }
       }, catchError(this.handleError)));
@@ -178,13 +175,8 @@ export class AppService {
     return this.http.post(environment.apiUrl + ctrl, request, { headers })
       .pipe(map((data: Response_APIModel) => {
         if (data.Base.Rtn_State !== 1) {
-          this.bsModalService.show(MessageModalComponent
-            , {
-              class: 'modal-sm modal-smbox', initialState: {
-                success: false, message: data.Base.Rtn_Message
-                , target: data.Base.Rtn_URL
-              }
-            });
+          this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
+            initialState: { success: false, message: data.Base.Rtn_Message, showType: 2, target: data.Base.Rtn_URL } });
           throw new Error('bad request');
         }
         return JSON.parse(data.Data);
@@ -320,7 +312,7 @@ export class AppService {
         }
       });
     } else {
-      this.oauthService.loginPage(this.currentUri);
+      this.oauthService.loginPage(this.pathnameUri);
     }
   }
 
@@ -362,12 +354,10 @@ export class AppService {
                 this.exchangeVoucher(voucher);
               } else {
                 // 點選取消扣點
-                const initialState = {
-                  success: true,
-                  type: 1,
-                  message: `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-failed.png"><p>兌換失敗！</p></div>`
-                };
-                this.bsModalService.show(MessageModalComponent, { initialState });
+                const content =
+                  `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-failed.png"><p>兌換失敗！</p></div>`;
+                this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
+                  initialState: { success: true, message: content, showType: 1 } });
               }
             });
           } else {
@@ -401,7 +391,7 @@ export class AppService {
           break;
       }
     } else {
-      this.oauthService.loginPage(this.currentUri);
+      this.oauthService.loginPage(this.pathnameUri);
     }
   }
 
@@ -431,12 +421,10 @@ export class AppService {
       voucher.Voucher_ReleasedCount += 1;
       // 如果是扣點才能兌換的優惠券，需跳兌換成功提示
       if (voucher.Voucher_DedPoint > 0) {
-        const initialState = {
-          success: true,
-          type: 1,
-          message: `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-ok.png"><p>兌換成功！</p></div>`
-        };
-        this.bsModalService.show(MessageModalComponent, { initialState });
+        const content =
+        `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-ok.png"><p>兌換成功！</p></div>`;
+        this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
+          initialState: { success: true, message: content, showType: 1 } });
       }
     });
   }

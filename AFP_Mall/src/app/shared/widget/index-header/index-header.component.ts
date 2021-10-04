@@ -29,7 +29,7 @@ export class IndexHeaderComponent implements OnInit {
     if (this.appService.loginState) {
       this.router.navigate(['/Notification/NotificationList']);
     } else {
-      this.oauthService.loginPage(this.appService.currentUri);
+      this.oauthService.loginPage(this.appService.pathnameUri);
     }
   }
 }

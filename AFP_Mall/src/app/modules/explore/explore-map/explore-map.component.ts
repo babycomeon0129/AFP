@@ -74,12 +74,9 @@ export class ExploreMapComponent implements OnInit {
         this.readAreaData(this.areaMenuCode);
       });
     } else {
-      const initialState = {
-        success: true,
-        message: '該瀏覽器不支援定位功能',
-        showType: 1
-      };
-      this.modal.show('message', { initialState }, this.bsModalRef);
+
+      this.modal.show('message', { class: 'modal-dialog-centered',
+        initialState: { success: true, message: '該瀏覽器不支援定位功能', showType: 1 } });
       this.lat = 25.034306;
       this.lng = 121.564603;
       this.readAreaData(this.areaMenuCode);

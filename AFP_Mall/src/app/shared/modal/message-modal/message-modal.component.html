@@ -1,37 +1,45 @@
-<div class="modal-header">
-</div>
-<button type="button" class="close text-right" (click)="bsModalRef.hide()">
-  <span aria-hidden="true">&times;&ensp;</span>
-</button>
-<div class="modal-body">
-  <div>
-    <p id="msg-loginok" *ngIf="success" [innerHTML]="message | Safe: 'html'" class="px-3"></p>
-    <p *ngIf="success && voucherName !== null" class="px-3">{{voucherName}}</p>
-    <p id="msg-loginerror" *ngIf="!success" class="px-3">{{message}}</p>
-    <small id="reminder" *ngIf="note !== null" class="px-3">{{note}}</small>
-    <div *ngIf="showType == 999 && adImgList.length > 0" class="pt-4">
-      <a [href]="adImgList[0].ADImg_URL" [target]="adImgList[0].ADImg_URLTarget" rel="noopener noreferrer">
-        <img [src]="adImgList[0].ADImg_Img" class="img-fluid">
-      </a>
+  <div class="modal-header">
+  </div>
+  <div class="modal-body">
+    <div>
+      <div *ngIf="success" [innerHTML]="message | Safe: 'html'" class="px-3"></div>
+      <p *ngIf="success && voucherName !== null" class="px-3">{{voucherName}}</p>
+      <p *ngIf="!success" class="px-3">{{message}}</p>
+      <small id="reminder" *ngIf="note !== null" class="px-3">{{note}}</small>
+      <div *ngIf="showType == 999 && adImgList.length > 0" class="pt-4">
+        <a [href]="adImgList[0].ADImg_URL" [target]="adImgList[0].ADImg_URLTarget" rel="noopener noreferrer">
+          <img [src]="adImgList[0].ADImg_Img" class="img-fluid">
+        </a>
+      </div>
+    </div>
+    <div>
+      <div class="text-center pb-4">
+        <!-- 單顆按鈕，內容、連結全客製化，因showType有999，故設定 showType < 3 時 才出現單顆按鈕-->
+        <button type="button" *ngIf="showType  < 3" class="btn index-btn px-0 w-50" (click)="clickSingleBtn()">
+          {{checkBtnMsg}}
+        </button>
+        <button type="button" *ngIf="showType  === 3" class="btn index-btn px-0 w-50" (click)="goToUrl(checkBtnUrl)">
+          {{checkBtnMsg}}
+        </button>
+        <!-- 雙顆按鈕，左右按鈕內容、連結全客製化 -->
+        <div class="row px-4">
+          <div class="col-6 pr-4">
+            <button type="button" *ngIf="showType === 6" (click)="goToUrl(leftBtnUrl, queryParams1)"
+              [disabled]="leftBtnUrl === null"
+              [ngClass]="{'btn w-100 index-btn txt-line-clamp1': leftBtnUrl !== null, 'small-80': leftBtnUrl === null}">
+              {{ leftBtnMsg }}
+            </button>
+          </div>
+          <div class="col-6">
+            <button type="button" *ngIf="showType === 6" (click)="goToUrl(rightBtnUrl, queryParams2)"
+              [disabled]="rightBtnUrl === null"
+              [ngClass]="{'btn w-100 index-btn right-btn txt-line-clamp1': rightBtnUrl !== null, 'small-80': rightBtnUrl === null}">
+              {{ rightBtnMsg }}
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <div id="msg-noselected">
-    <div class="text-center border-bottom-radius5">
-      <!-- 單顆按鈕，內容、連結全客製化，因showType有999，故設定 showType < 3 時 才出現單顆按鈕-->
-      <button type="button" *ngIf="showType  <= 3" class="btn btn-login px-0 w-50" (click)="clickSingleBtn()">
-        {{singleBtnMsg}}
-      </button>
-      <!-- 雙顆按鈕，左右按鈕內容、連結全客製化 -->
-      <button type="button" *ngIf="showType === 6" class="btn px-0 w-50" (click)="goToUrl(leftBtnUrl, queryParams1)"
-        [disabled]="leftBtnUrl === null"
-        [ngClass]="{'btn-login': leftBtnUrl !== null, 'small-80': leftBtnUrl === null}">
-        {{ leftBtnMsg }}
-      </button>
-      <button type="button" *ngIf="showType === 6" class="btn px-0 w-50" (click)="goToUrl(rightBtnUrl, queryParams2)"
-        [disabled]="rightBtnUrl === null"
-        [ngClass]="{'btn-login': rightBtnUrl !== null, 'small-80': rightBtnUrl === null}">
-        {{ rightBtnMsg }}
-      </button>
-    </div>
-  </div>
-</div>
+  <button type="button" class="btn close-modalbtn" data-dismiss="modal" (click)="bsModalRef.hide()"><img src="../img/share/close.png"></button>
+

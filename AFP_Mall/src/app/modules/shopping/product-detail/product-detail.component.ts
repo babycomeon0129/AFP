@@ -220,7 +220,7 @@ export class ProductDetailComponent implements OnInit {
   onAddToCart() {
     if (this.productIsBuy) {
       if (this.productInfo.Product_Type === 21 && !this.appService.loginState) { // 電子票券: 先確認已登入
-        this.oauthService.loginPage(this.appService.currentUri);
+        this.oauthService.loginPage(this.appService.pathnameUri);
       } else if (this.productInfo.Product_Type === 2) { // 外部商品直接外連到外部頁面
         window.open(this.productInfo.Product_URL);
       } else {  // 一般商品 & 電子票券(已登入) 走以下流程
@@ -298,7 +298,7 @@ export class ProductDetailComponent implements OnInit {
           } else {
             this.buybtnTxt = '銷售一空';
             this.productIsBuy = data.Product_IsBuy;
-            this.modal.show('message', { initialState: { success: true, message: `${this.productInfo.Product_ExtName}已下架，無法購買`, showType: 1, singleBtnMsg: `我知道了` } });
+            this.modal.show('message', { initialState: { success: true, message: `${this.productInfo.Product_ExtName}已下架，無法購買`, showType: 1, checkBtnMsg: `我知道了` } });
           }
         });
       }

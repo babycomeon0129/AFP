@@ -8,6 +8,7 @@ import { ModalService } from '@app/shared/modal/modal.service';
 import { SwiperOptions } from 'swiper';
 import { MemberService } from '@app/modules/member/member.service';
 import { AuthService, SocialUser } from 'angularx-social-login';
+import { BsModalService } from 'ngx-bootstrap';
 
 declare var AppJSInterface: any;
 
@@ -33,7 +34,7 @@ export class HomeComponent implements OnInit {
 
 
   constructor(public appService: AppService, public oauthService: OauthService,
-              private router: Router, public modal: ModalService,
+              private router: Router, private modal: ModalService,
               public memberService: MemberService, private authService: AuthService) {
   }
 
@@ -78,7 +79,7 @@ export class HomeComponent implements OnInit {
     if (this.appService.loginState) {
       this.router.navigate(['/Member/Setting']);
     } else {
-      this.oauthService.loginPage(this.appService.currentUri);
+      this.oauthService.loginPage(this.appService.pathnameUri);
     }
   }
 
@@ -108,10 +109,11 @@ export class HomeComponent implements OnInit {
    */
   pageRoute(page: string, pageCode: number): void {
     if (!this.appService.loginState) {
-      this.oauthService.loginPage(this.appService.currentUri);
+      this.oauthService.loginPage(this.appService.pathnameUri);
     } else {
       if (page === '0') {
-        this.modal.show('message', { initialState: { success: true, message: '敬請期待!', showType: 1 } });
+        this.modal.show('message',  { class: 'modal-dialog-centered',
+        initialState: { success: true, message: '敬請期待!', showType: 1 } });
       } else {
         switch (pageCode) {
           case 3:

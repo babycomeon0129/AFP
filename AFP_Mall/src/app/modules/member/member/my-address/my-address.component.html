@@ -129,11 +129,11 @@
         </div>
         <div class="addheight"></div>
         <div class="fixed-btn container">
-          <!-- <button type="button" class="btn next-btn unable w-100" *ngIf="formAddAddress.invalid">確認</button> -->
+          <!-- <button type="button" class="btn index-btn unable w-100" *ngIf="formAddAddress.invalid">確認</button> -->
           <button type="submit"
             [disabled]="formAddAddress.invalid || !requestAddress.UserFavourite_Number1 || !requestAddress.UserFavourite_Number2"
             [ngClass]="{'unable': formAddAddress.invalid || !requestAddress.UserFavourite_Number1 || !requestAddress.UserFavourite_Number2}"
-            class="btn next-btn w-100">確認</button>
+            class="btn index-btn w-100">確認</button>
         </div>
       </form>
     </div>

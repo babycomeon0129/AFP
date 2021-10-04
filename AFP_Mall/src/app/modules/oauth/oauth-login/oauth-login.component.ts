@@ -24,11 +24,12 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     /** 「登入1-1-3」APP訪問 */
     this.activatedRoute.queryParams.subscribe(params => {
       if  (typeof params.deviceType !== 'undefined' && this.appService.isApp === 1) {
+        sessionStorage.setItem('M_deviceType', this.appService.isApp.toString());
         this.oauthService.loginRequest.deviceType = Number(params.deviceType);
         this.oauthService.loginRequest.fromOriginUri = '/Login'; // APP返回預設
       } else {
         this.oauthService.loginRequest.deviceType = 0;
-        this.oauthService.loginRequest.fromOriginUri = localStorage.getItem('M_fromOriginUri');
+        this.oauthService.loginRequest.fromOriginUri = sessionStorage.getItem('M_fromOriginUri');
       }
       this.oauthService.loginRequest.deviceCode =
         (typeof params.deviceCode !== 'undefined') ? params.deviceCode : localStorage.getItem('M_DeviceCode');

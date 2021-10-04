@@ -58,7 +58,7 @@ export class GameCenterComponent implements OnInit {
       this.activatedRoute.snapshot.queryParams.showBack === 'true' ?
         this.router.navigate(['/GameCenter/Game', gameCode], { queryParams: { GameType: gameType, showBack: true } }) : this.router.navigate(['/GameCenter/Game', gameCode], { queryParams: { GameType: gameType } });
     } else {
-      this.oauthService.loginPage(this.appService.currentUri);
+      this.oauthService.loginPage(this.appService.pathnameUri);
     }
   }
 

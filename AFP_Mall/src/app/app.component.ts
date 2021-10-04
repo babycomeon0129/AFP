@@ -4,12 +4,13 @@ import { Component, KeyValueDiffer, KeyValueDiffers, OnInit } from '@angular/cor
 import { Router, ActivatedRoute, ResolveEnd } from '@angular/router';
 import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
-import { ModalService } from './shared/modal/modal.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { CookieService } from 'ngx-cookie-service';
 import { RouterOutlet } from '@angular/router';
 import { slideInAnimation } from './animations';
 import { filter } from 'rxjs/operators';
 import { Request_AFPThird, Response_AFPLogin } from './_models';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 
 @Component({
   selector: 'body',
@@ -30,7 +31,7 @@ export class AppComponent implements OnInit {
 
   constructor(private router: Router, public appService: AppService, private activatedRoute: ActivatedRoute, public modal: ModalService,
               private cookieService: CookieService, private differs: KeyValueDiffers, private callApp: AppJSInterfaceService,
-              public oauthService: OauthService) {
+              public oauthService: OauthService, public bsModalService: BsModalService) {
     this.serviceDiffer = this.differs.find({}).create();
     if (sessionStorage.getItem('CustomerInfo') !== null && sessionStorage.getItem('userCode') !== null
       && sessionStorage.getItem('userName') !== null) {
@@ -120,6 +121,17 @@ export class AppComponent implements OnInit {
       //   }
       //   this.modal.show('message', { initialState: { success: false, message: `${errMessage}驗證失敗，請重新取得授權`, showType: 1 } });
       // }
+
+      // 艾斯身份識別登入取得idToken
+      if (params.errorCode === '996600001') {
+        sessionStorage.setItem('M_idToken', JSON.stringify(params.data));
+        console.log('M_idToken', JSON.stringify(params.data));
+      } else if (typeof params.errorCode !== 'undefined') {
+        const content = `登入註冊失敗<br>錯誤代碼：${params.errorCode}<br>請重新登入註冊`;
+        this.modal.show('message', {
+          class: 'modal-dialog-centered',
+          initialState: { success: true, message: content, showType: 3, checkBtnMsg: `我知道了`, checkBtnUrl: `/Login` } });
+      }
     });
   }
 
@@ -133,7 +145,7 @@ export class AppComponent implements OnInit {
         this.callApp.appShowMobileFooter(false);
         this.appService.verifyMobileModalOpened = false;
         this.appService.prevUrl = event.url;  // 取得前一頁面url
-        this.appService.currentUri = event.url;  // 取得當前頁面url
+        this.appService.pathnameUri = location.pathname;  // 取得當前頁面pathname
       });
     this.detectOld();
     // this.appService.initPush();

@@ -42,7 +42,7 @@ export class MPointComponent implements OnInit {
     if (this.appService.loginState) {
       this.router.navigate(['/MemberFunction/MemberCoin'], { queryParams: { coinHistory: 1, showBack: this.appService.showBack } });
     } else {
-      this.oauthService.loginPage(this.appService.currentUri);
+      this.oauthService.loginPage(this.appService.pathnameUri);
     }
   }
 }
