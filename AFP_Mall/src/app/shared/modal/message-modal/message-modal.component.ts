@@ -62,6 +62,11 @@ export class MessageModalComponent implements OnInit {
     }
   }
 
+  clickCheckBtn(url: string): void {
+    this.router.navigate([url]);
+    this.bsModalRef.hide();
+  }
+
 
   /** 前往連結並關閉視窗
    * @param url 前往連結

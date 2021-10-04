@@ -1,12 +1,12 @@
-@import 'src/styles/module/variable';
-@import 'src/styles/module/global';
-@import 'src/styles/layer/header.scss';
-@import 'src/styles/layer/bs4modal.scss';
-@import 'src/styles/layer/swiperSet.scss';
-@import 'src/styles/layer/flex.scss';
-@import 'src/styles/layer/navlink.scss';
-@import 'src/styles/layer/footer.scss';
-@import 'src/styles/layer/serviceQA.scss';
+@import './module/variable';
+@import './module/global';
+@import './layer/header.scss';
+@import './layer/bs4modal.scss';
+@import './layer/swiperSet.scss';
+@import './layer/flex.scss';
+@import './layer/navlink.scss';
+@import './layer/footer.scss';
+@import './layer/serviceQA.scss';
 
 .container{
   padding-right: 0;

@@ -18,7 +18,7 @@
         <button type="button" *ngIf="showType  < 3" class="btn index-btn px-0 w-50" (click)="clickSingleBtn()">
           {{checkBtnMsg}}
         </button>
-        <button type="button" *ngIf="showType  === 3" class="btn index-btn px-0 w-50" (click)="goToUrl(checkBtnUrl)">
+        <button type="button" *ngIf="showType  === 3" class="btn index-btn px-0 w-50" (click)="clickCheckBtn(checkBtnUrl)">
           {{checkBtnMsg}}
         </button>
         <!-- 雙顆按鈕，左右按鈕內容、連結全客製化 -->
