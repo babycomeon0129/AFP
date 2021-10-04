@@ -132,16 +132,8 @@ export class AppComponent implements OnInit {
         window.scrollTo(0, 0);
         this.callApp.appShowMobileFooter(false);
         this.appService.verifyMobileModalOpened = false;
-        /** 取得艾斯驗證流程結束後要回去的頁面 */
         this.appService.prevUrl = event.url;  // 取得前一頁面url
-        const fromOriginUri = localStorage.getItem('M_fromOriginUri');
-        this.appService.currentUri = localStorage.getItem('M_currentUri');
-        if (this.appService.currentUri !== event.url) { // 頁面重整除外
-          (fromOriginUri === null) ? localStorage.setItem('M_fromOriginUri', '/') :
-            localStorage.setItem('M_fromOriginUri', this.appService.currentUri);
-          localStorage.setItem('M_currentUri', event.url);
-        }
-        if (fromOriginUri !== event.url) { this.appService.prevUrl = fromOriginUri; }
+        this.appService.currentUri = event.url;  // 取得當前頁面url
       });
     this.detectOld();
     // this.appService.initPush();

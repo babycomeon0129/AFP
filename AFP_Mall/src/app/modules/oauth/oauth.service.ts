@@ -34,7 +34,7 @@ export class OauthService {
       .pipe(map((data: ResponseOauthLogin) => {
         if (data.errorCode !== '996600001') {
           // 不成功導回登入頁
-          this.router.navigate(['/Login'], {queryParams: {fromOriginUri: req.fromOriginUri}});
+          this.router.navigate(['/Login']);
         }
         return data.data;
       }, catchError(() => null)));
@@ -54,7 +54,10 @@ export class OauthService {
       (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'login' });
     } else {
       //  Web
-      this.router.navigate(['/Login'], {queryParams: {fromOriginUri: pathname}});
+      this.loginRequest.fromOriginUri = pathname;
+      localStorage.setItem('M_fromOriginUri', pathname);
+      console.log(pathname);
+      this.router.navigate(['/Login']);
     }
   }
 

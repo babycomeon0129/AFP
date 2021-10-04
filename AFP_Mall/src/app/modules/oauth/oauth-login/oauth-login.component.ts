@@ -23,12 +23,15 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
               public el: ElementRef, private activatedRoute: ActivatedRoute) {
     /** 「登入1-1-3」APP訪問 */
     this.activatedRoute.queryParams.subscribe(params => {
-      this.oauthService.loginRequest.deviceType =
-        (typeof params.deviceType !== 'undefined') ? Number(params.deviceType) : 0;
+      if  (typeof params.deviceType !== 'undefined' && this.appService.isApp === 1) {
+        this.oauthService.loginRequest.deviceType = Number(params.deviceType);
+        this.oauthService.loginRequest.fromOriginUri = '/Login'; // APP返回預設
+      } else {
+        this.oauthService.loginRequest.deviceType = 0;
+        this.oauthService.loginRequest.fromOriginUri = localStorage.getItem('M_fromOriginUri');
+      }
       this.oauthService.loginRequest.deviceCode =
         (typeof params.deviceCode !== 'undefined') ? params.deviceCode : localStorage.getItem('M_DeviceCode');
-      this.oauthService.loginRequest.fromOriginUri =
-        (typeof params.fromOriginUri !== 'undefined') ? params.fromOriginUri : '/';
     });
   }
 
@@ -38,6 +41,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   getViewData() {
     /** 「登入1-2-1」AJAX提供登入所需Request給後端，以便response取得後端提供的資料 */
     this.appService.openBlock();
+    console.log(this.oauthService.loginRequest);
     (this.oauthService.toOauthRequest(this.oauthService.loginRequest)).subscribe((data: OauthLoginViewConfig) => {
       /** 「登入1-2-3」取得Response資料，讓Form渲染 */
       this.viewData = Object.assign(data);
