@@ -24,7 +24,27 @@ export class OauthService {
 
   constructor(private router: Router, private http: HttpClient, private cookieService: CookieService) {}
 
-  /** 「登入1-2-2」從後端取得資料AJAX POST給後端，以便取得viewConfig資料  */
+  /** 「登入1-1-2」判斷跳出網頁或APP的登入頁
+   * App：原生點擊登入按鈕（帶queryParams：isApp,deviceType,deviceCode），統一由Web向艾斯識別驗證idtoken
+   * Web：登入按鈕帶入pathname，做為返回依據
+   */
+   loginPage(pathname: string): void {
+    if (navigator.userAgent.match(/android/i)) {
+      //  Android call webView
+      AppJSInterface.login();
+    } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+      //  IOS call webView
+      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'login' });
+    } else {
+      //  Web
+      this.loginRequest.fromOriginUri = pathname;
+      localStorage.setItem('M_fromOriginUri', pathname);
+      console.log('M_fromOriginUri', pathname);
+      this.router.navigate(['/Login']);
+    }
+  }
+
+  /** 「登入1-2-2」AJAX POST給後端，以便取得viewConfig資料  */
   toOauthRequest(req: RequestOauthLogin): Observable<any> {
     const formData = new FormData();
     formData.append('deviceType', req.deviceType.toString());
@@ -40,26 +60,16 @@ export class OauthService {
       }, catchError(() => null)));
   }
 
-
-  /** 「登入1-1-2」判斷跳出網頁或APP的登入頁
-   * App：原生點擊登入按鈕（帶queryParams：isApp,deviceType,deviceCode），統一由Web向艾斯識別驗證idtoken
-   * Web：登入按鈕帶入pathname，做為返回依據
-   */
-  loginPage(pathname: string): void {
-    if (navigator.userAgent.match(/android/i)) {
-      //  Android call webView
-      AppJSInterface.login();
-    } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-      //  IOS call webView
-      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'login' });
-    } else {
-      //  Web
-      this.loginRequest.fromOriginUri = pathname;
-      sessionStorage.setItem('M_fromOriginUri', pathname);
-      console.log('M_fromOriginUri', pathname);
-      this.router.navigate(['/Login']);
-    }
+  /** 「登入1-5-2」從後端取得資料idToken  */
+  toHashCodeRequest(req: string): Observable<any> {
+    const formData = new FormData();
+    formData.append('hashCode', req);
+    return this.http.post('https://login-uuat.mobii.ai/auth/api/v1/responseAPIModel', formData)
+      .pipe(map((data: ResponseHashCode) => {
+        return data;
+      }, catchError(() => null)));
   }
+
 
 }
 
@@ -101,4 +111,9 @@ export interface OauthLoginViewConfig {
   homeUri: string;
   responseType: string;
   viewConfig: string;
+}
+export interface ResponseHashCode {
+  Model_UserInfo: object;
+  idtoken: string;
+  List_UserFavourite: object;
 }
