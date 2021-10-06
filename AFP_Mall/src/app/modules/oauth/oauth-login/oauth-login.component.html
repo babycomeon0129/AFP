@@ -8,7 +8,7 @@
                   </div>
               </div>
               <div class="item three text-center">
-                  <div class="title-name">{{viewType === 0 ? "帳號升級公告" : "帳號整併"}}</div>
+                  <div class="title-name"><div *ngIf="viewType !== 2">{{viewType === 0 ? "帳號升級公告" : "帳號整併"}}</div></div>
               </div>
               <div class="item two text-right">
                   <div class="close-btn"></div>
@@ -30,7 +30,7 @@
       <div *ngIf="viewType===1">
         <p class="text-center">你有多個 Mobii 會員帳號，<br>請選擇一個要綁定的 Mobii帳號</p>
         <ul>
-          <li>
+          <li class="mb-2">
             <div class="form-inline" *ngFor="let item of List_MultipleUser; let i = index">
               <input type="radio" name="checkUUID" (click)="uuid = item.UserInfoUuid" [id]="'i'+i"
                 class="form-check-input radioBgOrg" [checked]="i===0">
@@ -45,6 +45,11 @@
           </li>
         </ul>
       </div>
+      <div *ngIf="viewType===2">
+        grantCode: {{grantCode}}<br>
+        uuid: {{uuid}}<br>
+        {{responseData}}
+      </div>
     </div>
   </main>
   <footer class="shopping-cartfooter order-go-pay">
@@ -58,7 +63,10 @@
           </form>
       </div>
       <div *ngIf="viewType===1" class="p-3">
-        <button type="button" (click)="onGetTokenApi()" class="btn index-btn w-100 login-ok">立即升級綁定</button>
+        <button type="button" (click)="onGetTokenApi();viewType=2;" class="btn index-btn w-100 login-ok">立即升級綁定</button>
+      </div>
+      <div *ngIf="viewType===2" class="p-3">
+        <button type="button" (click)="onClearStorage()" class="btn index-btn w-100 login-ok">清除登入資料,重新登入</button>
       </div>
     </div>
   </footer>

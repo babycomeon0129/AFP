@@ -99,7 +99,7 @@ export class AppService {
       xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
       xEyes_CustomerInfo: (sessionStorage.getItem('CustomerInfo') !== null) ? sessionStorage.getItem('CustomerInfo') : '',
       xEyes_DeviceCode: deviceCode === undefined ? '' : deviceCode,
-      Authorization: 'Bearer ' + localStorage.getItem('M_idToken'),
+      Authorization: 'Bearer 1234567',
       // Authorization: (sessionStorage.getItem('IDToken') !== null) ? 'Bearer ' + sessionStorage.getItem('IDToken') : ''
     });
 

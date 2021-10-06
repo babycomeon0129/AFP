@@ -60,14 +60,15 @@ export class OauthService {
       }, catchError(() => null)));
   }
 
-  /** 「登入1-4-3」從後端取得資料ResponseTokenApi  */
-  toTokenApi(code: string, uid: string): Observable<any> {
+  /** 「登入2-3」將grantCode或勾選的帳號給後端，以便取得Response  */
+  toTokenApi(request: string): Observable<any> {
+    const req = JSON.parse(request);
     const formData = new FormData();
-    formData.append('grantCode', code);
-    if (uid !== undefined) { formData.append('userInfoId', uid); }
+    formData.append('grantCode', req.grantCode);
+    if (req.uid !== undefined) { formData.append('userInfoId', req.uid); }
     return this.http.post(environment.tokenUrl, formData)
       .pipe(map((data: ResponseTokenApi) => {
-        console.log('1-4-2TokenApiRequest', code, uid);
+        console.log('2-3-1TokenApiRequest', req.grantCode, req.uid);
         return data;
       }, catchError(() => null)));
   }

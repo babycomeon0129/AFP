@@ -4,6 +4,7 @@ import { OauthService, RequestOauthLogin, OauthLoginViewConfig } from '@app/modu
 import { Component, ElementRef, OnInit, AfterViewInit } from '@angular/core';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { environment } from '@env/environment';
+import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 
 @Component({
   selector: 'app-oauth-login',
@@ -25,10 +26,13 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   /** 使用者uuid */
   public uuid: string;
   /** 使用者grantCode */
-  public grantCode = localStorage.getItem('M_grantCode') || null;
+  public grantCode: string;
+
+  public responseData: string;
 
   constructor(public appService: AppService, public oauthService: OauthService, private router: Router,
-              public el: ElementRef, private activatedRoute: ActivatedRoute, public modal: ModalService) {
+              public el: ElementRef, private activatedRoute: ActivatedRoute, public modal: ModalService,
+              private callApp: AppJSInterfaceService) {
 
     this.activatedRoute.queryParams.subscribe(params => {
       /** 「登入1-1-3」APP訪問 */
@@ -46,20 +50,19 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         (typeof params.deviceCode !== 'undefined') ? params.deviceCode : localStorage.getItem('M_DeviceCode');
 
 
-      /** 「登入1-4-1」 艾斯身份識別登入成功後，由Redirect API取得grantCode及List_MultipleUser */
+      /** 「登入2-1」 艾斯身份識別登入成功後，由Redirect API取得grantCode及List_MultipleUser */
       if (typeof params.loginJson !== 'undefined') {
         const loginJson = JSON.parse(params.loginJson);
         if (loginJson.errorCode === '996600001') {
           if (typeof loginJson.data.grantCode !== 'undefined') {
             localStorage.setItem('M_grantCode', loginJson.data.grantCode);
           }
-          console.log('1-4-1Redirect API:', loginJson.data.grantCode, loginJson.data.List_MultipleUser);
-          /** 「登入1-4-2」預設帳號登入取idToken */
-          this.onGetTokenApi();
-          /** 「登入1-4-4」多重帳號頁面渲染 */
-          if (typeof loginJson.data.List_MultipleUser !== 'undefined' && loginJson.data.List_MultipleUser !== 'null') {
+          console.log('2-1Redirect API:', loginJson.data.grantCode, loginJson.data.List_MultipleUser);
+          /** 「登入2-2」多重帳號頁面渲染 */
+          if (loginJson.data.List_MultipleUser !== null) {
             this.viewType = 1;
             this.List_MultipleUser = loginJson.data.List_MultipleUser;
+            console.log('2-2List_MultipleUser', this.List_MultipleUser);
           }
         } else {
           const content = `登入註冊失敗<br>錯誤代碼：${params.errorCode}<br>請重新登入註冊`;
@@ -73,6 +76,12 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.getViewData();
+    this.onGetTokenApi();
+    /** 曾經登入過且點擊過公告頁登入註冊按鈕 */
+    if (localStorage.getItem('M_upgrade') === 'oauthLoginForm') {
+      if (localStorage.getItem('M_grantCode') !== null) { this.grantCode = localStorage.getItem('M_grantCode'); }
+      this.viewType = 2;
+    }
   }
   getViewData() {
     /** 「登入1-2-1」AJAX提供登入所需Request給後端，以便response取得後端提供的資料 */
@@ -96,14 +105,29 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   }
 
   onGetTokenApi() {
-    /** 「登入1-4-3」將grantCode或勾選的帳號給後端，以便取得Response */
+    /** 「登入2-2」取得Response中的idToken */
     // this.appService.openBlock();
-    if (localStorage.getItem('M_grantCode') !== undefined && localStorage.getItem('M_grantCode') !== null) {
-      (this.oauthService.toTokenApi(this.grantCode, this.uuid)).subscribe((data: any) => {
-        console.log('1-4-3TokenApi', data);
-        // this.appService.blockUI.stop();
+    if (localStorage.getItem('M_grantCode') !== null) {
+      const request = {
+        grantCode: localStorage.getItem('M_grantCode'),
+        uuid: this.uuid || null,
+      };
+      (this.oauthService.toTokenApi(JSON.stringify(request))).subscribe((data: any) => {
+        if (Number(localStorage.getItem('M_deviceType')) === 0) {
+          console.log('2-3-2TokenApiResponse', data);
+          this.responseData = JSON.stringify(data);
+        } else {
+          /** 「登入2-4」裝置若為APP傳interface */
+          this.callApp.getLoginData(data);
+        }
       });
     }
+  }
+
+  onClearStorage() {
+    localStorage.removeItem('M_upgrade');
+    localStorage.removeItem('M_grantCode');
+    this.router.navigate(['/Login/Oauth']);
   }
   ngAfterViewInit() {
   }
