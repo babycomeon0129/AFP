@@ -122,17 +122,8 @@ export class AppComponent implements OnInit {
       //   this.modal.show('message', { initialState: { success: false, message: `${errMessage}驗證失敗，請重新取得授權`, showType: 1 } });
       // }
 
-      // 艾斯身份識別登入取得idToken
-      if (params.errorCode === '996600001') {
-        sessionStorage.setItem('M_idToken', JSON.stringify(params.data));
-        console.log('M_idToken', JSON.stringify(params.data));
-      } else if (typeof params.errorCode !== 'undefined') {
-        const content = `登入註冊失敗<br>錯誤代碼：${params.errorCode}<br>請重新登入註冊`;
-        this.modal.show('message', {
-          class: 'modal-dialog-centered',
-          initialState: { success: true, message: content, showType: 3, checkBtnMsg: `我知道了`, checkBtnUrl: `/Login` } });
-      }
     });
+
   }
 
   ngOnInit() {

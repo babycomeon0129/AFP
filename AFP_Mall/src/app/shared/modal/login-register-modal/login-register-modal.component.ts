@@ -12,7 +12,7 @@ import {
 import { CookieService } from 'ngx-cookie-service';
 import jwt_decode from 'jwt-decode';
 import { MessageModalComponent } from '../message-modal/message-modal.component';
-import { ForgetModalComponent } from '../forget-modal/forget-modal.component';
+// import { ForgetModalComponent } from '../forget-modal/forget-modal.component';
 declare var AppleID: any;
 
 @Component({
@@ -291,7 +291,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
 
   /** 跳至忘記密碼視窗 */
   goToforget(): void {
-    this.bsModal.show(ForgetModalComponent);
+    // this.bsModal.show(ForgetModalComponent);
     this.bsModalRef.hide();
   }
 

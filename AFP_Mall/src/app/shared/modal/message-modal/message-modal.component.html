@@ -26,14 +26,14 @@
           <div class="col-6 pr-4">
             <button type="button" *ngIf="showType === 6" (click)="goToUrl(leftBtnUrl, queryParams1)"
               [disabled]="leftBtnUrl === null"
-              [ngClass]="{'btn w-100 index-btn txt-line-clamp1': leftBtnUrl !== null, 'small-80': leftBtnUrl === null}">
+              [ngClass]="{'btn w-100 index-btn left-btn txt-line-clamp1': leftBtnUrl !== null, 'small-80': leftBtnUrl === null}">
               {{ leftBtnMsg }}
             </button>
           </div>
           <div class="col-6">
             <button type="button" *ngIf="showType === 6" (click)="goToUrl(rightBtnUrl, queryParams2)"
               [disabled]="rightBtnUrl === null"
-              [ngClass]="{'btn w-100 index-btn right-btn txt-line-clamp1': rightBtnUrl !== null, 'small-80': rightBtnUrl === null}">
+              [ngClass]="{'btn w-100 index-btn txt-line-clamp1': rightBtnUrl !== null, 'small-80': rightBtnUrl === null}">
               {{ rightBtnMsg }}
             </button>
           </div>

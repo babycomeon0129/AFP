@@ -44,7 +44,7 @@ export class OauthService {
     }
   }
 
-  /** 「登入1-2-2」AJAX POST給後端，以便取得viewConfig資料  */
+  /** 「登入1-2-2」取得AJAX資料並POST給後端，以便取得viewConfig資料  */
   toOauthRequest(req: RequestOauthLogin): Observable<any> {
     const formData = new FormData();
     formData.append('deviceType', req.deviceType.toString());
@@ -60,12 +60,14 @@ export class OauthService {
       }, catchError(() => null)));
   }
 
-  /** 「登入1-5-2」從後端取得資料idToken  */
-  toHashCodeRequest(req: string): Observable<any> {
+  /** 「登入1-4-3」從後端取得資料ResponseTokenApi  */
+  toTokenApi(code: string, uid: string): Observable<any> {
     const formData = new FormData();
-    formData.append('hashCode', req);
-    return this.http.post('https://login-uuat.mobii.ai/auth/api/v1/responseAPIModel', formData)
-      .pipe(map((data: ResponseHashCode) => {
+    formData.append('grantCode', code);
+    if (uid !== undefined) { formData.append('userInfoId', uid); }
+    return this.http.post(environment.tokenUrl, formData)
+      .pipe(map((data: ResponseTokenApi) => {
+        console.log('1-4-2TokenApiRequest', code, uid);
         return data;
       }, catchError(() => null)));
   }
@@ -112,8 +114,10 @@ export interface OauthLoginViewConfig {
   responseType: string;
   viewConfig: string;
 }
-export interface ResponseHashCode {
-  Model_UserInfo: object;
+export interface ResponseTokenApi {
   idtoken: string;
-  List_UserFavourite: object;
+  Customer_Name: string;
+  Customer_Code: string;
+  Customer_UUID: string;
+  List_UserFavourite: [];
 }

@@ -92,4 +92,21 @@ export class AppJSInterfaceService {
       .postMessage({ action: 'goAppShoppingDetail', productId: code, userDefineCode: code1 });
     }
   }
+
+  /** 通知APP登入idToken
+   * @param userInfo https://bookstack.eyesmedia.com.tw/books/mobii-x/page/responseapimodel-api-mobii
+   */
+   getLoginData(userInfo: string): void {
+    if (this.appService.isApp !== null) {
+      if (navigator.userAgent.match(/android/i)) {
+        //  Android
+        AppJSInterface.getLoginData(userInfo);
+      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+        //  IOS
+        const userInfoParam = userInfo;
+        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showBottomBar', userInfo: userInfoParam });
+      }
+    }
+  }
+
 }

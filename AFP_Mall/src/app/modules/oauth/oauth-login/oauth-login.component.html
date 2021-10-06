@@ -31,27 +31,14 @@
         <p class="text-center">你有多個 Mobii 會員帳號，<br>請選擇一個要綁定的 Mobii帳號</p>
         <ul>
           <li>
-            <div class="form-inline">
-              <input type="radio" name="checkUUID" (click)="checkUUID('i123456',$event)"
-                class="form-check-input radioBgOrg" id="i123456">
-              <label class="form-check-label" for="i123456">
+            <div class="form-inline" *ngFor="let item of List_MultipleUser; let i = index">
+              <input type="radio" name="checkUUID" (click)="uuid = item.UserInfoUuid" [id]="'i'+i"
+                class="form-check-input radioBgOrg" [checked]="i===0">
+              <label class="form-check-label" [for]="'i'+i">
                 <div class="p-3">
-                  UUID：123456<br>
-                  目前點數：7600<br>
-                  上次登入時間：2021/09/09 18:20<br>
-                </div>
-              </label>
-            </div>
-          </li>
-          <li>
-            <div class="form-inline">
-              <input type="radio" name="checkUUID"  (click)="checkUUID('i567890',$event)"
-                class="form-check-input radioBgOrg" id="i567890">
-              <label class="form-check-label" for="i567890">
-                <div class="p-3">
-                  UUID：567890<br>
-                  目前點數：21<br>
-                  上次登入時間：2020/12/23 10:05<br>
+                  UUID：{{item.UserInfoUuid}}<br>
+                  目前點數：{{item.UserInfoPoint}}<br>
+                  <div *ngIf="item.UserLoginStateLoginTime !== 'null'">上次登入時間：{{item.UserLoginStateLoginTime}}<br></div>
                 </div>
               </label>
             </div>
@@ -71,7 +58,7 @@
           </form>
       </div>
       <div *ngIf="viewType===1" class="p-3">
-        <button type="button" class="btn index-btn w-100 login-ok">立即升級綁定</button>
+        <button type="button" (click)="onGetTokenApi()" class="btn index-btn w-100 login-ok">立即升級綁定</button>
       </div>
     </div>
   </footer>
