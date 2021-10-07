@@ -99,8 +99,7 @@ export class AppService {
       xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
       xEyes_CustomerInfo: (sessionStorage.getItem('CustomerInfo') !== null) ? sessionStorage.getItem('CustomerInfo') : '',
       xEyes_DeviceCode: deviceCode === undefined ? '' : deviceCode,
-      Authorization: 'Bearer 1234567',
-      // Authorization: (sessionStorage.getItem('IDToken') !== null) ? 'Bearer ' + sessionStorage.getItem('IDToken') : ''
+      Authorization: (sessionStorage.getItem('M_idToken') !== null) ? 'Bearer ' + sessionStorage.getItem('M_idToken') : '',
     });
 
 
@@ -200,6 +199,7 @@ export class AppService {
     this.userFavCodes = [];
     this.pushCount = 0;
     this.verifyMobileModalOpened = false;
+    this.oauthService.onClearStorage();
 
     //  APP登出導頁
     if (this.isApp !== null) {
@@ -221,7 +221,8 @@ export class AppService {
       xEyes_X: (lng != null) ? lng.toString() : '',
       xEyes_Y: (lat != null) ? lat.toString() : '',
       xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
-      Authorization: 'Bearer 1234567',
+
+      Authorization: (sessionStorage.getItem('M_idToken') !== null) ? 'Bearer ' + sessionStorage.getItem('M_idToken') : '',
       xEyes_CustomerInfo: (sessionStorage.getItem('CustomerInfo') !== null) ? sessionStorage.getItem('CustomerInfo') : ''
     });
 

@@ -8,7 +8,7 @@
                   </div>
               </div>
               <div class="item three text-center">
-                  <div class="title-name"><div *ngIf="viewType !== 2">{{viewType === 0 ? "帳號升級公告" : "帳號整併"}}</div></div>
+                  <div class="title-name">{{viewType === 0 ? "帳號升級公告" : "帳號整併"}}</div>
               </div>
               <div class="item two text-right">
                   <div class="close-btn"></div>
@@ -45,11 +45,6 @@
           </li>
         </ul>
       </div>
-      <div *ngIf="viewType===2">
-        grantCode: {{grantCode}}<br>
-        uuid: {{uuid}}<br>
-        {{responseData}}
-      </div>
     </div>
   </main>
   <footer class="shopping-cartfooter order-go-pay">
@@ -66,7 +61,7 @@
         <button type="button" (click)="onGetTokenApi();viewType=2;" class="btn index-btn w-100 login-ok">立即升級綁定</button>
       </div>
       <div *ngIf="viewType===2" class="p-3">
-        <button type="button" (click)="onClearStorage()" class="btn index-btn w-100 login-ok">清除登入資料,重新登入</button>
+        <button type="button" (click)="oauthService.onClearStorage()" class="btn index-btn w-100 login-ok">清除登入資料,重新登入</button>
       </div>
     </div>
   </footer>

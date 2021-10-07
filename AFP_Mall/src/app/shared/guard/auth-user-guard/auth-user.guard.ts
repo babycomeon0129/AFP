@@ -17,7 +17,7 @@ export class AuthUserGuard implements CanActivate {
       // 未登入導回首頁
       this.modal.show('message', {
         class: 'modal-dialog-centered',
-        initialState: { success: false, message: `請先登入`, showType: 3, checkBtnMsg: `我知道了`, checkBtnUrl: `/Login` } });
+        initialState: { success: false, message: '請先登入', showType: 3, checkBtnMsg: '我知道了', checkBtnUrl: '/Login' } });
     } else {
       const request: Request_AuthUser = new Request_AuthUser();
       request.User_Code = sessionStorage.getItem('userCode');

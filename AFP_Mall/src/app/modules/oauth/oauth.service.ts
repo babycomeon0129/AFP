@@ -73,7 +73,11 @@ export class OauthService {
       }, catchError(() => null)));
   }
 
-
+  /** 清除Storage */
+  onClearStorage() {
+    sessionStorage.clear();
+    localStorage.removeItem('M_grantCode');
+  }
 }
 
 /** 登入 API Request interface
@@ -116,7 +120,7 @@ export interface OauthLoginViewConfig {
   viewConfig: string;
 }
 export interface ResponseTokenApi {
-  idtoken: string;
+  idToken: string;
   Customer_Name: string;
   Customer_Code: string;
   Customer_UUID: string;
