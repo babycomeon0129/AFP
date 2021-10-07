@@ -51,18 +51,20 @@
     <div class="fixed-bottom container fixed-shadow">
       <div *ngIf="viewType===0" class="p-3">
         <button type="button" (click)="onLoginEyes()" class="btn index-btn w-100 login-ok">前往登入註冊</button>
-          <form [(action)]="AuthorizationUri" method="POST" id="oauthLoginForm" #oauthLoginForm>
-            <div *ngFor="let item of viewList">
-              <input type="hidden" [name]="item.name" [value]="item.value" *ngIf="item.name !=='AuthorizationUri'">
-            </div>
-          </form>
       </div>
       <div *ngIf="viewType===1" class="p-3">
-        <button type="button" (click)="onGetTokenApi();viewType=2;" class="btn index-btn w-100 login-ok">立即升級綁定</button>
+        <button type="button" (click)="onGetTokenApi(grantCode, uuid)" class="btn index-btn w-100 login-ok">立即升級綁定</button>
       </div>
       <div *ngIf="viewType===2" class="p-3">
-        <button type="button" (click)="oauthService.onClearStorage()" class="btn index-btn w-100 login-ok">清除登入資料,重新登入</button>
+        <button type="button" (click)="appService.onLogout()" class="btn index-btn w-100 login-ok">清除登入資料,重新登入</button>
       </div>
+    </div>
+    <div *ngIf="viewType===0 || viewType===2">
+      <form [(action)]="AuthorizationUri" method="POST" id="oauthLoginForm" #oauthLoginForm>
+        <div *ngFor="let item of viewList">
+          <input type="hidden" [name]="item.name" [value]="item.value" *ngIf="item.name !=='AuthorizationUri'">
+        </div>
+      </form>
     </div>
   </footer>
 </div>

@@ -99,7 +99,8 @@ export class AppService {
       xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
       xEyes_CustomerInfo: (sessionStorage.getItem('CustomerInfo') !== null) ? sessionStorage.getItem('CustomerInfo') : '',
       xEyes_DeviceCode: deviceCode === undefined ? '' : deviceCode,
-      Authorization: (sessionStorage.getItem('M_idToken') !== null) ? 'Bearer ' + sessionStorage.getItem('M_idToken') : '',
+      Authorization: 'Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIxN2IyYTg5NS1lNGZmLTQ4MjktYWQwMC00NmE1ZDI3MDEyYWIiLCJhdWQiOiI3YTE5OGE5OC04NzFkLTRkMzYtODY2ZC0zYjI0NjQ4OGEyY2MiLCJvcGVuSWRQcm92aWRlciI6eyJuYW1lIjoiR29vZ2xlIiwicmVmSWQiOiI5NDQ1Y2FmMzE0ZWY1MzFlZDdlZmNiOTkyMDY0ZjJiOCJ9LCJleHAiOjE2MzM2NDAyNDUsImlhdCI6MTYzMzYwNDI0NSwidXNlciI6eyJhY2NvdW50SWQiOiJkM2Y1M2E2MC1kYjcwLTExZTktOGEzNC0yYTJhZTJkYmNjZTQiLCJuYW1lIjoiQ2hsb2UgY2h1bmciLCJtb2JpbGUiOiI5MTAqKio0ODEiLCJpZCI6IjE3YjJhODk1LWU0ZmYtNDgyOS1hZDAwLTQ2YTVkMjcwMTJhYiIsImF2YXRhciI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hLS9BT2gxNEdnODkxVFhpYVNBa3BqSEN1d2JleUMtNHQtZVI4TVdhN0xsVi1vRGxIYz1zOTYtYyIsImNvdW50cnlNY29kZSI6Ijg4NiIsInJlZ2lzdGVyRGF0ZSI6IjE2MzM2MDM1OTYifSwiaXNzIjoiZXllc21lZGlhLmNvbS50dyJ9.BeSRmLi_kcJlMruzHgSg3tNpQIOK-N5H0e5b5k9ybBTEveWCfdyVgpXqnIIanBAKwyYfv2V1wLWsJKH2gFscQj8GrIfbmX0DoJt-aeudXIC0-OV18ekIL5UMtTFDAbunwUVXhPRi-u-bwZyaAZw-mC9kelY0g-e_ymvF-6J5CkooXf0TyTxRVpOAXCnuLamj1F5eWZR96gPM7fiWjyM4Dq4idElOBsR0THG13RV28W6_1G_a0o1fI-1U66wIVY8szPi5lraHWAzQNWQHlFo60C2jgNljbMPTCOOJSwwc-LakjA_mStL-KwVAQcKsYlYfToTi5r96zGSViE3OWKj7dA',
+      // Authorization: (sessionStorage.getItem('M_idToken') !== null) ? 'Bearer ' + sessionStorage.getItem('M_idToken') : '',
     });
 
 
@@ -184,10 +185,11 @@ export class AppService {
 
   /** 登出 */
   onLogout(): void {
-    const request = {
-      User_Code: sessionStorage.getItem('userCode')
-    };
-    this.toApi_Logout('Home', '1109', request).subscribe((Data: any) => { });
+    // 登出紀錄
+    // const request = {
+    //   User_Code: sessionStorage.getItem('userCode')
+    // };
+    // this.toApi_Logout('Home', '1109', request).subscribe((Data: any) => { });
     // 第三方登入套件登出
     if (this.cookieService.get('Mobii_ThirdLogin') === 'true') {
       this.authService.signOut();
@@ -205,6 +207,7 @@ export class AppService {
     if (this.isApp !== null) {
       window.location.href = '/ForApp/AppLogout';
     }
+    this.router.navigate([localStorage.getItem('M_fromOriginUri')]);
   }
 
   /**
@@ -221,9 +224,9 @@ export class AppService {
       xEyes_X: (lng != null) ? lng.toString() : '',
       xEyes_Y: (lat != null) ? lat.toString() : '',
       xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
-
-      Authorization: (sessionStorage.getItem('M_idToken') !== null) ? 'Bearer ' + sessionStorage.getItem('M_idToken') : '',
-      xEyes_CustomerInfo: (sessionStorage.getItem('CustomerInfo') !== null) ? sessionStorage.getItem('CustomerInfo') : ''
+      xEyes_CustomerInfo: (sessionStorage.getItem('CustomerInfo') !== null) ? sessionStorage.getItem('CustomerInfo') : '',
+      Authorization: 'Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIxN2IyYTg5NS1lNGZmLTQ4MjktYWQwMC00NmE1ZDI3MDEyYWIiLCJhdWQiOiI3YTE5OGE5OC04NzFkLTRkMzYtODY2ZC0zYjI0NjQ4OGEyY2MiLCJvcGVuSWRQcm92aWRlciI6eyJuYW1lIjoiR29vZ2xlIiwicmVmSWQiOiI5NDQ1Y2FmMzE0ZWY1MzFlZDdlZmNiOTkyMDY0ZjJiOCJ9LCJleHAiOjE2MzM2NDAyNDUsImlhdCI6MTYzMzYwNDI0NSwidXNlciI6eyJhY2NvdW50SWQiOiJkM2Y1M2E2MC1kYjcwLTExZTktOGEzNC0yYTJhZTJkYmNjZTQiLCJuYW1lIjoiQ2hsb2UgY2h1bmciLCJtb2JpbGUiOiI5MTAqKio0ODEiLCJpZCI6IjE3YjJhODk1LWU0ZmYtNDgyOS1hZDAwLTQ2YTVkMjcwMTJhYiIsImF2YXRhciI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hLS9BT2gxNEdnODkxVFhpYVNBa3BqSEN1d2JleUMtNHQtZVI4TVdhN0xsVi1vRGxIYz1zOTYtYyIsImNvdW50cnlNY29kZSI6Ijg4NiIsInJlZ2lzdGVyRGF0ZSI6IjE2MzM2MDM1OTYifSwiaXNzIjoiZXllc21lZGlhLmNvbS50dyJ9.BeSRmLi_kcJlMruzHgSg3tNpQIOK-N5H0e5b5k9ybBTEveWCfdyVgpXqnIIanBAKwyYfv2V1wLWsJKH2gFscQj8GrIfbmX0DoJt-aeudXIC0-OV18ekIL5UMtTFDAbunwUVXhPRi-u-bwZyaAZw-mC9kelY0g-e_ymvF-6J5CkooXf0TyTxRVpOAXCnuLamj1F5eWZR96gPM7fiWjyM4Dq4idElOBsR0THG13RV28W6_1G_a0o1fI-1U66wIVY8szPi5lraHWAzQNWQHlFo60C2jgNljbMPTCOOJSwwc-LakjA_mStL-KwVAQcKsYlYfToTi5r96zGSViE3OWKj7dA',
+      // Authorization: (sessionStorage.getItem('M_idToken') !== null) ? 'Bearer ' + sessionStorage.getItem('M_idToken') : '',
     });
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
@@ -459,8 +462,7 @@ export class AppService {
           this.deviceCode = this.guid();
           localStorage.setItem('M_DeviceCode', this.deviceCode);
         }
-        console.log(this.cookieService.get('idtoken'));
-        if (this.loginState && this.cookieService.get('idtoken') !== '') {
+        if (this.loginState) {
           this.toPushApi(token);
         }
       },
