@@ -88,6 +88,13 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     if (localStorage.getItem('M_upgrade') === '1' && localStorage.getItem('M_viewData') !== null
       && sessionStorage.getItem('M_idToken') !== null) {
         this.viewType = 2;
+        /** 「登入4-2」導回原頁 */
+        this.appService.openBlock();
+        setTimeout(() => {
+          this.appService.blockUI.stop();
+          const uri = (localStorage.getItem('M_fromOriginUri') !== null) ? localStorage.getItem('M_fromOriginUri') : '/' ;
+          this.router.navigate([uri]);
+        }, 1500);
     }
   }
   getViewData() {
