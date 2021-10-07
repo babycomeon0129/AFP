@@ -56,6 +56,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         if (loginJson.errorCode === '996600001') {
           if (typeof loginJson.data.grantCode !== 'undefined') {
             localStorage.setItem('M_grantCode', loginJson.data.grantCode);
+            this.grantCode = loginJson.data.grantCode;
           }
           console.log('2-1Redirect API:', loginJson.data.grantCode, loginJson.data.List_MultipleUser);
           /** 「登入2-2」多重帳號頁面渲染 */
@@ -65,7 +66,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
             console.log('2-2List_MultipleUser', this.List_MultipleUser);
           }
         } else {
-          const content = `登入註冊失敗<br>錯誤代碼：${params.errorCode}<br>請重新登入註冊`;
+          const content = `登入註冊失敗<br>錯誤代碼：${params.errorCode}<br>請重新登入註冊!`;
           this.modal.show('message', {
             class: 'modal-dialog-centered',
             initialState: { success: true, message: content, showType: 3, checkBtnMsg: '我知道了', checkBtnUrl: '/Login' } });
@@ -75,11 +76,18 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    /** 「登入1-1-4」初始取得viewConfig資料 */
     this.getViewData();
-    this.onGetTokenApi();
-    /** 「登入4-1」M_upgrade=1代表曾經登入過不跳公告頁，直接至艾斯身份識別登入 */
-    if (localStorage.getItem('M_upgrade') === '1') {
-      console.log('4-1', this.viewData);
+    /** 「登入3-1」已登入過艾斯(未有idToken)且非多重帳號，可取得idToken，則否讓使用者選完再取得idToken */
+    if (localStorage.getItem('M_upgrade') === '1' && sessionStorage.getItem('M_idToken') === null
+        && this.List_MultipleUser === undefined
+    ) {
+      this.onGetTokenApi(this.grantCode, this.uuid);
+    }
+    /** 「登入4-1」曾經登入成功過(已有idToken)，未登出 */
+    if (localStorage.getItem('M_upgrade') === '1' && localStorage.getItem('M_viewData') !== null
+      && sessionStorage.getItem('M_idToken') !== null) {
+        this.viewType = 2;
     }
   }
   getViewData() {
@@ -100,17 +108,19 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   }
 
   onLoginEyes() {
-    /** 「登入1-3」FORM POST給艾斯識別(M_upgrade:1 代表不再顯示公告頁) */
+    /** 「登入1-3」點擊登入註冊按鈕FORM POST給艾斯識別(M_upgrade:1 代表不再顯示公告頁) */
     localStorage.setItem('M_upgrade', '1');
     (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
   }
 
-  onGetTokenApi() {
-    /** 「登入3-1」曾經登入過且點擊過公告頁登入註冊按鈕，可取得Response中的idToken */
+  onGetTokenApi(code: string, uid: string) {
+    this.viewType = 2;
+    /** 「登入3-2」點擊過公告頁登入註冊按鈕(M_upgrade=1)，可取得Response中的idToken */
     if (localStorage.getItem('M_grantCode') !== null && localStorage.getItem('M_upgrade') === '1') {
+      // grantCode只能使用一次，註冊Mobii新會員用
       const request = {
-        grantCode: localStorage.getItem('M_grantCode'),
-        uuid: this.uuid || null,
+        grantCode: code,
+        uuid: uid,
       };
       (this.oauthService.toTokenApi(JSON.stringify(request))).subscribe((data: ResponseTokenApi) => {
         console.log('2-3-2TokenApiResponse', JSON.stringify(data));
