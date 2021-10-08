@@ -135,7 +135,12 @@ export class AppService {
             //     this.onLogout();
             //     this.router.navigate(['/']);
             // }
-            return JSON.parse(data.Data);
+            const responseData = JSON.parse(JSON.stringify(data.Data));
+            if (responseData !== null) {
+              sessionStorage.setItem('userCode', responseData.User_Code);
+              this.cookieService.set('userCode', responseData.User_Code, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+            }
+            return responseData;
           case 9996: // 查無商品詳細頁資料
             this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
               initialState: { success: false, message: data.Base.Rtn_Message, showType: 1, checkBtnMsg: `確定`, target: 'GoBack' } });
