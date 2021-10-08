@@ -6,7 +6,7 @@ import { EntranceComponent } from './entrance.component';
 
 const routes: Routes = [
   { path: '',
-    canActivate: [SessionAliveGuard],
+    // canActivate: [SessionAliveGuard],
     component: EntranceComponent, data: {animation: 'Entrance'},
     // resolve: {homeData: EntranceResolver}
   }

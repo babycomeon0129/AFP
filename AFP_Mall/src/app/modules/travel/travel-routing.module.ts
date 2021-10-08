@@ -6,7 +6,8 @@ import { SessionAliveGuard } from 'src/app/shared/guard/session-alive-guard/sess
 import { TravelComponent } from './travel.component';
 
 const routes: Routes = [
-  { path: '', canActivate: [SessionAliveGuard], component: TravelComponent }
+  { path: '', component: TravelComponent }
+  // { path: '', canActivate: [SessionAliveGuard], component: TravelComponent }
 ];
 
 @NgModule({

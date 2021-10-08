@@ -15,6 +15,7 @@ const routes: Routes = [
   { path: 'Sales', component: SalesComponent },
   { path: 'ShoppingOffers', component: ShoppingOffersComponent },
   { path: 'VoucherDetail/:Voucher_Code', canActivate: [SessionAliveGuard], component: VoucherDetailComponent },
+  // { path: 'VoucherDetail/:Voucher_Code', canActivate: [SessionAliveGuard], component: VoucherDetailComponent },
   { path: '', redirectTo: '/Shopping' }
 ];
 

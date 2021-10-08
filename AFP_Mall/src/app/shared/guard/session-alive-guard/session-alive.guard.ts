@@ -20,14 +20,6 @@ export class SessionAliveGuard implements CanActivate {
         // cookie有值: 將cookie資訊塞入session
         // cookie無值: 無動作
         // return true(都可繼續訪問)
-      if (sessionStorage.getItem('M_idToken') === null) {
-        if (this.cookieService.get('M_idToken').length > 0) {
-          if (this.CheckUser(this.cookieService.get('M_idToken'))) {
-            sessionStorage.setItem('M_idToken', this.cookieService.get('M_idToken'));
-            this.appService.loginState = true;
-          }
-        }
-      }
       // if (sessionStorage.getItem('userCode') === null || sessionStorage.getItem('CustomerInfo') === null) {
       //   if (this.cookieService.get('userCode').length > 0 && this.cookieService.get('CustomerInfo').length > 0) {
       //     if (this.CheckUser(this.cookieService.get('userCode'), this.cookieService.get('CustomerInfo'))) {
@@ -65,23 +57,6 @@ export class SessionAliveGuard implements CanActivate {
   //     });
   //   });
   // }
-
-  CheckUser(token: string) {
-    const request: Request_AuthUser = {
-      SearchModel: {idToken: token }
-      // SearchModel: {UserInfoCode: userInfoCode, CustomerInfo: customerInfo }
-    };
-    // 登入驗證是否正確
-    return new Promise(resolve => {
-      this.appService.toApi('Member', '1500', request).subscribe((data: Response_AuthUser) => {
-        if (!data.CheckState) {
-          //  驗證失敗，清除Cookie
-          this.cookieService.deleteAll();
-        }
-        resolve(data.CheckState);
-      });
-    });
-  }
 }
 
 class Request_AuthUser extends Model_ShareData {

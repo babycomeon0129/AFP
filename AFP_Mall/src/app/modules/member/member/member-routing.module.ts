@@ -13,7 +13,8 @@ import { SessionAliveGuard } from '@app/shared/guard/session-alive-guard/session
 
 const routes: Routes = [
   {
-    path: '',canActivate:[SessionAliveGuard], component: MemberComponent, children: [
+    // path: '',  canActivate: [SessionAliveGuard], component: MemberComponent, children: [
+    path: '', component: MemberComponent, children: [
       { path: '', component: HomeComponent, data: {animation: 'MemberHome'}  },
       { path: 'Setting', component: SettingComponent, data: {animation: 'Setting'} },
       { path: 'MyProfile', component: MyProfileComponent, data: {animation: 'MyProfile'} },

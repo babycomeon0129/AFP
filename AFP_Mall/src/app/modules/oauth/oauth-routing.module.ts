@@ -6,8 +6,10 @@ import { OauthLoginComponent } from './oauth-login/oauth-login.component';
 import { OauthComponent } from './oauth/oauth.component';
 
 const routes: Routes = [
-  { path: '', canActivate: [SessionAliveGuard], component: OauthLoginComponent },
-  { path: 'Oauth', canActivate: [SessionAliveGuard], component: OauthComponent },
+  { path: '', component: OauthLoginComponent },
+  { path: 'Oauth', component: OauthComponent },
+  // { path: '', canActivate: [SessionAliveGuard], component: OauthLoginComponent },
+  // { path: 'Oauth', canActivate: [SessionAliveGuard], component: OauthComponent },
 ];
 
 @NgModule({

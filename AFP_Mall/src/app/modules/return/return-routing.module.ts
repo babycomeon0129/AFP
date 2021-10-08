@@ -8,10 +8,12 @@ import { ReturnDialogComponent } from './return-dialog/return-dialog.component';
 import { ReturnComponent } from './return/return.component';
 
 const routes: Routes = [
-  { path: ':Order_TableNo', canActivate: [SessionAliveGuard], component: ReturnComponent },
   { path: 'ReturnDetail/:Services_TableNo', component: ReturnDetailComponent },
   { path: 'ReturnDialog/:Services_TableNo', component: ReturnDialogComponent },
-  { path: '', canActivate: [SessionAliveGuard], redirectTo: '/Member' }
+  { path: ':Order_TableNo', component: ReturnComponent },
+  { path: '', redirectTo: '/Member' }
+  // { path: ':Order_TableNo', canActivate: [SessionAliveGuard], component: ReturnComponent },
+  // { path: '', canActivate: [SessionAliveGuard], redirectTo: '/Member' }
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
