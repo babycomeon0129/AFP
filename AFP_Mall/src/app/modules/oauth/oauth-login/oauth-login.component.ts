@@ -36,13 +36,15 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
     this.activatedRoute.queryParams.subscribe(params => {
       /** 「登入1-1-3」APP訪問 */
-      if  (typeof params.deviceType !== 'undefined' && this.appService.isApp === 1) {
+      if (typeof params.deviceType !== 'undefined' && this.appService.isApp === 1) {
         // App (接收App queryParams：isApp, deviceType, deviceCode)
         this.oauthService.loginRequest.deviceType = Number(params.deviceType);
         this.oauthService.loginRequest.fromOriginUri = '/Login'; // APP返回預設
       } else {
         // Web
         this.oauthService.loginRequest.deviceType = 0;
+        this.oauthService.loginRequest.fromOriginUri =
+          (typeof params.fromOriginUri !== 'undefined') ? params.fromOriginUri :
         this.oauthService.loginRequest.fromOriginUri = localStorage.getItem('M_fromOriginUri');
       }
       localStorage.setItem('M_deviceType', this.oauthService.loginRequest.deviceType.toString());
@@ -69,6 +71,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
             console.log('2-2List_MultipleUser', this.List_MultipleUser);
           }
         } else {
+          this.appService.onLogout();
           const content = `登入註冊失敗<br>錯誤代碼：${params.errorCode}<br>請重新登入註冊!`;
           this.modal.show('message', {
             class: 'modal-dialog-centered',
@@ -90,12 +93,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       && sessionStorage.getItem('M_idToken') !== null) {
         this.viewType = 2;
         /** 「登入4-2」導回原頁 */
-        this.appService.openBlock();
-        setTimeout(() => {
-          this.appService.blockUI.stop();
-          const uri = (localStorage.getItem('M_fromOriginUri') !== null) ? localStorage.getItem('M_fromOriginUri') : '/' ;
-          this.router.navigate([uri]);
-        }, 1500);
+        this.appService.jumpUrl();
     }
   }
   getViewData() {
@@ -147,12 +145,9 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
           }
           /** 「登入3-2-4」導回原頁 */
           this.appService.openBlock();
-          setTimeout(() => {
-            this.appService.blockUI.stop();
-            const uri = (localStorage.getItem('M_fromOriginUri') !== null) ? localStorage.getItem('M_fromOriginUri') : '/' ;
-            this.router.navigate([uri]);
-          }, 1500);
+          this.appService.jumpUrl();
         } else {
+          this.appService.onLogout();
           const content = `登入註冊失敗<br>錯誤代碼：${tokenData.errorCode}<br>請重新登入註冊`;
           this.modal.show('message', {
             class: 'modal-dialog-centered',

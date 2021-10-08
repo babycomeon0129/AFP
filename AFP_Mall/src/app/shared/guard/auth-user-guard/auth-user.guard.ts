@@ -15,6 +15,7 @@ export class AuthUserGuard implements CanActivate {
     state: RouterStateSnapshot): boolean {
     if (!this.appService.loginState) {
       // 未登入導回首頁
+      this.appService.onLogout();
       this.modal.show('message', {
         class: 'modal-dialog-centered',
         initialState: { success: false, message: '請先登入', showType: 3, checkBtnMsg: '我知道了', checkBtnUrl: '/Login' } });
