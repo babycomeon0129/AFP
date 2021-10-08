@@ -36,6 +36,7 @@ export class MemberService {
         this.appService.toApi('Member', '1502', request).subscribe((data: Response_MemberProfile) => {
           this.userProfile = data;
           this.appService.userName = this.userProfile.User_NickName;
+          console.log((this.userProfile.UserProfile_Birthday !== null));
           // 解決ngx-bootstrap 套件日期減一天問題
           if (this.userProfile.UserProfile_Birthday !== null) {
             this.userProfile.UserProfile_Birthday = new Date(this.userProfile.UserProfile_Birthday);

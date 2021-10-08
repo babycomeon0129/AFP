@@ -58,6 +58,7 @@
       <div *ngIf="viewType===2" class="p-3">
         <button type="button" (click)="appService.onLogout()" class="btn index-btn w-100 login-ok">清除登入資料,重新登入</button>
       </div>
+      <button type="button" (click)="setIdToken()" class="btn index-btn w-100 login-ok">假idToken登入</button>
     </div>
     <div *ngIf="viewType===0 || viewType===2">
       <form [(action)]="AuthorizationUri" method="POST" id="oauthLoginForm" #oauthLoginForm>

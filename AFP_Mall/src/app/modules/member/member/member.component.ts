@@ -55,7 +55,7 @@ export class Response_MemberProfile extends Model_ShareData {
   /** 人員姓名 */
   UserProfile_Name: string;
   /** 生日 */
-  UserProfile_Birthday: Date;
+  UserProfile_Birthday?: Date;
   /** E-Mail */
   UserProfile_Email: string;
   /** 隱碼E-Mail */
