@@ -194,7 +194,7 @@ export class MissionComponent implements OnInit {
   /** 前往MemberCoin頁 */
   conditionGo(): void {
     if (this.appService.loginState) {
-      this.router.navigate(['/MemberFunction/MemberCoin'], { queryParams: { showBack: this.appService.showBack } });
+      this.router.navigate(['/MemberFunction/MemberCoin'], { queryParams: { showBack: true } });
     } else {
       this.oauthService.loginPage(this.appService.pathnameUri);
     }

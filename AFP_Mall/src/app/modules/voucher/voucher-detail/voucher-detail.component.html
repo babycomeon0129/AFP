@@ -111,8 +111,7 @@
       <div class="fixed-btn container flex-inline-between">
         <div *ngIf="voucherData?.Voucher_DedPoint > 0 && selectMode !== 5" class="align-self-center">扣除
           <img src="../img/share/mobiicoin_red.png" class="coinimg-m mb-1">
-          <span>{{voucherData.Voucher_SpecialPoint > 0? voucherData.Voucher_SpecialPoint : voucherData.Voucher_DedPoint
-            | currency: '':'':'1.0-2'}}</span>
+          <span>{{voucherData.Voucher_DedPoint | currency: '':'':'1.0-2'}}</span>
         </div>
         <button (click)="toVoucher(voucherData)"
           [disabled]="appService.loginState && (voucherData?.Voucher_IsFreq === 0 || voucherData?.Voucher_IsFreq === 3 || voucherData?.Voucher_IsFreq === 6)"
