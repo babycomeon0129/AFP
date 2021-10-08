@@ -4,17 +4,14 @@
   <button type="button" class="btn bluedk-outline-btn btw-small" (click)="oauthService.loginPage(this.appService.pathnameUri)">Ajax 登入</button>
 </div>
 <hr class="border m-3">
-<h1>舊Mobii登入</h1>
 <!-- 未登入 -->
-<button (click)="appService.loginPage();appService.loginState=true" type="button"
+<!-- <button (click)="appService.loginPage();appService.loginState=true" type="button"
 class="m-topbox-item btn bluedk-outline-btn btw-small">
   old 登入/註冊
-</button>
+</button> -->
 <!-- 登入 -->
-<div>
-  <a [routerLink]="['/Member']">你好，{{appService.userName}}</a>
-</div>
 <!-- 登出 -->
+<button type="button" (click)="setIdToken()" class="btn index-btn w-100 login-ok">假idToken登入</button>
 <button (click)="appService.onLogout();appService.loginState=false" type="button"
   class="m-topbox-item btn bluedk-outline-btn btw-small">
   登出
