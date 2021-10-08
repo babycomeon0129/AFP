@@ -49,7 +49,6 @@ export class MemberFavoriteComponent implements OnInit {
       this.appService.openBlock();
       const request: Request_MemberFavourite = {
         SelectMode: 11,
-        User_Code: sessionStorage.getItem('userCode'),
         AFP_UserFavourite: {
           UserFavourite_ID: 0,
           UserFavourite_CountryCode: 886,
@@ -89,7 +88,6 @@ export class MemberFavoriteComponent implements OnInit {
     this.modal.confirm({ initialState: { message: '確認要刪除這個收藏嗎?' } }).subscribe(res => {
       const request: Request_MemberFavourite = {
         SelectMode: 2,
-        User_Code: sessionStorage.getItem('userCode'),
         AFP_UserFavourite: {
           UserFavourite_ID: 0,
           UserFavourite_CountryCode: 886,

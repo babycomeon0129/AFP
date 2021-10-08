@@ -69,8 +69,7 @@ export class ReturnComponent implements OnInit {
   // 讀取會員儲存地址
   readMemberAddress() {
     const request: Request_MemberAddress = {
-      SelectMode: 4,
-      User_Code: sessionStorage.getItem('userCode')
+      SelectMode: 4
     };
     this.appService.toApi('Member', '1503', request).subscribe((data: Response_MemberAddress) => {
       this.addressList = data.List_UserFavourite;
@@ -170,7 +169,6 @@ export class ReturnComponent implements OnInit {
 
     const request: Request_MemberAddress = {
       SelectMode: 1,
-      User_Code: sessionStorage.getItem('userCode'),
       AFP_UserFavourite: this.requestAddress
     };
 

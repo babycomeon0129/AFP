@@ -85,7 +85,6 @@ export class MemberCardComponent implements OnInit {
     this.cardListLen = null;
     if (this.appService.loginState) {
       const request: Request_MemberMyCard = {
-        User_Code: sessionStorage.getItem('userCode'),
         SelectMode: 4,
         AFP_UserFavourite: {
           UserFavourite_CountryCode: 886,
@@ -135,7 +134,6 @@ export class MemberCardComponent implements OnInit {
 
     this.appService.openBlock();  // 開啟灰屏
     const request: Request_MemberMyCard = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 1,  // 新增
       AFP_UserFavourite: this.requestCard,
       SearchModel: {

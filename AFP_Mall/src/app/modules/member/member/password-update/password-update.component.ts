@@ -39,7 +39,6 @@ export class PasswordUpdateComponent implements OnInit {
   onUpdatePwd(form: NgForm): void {
     if (this.appService.loginState) {
       this.requestUpdatePwd.SelectMode = 3;
-      this.requestUpdatePwd.User_Code = sessionStorage.getItem('userCode');
       this.appService.toApi('Member', '1505', this.requestUpdatePwd).subscribe(() => {
         // 變更成功訊息
         this.modal.show('message', { initialState: { success: true, message: '密碼變更成功!', showType: 1 } });

@@ -29,8 +29,7 @@ export class MemberService {
     if (this.appService.loginState) {
       this.appService.openBlock();
       const request: Request_MemberProfile = {
-        SelectMode: 4,
-        // User_Code: sessionStorage.getItem('userCode')
+        SelectMode: 4
       };
       return new Promise(resolve => {
         this.appService.toApi('Member', '1502', request).subscribe((data: Response_MemberProfile) => {
@@ -55,7 +54,6 @@ export class MemberService {
     this.AppleThird = null;
     const request: Request_MemberThird = {
       SelectMode: 3,
-      User_Code: sessionStorage.getItem('userCode'),
       Store_Note: ''
     };
     this.appService.toApi('Member', '1506', request).subscribe((data: Response_MemberThird) => {

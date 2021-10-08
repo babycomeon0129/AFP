@@ -110,7 +110,6 @@ export class MemberCardDetailComponent implements OnInit {
     this.requestCard.UserFavourite_Text1 = form.value.UcardName;
 
     const request: Request_MemberMyCard = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 3, // 修改
       AFP_UserFavourite: this.requestCard,
       SearchModel: {
@@ -128,7 +127,6 @@ export class MemberCardDetailComponent implements OnInit {
     this.modal.confirm({ initialState: { message: '是否確定解除此會員卡?' } }).subscribe(res => {
       if (res) {
         const request: Request_MemberMyCard = {
-          User_Code: sessionStorage.getItem('userCode'),
           SelectMode: 2,
           AFP_UserFavourite: {
             UserFavourite_ID: parseInt(this.userFavouriteID, 10),

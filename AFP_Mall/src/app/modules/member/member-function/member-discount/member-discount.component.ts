@@ -65,7 +65,6 @@ export class MemberDiscountComponent implements OnInit {
     if (this.appService.loginState) {
       this.appService.openBlock();
       const request: Request_MemberUserVoucher = {
-        User_Code: sessionStorage.getItem('userCode'),
         SelectMode: 4, // 查詢
         Voucher_Code: null, // 優惠券Code
         Voucher_ActivityCode: null, // 優惠代碼

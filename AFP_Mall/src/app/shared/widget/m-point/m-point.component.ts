@@ -25,7 +25,6 @@ export class MPointComponent implements OnInit {
     if (this.appService.loginState) {
       this.appService.openBlock();
       const getInfo: Request_MemberPoint = {
-        User_Code: sessionStorage.getItem('userCode'),
         SelectMode: 4,
         SearchModel: {
           VouChannel_Code: 1111111

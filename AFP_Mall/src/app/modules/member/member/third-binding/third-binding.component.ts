@@ -44,7 +44,6 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
       if (this.thirdUser !== null && this.bindMode > 0) {
         this.thirdRequest = {
           SelectMode: 1,
-          User_Code: sessionStorage.getItem('userCode'),
           Store_Note: '',
           Mode: this.bindMode,
           Token: this.thirdUser.id,
@@ -57,8 +56,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
     // LINE 第三方社群綁定
     this.newThirdRequest.DeviceType = this.appService.isApp !== null ? '1' : '0';
     this.newThirdRequest.CustomerInfo = sessionStorage.getItem('CustomerInfo');
-    this.newThirdRequest.User_Code = sessionStorage.getItem('userCode');
-    this.newThirdRequest.mode = 2
+    this.newThirdRequest.mode = 2;
 
   }
 
@@ -67,7 +65,6 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
     if (this.appService.loginState) {
       const request: Request_MemberThird = {
         SelectMode: 3,
-        User_Code: sessionStorage.getItem('userCode'),
         Store_Note: ''
       };
       this.appService.toApi('Member', '1506', request).subscribe((data: Response_MemberThird) => {
@@ -144,7 +141,6 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
               const appleToken = idTokenModel.sub;
               this.thirdRequest = {
                 SelectMode: 1,
-                User_Code: sessionStorage.getItem('userCode'),
                 Store_Note: '',
                 Mode: this.bindMode,
                 Token: appleToken,
@@ -231,7 +227,6 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
         this.appService.openBlock();
         const request: Request_MemberThird = {
           SelectMode: 2,
-          User_Code: sessionStorage.getItem('userCode'),
           Mode: mode
         };
 

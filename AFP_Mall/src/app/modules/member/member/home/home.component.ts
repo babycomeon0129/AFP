@@ -50,7 +50,6 @@ export class HomeComponent implements OnInit {
     //     // 社群帳號綁定
     //     const request: Request_MemberThird = {
     //       SelectMode: 1,
-    //       User_Code: sessionStorage.getItem('userCode'),
     //       Mode: this.memberService.bindMode,
     //       Token: this.thirdUser.id,
     //       JsonData: JSON.stringify(this.thirdUser)
@@ -65,8 +64,7 @@ export class HomeComponent implements OnInit {
   /** 讀取首頁資料 */
   readIndexData(): void {
     const request: Request_MemberIndex = {
-      SelectMode: 4,
-      // User_Code: sessionStorage.getItem('userCode')
+      SelectMode: 4
     };
 
     this.appService.toApi('Member', '1501', request).subscribe((data: Response_MemberIndex) => {

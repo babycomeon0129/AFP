@@ -153,7 +153,6 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
       case 1:
         // 兌換（加入到「我的優惠券」）
         const request: Request_MemberUserVoucher = {
-          User_Code: sessionStorage.getItem('userCode'),
           SelectMode: 1, // 新增
           Voucher_Code: voucher.Voucher_Code, // 優惠券Code
           Voucher_ActivityCode: null, // 優惠代碼

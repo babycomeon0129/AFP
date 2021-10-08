@@ -60,7 +60,6 @@ export class MemberCoinComponent implements OnInit {
     if (this.appService.loginState) {
       this.appService.openBlock();
       const getInfo: Request_MemberPoint = {
-        User_Code: sessionStorage.getItem('userCode'),
         SelectMode: 4,
         SearchModel: {
           VouChannel_Code: 1111111
@@ -101,7 +100,6 @@ export class MemberCoinComponent implements OnInit {
     if (this.appService.loginState) {
       this.appService.openBlock();
       const getHistory: Request_MemberPoint = {
-        User_Code: sessionStorage.getItem('userCode'),
         SelectMode: 5,
         SearchModel: {
           UserPoint_Type: this.pointType

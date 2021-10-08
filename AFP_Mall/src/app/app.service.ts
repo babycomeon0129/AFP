@@ -121,9 +121,7 @@ export class AppService {
             //   case 3:
             //     break;
             //   case 4:
-            //     sessionStorage.setItem('userCode', data.Verification.UserCode);
             //     sessionStorage.setItem('CustomerInfo', data.Verification.CustomerInfo);
-            //     this.cookieService.set('userCode', data.Verification.UserCode, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
             //     this.cookieService.set('CustomerInfo', data.Verification.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
             //     break;
             //   default:
@@ -288,7 +286,6 @@ export class AppService {
   favToggle(favAction: number, favType: number, favCode?: number): void {
     const request: Request_MemberFavourite = {
       SelectMode: favAction,
-      User_Code: sessionStorage.getItem('userCode'),
       AFP_UserFavourite: {
         UserFavourite_ID: 0,
         UserFavourite_CountryCode: 886,
@@ -320,7 +317,6 @@ export class AppService {
   readCart(): void {
     const request: Request_ECCart = {
       SelectMode: 4, // 固定讀取
-      User_Code: sessionStorage.getItem('userCode'),
       SearchModel: {
         Cart_Code: Number(this.cookieService.get('cart_code'))
       },
@@ -405,7 +401,6 @@ export class AppService {
   exchangeVoucher(voucher: AFP_Voucher): void {
     // 加入到「我的優惠券」
     const request: Request_MemberUserVoucher = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 1, // 新增
       Voucher_Code: voucher.Voucher_Code, // 優惠券Code
       Voucher_ActivityCode: null, // 優惠代碼
@@ -482,7 +477,6 @@ export class AppService {
   /** 推播-取得含device code的新消費者包 */
   toPushApi(token: string): void {
     const request: Request_AFPPushToken = {
-      User_Code: sessionStorage.getItem('userCode'),
       Token: token
     };
     this.toApi('Home', '1113', request, null, null, this.deviceCode).subscribe((data) => { });

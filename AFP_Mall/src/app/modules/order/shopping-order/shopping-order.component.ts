@@ -692,7 +692,6 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
 
     const request: Request_MemberAddress = {
       SelectMode: 1,
-      User_Code: sessionStorage.getItem('userCode'),
       AFP_UserFavourite: this.requestAddress
     };
 

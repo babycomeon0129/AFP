@@ -42,7 +42,6 @@ export class MemberTicketComponent implements OnInit {
       this.appService.openBlock();
       this.listType = usedType;
       const request: Request_MemberTicket = {
-        User_Code: sessionStorage.getItem('userCode'),
         SelectMode: 4, // 查詢列表
         SearchModel: {
           UserTicket_UsedType: usedType

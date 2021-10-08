@@ -50,7 +50,6 @@ export class MyAddressComponent implements OnInit {
     if (this.appService.loginState) {
       const request: Request_MemberAddress = {
         SelectMode: 4,
-        User_Code: sessionStorage.getItem('userCode')
       };
       this.appService.toApi('Member', '1503', request).subscribe((data: Response_MemberAddress) => {
         // 地址列表
@@ -83,7 +82,6 @@ export class MyAddressComponent implements OnInit {
         this.appService.openBlock();
         const request: Request_MemberAddress = {
           SelectMode: 5,
-          User_Code: sessionStorage.getItem('userCode'),
           AFP_UserFavourite: {
             UserFavourite_ID: addressID,
             UserFavourite_CountryCode: 886,
@@ -138,7 +136,6 @@ export class MyAddressComponent implements OnInit {
     }
     const request: Request_MemberAddress = {
       SelectMode: (this.addressId) > 0 ? 3 : 1,
-      User_Code: sessionStorage.getItem('userCode'),
       AFP_UserFavourite: this.requestAddress
     };
     this.appService.toApi('Member', '1503', request).subscribe(() => {
@@ -157,7 +154,6 @@ export class MyAddressComponent implements OnInit {
       if (res) {
         const request: Request_MemberAddress = {
           SelectMode: 2,
-          User_Code: sessionStorage.getItem('userCode'),
           AFP_UserFavourite: {
             UserFavourite_ID: this.addressId,
             UserFavourite_CountryCode: 886,
