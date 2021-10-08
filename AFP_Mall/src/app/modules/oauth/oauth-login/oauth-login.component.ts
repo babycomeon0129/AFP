@@ -105,7 +105,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       /** 「登入1-2-3」取得Response資料，讓Form渲染 */
       this.viewData = Object.assign(data);
       this.AuthorizationUri = data.AuthorizationUri;
-      localStorage.setItem('M_viewData', JSON.stringify(data));
       this.viewList = Object.entries(data).map(([key, val]) => {
         return {name: key, value: val};
       });

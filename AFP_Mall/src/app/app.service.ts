@@ -106,6 +106,7 @@ export class AppService {
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
       .pipe(map((data: Response_APIModel) => {
+        console.log(data);
         this.blockUI.stop();
         switch (data.Base.Rtn_State) {
           case 1: // Response OK
@@ -539,7 +540,7 @@ export class AppService {
         localStorage.getItem('M_fromOriginUri') : '/' ;
       (uri.startsWith('https') || uri.startsWith('https')) ?
       location.href = uri : this.router.navigate([uri]);
-    }, 1500);
+    }, 500);
   }
 }
 
