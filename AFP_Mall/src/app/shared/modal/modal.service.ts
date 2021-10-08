@@ -10,8 +10,6 @@ import { CouponModalComponent } from './coupon-modal/coupon-modal.component';
 import { JustkaModalComponent } from './justka-modal/justka-modal.component';
 import { ReceiptModalComponent } from './receipt-modal/receipt-modal.component';
 import { MsgShareModalComponent } from './msg-share-modal/msg-share-modal.component';
-import { LoginRegisterModalComponent } from './login-register-modal/login-register-modal.component';
-import { VerifyMobileModalComponent } from './verify-mobile-modal/verify-mobile-modal.component';
 import { AppleModalComponent } from './apple-modal/apple-modal.component';
 
 @Injectable({
@@ -43,12 +41,6 @@ export class ModalService {
         break;
       case 'msgShare':
         this.bsModalService.show(MsgShareModalComponent, options);
-        break;
-      case 'loginRegister':
-        this.bsModalService.show(LoginRegisterModalComponent, options);
-        break;
-      case 'verifyMobile':
-        this.bsModalService.show(VerifyMobileModalComponent, options);
         break;
     }
   }

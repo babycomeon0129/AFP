@@ -30,7 +30,7 @@ export class MemberService {
       this.appService.openBlock();
       const request: Request_MemberProfile = {
         SelectMode: 4,
-        User_Code: sessionStorage.getItem('userCode')
+        // User_Code: sessionStorage.getItem('userCode')
       };
       return new Promise(resolve => {
         this.appService.toApi('Member', '1502', request).subscribe((data: Response_MemberProfile) => {

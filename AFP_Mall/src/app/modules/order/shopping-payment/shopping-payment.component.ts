@@ -55,7 +55,7 @@ export class ShoppingPaymentComponent implements OnInit {
         this.payWays = payWays;
         this.reqData.OrderNo = history.state.data.OrderNo;
         this.reqData.UserVoucher_ID = history.state.data.UserVoucher_ID;
-        this.reqData.xEyes_CustomerInfo = sessionStorage.getItem('CustomerInfo');
+        // this.reqData.xEyes_CustomerInfo = sessionStorage.getItem('CustomerInfo');
         this.reqData.User_Code = sessionStorage.getItem('userCode');
         this.reqData.InvoiceMode = invoice.invoiceMode;
         switch (invoice.invoiceMode) {
@@ -211,5 +211,5 @@ export class Request_CheckPay extends Model_ShareData {
   /** 發票寄送地址 */
   InvoiceAddress: string;
   /** 消費者包資訊，Json加密，(登入前不需要傳) */
-  xEyes_CustomerInfo: string;
+  xEyes_CustomerInfo?: string;
 }

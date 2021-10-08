@@ -18,9 +18,7 @@ import { AuthService } from 'angularx-social-login';
 // 推播
 import { AngularFireMessaging } from '@angular/fire/messaging';
 // Component
-import { VerifyMobileModalComponent } from './shared/modal/verify-mobile-modal/verify-mobile-modal.component';
 import { FavoriteModalComponent } from './shared/modal/favorite-modal/favorite-modal.component';
-import { LoginRegisterModalComponent } from './shared/modal/login-register-modal/login-register-modal.component';
 import { JustkaModalComponent } from './shared/modal/justka-modal/justka-modal.component';
 import { MsgShareModalComponent } from './shared/modal/msg-share-modal/msg-share-modal.component';
 import { MessageModalComponent } from './shared/modal/message-modal/message-modal.component';
@@ -97,10 +95,8 @@ export class AppService {
       xEyes_X: (lng != null) ? lng.toString() : '',
       xEyes_Y: (lat != null) ? lat.toString() : '',
       xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
-      // xEyes_CustomerInfo: (sessionStorage.getItem('CustomerInfo') !== null) ? sessionStorage.getItem('CustomerInfo') : '',
       xEyes_DeviceCode: deviceCode === undefined ? '' : deviceCode,
-      Authorization: 'Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIxN2IyYTg5NS1lNGZmLTQ4MjktYWQwMC00NmE1ZDI3MDEyYWIiLCJhdWQiOiI3YTE5OGE5OC04NzFkLTRkMzYtODY2ZC0zYjI0NjQ4OGEyY2MiLCJvcGVuSWRQcm92aWRlciI6eyJuYW1lIjoiR29vZ2xlIiwicmVmSWQiOiI5NDQ1Y2FmMzE0ZWY1MzFlZDdlZmNiOTkyMDY0ZjJiOCJ9LCJleHAiOjE2MzM2OTM3NTIsImlhdCI6MTYzMzY1Nzc1MiwidXNlciI6eyJhY2NvdW50SWQiOiJkM2Y1M2E2MC1kYjcwLTExZTktOGEzNC0yYTJhZTJkYmNjZTQiLCJuYW1lIjoiQ2hsb2UgY2h1bmciLCJtb2JpbGUiOiI5MTAqKio0ODEiLCJpZCI6IjE3YjJhODk1LWU0ZmYtNDgyOS1hZDAwLTQ2YTVkMjcwMTJhYiIsImF2YXRhciI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hLS9BT2gxNEdnODkxVFhpYVNBa3BqSEN1d2JleUMtNHQtZVI4TVdhN0xsVi1vRGxIYz1zOTYtYyIsImNvdW50cnlNY29kZSI6Ijg4NiIsInJlZ2lzdGVyRGF0ZSI6IjE2MzM2MDM1OTYifSwiaXNzIjoiZXllc21lZGlhLmNvbS50dyJ9.M-hmEaU-UrIJd0aF2sM4S4R4i8xIoSOf8ov5W6du6SaKQytBlrUUr8bISm7ih_WeRi4vfh4baTkBlU55qPEFu5ti92R-ToZk9a2weTPSQfwUYZp_OkBQfV5nAH_925qRYx5Cx4ELSbMWzGVMjDGWRewvu9gq5PDNHxZqiOc9FrznHOVz5FZU2HXm_vHJIY5vmw7pLjv3nK8HlcVJjXyI7G4QQZf1mr2GCXMD3DKKK0Yp5Q7DEacS7D2GkVqYROSIunMeKNddiJXwq_3kQ6SmgFZUcsen3QEvpN7-_OL_dExsdpfZ4M6lHP9nx2KUDhe2FbHzOwBTfsCgDNV-UsEJwQ',
-      // Authorization: (sessionStorage.getItem('M_idToken') !== null) ? 'Bearer ' + sessionStorage.getItem('M_idToken') : '',
+      Authorization: (sessionStorage.getItem('M_idToken') !== null) ? 'Bearer ' + sessionStorage.getItem('M_idToken') : '',
     });
 
 
@@ -226,9 +222,7 @@ export class AppService {
       xEyes_X: (lng != null) ? lng.toString() : '',
       xEyes_Y: (lat != null) ? lat.toString() : '',
       xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
-      // xEyes_CustomerInfo: (sessionStorage.getItem('CustomerInfo') !== null) ? sessionStorage.getItem('CustomerInfo') : '',
-      Authorization: 'Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIxN2IyYTg5NS1lNGZmLTQ4MjktYWQwMC00NmE1ZDI3MDEyYWIiLCJhdWQiOiI3YTE5OGE5OC04NzFkLTRkMzYtODY2ZC0zYjI0NjQ4OGEyY2MiLCJvcGVuSWRQcm92aWRlciI6eyJuYW1lIjoiR29vZ2xlIiwicmVmSWQiOiI5NDQ1Y2FmMzE0ZWY1MzFlZDdlZmNiOTkyMDY0ZjJiOCJ9LCJleHAiOjE2MzM2OTM3NTIsImlhdCI6MTYzMzY1Nzc1MiwidXNlciI6eyJhY2NvdW50SWQiOiJkM2Y1M2E2MC1kYjcwLTExZTktOGEzNC0yYTJhZTJkYmNjZTQiLCJuYW1lIjoiQ2hsb2UgY2h1bmciLCJtb2JpbGUiOiI5MTAqKio0ODEiLCJpZCI6IjE3YjJhODk1LWU0ZmYtNDgyOS1hZDAwLTQ2YTVkMjcwMTJhYiIsImF2YXRhciI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hLS9BT2gxNEdnODkxVFhpYVNBa3BqSEN1d2JleUMtNHQtZVI4TVdhN0xsVi1vRGxIYz1zOTYtYyIsImNvdW50cnlNY29kZSI6Ijg4NiIsInJlZ2lzdGVyRGF0ZSI6IjE2MzM2MDM1OTYifSwiaXNzIjoiZXllc21lZGlhLmNvbS50dyJ9.M-hmEaU-UrIJd0aF2sM4S4R4i8xIoSOf8ov5W6du6SaKQytBlrUUr8bISm7ih_WeRi4vfh4baTkBlU55qPEFu5ti92R-ToZk9a2weTPSQfwUYZp_OkBQfV5nAH_925qRYx5Cx4ELSbMWzGVMjDGWRewvu9gq5PDNHxZqiOc9FrznHOVz5FZU2HXm_vHJIY5vmw7pLjv3nK8HlcVJjXyI7G4QQZf1mr2GCXMD3DKKK0Yp5Q7DEacS7D2GkVqYROSIunMeKNddiJXwq_3kQ6SmgFZUcsen3QEvpN7-_OL_dExsdpfZ4M6lHP9nx2KUDhe2FbHzOwBTfsCgDNV-UsEJwQ',
-      // Authorization: (sessionStorage.getItem('M_idToken') !== null) ? 'Bearer ' + sessionStorage.getItem('M_idToken') : '',
+      Authorization: (sessionStorage.getItem('M_idToken') !== null) ? 'Bearer ' + sessionStorage.getItem('M_idToken') : '',
     });
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
@@ -436,19 +430,19 @@ export class AppService {
   }
 
   /** 判斷跳出網頁或APP的登入頁 */
-  loginPage(): void {
-    if (this.isApp == null) {
-      this.bsModalService.show(LoginRegisterModalComponent, { class: 'modal-full' });
-    } else {
-      if (navigator.userAgent.match(/android/i)) {
-        //  Android
-        AppJSInterface.login();
-      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-        //  IOS
-        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'login' });
-      }
-    }
-  }
+  // loginPage(): void {
+  //   if (this.isApp == null) {
+  //     this.bsModalService.show(LoginRegisterModalComponent, { class: 'modal-full' });
+  //   } else {
+  //     if (navigator.userAgent.match(/android/i)) {
+  //       //  Android
+  //       AppJSInterface.login();
+  //     } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+  //       //  IOS
+  //       (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'login' });
+  //     }
+  //   }
+  // }
 
 
   /** 打開JustKa iframe */

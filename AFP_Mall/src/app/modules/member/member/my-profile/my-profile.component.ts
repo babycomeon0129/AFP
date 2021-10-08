@@ -69,7 +69,7 @@ export class MyProfileComponent implements OnInit {
   onProfileSubmit(form: NgForm): void {
     this.appService.openBlock();
     this.memberService.userProfile.SelectMode = 3;
-    this.memberService.userProfile.User_Code = sessionStorage.getItem('userCode');
+    // this.memberService.userProfile.User_Code = sessionStorage.getItem('userCode');
     if (this.memberService.userProfile.UserProfile_Birthday !== null) {
         if (this.memberService.userProfile.UserProfile_Birthday.getMonth() < new Date().getMonth()) {
           this.memberService.userProfile.UserProfile_Birthday =
