@@ -106,7 +106,6 @@ export class AppService {
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
       .pipe(map((data: Response_APIModel) => {
-        console.log(data);
         this.blockUI.stop();
         switch (data.Base.Rtn_State) {
           case 1: // Response OK
@@ -135,13 +134,7 @@ export class AppService {
             //     this.onLogout();
             //     this.router.navigate(['/']);
             // }
-            const responseData = JSON.parse(JSON.stringify(data.Data));
-            if (responseData !== null) {
-              sessionStorage.setItem('userCode', responseData.User_Code);
-              this.cookieService.set('userCode', responseData.User_Code, 90, '/',
-                environment.cookieDomain, environment.cookieSecure, 'Lax');
-            }
-            return responseData;
+            return JSON.parse(data.Data);
           case 9996: // 查無商品詳細頁資料
             this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
               initialState: { success: false, message: data.Base.Rtn_Message, showType: 1, checkBtnMsg: `確定`, target: 'GoBack' } });
