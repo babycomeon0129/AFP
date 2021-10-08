@@ -33,8 +33,9 @@ export class AppComponent implements OnInit {
               private cookieService: CookieService, private differs: KeyValueDiffers, private callApp: AppJSInterfaceService,
               public oauthService: OauthService, public bsModalService: BsModalService) {
     this.serviceDiffer = this.differs.find({}).create();
-    if (sessionStorage.getItem('CustomerInfo') !== null && sessionStorage.getItem('userCode') !== null
-      && sessionStorage.getItem('userName') !== null) {
+    if (sessionStorage.getItem('M_idToken') !== null) {
+    // if (sessionStorage.getItem('CustomerInfo') !== null && sessionStorage.getItem('userCode') !== null
+    //   && sessionStorage.getItem('userName') !== null) {
       this.appService.loginState = true;
       this.appService.userName = sessionStorage.getItem('userName');
     }
@@ -57,7 +58,6 @@ export class AppComponent implements OnInit {
             this.cookieService.set('userName', params.userName, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
             this.cookieService.set('userCode', encodeURIComponent(params.userCode), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
             this.cookieService.set('CustomerInfo', encodeURIComponent(params.customerInfo), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-
             this.appService.loginState = true;
           }
         } else if (params.loginType == 2) {

@@ -50,8 +50,11 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         (typeof params.deviceCode !== 'undefined') ? params.deviceCode : localStorage.getItem('M_DeviceCode');
 
 
-      /** 「登入2-1」 艾斯身份識別登入成功後，由Redirect API取得grantCode及List_MultipleUser */
-      if (typeof params.loginJson !== 'undefined') {
+      /** 「登入1-1-4」初始取得viewConfig資料 */
+      if (typeof params.loginJson === 'undefined') {
+        this.getViewData();
+      } else {
+        /** 「登入2-1」 艾斯身份識別登入成功後，由Redirect API取得grantCode及List_MultipleUser */
         const loginJson = JSON.parse(params.loginJson);
         if (loginJson.errorCode === '996600001') {
           if (typeof loginJson.data.grantCode !== 'undefined') {
@@ -76,8 +79,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    /** 「登入1-1-4」初始取得viewConfig資料 */
-    this.getViewData();
     /** 「登入3-1」已登入過艾斯(未有idToken)且非多重帳號，可取得idToken，則否讓使用者選完再取得idToken */
     if (localStorage.getItem('M_upgrade') === '1' && sessionStorage.getItem('M_idToken') === null
         && this.List_MultipleUser === undefined
