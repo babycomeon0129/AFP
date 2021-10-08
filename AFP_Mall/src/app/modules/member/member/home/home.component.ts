@@ -66,7 +66,7 @@ export class HomeComponent implements OnInit {
   readIndexData(): void {
     const request: Request_MemberIndex = {
       SelectMode: 4,
-      User_Code: sessionStorage.getItem('userCode')
+      // User_Code: sessionStorage.getItem('userCode')
     };
 
     this.appService.toApi('Member', '1501', request).subscribe((data: Response_MemberIndex) => {
