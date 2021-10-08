@@ -17,6 +17,7 @@ import { CouponModalComponent } from './modal/coupon-modal/coupon-modal.componen
 import { FavoriteModalComponent } from './modal/favorite-modal/favorite-modal.component';
 import { ForgetModalComponent } from './modal/forget-modal/forget-modal.component';
 import { JustkaModalComponent } from './modal/justka-modal/justka-modal.component';
+import { LoginRegisterModalComponent } from './modal/login-register-modal/login-register-modal.component';
 import { MessageModalComponent } from './modal/message-modal/message-modal.component';
 import { MsgShareModalComponent } from './modal/msg-share-modal/msg-share-modal.component';
 import { PasswordModalComponent } from './modal/password-modal/password-modal.component';
@@ -53,6 +54,7 @@ import { GoTopComponent } from './widget/go-top/go-top.component';
     JustkaModalComponent,
     ReceiptModalComponent,
     MsgShareModalComponent,
+    LoginRegisterModalComponent,
     VerifyMobileModalComponent,
     AppleModalComponent,
     DigitOnlyDirective,
@@ -82,6 +84,7 @@ import { GoTopComponent } from './widget/go-top/go-top.component';
     JustkaModalComponent,
     ReceiptModalComponent,
     MsgShareModalComponent,
+    LoginRegisterModalComponent,
     VerifyMobileModalComponent,
     AppleModalComponent,
     DigitOnlyDirective,
@@ -115,6 +118,7 @@ import { GoTopComponent } from './widget/go-top/go-top.component';
     JustkaModalComponent,
     ReceiptModalComponent,
     MsgShareModalComponent,
+    LoginRegisterModalComponent,
     VerifyMobileModalComponent,
     AppleModalComponent,
   ]
