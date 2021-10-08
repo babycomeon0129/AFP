@@ -138,7 +138,8 @@ export class AppService {
             const responseData = JSON.parse(JSON.stringify(data.Data));
             if (responseData !== null) {
               sessionStorage.setItem('userCode', responseData.User_Code);
-              this.cookieService.set('userCode', responseData.User_Code, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+              this.cookieService.set('userCode', responseData.User_Code, 90, '/',
+                environment.cookieDomain, environment.cookieSecure, 'Lax');
             }
             return responseData;
           case 9996: // 查無商品詳細頁資料
@@ -497,10 +498,7 @@ export class AppService {
       User_Code: sessionStorage.getItem('userCode'),
       Token: token
     };
-    this.toApi('Home', '1113', request, null, null, this.deviceCode).subscribe((data: Response_AFPPushToken) => {
-      // sessionStorage.setItem('CustomerInfo', data.CustomerInfo);
-      // this.cookieService.set('CustomerInfo', data.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-    });
+    this.toApi('Home', '1113', request, null, null, this.deviceCode).subscribe((data) => { });
   }
 
   /** 產生device code */
@@ -556,8 +554,4 @@ interface Request_AFPPushToken extends Model_ShareData {
   Token: string;
 }
 
-/** 推撥登記 ResponseModel */
-interface Response_AFPPushToken extends Model_ShareData {
-  /** 消費者包 */
-  CustomerInfo?: string;
-}
+
