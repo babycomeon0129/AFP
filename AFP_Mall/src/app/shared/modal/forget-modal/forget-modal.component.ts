@@ -77,7 +77,7 @@ export class ForgetModalComponent implements OnDestroy {
           checkBtnUrl: location.pathname
         };
         // this.modalService.show('message', { initialState });
-        this.bsModal.show(MessageModalComponent, { initialState })
+        this.bsModal.show(MessageModalComponent, { initialState });
         this.closeModal();
       }
     });

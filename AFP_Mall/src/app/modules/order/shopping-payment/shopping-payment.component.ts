@@ -56,7 +56,7 @@ export class ShoppingPaymentComponent implements OnInit {
         this.reqData.OrderNo = history.state.data.OrderNo;
         this.reqData.UserVoucher_ID = history.state.data.UserVoucher_ID;
         // this.reqData.xEyes_CustomerInfo = sessionStorage.getItem('CustomerInfo');
-        this.reqData.User_Code = sessionStorage.getItem('userCode');
+        // this.reqData.User_Code = sessionStorage.getItem('userCode');
         this.reqData.InvoiceMode = invoice.invoiceMode;
         switch (invoice.invoiceMode) {
           case 2: { // 公司發票(三聯式)

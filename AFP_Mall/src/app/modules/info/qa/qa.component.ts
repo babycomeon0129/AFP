@@ -97,7 +97,7 @@ export class QAComponent implements OnInit {
   /** 問題目錄開合 */
   cateCollapse(catCode: number): void {
     this.qaData.forEach(data => {
-      if (data.QuestionCategory_Code == catCode) {
+      if (data.QuestionCategory_Code === catCode) {
         data.Collapse = !data.Collapse;
         data.List_QuestionContent.forEach(qa => {
           qa.Q_Collapse = !qa.Q_Collapse;
@@ -132,7 +132,7 @@ export class QAComponent implements OnInit {
         data.List_QuestionContent.forEach(content => {
           content.A_Collapse = true;
           content.Q_Collapse = true;
-        })
+        });
       });
     } else {
       // 針對問題的標題跟內容(移除掉 html tags 後)做篩選，return 有符合結果的分類做渲染

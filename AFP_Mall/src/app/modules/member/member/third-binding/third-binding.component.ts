@@ -91,7 +91,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
           if (this.router.snapshot.queryParams.Mobii_ThirdBind === 'false' && this.router.snapshot.queryParams.Mode !== undefined && this.router.snapshot.queryParams.Error !== undefined) {
             let msg = '';
             let mode = '';
-            switch(this.router.snapshot.queryParams.Error){
+            switch (this.router.snapshot.queryParams.Error) {
               case '1':
                 msg = '帳號已被綁定';
                 break;
@@ -100,7 +100,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
                 break;
             }
 
-            switch(this.router.snapshot.queryParams.Mode) {
+            switch (this.router.snapshot.queryParams.Mode) {
               case '2':
                 mode = 'Line@';
                 break;
@@ -108,7 +108,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
 
             if (!this.bindStatus.line) {
               this.modal.show('message', { initialState: { success: false, message: `${mode}${msg}`, showType: 1 } });
-            }0
+            }
           }
         }
       });
@@ -166,7 +166,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
     const timestampStr = Math.floor(dateTime / 1000).toString();
     // 前後相反
     let reverseTimestamp = '';
-    for (var i = timestampStr.length - 1; i >= 0; i--) {
+    for (let i = timestampStr.length - 1; i >= 0; i--) {
       reverseTimestamp += timestampStr[i];
     }
     // 取前4碼
@@ -175,7 +175,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
     function getRandomInt(max: number) {
       return Math.floor(Math.random() * max);
     };
-    const engLettersArr = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+    const engLettersArr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
     let randomEngLetter = '';
     for (let x = 0; x < 10; x++) {
       const randomInt = getRandomInt(engLettersArr.length);

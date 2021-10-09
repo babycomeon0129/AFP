@@ -371,7 +371,8 @@ export class EntranceComponent implements OnInit {
   /** 近期熱門商品瀑布流 */
   @HostListener('window: scroll', ['$event'])
   prodWaterfall(event: Event): void {
-    if ((Math.floor(window.scrollY + window.innerHeight) >= document.documentElement.offsetHeight -1 ) && this.currentPage < this.totalPage) {
+    if ((Math.floor(window.scrollY + window.innerHeight) >= document.documentElement.offsetHeight - 1 )
+        && this.currentPage < this.totalPage) {
       this.appService.openBlock();
       this.currentPage ++;
       this.readhotProducts(2);

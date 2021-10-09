@@ -238,7 +238,7 @@ export class AppService {
     const timestampStr = Math.floor(dateTime / 1000).toString();
     // 前後相反
     let reverseTimestamp = '';
-    for (var i = timestampStr.length - 1; i >= 0; i--) {
+    for (let i = timestampStr.length - 1; i >= 0; i--) {
       reverseTimestamp += timestampStr[i];
     }
     // 取前4碼
@@ -246,8 +246,8 @@ export class AppService {
     // 取得10個隨機英文字母，組成字串
     function getRandomInt(max: number) {
       return Math.floor(Math.random() * max);
-    };
-    const engLettersArr = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+    }
+    const engLettersArr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
     let randomEngLetter = '';
     for (let x = 0; x < 10; x++) {
       const randomInt = getRandomInt(engLettersArr.length);
@@ -466,7 +466,7 @@ export class AppService {
   receiveMessage(): void {
     this.angularFireMessaging.messages.subscribe(
       (payload) => {
-        console.log("new message received. ", payload);
+        console.log('new message received. ', payload);
         this.currentMessage.next(payload);
         this.pushCount++;
         this.cookieService.set('pushCount', this.pushCount.toString(), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
