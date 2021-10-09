@@ -100,7 +100,6 @@ export class ETicketOrderDetailComponent implements OnInit {
       this.appService.openBlock();
       // 系統收回票券（未開通或已開通但未使用才會成功）
       const request: Request_MemberTicketRefund = {
-        User_Code: sessionStorage.getItem('userCode'),
         SelectMode: 1,
         SearchModel: {
           Order_TableNo: this.orderInfo.Order_TableNo

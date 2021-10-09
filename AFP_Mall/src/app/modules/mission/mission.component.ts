@@ -53,7 +53,6 @@ export class MissionComponent implements OnInit {
   readData(): void {
     this.appService.openBlock();
     const request: Request_MemberMission = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 4
     };
 
@@ -176,7 +175,6 @@ export class MissionComponent implements OnInit {
    */
   claimPoints(mission: AFP_Mission): void {
     const request: Request_MemberMission = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 1,
       Mission_Code: mission.Mission_Code
     };

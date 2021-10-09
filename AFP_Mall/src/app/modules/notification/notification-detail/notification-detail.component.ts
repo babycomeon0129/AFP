@@ -28,7 +28,6 @@ export class NotificationDetailComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     const request: Request_MemberMsg = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 6,
       SearchModel: {
         Message_Code: this.msgCode

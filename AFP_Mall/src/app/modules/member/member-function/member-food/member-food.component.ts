@@ -30,7 +30,7 @@ export class MemberFoodComponent implements OnInit {
   getFoodList(): void {
     if (this.appService.loginState) {
       const request: Request_MemDeliveryOrder = {
-        User_Code: sessionStorage.getItem('userCode')
+        // User_Code: sessionStorage.getItem('userCode')
       };
       this.appService.toApi('Member', '1521', request).subscribe((data: Response_MemDeliveryOrder) => {
         this.foodList = data.List_DeliveryOrder;

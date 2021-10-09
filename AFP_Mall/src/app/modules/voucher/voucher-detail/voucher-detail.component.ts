@@ -204,7 +204,6 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
     // 每5秒問一次API是否已核銷
     this.checkTimer = setInterval(() => {
       const request: Request_MemberCheckStatus = {
-        User_Code: sessionStorage.getItem('userCode'),
         SelectMode: 1,
         QRCode: this.userVoucher.UserVoucher_QRCode
       };

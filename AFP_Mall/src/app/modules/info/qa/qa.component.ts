@@ -40,7 +40,6 @@ export class QAComponent implements OnInit {
     this.appService.openBlock();
     const request: Request_MemberQuestion = {
       SelectMode: 4,
-      User_Code: sessionStorage.getItem('userCode'),
       SearchModel: {
         QuestionContent_Mode: 1
       }
