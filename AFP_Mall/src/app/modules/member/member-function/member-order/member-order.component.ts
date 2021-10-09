@@ -77,7 +77,6 @@ export class MemberOrderComponent implements OnInit {
     if (this.appService.loginState) {
       this.appService.openBlock();
       const request: Request_MemberOrder = {
-        User_Code: sessionStorage.getItem('userCode'),
         SelectMode: 1, // 列表查詢
         SearchModel: {
           OrderType: type,

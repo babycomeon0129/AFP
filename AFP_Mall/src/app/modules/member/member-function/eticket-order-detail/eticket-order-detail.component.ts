@@ -46,7 +46,6 @@ export class ETicketOrderDetailComponent implements OnInit {
 
   ngOnInit() {
     const request: Request_MemberOrder = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 2, // 詳細查詢
       SearchModel: {
         OrderNo: this.orderNo
@@ -113,7 +112,6 @@ export class ETicketOrderDetailComponent implements OnInit {
             // 產生客服單 (with selected reason )
             const serviceRequest: Request_MemberServices = {
               SelectMode: 1,
-              User_Code: sessionStorage.getItem('userCode'),
               AFP_Services: this.servicesModel
             };
             this.appService.toApi('Member', '1515', serviceRequest).subscribe((serviceData: Response_MemberServices) => {

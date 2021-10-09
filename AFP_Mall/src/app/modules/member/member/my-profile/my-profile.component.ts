@@ -99,7 +99,6 @@ export class MyProfileComponent implements OnInit {
     const request: Request_MemberCertificate = {
       /** 區別操作(通用) 1:新增 2:刪除 3:編輯 4:查詢列表 5:查詢詳細 */
       SelectMode: 4,
-      User_Code: sessionStorage.getItem('userCode'),
       AFP_UserFavourite: {
         UserFavourite_ID: 0,
         UserFavourite_Number1: CertificateType,
@@ -164,7 +163,6 @@ export class MyProfileComponent implements OnInit {
         this.appService.openBlock();
         const request: Request_MemberCertificate = {
           SelectMode: (this.userCertificate.UserFavourite_ID > 0) ? 3 : 1,
-          User_Code: sessionStorage.getItem('userCode'),
           AFP_UserFavourite: this.userCertificate
         };
         this.appService.toApi('Member', '1513', request).subscribe((data: Response_MemberCertificate) => {
