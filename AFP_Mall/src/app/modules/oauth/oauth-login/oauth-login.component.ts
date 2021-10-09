@@ -35,17 +35,16 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
               private callApp: AppJSInterfaceService, private cookieService: CookieService) {
 
     this.activatedRoute.queryParams.subscribe(params => {
-      /** 「登入1-1-3」APP訪問 */
+      /** 「登入1-1-3」APP訪問，接收queryParams */
       if (typeof params.deviceType !== 'undefined' && this.appService.isApp === 1) {
         // App (接收App queryParams：isApp, deviceType, deviceCode)
         this.oauthService.loginRequest.deviceType = Number(params.deviceType);
         this.oauthService.loginRequest.fromOriginUri = '/Login'; // APP返回預設
       } else {
-        // Web
+        // Web（其他活動頁帶queryParams，按鈕帶pathname）
         this.oauthService.loginRequest.deviceType = 0;
         this.oauthService.loginRequest.fromOriginUri =
-          (typeof params.fromOriginUri !== 'undefined') ? params.fromOriginUri :
-        this.oauthService.loginRequest.fromOriginUri = localStorage.getItem('M_fromOriginUri');
+          (typeof params.fromOriginUri !== 'undefined') ? params.fromOriginUri : localStorage.getItem('M_fromOriginUri');
       }
       localStorage.setItem('M_deviceType', this.oauthService.loginRequest.deviceType.toString());
       this.oauthService.loginRequest.deviceCode =

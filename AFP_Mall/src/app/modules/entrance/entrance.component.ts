@@ -428,7 +428,6 @@ export class EntranceComponent implements OnInit {
   getHomeservice(): void {
     this.appService.openBlock();
     const request: Request_AFPUserService = {
-      User_Code: sessionStorage.getItem('userCode'),
       // SelectMode 1 : 首頁 10 : 我的服務
       SelectMode: 1
     };
@@ -510,7 +509,6 @@ export class EntranceComponent implements OnInit {
     // 將我的服務的function code 陣列result傳給後端
     const result = this.ftBottom.map((item: AFP_Function) => item.Function_Code);
     const request: Request_AFPUpdateUserService = {
-      User_Code: sessionStorage.getItem('userCode'),
       Model_UserFavourite: null,
       Model_UserFunction: result
     };

@@ -25,7 +25,7 @@ export class OauthService {
   constructor(private router: Router, private http: HttpClient, private cookieService: CookieService) {}
 
   /** 「登入1-1-2」判斷跳出網頁或APP的登入頁
-   * App：原生點擊登入按鈕（帶queryParams：isApp,deviceType,deviceCode），統一由Web向艾斯識別驗證idtoken
+   * App：原生點擊登入按鈕（帶queryParams：isApp,deviceType,deviceCode），統一由Web向艾斯識別驗證
    * Web：登入按鈕帶入pathname，做為返回依據
    */
    loginPage(pathname: string): void {

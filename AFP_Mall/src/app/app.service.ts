@@ -181,16 +181,15 @@ export class AppService {
   /** 登出 */
   onLogout(): void {
     // 登出紀錄
-    // const request = {
-    //   User_Code: sessionStorage.getItem('userCode')
-    // };
-    // this.toApi_Logout('Home', '1109', request).subscribe((Data: any) => { });
+    const request = {
+      // User_Code: sessionStorage.getItem('userCode')
+    };
+    this.toApi_Logout('Home', '1109', request).subscribe((Data: any) => { });
     // 第三方登入套件登出
     if (this.cookieService.get('Mobii_ThirdLogin') === 'true') {
       this.authService.signOut();
     }
     // 清除session、cookie、我的收藏資料，重置登入狀態及通知數量，返回原頁
-    this.jumpUrl();
     sessionStorage.clear();
     this.cookieService.deleteAll();
     this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
