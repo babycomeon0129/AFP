@@ -49,7 +49,6 @@ export class SalesComponent implements OnInit, OnDestroy {
   readData(): void {
     this.appService.openBlock();
     const request: Request_ECVouFlashSale = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 5
     };
     this.appService.toApi('EC', '1207', request).subscribe((data: Response_ECVouFlashSale) => {

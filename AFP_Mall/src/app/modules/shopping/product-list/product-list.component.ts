@@ -58,7 +58,6 @@ export class ProductListComponent implements OnInit {
   readProducts() {
     this.appService.openBlock();
     const request: Request_ECProductList = {
-      User_Code: sessionStorage.getItem('userCode'),
       Cart_Count: this.cartCount,
       SearchModel: {
         Cart_Code: this.cartCode,

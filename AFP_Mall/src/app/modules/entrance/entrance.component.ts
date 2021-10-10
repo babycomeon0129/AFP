@@ -342,7 +342,6 @@ export class EntranceComponent implements OnInit {
     const request: Request_ECHome = {
       // SelectMode 1:  讀取商城所有資料 2:只有熱門商品資料，用於熱門商品瀑布流
       SelectMode: 2,
-      User_Code: sessionStorage.getItem('userCode'),
       Cart_Count: 0,
       Model_BasePage: {
         Model_Page: this.currentPage

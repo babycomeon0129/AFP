@@ -52,7 +52,6 @@ export class ShoppingCartComponent implements OnInit {
   showCartData(): void {
     this.appService.openBlock();
     const request: Request_ECCart = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 4, // 查詢
       SearchModel: {
         Cart_Code: this.cartCode // 購物車Code
@@ -270,7 +269,6 @@ export class ShoppingCartComponent implements OnInit {
    */
   onRemoveProduct(store: CartStoreList, product: ProductInfo): void {
     const request: Request_ECCart = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 2,
       Cart_Count: this.cartCount,
       SearchModel: {
@@ -340,7 +338,6 @@ export class ShoppingCartComponent implements OnInit {
         // (若有更動過的商品)更改商品數
         if (this.productsToUpdate.length > 0) {
           const request: Request_ECCart = {
-            User_Code: sessionStorage.getItem('userCode'),
             SelectMode: 5, // 多筆更新
             Cart_Count: this.cartCount,
             SearchModel: {

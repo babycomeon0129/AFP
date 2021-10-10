@@ -86,7 +86,6 @@ export class ProductDetailComponent implements OnInit {
   ngOnInit() {
     // 讀取商品詳細
     const request: Request_ECProductDetail = {
-      User_Code: sessionStorage.getItem('userCode'),
       Cart_Count: 0,
       SearchModel: {
         Product_Code: this.productCode,
@@ -225,7 +224,6 @@ export class ProductDetailComponent implements OnInit {
         window.open(this.productInfo.Product_URL);
       } else {  // 一般商品 & 電子票券(已登入) 走以下流程
         const request: Request_ECCart = {
-          User_Code: sessionStorage.getItem('userCode'),
           SelectMode: 1,
           Cart_Count: this.cartCount,
           SearchModel: {

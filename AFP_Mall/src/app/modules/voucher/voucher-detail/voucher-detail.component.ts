@@ -64,7 +64,6 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
   /** 讀取優惠券資料 */
   readVoucherData(): void {
     const request: Request_ECVoucherDetail = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: this.selectMode,
       SearchModel: {
         Voucher_Code: this.voucherCode,

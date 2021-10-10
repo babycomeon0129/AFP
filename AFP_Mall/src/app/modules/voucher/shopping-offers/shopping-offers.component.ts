@@ -42,7 +42,6 @@ export class ShoppingOffersComponent implements OnInit {
   /** 讀取資料 */
   readData(): void {
     const request: Request_ECVoucher = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 4
     };
     this.appService.toApi('EC', '1205', request).subscribe((data: Response_ECVoucher) => {

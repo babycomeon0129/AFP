@@ -113,7 +113,6 @@ export class OffersComponent implements OnInit, OnDestroy {
   readData(): void {
     this.appService.openBlock();
     const request: Request_ECVouFlashSale = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 4,
       SearchModel: {
         VouChannel_Code: 1111111 // 優惠券推薦
