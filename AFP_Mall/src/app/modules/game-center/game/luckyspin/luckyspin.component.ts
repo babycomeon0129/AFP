@@ -70,7 +70,9 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
 
   /** 按下play鍵 */
   play(): void {
-    if (this.appService.loginState) {
+    if (this.appService.loginState === false) {
+      this.oauthService.loginPage(this.appService.pathnameUri);
+    } else {
       // 按下play鍵之後，先判斷該遊戲是否為可遊玩狀態，0: 不可遊玩(未完成綁卡等條件，條件由後端判定) 1:可遊玩
       if (!this.gameData.GameState) {
         this.noGameStateAlert.emit();
@@ -93,8 +95,6 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
           this.startGame();
         }
       }
-    } else {
-      this.oauthService.loginPage(this.appService.pathnameUri);
     }
   }
 

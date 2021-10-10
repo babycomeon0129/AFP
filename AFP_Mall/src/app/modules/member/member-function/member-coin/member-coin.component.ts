@@ -57,7 +57,9 @@ export class MemberCoinComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.appService.loginState) {
+    if (this.appService.loginState === false) {
+      this.oauthService.loginPage(this.appService.pathnameUri);
+    } else {
       this.appService.openBlock();
       const getInfo: Request_MemberPoint = {
         SelectMode: 4,
@@ -77,8 +79,6 @@ export class MemberCoinComponent implements OnInit {
           this.getHistory();
         }
       });
-    } else {
-      this.oauthService.loginPage(this.appService.pathnameUri);
     }
   }
 
@@ -97,7 +97,9 @@ export class MemberCoinComponent implements OnInit {
 
   /** 歷史紀錄 */
   getHistory(): void {
-    if (this.appService.loginState) {
+    if (this.appService.loginState === false) {
+      this.oauthService.loginPage(this.appService.pathnameUri);
+    } else {
       this.appService.openBlock();
       const getHistory: Request_MemberPoint = {
         SelectMode: 5,
@@ -108,8 +110,6 @@ export class MemberCoinComponent implements OnInit {
       this.appService.toApi('Member', '1509', getHistory).subscribe((point: Response_MemberPoint) => {
         this.pointHistory = point.List_UserPoint;
       });
-    } else {
-      this.oauthService.loginPage(this.appService.pathnameUri);
     }
   }
 

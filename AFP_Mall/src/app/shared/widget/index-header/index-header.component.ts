@@ -26,10 +26,10 @@ export class IndexHeaderComponent implements OnInit {
 
   /** 前往頁面前判斷登入狀態 */
   goTo() {
-    if (this.appService.loginState) {
-      this.router.navigate(['/Notification/NotificationList']);
-    } else {
+    if (this.appService.loginState === false) {
       this.oauthService.loginPage(this.appService.pathnameUri);
+    } else {
+      this.router.navigate(['/Notification/NotificationList']);
     }
   }
 }

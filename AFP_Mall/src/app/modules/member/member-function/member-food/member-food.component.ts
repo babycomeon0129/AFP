@@ -28,15 +28,15 @@ export class MemberFoodComponent implements OnInit {
   }
 
   getFoodList(): void {
-    if (this.appService.loginState) {
+    if (this.appService.loginState === false) {
+      this.oauthService.loginPage(this.appService.pathnameUri);
+    } else {
       const request: Request_MemDeliveryOrder = {
         // User_Code: sessionStorage.getItem('userCode')
       };
       this.appService.toApi('Member', '1521', request).subscribe((data: Response_MemDeliveryOrder) => {
         this.foodList = data.List_DeliveryOrder;
       });
-    } else {
-      this.oauthService.loginPage(this.appService.pathnameUri);
     }
   }
 

@@ -62,7 +62,9 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
 
   /** 讀取社群帳號 */
   readThirdData(): void {
-    if (this.appService.loginState) {
+    if (this.appService.loginState === false) {
+      this.oauthService.loginPage(this.appService.pathnameUri);
+    } else {
       const request: Request_MemberThird = {
         SelectMode: 3,
         Store_Note: ''
@@ -112,8 +114,6 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
           }
         }
       });
-    } else {
-      this.oauthService.loginPage(this.appService.pathnameUri);
     }
   }
 
@@ -121,7 +121,9 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
    * @param mode 綁定方式 1:FB 2:Line 3:Google 5:Apple
    */
   signInWiththirdBind(mode: number): void {
-    if (this.appService.loginState) {
+    if (this.appService.loginState === false) {
+      this.oauthService.loginPage(this.appService.pathnameUri);
+    } else {
       this.bindMode = mode;
       switch (mode) {
         case 1:
@@ -151,8 +153,6 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
           });
           break;
       }
-    } else {
-      this.oauthService.loginPage(this.appService.pathnameUri);
     }
   }
 

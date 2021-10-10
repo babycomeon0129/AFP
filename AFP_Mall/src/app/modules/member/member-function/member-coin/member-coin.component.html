@@ -77,7 +77,7 @@
                           [ngClass]="{'gray-obtn': voucher.Voucher_IsFreq === 0 || voucher.Voucher_IsFreq === 3,
                                       'index-btn': voucher?.Voucher_IsFreq === 1,
                                       'index-outline-btn': voucher.Voucher_IsFreq === 2 || voucher.Voucher_IsFreq === 5}" class="btn px-2 small-80 sendval">
-                          {{!appService.loginState ? '兌換' : voucher?.Voucher_FreqName}}
+                          {{appService.loginState===false ? '兌換' : voucher?.Voucher_FreqName}}
                         </button>
                         <div [hidden]="voucher?.Voucher_DedPoint == 0" class="m-quantity small pl-1">
                           <img src="../img/share/mobiicoin_red.png" class="coinimg-m">

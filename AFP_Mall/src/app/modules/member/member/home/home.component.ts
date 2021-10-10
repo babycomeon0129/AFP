@@ -74,10 +74,10 @@ export class HomeComponent implements OnInit {
 
   /** 前往設定（判斷登入與否） */
   goToSetting(): void {
-    if (this.appService.loginState) {
-      this.router.navigate(['/Member/Setting']);
-    } else {
+    if (this.appService.loginState === false) {
       this.oauthService.loginPage(this.appService.pathnameUri);
+    } else {
+      this.router.navigate(['/Member/Setting']);
     }
   }
 
@@ -106,7 +106,7 @@ export class HomeComponent implements OnInit {
    * @param pageCode 通知原生開啟頁面 0: 我的卡片 1: 我的車票 2: 我的點餐 3: 我的優惠券 4: 我的收藏 5: 我的訂單 6: M Point
    */
   pageRoute(page: string, pageCode: number): void {
-    if (!this.appService.loginState) {
+    if (this.appService.loginState === false) {
       this.oauthService.loginPage(this.appService.pathnameUri);
     } else {
       if (page === '0') {

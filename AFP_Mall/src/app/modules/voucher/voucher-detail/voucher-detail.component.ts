@@ -117,7 +117,9 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
    * @param voucher 優惠券詳細
    */
   toVoucher(voucher: AFP_Voucher): void {
-    if (this.appService.loginState) {
+    if (this.appService.loginState === false) {
+      this.oauthService.loginPage(this.appService.pathnameUri);
+    } else {
       if (voucher.Voucher_DedPoint > 0 && voucher.Voucher_IsFreq === 1) {
         this.modal.confirm({
           initialState: {
@@ -138,8 +140,6 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
       } else {
         this.onVoucher(voucher);
       }
-    } else {
-      this.oauthService.loginPage(this.appService.pathnameUri);
     }
   }
 

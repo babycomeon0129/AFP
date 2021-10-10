@@ -53,7 +53,9 @@ export class MemberCardDetailComponent implements OnInit {
 
   /** 讀取卡片詳細 */
   onReadCardDetail() {
-    if (this.appService.loginState) {
+    if (this.appService.loginState === false) {
+      this.oauthService.loginPage(this.appService.pathnameUri);
+    } else {
       const request: Request_MemberMyCard = {
         SelectMode: 5,
         AFP_UserFavourite: {
@@ -93,8 +95,6 @@ export class MemberCardDetailComponent implements OnInit {
           this.cardGroupList = this.requestCard.CardGroup_List.filter(item => (item.CardGroup_Link !== null && item.CardGroup_State === 0));
         }
       });
-    } else {
-      this.oauthService.loginPage(this.appService.pathnameUri);
     }
   }
 

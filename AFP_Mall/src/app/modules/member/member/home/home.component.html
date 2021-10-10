@@ -18,12 +18,12 @@
           </div>
         </div>
         <!-- 登入前 -->
-        <div *ngIf="!appService.loginState">
+        <div *ngIf="appService.loginState===false">
           <button (click)="oauthService.loginPage(appService.pathnameUri)" type="button" class="btn white-outline-btn btw-small">登入/註冊<img
               src="../img/share/forward_w.png" class="h20"></button>
         </div>
         <!-- 登入後 -->
-        <div *ngIf="appService.loginState" class="flex-inline-between">
+        <div *ngIf="appService.loginState===true" class="flex-inline-between">
           <div class="info-box">
             <div class="info-item info-name">
               {{ memberService.userProfile?.User_NickName }}

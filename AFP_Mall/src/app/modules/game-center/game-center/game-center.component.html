@@ -11,7 +11,7 @@
           <div class="title-name">遊戲館</div>
         </div>
         <div class="item two">
-          <button (click)="oauthService.loginPage(appService.pathnameUri)" *ngIf="!appService.loginState" type="button"
+          <button (click)="oauthService.loginPage(appService.pathnameUri)" *ngIf="appService.loginState===false" type="button"
             class="m-topbox-item btn bluedk-outline-btn btw-small">
             登入/註冊
           </button>

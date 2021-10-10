@@ -38,7 +38,9 @@ export class MemberTicketComponent implements OnInit {
    * @param usedType 使用狀態 1: 可用, 2: 歷史
    */
   readTicketList(usedType: number): void {
-    if (this.appService.loginState) {
+    if (this.appService.loginState === false) {
+      this.oauthService.loginPage(this.appService.pathnameUri);
+    } else {
       this.appService.openBlock();
       this.listType = usedType;
       const request: Request_MemberTicket = {
@@ -51,8 +53,6 @@ export class MemberTicketComponent implements OnInit {
       this.appService.toApi('Member', '1508', request).subscribe((data: Response_MemberTicket) => {
         this.ticketList = data.List_UserTicket;
       });
-    } else {
-      this.oauthService.loginPage(this.appService.pathnameUri);
     }
   }
 

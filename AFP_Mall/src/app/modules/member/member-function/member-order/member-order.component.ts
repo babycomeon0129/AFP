@@ -74,7 +74,9 @@ export class MemberOrderComponent implements OnInit {
         this.ETicket_selectedState = state;
         break;
     }
-    if (this.appService.loginState) {
+    if (this.appService.loginState === false) {
+      this.oauthService.loginPage(this.appService.pathnameUri);
+    } else {
       this.appService.openBlock();
       const request: Request_MemberOrder = {
         SelectMode: 1, // 列表查詢
@@ -87,8 +89,6 @@ export class MemberOrderComponent implements OnInit {
       this.appService.toApi('Member', '1512', request).subscribe((data: Response_MemberOrder) => {
         this.orderList = data.List_MemberOrder;
       });
-    } else {
-      this.oauthService.loginPage(this.appService.pathnameUri);
     }
   }
 

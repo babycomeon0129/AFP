@@ -31,9 +31,9 @@ declare var AppJSInterface: any;
   providedIn: 'root'
 })
 export class AppService {
-  /** 登入狀態 */
+  /** 登入狀態 (登入true,登出false) */
   public loginState = false;
-  /** App訪問 */
+  /** App訪問 (1:App) */
   public isApp: number = null;
 
   /** 使用者暱稱 */
@@ -295,7 +295,9 @@ export class AppService {
       },
     };
 
-    if (this.loginState) {
+    if (this.loginState === false) {
+      this.oauthService.loginPage(this.pathnameUri);
+    } else {
       this.toApi('Member', '1511', request).subscribe((data: Response_MemberFavourite) => {
         // update favorites to session
         console.log(data);
@@ -306,8 +308,6 @@ export class AppService {
           this.bsModalService.show(FavoriteModalComponent);
         }
       });
-    } else {
-      this.oauthService.loginPage(this.pathnameUri);
     }
   }
 
@@ -333,7 +333,9 @@ export class AppService {
    */
   onVoucher(voucher: AFP_Voucher): void {
     // 點擊兌換時先進行登入判斷
-    if (this.loginState) {
+    if (this.loginState === false) {
+      this.oauthService.loginPage(this.pathnameUri);
+    } else {
       switch (voucher.Voucher_IsFreq) {
         case 1:
           // 先判斷是否需要扣點才能兌換，如需扣點必須先跳扣點提示
@@ -384,8 +386,6 @@ export class AppService {
           this.router.navigate(['/Voucher/VoucherDetail', code], { queryParams: { showBack: this.showBack}});
           break;
       }
-    } else {
-      this.oauthService.loginPage(this.pathnameUri);
     }
   }
 
@@ -451,9 +451,7 @@ export class AppService {
           this.deviceCode = this.guid();
           localStorage.setItem('M_DeviceCode', this.deviceCode);
         }
-        if (this.loginState) {
-          this.toPushApi(token);
-        }
+        this.toPushApi(token);
       },
       (err) => {
         console.error('Unable to get permission to notify.', err);

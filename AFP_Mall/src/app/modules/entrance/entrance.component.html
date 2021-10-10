@@ -28,11 +28,11 @@
     <!-- 手機版 上方banner -->
     <section class="mobii-bnbox">
       <div class="userbox mr-auto">
-        <div *ngIf="appService.loginState" class="txt-line-clamp1 user-hi">你好，{{appService.userName}}</div>
+        <div *ngIf="appService.loginState===true" class="txt-line-clamp1 user-hi">你好，{{appService.userName}}</div>
         <ul class="m-bnbox-item">
           <li class="txt-line-clamp1">
             <img src="img/share/mobiicoin.png" alt="" class="mr-1 h20">
-            <span class="user-mobii">{{appService.loginState? (userPoint | currency: '':'':'1.0-0') : '--'}}</span>點
+            <span class="user-mobii">{{appService.loginState===true ? (userPoint | currency: '':'':'1.0-0') : '--'}}</span>點
           </li>
         </ul>
       </div>
@@ -338,7 +338,7 @@
             </div>
           </div>
         </div>
-        <div class="service-box bt1-solid" [hidden]="!appService.loginState">
+        <div class="service-box bt1-solid" [hidden]="appService.loginState===false">
           <!-- 我的服務 -->
           <div class="title-item pt-3">
             我的服務<span class="pl-2 small text-muted editnote1">長按可以拖動排序</span>

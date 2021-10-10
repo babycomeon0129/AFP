@@ -47,7 +47,9 @@ export class MyAddressComponent implements OnInit {
 
   /** 讀取地址列表，及「新增地址」中的縣市和行政區 */
   onGetAddressList(): void {
-    if (this.appService.loginState) {
+    if (this.appService.loginState === false) {
+      this.oauthService.loginPage(this.appService.pathnameUri);
+    } else {
       const request: Request_MemberAddress = {
         SelectMode: 4,
       };
@@ -68,8 +70,6 @@ export class MyAddressComponent implements OnInit {
           }
         }
       });
-    } else {
-      this.oauthService.loginPage(this.appService.pathnameUri);
     }
   }
 
@@ -77,7 +77,9 @@ export class MyAddressComponent implements OnInit {
    * @param addressId 地址ID
    */
   onReadAddressDetail(addressID: number): void {
-    if (this.appService.loginState) {
+    if (this.appService.loginState === false) {
+      this.oauthService.loginPage(this.appService.pathnameUri);
+    } else {
       if (addressID > 0) {
         this.appService.openBlock();
         const request: Request_MemberAddress = {
@@ -103,8 +105,6 @@ export class MyAddressComponent implements OnInit {
 
       this.addressId = addressID;
       this.showDetail = true;
-    } else {
-      this.oauthService.loginPage(this.appService.pathnameUri);
     }
   }
 

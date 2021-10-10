@@ -19,26 +19,26 @@
             </div>
           </div>
           <div class="align-self-center">
-            <div *ngIf="!appService.loginState" class="d-block">
+            <div *ngIf="appService.loginState===false" class="d-block">
               <button type="button" class="btn white-outline-btn btw-small" (click)="oauthService.loginPage(appService.pathnameUri)">登入/註冊<img
                   src="../img/share/forward_w.png" class="h20"></button>
             </div>
-            <div *ngIf="appService.loginState" class="small-80">哈囉！{{appService.userName}}</div>
+            <div *ngIf="appService.loginState===true" class="small-80">哈囉！{{appService.userName}}</div>
           </div>
         </div>
         <div class="item coin d-flex d-inline">
           <img src="../img/share/mobiicoin_red.png" class="h24 mr-2">
-          <span class="d-block">{{!appService.loginState ? '--' : userPoint | currency: '':'':'1.0-2'}}</span>
+          <span class="d-block">{{appService.loginState===false ? '--' : userPoint | currency: '':'':'1.0-2'}}</span>
         </div>
         <div class="item progress">
           <div class="progress-bar bg-index" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
           <div class="progress-bar bg-index" role="progressbar"
-            [style.width]="!appService.loginState ? '0' : dailyDonePercent() + '%'" aria-valuemin="0"
+            [style.width]="appService.loginState===false ? '0' : dailyDonePercent() + '%'" aria-valuemin="0"
             aria-valuemax="100">
           </div>
         </div>
         <div class="item task d-flex d-inline">
-          每日任務完成度：<span class="d-block">{{!appService.loginState ? '--' : (dailyDonePercent() | number:
+          每日任務完成度：<span class="d-block">{{appService.loginState===false ? '--' : (dailyDonePercent() | number:
             '1.0-0')}}%</span>
         </div>
       </div>
@@ -81,8 +81,8 @@
                   </div>
                   <div class="ml-auto w80 align-self-center text-center">
                     <button (click)="buttonAction(item)"
-                      [disabled]="item?.Mission_ClickState === 1 || item?.Mission_ClickState === 3 || (item?.Mission_ClickState === 2 && item?.Mission_CurrentURL.trim() === '' && appService.loginState)"
-                      [ngClass]="{'unable': item?.Mission_ClickState === 1 || item?.Mission_ClickState === 3 || (item?.Mission_ClickState === 2 && item?.Mission_CurrentURL.trim() === '' && appService.loginState), 'index-outline-btn': item?.Mission_ClickState === 0}"
+                      [disabled]="item?.Mission_ClickState === 1 || item?.Mission_ClickState === 3 || (item?.Mission_ClickState === 2 && item?.Mission_CurrentURL.trim() === '' && appService.loginState===true)"
+                      [ngClass]="{'unable': item?.Mission_ClickState === 1 || item?.Mission_ClickState === 3 || (item?.Mission_ClickState === 2 && item?.Mission_CurrentURL.trim() === '' && appService.loginState===true), 'index-outline-btn': item?.Mission_ClickState === 0}"
                       type="button" class="btn index-btn">
                       {{buttonText(item?.Mission_ClickState, item?.Mission_CurrentURL)}}
                     </button>

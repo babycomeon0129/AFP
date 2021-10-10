@@ -330,8 +330,8 @@ export class ShoppingCartComponent implements OnInit {
     if (this.selectedProductsList.length === 0 || this.selectedStoresList.length === 0) {
       this.modal.show('message', { initialState: { success: false, message: '還沒有選擇要結帳的商家及商品喔!', showType: 1 } });
     } else {
-      if (!this.appService.loginState) {
-        // 若未登入，則跳出登入視窗
+      // 若未登入，則跳出登入視窗
+      if (this.appService.loginState === false) {
         this.oauthService.loginPage(this.appService.pathnameUri);
       } else {
         // 已登入

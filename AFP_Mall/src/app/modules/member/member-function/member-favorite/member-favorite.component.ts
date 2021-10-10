@@ -43,7 +43,9 @@ export class MemberFavoriteComponent implements OnInit {
    * @param favType 51 商品, 52 商家, 53 周邊, 54 行程
    */
   onFavList(favType: number): void {
-    if (this.appService.loginState) {
+    if (this.appService.loginState === false) {
+      this.oauthService.loginPage(this.appService.pathnameUri);
+    } else {
       this.selectedType = favType;
       this.editMode = false;
       this.appService.openBlock();
@@ -74,8 +76,6 @@ export class MemberFavoriteComponent implements OnInit {
             break;
         }
       });
-    } else {
-      this.oauthService.loginPage(this.appService.pathnameUri);
     }
   }
 

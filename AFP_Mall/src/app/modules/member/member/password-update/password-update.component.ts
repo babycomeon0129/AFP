@@ -37,7 +37,9 @@ export class PasswordUpdateComponent implements OnInit {
    * @param form 表單
    */
   onUpdatePwd(form: NgForm): void {
-    if (this.appService.loginState) {
+    if (this.appService.loginState === false) {
+      this.oauthService.loginPage(this.appService.pathnameUri);
+    } else {
       this.requestUpdatePwd.SelectMode = 3;
       this.appService.toApi('Member', '1505', this.requestUpdatePwd).subscribe(() => {
         // 變更成功訊息
@@ -46,8 +48,6 @@ export class PasswordUpdateComponent implements OnInit {
         this.location.back();
         form.resetForm();
       });
-    } else {
-      this.oauthService.loginPage(this.appService.pathnameUri);
     }
   }
 

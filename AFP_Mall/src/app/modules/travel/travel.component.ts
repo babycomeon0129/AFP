@@ -118,7 +118,7 @@ export class TravelComponent {
     });
 
     // 若有登入則顯示我的收藏
-    if (this.appService.loginState) {
+    if (this.appService.loginState === true) {
       this.appService.showFavorites();
     }
 

@@ -12,7 +12,7 @@
           <div class="title-name">我的收藏</div>
         </div>
         <div class="item two">
-          <button class="btn item-edit" (click)="editMode = !editMode" [hidden]="!appService.loginState">{{editMode ?
+          <button class="btn item-edit" (click)="editMode = !editMode" [hidden]="appService.loginState===false">{{editMode ?
             '完成' : '編輯'}}</button>
         </div>
       </div>

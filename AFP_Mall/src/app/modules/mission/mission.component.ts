@@ -62,7 +62,7 @@ export class MissionComponent implements OnInit {
       this.userPoint = data.TotalPoint;
       this.tabChange();
       // 計算所有任務的未完成任務數量
-      if (this.appService.loginState) {
+      if (this.appService.loginState === true) {
         this.allMission.forEach(missionlist => {
           missionlist.undoneMissionCount = missionlist.List_Mission.filter(mission => mission.Mission_ClickState === 2).length;
         });
@@ -101,7 +101,7 @@ export class MissionComponent implements OnInit {
    * @param url 當前任務網址
    */
   buttonText(state: number, url: string): string {
-    if (!this.appService.loginState) {
+    if (this.appService.loginState === true) {
       return state === 3 ? '已結束' : 'GO';
     } else {
       switch (state) {
@@ -121,8 +121,8 @@ export class MissionComponent implements OnInit {
    * @param mission 單一項任務
    */
   buttonAction(mission: AFP_Mission): void {
-    if (!this.appService.loginState) {
-      this.oauthService.loginPage(this.appService.pathnameUri); // 需登入才能前往任務
+    if (this.appService.loginState === false) {
+      this.oauthService.loginPage(this.appService.pathnameUri);
     } else {
       switch (mission.Mission_ClickState) {
         case 2: // 前往任務
@@ -194,10 +194,10 @@ export class MissionComponent implements OnInit {
 
   /** 前往MemberCoin頁 */
   conditionGo(): void {
-    if (this.appService.loginState) {
-      this.router.navigate(['/MemberFunction/MemberCoin'], { queryParams: { showBack: true } });
-    } else {
+    if (this.appService.loginState === false) {
       this.oauthService.loginPage(this.appService.pathnameUri);
+    } else {
+      this.router.navigate(['/MemberFunction/MemberCoin'], { queryParams: { showBack: true } });
     }
   }
 
