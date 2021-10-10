@@ -33,7 +33,7 @@ export class AppComponent implements OnInit, DoCheck {
               private cookieService: CookieService, private differs: KeyValueDiffers, private callApp: AppJSInterfaceService,
               public oauthService: OauthService, public bsModalService: BsModalService) {
     this.serviceDiffer = this.differs.find({}).create();
-    if (sessionStorage.getItem('M_idToken') !== null) {
+    if (this.cookieService.get('M_idToken') !== null) {
     // if (sessionStorage.getItem('CustomerInfo') !== null && sessionStorage.getItem('userCode') !== null
     //   && sessionStorage.getItem('userName') !== null) {
       this.appService.loginState = true;

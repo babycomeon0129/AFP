@@ -74,7 +74,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
           const content = `登入註冊失敗<br>錯誤代碼：${params.errorCode}<br>請重新登入註冊!`;
           this.modal.show('message', {
             class: 'modal-dialog-centered',
-            initialState: { success: true, message: content, showType: 3, checkBtnMsg: '我知道了', checkBtnUrl: '/Login' } });
+            initialState: { success: false, message: content, showType: 3, checkBtnMsg: '我知道了', checkBtnUrl: '/Login' } });
         }
       }
     });
@@ -82,14 +82,13 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     /** 「登入3-1」已登入過艾斯(未有idToken)且非多重帳號，可取得idToken，則否讓使用者選完再取得idToken */
-    if (localStorage.getItem('M_upgrade') === '1' && sessionStorage.getItem('M_idToken') === null
+    if (localStorage.getItem('M_upgrade') === '1' && this.cookieService.get('M_idToken') === null
         && this.List_MultipleUser === undefined
     ) {
       this.onGetTokenApi(this.grantCode, this.uuid);
     }
     /** 「登入4-1」曾經登入成功過(已有idToken)，未登出 */
-    if (localStorage.getItem('M_upgrade') === '1' && localStorage.getItem('M_viewData') !== null
-      && sessionStorage.getItem('M_idToken') !== null) {
+    if (localStorage.getItem('M_upgrade') === '1' && this.cookieService.get('M_idToken') !== null) {
         this.viewType = 2;
         /** 「登入4-2」導回原頁 */
         this.appService.jumpUrl();
@@ -132,7 +131,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         const tokenData =  Object.assign(data);
         if (tokenData.errorCode === '996600001') {
           /** 「登入3-2-2」取得idToken帶入header:Authorization */
-          sessionStorage.setItem('M_idToken', tokenData.data.idToken);
           this.cookieService.set('M_idToken', tokenData.data.idToken, 90, '/',
             environment.cookieDomain, environment.cookieSecure, 'Lax');
           this.appService.loginState = true;
@@ -149,7 +147,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
           const content = `登入註冊失敗<br>錯誤代碼：${tokenData.errorCode}<br>請重新登入註冊`;
           this.modal.show('message', {
             class: 'modal-dialog-centered',
-            initialState: { success: true, message: content, showType: 3, checkBtnMsg: '我知道了', checkBtnUrl: '/Login' } });
+            initialState: { success: false, message: content, showType: 3, checkBtnMsg: '我知道了', checkBtnUrl: '/Login' } });
         }
       });
     }
