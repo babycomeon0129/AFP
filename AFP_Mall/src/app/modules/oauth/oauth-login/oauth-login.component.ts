@@ -86,6 +86,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         && this.List_MultipleUser === undefined
     ) {
       this.onGetTokenApi(this.grantCode, this.uuid);
+      this.setIdToken(); // 帶假idToken
     }
     /** 「登入4-1」曾經登入成功過(已有idToken)，未登出 */
     if (localStorage.getItem('M_upgrade') === '1' && this.cookieService.get('M_idToken') !== null) {
