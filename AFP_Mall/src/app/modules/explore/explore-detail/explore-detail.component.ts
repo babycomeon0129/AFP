@@ -128,7 +128,6 @@ export class ExploreDetailComponent implements OnInit {
    */
   readTabData(index: number): void {
     const request: Request_AreaDetail = {
-      User_Code: sessionStorage.getItem('userCode'),
       SearchModel: {
         ECStore_Code: this.siteCode,
         TabIndex: index

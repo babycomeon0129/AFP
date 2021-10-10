@@ -26,7 +26,6 @@ export class GameComponent implements OnInit {
 
   ngOnInit() {
     const request: Request_Games = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 4,
       SearchModel: {
         Game_Code: this.gameCode

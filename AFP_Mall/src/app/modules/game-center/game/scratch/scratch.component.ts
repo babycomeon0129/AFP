@@ -205,7 +205,6 @@ export class ScratchComponent implements OnInit, AfterViewInit {
           this.mousedown = false;
           // call api 取得開獎結果、總點數、可玩次數
           const request: Request_Games = {
-            User_Code: sessionStorage.getItem('userCode'),
             SelectMode: 1,
             Game_Code: this.gameData.AFP_Game.Game_Code,
             SearchModel: {

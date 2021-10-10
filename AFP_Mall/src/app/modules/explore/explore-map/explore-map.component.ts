@@ -90,7 +90,6 @@ export class ExploreMapComponent implements OnInit {
     this.appService.openBlock();
     this.areaMenuCode = dirCode;
     const request: Request_AreaIndex = {
-      User_Code: sessionStorage.getItem('userCode'),
       SearchModel: {
         IndexArea_Code: 400001,
         AreaMenu_Code: this.areaMenuCode,

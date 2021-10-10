@@ -101,7 +101,6 @@ export class TravelComponent {
     this.meta.updateTag({content: 'Mobii! - 去旅行。這裡你可以探索各種旅遊行程，包括台灣、離島、海外、主題旅遊，也可以直接訂房跟訂機票，還有景點門票，甚至包括機場機接送。Mobii! 去旅行與喜鴻假期合作，未來我們將會推出獨一無二的 Mobii! 會員專屬路線行程！', property: 'og:description'});
 
     const request: Request_TravelHome = {
-      User_Code: sessionStorage.getItem('userCode'),
       SearchModel: {
         IndexTravel_Code: 21001
       }

@@ -260,5 +260,5 @@ class NewThirdBindRequest {
   /** 消費者包 */
   CustomerInfo: string;
   /** 消費者編碼 */
-  User_Code: string;
+  User_Code?: string;
 }

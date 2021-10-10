@@ -72,7 +72,6 @@ export class ExploreListComponent implements OnInit {
   readData(): void {
     this.appService.openBlock();
     const request: Request_AreaIndex = {
-      User_Code: sessionStorage.getItem('userCode'),
       SearchModel: {
         IndexArea_Code: 400001,
         AreaMenu_Code: this.areaMenuCode,

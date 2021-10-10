@@ -39,7 +39,6 @@ export class GameCenterComponent implements OnInit {
   ngOnInit() {
     this.appService.openBlock();
     const request: Request_GameIndex = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 4
     };
     this.appService.toApi('Games', '1702', request).subscribe((data: Response_GameIndex) => {

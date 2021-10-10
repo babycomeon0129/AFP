@@ -55,7 +55,6 @@ export class MemberCardDetailComponent implements OnInit {
   onReadCardDetail() {
     if (this.appService.loginState) {
       const request: Request_MemberMyCard = {
-        User_Code: sessionStorage.getItem('userCode'),
         SelectMode: 5,
         AFP_UserFavourite: {
           UserFavourite_CountryCode: 886,

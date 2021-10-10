@@ -54,7 +54,6 @@ export class DeliveryInfoComponent implements OnInit {
     this.appService.openBlock();
     const request: Request_DeliveryCfm = {
       SelectMode: 1,
-      User_Code: sessionStorage.getItem('userCode'),
       Model_DeliveryForm: null,
       SearchModel: {
         ECStore_Code: this.siteCode
@@ -104,7 +103,6 @@ export class DeliveryInfoComponent implements OnInit {
     this.appService.openBlock();
     const request: Request_DeliveryCfm = {
       SelectMode: 2,
-      User_Code: sessionStorage.getItem('userCode'),
       Model_DeliveryForm: this.deliveryForm,
       SearchModel: {
         ECStore_Code: this.siteCode

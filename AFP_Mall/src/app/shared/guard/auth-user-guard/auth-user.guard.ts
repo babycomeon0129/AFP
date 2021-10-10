@@ -21,7 +21,7 @@ export class AuthUserGuard implements CanActivate {
         initialState: { success: false, message: '請先登入', showType: 3, checkBtnMsg: '我知道了', checkBtnUrl: '/Login' } });
     } else {
       const request: Request_AuthUser = new Request_AuthUser();
-      request.User_Code = sessionStorage.getItem('userCode');
+      // request.User_Code = sessionStorage.getItem('userCode');
       // 登入驗證是否正確
       this.appService.toApi('Member', '1500', request).subscribe((data: any) => {
       });
