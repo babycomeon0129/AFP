@@ -299,7 +299,7 @@ export class EntranceComponent implements OnInit {
   /** 讀取首頁上方資料（皆為廣告及會員資料，我的服務除外） */
   readUp(): void {
     const request: Request_Home = {
-      User_Code: sessionStorage.getItem('userCode')
+      // User_Code: sessionStorage.getItem('userCode')
     };
     this.appService.openBlock();
     this.appService.toApi('Home', '1021', request).subscribe((data: Response_Home) => {
@@ -322,7 +322,7 @@ export class EntranceComponent implements OnInit {
   /** 讀取首頁下方資料（中間大廣告以下各區塊） */
   readDown(): void {
     const request: Request_Home = {
-      User_Code: sessionStorage.getItem('userCode')
+      // User_Code: sessionStorage.getItem('userCode')
     };
     // 不使用loading spinner 讓進入首頁可先快速瀏覽上方
     this.appService.toApi('Home', '1022', request).subscribe((data: Response_Home) => {
@@ -541,7 +541,7 @@ export class EntranceComponent implements OnInit {
     this.activeTravelIndex = index;
 
     const request: Request_OtherInfo = {
-      User_Code: sessionStorage.getItem('userCode'),
+      // User_Code: sessionStorage.getItem('userCode'),
       SelectMode: mode,
       SearchModel: {
         UserDefineCode: menuCode,
