@@ -45,7 +45,6 @@ export class OrderCompleteComponent implements OnInit {
     });
 
     const request: Request_OrderComplete = {
-      User_Code: sessionStorage.getItem('userCode'),
       PayOrderNo: this.PayOrderNo,
       ModelData: this.BindData
     };

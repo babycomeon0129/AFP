@@ -81,7 +81,6 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
       this.appService.openBlock();
       const getCheckout: Request_GetCheckout = {
         SelectMode: 4, // 查詢
-        User_Code: sessionStorage.getItem('userCode'),
         List_Cart: afpCart
       };
       this.appService.toApi('Checkout', '1605', getCheckout).subscribe((data: Response_GetCheckout) => {
@@ -96,7 +95,6 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
         this.info.email = this.checkout.UserProfile_Email;
         const getVoucher: Request_GetUserVoucher = {
           SelectMode: 4, // 查詢
-          User_Code: sessionStorage.getItem('userCode'),
           List_Cart: this.checkout.List_Cart
         };
         this.appService.toApi('Checkout', '1606', getVoucher).subscribe((voucher: Response_GetUserVoucher) => {
@@ -341,7 +339,6 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
     }
 
     const checkUserVoucher: Request_CheckUserVoucher = {
-      User_Code: sessionStorage.getItem('userCode'),
       List_Cart: this.checkout.List_Cart,
       List_UserVoucher: userVouchers
     };
@@ -744,7 +741,6 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
           // });
           this.appService.openBlock();
           const createOrder: Request_CreateOrder = {
-            User_Code: sessionStorage.getItem('userCode'),
             List_Cart: this.checkout.List_Cart,
             List_UserVoucher: this.userVouchers,
             List_Order: orders

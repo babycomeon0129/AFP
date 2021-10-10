@@ -47,7 +47,6 @@ export class ETicketOrderComponent implements OnInit {
       });
       const getTCheckout: Request_GetTCheckout = {
         SelectMode: 4, // 查詢
-        User_Code: sessionStorage.getItem('userCode'),
         List_Cart: afpCart
       };
       this.appService.toApi('Checkout', '1609', getTCheckout).subscribe((data: Response_GetTCheckout) => {
@@ -59,7 +58,6 @@ export class ETicketOrderComponent implements OnInit {
         // 取得使用者優惠券
         const getVoucher: Request_GetUserVoucher = {
           SelectMode: 4, // 查詢
-          User_Code: sessionStorage.getItem('userCode'),
           List_Cart: this.checkout.List_Cart
         };
 
@@ -275,7 +273,6 @@ export class ETicketOrderComponent implements OnInit {
     }
 
     const checkUserVoucher: Request_CheckUserVoucher = {
-      User_Code: sessionStorage.getItem('userCode'),
       List_Cart: this.checkout.List_Cart,
       List_UserVoucher: userVouchers
     };
@@ -517,7 +514,6 @@ export class ETicketOrderComponent implements OnInit {
           // });
           this.appService.openBlock();
           const createOrder: Request_CreateTOrder = {
-            User_Code: sessionStorage.getItem('userCode'),
             List_Cart: this.checkout.List_Cart,
             List_UserVoucher: this.userVouchers,
             List_Order: orders

@@ -50,7 +50,7 @@ export class ShoppingPaymentComponent implements OnInit {
     if (history.state.data !== undefined && sessionStorage.getItem('invoice') !== null) {
       const invoice: OrderInvoice = JSON.parse(sessionStorage.getItem('invoice'));
       const getPayment = new Request_GetPayment();
-      getPayment.User_Code = sessionStorage.getItem('userCode');
+      // getPayment.User_Code = sessionStorage.getItem('userCode');
       this.appService.toApi('EC', '1602', getPayment).subscribe((payWays: Response_GetPayment) => {
         this.payWays = payWays;
         this.reqData.OrderNo = history.state.data.OrderNo;
