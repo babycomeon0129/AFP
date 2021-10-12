@@ -43,14 +43,14 @@
                 <div class="item">姓名</div>
                 <div class="item input-box">
                   <input type="text" name="UserName" [placeholder]="editMode ? '請輸入' : ''" #UserName="ngModel"
-                    [(ngModel)]="memberService.userProfile.UserProfile_Name" [readOnly]="!editMode">
+                    [(ngModel)]="memberService.userProfile.UserProfile_Name" maxlength="30" [readOnly]="!editMode">
                 </div>
               </li>
               <li>
                 <div class="item">暱稱</div>
                 <div class="item input-box">
                   <input type="text" name="UserNickname" [placeholder]="editMode ? '請輸入' : ''" #UserNickname="ngModel"
-                    [(ngModel)]="memberService.userProfile.User_NickName" [readOnly]="!editMode">
+                    [(ngModel)]="memberService.userProfile.User_NickName" maxlength="50" [readOnly]="!editMode">
                 </div>
               </li>
               <li>
