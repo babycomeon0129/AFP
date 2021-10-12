@@ -1,5 +1,7 @@
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Injectable } from '@angular/core';
 import { AppService } from '@app/app.service';
+import { CookieService } from 'ngx-cookie-service';
 import {
   Response_MemberProfile, Request_MemberProfile, Request_MemberThird, Response_MemberThird,
   AFP_UserThird
@@ -22,7 +24,7 @@ export class MemberService {
   /** 訂單狀態切換(目前用於我的訂單[MemberOrde]  1: 處理中 2: 待收貨 3:已完成 4:退貨 */
   public statusSwitch = 1;
 
-  constructor(private appService: AppService) { }
+  constructor(private appService: AppService, private oauthService: OauthService, private cookieService: CookieService) { }
 
   /** 讀取我的檔案（會員首頁、我的檔案、手機驗證皆會使用） */
   readProfileData() {
@@ -41,7 +43,7 @@ export class MemberService {
               this.userProfile.UserProfile_Birthday = new Date(this.userProfile.UserProfile_Birthday);
             }
           } else {
-            this.appService.onLogout();
+            this.oauthService.loginPage(this.appService.pathnameUri);
           }
           resolve(true);
         });

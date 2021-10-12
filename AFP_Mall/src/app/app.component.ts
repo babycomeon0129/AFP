@@ -33,12 +33,6 @@ export class AppComponent implements OnInit, DoCheck {
               private cookieService: CookieService, private differs: KeyValueDiffers, private callApp: AppJSInterfaceService,
               public oauthService: OauthService, public bsModalService: BsModalService) {
     this.serviceDiffer = this.differs.find({}).create();
-    if (this.cookieService.get('M_idToken') !== null) {
-    // if (sessionStorage.getItem('CustomerInfo') !== null && sessionStorage.getItem('userCode') !== null
-    //   && sessionStorage.getItem('userName') !== null) {
-      this.appService.loginState = true;
-      // this.appService.userName = sessionStorage.getItem('userName');
-    }
 
     // App訪問
     this.activatedRoute.queryParams.subscribe(params => {
@@ -48,7 +42,11 @@ export class AppComponent implements OnInit, DoCheck {
 
       /** 「登入4-1-2」App訪問，未登出狀態，後端會驗證idToken */
       if (typeof params.idToken !== 'undefined') {
-        sessionStorage.setItem('M_idToken', params.idToken);
+        this.cookieService.set('M_idToken', params.idToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+      }
+      if (this.cookieService.get('M_idToken') === '') {
+        console.log(this.cookieService.get('M_idToken') === '', this.cookieService.get('M_idToken'));
+        this.appService.loginState = false;
       }
 
       //  購物車編碼 APP用

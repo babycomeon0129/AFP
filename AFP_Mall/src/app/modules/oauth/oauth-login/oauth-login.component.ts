@@ -15,8 +15,8 @@ import { AppJSInterfaceService } from '@app/app-jsinterface.service';
     '../../../../styles/layer/shopping-footer.scss'],
 })
 export class OauthLoginComponent implements OnInit, AfterViewInit {
-  /** 頁面切換 0:帳號升級公告 1:帳號整併 */
-  public viewType = 0;
+  /** 頁面切換 0:帳號升級公告 1:帳號整併 2:已登入跳轉原頁 */
+  public viewType = 2;
   /** 艾斯身份識別登入API uri */
   public AuthorizationUri: string;
   /** 艾斯身份識別登入 列表 */
@@ -43,8 +43,9 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       } else {
         // Web（其他活動頁帶queryParams，按鈕帶pathname）
         this.oauthService.loginRequest.deviceType = 0;
-        this.oauthService.loginRequest.fromOriginUri =
-          (typeof params.fromOriginUri !== 'undefined') ? params.fromOriginUri : localStorage.getItem('M_fromOriginUri');
+        if (typeof params.fromOriginUri !== 'undefined') {
+          this.oauthService.loginRequest.fromOriginUri = params.fromOriginUri;
+        }
       }
       localStorage.setItem('M_deviceType', this.oauthService.loginRequest.deviceType.toString());
       this.oauthService.loginRequest.deviceCode =
@@ -68,42 +69,40 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
             this.viewType = 1;
             this.List_MultipleUser = loginJson.data.List_MultipleUser;
             console.log('2-2List_MultipleUser', this.List_MultipleUser);
+          } else {
+            this.viewType = 2;
+            this.onGetTokenApi(this.grantCode, this.uuid);
           }
         } else {
           this.appService.onLogout();
           const content = `登入註冊失敗<br>錯誤代碼：${params.errorCode}<br>請重新登入註冊!`;
           this.modal.show('message', {
             class: 'modal-dialog-centered',
-            initialState: { success: false, message: content, showType: 3, checkBtnMsg: '我知道了', checkBtnUrl: '/Login' } });
+            initialState: { success: true, message: content, showType: 3, checkBtnMsg: '我知道了', checkBtnUrl: '/Login' } });
         }
       }
     });
   }
 
   ngOnInit() {
-    if (this.appService.loginState === false) {
-      this.appService.onLogout();
-    }
     /** 「登入3-1」已登入過艾斯(未有idToken)且非多重帳號，可取得idToken，則否讓使用者選完再取得idToken */
-    if (localStorage.getItem('M_upgrade') === '1' && this.cookieService.get('M_idToken') === null
-        && this.List_MultipleUser === undefined
-    ) {
+    if (localStorage.getItem('M_upgrade') === '1' && this.cookieService.get('M_idToken') === ''
+        && this.List_MultipleUser !== []) {
       this.onGetTokenApi(this.grantCode, this.uuid);
+      console.log('3-1');
     }
-    /** 「登入4-1」曾經登入成功過(已有idToken)，未登出 */
-    if (localStorage.getItem('M_upgrade') === '1' && this.cookieService.get('M_idToken') !== null) {
-        this.viewType = 2;
-        /** 「登入4-2」導回原頁 */
-        this.appService.jumpUrl();
+    /** 「登入4-1」曾經登入成功過(未有idToken)，需重新登入 */
+    if (this.appService.loginState === false && localStorage.getItem('M_upgrade') === '1') {
+      this.appService.openBlock();
+      this.onLoginEyes();
     }
   }
   getViewData() {
     /** 「登入1-2-1」AJAX提供登入所需Request給後端，以便response取得後端提供的資料 */
     this.appService.openBlock();
-    this.viewType = 0;
-    console.log(this.oauthService.loginRequest);
     (this.oauthService.toOauthRequest(this.oauthService.loginRequest)).subscribe((data: OauthLoginViewConfig) => {
       /** 「登入1-2-3」取得Response資料，讓Form渲染 */
+      console.log(data);
       this.viewData = Object.assign(data);
       this.AuthorizationUri = data.AuthorizationUri;
       this.viewList = Object.entries(data).map(([key, val]) => {
@@ -120,7 +119,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   }
 
   onGetTokenApi(code: string, uid: string) {
-    this.viewType = 2;
     /** 「登入3-2」點擊過公告頁登入註冊按鈕(M_upgrade=1)，可取得Response中的idToken */
     if (localStorage.getItem('M_grantCode') !== null && localStorage.getItem('M_upgrade') === '1') {
       // grantCode只能使用一次，註冊Mobii新會員用
@@ -137,11 +135,10 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
           this.cookieService.set('M_idToken', tokenData.data.idToken, 90, '/',
             environment.cookieDomain, environment.cookieSecure, 'Lax');
           this.appService.loginState = true;
-          if (tokenData.data.Data.userName !== undefined) {
-            this.appService.userName = tokenData.data.Data.userName;
-            sessionStorage.setItem('userName', tokenData.data.Data.userName);
+          if (tokenData.data.Customer_Name !== undefined) {
+            this.appService.userName = tokenData.data.Customer_Name;
+            sessionStorage.setItem('userName', tokenData.data.Customer_Name);
           }
-          console.log('3-2userName', tokenData.data.Data.userName);
           console.log('3-2idToken', tokenData.data.idToken);
           if (Number(localStorage.getItem('M_deviceType')) !== 0) {
             /** 「登入3-2-3」裝置若為APP傳interface */
@@ -155,25 +152,10 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
           const content = `登入註冊失敗<br>錯誤代碼：${tokenData.errorCode}<br>請重新登入註冊`;
           this.modal.show('message', {
             class: 'modal-dialog-centered',
-            initialState: { success: false, message: content, showType: 3, checkBtnMsg: '我知道了', checkBtnUrl: '/Login' } });
+            initialState: { success: true, message: content, showType: 3, checkBtnMsg: '我知道了', checkBtnUrl: '/Login' } });
         }
       });
     }
-  }
-  /** 帶假資料 */
-  setIdToken() {
-    this.appService.loginState = true;
-    sessionStorage.setItem('userName', 'Chloe chung');
-    this.appService.userName = sessionStorage.getItem('userName');
-    this.cookieService.set('M_idToken', 'eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIxN2IyYTg5NS1lNGZmLTQ4MjktYWQwMC00NmE1ZDI3MDEyYWIiLCJhdWQiOiI3YTE5OGE5OC04NzFkLTRkMzYtODY2ZC0zYjI0NjQ4OGEyY2MiLCJvcGVuSWRQcm92aWRlciI6eyJuYW1lIjoiR29vZ2xlIiwicmVmSWQiOiI5NDQ1Y2FmMzE0ZWY1MzFlZDdlZmNiOTkyMDY0ZjJiOCJ9LCJleHAiOjE2MzM2OTM3NTIsImlhdCI6MTYzMzY1Nzc1MiwidXNlciI6eyJhY2NvdW50SWQiOiJkM2Y1M2E2MC1kYjcwLTExZTktOGEzNC0yYTJhZTJkYmNjZTQiLCJuYW1lIjoiQ2hsb2UgY2h1bmciLCJtb2JpbGUiOiI5MTAqKio0ODEiLCJpZCI6IjE3YjJhODk1LWU0ZmYtNDgyOS1hZDAwLTQ2YTVkMjcwMTJhYiIsImF2YXRhciI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hLS9BT2gxNEdnODkxVFhpYVNBa3BqSEN1d2JleUMtNHQtZVI4TVdhN0xsVi1vRGxIYz1zOTYtYyIsImNvdW50cnlNY29kZSI6Ijg4NiIsInJlZ2lzdGVyRGF0ZSI6IjE2MzM2MDM1OTYifSwiaXNzIjoiZXllc21lZGlhLmNvbS50dyJ9.M-hmEaU-UrIJd0aF2sM4S4R4i8xIoSOf8ov5W6du6SaKQytBlrUUr8bISm7ih_WeRi4vfh4baTkBlU55qPEFu5ti92R-ToZk9a2weTPSQfwUYZp_OkBQfV5nAH_925qRYx5Cx4ELSbMWzGVMjDGWRewvu9gq5PDNHxZqiOc9FrznHOVz5FZU2HXm_vHJIY5vmw7pLjv3nK8HlcVJjXyI7G4QQZf1mr2GCXMD3DKKK0Yp5Q7DEacS7D2GkVqYROSIunMeKNddiJXwq_3kQ6SmgFZUcsen3QEvpN7-_OL_dExsdpfZ4M6lHP9nx2KUDhe2FbHzOwBTfsCgDNV-UsEJwQ', 90, '/',
-    environment.cookieDomain, environment.cookieSecure, 'Lax');
-    sessionStorage.setItem('M_upgrade', '1');
-    localStorage.setItem('M_fromOriginUri', 'Member');
-    const data = '{"idToken":"eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIxN2IyYTg5NS1lNGZmLTQ4MjktYWQwMC00NmE1ZDI3MDEyYWIiLCJhdWQiOiI3YTE5OGE5OC04NzFkLTRkMzYtODY2ZC0zYjI0NjQ4OGEyY2MiLCJvcGVuSWRQcm92aWRlciI6eyJuYW1lIjoiR29vZ2xlIiwicmVmSWQiOiI5NDQ1Y2FmMzE0ZWY1MzFlZDdlZmNiOTkyMDY0ZjJiOCJ9LCJleHAiOjE2MzM2OTM3NTIsImlhdCI6MTYzMzY1Nzc1MiwidXNlciI6eyJhY2NvdW50SWQiOiJkM2Y1M2E2MC1kYjcwLTExZTktOGEzNC0yYTJhZTJkYmNjZTQiLCJuYW1lIjoiQ2hsb2UgY2h1bmciLCJtb2JpbGUiOiI5MTAqKio0ODEiLCJpZCI6IjE3YjJhODk1LWU0ZmYtNDgyOS1hZDAwLTQ2YTVkMjcwMTJhYiIsImF2YXRhciI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hLS9BT2gxNEdnODkxVFhpYVNBa3BqSEN1d2JleUMtNHQtZVI4TVdhN0xsVi1vRGxIYz1zOTYtYyIsImNvdW50cnlNY29kZSI6Ijg4NiIsInJlZ2lzdGVyRGF0ZSI6IjE2MzM2MDM1OTYifSwiaXNzIjoiZXllc21lZGlhLmNvbS50dyJ9.M-hmEaU-UrIJd0aF2sM4S4R4i8xIoSOf8ov5W6du6SaKQytBlrUUr8bISm7ih_WeRi4vfh4baTkBlU55qPEFu5ti92R-ToZk9a2weTPSQfwUYZp_OkBQfV5nAH_925qRYx5Cx4ELSbMWzGVMjDGWRewvu9gq5PDNHxZqiOc9FrznHOVz5FZU2HXm_vHJIY5vmw7pLjv3nK8HlcVJjXyI7G4QQZf1mr2GCXMD3DKKK0Yp5Q7DEacS7D2GkVqYROSIunMeKNddiJXwq_3kQ6SmgFZUcsen3QEvpN7-_OL_dExsdpfZ4M6lHP9nx2KUDhe2FbHzOwBTfsCgDNV-UsEJwQ","Customer_Name":"MEIMEI","Customer_Code":"900053291372972","Customer_UUID":"dfa4s4","CustomerInfo":null,"List_UserFavourite":[]}}';
-    this.callApp.getLoginData(JSON.stringify(data));
-    setTimeout(() => {
-      this.router.navigate(['/Member']);
-    }, 1000);
   }
 
   ngAfterViewInit() {

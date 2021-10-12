@@ -96,9 +96,9 @@ export class AppService {
       xEyes_Y: (lat != null) ? lat.toString() : '',
       xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
       xEyes_DeviceCode: deviceCode === undefined ? '' : deviceCode,
-      Authorization: (this.cookieService.get('M_idToken') !== null) ? 'Bearer ' + this.cookieService.get('M_idToken') : '',
+      Authorization: (this.cookieService.get('M_idToken') === '') ? '' : 'Bearer ' + this.cookieService.get('M_idToken'),
     });
-
+    console.log(command);
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
       .pipe(map((data: Response_APIModel) => {
@@ -219,7 +219,7 @@ export class AppService {
       xEyes_X: (lng != null) ? lng.toString() : '',
       xEyes_Y: (lat != null) ? lat.toString() : '',
       xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
-      Authorization: (this.cookieService.get('M_idToken') !== null) ? 'Bearer ' + this.cookieService.get('M_idToken') : '',
+      Authorization: (this.cookieService.get('M_idToken') === '') ? '' : 'Bearer ' + this.cookieService.get('M_idToken'),
     });
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })

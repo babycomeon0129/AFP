@@ -78,6 +78,8 @@ export class OauthService {
   onClearStorage() {
     sessionStorage.clear();
     localStorage.removeItem('M_grantCode');
+    localStorage.removeItem('M_fromOriginUri');
+    localStorage.removeItem('M_deviceType');
   }
 }
 
