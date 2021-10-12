@@ -1,3 +1,4 @@
+import { AppService } from '@app/app.service';
 import { environment } from '@env/environment';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';

@@ -72,17 +72,17 @@ export class MyProfileComponent implements OnInit {
     if (this.memberService.userProfile.UserProfile_Birthday !== null) {
         if (this.memberService.userProfile.UserProfile_Birthday.getMonth() < new Date().getMonth()) {
           this.memberService.userProfile.UserProfile_Birthday =
-            new Date(this.memberService.userProfile.UserProfile_Birthday.getTime() - this.memberService.userProfile.UserProfile_Birthday.getTimezoneOffset() * 60 * 1000);
+            new Date(this.memberService.userProfile.UserProfile_Birthday.getTime() -
+            this.memberService.userProfile.UserProfile_Birthday.getTimezoneOffset() * 60 * 1000);
         }
     }
-    console.log(this.memberService.userProfile);
     this.appService.toApi('Member', '1502', this.memberService.userProfile).subscribe((data: Response_MemberProfile) => {
       // 取得並顯示我的檔案資料
       this.memberService.readProfileData().then(() => {
         // 更新session 和 app.service 中的 userName 讓其他頁面名稱同步
         // sessionStorage.setItem('userName', this.memberService.userProfile.User_NickName);
         // this.cookieService.set('userName', this.memberService.userProfile.User_NickName, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-        // this.appService.userName = this.memberService.userProfile.User_NickName;
+        this.appService.userName = this.memberService.userProfile.User_NickName;
       });
       this.editMode = false;
       form.resetForm();

@@ -81,12 +81,14 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    if (this.appService.loginState === false) {
+      this.appService.onLogout();
+    }
     /** 「登入3-1」已登入過艾斯(未有idToken)且非多重帳號，可取得idToken，則否讓使用者選完再取得idToken */
     if (localStorage.getItem('M_upgrade') === '1' && this.cookieService.get('M_idToken') === null
         && this.List_MultipleUser === undefined
     ) {
       this.onGetTokenApi(this.grantCode, this.uuid);
-      this.setIdToken(); // 帶假idToken
     }
     /** 「登入4-1」曾經登入成功過(已有idToken)，未登出 */
     if (localStorage.getItem('M_upgrade') === '1' && this.cookieService.get('M_idToken') !== null) {
