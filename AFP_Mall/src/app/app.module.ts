@@ -43,22 +43,22 @@ import { AngularFireModule } from '@angular/fire';
 
 
 // 第三方登入 config
-export function provideConfig() {
-  const config = new AuthServiceConfig([
-    {
-      id: GoogleLoginProvider.PROVIDER_ID,
-      provider: new GoogleLoginProvider(environment.GoogleApiKey),
-      lazyLoad: true
-    },
-    {
-      id: FacebookLoginProvider.PROVIDER_ID,
-      provider: new FacebookLoginProvider(environment.FBApiKey),
-      lazyLoad: true
-    }
-  ]);
+// export function provideConfig() {
+//   const config = new AuthServiceConfig([
+//     {
+//       id: GoogleLoginProvider.PROVIDER_ID,
+//       provider: new GoogleLoginProvider(environment.GoogleApiKey),
+//       lazyLoad: true
+//     },
+//     {
+//       id: FacebookLoginProvider.PROVIDER_ID,
+//       provider: new FacebookLoginProvider(environment.FBApiKey),
+//       lazyLoad: true
+//     }
+//   ]);
 
-  return config;
-}
+//   return config;
+// }
 
 @NgModule({
   declarations: [
@@ -70,7 +70,7 @@ export function provideConfig() {
     SharedModule,
     AppRoutingModule,
     HttpClientModule,
-    SocialLoginModule,
+    // SocialLoginModule,
     NgxUsefulSwiperModule,
     ReactiveFormsModule,
     FormsModule,
@@ -119,10 +119,10 @@ export function provideConfig() {
   ],
   providers: [
     BsModalRef,
-    {
-      provide: AuthServiceConfig,
-      useFactory: provideConfig
-    },
+    // {
+    //   provide: AuthServiceConfig,
+    //   useFactory: provideConfig
+    // },
     // MessageModalComponent,
     CookieService
   ],

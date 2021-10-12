@@ -35,7 +35,7 @@ export class HomeComponent implements OnInit {
 
   constructor(public appService: AppService, public oauthService: OauthService,
               private router: Router, private modal: ModalService,
-              public memberService: MemberService, private authService: AuthService) {
+              public memberService: MemberService) {
   }
 
   ngOnInit() {

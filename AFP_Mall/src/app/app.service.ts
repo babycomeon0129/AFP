@@ -77,7 +77,7 @@ export class AppService {
 
   @BlockUI() blockUI: NgBlockUI;
   constructor(private http: HttpClient, private router: Router, private bsModalService: BsModalService,
-              private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService,
+              private cookieService: CookieService, private route: ActivatedRoute,
               private angularFireMessaging: AngularFireMessaging, private oauthService: OauthService) {
     // firebase message設置。這裡在幹嘛我也不是很懂
     // 詳：https://stackoverflow.com/questions/61244212/fcm-messaging-issue
@@ -186,9 +186,9 @@ export class AppService {
     };
     this.toApi_Logout('Home', '1109', request).subscribe((Data: any) => { });
     // 第三方登入套件登出
-    if (this.cookieService.get('Mobii_ThirdLogin') === 'true') {
-      this.authService.signOut();
-    }
+    // if (this.cookieService.get('Mobii_ThirdLogin') === 'true') {
+    //   this.authService.signOut();
+    // }
     // 清除session、cookie、我的收藏資料，重置登入狀態及通知數量，返回原頁
     sessionStorage.clear();
     this.cookieService.deleteAll();

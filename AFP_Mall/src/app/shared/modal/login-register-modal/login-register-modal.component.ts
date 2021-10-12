@@ -22,7 +22,7 @@ declare var AppleID: any;
 })
 export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   /** FB、Google 第三方登入 User容器 */
-  private thirdUser: SocialUser;
+  // private thirdUser: SocialUser;
   /** Apple 第三方登入 User容器 */
   private appleUser: Third_AppleUser;
   /** 是否正在使用FB或Google第三方登入(擋套件執行) */
@@ -66,29 +66,29 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   public newThirdRequest: NewThirdRequest = new NewThirdRequest();
 
   constructor(
-    public bsModalRef: BsModalRef, private authService: AuthService, private appService: AppService,
+    public bsModalRef: BsModalRef, private appService: AppService,
     private cookieService: CookieService, private router: Router, public bsModal: BsModalService) {
     this.detectApple();
   }
 
   ngOnInit() {
     //  FB、Google 第三方登入取得資料
-    this.authService.authState.subscribe((user: SocialUser) => {
-      this.thirdUser = user;
-      if (this.thirdUser !== null && this.regClick) {
-        this.appService.openBlock();
-        if (user.provider === 'FACEBOOK' && user.email === undefined) {
-          this.thirdRequest.Account = 'fb' + this.thirdUser.id;
-        } else {
-          this.thirdRequest.Account = this.thirdUser.email;
-        }
-        this.thirdRequest.NickName = this.thirdUser.name;
-        this.thirdRequest.Token = this.thirdUser.id;
-        this.thirdRequest.JsonData = JSON.stringify(this.thirdUser);
-        this.toThirdLogin();
-        this.regClick = false;
-      }
-    });
+    // this.authService.authState.subscribe((user: SocialUser) => {
+    //   this.thirdUser = user;
+    //   if (this.thirdUser !== null && this.regClick) {
+    //     this.appService.openBlock();
+    //     if (user.provider === 'FACEBOOK' && user.email === undefined) {
+    //       this.thirdRequest.Account = 'fb' + this.thirdUser.id;
+    //     } else {
+    //       this.thirdRequest.Account = this.thirdUser.email;
+    //     }
+    //     this.thirdRequest.NickName = this.thirdUser.name;
+    //     this.thirdRequest.Token = this.thirdUser.id;
+    //     this.thirdRequest.JsonData = JSON.stringify(this.thirdUser);
+    //     this.toThirdLogin();
+    //     this.regClick = false;
+    //   }
+    // });
 
     this.signinState = this.appService.getState();
 
@@ -163,11 +163,11 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   }
 
   /** FB登入按鈕 */
-  signInWithFB(): void {
-    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
-    this.thirdRequest.Mode = 1;
-    this.regClick = true;
-  }
+  // signInWithFB(): void {
+  //   this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+  //   this.thirdRequest.Mode = 1;
+  //   this.regClick = true;
+  // }
 
   /** LINE 登入 */
   signInWithLine(form: NgForm): void {
@@ -176,11 +176,11 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   }
 
   /** Google登入按鈕 */
-  signInWithGoogle(): void {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
-    this.thirdRequest.Mode = 3;
-    this.regClick = true;
-  }
+  // signInWithGoogle(): void {
+  //   this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
+  //   this.thirdRequest.Mode = 3;
+  //   this.regClick = true;
+  // }
 
   /** Apple登入按鈕 */
   signInWithApple(): void {

@@ -15,7 +15,7 @@ import { environment } from '@env/environment';
 })
 export class ThirdBindingComponent implements OnInit, OnDestroy {
   // 第三方登入 User容器
-  public thirdUser: SocialUser;
+  // public thirdUser: SocialUser;
   // 第三方登入Request
   public thirdRequest: Request_MemberThird = new Request_MemberThird();
   /** 第三方資訊類型 1: FB 2: Line 3:Google 5:Apple */
@@ -31,27 +31,27 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
 
 
   constructor(public appService: AppService, private oauthService: OauthService,
-              private authService: AuthService, public modal: ModalService, private router: ActivatedRoute) {
+              public modal: ModalService, private router: ActivatedRoute) {
     this.detectApple();
   }
 
   ngOnInit() {
 
     this.readThirdData();
-    this.authService.authState.subscribe((user: SocialUser) => {
-      this.thirdUser = user;
-      // 為了FB登入特例處理，多判斷 this.bindMode > 0 才呼叫API
-      if (this.thirdUser !== null && this.bindMode > 0) {
-        this.thirdRequest = {
-          SelectMode: 1,
-          Store_Note: '',
-          Mode: this.bindMode,
-          Token: this.thirdUser.id,
-          JsonData: JSON.stringify(this.thirdUser)
-        };
-        this.thirdbind(this.thirdRequest, this.bindMode);
-      }
-    });
+    // this.authService.authState.subscribe((user: SocialUser) => {
+    //   this.thirdUser = user;
+    //   // 為了FB登入特例處理，多判斷 this.bindMode > 0 才呼叫API
+    //   if (this.thirdUser !== null && this.bindMode > 0) {
+    //     this.thirdRequest = {
+    //       SelectMode: 1,
+    //       Store_Note: '',
+    //       Mode: this.bindMode,
+    //       Token: this.thirdUser.id,
+    //       JsonData: JSON.stringify(this.thirdUser)
+    //     };
+    //     this.thirdbind(this.thirdRequest, this.bindMode);
+    //   }
+    // });
 
     // LINE 第三方社群綁定
     this.newThirdRequest.DeviceType = this.appService.isApp !== null ? '1' : '0';
@@ -125,34 +125,34 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
       this.oauthService.loginPage(this.appService.pathnameUri);
     } else {
       this.bindMode = mode;
-      switch (mode) {
-        case 1:
-          this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
-          break;
-        case 2:
-          (document.getElementById('postLineBind') as HTMLFormElement).submit();
-          this.appService.openBlock();
-          break;
-        case 3:
-          this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
-          break;
-        case 5:
-          this.modal.appleLogin({}).subscribe(appleUser => {
-            if (appleUser !== null) {
-              const idTokenModel: any = jwt_decode(appleUser.authorization.id_token);
-              const appleToken = idTokenModel.sub;
-              this.thirdRequest = {
-                SelectMode: 1,
-                Store_Note: '',
-                Mode: this.bindMode,
-                Token: appleToken,
-                JsonData: JSON.stringify(appleUser)
-              };
-              this.thirdbind(this.thirdRequest, this.bindMode);
-            }
-          });
-          break;
-      }
+      // switch (mode) {
+      //   case 1:
+      //     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+      //     break;
+      //   case 2:
+      //     (document.getElementById('postLineBind') as HTMLFormElement).submit();
+      //     this.appService.openBlock();
+      //     break;
+      //   case 3:
+      //     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
+      //     break;
+      //   case 5:
+      //     this.modal.appleLogin({}).subscribe(appleUser => {
+      //       if (appleUser !== null) {
+      //         const idTokenModel: any = jwt_decode(appleUser.authorization.id_token);
+      //         const appleToken = idTokenModel.sub;
+      //         this.thirdRequest = {
+      //           SelectMode: 1,
+      //           Store_Note: '',
+      //           Mode: this.bindMode,
+      //           Token: appleToken,
+      //           JsonData: JSON.stringify(appleUser)
+      //         };
+      //         this.thirdbind(this.thirdRequest, this.bindMode);
+      //       }
+      //     });
+      //     break;
+      // }
     }
   }
 
@@ -215,7 +215,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
             this.bindStatus.apple = true;
             break;
         }
-        this.authService.signOut();
+        // this.authService.signOut();
       }
     });
   }
