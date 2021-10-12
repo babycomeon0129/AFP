@@ -37,7 +37,7 @@ export class AppService {
   public isApp: number = null;
 
   /** 使用者暱稱 */
-  public userName: string;
+  public userName = sessionStorage.getItem('userName') || null;
   /** 我的收藏物件陣列 */
   public userFavArr = [];
   /** 我的收藏編碼陣列 */

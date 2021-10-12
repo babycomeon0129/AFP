@@ -57,9 +57,9 @@ export class MessageModalComponent implements OnInit {
         break;
       case 2:
         this.oauthService.loginPage(location.pathname);
-        this.bsModalRef.hide();
         break;
     }
+    this.bsModalRef.hide();
   }
 
   clickCheckBtn(url: string): void {

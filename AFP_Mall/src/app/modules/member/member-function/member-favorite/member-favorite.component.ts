@@ -75,6 +75,8 @@ export class MemberFavoriteComponent implements OnInit {
             this.listTravel = data.List_Travel;
             break;
         }
+        console.log(request);
+        console.log(data);
       });
     }
   }

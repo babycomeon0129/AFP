@@ -49,7 +49,7 @@ export class Request_MemberProfile extends Model_ShareData {
 /** 會員中心我的檔案 - ResponseModel */
 export class Response_MemberProfile extends Model_ShareData {
   /** 人員帳號 */
-  UserAccount: string;
+  UserAccount?: string;
   /** 暱稱 */
   User_NickName: string;
   /** 人員姓名 */
