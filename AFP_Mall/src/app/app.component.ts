@@ -40,7 +40,7 @@ export class AppComponent implements OnInit, DoCheck {
         this.appService.isApp = Number(params.isApp);
       }
 
-      /** 「登入4-2」App訪問，未登出狀態，後端會驗證idToken */
+      /** 「艾斯身份證別-登入4-2」App訪問，未登出狀態，後端會驗證idToken */
       if (typeof params.idToken !== 'undefined') {
         this.cookieService.set('M_idToken', params.idToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       }
@@ -127,6 +127,9 @@ export class AppComponent implements OnInit, DoCheck {
   }
 
   ngOnInit() {
+    if (this.cookieService.get('M_idToken') !== '' ) {
+      this.appService.loginState = true;
+    }
     this.appService.getPushPermission();
     this.appService.receiveMessage();
     // 當路由器成功完成路由的解析階段時，先通知app將footer關閉(開啟則靠app-mobile-footer通知開啟)

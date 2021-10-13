@@ -3,6 +3,7 @@ export const environment = {
   apiUrl: 'https://afpapi-uuat.mobii.ai/api/',
   loginUrl: 'https://login-uuat.mobii.ai/auth/api/v1/login',
   tokenUrl: 'https://login-uuat.mobii.ai/auth/api/v1/token',
+  modifyUrl: 'https://login-uuat.mobii.ai/auth/api/v1/memberModify',
   FBApiKey: '349758176149496',
   GoogleApiKey: '260499247538-ctoucp9t09ufdpgqmd4ac368lfpgmorm.apps.googleusercontent.com',
   cookieDomain: 'mobii.ai',

@@ -109,7 +109,7 @@ export class AppService {
             // 手機是否驗證
             // switch (data.Verification.MobileVerified) {
             //   case 1:
-            //     // 「一般登入」、「第三方登入」、「登入後讀購物車數量」、「推播」不引導驗證手機
+            //     // 「一般登入」、「第三方登入」、「艾斯身份證別-登入後讀購物車數量」、「推播」不引導驗證手機
             //     if (command !== '1104' && command !== '1105' && command !== '1204' && command !== '1113') {
             //       if (!this.verifyMobileModalOpened) {
             //         this.bsModalService.show(VerifyMobileModalComponent);
