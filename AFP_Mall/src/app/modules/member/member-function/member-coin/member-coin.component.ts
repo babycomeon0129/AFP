@@ -58,7 +58,7 @@ export class MemberCoinComponent implements OnInit {
 
   ngOnInit() {
     if (this.appService.loginState === false) {
-      this.oauthService.loginPage(this.appService.pathnameUri);
+      this.oauthService.loginPage(location.pathname);
     } else {
       this.appService.openBlock();
       const getInfo: Request_MemberPoint = {
@@ -98,7 +98,7 @@ export class MemberCoinComponent implements OnInit {
   /** 歷史紀錄 */
   getHistory(): void {
     if (this.appService.loginState === false) {
-      this.oauthService.loginPage(this.appService.pathnameUri);
+      this.oauthService.loginPage(location.pathname);
     } else {
       this.appService.openBlock();
       const getHistory: Request_MemberPoint = {

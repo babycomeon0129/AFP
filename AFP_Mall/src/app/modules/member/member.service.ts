@@ -43,7 +43,7 @@ export class MemberService {
               this.userProfile.UserProfile_Birthday = new Date(this.userProfile.UserProfile_Birthday);
             }
           } else {
-            this.oauthService.loginPage(this.appService.pathnameUri);
+            this.oauthService.loginPage(location.pathname);
           }
           resolve(true);
         });

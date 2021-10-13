@@ -44,10 +44,6 @@ export class AppComponent implements OnInit, DoCheck {
       if (typeof params.idToken !== 'undefined') {
         this.cookieService.set('M_idToken', params.idToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       }
-      if (this.cookieService.get('M_idToken') === '') {
-        console.log(this.cookieService.get('M_idToken') === '', this.cookieService.get('M_idToken'));
-        this.appService.loginState = false;
-      }
 
       //  購物車編碼 APP用
       if (typeof params.cartCode !== 'undefined') {

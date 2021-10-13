@@ -16,7 +16,7 @@ export class AuthUserGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
     if (this.appService.loginState === false) {
-      this.oauthService.loginPage(this.appService.pathnameUri);
+      this.oauthService.loginPage(location.pathname);
     } else {
       const request: Request_AuthUser = new Request_AuthUser();
       // request.User_Code = sessionStorage.getItem('userCode');

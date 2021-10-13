@@ -75,7 +75,7 @@ export class HomeComponent implements OnInit {
   /** 前往設定（判斷登入與否） */
   goToSetting(): void {
     if (this.appService.loginState === false) {
-      this.oauthService.loginPage(this.appService.pathnameUri);
+      this.oauthService.loginPage(location.pathname);
     } else {
       this.router.navigate(['/Member/Setting']);
     }
@@ -107,7 +107,7 @@ export class HomeComponent implements OnInit {
    */
   pageRoute(page: string, pageCode: number): void {
     if (this.appService.loginState === false) {
-      this.oauthService.loginPage(this.appService.pathnameUri);
+      this.oauthService.loginPage(location.pathname);
     } else {
       if (page === '0') {
         this.modal.show('message',  { class: 'modal-dialog-centered',

@@ -122,7 +122,7 @@ export class MissionComponent implements OnInit {
    */
   buttonAction(mission: AFP_Mission): void {
     if (this.appService.loginState === false) {
-      this.oauthService.loginPage(this.appService.pathnameUri);
+      this.oauthService.loginPage(location.pathname);
     } else {
       switch (mission.Mission_ClickState) {
         case 2: // 前往任務
@@ -195,7 +195,7 @@ export class MissionComponent implements OnInit {
   /** 前往MemberCoin頁 */
   conditionGo(): void {
     if (this.appService.loginState === false) {
-      this.oauthService.loginPage(this.appService.pathnameUri);
+      this.oauthService.loginPage(location.pathname);
     } else {
       this.router.navigate(['/MemberFunction/MemberCoin'], { queryParams: { showBack: true } });
     }

@@ -54,7 +54,7 @@ export class GameCenterComponent implements OnInit {
    */
   goGame(gameCode: number, gameType: number): void {
     if (this.appService.loginState === false) {
-      this.oauthService.loginPage(this.appService.pathnameUri);
+      this.oauthService.loginPage(location.pathname);
     } else {
       this.activatedRoute.snapshot.queryParams.showBack === 'true' ?
         this.router.navigate(['/GameCenter/Game', gameCode], { queryParams: { GameType: gameType, showBack: true } }) :

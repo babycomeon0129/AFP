@@ -63,7 +63,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
   /** 讀取社群帳號 */
   readThirdData(): void {
     if (this.appService.loginState === false) {
-      this.oauthService.loginPage(this.appService.pathnameUri);
+      this.oauthService.loginPage(location.pathname);
     } else {
       const request: Request_MemberThird = {
         SelectMode: 3,
@@ -122,7 +122,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
    */
   signInWiththirdBind(mode: number): void {
     if (this.appService.loginState === false) {
-      this.oauthService.loginPage(this.appService.pathnameUri);
+      this.oauthService.loginPage(location.pathname);
     } else {
       this.bindMode = mode;
       // switch (mode) {

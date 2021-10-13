@@ -1,3 +1,4 @@
+import { ModalService } from '@app/shared/modal/modal.service';
 import { AppService } from '@app/app.service';
 import { environment } from '@env/environment';
 import { Injectable } from '@angular/core';
@@ -23,7 +24,8 @@ export class OauthService {
     fromOriginUri: ''
   };
 
-  constructor(private router: Router, private http: HttpClient, private cookieService: CookieService) {}
+  constructor(private router: Router, private http: HttpClient, private modal: ModalService,
+              private cookieService: CookieService) {}
 
   /** 「登入1-1-2」判斷跳出網頁或APP的登入頁
    * App：原生點擊登入按鈕（帶queryParams：isApp,deviceType,deviceCode），統一由Web向艾斯識別驗證
@@ -71,6 +73,23 @@ export class OauthService {
       .pipe(map((data: ResponseTokenApi) => {
         console.log('2-3-1TokenApiRequest', req.grantCode, req.uid);
         return data;
+      }, catchError(() => null)));
+  }
+
+  toEyesRequest(req: OauthLoginViewConfig): Observable<any> {
+    console.log(req);
+    const formEyes = new FormData();
+    formEyes.append('accountId', req.accountId);
+    formEyes.append('clientId', req.clientId);
+    formEyes.append('state', req.state);
+    formEyes.append('scope', req.scope);
+    formEyes.append('redirectUri', req.redirectUri);
+    formEyes.append('homeUri', req.homeUri);
+    formEyes.append('responseType', req.responseType);
+    formEyes.append('viewConfig', req.viewConfig);
+    return this.http.post(req.AuthorizationUri, formEyes)
+      .pipe(map((data: ResponseOauthLogin) => {
+        return data.data;
       }, catchError(() => null)));
   }
 

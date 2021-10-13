@@ -1,5 +1,6 @@
 <div class="wrap container">
-  <header>
+  <div *ngIf="viewType===2">{{appService.openBlock()}}</div>
+  <header *ngIf="viewType<2">
       <div class="header-secondary container linebt-row">
           <div class="index-flex justify-content-between">
               <div class="item two">
@@ -16,8 +17,8 @@
           </div>
       </div>
   </header>
-  <main>
-    <div class="content" *ngIf="viewType<2">
+  <main *ngIf="viewType<2">
+    <div class="content">
       <div class="logo-box">
         <img alt="logo" src="/img/share/mlogo.png">
       </div>

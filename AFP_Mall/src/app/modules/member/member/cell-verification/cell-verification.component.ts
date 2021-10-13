@@ -54,7 +54,7 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
     } else {
       if (this.appService.loginState === false) {
         this.shownSection = 0;
-        this.oauthService.loginPage(this.appService.pathnameUri);
+        this.oauthService.loginPage(location.pathname);
       } else {
         this.readCellNumber();
       }

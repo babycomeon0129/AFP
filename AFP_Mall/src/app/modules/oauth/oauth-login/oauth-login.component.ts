@@ -1,9 +1,8 @@
 import { CookieService } from 'ngx-cookie-service';
-import { BlockUI } from 'ng-block-ui';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppService } from '@app/app.service';
 import { OauthService, ResponseTokenApi, OauthLoginViewConfig } from '@app/modules/oauth/oauth.service';
-import { Component, ElementRef, OnInit, AfterViewInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { environment } from '@env/environment';
 import { AppJSInterfaceService } from '@app/app-jsinterface.service';
@@ -14,7 +13,7 @@ import { AppJSInterfaceService } from '@app/app-jsinterface.service';
   styleUrls: ['./oauth-login.component.scss',
     '../../../../styles/layer/shopping-footer.scss'],
 })
-export class OauthLoginComponent implements OnInit, AfterViewInit {
+export class OauthLoginComponent implements OnInit {
   /** 頁面切換 0:帳號升級公告 1:帳號整併 2:已登入跳轉原頁 */
   public viewType = 2;
   /** 艾斯身份識別登入API uri */
@@ -23,6 +22,8 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   public viewData: OauthLoginViewConfig[] = [];
   /** 艾斯身份識別登入 FormPost渲染 */
   public viewList = [];
+  /** ViewList FormPost渲染變化 */
+  public viewListCount = 0;
   /** 多重帳號列表 */
   public List_MultipleUser = [];
   /** 使用者uuid */
@@ -56,22 +57,25 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       if (typeof params.loginJson === 'undefined') {
         this.getViewData();
       } else {
-        /** 「登入2-1」 艾斯身份識別登入成功後，由Redirect API取得grantCode及List_MultipleUser */
+        /** 「登入2-1」 艾斯身份識別登入成功後，由Redirect API取得grantCode及List_MultipleUser
+         * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/30001-token-api-mobii
+         */
         const loginJson = JSON.parse(params.loginJson);
         if (loginJson.errorCode === '996600001') {
+          // 只能打一次，否則errorCode:609830001
           if (typeof loginJson.data.grantCode !== 'undefined') {
             localStorage.setItem('M_grantCode', loginJson.data.grantCode);
             this.grantCode = loginJson.data.grantCode;
-          }
-          console.log('2-1Redirect API:', loginJson.data.grantCode, loginJson.data.List_MultipleUser);
-          /** 「登入2-2」多重帳號頁面渲染 */
-          if (loginJson.data.List_MultipleUser !== null) {
-            this.viewType = 1;
-            this.List_MultipleUser = loginJson.data.List_MultipleUser;
-            console.log('2-2List_MultipleUser', this.List_MultipleUser);
-          } else {
-            this.viewType = 2;
-            this.onGetTokenApi(this.grantCode, this.uuid);
+            console.log('2-1Redirect API:', loginJson.data.grantCode, loginJson.data.List_MultipleUser);
+            /** 「登入2-2」多重帳號頁面渲染 */
+            if (loginJson.data.List_MultipleUser !== null) {
+              this.viewType = 1;
+              this.List_MultipleUser = loginJson.data.List_MultipleUser;
+              console.log('2-2List_MultipleUser', this.List_MultipleUser);
+            } else {
+              this.viewType = 2;
+              this.onGetTokenApi(this.grantCode, this.uuid);
+            }
           }
         } else {
           this.appService.onLogout();
@@ -85,29 +89,25 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    /** 「登入3-1」已登入過艾斯(未有idToken)且非多重帳號，可取得idToken，則否讓使用者選完再取得idToken */
-    if (localStorage.getItem('M_upgrade') === '1' && this.cookieService.get('M_idToken') === ''
-        && this.List_MultipleUser !== []) {
-      this.onGetTokenApi(this.grantCode, this.uuid);
-      console.log('3-1');
-    }
-    /** 「登入4-1」曾經登入成功過(未有idToken)，需重新登入 */
-    if (this.appService.loginState === false && localStorage.getItem('M_upgrade') === '1') {
-      this.appService.openBlock();
-      this.onLoginEyes();
-    }
   }
+
   getViewData() {
     /** 「登入1-2-1」AJAX提供登入所需Request給後端，以便response取得後端提供的資料 */
     this.appService.openBlock();
     (this.oauthService.toOauthRequest(this.oauthService.loginRequest)).subscribe((data: OauthLoginViewConfig) => {
       /** 「登入1-2-3」取得Response資料，讓Form渲染 */
-      console.log(data);
+      console.log('viewData', data);
       this.viewData = Object.assign(data);
       this.AuthorizationUri = data.AuthorizationUri;
       this.viewList = Object.entries(data).map(([key, val]) => {
         return {name: key, value: val};
       });
+      /** 「登入4-1」曾經登入成功過(沒有idToken)，重新至艾斯登入 */
+      if (localStorage.getItem('M_upgrade') === '1' && this.cookieService.get('M_idToken') === '') {
+        (this.oauthService.toEyesRequest(JSON.parse(JSON.stringify(data)))).subscribe((data) => {
+          console.log('4-1', data);
+        });
+      }
       this.appService.blockUI.stop();
     });
   }
@@ -119,8 +119,8 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   }
 
   onGetTokenApi(code: string, uid: string) {
-    /** 「登入3-2」點擊過公告頁登入註冊按鈕(M_upgrade=1)，可取得Response中的idToken */
-    if (localStorage.getItem('M_grantCode') !== null && localStorage.getItem('M_upgrade') === '1') {
+    /** 「登入3-1」已登入過艾斯(未有idToken)且非多重帳號，點擊過公告頁登入註冊按鈕(M_upgrade=1)，可取得idToken，則否讓使用者選完再取得idToken */
+    if (localStorage.getItem('M_upgrade') === '1') {
       // grantCode只能使用一次，註冊Mobii新會員用
       const request = {
         grantCode: code,
@@ -158,8 +158,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngAfterViewInit() {
-  }
   // onSubmit(form: NgForm) {
   //   localStorage.setItem('M_loginCheckBox', form.value.loginCheck);
   // }
