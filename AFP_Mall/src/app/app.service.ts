@@ -98,11 +98,11 @@ export class AppService {
       xEyes_DeviceCode: deviceCode === undefined ? '' : deviceCode,
       Authorization: (this.cookieService.get('M_idToken') === '') ? '' : 'Bearer ' + this.cookieService.get('M_idToken'),
     });
-    console.log(command);
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
       .pipe(map((data: Response_APIModel) => {
         this.blockUI.stop();
+        console.log(command, data);
         switch (data.Base.Rtn_State) {
           case 1: // Response OK
             /** 手機驗證需要在eyesmedia-identity驗證, 故隱藏 */
@@ -472,10 +472,12 @@ export class AppService {
 
   /** 推播-取得含device code的新消費者包 */
   toPushApi(token: string): void {
-    const request: Request_AFPPushToken = {
-      Token: token
-    };
-    this.toApi('Home', '1113', request, null, null, this.deviceCode).subscribe((data) => { });
+    if (token !== null && token !== undefined) {
+      const request: Request_AFPPushToken = {
+        Token: token
+      };
+      this.toApi('Home', '1113', request, null, null, this.deviceCode).subscribe((data) => { });
+    }
   }
 
   /** 產生device code */
@@ -513,14 +515,12 @@ export class AppService {
 
   /** 網頁跳轉(返回原頁) */
   jumpUrl() {
-    this.openBlock();
-    setTimeout(() => {
-      this.blockUI.stop();
-      const uri = (localStorage.getItem('M_fromOriginUri') !== null || localStorage.getItem('M_fromOriginUri') !== 'null') ?
-        localStorage.getItem('M_fromOriginUri') : '/' ;
-      (uri.startsWith('https') || uri.startsWith('https')) ?
-      location.href = uri : this.router.navigate([uri]);
-    }, 500);
+    console.log('jumpUrl', localStorage.getItem('M_fromOriginUri'));
+    const uri =
+      (localStorage.getItem('M_fromOriginUri') !== null ||
+      localStorage.getItem('M_fromOriginUri') !== 'null') ?
+      localStorage.getItem('M_fromOriginUri') : '/' ;
+    (uri.startsWith('https') || uri.startsWith('https')) ? location.href = uri : this.router.navigate([uri]);
   }
 }
 

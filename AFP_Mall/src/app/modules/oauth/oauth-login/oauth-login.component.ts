@@ -53,7 +53,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
 
       /** 「艾斯身份證別-登入1-1-4」初始取得viewConfig資料 */
-      if (typeof params.loginJson === 'undefined') {
+      if (typeof params.loginJson === 'undefined' && this.cookieService.get('M_idToken') === '') {
         this.getViewData();
       } else {
         /** 「艾斯身份證別-登入2-1」 艾斯身份識別登入成功後，由Redirect API取得grantCode及List_MultipleUser
@@ -94,7 +94,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
   getViewData() {
     /** 「艾斯身份證別-登入1-2-1」AJAX提供登入所需Request給後端，以便response取得後端提供的資料 */
-    this.appService.openBlock();
     (this.oauthService.toOauthRequest(this.oauthService.loginRequest)).subscribe((data: OauthLoginViewConfig) => {
       /** 「艾斯身份證別-登入1-2-3」取得Response資料，讓Form渲染 */
       console.log('viewData', data);
@@ -103,7 +102,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       this.viewList = Object.entries(data).map(([key, val]) => {
         return {name: key, value: val};
       });
-      this.appService.blockUI.stop();
     });
   }
 
@@ -135,7 +133,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
             sessionStorage.setItem('userName', tokenData.data.Customer_Name);
           }
           console.log('3-2idToken', tokenData.data.idToken);
-          if (Number(localStorage.getItem('M_deviceType')) !== 0) {
+          if (localStorage.getItem('M_deviceType') !== '0') {
             /** 「艾斯身份證別-登入3-2-3」裝置若為APP傳interface */
             this.callApp.getLoginData(JSON.stringify(data));
           }

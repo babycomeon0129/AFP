@@ -39,7 +39,7 @@ export class SettingComponent implements OnInit {
 
   /** 「艾斯身份證別-密碼修改1」 */
   passwordUpdate() {
-    this.oauthService.toModifyEyes();
+    this.oauthService.toModifyEyes().subscribe();
   }
   /** 判斷是否為App，如果是則跳到App原生  */
   // MOB-3425 前端隱藏

@@ -1,7 +1,7 @@
 import { environment } from '@env/environment';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, retry } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
@@ -56,7 +56,7 @@ export class OauthService {
       .pipe(map((data: ResponseOauthLogin) => {
         this.blockUI.stop();
         return data.data;
-      }, catchError(() => null)));
+      }, catchError(this.handleError)));
   }
 
   /** 「艾斯身份證別-登入2-3」將grantCode或勾選的帳號給後端，以便取得Response  */
@@ -64,13 +64,14 @@ export class OauthService {
     const req = JSON.parse(request);
     const formData = new FormData();
     formData.append('grantCode', req.grantCode);
-    if (req.uid !== undefined) { formData.append('userInfoId', req.uid); }
+    console.log('userInfoId', req.userInfoId);
+    if (req.userInfoId !== undefined) { formData.append('userInfoId', req.userInfoId); }
     return this.http.post(environment.tokenUrl, formData)
       .pipe(map((data: ResponseTokenApi) => {
         this.blockUI.stop();
         console.log('2-3-1TokenApiRequest', req.grantCode, req.uid);
         return data;
-      }, catchError(() => null)));
+      }, catchError(this.handleError)));
   }
 
   /** 「艾斯身份證別-登入4-1-2」曾經登入成功過(沒有idToken)，直接post至艾斯登入，取得idToken */
@@ -93,24 +94,41 @@ export class OauthService {
       this.blockUI.stop();
       console.log('4-2', data);
       return data;
-    }, catchError(() => null)));
+    }, catchError(this.handleError)));
   }
-  /** 「艾斯身份證別-密碼修改2」 */
-  toModifyEyes() {
-    if (this.cookieService.get('M_idToken') === '') {
-      this.loginPage('/Member/Setting');
-    } else {
+  /** 「艾斯身份證別-密碼修改」 */
+  toModifyEyes(): Observable<any> {
+    if (this.cookieService.get('M_idToken') !== '') {
+      console.log('passwordUpdate:', this.cookieService.get('M_idToken'));
       const headers = new HttpHeaders({
-        'Content-Type': 'application/json',
         Authorization:  'Bearer ' + this.cookieService.get('M_idToken'),
       });
-      return this.http.post(environment.modifyUrl, {  }, { headers })
+      const request = '';
+      return this.http.post(environment.modifyUrl, { Data: JSON.stringify(request) }, { headers })
         .pipe(map((data: any) => {
+          console.log(data);
           this.blockUI.stop();
           return data;
-        }, catchError(() => null)));
+        }, catchError(this.handleError)));
     }
   }
+
+  private handleError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error.message);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      console.error(
+        `Backend returned code ${error.status}, ` +
+        `body was: ${error.error}`);
+    }
+    // return an observable with a user-facing error message
+    return throwError(
+      'Something bad happened; please try again later.' + error);
+  }
+
   /** 清除Storage */
   onClearStorage() {
     sessionStorage.clear();
