@@ -75,21 +75,30 @@ export class OauthService {
   }
 
   /** 「艾斯身份證別-登入4-1-2」曾經登入成功過(沒有idToken)，直接post至艾斯登入，取得idToken */
-  toEyesRequest(request: RequestEyes, uri: string): Observable<any> {
+  toEyesRequest(request: RequestViewConfig): Observable<any> {
     const req = request;
     console.log('4-1-2', req);
-    const headers = new HttpHeaders({
-    });
-    const input = new FormData();
-    input.append('accountId', req.accountId);
-    input.append('clientId', req.clientId);
-    input.append('state', req.state);
-    input.append('scope', req.scope);
-    input.append('redirectUri', req.redirectUri);
-    input.append('homeUri', req.homeUri);
-    input.append('responseType', req.responseType);
-    input.append('viewConfig', req.viewConfig);
-    return this.http.post(uri, input, {headers})
+    // const headers = new HttpHeaders({});
+    const requestEyes = {
+      accountId: req.accountId,
+      clientId: req.clientId,
+      state: req.state,
+      scope: req.scope,
+      redirectUri: req.redirectUri,
+      homeUri: req.homeUri,
+      responseType: req.responseType,
+      viewConfig: req.viewConfig
+    };
+    // const formData = new FormData();
+    // formData.append('accountId', req.accountId);
+    // formData.append('clientId', req.clientId);
+    // formData.append('state', req.state);
+    // formData.append('scope', req.scope);
+    // formData.append('redirectUri', req.redirectUri);
+    // formData.append('homeUri', req.homeUri);
+    // formData.append('responseType', req.responseType);
+    // formData.append('viewConfig', req.viewConfig);
+    return this.http.post(req.AuthorizationUri, { Data: JSON.stringify(requestEyes) })
     .pipe(map((data: ResponseEyes) => {
       this.blockUI.stop();
       console.log('4-2', data);
@@ -166,7 +175,7 @@ export class Res_ViewConfig {
   responseType: string;
   viewConfig: string;
 }
-export interface OauthLoginViewConfig {
+export interface RequestViewConfig {
   AuthorizationUri: string;
   accountId: string;
   clientId: string;
@@ -185,16 +194,6 @@ export interface ResponseTokenApi {
   List_UserFavourite: [];
 }
 
-export interface RequestEyes {
-  accountId: string;
-  clientId: string;
-  state: string;
-  scope: string;
-  redirectUri: string;
-  homeUri: string;
-  responseType: string;
-  viewConfig: string;
-}
 export interface ResponseEyes {
   code?: string;
   state: string;

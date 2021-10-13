@@ -1,7 +1,7 @@
 import { CookieService } from 'ngx-cookie-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppService } from '@app/app.service';
-import { OauthService, ResponseTokenApi, OauthLoginViewConfig, ResponseEyes } from '@app/modules/oauth/oauth.service';
+import { OauthService, ResponseTokenApi, RequestViewConfig, ResponseEyes } from '@app/modules/oauth/oauth.service';
 import { Component, ElementRef, OnInit, AfterViewInit } from '@angular/core';
 import { environment } from '@env/environment';
 import { AppJSInterfaceService } from '@app/app-jsinterface.service';
@@ -15,12 +15,12 @@ import { MessageModalComponent } from '@app/shared/modal/message-modal/message-m
     '../../../../styles/layer/shopping-footer.scss'],
 })
 export class OauthLoginComponent implements OnInit, AfterViewInit {
-  /** 頁面切換 0:帳號升級公告 1:帳號整併 2:已登入跳轉原頁 */
+  /** 頁面切換 0:帳號升級公告 1:帳號整併 2:曾登入(無idToken) 3:已登入(不處理) */
   public viewType = 0;
   /** 艾斯身份識別登入API uri */
   public AuthorizationUri: string;
   /** 艾斯身份識別登入 列表 */
-  public viewData: OauthLoginViewConfig[] = [];
+  public viewData: RequestViewConfig[] = [];
   /** 艾斯身份識別登入 FormPost渲染 */
   public viewList = [];
   /** 多重帳號列表 */
@@ -69,10 +69,12 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
             /** 「艾斯身份證別-登入2-2」多重帳號頁面渲染 */
             if (loginJson.data.List_MultipleUser !== null) {
               this.viewType = 1;
+              sessionStorage.setItem('M_viewType', '1');
               this.List_MultipleUser = loginJson.data.List_MultipleUser;
               console.log('2-2List_MultipleUser', this.List_MultipleUser);
             } else {
               this.viewType = 2;
+              sessionStorage.setItem('M_viewType', '2');
               this.onGetTokenApi(this.grantCode, this.userInfoId);
             }
           }
@@ -94,7 +96,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
   getViewData() {
     /** 「艾斯身份證別-登入1-2-1」AJAX提供登入所需Request給後端，以便response取得後端提供的資料 */
-    (this.oauthService.toOauthRequest(this.oauthService.loginRequest)).subscribe((data: OauthLoginViewConfig) => {
+    (this.oauthService.toOauthRequest(this.oauthService.loginRequest)).subscribe((data: RequestViewConfig) => {
       /** 「艾斯身份證別-登入1-2-3」取得Response資料，讓Form渲染 */
       console.log('viewData', data);
       this.viewData = Object.assign(data);
@@ -102,18 +104,26 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       this.viewList = Object.entries(data).map(([key, val]) => {
         return {name: key, value: val};
       });
+
+      /** 「艾斯身份證別-登入4-1-1」曾經登入成功過(沒有idToken)，重新至艾斯登入 */
+      // if (localStorage.getItem('M_viewType') === '2' && this.cookieService.get('M_idToken') !== '') {
+      //   (this.oauthService.toEyesRequest(JSON.parse(JSON.stringify(data))))
+      //     .subscribe((res: ResponseEyes) => {
+      //       console.log('4-1-1', res);
+      //   });
+      // }
     });
   }
 
   onLoginEyes() {
-    /** 「艾斯身份證別-登入1-3」點擊登入註冊按鈕FORM POST給艾斯識別(M_upgrade:1 代表不再顯示公告頁) */
-    localStorage.setItem('M_upgrade', '1');
+    /** 「艾斯身份證別-登入1-3」點擊登入註冊按鈕FORM POST給艾斯識別(M_viewType:1 代表不再顯示公告頁) */
+    localStorage.setItem('M_viewType', '1');
     (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
   }
 
   onGetTokenApi(code: string, uid: string) {
-    /** 「艾斯身份證別-登入3-1」已登入過艾斯(未有idToken)且非多重帳號，點擊過公告頁登入註冊按鈕(M_upgrade=1)，可取得idToken，則否讓使用者選完再取得idToken */
-    if (localStorage.getItem('M_upgrade') === '1' && code !== undefined) {
+    /** 「艾斯身份證別-登入3-1」已登入過艾斯(未有idToken)且非多重帳號，點擊過公告頁登入註冊按鈕(M_viewType=1)，可取得idToken，則否讓使用者選完再取得idToken */
+    if (localStorage.getItem('M_viewType') === '1' && code !== undefined) {
       // grantCode只能使用一次，註冊Mobii新會員用
       const request = {
         grantCode: code,
@@ -151,25 +161,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    /** 「艾斯身份證別-登入4-1-1」曾經登入成功過(沒有idToken)，重新至艾斯登入 */
-    if (localStorage.getItem('M_upgrade') === '1' && this.cookieService.get('M_idToken') === ''
-      && this.viewType === 2) {
-      // setTimeout(() => {
-      //   if (this.AuthorizationUri !== undefined) {
-      //     (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
-      //   } else {
-      //     console.log('error');
-      //   }
-      // }, 3000);
-      // if (sessionStorage.getItem('M_viewData') !== '') {
-      //   (this.oauthService.toEyesRequest(JSON.parse(sessionStorage.getItem('M_viewData')), this.AuthorizationUri))
-      //     .subscribe((data: ResponseEyes) => {
-      //       console.log(data);
-      //   });
-      // }
-      // this.oauthService.toEyesRequest(JSON.parse(JSON.stringify(data)));
-      // (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
-    }
   }
 
 }
