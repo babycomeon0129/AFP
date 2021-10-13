@@ -56,6 +56,7 @@ export class MessageModalComponent implements OnInit {
         this.goToUrl(this.target, this.queryParams1);
         break;
       case 2:
+        // 請先登入
         this.oauthService.loginPage(location.pathname);
         break;
     }
