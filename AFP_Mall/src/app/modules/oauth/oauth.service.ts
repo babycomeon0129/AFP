@@ -1,5 +1,3 @@
-import { ModalService } from '@app/shared/modal/modal.service';
-import { AppService } from '@app/app.service';
 import { environment } from '@env/environment';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -24,8 +22,7 @@ export class OauthService {
     fromOriginUri: ''
   };
 
-  constructor(private router: Router, private http: HttpClient, private modal: ModalService,
-              private cookieService: CookieService) {}
+  constructor(private router: Router, private http: HttpClient, private cookieService: CookieService) {}
 
   /** 「登入1-1-2」判斷跳出網頁或APP的登入頁
    * App：原生點擊登入按鈕（帶queryParams：isApp,deviceType,deviceCode），統一由Web向艾斯識別驗證
@@ -76,8 +73,10 @@ export class OauthService {
       }, catchError(() => null)));
   }
 
-  toEyesRequest(req: OauthLoginViewConfig): Observable<any> {
-    console.log(req);
+  /** 「登入4-1-2」曾經登入成功過(沒有idToken)，直接post至艾斯登入，取得idToken */
+  toEyesRequest(request: OauthLoginViewConfig): Observable<any> {
+    const req = request;
+    console.log('4-1-2', req);
     const formEyes = new FormData();
     formEyes.append('accountId', req.accountId);
     formEyes.append('clientId', req.clientId);
@@ -88,9 +87,10 @@ export class OauthService {
     formEyes.append('responseType', req.responseType);
     formEyes.append('viewConfig', req.viewConfig);
     return this.http.post(req.AuthorizationUri, formEyes)
-      .pipe(map((data: ResponseOauthLogin) => {
-        return data.data;
-      }, catchError(() => null)));
+    .pipe(map((data: ResponseEyes) => {
+      console.log('2-3-1TokenApiRequest', data);
+      return data;
+    }, catchError(() => null)));
   }
 
   /** 清除Storage */
@@ -147,4 +147,12 @@ export interface ResponseTokenApi {
   Customer_Code: string;
   Customer_UUID: string;
   List_UserFavourite: [];
+}
+export interface ResponseEyes {
+  code: string;
+  state: string;
+  messageId: string;
+  messageDatetime: string;
+  error?: string;
+  errorDescription?: string;
 }

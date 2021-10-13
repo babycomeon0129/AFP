@@ -2,7 +2,6 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { Router } from '@angular/router';
-import { OauthService } from '@app/modules/oauth/oauth.service';
 import { AFP_ADImg, AFP_VerifiedInfo } from '@app/_models';
 
 @Component({
@@ -43,8 +42,7 @@ export class MessageModalComponent implements OnInit {
   queryParams2: object;
 
   constructor(public bsModalRef: BsModalRef, private bsModal: BsModalService,
-              private router: Router, private oauthService: OauthService,
-              private location: Location) { }
+              private router: Router) { }
 
   ngOnInit() {
   }
@@ -57,7 +55,6 @@ export class MessageModalComponent implements OnInit {
         break;
       case 2:
         // 請先登入
-        this.oauthService.loginPage(location.pathname);
         break;
     }
     this.bsModalRef.hide();

@@ -1,11 +1,12 @@
 import { CookieService } from 'ngx-cookie-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppService } from '@app/app.service';
-import { OauthService, ResponseTokenApi, OauthLoginViewConfig } from '@app/modules/oauth/oauth.service';
-import { Component, ElementRef, OnInit } from '@angular/core';
-import { ModalService } from '@app/shared/modal/modal.service';
+import { OauthService, ResponseTokenApi, OauthLoginViewConfig, ResponseEyes } from '@app/modules/oauth/oauth.service';
+import { Component, ElementRef, OnInit, AfterViewInit } from '@angular/core';
 import { environment } from '@env/environment';
 import { AppJSInterfaceService } from '@app/app-jsinterface.service';
+import { BsModalService } from 'ngx-bootstrap';
+import { MessageModalComponent } from '@app/shared/modal/message-modal/message-modal.component';
 
 @Component({
   selector: 'app-oauth-login',
@@ -13,17 +14,15 @@ import { AppJSInterfaceService } from '@app/app-jsinterface.service';
   styleUrls: ['./oauth-login.component.scss',
     '../../../../styles/layer/shopping-footer.scss'],
 })
-export class OauthLoginComponent implements OnInit {
+export class OauthLoginComponent implements OnInit, AfterViewInit {
   /** 頁面切換 0:帳號升級公告 1:帳號整併 2:已登入跳轉原頁 */
-  public viewType = 2;
+  public viewType = 0;
   /** 艾斯身份識別登入API uri */
   public AuthorizationUri: string;
   /** 艾斯身份識別登入 列表 */
   public viewData: OauthLoginViewConfig[] = [];
   /** 艾斯身份識別登入 FormPost渲染 */
   public viewList = [];
-  /** ViewList FormPost渲染變化 */
-  public viewListCount = 0;
   /** 多重帳號列表 */
   public List_MultipleUser = [];
   /** 使用者uuid */
@@ -32,7 +31,7 @@ export class OauthLoginComponent implements OnInit {
   public grantCode: string;
 
   constructor(public appService: AppService, public oauthService: OauthService, private router: Router,
-              public el: ElementRef, private activatedRoute: ActivatedRoute, public modal: ModalService,
+              public el: ElementRef, private activatedRoute: ActivatedRoute, public bsModalService: BsModalService,
               private callApp: AppJSInterfaceService, private cookieService: CookieService) {
 
     this.activatedRoute.queryParams.subscribe(params => {
@@ -80,12 +79,14 @@ export class OauthLoginComponent implements OnInit {
         } else {
           this.appService.onLogout();
           const content = `登入註冊失敗<br>錯誤代碼：${params.errorCode}<br>請重新登入註冊!`;
-          this.modal.show('message', {
+          this.bsModalService.show(MessageModalComponent, {
             class: 'modal-dialog-centered',
             initialState: { success: true, message: content, showType: 3, checkBtnMsg: '我知道了', checkBtnUrl: '/Login' } });
         }
       }
     });
+
+
   }
 
   ngOnInit() {
@@ -102,12 +103,6 @@ export class OauthLoginComponent implements OnInit {
       this.viewList = Object.entries(data).map(([key, val]) => {
         return {name: key, value: val};
       });
-      /** 「登入4-1」曾經登入成功過(沒有idToken)，重新至艾斯登入 */
-      if (localStorage.getItem('M_upgrade') === '1' && this.cookieService.get('M_idToken') === '') {
-        (this.oauthService.toEyesRequest(JSON.parse(JSON.stringify(data)))).subscribe((data) => {
-          console.log('4-1', data);
-        });
-      }
       this.appService.blockUI.stop();
     });
   }
@@ -150,7 +145,7 @@ export class OauthLoginComponent implements OnInit {
         } else {
           this.appService.onLogout();
           const content = `登入註冊失敗<br>錯誤代碼：${tokenData.errorCode}<br>請重新登入註冊`;
-          this.modal.show('message', {
+          this.bsModalService.show(MessageModalComponent, {
             class: 'modal-dialog-centered',
             initialState: { success: true, message: content, showType: 3, checkBtnMsg: '我知道了', checkBtnUrl: '/Login' } });
         }
@@ -158,6 +153,17 @@ export class OauthLoginComponent implements OnInit {
     }
   }
 
+  ngAfterViewInit() {
+      /** 「登入4-1-1」曾經登入成功過(沒有idToken)，重新至艾斯登入 */
+      if (localStorage.getItem('M_upgrade') === '1' && this.cookieService.get('M_idToken') === ''
+          && this.viewType === 2) {
+        setTimeout(() => {
+          (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
+        }, 1500);
+        // this.oauthService.toEyesRequest(JSON.parse(JSON.stringify(data)));
+        // (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
+      }
+  }
   // onSubmit(form: NgForm) {
   //   localStorage.setItem('M_loginCheckBox', form.value.loginCheck);
   // }

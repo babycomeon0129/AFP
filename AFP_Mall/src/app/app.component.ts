@@ -40,7 +40,7 @@ export class AppComponent implements OnInit, DoCheck {
         this.appService.isApp = Number(params.isApp);
       }
 
-      /** 「登入4-1-2」App訪問，未登出狀態，後端會驗證idToken */
+      /** 「登入4-2」App訪問，未登出狀態，後端會驗證idToken */
       if (typeof params.idToken !== 'undefined') {
         this.cookieService.set('M_idToken', params.idToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       }

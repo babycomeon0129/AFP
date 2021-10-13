@@ -21,12 +21,12 @@ export class ModalService {
   public show(template: string, options: ModalOptions, hideTemplate?: BsModalRef): void {
     if (hideTemplate != null) { hideTemplate.hide(); }
     switch (template) {
-      case 'forget':
-        this.bsModalService.show(ForgetModalComponent, options);
-        break;
-      case 'password':
-        this.bsModalService.show(PasswordModalComponent, options);
-        break;
+      // case 'forget':
+      //   this.bsModalService.show(ForgetModalComponent, options);
+      //   break;
+      // case 'password':
+      //   this.bsModalService.show(PasswordModalComponent, options);
+      //   break;
       case 'message':
         this.bsModalService.show(MessageModalComponent, options);
         break;
