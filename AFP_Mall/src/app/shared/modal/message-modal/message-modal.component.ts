@@ -55,7 +55,7 @@ export class MessageModalComponent implements OnInit {
         break;
       case 2:
         /** 登入用 */
-        localStorage.setItem('M_fromOriginUri', location.pathname);
+        if (this.message.indexOf('請先登入') >= 0) { localStorage.setItem('M_fromOriginUri', location.pathname); }
         break;
     }
     this.bsModalRef.hide();

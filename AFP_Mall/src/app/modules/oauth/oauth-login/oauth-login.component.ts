@@ -26,7 +26,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   /** 多重帳號列表 */
   public List_MultipleUser = [];
   /** 使用者UserInfoId */
-  public UserInfoId: string;
+  public UserInfoId: number;
   /** 使用者grantCode */
   public grantCode: string;
 
@@ -77,12 +77,12 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
               this.viewType = '1';
               localStorage.setItem('M_viewType', '1');
               this.List_MultipleUser = loginJson.data.List_MultipleUser;
-              this.UserInfoId = loginJson.data.List_MultipleUser[0].UserInfoId;
+              this.UserInfoId = Number(loginJson.data.List_MultipleUser[0].UserInfoId);
               console.log('2-2List_MultipleUser', this.List_MultipleUser);
             }
             if (loginJson.data.List_MultipleUser === null && localStorage.getItem('M_viewType') === '1') {
               /** 「艾斯身份證別-登入2-2」無多重帳號時，用grantCode取得idToken */
-              this.onGetToken(this.grantCode, null);
+              this.onGetToken(this.grantCode, 0);
             }
           }
         } else {
@@ -136,7 +136,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
   }
 
-  onGetToken(code: string, uid: string) {
+  onGetToken(code: string, uid: number) {
     /** 「艾斯身份證別-登入3-1」已登入過艾斯(未有idToken)且非多重帳號，點擊過公告頁登入註冊按鈕(M_viewType=1)，可取得idToken，則否讓使用者選完再取得idToken
      * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/20001-redirect-api-mobii
      */

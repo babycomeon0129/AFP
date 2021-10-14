@@ -185,7 +185,7 @@ export interface ViewConfig {
 }
 export interface RequestIdTokenApi {
   grantCode: string;
-  UserInfoId: string;
+  UserInfoId: number;
 }
 export interface ResponseIdTokenApi {
   messageId: string;
