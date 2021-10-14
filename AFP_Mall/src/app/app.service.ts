@@ -515,6 +515,7 @@ export class AppService {
 
   /** 網頁跳轉(返回原頁) */
   jumpUrl() {
+    this.blockUI.stop();
     console.log('jumpUrl', localStorage.getItem('M_fromOriginUri'));
     const uri = (localStorage.getItem('M_fromOriginUri') !== null) ? localStorage.getItem('M_fromOriginUri') : '/' ;
     (uri.startsWith('https') || uri.startsWith('https')) ? location.href = uri : this.router.navigate([uri]);

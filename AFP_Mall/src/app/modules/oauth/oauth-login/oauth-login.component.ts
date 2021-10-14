@@ -15,7 +15,7 @@ import { MessageModalComponent } from '@app/shared/modal/message-modal/message-m
     '../../../../styles/layer/shopping-footer.scss'],
 })
 export class OauthLoginComponent implements OnInit, AfterViewInit {
-  /** 頁面切換 0:帳號升級公告 1:帳號整併 2:曾登入(無idToken) 3:已登入(不處理) */
+  /** 頁面切換 0:帳號升級公告 1:帳號整併 2:曾登入(無idToken) 3:已登入(不處理) 4:忘記密碼 */
   public viewType: string;
   /** 艾斯身份識別登入API uri */
   public AuthorizationUri: string;
@@ -77,12 +77,13 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
               this.viewType = '1';
               localStorage.setItem('M_viewType', '1');
               this.List_MultipleUser = loginJson.data.List_MultipleUser;
-              this.UserInfoId = Number(loginJson.data.List_MultipleUser[0].UserInfoId);
+              this.UserInfoId = loginJson.data.List_MultipleUser[0].UserInfoId;
               console.log('2-2List_MultipleUser', this.List_MultipleUser);
-            }
-            if (loginJson.data.List_MultipleUser === null && localStorage.getItem('M_viewType') === '1') {
+            } else {
               /** 「艾斯身份證別-登入2-2」無多重帳號時，用grantCode取得idToken */
-              this.onGetToken(this.grantCode, 0);
+              this.onGetToken(loginJson.data.grantCode, 0);
+              this.viewType = '2';
+              localStorage.setItem('M_viewType', '2');
             }
           }
         } else {
@@ -95,8 +96,9 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       }
 
       /** 「艾斯身份證別-忘記密碼1」Redirect API由後端取得艾斯導頁 */
-      if (typeof params.forgetPassword !== 'undefined' && params.forgetPassword === 'true') {
-        this.appService.jumpUrl();
+      if (typeof params.forgetPassword !== 'undefined') {
+        this.viewType = '4';
+        if (params.forgetPassword === 'true') { this.appService.jumpUrl(); }
       }
 
     });
@@ -144,18 +146,15 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     this.cookieService.deleteAll();
     if (code !== undefined) {
       // grantCode只能使用一次，註冊Mobii會員
-      const request = {
-        grantCode: code,
-        UserInfoId: uid,
-      };
+      this.oauthService.grantRequest.grantCode = code;
+      this.oauthService.grantRequest.UserInfoId = uid;
       /** 「艾斯身份證別-登入3-2-1」取得idToken */
-      this.oauthService.toTokenApi(request).subscribe((data: ResponseIdTokenApi) => {
+      this.oauthService.toTokenApi(this.oauthService.grantRequest).subscribe((data: ResponseIdTokenApi) => {
         console.log('3-2TokenApiResponse', JSON.stringify(data));
         const tokenData =  Object.assign(data);
         if (tokenData.errorCode === '996600001') {
           /** 「艾斯身份證別-登入3-2-2」取得idToken帶入header:Authorization */
-          this.cookieService.set('M_idToken', tokenData.data.idToken, 90, '/',
-            environment.cookieDomain, environment.cookieSecure, 'Lax');
+          this.cookieService.set('M_idToken', tokenData.data.idToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
           sessionStorage.setItem('userName', tokenData.data.Customer_Name);
           sessionStorage.setItem('userCode', tokenData.data.Customer_Code);
           sessionStorage.setItem('userFavorites', JSON.stringify(tokenData.data.List_UserFavourite));
@@ -164,8 +163,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
           this.appService.userName = tokenData.data.Customer_Name;
           this.appService.loginState = true;
           this.appService.userLoggedIn = true;
-          this.appService.showFavorites();
-          this.appService.readCart();
           console.log('3-2idToken', tokenData.data.idToken);
           if (localStorage.getItem('M_deviceType') !== '0') {
             /** 「艾斯身份證別-登入3-2-3」裝置若為APP傳interface */

@@ -24,6 +24,11 @@ export class OauthService {
     fromOriginUri: '/'
   };
 
+  public grantRequest = {
+    grantCode: '',
+    UserInfoId: 0,
+  };
+
   constructor(private router: Router, private http: HttpClient, private cookieService: CookieService) {}
 
   /** 「艾斯身份證別-登入1-1-2」判斷跳出網頁或APP的登入頁
@@ -62,11 +67,15 @@ export class OauthService {
   /** 「艾斯身份證別-登入2-3」將grantCode或勾選的帳號給後端，以便取得Response
    * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/30001-token-api-mobii
    */
-  toTokenApi(request: RequestIdTokenApi): Observable<any> {
-    return this.http.post(environment.tokenUrl, JSON.stringify(request))
+  toTokenApi(req: RequestIdTokenApi): Observable<any> {
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    return this.http.post(environment.tokenUrl, JSON.stringify(this.grantRequest), { headers })
       .pipe(map((data: ResponseIdTokenApi) => {
         this.blockUI.stop();
-        console.log('3-1TokenApiRequestGrantCode', request.grantCode, request.UserInfoId);
+        console.log('3-1TokenApiResponseGrantCode', JSON.stringify(this.grantRequest));
         return data;
       }, catchError(this.handleError)));
   }
@@ -86,7 +95,7 @@ export class OauthService {
       responseType: req.responseType,
       viewConfig: req.viewConfig
     };
-    return this.http.post(req.AuthorizationUri, { Data: JSON.stringify(requestEyes) })
+    return this.http.post(req.AuthorizationUri, JSON.parse(JSON.stringify(requestEyes)))
     .pipe(map((data: ResponseEyes) => {
       this.blockUI.stop();
       console.log('4-2', data);
@@ -192,7 +201,7 @@ export interface ResponseIdTokenApi {
   errorCode: string;
   errorDesc: string;
   messageDatetime: string;
-  data?: Res_IdTokenApi[];
+  data: string;
 }
 export class Res_IdTokenApi {
   idToken: string;
