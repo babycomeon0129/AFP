@@ -40,7 +40,7 @@ export class AppComponent implements OnInit, DoCheck {
         this.appService.isApp = Number(params.isApp);
       }
 
-      /** 「艾斯身份證別-登入4-2」App訪問，未登出狀態，後端會驗證idToken */
+      /** 「艾斯身份證別-登入4-2」App訪問，後端會驗證idToken */
       if (typeof params.idToken !== 'undefined') {
         this.cookieService.set('M_idToken', params.idToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       }
@@ -51,39 +51,35 @@ export class AppComponent implements OnInit, DoCheck {
       }
 
       // 任務用
-      // if (typeof params.loginType !== 'undefined') {
-      //   if (params.loginType === '1') {
-      //     // APP 為登入狀態則將該 webview 也同步為登入
-      //     if (typeof params.customerInfo !== 'undefined' && typeof params.userCode !== 'undefined'
-      //       && typeof params.userName !== 'undefined') {
-      //       sessionStorage.setItem('CustomerInfo', encodeURIComponent(params.customerInfo));
-      //       sessionStorage.setItem('userCode', encodeURIComponent(params.userCode));
-      //       sessionStorage.setItem('userName', params.userName);
-      //       this.cookieService.set('userName', params.userName, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-      //       this.cookieService.set('userCode', encodeURIComponent(params.userCode), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-      //       this.cookieService.set('CustomerInfo', encodeURIComponent(params.customerInfo), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-      //       this.appService.loginState = true;
-      //     }
-      //   } else if (params.loginType === '2') {
-      //     // APP 為登出狀態但該 webview 登入狀態被cache住還是登入則將其改為登出
-      //     sessionStorage.clear();
-      //     this.cookieService.deleteAll();
-      //     this.appService.loginState = false;
-      //   }
-      // }
+      if (typeof params.loginType !== 'undefined') {
+        if (params.loginType === '1') {
+          // APP 為登入狀態則將該 webview 也同步為登入
+          if (typeof params.customerInfo !== 'undefined' && typeof params.userCode !== 'undefined'
+            && typeof params.userName !== 'undefined') {
+            sessionStorage.setItem('userCode', encodeURIComponent(params.userCode));
+            sessionStorage.setItem('userName', params.userName);
+            this.cookieService.set('userName', params.userName, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+            this.cookieService.set('userCode', encodeURIComponent(params.userCode), 90, '/',
+                                    environment.cookieDomain, environment.cookieSecure, 'Lax');
+            this.appService.loginState = true;
+          }
+        } else if (params.loginType === '2') {
+          // APP 為登出狀態但該 webview 登入狀態被cache住還是登入則將其改為登出
+          sessionStorage.clear();
+          this.cookieService.deleteAll();
+          this.appService.loginState = false;
+        }
+      }
 
       //  訂單用
-      // if (typeof params.Order_CInfo !== 'undefined' && typeof params.Order_UserCode !== 'undefined'
-      //   && typeof params.Order_UserName !== 'undefined') {
-      //   sessionStorage.setItem('CustomerInfo', params.Order_CInfo);
-      //   sessionStorage.setItem('userCode', params.Order_UserCode);
-      //   sessionStorage.setItem('userName', params.Order_UserName);
-
-      //   this.cookieService.set('userName', params.Order_UserName, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-      //   this.cookieService.set('userCode', params.Order_UserCode, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-      //   this.cookieService.set('CustomerInfo', params.Order_CInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-      //   this.appService.loginState = true;
-      // }
+      if (typeof params.Order_CInfo !== 'undefined' && typeof params.Order_UserCode !== 'undefined'
+        && typeof params.Order_UserName !== 'undefined') {
+        sessionStorage.setItem('userCode', params.Order_UserCode);
+        sessionStorage.setItem('userName', params.Order_UserName);
+        this.cookieService.set('userName', params.Order_UserName, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+        this.cookieService.set('userCode', params.Order_UserCode, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+        this.appService.loginState = true;
+      }
 
       // // 第三方登入(LINE)
       // if (params.Mobii_ThirdLogin === 'true' && params.Mode !== undefined && params.Token !== undefined && !this.appService.loginState) {

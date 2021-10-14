@@ -54,7 +54,8 @@ export class MessageModalComponent implements OnInit {
         this.goToUrl(this.target, this.queryParams1);
         break;
       case 2:
-        // 請先登入
+        /** 登入用 */
+        localStorage.setItem('M_fromOriginUri', location.pathname);
         break;
     }
     this.bsModalRef.hide();

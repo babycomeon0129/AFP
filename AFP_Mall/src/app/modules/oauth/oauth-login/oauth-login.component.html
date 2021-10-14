@@ -23,13 +23,12 @@
         <img alt="logo" src="/img/share/mlogo.png">
       </div>
       <div *ngIf="viewType===0" class="px-3">
-        <p class="w-100 text-center text-danger">原 Mobii! 會員，也需重新註冊 艾斯會員帳號</p>
-        <p>為了提升系統效能與登入的安全性，將進行系統帳號升級，原 Mobii! 會員帳號將升級為艾斯會員帳號。</p>
-        <p>若已是Mobii!會員，仍須重新進行手機驗證，無論是用一般手機還是用第三方登入方式，請務必<span class="text-danger">以當初註冊於 Mobii! 的手機號碼進行驗證</span>。原會員資料、M Points、已領取之優惠券、商品訂單與既有服務並不會受到影響。</p>
-        <p>用一般手機註冊之 Mobii! 舊會員者，請用<span class="text-danger">重新註冊</span>方式進行升級綁定；若未曾註冊過 Mobii! 帳號，則手機驗證完後，便會直接成為 Mobii! 會員。</p>
+        <p class="w-100 text-center text-danger">原 Mobii 會員，也需重新註冊</p>
+        <p>親愛的用戶目前因『會員登入系統』將全面升級，故須重新註冊及手機驗證。 (原會員資料、M Points、已領取之優惠券、商品訂單與既有服務並不受到影響。) </p>
+        <p>若您已是 Mobii 會員，仍須重新進行手機驗證，先前不論是以『手機號碼』還是『第三方帳號』方式登入，請務必<span class="text-danger">以當初註冊於 Mobii 的手機號碼</span>進行驗證；若未曾註冊過 Mobii 帳號，則手機驗證完後，則會直接成為 Mobii 會員。</p>
       </div>
       <div *ngIf="viewType===1">
-        <p class="text-center">你有多個 Mobii 會員帳號，<br>請選擇一個要綁定的 Mobii帳號</p>
+        <p class="text-center">因應目前『會員登入系統』全面升級，您目前擁有多個Mobii帳號需進行整合，請您選擇以下最常用的帳號作為升級綁定之用。<br>如有綁定疑問，請洽Mobii客服詢問。</p>
         <ul>
           <li class="mb-2">
             <div class="form-inline" *ngFor="let item of List_MultipleUser; let i = index">

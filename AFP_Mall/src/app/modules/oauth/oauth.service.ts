@@ -60,22 +60,17 @@ export class OauthService {
   }
 
   /** 「艾斯身份證別-登入2-3」將grantCode或勾選的帳號給後端，以便取得Response  */
-  toTokenApi(request: string): Observable<any> {
-    const req = JSON.parse(request);
-    const formData = new FormData();
-    formData.append('grantCode', req.grantCode);
-    console.log('userInfoId', req.userInfoId);
-    if (req.userInfoId !== undefined) { formData.append('userInfoId', req.userInfoId); }
-    return this.http.post(environment.tokenUrl, formData)
+  toTokenApi(request: RequestTokenApi): Observable<any> {
+    return this.http.post(environment.tokenUrl, request)
       .pipe(map((data: ResponseTokenApi) => {
         this.blockUI.stop();
-        console.log('2-3-1TokenApiRequest', req.grantCode, req.uid);
+        console.log('2-3-1TokenApiRequest', request.grantCode, request.userInfoId);
         return data;
       }, catchError(this.handleError)));
   }
 
   /** 「艾斯身份證別-登入4-1-2」曾經登入成功過(沒有idToken)，直接post至艾斯登入，取得idToken */
-  toEyesRequest(request: RequestViewConfig): Observable<any> {
+  toEyesRequest(request: ViewConfig): Observable<any> {
     const req = request;
     console.log('4-1-2', req);
     // const headers = new HttpHeaders({});
@@ -89,15 +84,6 @@ export class OauthService {
       responseType: req.responseType,
       viewConfig: req.viewConfig
     };
-    // const formData = new FormData();
-    // formData.append('accountId', req.accountId);
-    // formData.append('clientId', req.clientId);
-    // formData.append('state', req.state);
-    // formData.append('scope', req.scope);
-    // formData.append('redirectUri', req.redirectUri);
-    // formData.append('homeUri', req.homeUri);
-    // formData.append('responseType', req.responseType);
-    // formData.append('viewConfig', req.viewConfig);
     return this.http.post(req.AuthorizationUri, { Data: JSON.stringify(requestEyes) })
     .pipe(map((data: ResponseEyes) => {
       this.blockUI.stop();
@@ -115,7 +101,7 @@ export class OauthService {
       const request = '';
       return this.http.post(environment.modifyUrl, { Data: JSON.stringify(request) }, { headers })
         .pipe(map((data: any) => {
-          console.log(data);
+          location.href = JSON.stringify(data);
           this.blockUI.stop();
           return data;
         }, catchError(this.handleError)));
@@ -175,7 +161,7 @@ export class Res_ViewConfig {
   responseType: string;
   viewConfig: string;
 }
-export interface RequestViewConfig {
+export interface ViewConfig {
   AuthorizationUri: string;
   accountId: string;
   clientId: string;
@@ -185,6 +171,10 @@ export interface RequestViewConfig {
   homeUri: string;
   responseType: string;
   viewConfig: string;
+}
+export interface RequestTokenApi {
+  grantCode: string;
+  userInfoId: string;
 }
 export interface ResponseTokenApi {
   idToken: string;
