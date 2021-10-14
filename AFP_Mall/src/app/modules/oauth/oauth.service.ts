@@ -64,7 +64,7 @@ export class OauthService {
     return this.http.post(environment.tokenUrl, request)
       .pipe(map((data: ResponseTokenApi) => {
         this.blockUI.stop();
-        console.log('3-1TokenApiRequest', request.grantCode, request.userInfoId);
+        console.log('3-1TokenApiRequest', request.grantCode, request.UserInfoId);
         return data;
       }, catchError(this.handleError)));
   }
@@ -173,7 +173,7 @@ export interface ViewConfig {
 }
 export interface RequestTokenApi {
   grantCode: string;
-  userInfoId: string;
+  UserInfoId: string;
 }
 export interface ResponseTokenApi {
   idToken: string;

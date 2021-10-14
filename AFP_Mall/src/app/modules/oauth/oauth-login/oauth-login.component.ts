@@ -25,8 +25,8 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   public viewList = [];
   /** 多重帳號列表 */
   public List_MultipleUser = [];
-  /** 使用者userInfoId */
-  public userInfoId: string;
+  /** 使用者UserInfoId */
+  public UserInfoId: string;
   /** 使用者grantCode */
   public grantCode: string;
 
@@ -77,7 +77,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
               this.viewType = 1;
               sessionStorage.setItem('M_viewType', '1');
               this.List_MultipleUser = loginJson.data.List_MultipleUser;
-              this.userInfoId = loginJson.data.List_MultipleUser[0].UserInfoId;
+              this.UserInfoId = loginJson.data.List_MultipleUser[0].UserInfoId;
               console.log('2-2List_MultipleUser', this.List_MultipleUser);
             }
             if (loginJson.data.List_MultipleUser === null && this.viewType === 2) {
@@ -142,7 +142,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       // grantCode只能使用一次，註冊Mobii新會員用
       const request = {
         grantCode: code,
-        userInfoId: uid,
+        UserInfoId: uid,
       };
       this.oauthService.toTokenApi(request).subscribe((data: ResponseTokenApi) => {
         console.log('3-2TokenApiResponse', JSON.stringify(data));

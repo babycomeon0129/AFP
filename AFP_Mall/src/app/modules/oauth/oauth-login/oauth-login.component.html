@@ -32,7 +32,7 @@
         <ul>
           <li class="mb-2">
             <div class="form-inline" *ngFor="let item of List_MultipleUser; let i = index">
-              <input type="radio" name="checkUUID" (click)="userInfoId = item.UserInfoId" [id]="'i'+i"
+              <input type="radio" name="checkUUID" (click)="UserInfoId = item.UserInfoId" [id]="'i'+i"
                 class="form-check-input radioBgOrg" [checked]="i===0">
               <label class="form-check-label" [for]="'i'+i">
                 <div class="p-3">
@@ -53,7 +53,7 @@
         <button type="button" (click)="onLoginEyes()" class="btn index-btn w-100 login-ok">前往登入註冊</button>
       </div>
       <div *ngIf="viewType===1" class="p-3">
-        <button type="button" (click)="onGetTokenApi(grantCode, userInfoId)" class="btn index-btn w-100 login-ok">立即升級綁定</button>
+        <button type="button" (click)="onGetTokenApi(grantCode, UserInfoId)" class="btn index-btn w-100 login-ok">立即升級綁定</button>
       </div>
       <!-- <div *ngIf="viewType===2" class="p-3">
         <button type="button" (click)="appService.onLogout()" class="btn index-btn w-100 login-ok">清除登入資料,重新登入</button>
