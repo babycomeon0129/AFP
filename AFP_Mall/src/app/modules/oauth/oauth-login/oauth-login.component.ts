@@ -1,7 +1,7 @@
 import { CookieService } from 'ngx-cookie-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppService } from '@app/app.service';
-import { OauthService, ResponseTokenApi, RequestTokenApi, ViewConfig, ResponseEyes } from '@app/modules/oauth/oauth.service';
+import { OauthService, ResponseIdTokenApi, ViewConfig } from '@app/modules/oauth/oauth.service';
 import { Component, ElementRef, OnInit, AfterViewInit } from '@angular/core';
 import { environment } from '@env/environment';
 import { AppJSInterfaceService } from '@app/app-jsinterface.service';
@@ -75,14 +75,14 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
              */
             if (loginJson.data.List_MultipleUser !== null) {
               this.viewType = 1;
-              sessionStorage.setItem('M_viewType', '1');
+              localStorage.setItem('M_viewType', '1');
               this.List_MultipleUser = loginJson.data.List_MultipleUser;
               this.UserInfoId = loginJson.data.List_MultipleUser[0].UserInfoId;
               console.log('2-2List_MultipleUser', this.List_MultipleUser);
             }
-            if (loginJson.data.List_MultipleUser === null && this.viewType === 2) {
+            if (loginJson.data.List_MultipleUser === null && localStorage.getItem('M_viewType') === '1') {
               /** 「艾斯身份證別-登入2-2」無多重帳號時，用grantCode取得idToken */
-              this.onGetTokenApi(this.grantCode, null);
+              this.onGetToken(this.grantCode, null);
             }
           }
         } else {
@@ -134,38 +134,36 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
   }
 
-  onGetTokenApi(code: string, uid: string) {
+  onGetToken(code: string, uid: string) {
     /** 「艾斯身份證別-登入3-1」已登入過艾斯(未有idToken)且非多重帳號，點擊過公告頁登入註冊按鈕(M_viewType=1)，可取得idToken，則否讓使用者選完再取得idToken
      * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/20001-redirect-api-mobii
      */
+    localStorage.setItem('M_viewType', '2');
+    this.cookieService.deleteAll();
     if (code !== undefined) {
-      // grantCode只能使用一次，註冊Mobii新會員用
+      // grantCode只能使用一次，註冊Mobii會員
       const request = {
         grantCode: code,
         UserInfoId: uid,
       };
-      this.oauthService.toTokenApi(request).subscribe((data: ResponseTokenApi) => {
+      /** 「艾斯身份證別-登入3-2-1」取得idToken */
+      this.oauthService.toTokenApi(request).subscribe((data: ResponseIdTokenApi) => {
         console.log('3-2TokenApiResponse', JSON.stringify(data));
-        /** 「艾斯身份證別-登入3-2-1」取得idToken */
         const tokenData =  Object.assign(data);
         if (tokenData.errorCode === '996600001') {
           /** 「艾斯身份證別-登入3-2-2」取得idToken帶入header:Authorization */
           this.cookieService.set('M_idToken', tokenData.data.idToken, 90, '/',
             environment.cookieDomain, environment.cookieSecure, 'Lax');
-          sessionStorage.setItem('userName', data.Customer_Name);
-          sessionStorage.setItem('userCode', data.Customer_Code);
-          sessionStorage.setItem('userFavorites', JSON.stringify(data.List_UserFavourite));
-          this.cookieService.set('userName', data.Customer_Name, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-          this.cookieService.set('userCode', data.Customer_Code, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-          this.appService.userName = data.Customer_Name;
+          sessionStorage.setItem('userName', tokenData.data.Customer_Name);
+          sessionStorage.setItem('userCode', tokenData.data.Customer_Code);
+          sessionStorage.setItem('userFavorites', JSON.stringify(tokenData.data.List_UserFavourite));
+          this.cookieService.set('userName', tokenData.data.Customer_Name, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+          this.cookieService.set('userCode', tokenData.data.Customer_Code, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+          this.appService.userName = tokenData.data.Customer_Name;
           this.appService.loginState = true;
           this.appService.userLoggedIn = true;
           this.appService.showFavorites();
           this.appService.readCart();
-          if (tokenData.data.Customer_Name !== undefined) {
-            this.appService.userName = tokenData.data.Customer_Name;
-            sessionStorage.setItem('userName', tokenData.data.Customer_Name);
-          }
           console.log('3-2idToken', tokenData.data.idToken);
           if (localStorage.getItem('M_deviceType') !== '0') {
             /** 「艾斯身份證別-登入3-2-3」裝置若為APP傳interface */

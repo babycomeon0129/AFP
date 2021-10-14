@@ -59,12 +59,14 @@ export class OauthService {
       }, catchError(this.handleError)));
   }
 
-  /** 「艾斯身份證別-登入2-3」將grantCode或勾選的帳號給後端，以便取得Response  */
-  toTokenApi(request: RequestTokenApi): Observable<any> {
-    return this.http.post(environment.tokenUrl, request)
-      .pipe(map((data: ResponseTokenApi) => {
+  /** 「艾斯身份證別-登入2-3」將grantCode或勾選的帳號給後端，以便取得Response
+   * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/30001-token-api-mobii
+   */
+  toTokenApi(request: RequestIdTokenApi): Observable<any> {
+    return this.http.post(environment.tokenUrl, { Data: JSON.stringify(request) })
+      .pipe(map((data: ResponseIdTokenApi) => {
         this.blockUI.stop();
-        console.log('3-1TokenApiRequest', request.grantCode, request.UserInfoId);
+        console.log('3-1TokenApiRequestGrantCode', request.grantCode, request.UserInfoId);
         return data;
       }, catchError(this.handleError)));
   }
@@ -160,6 +162,16 @@ export class Res_ViewConfig {
   responseType: string;
   viewConfig: string;
 }
+
+export interface ResponseEyes {
+  code?: string;
+  state: string;
+  messageId: string;
+  messageDatetime: string;
+  error?: string;
+  errorDescription?: string;
+  data?: [];
+}
 export interface ViewConfig {
   AuthorizationUri: string;
   accountId: string;
@@ -171,23 +183,21 @@ export interface ViewConfig {
   responseType: string;
   viewConfig: string;
 }
-export interface RequestTokenApi {
+export interface RequestIdTokenApi {
   grantCode: string;
   UserInfoId: string;
 }
-export interface ResponseTokenApi {
+export interface ResponseIdTokenApi {
+  messageId: string;
+  errorCode: string;
+  errorDesc: string;
+  messageDatetime: string;
+  data?: Res_IdTokenApi[];
+}
+export class Res_IdTokenApi {
   idToken: string;
   Customer_Name: string;
   Customer_Code: string;
   Customer_UUID: string;
   List_UserFavourite: [];
-}
-
-export interface ResponseEyes {
-  code?: string;
-  state: string;
-  messageId: string;
-  messageDatetime: string;
-  error?: string;
-  errorDescription?: string;
 }
