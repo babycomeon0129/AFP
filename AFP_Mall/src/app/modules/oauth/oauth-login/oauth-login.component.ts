@@ -16,7 +16,7 @@ import { MessageModalComponent } from '@app/shared/modal/message-modal/message-m
 })
 export class OauthLoginComponent implements OnInit, AfterViewInit {
   /** 頁面切換 0:帳號升級公告 1:帳號整併 2:曾登入(無idToken) 3:已登入(不處理) */
-  public viewType = 0;
+  public viewType: string;
   /** 艾斯身份識別登入API uri */
   public AuthorizationUri: string;
   /** 艾斯身份識別登入 列表 */
@@ -74,7 +74,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
              * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/30001-token-api-mobii
              */
             if (loginJson.data.List_MultipleUser !== null) {
-              this.viewType = 1;
+              this.viewType = '1';
               localStorage.setItem('M_viewType', '1');
               this.List_MultipleUser = loginJson.data.List_MultipleUser;
               this.UserInfoId = loginJson.data.List_MultipleUser[0].UserInfoId;
@@ -112,6 +112,8 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     (this.oauthService.toOauthRequest(this.oauthService.loginRequest)).subscribe((data: ViewConfig) => {
       /** 「艾斯身份證別-登入1-2-3」取得Response資料，讓Form渲染 */
       console.log('viewData', data);
+      this.viewType = '0';
+      localStorage.setItem('M_viewType', '0');
       this.viewData = Object.assign(data);
       this.AuthorizationUri = data.AuthorizationUri;
       this.viewList = Object.entries(data).map(([key, val]) => {

@@ -63,7 +63,7 @@ export class OauthService {
    * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/30001-token-api-mobii
    */
   toTokenApi(request: RequestIdTokenApi): Observable<any> {
-    return this.http.post(environment.tokenUrl, { Data: JSON.stringify(request) })
+    return this.http.post(environment.tokenUrl, JSON.stringify(request))
       .pipe(map((data: ResponseIdTokenApi) => {
         this.blockUI.stop();
         console.log('3-1TokenApiRequestGrantCode', request.grantCode, request.UserInfoId);

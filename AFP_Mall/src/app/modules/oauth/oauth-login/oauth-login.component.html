@@ -1,15 +1,15 @@
 <div class="wrap container">
-  <div *ngIf="viewType===2">{{appService.openBlock()}}</div>
-  <header *ngIf="viewType<2">
+  <div *ngIf="viewType==='2'">{{appService.openBlock()}}</div>
+  <header *ngIf="viewType<'2'">
       <div class="header-secondary container linebt-row">
           <div class="index-flex justify-content-between">
               <div class="item two">
-                  <div *ngIf="appService.isApp !== 1" [hidden]="viewType !== 0" class="close-btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                  <div *ngIf="appService.isApp !== 1" [hidden]="viewType !== '0'" class="close-btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
                       <i class="material-icons">&#xe314;</i>
                   </div>
               </div>
               <div class="item three text-center">
-                  <div class="title-name" *ngIf="viewType<2">{{viewType === 0 ? "帳號升級公告" : "帳號整併"}}</div>
+                  <div class="title-name" *ngIf="viewType<'2'">{{viewType === '0' ? "帳號升級公告" : "帳號整併"}}</div>
               </div>
               <div class="item two text-right">
                   <div class="close-btn"></div>
@@ -17,17 +17,17 @@
           </div>
       </div>
   </header>
-  <main *ngIf="viewType<2">
+  <main *ngIf="viewType<'2'">
     <div class="content">
       <div class="logo-box">
         <img alt="logo" src="/img/share/mlogo.png">
       </div>
-      <div *ngIf="viewType===0" class="px-3">
+      <div *ngIf="viewType==='0'" class="px-3">
         <p class="w-100 text-center text-danger">原 Mobii 會員，也需重新註冊</p>
         <p>親愛的用戶目前因『會員登入系統』將全面升級，故須重新註冊及手機驗證。 (原會員資料、M Points、已領取之優惠券、商品訂單與既有服務並不受到影響。) </p>
         <p>若您已是 Mobii 會員，仍須重新進行手機驗證，先前不論是以『手機號碼』還是『第三方帳號』方式登入，請務必<span class="text-danger">以當初註冊於 Mobii 的手機號碼</span>進行驗證；若未曾註冊過 Mobii 帳號，則手機驗證完後，則會直接成為 Mobii 會員。</p>
       </div>
-      <div *ngIf="viewType===1">
+      <div *ngIf="viewType==='1'">
         <p class="text-center">因應目前『會員登入系統』全面升級，您目前擁有多個Mobii帳號需進行整合，請您選擇以下最常用的帳號作為升級綁定之用。<br>如有綁定疑問，請洽Mobii客服詢問。</p>
         <ul>
           <li class="mb-2">
@@ -49,17 +49,17 @@
   </main>
   <footer class="shopping-cartfooter order-go-pay">
     <div class="fixed-bottom container fixed-shadow">
-      <div *ngIf="viewType===0" class="p-3">
+      <div *ngIf="viewType==='0'" class="p-3">
         <button type="button" (click)="onLoginEyes()" class="btn index-btn w-100 login-ok">前往登入註冊</button>
       </div>
-      <div *ngIf="viewType===1" class="p-3">
+      <div *ngIf="viewType==='1'" class="p-3">
         <button type="button" (click)="onGetToken(grantCode, UserInfoId)" class="btn index-btn w-100 login-ok">立即升級綁定</button>
       </div>
       <!-- <div *ngIf="viewType===2" class="p-3">
         <button type="button" (click)="appService.onLogout()" class="btn index-btn w-100 login-ok">清除登入資料,重新登入</button>
       </div> -->
     </div>
-    <div *ngIf="viewType===0 || viewType===2">
+    <div *ngIf="viewType==='0' || viewType==='2'">
       <form [(action)]="AuthorizationUri" method="POST" id="oauthLoginForm" #oauthLoginForm>
         <div *ngFor="let item of viewList">
           <input type="hidden" [name]="item.name" [value]="item.value" *ngIf="item.name !=='AuthorizationUri'">
