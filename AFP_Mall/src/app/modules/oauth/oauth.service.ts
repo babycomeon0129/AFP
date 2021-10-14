@@ -64,7 +64,7 @@ export class OauthService {
     return this.http.post(environment.tokenUrl, request)
       .pipe(map((data: ResponseTokenApi) => {
         this.blockUI.stop();
-        console.log('2-3-1TokenApiRequest', request.grantCode, request.userInfoId);
+        console.log('3-1TokenApiRequest', request.grantCode, request.userInfoId);
         return data;
       }, catchError(this.handleError)));
   }
@@ -127,7 +127,6 @@ export class OauthService {
   /** 清除Storage */
   onClearStorage() {
     sessionStorage.clear();
-    localStorage.removeItem('M_grantCode');
     localStorage.removeItem('M_fromOriginUri');
     localStorage.removeItem('M_deviceType');
   }

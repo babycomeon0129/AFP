@@ -67,7 +67,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         if (loginJson.errorCode === '996600001') {
           // 只能打一次，否則errorCode:609830001
           if (typeof loginJson.data.grantCode !== 'undefined') {
-            localStorage.setItem('M_grantCode', loginJson.data.grantCode);
+            sessionStorage.setItem('M_grantCode', loginJson.data.grantCode);
             this.grantCode = loginJson.data.grantCode;
             console.log('2-1Redirect API:', loginJson.data.grantCode, loginJson.data.List_MultipleUser);
             /** 「艾斯身份證別-登入2-2」多重帳號頁面渲染
@@ -77,11 +77,12 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
               this.viewType = 1;
               sessionStorage.setItem('M_viewType', '1');
               this.List_MultipleUser = loginJson.data.List_MultipleUser;
+              this.userInfoId = loginJson.data.List_MultipleUser[0].UserInfoId;
               console.log('2-2List_MultipleUser', this.List_MultipleUser);
-            } else {
-              this.viewType = 2;
-              sessionStorage.setItem('M_viewType', '2');
-              this.onGetTokenApi(this.grantCode, this.userInfoId);
+            }
+            if (loginJson.data.List_MultipleUser === null && this.viewType === 2) {
+              /** 「艾斯身份證別-登入2-2」無多重帳號時，用grantCode取得idToken */
+              this.onGetTokenApi(this.grantCode, null);
             }
           }
         } else {
@@ -137,14 +138,14 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     /** 「艾斯身份證別-登入3-1」已登入過艾斯(未有idToken)且非多重帳號，點擊過公告頁登入註冊按鈕(M_viewType=1)，可取得idToken，則否讓使用者選完再取得idToken
      * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/20001-redirect-api-mobii
      */
-    if (localStorage.getItem('M_viewType') === '1' && code !== undefined) {
+    if (code !== undefined) {
       // grantCode只能使用一次，註冊Mobii新會員用
       const request = {
         grantCode: code,
         userInfoId: uid,
       };
       this.oauthService.toTokenApi(request).subscribe((data: ResponseTokenApi) => {
-        console.log('2-3-2TokenApiResponse', JSON.stringify(data));
+        console.log('3-2TokenApiResponse', JSON.stringify(data));
         /** 「艾斯身份證別-登入3-2-1」取得idToken */
         const tokenData =  Object.assign(data);
         if (tokenData.errorCode === '996600001') {
