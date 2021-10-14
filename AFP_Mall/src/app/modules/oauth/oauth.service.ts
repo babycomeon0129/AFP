@@ -5,7 +5,6 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, retry } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
-import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 declare var AppJSInterface: any;
 @Injectable({
@@ -13,7 +12,6 @@ declare var AppJSInterface: any;
 })
 export class OauthService {
 
-  @BlockUI() blockUI: NgBlockUI;
   /** Mobii login所需要的Request
    * @param deviceType 登入裝置類型 0:Web 1:iOS 2:Android
    * @param fromOriginUri 登入流程結束後要回去的頁面(預設首頁)
@@ -59,7 +57,6 @@ export class OauthService {
     formData.append('fromOriginUri', req.fromOriginUri);
     return this.http.post(environment.loginUrl, formData)
       .pipe(map((data: ResponseOauthLogin) => {
-        this.blockUI.stop();
         return data.data;
       }, catchError(this.handleError)));
   }
@@ -74,7 +71,6 @@ export class OauthService {
     });
     return this.http.post(environment.tokenUrl, JSON.stringify(this.grantRequest), { headers })
       .pipe(map((data: ResponseIdTokenApi) => {
-        this.blockUI.stop();
         console.log('3-1TokenApiResponseGrantCode', JSON.stringify(this.grantRequest));
         return data;
       }, catchError(this.handleError)));
@@ -97,7 +93,6 @@ export class OauthService {
     };
     return this.http.post(req.AuthorizationUri, JSON.parse(JSON.stringify(requestEyes)))
     .pipe(map((data: ResponseEyes) => {
-      this.blockUI.stop();
       console.log('4-2', data);
       return data;
     }, catchError(this.handleError)));
@@ -113,7 +108,6 @@ export class OauthService {
       return this.http.post(environment.modifyUrl, { Data: JSON.stringify(request) }, { headers })
         .pipe(map((data: any) => {
           location.href = JSON.stringify(data);
-          this.blockUI.stop();
           return data;
         }, catchError(this.handleError)));
     }

@@ -90,7 +90,7 @@ export class ShoppingComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.appService.openBlock();
+    // this.appService.openBlock();
     this.readData(1);
   }
 
@@ -139,7 +139,7 @@ export class ShoppingComponent implements OnInit {
   @HostListener('window: scroll', ['$event'])
   prodWaterfall(event: Event) {
     if ((Math.floor(window.scrollY + window.innerHeight) >= document.documentElement.offsetHeight -1 ) && this.currentPage < this.totalPage) {
-      this.appService.openBlock();
+      // this.appService.openBlock();
       this.currentPage += 1;
       this.readData(3);
     }

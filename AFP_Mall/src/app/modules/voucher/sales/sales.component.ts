@@ -47,7 +47,7 @@ export class SalesComponent implements OnInit, OnDestroy {
   }
 
   readData(): void {
-    this.appService.openBlock();
+    // this.appService.openBlock();
     const request: Request_ECVouFlashSale = {
       SelectMode: 5
     };

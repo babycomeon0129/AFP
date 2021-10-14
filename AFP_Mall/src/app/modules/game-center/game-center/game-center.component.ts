@@ -37,7 +37,7 @@ export class GameCenterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.appService.openBlock();
+    // this.appService.openBlock();
     const request: Request_GameIndex = {
       SelectMode: 4
     };

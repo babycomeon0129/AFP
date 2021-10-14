@@ -77,7 +77,7 @@ export class MemberOrderComponent implements OnInit {
     if (this.appService.loginState === false) {
       this.oauthService.loginPage(location.pathname);
     } else {
-      this.appService.openBlock();
+      // this.appService.openBlock();
       const request: Request_MemberOrder = {
         SelectMode: 1, // 列表查詢
         SearchModel: {

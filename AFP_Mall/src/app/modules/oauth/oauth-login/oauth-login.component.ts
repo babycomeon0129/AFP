@@ -15,7 +15,7 @@ import { MessageModalComponent } from '@app/shared/modal/message-modal/message-m
     '../../../../styles/layer/shopping-footer.scss'],
 })
 export class OauthLoginComponent implements OnInit, AfterViewInit {
-  /** 頁面切換 0:帳號升級公告 1:帳號整併 2:曾登入(無idToken) 3:已登入(不處理) 4:忘記密碼 */
+  /** 頁面切換 0:帳號升級公告 1:帳號整併 2:曾登入(無idToken) 3:已登入(不處理) */
   public viewType: string;
   /** 艾斯身份識別登入API uri */
   public AuthorizationUri: string;
@@ -81,9 +81,9 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
               console.log('2-2List_MultipleUser', this.List_MultipleUser);
             } else {
               /** 「艾斯身份證別-登入2-2」無多重帳號時，用grantCode取得idToken */
-              this.onGetToken(loginJson.data.grantCode, 0);
               this.viewType = '2';
               localStorage.setItem('M_viewType', '2');
+              this.onGetToken(loginJson.data.grantCode, 0);
             }
           }
         } else {
@@ -97,7 +97,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
       /** 「艾斯身份證別-忘記密碼1」Redirect API由後端取得艾斯導頁 */
       if (typeof params.forgetPassword !== 'undefined') {
-        this.viewType = '4';
+        this.viewType = '3';
         if (params.forgetPassword === 'true') { this.appService.jumpUrl(); }
       }
 
@@ -107,6 +107,11 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+
+    // 已登入且返回頁為登入頁時，導回首頁
+    if ( localStorage.getItem('M_fromOriginUri') === '/Login' && Number(localStorage.getItem('M_viewType')) === 2) {
+      this.router.navigate(['/']);
+    }
   }
 
   getViewData() {

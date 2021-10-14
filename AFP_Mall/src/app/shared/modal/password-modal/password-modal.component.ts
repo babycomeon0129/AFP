@@ -28,7 +28,7 @@ export class PasswordModalComponent {
   /** 註冊送出 */
   onSubmit(): void {
     if (this.pwdModel.AFPPassword === this.pwdModel.AFPPasswordRe) {
-      this.appService.openBlock();
+      // this.appService.openBlock();
       const resetpwd: Request_AFPPassword = {
         AFPPassword: this.pwdModel.AFPPassword,
         VerifiedInfo: this.VerifiedInfo

@@ -82,7 +82,7 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
     // this.requestMobileVerify.User_Code = sessionStorage.getItem('userCode'),
     this.requestMobileVerify.SelectMode = 11;
     this.requestMobileVerify.VerifiedAction = this.toVerifyCell ? 11 : 3;
-    this.appService.openBlock();
+    // this.appService.openBlock();
     this.appService.toApi('Member', '1112', this.requestMobileVerify).subscribe((data: Response_AFPVerifyCode) => {
       this.requestMobileVerify.VerifiedInfo.CheckValue = data.VerifiedInfo.CheckValue;
       this.remainingSec = 60; // 開始倒數60秒

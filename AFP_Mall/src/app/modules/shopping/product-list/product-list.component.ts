@@ -56,7 +56,7 @@ export class ProductListComponent implements OnInit {
 
   /** 讀取產品 */
   readProducts() {
-    this.appService.openBlock();
+    // this.appService.openBlock();
     const request: Request_ECProductList = {
       Cart_Count: this.cartCount,
       SearchModel: {

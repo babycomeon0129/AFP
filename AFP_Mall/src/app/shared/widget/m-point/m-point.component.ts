@@ -25,7 +25,7 @@ export class MPointComponent implements OnInit {
     if (this.appService.loginState === false) {
       this.oauthService.loginPage(location.pathname);
     } else {
-      this.appService.openBlock();
+      // this.appService.openBlock();
       const getInfo: Request_MemberPoint = {
         SelectMode: 4,
         SearchModel: {

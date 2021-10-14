@@ -81,7 +81,7 @@ export class MyAddressComponent implements OnInit {
       this.oauthService.loginPage(location.pathname);
     } else {
       if (addressID > 0) {
-        this.appService.openBlock();
+        // this.appService.openBlock();
         const request: Request_MemberAddress = {
           SelectMode: 5,
           AFP_UserFavourite: {

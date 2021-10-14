@@ -51,7 +51,7 @@ export class DeliveryInfoComponent implements OnInit {
 
   /** 抓取用戶資料 */
   getDeliveryCfm(): void {
-    this.appService.openBlock();
+    // this.appService.openBlock();
     const request: Request_DeliveryCfm = {
       SelectMode: 1,
       Model_DeliveryForm: null,
@@ -100,7 +100,7 @@ export class DeliveryInfoComponent implements OnInit {
 
   /** 表單送出 */
   deliverySubmit(form: NgForm): void {
-    this.appService.openBlock();
+    // this.appService.openBlock();
     const request: Request_DeliveryCfm = {
       SelectMode: 2,
       Model_DeliveryForm: this.deliveryForm,

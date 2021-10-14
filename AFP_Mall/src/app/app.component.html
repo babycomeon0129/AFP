@@ -1,9 +1,9 @@
 <div [@routeAnimations]="prepareRoute(outlet)">
   <router-outlet id="routerView" #outlet="outlet"></router-outlet>
 </div>
-<block-ui>
+<!-- <block-ui> -->
   <!-- Your app markup here -->
-</block-ui>
+<!-- </block-ui> -->
 
 <!-- 裝置版本過低提示 -->
 <div *ngIf="isOld && showOldHint && appService.isApp === null" class="sysmsgcontainer">

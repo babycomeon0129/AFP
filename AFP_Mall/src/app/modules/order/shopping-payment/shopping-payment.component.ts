@@ -136,7 +136,7 @@ export class ShoppingPaymentComponent implements OnInit {
     if (this.reqData.CardNo !== '' && this.reqData.CardDate !== '' && this.reqData.CVC !== '') {
       (document.getElementById('postPayment') as HTMLFormElement).submit();
       this.paymentProcessed = true;
-      this.appService.openBlock();
+      // this.appService.openBlock();
     } else {
       this.modal.show('message', { initialState: { success: false, message: '資料未完整填寫!', showType: 1 } });
     }
@@ -145,7 +145,7 @@ export class ShoppingPaymentComponent implements OnInit {
   onSubmit(form: NgForm) {
     (document.getElementById('postPayment') as HTMLFormElement).submit();
     this.paymentProcessed = true;
-    this.appService.openBlock();
+    // this.appService.openBlock();
   }
 
 }

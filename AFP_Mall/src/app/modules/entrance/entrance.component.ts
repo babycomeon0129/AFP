@@ -301,7 +301,7 @@ export class EntranceComponent implements OnInit {
     const request: Request_Home = {
       // User_Code: sessionStorage.getItem('userCode')
     };
-    this.appService.openBlock();
+    // this.appService.openBlock();
     this.appService.toApi('Home', '1021', request).subscribe((data: Response_Home) => {
       // 會員資訊
       this.userPoint = data.TotalPoint;
@@ -372,7 +372,7 @@ export class EntranceComponent implements OnInit {
   prodWaterfall(event: Event): void {
     if ((Math.floor(window.scrollY + window.innerHeight) >= document.documentElement.offsetHeight - 1 )
         && this.currentPage < this.totalPage) {
-      this.appService.openBlock();
+      // this.appService.openBlock();
       this.currentPage ++;
       this.readhotProducts(2);
     }
@@ -426,7 +426,7 @@ export class EntranceComponent implements OnInit {
 
   /** 首頁我的服務 */
   getHomeservice(): void {
-    this.appService.openBlock();
+    // this.appService.openBlock();
     const request: Request_AFPUserService = {
       // SelectMode 1 : 首頁 10 : 我的服務
       SelectMode: 1

@@ -60,7 +60,7 @@ export class MemberCoinComponent implements OnInit {
     if (this.appService.loginState === false) {
       this.oauthService.loginPage(location.pathname);
     } else {
-      this.appService.openBlock();
+      // this.appService.openBlock();
       const getInfo: Request_MemberPoint = {
         SelectMode: 4,
         SearchModel: {
@@ -100,7 +100,7 @@ export class MemberCoinComponent implements OnInit {
     if (this.appService.loginState === false) {
       this.oauthService.loginPage(location.pathname);
     } else {
-      this.appService.openBlock();
+      // this.appService.openBlock();
       const getHistory: Request_MemberPoint = {
         SelectMode: 5,
         SearchModel: {

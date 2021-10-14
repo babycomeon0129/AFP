@@ -60,7 +60,7 @@ export class EventComponent implements OnInit {
 
   /** 讀取資料 */
   readData(): void {
-    this.appService.openBlock();
+    // this.appService.openBlock();
     const request: Request_ECVoucher = {
       SelectMode: 5
     };

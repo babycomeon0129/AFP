@@ -46,7 +46,7 @@ export class HomeComponent implements OnInit {
     //   this.thirdUser = user;
     //   if (this.thirdUser !== null && this.thirdClick) {
     //     this.thirdClick = !this.thirdClick;
-    //     this.appService.openBlock();
+    //     // this.appService.openBlock();
     //     // 社群帳號綁定
     //     const request: Request_MemberThird = {
     //       SelectMode: 1,

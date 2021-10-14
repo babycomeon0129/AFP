@@ -70,7 +70,7 @@ export class ExploreListComponent implements OnInit {
 
   /** 讀取列表資料 */
   readData(): void {
-    this.appService.openBlock();
+    // this.appService.openBlock();
     const request: Request_AreaIndex = {
       SearchModel: {
         IndexArea_Code: 400001,

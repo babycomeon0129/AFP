@@ -111,7 +111,7 @@ export class OffersComponent implements OnInit, OnDestroy {
 
   /** 讀取資料 */
   readData(): void {
-    this.appService.openBlock();
+    // this.appService.openBlock();
     const request: Request_ECVouFlashSale = {
       SelectMode: 4,
       SearchModel: {

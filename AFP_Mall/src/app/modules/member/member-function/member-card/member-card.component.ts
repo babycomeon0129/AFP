@@ -132,7 +132,7 @@ export class MemberCardComponent implements OnInit {
     this.requestCard.UserFavourite_Text2 = form.value.cardNumber;
     this.requestCard.UserFavourite_Text3 = form.value.nationalID;
 
-    this.appService.openBlock();  // 開啟灰屏
+    // this.appService.openBlock();  // 開啟灰屏
     const request: Request_MemberMyCard = {
       SelectMode: 1,  // 新增
       AFP_UserFavourite: this.requestCard,

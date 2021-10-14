@@ -97,7 +97,7 @@ export class ETicketOrderDetailComponent implements OnInit {
     if (this.servicesModel.Services_Reason === undefined) {
       this.modal.show('message', { initialState: { success: false, message: '請選擇退款原因', showType: 1}});
     } else {
-      this.appService.openBlock();
+      // this.appService.openBlock();
       // 系統收回票券（未開通或已開通但未使用才會成功）
       const request: Request_MemberTicketRefund = {
         SelectMode: 1,

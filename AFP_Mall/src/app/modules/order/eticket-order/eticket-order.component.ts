@@ -512,7 +512,7 @@ export class ETicketOrderComponent implements OnInit {
           //   order.Order_ChangeAmount = order.Order_ChangeAmount * -1;
           //   order.Order_ChangeShippingAmount = order.Order_ChangeShippingAmount * -1;
           // });
-          this.appService.openBlock();
+          // this.appService.openBlock();
           const createOrder: Request_CreateTOrder = {
             List_Cart: this.checkout.List_Cart,
             List_UserVoucher: this.userVouchers,

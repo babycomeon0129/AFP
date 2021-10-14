@@ -52,7 +52,7 @@ export class MissionComponent implements OnInit {
 
   /** 讀取任務資料 */
   readData(): void {
-    this.appService.openBlock();
+    // this.appService.openBlock();
     const request: Request_MemberMission = {
       SelectMode: 4
     };

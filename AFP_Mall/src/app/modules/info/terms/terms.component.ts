@@ -28,7 +28,7 @@ export class TermsComponent implements OnInit {
       this.fromAppLogin = false;
     }
 
-    this.appService.openBlock();
+    // this.appService.openBlock();
     const request: Request_MemberQuestion = {
       SelectMode: 5,
       SearchModel: {
