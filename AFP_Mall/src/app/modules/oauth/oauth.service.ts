@@ -107,7 +107,7 @@ export class OauthService {
       const request = '';
       return this.http.post(environment.modifyUrl, { Data: JSON.stringify(request) }, { headers })
         .pipe(map((data: any) => {
-          location.href = JSON.stringify(data);
+          location.href = JSON.stringify(data.data);
           return data;
         }, catchError(this.handleError)));
     }

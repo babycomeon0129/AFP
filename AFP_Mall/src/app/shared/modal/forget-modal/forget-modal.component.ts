@@ -48,7 +48,7 @@ export class ForgetModalComponent implements OnDestroy {
 
   /** 取得驗證碼 */
   setVcode(): void {
-    // this.appService.openBlock();
+    this.appService.openBlock();
     this.appService.toApi('Home', '1112', this.request).subscribe((data: Response_AFPVerifyCode) => {
       this.request.VerifiedInfo.CheckValue = data.VerifiedInfo.CheckValue;
       this.vcodeSeconds = 59;
@@ -64,7 +64,7 @@ export class ForgetModalComponent implements OnDestroy {
 
   /** 立即驗證  */
   onSubmit(): void {
-    // this.appService.openBlock();
+    this.appService.openBlock();
     this.request.SelectMode = 21;
     this.appService.toApi('Home', '1112', this.request).subscribe((data: Response_AFPVerifyCode) => {
       if (data !== null) {

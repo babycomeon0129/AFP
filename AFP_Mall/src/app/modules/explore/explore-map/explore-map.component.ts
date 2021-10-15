@@ -87,7 +87,7 @@ export class ExploreMapComponent implements OnInit {
    * @param dirCode 目錄編碼
    */
   readAreaData(dirCode: number): void {
-    // this.appService.openBlock();
+    this.appService.openBlock();
     this.areaMenuCode = dirCode;
     const request: Request_AreaIndex = {
       SearchModel: {
@@ -97,7 +97,7 @@ export class ExploreMapComponent implements OnInit {
       }
     };
     this.appService.toApi('Area', '1401', request, this.lat, this.lng).subscribe((data: Response_AreaIndex) => {
-      // this.appService.openBlock(); // 在畫面資料ready前顯示loader避免過早使用swiper卡住
+      this.appService.openBlock(); // 在畫面資料ready前顯示loader避免過早使用swiper卡住
       // 近 > 遠
       this.AreaList = data.List_AreaData[0].ECStoreData.sort((a, b) => {
         return a.ECStore_Distance - b.ECStore_Distance;

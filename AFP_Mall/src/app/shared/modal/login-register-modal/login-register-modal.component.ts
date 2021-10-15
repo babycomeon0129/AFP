@@ -76,7 +76,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
     // this.authService.authState.subscribe((user: SocialUser) => {
     //   this.thirdUser = user;
     //   if (this.thirdUser !== null && this.regClick) {
-    //     // this.appService.openBlock();
+    //     this.appService.openBlock();
     //     if (user.provider === 'FACEBOOK' && user.email === undefined) {
     //       this.thirdRequest.Account = 'fb' + this.thirdUser.id;
     //     } else {
@@ -139,7 +139,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
 
   /** 登入表單送出 */
   onSubmit(form: NgForm): void {
-    // this.appService.openBlock();
+    this.appService.openBlock();
     this.loginRequest.Cart_Count = Number(this.cookieService.get('cart_count'));
     this.appService.toApi('AFPAccount', '1104', this.loginRequest).subscribe((data: Response_AFPLogin) => {
       sessionStorage.setItem('userName', data.Model_UserInfo.Customer_Name);
@@ -172,7 +172,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   /** LINE 登入 */
   signInWithLine(form: NgForm): void {
     (document.getElementById('postLinelogin') as HTMLFormElement).submit();
-    // this.appService.openBlock();
+    this.appService.openBlock();
   }
 
   /** Google登入按鈕 */
@@ -214,7 +214,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
 
   /** 註冊-發送手機驗證碼 */
   sendRegVCode(): void {
-    // this.appService.openBlock();
+    this.appService.openBlock();
     const request: Request_AFPVerifyCode = {
       SelectMode: 11,
       VerifiedAction: 1,
@@ -262,7 +262,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   /** 註冊送出 */
   onRegSubmit(): void {
     this.registerRequest.VerifiedInfo.VerifiedPhone = this.registerRequest.AFPAccount;
-    // this.appService.openBlock();
+    this.appService.openBlock();
     this.appService.toApi('AFPAccount', '1101', this.registerRequest).subscribe((data: Response_AFPLogin) => {
       // 後端自動登入，前端直接接login response
       sessionStorage.setItem('userName', data.Model_UserInfo.Customer_Name);

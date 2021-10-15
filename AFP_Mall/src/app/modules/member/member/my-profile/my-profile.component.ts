@@ -67,7 +67,7 @@ export class MyProfileComponent implements OnInit {
 
   /** 更新我的檔案 */
   onProfileSubmit(form: NgForm): void {
-    // this.appService.openBlock();
+    this.appService.openBlock();
     this.memberService.userProfile.SelectMode = 3;
     if (this.memberService.userProfile.UserProfile_Birthday !== null) {
         if (this.memberService.userProfile.UserProfile_Birthday.getMonth() < new Date().getMonth()) {
@@ -161,7 +161,7 @@ export class MyProfileComponent implements OnInit {
     if (this.isUpload) {
       // 護照、學生證、教職員證不須驗證有效期限，故排除
       if ((this.userCertificate.UserFavourite_TypeCode > 0 && this.userCertificate.UserFavourite_Date !== null) || this.userCertificate.UserFavourite_Number1 !== 2) {
-        // this.appService.openBlock();
+        this.appService.openBlock();
         const request: Request_MemberCertificate = {
           SelectMode: (this.userCertificate.UserFavourite_ID > 0) ? 3 : 1,
           AFP_UserFavourite: this.userCertificate

@@ -29,27 +29,41 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   public UserInfoId: number;
   /** 使用者grantCode */
   public grantCode: string;
+  public idToken: [];
 
   constructor(public appService: AppService, public oauthService: OauthService, private router: Router,
               public el: ElementRef, private activatedRoute: ActivatedRoute, public bsModalService: BsModalService,
               private callApp: AppJSInterfaceService, private cookieService: CookieService) {
 
     this.activatedRoute.queryParams.subscribe(params => {
+
       /** 「艾斯身份證別-登入1-1-3」APP訪問，接收queryParams */
-      if (typeof params.deviceType !== 'undefined' && this.appService.isApp === 1) {
+      if (this.appService.isApp == null && typeof params.isApp !== 'undefined') {
         // App (接收App queryParams：isApp, deviceType, deviceCode)
         this.oauthService.loginRequest.deviceType = Number(params.deviceType);
         this.oauthService.loginRequest.fromOriginUri = '/Login'; // APP返回預設
+        /** 「艾斯身份證別-登入3-2-3」裝置若為APP傳interface */
+        if (this.viewType === '2') {
+          this.callApp.getLoginData(JSON.stringify(this.idToken.pop()));
+        }
       } else {
         // Web（其他活動頁帶queryParams，按鈕帶pathname）
         this.oauthService.loginRequest.deviceType = 0;
-        if (typeof params.fromOriginUri !== 'undefined') {
-          this.oauthService.loginRequest.fromOriginUri = params.fromOriginUri;
-        }
       }
+      /** 活動頁帶返回頁參數 */
+      if (typeof params.fromOriginUri !== 'undefined') {
+        this.oauthService.loginRequest.fromOriginUri = params.fromOriginUri;
+      }
+
       localStorage.setItem('M_deviceType', this.oauthService.loginRequest.deviceType.toString());
       this.oauthService.loginRequest.deviceCode =
         (typeof params.deviceCode !== 'undefined') ? params.deviceCode : localStorage.getItem('M_DeviceCode');
+
+
+      /** 「艾斯身份證別-登入4-2」App訪問，後端會驗證idToken */
+      if (typeof params.idToken !== 'undefined') {
+        this.cookieService.set('M_idToken', params.idToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+      }
 
 
       /** 「艾斯身份證別-登入1-1-4」初始取得viewConfig資料
@@ -159,6 +173,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         const tokenData =  Object.assign(data);
         if (tokenData.errorCode === '996600001') {
           /** 「艾斯身份證別-登入3-2-2」取得idToken帶入header:Authorization */
+          this.idToken = tokenData.data.idToken.push();
           this.cookieService.set('M_idToken', tokenData.data.idToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
           sessionStorage.setItem('userName', tokenData.data.Customer_Name);
           sessionStorage.setItem('userCode', tokenData.data.Customer_Code);
@@ -169,10 +184,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
           this.appService.loginState = true;
           this.appService.userLoggedIn = true;
           console.log('3-2idToken', tokenData.data.idToken);
-          if (localStorage.getItem('M_deviceType') !== '0') {
-            /** 「艾斯身份證別-登入3-2-3」裝置若為APP傳interface */
-            this.callApp.getLoginData(JSON.stringify(data));
-          }
           /** 「艾斯身份證別-登入3-2-4」導回原頁 */
           this.appService.jumpUrl();
         } else {

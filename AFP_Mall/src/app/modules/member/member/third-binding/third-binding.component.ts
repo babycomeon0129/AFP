@@ -131,7 +131,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
       //     break;
       //   case 2:
       //     (document.getElementById('postLineBind') as HTMLFormElement).submit();
-      //     // this.appService.openBlock();
+      //     this.appService.openBlock();
       //     break;
       //   case 3:
       //     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
@@ -224,7 +224,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
   onDelThird(mode: number): void {
     this.modal.confirm({ initialState: { message: '是否確定要解除綁定?' } }).subscribe(res => {
       if (res) {
-        // this.appService.openBlock();
+        this.appService.openBlock();
         const request: Request_MemberThird = {
           SelectMode: 2,
           Mode: mode

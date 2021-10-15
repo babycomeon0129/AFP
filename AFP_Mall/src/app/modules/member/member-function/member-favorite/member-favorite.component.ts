@@ -48,7 +48,7 @@ export class MemberFavoriteComponent implements OnInit {
     } else {
       this.selectedType = favType;
       this.editMode = false;
-      // this.appService.openBlock();
+      this.appService.openBlock();
       const request: Request_MemberFavourite = {
         SelectMode: 11,
         AFP_UserFavourite: {

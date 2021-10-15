@@ -40,11 +40,6 @@ export class AppComponent implements OnInit, DoCheck {
         this.appService.isApp = Number(params.isApp);
       }
 
-      /** 「艾斯身份證別-登入4-2」App訪問，後端會驗證idToken */
-      if (typeof params.idToken !== 'undefined') {
-        this.cookieService.set('M_idToken', params.idToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-      }
-
       //  購物車編碼 APP用
       if (typeof params.cartCode !== 'undefined') {
         this.cookieService.set('cart_code', params.cartCode, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');

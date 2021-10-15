@@ -21,7 +21,7 @@ export class EntranceResolver implements Resolve<Response_Home> {
         IndexDelivery_Code: 300001
       }
     };
-    // this.appService.openBlock();
+    this.appService.openBlock();
     return this.appService.toApi('Home', '1011', request);
   }
 }

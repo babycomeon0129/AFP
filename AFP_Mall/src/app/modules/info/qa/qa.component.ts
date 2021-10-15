@@ -37,7 +37,7 @@ export class QAComponent implements OnInit {
       this.fromAppLogin = false;
     }
 
-    // this.appService.openBlock();
+    this.appService.openBlock();
     const request: Request_MemberQuestion = {
       SelectMode: 4,
       SearchModel: {

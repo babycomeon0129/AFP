@@ -93,7 +93,7 @@ export class ProductDetailComponent implements OnInit {
         Cart_Code: this.cartCode
       }
     };
-    // this.appService.openBlock();
+    this.appService.openBlock();
     this.appService.toApi('EC', '1203', request).subscribe((data: Response_ECProductDetail) => {
       this.productImgList = data.List_ProductImg;
       this.productInfo = data.AFP_Product;

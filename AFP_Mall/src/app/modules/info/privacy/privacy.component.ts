@@ -30,7 +30,7 @@ export class PrivacyComponent implements OnInit {
       this.fromAppLogin = false;
     }
 
-    // this.appService.openBlock();
+    this.appService.openBlock();
     const request: Request_MemberQuestion = {
       SelectMode: 5,
       SearchModel: {

@@ -78,7 +78,7 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
           });
         }
       });
-      // this.appService.openBlock();
+      this.appService.openBlock();
       const getCheckout: Request_GetCheckout = {
         SelectMode: 4, // 查詢
         List_Cart: afpCart
@@ -739,7 +739,7 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
           //   order.Order_ChangeAmount = order.Order_ChangeAmount * -1;
           //   order.Order_ChangeShippingAmount = order.Order_ChangeShippingAmount * -1;
           // });
-          // this.appService.openBlock();
+          this.appService.openBlock();
           const createOrder: Request_CreateOrder = {
             List_Cart: this.checkout.List_Cart,
             List_UserVoucher: this.userVouchers,

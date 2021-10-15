@@ -41,7 +41,7 @@ export class MemberTicketComponent implements OnInit {
     if (this.appService.loginState === false) {
       this.oauthService.loginPage(location.pathname);
     } else {
-      // this.appService.openBlock();
+      this.appService.openBlock();
       this.listType = usedType;
       const request: Request_MemberTicket = {
         SelectMode: 4, // 查詢列表

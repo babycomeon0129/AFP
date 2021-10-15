@@ -50,7 +50,7 @@ export class ShoppingCartComponent implements OnInit {
 
   /** 讀取、整理、顯示購物車資料 */
   showCartData(): void {
-    // this.appService.openBlock();
+    this.appService.openBlock();
     const request: Request_ECCart = {
       SelectMode: 4, // 查詢
       SearchModel: {
