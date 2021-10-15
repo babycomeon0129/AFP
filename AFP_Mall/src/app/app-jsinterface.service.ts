@@ -97,15 +97,15 @@ export class AppJSInterfaceService {
    * @param userInfo https://bookstack.eyesmedia.com.tw/books/mobii-x/page/responseapimodel-api-mobii
    */
    getLoginData(userInfo: string): void {
-    if (this.appService.isApp !== null) {
-      if (navigator.userAgent.match(/android/i)) {
-        //  Android
-        AppJSInterface.getLoginData(userInfo);
-      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-        //  IOS
-        const userInfoParam = userInfo;
-        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showBottomBar', userInfo: userInfoParam });
-      }
+    console.log('aaaa >>> ', userInfo);
+    if (navigator.userAgent.match(/android/i)) {
+      console.log('cccc >>> ', userInfo);
+      //  Android
+      AppJSInterface.getLoginData(userInfo);
+    } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+      console.log('ddddd >>> ', userInfo);
+      //  IOS
+      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'getLoginData', idToken: userInfo });
     }
   }
 

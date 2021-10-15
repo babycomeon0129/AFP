@@ -51,11 +51,9 @@ export class MessageModalComponent implements OnInit {
   clickSingleBtn(): void {
     switch (this.showType) {
       case 1:
-        this.goToUrl(this.target, this.queryParams1);
         break;
       case 2:
-        /** 登入用 */
-        if (this.message.indexOf('請先登入') >= 0) { localStorage.setItem('M_fromOriginUri', location.pathname); }
+        this.goToUrl(this.target, this.queryParams1);
         break;
     }
     this.bsModalRef.hide();

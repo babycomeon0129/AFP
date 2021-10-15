@@ -40,6 +40,12 @@ export class AppComponent implements OnInit, DoCheck {
         this.appService.isApp = Number(params.isApp);
       }
 
+      if (typeof params.fromOriginUri !== 'undefined') {
+        /** 「艾斯身份證別-登入5-1」活動頁帶返回頁參數 */
+        this.oauthService.loginRequest.fromOriginUri = params.fromOriginUri;
+        localStorage.setItem('M_fromOriginUri', params.fromOriginUri);
+      }
+
       //  購物車編碼 APP用
       if (typeof params.cartCode !== 'undefined') {
         this.cookieService.set('cart_code', params.cartCode, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');

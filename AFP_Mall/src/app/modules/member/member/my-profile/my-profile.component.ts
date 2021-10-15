@@ -3,14 +3,14 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AppService } from '@app/app.service';
 import { Model_ShareData, AFP_UserFavourite } from '@app/_models';
-import { Response_MemberProfile } from '../member.component';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { MemberService } from '@app/modules/member/member.service';
 import { layerAnimation, layerAnimationUp } from '@app/animations';
 import { Meta, Title } from '@angular/platform-browser';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { environment } from '@env/environment';
-
+import { Response_MemberProfile, Request_MemberThird, Response_MemberThird,
+  AFP_UserThird } from '@app/modules/member/member/member.component';
 
 @Component({
   selector: 'app-my-profile',
@@ -38,6 +38,14 @@ export class MyProfileComponent implements OnInit {
   /** 同頁滑動切換 0:本頁 1:開啟瀏覽檔案上傳  */
   public layerTrigUp = 0;
 
+  /** 我的檔案資料 */
+  public userProfile: Response_MemberProfile = new Response_MemberProfile();
+  /** 第三方資訊 */
+  public FBThird: number;
+  public GoogleThird: number;
+  public AppleThird: number;
+  public LineThird: number;
+
   constructor(public appService: AppService, public modal: ModalService, public memberService: MemberService,
               private meta: Meta, private title: Title, private localeService: BsLocaleService, private cookieService: CookieService) {
     this.title.setTitle('我的檔案 - Mobii!');
@@ -49,6 +57,36 @@ export class MyProfileComponent implements OnInit {
 
   ngOnInit() {
     this.memberService.readProfileData();
+    this.readThirdData();
+  }
+
+  /** 讀取社群帳號（會員首頁、社群帳號綁定皆會使用） */
+  readThirdData(): void {
+    const request: Request_MemberThird = {
+      SelectMode: 3,
+    };
+    this.appService.toApi('Member', '1506', request).subscribe((data: Response_MemberThird) => {
+      if (data !== null) {
+        /** 類型 1: Facebook 2: Line 3: Google 4: WeChat 5: Apple */
+        data.List_UserThird.forEach((value) => {
+          switch (value.UserThird_Mode) {
+            case 1: //  FB
+              this.FBThird = value.UserThird_Mode;
+              break;
+            case 2: //  Line
+              this.LineThird = value.UserThird_Mode;
+              break;
+            case 3: //  Google
+              this.GoogleThird = value.UserThird_Mode;
+              break;
+            case 5: // Apple
+              this.AppleThird = value.UserThird_Mode;
+              break;
+          }
+        });
+        console.log(this.FBThird, this.GoogleThird, this.AppleThird);
+      }
+    });
   }
 
   /** 性別轉換  */

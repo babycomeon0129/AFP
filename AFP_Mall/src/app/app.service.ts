@@ -131,11 +131,11 @@ export class AppService {
             return JSON.parse(data.Data);
           case 9996: // 查無商品詳細頁資料
             this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
-              initialState: { success: false, message: data.Base.Rtn_Message, showType: 1, checkBtnMsg: '確定', target: 'GoBack' } });
+              initialState: { success: false, message: data.Base.Rtn_Message, showType: 2, checkBtnMsg: '確定', target: 'GoBack' } });
             break;
           case 9998: // user資料不完整，讓使用者登出
             this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
-              initialState: { success: false, message: '請先登入', showType: 2, checkBtnMsg: '重新登入', target: 'GoBack' } });
+              initialState: { success: false, message: '請先登入', showType: 5, checkBtnMsg: '重新登入' } });
             this.onLogout();
             break;
           default: // 其他錯誤，讓使用者登出
@@ -519,7 +519,11 @@ export class AppService {
   jumpUrl() {
     const uri = (localStorage.getItem('M_fromOriginUri') !== null) ? localStorage.getItem('M_fromOriginUri') : '/' ;
     console.log('jumpUrl', localStorage.getItem('M_fromOriginUri'));
-    (uri.startsWith('https') || uri.startsWith('http')) ? location.href = uri : this.router.navigate([uri]);
+    if (uri.startsWith('https') || uri.startsWith('http')) {
+      location.href = uri;
+    } else {
+      this.router.navigate([uri], { replaceUrl: true });
+    }
   }
 }
 

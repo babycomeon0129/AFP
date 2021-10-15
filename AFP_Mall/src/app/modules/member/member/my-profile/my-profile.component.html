@@ -114,6 +114,15 @@
                 </div>
                 <small class="ml-3 text-danger" *ngIf="editMode && UserEmail.dirty && UserEmail.errors?.pattern">E-mail格式有誤</small>
               </li>
+              <li>
+                <div class="item">社群帳號綁定</div>
+                <div class="item input-box third">
+                  <img src="../../../../../img/share/facebook.png" [ngClass]="{'able': FBThird===1}">
+                  <img src="../../../../../img/share/google.png" [ngClass]="{'able': GoogleThird===3}">
+                  <img src="../../../../../img/share/google-1.png" [ngClass]="{'able': AppleThird===5}">
+                  <img src="../../../../../img/share/line.png" [ngClass]="{'able': LineThird===2}">
+                </div>
+              </li>
             </form>
             <!-- 上傳護照（暫不顯示） -->
             <li (click)="readCertificate(1); showFileDetail = 2" hidden>

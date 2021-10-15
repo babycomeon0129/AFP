@@ -49,10 +49,10 @@
   <footer class="shopping-cartfooter order-go-pay">
     <div class="fixed-bottom container fixed-shadow">
       <div *ngIf="viewType==='0'" class="p-3">
-        <button type="button" (click)="onLoginEyes()" class="btn index-btn w-100 login-ok">前往登入註冊</button>
+        <button type="button" (click)="onLoginEyes()" class="btn index-btn w-100 login-ok" [disabled]="viewList.length===0">前往登入註冊</button>
       </div>
       <div *ngIf="viewType==='1'" class="p-3">
-        <button type="button" (click)="onGetToken(grantCode, UserInfoId)" class="btn index-btn w-100 login-ok">立即升級綁定</button>
+        <button type="button" (click)="onGetToken(grantCode, UserInfoId); grantCount===1" class="btn index-btn w-100 login-ok">立即升級綁定</button>
       </div>
       <!-- <div *ngIf="viewType===2" class="p-3">
         <button type="button" (click)="appService.onLogout()" class="btn index-btn w-100 login-ok">清除登入資料,重新登入</button>

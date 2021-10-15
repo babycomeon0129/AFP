@@ -29,11 +29,12 @@ export class OauthService {
 
   constructor(private router: Router, private http: HttpClient, private cookieService: CookieService) {}
 
+
   /** 「艾斯身份證別-登入1-1-2」判斷跳出網頁或APP的登入頁
    * App：原生點擊登入按鈕（帶queryParams：isApp,deviceType,deviceCode），統一由Web向艾斯識別驗證
    * Web：登入按鈕帶入pathname，做為返回依據
    */
-   loginPage(pathname: string): void {
+  loginPage(pathname: string): void {
     if (navigator.userAgent.match(/android/i)) {
       //  Android call webView
       AppJSInterface.login();
@@ -107,7 +108,7 @@ export class OauthService {
       const request = '';
       return this.http.post(environment.modifyUrl, { Data: JSON.stringify(request) }, { headers })
         .pipe(map((data: any) => {
-          location.href = JSON.stringify(data.data);
+          location.href = data.data;
           return data;
         }, catchError(this.handleError)));
     }

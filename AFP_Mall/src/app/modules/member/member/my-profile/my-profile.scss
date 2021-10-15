@@ -46,3 +46,12 @@
       }
   }
 }
+
+.third img {
+  width: 32px;
+  height: 32px;
+  -webkit-filter: grayscale(1);
+  &.able {
+    -webkit-filter: grayscale(0);
+  }
+}

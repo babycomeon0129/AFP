@@ -28,8 +28,8 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   /** 使用者UserInfoId */
   public UserInfoId: number;
   /** 使用者grantCode */
-  public grantCode: string;
-  public idToken: [];
+  public grantCode = '';
+  public grantCount = 0;
 
   constructor(public appService: AppService, public oauthService: OauthService, private router: Router,
               public el: ElementRef, private activatedRoute: ActivatedRoute, public bsModalService: BsModalService,
@@ -38,32 +38,26 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     this.activatedRoute.queryParams.subscribe(params => {
 
       /** 「艾斯身份證別-登入1-1-3」APP訪問，接收queryParams */
-      if (this.appService.isApp == null && typeof params.isApp !== 'undefined') {
+      if (this.appService.isApp !== null && typeof params.isApp !== 'undefined') {
         // App (接收App queryParams：isApp, deviceType, deviceCode)
         this.oauthService.loginRequest.deviceType = Number(params.deviceType);
-        this.oauthService.loginRequest.fromOriginUri = '/Login'; // APP返回預設
-        /** 「艾斯身份證別-登入3-2-3」裝置若為APP傳interface */
-        if (this.viewType === '2') {
-          this.callApp.getLoginData(JSON.stringify(this.idToken.pop()));
-        }
+        this.oauthService.loginRequest.fromOriginUri = '/'; // APP返回預設
+        this.appService.isApp = params.isApp;
       } else {
         // Web（其他活動頁帶queryParams，按鈕帶pathname）
         this.oauthService.loginRequest.deviceType = 0;
-      }
-      /** 活動頁帶返回頁參數 */
-      if (typeof params.fromOriginUri !== 'undefined') {
-        this.oauthService.loginRequest.fromOriginUri = params.fromOriginUri;
+        if (typeof params.fromOriginUri !== 'undefined') {
+          /** 「艾斯身份證別-登入5-1」活動頁帶返回頁參數 */
+          console.log(params.fromOriginUri);
+          this.oauthService.loginRequest.fromOriginUri = params.fromOriginUri;
+          localStorage.setItem('M_fromOriginUri', params.fromOriginUri);
+          this.getViewData();
+        }
       }
 
       localStorage.setItem('M_deviceType', this.oauthService.loginRequest.deviceType.toString());
       this.oauthService.loginRequest.deviceCode =
         (typeof params.deviceCode !== 'undefined') ? params.deviceCode : localStorage.getItem('M_DeviceCode');
-
-
-      /** 「艾斯身份證別-登入4-2」App訪問，後端會驗證idToken */
-      if (typeof params.idToken !== 'undefined') {
-        this.cookieService.set('M_idToken', params.idToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-      }
 
 
       /** 「艾斯身份證別-登入1-1-4」初始取得viewConfig資料
@@ -76,36 +70,31 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       /** 「艾斯身份證別-登入2-1」 艾斯身份識別登入成功後，由Redirect API取得grantCode及List_MultipleUser
        * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/30001-token-api-mobii
        */
-      if (typeof params.loginJson !== 'undefined') {
+      if (typeof params.loginJson !== 'undefined' && JSON.parse(params.loginJson).errorCode === '996600001') {
         const loginJson = JSON.parse(params.loginJson);
-        if (loginJson.errorCode === '996600001') {
-          // 只能打一次，否則errorCode:609830001
-          if (typeof loginJson.data.grantCode !== 'undefined') {
-            sessionStorage.setItem('M_grantCode', loginJson.data.grantCode);
-            this.grantCode = loginJson.data.grantCode;
-            console.log('2-1Redirect API:', loginJson.data.grantCode, loginJson.data.List_MultipleUser);
-            /** 「艾斯身份證別-登入2-2」多重帳號頁面渲染
-             * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/30001-token-api-mobii
-             */
-            if (loginJson.data.List_MultipleUser !== null) {
-              this.viewType = '1';
-              localStorage.setItem('M_viewType', '1');
-              this.List_MultipleUser = loginJson.data.List_MultipleUser;
-              this.UserInfoId = loginJson.data.List_MultipleUser[0].UserInfoId;
-              console.log('2-2List_MultipleUser', this.List_MultipleUser);
-            } else {
-              /** 「艾斯身份證別-登入2-2」無多重帳號時，用grantCode取得idToken */
-              this.viewType = '2';
-              localStorage.setItem('M_viewType', '2');
-              this.onGetToken(loginJson.data.grantCode, 0);
-            }
+        // 只能打一次，否則errorCode:609830001
+        if (loginJson.data.grantCode !== 'undefined') {
+          this.grantCode = loginJson.data.grantCode;
+          console.log('2-1Redirect API:', loginJson.data.grantCode, loginJson.data.List_MultipleUser);
+          /** 「艾斯身份證別-登入2-2」多重帳號頁面渲染
+           * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/30001-token-api-mobii
+           */
+          if (loginJson.data.List_MultipleUser !== null) {
+            /** 「艾斯身份證別-登入2-2-1」有多重帳號時，使用者點擊取得 */
+            this.viewType = '1';
+            this.List_MultipleUser = loginJson.data.List_MultipleUser;
+            this.UserInfoId = loginJson.data.List_MultipleUser[0].UserInfoId;
+            console.log('2-2List_MultipleUser', this.List_MultipleUser);
+          } else if (this.grantCount === 0) {
+            /** 「艾斯身份證別-登入2-2-2」無多重帳號時，用grantCode取得idToken */
+            this.viewType = '2';
+            this.onGetToken(loginJson.data.grantCode, 0);
           }
         } else {
-          this.appService.onLogout();
-          const content = `登入註冊失敗<br>錯誤代碼：${params.errorCode}<br>請重新登入註冊!`;
+          const content = `登入註冊失敗<br>錯誤代碼：${JSON.parse(params.loginJson).errorCode}<br>請重新登入註冊!`;
           this.bsModalService.show(MessageModalComponent, {
             class: 'modal-dialog-centered',
-            initialState: { success: true, message: content, showType: 3, checkBtnMsg: '我知道了', checkBtnUrl: '/Login' } });
+            initialState: { success: true, message: content, showType: 5, checkBtnMsg: '我知道了' } });
         }
       }
 
@@ -120,13 +109,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
   }
 
-  ngOnInit() {
-
-    // 已登入且返回頁為登入頁時，導回首頁
-    if ( localStorage.getItem('M_fromOriginUri') === '/Login' && Number(localStorage.getItem('M_viewType')) === 2) {
-      this.router.navigate(['/']);
-    }
-  }
+  ngOnInit() { }
 
   getViewData() {
     /** 「艾斯身份證別-登入1-2-1」AJAX提供登入所需Request給後端，以便response取得後端提供的資料 */
@@ -134,7 +117,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       /** 「艾斯身份證別-登入1-2-3」取得Response資料，讓Form渲染 */
       console.log('viewData', data);
       this.viewType = '0';
-      localStorage.setItem('M_viewType', '0');
       this.viewData = Object.assign(data);
       this.AuthorizationUri = data.AuthorizationUri;
       this.viewList = Object.entries(data).map(([key, val]) => {
@@ -153,7 +135,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
   onLoginEyes() {
     /** 「艾斯身份證別-登入1-3」點擊登入註冊按鈕FORM POST給艾斯識別(M_viewType:1 代表不再顯示公告頁) */
-    localStorage.setItem('M_viewType', '1');
     (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
   }
 
@@ -161,7 +142,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     /** 「艾斯身份證別-登入3-1」已登入過艾斯(未有idToken)且非多重帳號，點擊過公告頁登入註冊按鈕(M_viewType=1)，可取得idToken，則否讓使用者選完再取得idToken
      * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/20001-redirect-api-mobii
      */
-    localStorage.setItem('M_viewType', '2');
     this.cookieService.deleteAll();
     if (code !== undefined) {
       // grantCode只能使用一次，註冊Mobii會員
@@ -173,25 +153,41 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         const tokenData =  Object.assign(data);
         if (tokenData.errorCode === '996600001') {
           /** 「艾斯身份證別-登入3-2-2」取得idToken帶入header:Authorization */
-          this.idToken = tokenData.data.idToken.push();
-          this.cookieService.set('M_idToken', tokenData.data.idToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+          sessionStorage.setItem('M_idToken', tokenData.data.idToken);
           sessionStorage.setItem('userName', tokenData.data.Customer_Name);
           sessionStorage.setItem('userCode', tokenData.data.Customer_Code);
           sessionStorage.setItem('userFavorites', JSON.stringify(tokenData.data.List_UserFavourite));
+          this.cookieService.set('M_idToken', tokenData.data.idToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
           this.cookieService.set('userName', tokenData.data.Customer_Name, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
           this.cookieService.set('userCode', tokenData.data.Customer_Code, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
           this.appService.userName = tokenData.data.Customer_Name;
           this.appService.loginState = true;
           this.appService.userLoggedIn = true;
           console.log('3-2idToken', tokenData.data.idToken);
-          /** 「艾斯身份證別-登入3-2-4」導回原頁 */
+
+          this.callApp.getLoginData(tokenData.data.idToken);
           this.appService.jumpUrl();
+
+            /** 「艾斯身份證別-登入3-2-4」導回原頁 */
+          // /** 「艾斯身份證別-登入3-2-3」裝置若為APP傳interface */
+          // if (this.oauthService.loginRequest.deviceType !== 0) {
+          //   /* const appConfirm = this.bsModalService.show(MessageModalComponent, {
+          //     class: 'modal-dialog-centered',
+          //     initialState: { success: false, message: '登入成功', showType: 5, checkBtnMsg: '我知道了'}
+          //   });
+          //   appConfirm.content.onClose.subscribe(result => {
+          //     console.log('app results', result);
+          //     this.callApp.getLoginData(JSON.stringify(tokenData.data.idToken));
+          //   }); */
+          // } else {
+          //   /** 「艾斯身份證別-登入3-2-4」導回原頁 */
+          //   this.appService.jumpUrl();
+          // }
         } else {
-          this.appService.onLogout();
           const content = `登入註冊失敗<br>錯誤代碼：${tokenData.errorCode}<br>請重新登入註冊`;
           this.bsModalService.show(MessageModalComponent, {
             class: 'modal-dialog-centered',
-            initialState: { success: true, message: content, showType: 3, checkBtnMsg: '我知道了', checkBtnUrl: '/Login' } });
+            initialState: { success: true, message: content, showType: 5, checkBtnMsg: '我知道了' } });
         }
       });
     }

@@ -35,7 +35,7 @@ export class PasswordModalComponent {
       };
       this.appService.toApi('Home', '1103', resetpwd).subscribe((data: any) => {
         if (data !== null) {
-            this.bsModal.show(MessageModalComponent, { initialState: { success: true, message: '密碼已設定完成，請重新登入', showType: 2, checkBtnMsg: `重新登入` } });
+            this.bsModal.show(MessageModalComponent, { initialState: { success: true, message: '密碼已設定完成，請重新登入', showType: 4, checkBtnMsg: `重新登入` } });
             this.bsModalRef.hide();
         }
       });
