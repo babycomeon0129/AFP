@@ -517,8 +517,8 @@ export class AppService {
 
   /** 網頁跳轉(返回原頁) */
   jumpUrl() {
-    const uri = (localStorage.getItem('M_fromOriginUri') !== null) ? localStorage.getItem('M_fromOriginUri') : '/' ;
     console.log('jumpUrl', localStorage.getItem('M_fromOriginUri'));
+    const uri = (localStorage.getItem('M_fromOriginUri') !== null) ? localStorage.getItem('M_fromOriginUri') : '/' ;
     if (uri.startsWith('https') || uri.startsWith('http')) {
       location.href = uri;
     } else {

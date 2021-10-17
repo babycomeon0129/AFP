@@ -124,7 +124,7 @@ export class AppComponent implements OnInit, DoCheck {
   }
 
   ngOnInit() {
-    this.appService.loginState = (this.cookieService.get('M_idToken') !== '' ) ?  true : false;
+    this.appService.loginState = (this.cookieService.get('M_idToken') === '' ) ?  false : true;
     this.appService.getPushPermission();
     this.appService.receiveMessage();
     // 當路由器成功完成路由的解析階段時，先通知app將footer關閉(開啟則靠app-mobile-footer通知開啟)
