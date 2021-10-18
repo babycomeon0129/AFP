@@ -41,7 +41,7 @@ export class AppComponent implements OnInit, DoCheck {
       }
 
       if (typeof params.fromOriginUri !== 'undefined') {
-        /** 「艾斯身份證別-登入5-1」活動頁帶返回頁參數 */
+        /** 「艾斯身份證別-登入1-1-1a」活動頁帶返回頁參數 */
         this.oauthService.loginRequest.fromOriginUri = params.fromOriginUri;
         localStorage.setItem('M_fromOriginUri', params.fromOriginUri);
       }

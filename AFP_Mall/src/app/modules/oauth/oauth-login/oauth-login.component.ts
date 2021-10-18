@@ -39,23 +39,21 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
     this.activatedRoute.queryParams.subscribe(params => {
 
-      /** 「艾斯身份證別-登入1-1-3」APP訪問，接收queryParams */
+      /** 「艾斯身份證別-登入1-1-2」接收queryParams */
       if (this.appService.isApp !== null && typeof params.isApp !== 'undefined') {
-        // App (接收App queryParams：isApp, deviceType, deviceCode)
+        /** 「艾斯身份證別-登入1-1-1b」 App (接收App queryParams：isApp, deviceType, deviceCode) */
         this.oauthService.loginRequest.deviceType = Number(params.deviceType);
         this.oauthService.loginRequest.fromOriginUri = '/'; // APP返回預設
         this.appService.isApp = params.isApp;
       } else {
-        // Web（其他活動頁帶queryParams，按鈕帶pathname）
+        /** 「艾斯身份證別-登入1-1-1a」活動頁帶返回頁參數 */
         this.oauthService.loginRequest.deviceType = 0;
         if (typeof params.fromOriginUri !== 'undefined') {
-          /** 「艾斯身份證別-登入5-1」活動頁帶返回頁參數 */
           console.log('params.fromOriginUri', this.viewType, params.fromOriginUri);
           this.oauthService.loginRequest.fromOriginUri = params.fromOriginUri;
           localStorage.setItem('M_fromOriginUri', params.fromOriginUri);
         }
       }
-
       localStorage.setItem('M_deviceType', this.oauthService.loginRequest.deviceType.toString());
       this.oauthService.loginRequest.deviceCode =
         (typeof params.deviceCode !== 'undefined') ? params.deviceCode : localStorage.getItem('M_DeviceCode');
@@ -126,7 +124,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   getViewData() {
     console.log('loginRequest', this.oauthService.loginRequest);
     /** 「艾斯身份證別-登入1-2-1」AJAX提供登入所需Request給後端，以便response取得後端提供的資料 */
-    (this.oauthService.toOauthRequest(this.oauthService.loginRequest)).subscribe((data: ViewConfig) => {
+    this.oauthService.toOauthRequest(this.oauthService.loginRequest).subscribe((data: ViewConfig) => {
       /** 「艾斯身份證別-登入1-2-3」取得Response資料，讓Form渲染 */
       console.log('viewData', this.viewType, data);
       this.viewData = Object.assign(data);
