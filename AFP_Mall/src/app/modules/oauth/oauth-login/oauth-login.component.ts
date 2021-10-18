@@ -117,11 +117,8 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       case '1':
         this.viewTitle = '帳號整併';
         break;
-      case '2':
-        this.viewTitle = '登入中';
-        break;
       default:
-        this.viewTitle = '登入...';
+        this.viewTitle = '';
         break;
     }
   }
@@ -139,15 +136,17 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       });
       console.log('M_upgrade', localStorage.getItem('M_upgrade'));
       /** 「艾斯身份證別-登入4-1-1」曾經登入成功過(沒有idToken)，需等待form渲染後，再至艾斯登入 */
-      if (localStorage.getItem('M_upgrade') === '1') {
+      if (this.viewList.length > 0 && this.cookieService.get('M_idToken') === '' &&
+          localStorage.getItem('M_upgrade') === '1' && this.viewType === '2') {
         this.appService.openBlock();
-        setTimeout(() => {
-          console.log('viewLen', this.viewList.length, localStorage.getItem('M_upgrade'));
-          if (this.viewList.length > 0 && localStorage.getItem('M_upgrade') === '1') {
-            this.appService.blockUI.stop();
-            (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
-          }
-        }, 2000);
+        this.delaySubmit().then(() => {
+          this.appService.blockUI.stop();
+        });
+        // setTimeout(() => {
+        //   console.log('viewLen', this.viewList.length, localStorage.getItem('M_upgrade'));
+        //   this.appService.blockUI.stop();
+        //   (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
+        // }, 2000);
       }
       /** 「艾斯身份證別-登入4-1-1」曾經登入成功過(沒有idToken)，重新至艾斯登入 */
       // if (localStorage.getItem('M_viewType') === '2' && this.cookieService.get('M_idToken') !== '') {
@@ -164,6 +163,15 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     this.viewType = '1';
     localStorage.setItem('M_upgrade', '1');
     (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
+  }
+
+  delaySubmit() {
+    return new Promise(() => {
+      setTimeout(() => {
+        console.log('viewLen', this.viewList.length, localStorage.getItem('M_upgrade'));
+        (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
+      }, 2000);
+    });
   }
 
   onGetToken(code: string, uid: number) {
@@ -212,7 +220,8 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   }
 
   onLoginOK() {
-    this.viewType = '3';
+    this.viewType = '';
+    this.appService.blockUI.stop();
     this.callApp.getLoginData(this.cookieService.get('M_idToken'), this.cookieService.get('userCode'));
     if (localStorage.getItem('M_fromOriginUri') === '/Login') { localStorage.removeItem('M_fromOriginUri'); }
     this.appService.jumpUrl();
