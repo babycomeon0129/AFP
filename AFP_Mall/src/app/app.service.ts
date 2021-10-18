@@ -522,12 +522,14 @@ export class AppService {
     if (uri.startsWith('https') || uri.startsWith('http')) {
       console.log('jumpUrl hret', localStorage.getItem('M_fromOriginUri'));
       // location.href = uri;
-      // location.replace(uri);
+      location.replace(uri);
     } else {
       console.log('jumpUrl router', localStorage.getItem('M_fromOriginUri'));
-      // this.router.navigate([uri], { replaceUrl: true });
+      this.router.navigate([uri], {
+        relativeTo: this.route,
+        replaceUrl: true
+      });
     }
-    location.replace(uri);
   }
 }
 
