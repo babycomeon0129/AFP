@@ -15,6 +15,7 @@ import { MessageModalComponent } from '@app/shared/modal/message-modal/message-m
     '../../../../styles/layer/shopping-footer.scss'],
 })
 export class OauthLoginComponent implements OnInit, AfterViewInit {
+
   /** 頁面切換 0:帳號升級公告 1:帳號整併 2:未登入(無idToken) 3:已登入(有idToken) */
   public viewType = '2';
   public viewTitle: string;
@@ -117,10 +118,10 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.viewTitle = '帳號整併';
         break;
       case '2':
-        this.viewTitle = '未登入';
+        this.viewTitle = '登入中';
         break;
       default:
-        this.viewTitle = '登入';
+        this.viewTitle = '登入...';
         break;
     }
   }
