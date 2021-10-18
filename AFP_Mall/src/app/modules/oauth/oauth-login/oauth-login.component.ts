@@ -103,6 +103,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     console.log('ngOnInit viewType', this.viewType, localStorage.getItem('M_upgrade'));
+    if (localStorage.getItem('M_upgrade') === null) { this.viewType = '0'; }
     if (this.cookieService.get('M_idToken') === '') {
       this.getViewData();
     } else {
@@ -125,6 +126,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   }
 
   getViewData() {
+    console.log('loginRequest', this.oauthService.loginRequest);
     /** 「艾斯身份證別-登入1-2-1」AJAX提供登入所需Request給後端，以便response取得後端提供的資料 */
     (this.oauthService.toOauthRequest(this.oauthService.loginRequest)).subscribe((data: ViewConfig) => {
       /** 「艾斯身份證別-登入1-2-3」取得Response資料，讓Form渲染 */
@@ -134,7 +136,18 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       this.viewList = Object.entries(data).map(([key, val]) => {
         return {name: key, value: val};
       });
-
+      console.log('M_upgrade', localStorage.getItem('M_upgrade'));
+      /** 「艾斯身份證別-登入4-1-1」曾經登入成功過(沒有idToken)，需等待form渲染後，再至艾斯登入 */
+      if (localStorage.getItem('M_upgrade') === '1') {
+        this.appService.openBlock();
+        setTimeout(() => {
+          console.log('viewLen', this.viewList.length, localStorage.getItem('M_upgrade'));
+          if (this.viewList.length > 0 && localStorage.getItem('M_upgrade') === '1') {
+            this.appService.blockUI.stop();
+            (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
+          }
+        }, 2000);
+      }
       /** 「艾斯身份證別-登入4-1-1」曾經登入成功過(沒有idToken)，重新至艾斯登入 */
       // if (localStorage.getItem('M_viewType') === '2' && this.cookieService.get('M_idToken') !== '') {
       //   (this.oauthService.toEyesRequest(JSON.parse(JSON.stringify(data))))
@@ -185,7 +198,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
           if (this.cookieService.get('M_idToken') !== '') {
             this.onLoginOK();
           } else {
-            this.viewType = '0';
             const content = `登入註冊失敗<br>錯誤代碼：${tokenData.errorCode}<br>請重新登入註冊`;
             this.bsModalService.show(MessageModalComponent, {
               class: 'modal-dialog-centered',
