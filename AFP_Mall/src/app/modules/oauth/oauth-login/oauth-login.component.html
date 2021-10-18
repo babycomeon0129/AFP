@@ -1,14 +1,14 @@
 <div class="wrap container">
-  <header *ngIf="viewType<'2'">
+  <header *ngIf="viewType !== '2'">
       <div class="header-secondary container linebt-row">
           <div class="index-flex justify-content-between">
               <div class="item two">
-                  <div *ngIf="appService.isApp !== 1" [hidden]="viewType !== '0'" class="close-btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                  <!-- <div *ngIf="appService.isApp !== 1" [hidden]="viewType !== '0'" class="close-btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
                       <i class="material-icons">&#xe314;</i>
-                  </div>
+                  </div> -->
               </div>
               <div class="item three text-center">
-                  <div class="title-name">{{viewType === '0' ? "帳號升級公告" : "帳號整併"}}</div>
+                  <div class="title-name">{{viewTitle}}</div>
               </div>
               <div class="item two text-right">
                   <div class="close-btn"></div>
@@ -16,7 +16,7 @@
           </div>
       </div>
   </header>
-  <main *ngIf="viewType<'2'">
+  <main>
     <div class="content">
       <div class="logo-box">
         <img alt="logo" src="/img/share/mlogo.png">
@@ -44,19 +44,18 @@
           </li>
         </ul>
       </div>
+      <div *ngIf="viewType==='2' || viewType==='3'">
+      </div>
     </div>
   </main>
-  <footer class="shopping-cartfooter order-go-pay" *ngIf="viewType<'2'">
-    <div class="fixed-bottom container fixed-shadow">
+  <footer class="shopping-cartfooter order-go-pay">
+    <div class="fixed-bottom container fixed-shadow" *ngIf="viewType==='0' || viewType==='1'">
       <div *ngIf="viewType==='0'" class="p-3">
         <button type="button" (click)="onLoginEyes()" class="btn index-btn w-100 login-ok" [disabled]="viewList.length===0">前往登入註冊</button>
       </div>
       <div *ngIf="viewType==='1'" class="p-3">
         <button type="button" (click)="onGetToken(grantCode, UserInfoId)" class="btn index-btn w-100 login-ok">立即升級綁定</button>
       </div>
-      <!-- <div *ngIf="viewType===2" class="p-3">
-        <button type="button" (click)="appService.onLogout()" class="btn index-btn w-100 login-ok">清除登入資料,重新登入</button>
-      </div> -->
     </div>
     <div *ngIf="viewType==='0' || viewType==='2'">
       <form [(action)]="AuthorizationUri" method="POST" id="oauthLoginForm" #oauthLoginForm>

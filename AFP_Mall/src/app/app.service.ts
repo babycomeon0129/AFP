@@ -520,10 +520,14 @@ export class AppService {
     console.log('jumpUrl', localStorage.getItem('M_fromOriginUri'));
     const uri = (localStorage.getItem('M_fromOriginUri') !== null) ? localStorage.getItem('M_fromOriginUri') : '/' ;
     if (uri.startsWith('https') || uri.startsWith('http')) {
-      location.href = uri;
+      console.log('jumpUrl hret', localStorage.getItem('M_fromOriginUri'));
+      // location.href = uri;
+      // location.replace(uri);
     } else {
-      this.router.navigate([uri], { replaceUrl: true });
+      console.log('jumpUrl router', localStorage.getItem('M_fromOriginUri'));
+      // this.router.navigate([uri], { replaceUrl: true });
     }
+    location.replace(uri);
   }
 }
 

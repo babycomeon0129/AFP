@@ -133,6 +133,7 @@ export class OauthService {
   /** 清除Storage */
   onClearStorage() {
     sessionStorage.clear();
+    this.cookieService.deleteAll();
     localStorage.removeItem('M_fromOriginUri');
     localStorage.removeItem('M_deviceType');
   }
@@ -187,6 +188,18 @@ export interface ViewConfig {
   responseType: string;
   viewConfig: string;
 }
+
+export interface ResponseLoginJson {
+  messageId: string;
+  errorCode: string;
+  errorDesc: string;
+  messageDatetime: string;
+  data: {
+    grantCode: string;
+    UserInfoId: number;
+  };
+}
+
 export interface RequestIdTokenApi {
   grantCode: string;
   UserInfoId: number;

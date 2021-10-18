@@ -9,6 +9,7 @@ import { SwiperOptions } from 'swiper';
 import { MemberService } from '@app/modules/member/member.service';
 import { AuthService, SocialUser } from 'angularx-social-login';
 import { BsModalService } from 'ngx-bootstrap';
+import { Session } from 'inspector';
 
 declare var AppJSInterface: any;
 
@@ -32,7 +33,6 @@ export class HomeComponent implements OnInit {
     }
   };
 
-
   constructor(public appService: AppService, public oauthService: OauthService,
               private router: Router, private modal: ModalService,
               public memberService: MemberService) {
@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.readIndexData();
-    // this.memberService.readProfileData();
+    this.memberService.readProfileData();
     //  第三方登入取得資料
     // this.authService.authState.subscribe((user) => {
     //   this.thirdUser = user;

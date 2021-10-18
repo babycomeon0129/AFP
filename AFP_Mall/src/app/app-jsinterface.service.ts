@@ -96,16 +96,14 @@ export class AppJSInterfaceService {
   /** 通知APP登入idToken
    * @param userInfo https://bookstack.eyesmedia.com.tw/books/mobii-x/page/responseapimodel-api-mobii
    */
-   getLoginData(userInfo: string): void {
-    console.log('aaaa >>> ', userInfo);
+   getLoginData(userInfo: string, code: string): void {
+    console.log('aaaa >>> ', userInfo, code);
     if (navigator.userAgent.match(/android/i)) {
-      console.log('cccc >>> ', userInfo);
       //  Android
-      AppJSInterface.getLoginData(userInfo);
+      AppJSInterface.getLoginData(userInfo, code);
     } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-      console.log('ddddd >>> ', userInfo);
       //  IOS
-      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'getLoginData', idToken: userInfo });
+      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'getLoginData', idToken: userInfo, userCode: code });
     }
   }
 
