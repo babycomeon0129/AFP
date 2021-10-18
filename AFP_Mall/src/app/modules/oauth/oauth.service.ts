@@ -98,7 +98,7 @@ export class OauthService {
       return data;
     }, catchError(this.handleError)));
   }
-  /** 「艾斯身份證別-密碼修改」 */
+  /** 「艾斯身份證別-變更密碼2」 */
   toModifyEyes(): Observable<any> {
     if (this.cookieService.get('M_idToken') !== '') {
       console.log('passwordUpdate:', this.cookieService.get('M_idToken'));

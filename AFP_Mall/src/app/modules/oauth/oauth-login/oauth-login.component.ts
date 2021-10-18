@@ -103,8 +103,9 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    console.log('viewType', this.viewType);
-    (this.cookieService.get('M_idToken') === '') ? this.getViewData() : this.onLoginOK();
+    console.log('ngOnInit viewType', this.viewType);
+    // this.cookieService.get('M_idToken') === '') ? this.getViewData() : this.onLoginOK();
+    this.getViewData();
   }
 
   getViewData() {
