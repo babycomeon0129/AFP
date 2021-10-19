@@ -46,7 +46,7 @@ export class OauthService {
       this.loginRequest.fromOriginUri = pathname;
       localStorage.setItem('M_fromOriginUri', pathname);
       console.log('M_fromOriginUri', pathname);
-      this.router.navigate(['/Login']);
+      location.href = '/Login';
     }
   }
 

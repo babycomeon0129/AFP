@@ -35,7 +35,8 @@ export class AppService {
   public loginState = false;
   /** App訪問 (1:App) */
   public isApp: number = null;
-
+  /** App訪問 (idToken) */
+  public idToken: string = null;
   /** 使用者暱稱 */
   public userName = sessionStorage.getItem('userName') || null;
   /** 我的收藏物件陣列 */
@@ -89,6 +90,9 @@ export class AppService {
   }
 
   toApi(ctrl: string, command: string, request: any, lat: number = null, lng: number = null, deviceCode?: string): Observable<any> {
+    if (this.idToken === null) {
+      this.idToken = (this.cookieService.get('M_idToken') === '') ? '' : 'Bearer ' + this.cookieService.get('M_idToken');
+    }
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       xEyes_Command: command,
@@ -96,7 +100,7 @@ export class AppService {
       xEyes_Y: (lat != null) ? lat.toString() : '',
       xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
       xEyes_DeviceCode: deviceCode === undefined ? '' : deviceCode,
-      Authorization: (this.cookieService.get('M_idToken') === '') ? '' : 'Bearer ' + this.cookieService.get('M_idToken'),
+      Authorization: this.idToken,
     });
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
@@ -138,10 +142,9 @@ export class AppService {
               initialState: { success: false, message: '請先登入', showType: 5, checkBtnMsg: '重新登入' } });
             this.onLogout();
             break;
-          default: // 其他錯誤，讓使用者登出
+          default: // 其他錯誤
             this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
               initialState: { success: false, message: data.Base.Rtn_Message, showType: 2, target: data.Base.Rtn_URL } });
-            this.onLogout();
             throw new Error('bad request');
         }
       }, catchError(this.handleError)));
@@ -215,13 +218,16 @@ export class AppService {
    * @param request 傳送資料
    */
   toApi_Logout(ctrl: string, command: string, request: any, lat: number = null, lng: number = null): Observable<any> {
+    if (this.idToken === null) {
+      this.idToken = (this.cookieService.get('M_idToken') === '') ? '' : 'Bearer ' + this.cookieService.get('M_idToken');
+    }
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       xEyes_Command: command,
       xEyes_X: (lng != null) ? lng.toString() : '',
       xEyes_Y: (lat != null) ? lat.toString() : '',
       xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
-      Authorization: (this.cookieService.get('M_idToken') === '') ? '' : 'Bearer ' + this.cookieService.get('M_idToken'),
+      Authorization: this.idToken,
     });
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })

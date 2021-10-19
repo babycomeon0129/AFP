@@ -115,6 +115,9 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       case '1':
         this.viewTitle = '帳號整併';
         break;
+      case '3':
+        this.onLoginOK();
+        break;
       default:
         this.viewTitle = '';
         break;
@@ -167,7 +170,10 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     return new Promise(() => {
       setTimeout(() => {
         console.log('viewLen', this.viewList.length, localStorage.getItem('M_upgrade'));
-        (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
+        if (this.viewList.length > 0 && this.cookieService.get('M_idToken') === '' &&
+          localStorage.getItem('M_upgrade') === '1' && this.viewType === '2') {
+          (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
+        }
       }, 2000);
     });
   }
@@ -226,6 +232,10 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    history.pushState(null, null, document.URL);
+    window.addEventListener('popstate', () => {
+      history.pushState(null, null, document.URL);
+    });
   }
 
 }
