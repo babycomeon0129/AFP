@@ -132,6 +132,7 @@ export class AppService {
             //     this.onLogout();
             //     this.router.navigate(['/']);
             // }
+            if (this.idToken !== null && this.idToken !== '') { this.loginState = true; }
             return JSON.parse(data.Data);
           case 9996: // 查無商品詳細頁資料
             this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
@@ -143,6 +144,7 @@ export class AppService {
             this.onLogout();
             break;
           default: // 其他錯誤
+            if (this.idToken === null && this.idToken === '') { this.loginState = false; }
             this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
               initialState: { success: false, message: data.Base.Rtn_Message, showType: 2, target: data.Base.Rtn_URL } });
             throw new Error('bad request');
@@ -199,6 +201,7 @@ export class AppService {
     this.cookieService.deleteAll();
     this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
     this.loginState = false;
+    this.idToken = null;
     this.userFavCodes = [];
     this.pushCount = 0;
     this.verifyMobileModalOpened = false;

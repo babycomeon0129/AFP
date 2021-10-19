@@ -39,7 +39,7 @@ export class AppComponent implements OnInit, DoCheck {
       if (this.appService.isApp == null && typeof params.isApp !== 'undefined') {
         this.appService.isApp = Number(params.isApp);
       }
-      if (this.appService.idToken == null && typeof params.idToken !== 'undefined') {
+      if (this.appService.idToken !== null && typeof params.idToken !== 'undefined') {
         this.appService.idToken = params.idToken;
       }
 

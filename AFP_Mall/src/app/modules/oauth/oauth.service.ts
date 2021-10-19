@@ -35,18 +35,17 @@ export class OauthService {
    * Web：登入按鈕帶入pathname，做為返回依據
    */
   loginPage(pathname: string): void {
+    this.loginRequest.fromOriginUri = pathname;
+    localStorage.setItem('M_fromOriginUri', pathname);
+    console.log('M_fromOriginUri', pathname);
+    location.href = '/Login';
     if (navigator.userAgent.match(/android/i)) {
       //  Android call webView
       AppJSInterface.login();
-    } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+    }
+    if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
       //  IOS call webView
       (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'login' });
-    } else {
-      //  Web
-      this.loginRequest.fromOriginUri = pathname;
-      localStorage.setItem('M_fromOriginUri', pathname);
-      console.log('M_fromOriginUri', pathname);
-      location.href = '/Login';
     }
   }
 
