@@ -16,7 +16,7 @@ export class AppJSInterfaceService {
    * @param isOpen true: 開 , false: 關
    */
    appShowMobileFooter(isOpen: boolean): void {
-    if (this.appService.isApp !== null && this.appService.isApp !== 0) {
+    if (this.appService.isApp !== null) {
       if (navigator.userAgent.match(/android/i)) {
         //  Android
         AppJSInterface.showBottomBar(isOpen);
@@ -31,7 +31,7 @@ export class AppJSInterfaceService {
    * @param isShowBt true: 開 , false: 關
    */
    appShowBackButton(isShowBt: boolean): void {
-    if (this.appService.isApp !== null && this.appService.isApp !== 0) {
+    if (this.appService.isApp !== null) {
       if (navigator.userAgent.match(/android/i)) {
         // Android
         AppJSInterface.showBackButton(isShowBt);
@@ -46,7 +46,7 @@ export class AppJSInterfaceService {
    * @param isOpen true: 關閉 false: 開啟
    */
   appWebViewbutton(isOpen: boolean): void {
-    if (this.appService.isApp !== null && this.appService.isApp !== 0) {
+    if (this.appService.isApp !== null) {
       if (navigator.userAgent.match(/android/i)) {
         //  Android
         AppJSInterface.showCloseButton(isOpen);
@@ -104,7 +104,12 @@ export class AppJSInterfaceService {
       AppJSInterface.getLoginData(userInfo, code);
     } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
       //  IOS
-      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'getLoginData', idToken: userInfo, userCode: code });
+      if ((window as any).webkit) {
+        if ((window as any).webkit.messageHandlers) {
+          (window as any).webkit.messageHandlers.AppJSInterface.postMessage({
+            action: 'getLoginData', idToken: userInfo, userCode: code, deviceType: Number(localStorage.getItem('M_deviceType'))});
+        }
+      }
     }
   }
 

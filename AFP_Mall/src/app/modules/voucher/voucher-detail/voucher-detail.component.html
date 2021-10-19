@@ -151,7 +151,7 @@
           <qrcode *ngIf="userVoucher?.UserVoucher_QRCode !== null" [qrdata]="userVoucher?.UserVoucher_QRCode"
             [width]="204" [errorCorrectionLevel]="'L'"></qrcode>
         </div>
-        <div *ngIf="appService.isApp !== null && this.appService.isApp !== 0 && voucherData?.Voucher_IsScan === 1"
+        <div *ngIf="appService.isApp !== null && voucherData?.Voucher_IsScan === 1"
           class="d-flex justify-content-center">
           <a href="{{'EyesMedia://ScanerOn|0|' + userVoucher?.UserVoucher_QRCode}}"
             class="btn index-btn for-mobile w-80">點我掃描 QR Code</a>

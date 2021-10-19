@@ -583,7 +583,7 @@ export class EntranceComponent implements OnInit {
             }
           });
         } else {
-          if (this.appService.isApp !== null && this.appService.isApp !== 0) {
+          if (this.appService.isApp !== null) {
             this.router.navigate([Link.Function_URL], { queryParams: { isApp: this.appService.isApp } });
           } else {
             // this.router.navigate([Link.Function_URL]);
