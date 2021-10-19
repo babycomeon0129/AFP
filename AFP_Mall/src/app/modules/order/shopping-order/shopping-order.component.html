@@ -4,7 +4,7 @@
     <div class="header-secondary container linebt-row">
       <div class="index-flex justify-content-between">
         <div class="item two">
-          <div [hidden]="appService.isApp !== null" class="close-btn" onclick="history.back();" data-toggle="tooltip"
+          <div [hidden]="appService.isApp !== null && this.appService.isApp !== 0" class="close-btn" onclick="history.back();" data-toggle="tooltip"
             data-placement="bottom" title="回上一頁">
             <i class="material-icons">&#xe314;</i>
           </div>

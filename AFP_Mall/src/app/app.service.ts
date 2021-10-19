@@ -208,7 +208,7 @@ export class AppService {
     this.oauthService.onClearStorage();
 
     //  APP登出導頁
-    if (this.isApp !== null) {
+    if (this.isApp !== null && this.isApp !== 0) {
       window.location.href = '/ForApp/AppLogout';
     }
   }
