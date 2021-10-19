@@ -43,8 +43,8 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       if (this.appService.isApp !== null && typeof params.isApp !== 'undefined') {
         /** 「艾斯身份證別-登入1-1-1b」 App (接收App queryParams：isApp, deviceType, deviceCode) */
         this.oauthService.loginRequest.deviceType = Number(params.deviceType);
-        this.oauthService.loginRequest.fromOriginUri = '/'; // APP返回預設
         this.appService.isApp = params.isApp;
+        this.oauthService.loginPage('/');  // APP返回預設
       } else {
         /** 「艾斯身份證別-登入1-1-1a」活動頁帶返回頁參數 */
         this.oauthService.loginRequest.deviceType = 0;
@@ -72,7 +72,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
           /** 「艾斯身份證別-登入2-2」多重帳號頁面渲染
            * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/30001-token-api-mobii
            */
-          if (loginJson.data.List_MultipleUser !== null) {
+          if (loginJson.data.List_MultipleUser !== null && loginJson.data.List_MultipleUser !== 'null') {
             /** 「艾斯身份證別-登入2-2-1」有多重帳號時，使用者點擊取得idToken */
             this.viewType = '1';
             this.List_MultipleUser = loginJson.data.List_MultipleUser;
@@ -113,6 +113,9 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.viewTitle = '帳號升級公告';
         break;
       case '1':
+        this.viewTitle = '帳號整併';
+        break;
+      case '2':
         this.viewTitle = '帳號整併';
         break;
       case '3':
@@ -160,8 +163,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   }
 
   onLoginEyes() {
-    /** 「艾斯身份證別-登入1-3」點擊登入註冊按鈕FORM POST給艾斯識別(M_viewType:1 代表不再顯示公告頁) */
-    this.viewType = '1';
+    /** 「艾斯身份證別-登入1-3」點擊登入註冊按鈕FORM POST給艾斯識別(M_upgrade:1 代表不再顯示公告頁) */
     localStorage.setItem('M_upgrade', '1');
     (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
   }
@@ -179,7 +181,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   }
 
   onGetToken(code: string, uid: number) {
-    /** 「艾斯身份證別-登入3-1」已登入過艾斯(未有idToken)且非多重帳號，點擊過公告頁登入註冊按鈕(M_viewType=1)，可取得idToken，則否讓使用者選完再取得idToken
+    /** 「艾斯身份證別-登入3-1」已登入過艾斯(未有idToken)且非多重帳號，點擊過公告頁登入註冊按鈕(M_upgrade=1)，可取得idToken，則否讓使用者選完再取得idToken
      * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/20001-redirect-api-mobii
      */
     if (code !== undefined && code !== '' && this.cookieService.get('M_idToken') === '') {
@@ -205,7 +207,9 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
           this.viewType = '3';
           console.log('3-2idToken', tokenData.data.idToken);
           /** 「艾斯身份證別-登入3-2-3」裝置若為APP傳interface */
-          this.callApp.getLoginData(tokenData.data.idToken, tokenData.data.Customer_Code);
+          if (this.appService.isApp !== null) {
+            this.callApp.getLoginData(tokenData.data.idToken, tokenData.data.Customer_Code);
+          }
           this.appService.jumpUrl();
         } else {
           if (this.cookieService.get('M_idToken') !== '') {

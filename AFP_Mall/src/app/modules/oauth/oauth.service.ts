@@ -5,13 +5,15 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, retry } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
+import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 
-declare var AppJSInterface: any;
 @Injectable({
   providedIn: 'root'
 })
 export class OauthService {
 
+  /** App訪問 (1:App) */
+  public isApp: number = null;
   /** Mobii login所需要的Request
    * @param deviceType 登入裝置類型 0:Web 1:iOS 2:Android
    * @param fromOriginUri 登入流程結束後要回去的頁面(預設首頁)
@@ -21,13 +23,13 @@ export class OauthService {
     deviceCode: '',
     fromOriginUri: '/'
   };
-
   public grantRequest = {
     grantCode: '',
     UserInfoId: 0,
   };
 
-  constructor(private router: Router, private http: HttpClient, private cookieService: CookieService) {}
+  constructor(private router: Router, private http: HttpClient, private cookieService: CookieService,
+              private callApp: AppJSInterfaceService) {}
 
 
   /** 「艾斯身份證別-登入1-1-3」呼叫APP跳出登入頁、Web返回頁儲存
@@ -35,17 +37,20 @@ export class OauthService {
    * Web：登入按鈕帶入pathname，做為返回依據
    */
   loginPage(pathname: string): void {
-    this.loginRequest.fromOriginUri = pathname;
-    localStorage.setItem('M_fromOriginUri', pathname);
-    console.log('M_fromOriginUri', pathname);
-    location.href = '/Login';
-    if (navigator.userAgent.match(/android/i)) {
-      //  Android call webView
-      AppJSInterface.login();
-    }
-    if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-      //  IOS call webView
-      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'login' });
+
+    if (this.isApp === null) {
+      this.loginRequest.fromOriginUri = pathname;
+      localStorage.setItem('M_fromOriginUri', pathname);
+      console.log('M_fromOriginUri', pathname);
+      location.href = '/Login';
+    } else {
+      if (navigator.userAgent.match(/android/i)) {
+        //  Android
+        this.callApp.AppJSInterface.login();
+      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+        //  IOS
+        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'login' });
+      }
     }
   }
 

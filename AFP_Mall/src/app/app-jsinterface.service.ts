@@ -7,6 +7,7 @@ declare var AppJSInterface: any;
 })
 /** Call APP所需的Interface都會在這裡 */
 export class AppJSInterfaceService {
+  AppJSInterface: any;
 
 
   constructor(private appService: AppService) { }
