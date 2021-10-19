@@ -1,3 +1,4 @@
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppJSInterfaceService } from '@app/app-jsinterface.service';
@@ -18,12 +19,15 @@ export class MobileFooterComponent implements OnInit {
   // 'MyProfile', 'MyPayment', 'CellVerification', 'MyAddress', 'PasswordUpdate', 'ThirdBinding', 'DeliveryInfo', 'Game/', 'VoucherDetail',
   // 'NotificationDetail', 'Terms', 'Privacy', 'QA', 'Error404', 'Error500', 'Error503'];
 
-  constructor(public appService: AppService, public router: Router, private callApp: AppJSInterfaceService) { }
+  constructor(public appService: AppService, public oauthService: OauthService,
+              public router: Router, private callApp: AppJSInterfaceService) { }
 
   ngOnInit() {
     this.currentUrl = this.router.url;
     // 初始時告訴app開啟footer
-    this.callApp.appShowMobileFooter(true);
+    if (this.oauthService.isApp !== null && this.oauthService.isApp !== 0) {
+      this.callApp.appShowMobileFooter(false);
+    }
   }
 
 }

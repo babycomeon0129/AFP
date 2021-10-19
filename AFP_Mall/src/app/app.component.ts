@@ -135,7 +135,9 @@ export class AppComponent implements OnInit, DoCheck {
     this.router.events.pipe(filter(event => event instanceof ResolveEnd))
       .subscribe((event: ResolveEnd) => {
         window.scrollTo(0, 0);
-        this.callApp.appShowMobileFooter(false);
+        if (this.oauthService.isApp !== null && this.oauthService.isApp !== 0) {
+          this.callApp.appShowMobileFooter(false);
+        }
         this.appService.verifyMobileModalOpened = false;
         this.appService.prevUrl = event.url;  // 取得前一頁面url
         this.appService.pathnameUri = location.pathname;  // 取得當前頁面pathname

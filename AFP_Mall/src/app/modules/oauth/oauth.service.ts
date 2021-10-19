@@ -5,8 +5,8 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, retry } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
-import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 
+declare var AppJSInterface: any;
 @Injectable({
   providedIn: 'root'
 })
@@ -28,8 +28,7 @@ export class OauthService {
     UserInfoId: 0,
   };
 
-  constructor(private router: Router, private http: HttpClient, private cookieService: CookieService,
-              private callApp: AppJSInterfaceService) {}
+  constructor(private router: Router, private http: HttpClient, private cookieService: CookieService) {}
 
 
   /** 「艾斯身份證別-登入1-1-3」呼叫APP跳出登入頁、Web返回頁儲存
@@ -42,11 +41,11 @@ export class OauthService {
       this.loginRequest.fromOriginUri = pathname;
       localStorage.setItem('M_fromOriginUri', pathname);
       console.log('M_fromOriginUri', pathname);
-      location.href = '/Login';
+      this.router.navigate(['/Login']);
     } else {
       if (navigator.userAgent.match(/android/i)) {
         //  Android
-        this.callApp.AppJSInterface.login();
+        AppJSInterface.login();
       } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
         //  IOS
         (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'login' });

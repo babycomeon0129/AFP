@@ -77,7 +77,9 @@ export class MemberCardComponent implements OnInit {
 
   ngOnInit() {
     this.readCardList();
-    this.callApp.appShowMobileFooter(false);
+    if (this.oauthService.isApp !== null && this.oauthService.isApp !== 0) {
+      this.callApp.appShowMobileFooter(false);
+    }
   }
 
   /** 讀取卡片列表 */

@@ -65,6 +65,8 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       if (typeof params.loginJson !== 'undefined' && JSON.parse(params.loginJson).errorCode === '996600001') {
         const loginJson = JSON.parse(params.loginJson);
         this.viewType = '2';
+        this.oauthService.isApp = loginJson.data.isApp;
+        this.appService.isApp = loginJson.data.isApp;
         // 只能打一次，否則errorCode:609830001
         if (loginJson.data.grantCode !== 'undefined') {
           this.grantCode = loginJson.data.grantCode;
@@ -207,7 +209,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
           this.viewType = '3';
           console.log('3-2idToken', tokenData.data.idToken);
           /** 「艾斯身份證別-登入3-2-3」裝置若為APP傳interface */
-          if (this.appService.isApp !== null) {
+          if (this.oauthService.isApp !== null && this.oauthService.isApp !== 0) {
             this.callApp.getLoginData(tokenData.data.idToken, tokenData.data.Customer_Code);
           }
           this.appService.jumpUrl();
@@ -230,7 +232,9 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   onLoginOK() {
     this.viewType = '';
     this.appService.blockUI.stop();
-    this.callApp.getLoginData(this.cookieService.get('M_idToken'), this.cookieService.get('userCode'));
+    if (this.oauthService.isApp !== null && this.oauthService.isApp !== 0) {
+      this.callApp.getLoginData(this.cookieService.get('M_idToken'), this.cookieService.get('userCode'));
+    }
     if (localStorage.getItem('M_fromOriginUri') === '/Login') { localStorage.removeItem('M_fromOriginUri'); }
     this.appService.jumpUrl();
   }
