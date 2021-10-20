@@ -84,7 +84,7 @@ export class MemberCardComponent implements OnInit {
   readCardList(): void {
     this.cardListLen = null;
     if (this.appService.loginState === false) {
-      this.oauthService.loginPage(location.pathname);
+      this.oauthService.loginPage(this.appService.isApp, location.pathname);
     } else {
       const request: Request_MemberMyCard = {
         SelectMode: 4,

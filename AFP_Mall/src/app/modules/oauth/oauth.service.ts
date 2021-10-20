@@ -11,9 +11,6 @@ declare var AppJSInterface: any;
   providedIn: 'root'
 })
 export class OauthService {
-
-  /** App訪問 (1:App) */
-  public isApp: number = null;
   /** Mobii login所需要的Request
    * @param deviceType 登入裝置類型 0:Web 1:iOS 2:Android
    * @param fromOriginUri 登入流程結束後要回去的頁面(預設首頁)
@@ -35,9 +32,9 @@ export class OauthService {
    * App：原生點擊登入按鈕（帶queryParams：isApp,deviceType,deviceCode），統一由Web向艾斯識別驗證
    * Web：登入按鈕帶入pathname，做為返回依據
    */
-  loginPage(pathname: string): void {
-
-    if (this.isApp === null) {
+  loginPage(isApp: number, pathname: string): void {
+    console.log(isApp);
+    if (isApp === null) {
       this.loginRequest.fromOriginUri = pathname;
       localStorage.setItem('M_fromOriginUri', pathname);
       console.log('M_fromOriginUri', pathname);

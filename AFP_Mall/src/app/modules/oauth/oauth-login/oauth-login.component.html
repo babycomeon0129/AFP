@@ -49,7 +49,7 @@
   <footer class="shopping-cartfooter order-go-pay">
     <div class="fixed-bottom container fixed-shadow" *ngIf="viewType==='0' || viewType==='1'">
       <div *ngIf="viewType==='0'" class="p-3">
-        <button type="button" (click)="onLoginEyes()" class="btn index-btn w-100 login-ok" [disabled]="viewList.length===0">前往登入註冊</button>
+        <button type="button" (click)="onLoginEyes()" class="btn index-btn w-100 login-ok" id="loginEyesBtn">前往登入註冊</button>
       </div>
       <div *ngIf="viewType==='1'" class="p-3">
         <button type="button" (click)="onGetToken(grantCode, UserInfoId)" class="btn index-btn w-100 login-ok">立即升級綁定</button>

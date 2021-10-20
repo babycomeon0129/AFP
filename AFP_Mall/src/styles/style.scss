@@ -1434,3 +1434,20 @@ img.nearbyimg{
   }
 
 }
+
+
+// app 內debug用
+.for-app-debug-box {
+  position: fixed;
+  z-index: 99999999;
+  background-color: #ffffff;
+  top: 10%;
+  height: 80vh;
+  width: 100%;
+  border: 1px solid #000;
+  overflow: scroll;
+  #loginRequest {
+    padding: 10px;
+    background-color: rgb(255, 255, 183);
+  }
+}

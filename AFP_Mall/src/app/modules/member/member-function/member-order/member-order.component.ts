@@ -75,7 +75,7 @@ export class MemberOrderComponent implements OnInit {
         break;
     }
     if (this.appService.loginState === false) {
-      this.oauthService.loginPage(location.pathname);
+      this.oauthService.loginPage(this.appService.isApp, location.pathname);
     } else {
       this.appService.openBlock();
       const request: Request_MemberOrder = {

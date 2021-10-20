@@ -307,7 +307,7 @@ export class AppService {
     };
 
     if (this.loginState === false) {
-      this.oauthService.loginPage(this.pathnameUri);
+      this.oauthService.loginPage(this.isApp, this.pathnameUri);
     } else {
       this.toApi('Member', '1511', request).subscribe((data: Response_MemberFavourite) => {
         // update favorites to session
@@ -345,7 +345,7 @@ export class AppService {
   onVoucher(voucher: AFP_Voucher): void {
     // 點擊兌換時先進行登入判斷
     if (this.loginState === false) {
-      this.oauthService.loginPage(this.pathnameUri);
+      this.oauthService.loginPage(this.isApp, this.pathnameUri);
     } else {
       switch (voucher.Voucher_IsFreq) {
         case 1:

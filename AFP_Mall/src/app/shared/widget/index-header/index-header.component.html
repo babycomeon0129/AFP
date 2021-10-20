@@ -21,7 +21,7 @@
         </div>
       </div>
       <!-- 未登入 -->
-      <button (click)="oauthService.loginPage(appService.pathnameUri)" *ngIf="appService.loginState===false" type="button"
+      <button (click)="oauthService.loginPage(appService.isApp, appService.pathnameUri)" *ngIf="appService.loginState===false" type="button"
         class="m-topbox-item btn bluedk-outline-btn btw-small">
         登入/註冊
       </button>

@@ -48,7 +48,7 @@ export class MyAddressComponent implements OnInit {
   /** 讀取地址列表，及「新增地址」中的縣市和行政區 */
   onGetAddressList(): void {
     if (this.appService.loginState === false) {
-      this.oauthService.loginPage(location.pathname);
+      this.oauthService.loginPage(this.appService.isApp, location.pathname);
     } else {
       const request: Request_MemberAddress = {
         SelectMode: 4,
@@ -78,7 +78,7 @@ export class MyAddressComponent implements OnInit {
    */
   onReadAddressDetail(addressID: number): void {
     if (this.appService.loginState === false) {
-      this.oauthService.loginPage(location.pathname);
+      this.oauthService.loginPage(this.appService.isApp, location.pathname);
     } else {
       if (addressID > 0) {
         this.appService.openBlock();

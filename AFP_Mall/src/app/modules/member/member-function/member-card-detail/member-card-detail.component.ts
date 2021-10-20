@@ -54,7 +54,7 @@ export class MemberCardDetailComponent implements OnInit {
   /** 讀取卡片詳細 */
   onReadCardDetail() {
     if (this.appService.loginState === false) {
-      this.oauthService.loginPage(location.pathname);
+      this.oauthService.loginPage(this.appService.isApp, location.pathname);
     } else {
       const request: Request_MemberMyCard = {
         SelectMode: 5,

@@ -118,7 +118,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
    */
   toVoucher(voucher: AFP_Voucher): void {
     if (this.appService.loginState === false) {
-      this.oauthService.loginPage(location.pathname);
+      this.oauthService.loginPage(this.appService.isApp, location.pathname);
     } else {
       if (voucher.Voucher_DedPoint > 0 && voucher.Voucher_IsFreq === 1) {
         this.modal.confirm({

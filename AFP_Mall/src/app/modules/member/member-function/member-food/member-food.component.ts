@@ -29,7 +29,7 @@ export class MemberFoodComponent implements OnInit {
 
   getFoodList(): void {
     if (this.appService.loginState === false) {
-      this.oauthService.loginPage(location.pathname);
+      this.oauthService.loginPage(this.appService.isApp, location.pathname);
     } else {
       const request: Request_MemDeliveryOrder = {
         // User_Code: sessionStorage.getItem('userCode')

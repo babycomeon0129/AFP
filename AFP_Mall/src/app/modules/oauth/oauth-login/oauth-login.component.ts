@@ -40,12 +40,13 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     this.activatedRoute.queryParams.subscribe(params => {
 
       /** 「艾斯身份證別-登入1-1-2」接收queryParams */
-      if (this.appService.isApp !== null && typeof params.isApp !== 'undefined') {
+      if (params.isApp) {
         /** 「艾斯身份證別-登入1-1-1b」 App (接收App queryParams：isApp, deviceType, deviceCode) */
         this.oauthService.loginRequest.deviceType = Number(params.deviceType);
         localStorage.setItem('M_deviceType', params.deviceType);
         this.appService.isApp = params.isApp;
-        this.oauthService.loginPage('/');  // APP返回預設
+        this.oauthService.loginRequest.deviceCode = params.deviceCode;
+        this.oauthService.loginPage(params.isApp, '/');
       } else {
         /** 「艾斯身份證別-登入1-1-1a」活動頁帶返回頁參數 */
         this.oauthService.loginRequest.deviceType = 0;
@@ -55,9 +56,8 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
           this.oauthService.loginRequest.fromOriginUri = params.fromOriginUri;
           localStorage.setItem('M_fromOriginUri', params.fromOriginUri);
         }
+        this.oauthService.loginRequest.deviceCode = localStorage.getItem('M_DeviceCode');
       }
-      this.oauthService.loginRequest.deviceCode =
-        (typeof params.deviceCode !== 'undefined') ? params.deviceCode : localStorage.getItem('M_DeviceCode');
 
 
       /** 「艾斯身份證別-登入2-1」 艾斯身份識別登入成功後，由Redirect API取得grantCode及List_MultipleUser
@@ -66,7 +66,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       if (typeof params.loginJson !== 'undefined' && JSON.parse(params.loginJson).errorCode === '996600001') {
         const loginJson = JSON.parse(params.loginJson);
         this.viewType = '2';
-        this.oauthService.isApp = loginJson.data.isApp;
         this.appService.isApp = loginJson.data.isApp;
         // 只能打一次，否則errorCode:609830001
         if (loginJson.data.grantCode) {
@@ -97,16 +96,15 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       if (params.forgetPassword === 'true' && this.cookieService.get('M_idToken') !== '') {
         this.onLoginOK();
       }
-
     });
-
-
   }
 
   ngOnInit() {
     console.log('ngOnInit viewType', this.viewType, localStorage.getItem('M_upgrade'));
-    if (localStorage.getItem('M_upgrade') === null) { this.viewType = '0'; }
-    if (this.cookieService.get('M_idToken') === '') {
+    if (localStorage.getItem('M_upgrade') === null) {
+      this.viewType = '0';
+    }
+    if (!this.cookieService.get('M_idToken')) {
       this.getViewData();
     } else {
       this.onLoginOK();
@@ -119,7 +117,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.viewTitle = '帳號整併';
         break;
       case '2':
-        this.viewTitle = '帳號整併';
+        this.appService.loginState = (this.cookieService.get('M_idToken') === '' ) ?  false : true;
         break;
       case '3':
         this.onLoginOK();
@@ -132,6 +130,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
   getViewData() {
     console.log('loginRequest', this.oauthService.loginRequest);
+    document.getElementById('loginRequest').innerHTML = JSON.stringify(this.oauthService.loginRequest);
     /** 「艾斯身份證別-登入1-2-1」AJAX提供登入所需Request給後端，以便response取得後端提供的資料 */
     this.oauthService.toOauthRequest(this.oauthService.loginRequest).subscribe((data: ViewConfig) => {
       /** 「艾斯身份證別-登入1-2-3」取得Response資料，讓Form渲染 */
@@ -149,19 +148,12 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.delaySubmit().then(() => {
           this.appService.blockUI.stop();
         });
-        // setTimeout(() => {
-        //   console.log('viewLen', this.viewList.length, localStorage.getItem('M_upgrade'));
-        //   this.appService.blockUI.stop();
-        //   (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
-        // }, 2000);
+        /* setTimeout(() => {
+          console.log('viewLen', this.viewList.length, localStorage.getItem('M_upgrade'));
+          this.appService.blockUI.stop();
+          (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
+        }, 2000); */
       }
-      /** 「艾斯身份證別-登入4-1-1」曾經登入成功過(沒有idToken)，重新至艾斯登入 */
-      // if (localStorage.getItem('M_viewType') === '2' && this.cookieService.get('M_idToken') !== '') {
-      //   (this.oauthService.toEyesRequest(JSON.parse(JSON.stringify(data))))
-      //     .subscribe((res: ResponseEyes) => {
-      //       console.log('4-1-1', res);
-      //   });
-      // }
     });
   }
 
