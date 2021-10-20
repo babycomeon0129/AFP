@@ -84,11 +84,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
             /** 「艾斯身份證別-登入2-2-2」無多重帳號時，用grantCode取得idToken */
             this.onGetToken(loginJson.data.grantCode, 0);
           }
-        // } else {
-        //   const content = `登入註冊失敗<br>錯誤代碼：${JSON.parse(params.loginJson).errorCode}<br>請重新登入註冊!`;
-        //   this.bsModalService.show(MessageModalComponent, {
-        //     class: 'modal-dialog-centered',
-        //     initialState: { success: true, message: content, showType: 5, checkBtnMsg: '我知道了' } });
         }
       }
 
@@ -120,6 +115,8 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.appService.loginState = (this.cookieService.get('M_idToken') === '' ) ?  false : true;
         break;
       case '3':
+        let temp = document.getElementById('loginRequest').innerHTML;
+        document.getElementById('loginRequest').innerHTML = temp + '<div>viewType: ' + this.viewType + '</div>';
         this.onLoginOK();
         break;
       default:
@@ -130,7 +127,8 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
   getViewData() {
     console.log('loginRequest', this.oauthService.loginRequest);
-    document.getElementById('loginRequest').innerHTML = JSON.stringify(this.oauthService.loginRequest);
+    let temp = document.getElementById('loginRequest').innerHTML;
+    document.getElementById('loginRequest').innerHTML = temp + JSON.stringify(this.oauthService.loginRequest);
     /** 「艾斯身份證別-登入1-2-1」AJAX提供登入所需Request給後端，以便response取得後端提供的資料 */
     this.oauthService.toOauthRequest(this.oauthService.loginRequest).subscribe((data: ViewConfig) => {
       /** 「艾斯身份證別-登入1-2-3」取得Response資料，讓Form渲染 */
@@ -148,11 +146,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.delaySubmit().then(() => {
           this.appService.blockUI.stop();
         });
-        /* setTimeout(() => {
-          console.log('viewLen', this.viewList.length, localStorage.getItem('M_upgrade'));
-          this.appService.blockUI.stop();
-          (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
-        }, 2000); */
       }
     });
   }

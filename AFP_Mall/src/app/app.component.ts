@@ -87,6 +87,10 @@ export class AppComponent implements OnInit, DoCheck {
         this.appService.loginState = true;
       }
 
+      /** 「艾斯身份證別-登出」變更密碼返回登出 */
+      if (typeof params.logout === 'undefined' && params.logout) {
+        this.appService.onLogout();
+      }
       // // 第三方登入(LINE)
       // if (params.Mobii_ThirdLogin === 'true' && params.Mode !== undefined && params.Token !== undefined && !this.appService.loginState) {
       //   this.thirdRequest.Mode = Number(params.Mode);
