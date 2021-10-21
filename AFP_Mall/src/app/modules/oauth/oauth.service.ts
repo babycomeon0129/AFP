@@ -69,6 +69,7 @@ export class OauthService {
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
     });
     return this.http.post(environment.tokenUrl, JSON.stringify(this.grantRequest), { headers })
       .pipe(map((data: ResponseIdTokenApi) => {

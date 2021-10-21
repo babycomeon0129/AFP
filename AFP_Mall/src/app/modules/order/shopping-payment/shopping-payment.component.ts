@@ -7,6 +7,8 @@ import { Model_ShareData, AFP_CSPayment, AFP_UserFavourite, OrderInvoice } from 
 import { NgForm } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation} from '@app/animations';
+import { CookieService } from 'ngx-cookie-service';
+import { HttpHeaders } from '@angular/common/http';
 declare var $: any;
 
 @Component({
@@ -39,7 +41,8 @@ export class ShoppingPaymentComponent implements OnInit {
   public maskCardDate = { mask: [/\d/, /\d/, '/', /\d/, /\d/] };
   public maskCardCSC = { mask: [/\d/, /\d/, /\d/] };
 
-  constructor(public appService: AppService, public modal: ModalService, private router: Router, private meta: Meta, private title: Title) {
+  constructor(public appService: AppService, public modal: ModalService, private router: Router,
+              private cookieService: CookieService, private meta: Meta, private title: Title) {
     this.title.setTitle('付款方式｜線上商城 - Mobii!');
     this.meta.updateTag({name : 'description', content: ''});
     this.meta.updateTag({content: '付款方式｜線上商城 - Mobii!', property: 'og:title'});
