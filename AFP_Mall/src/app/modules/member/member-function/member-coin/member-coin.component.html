@@ -115,7 +115,7 @@
         <div class="title-box">
           <div class="item icon-btn">
             <button class="btn px-0" (click)="coinHistoryClose()" data-toggle="tooltip" data-placement="bottom"
-              title="回上一頁" [hidden]="appService.isApp !== null && !appService.showBack">
+              title="回上一頁" [hidden]="(appService.isApp !== null && appService.isApp !== 0) && !appService.showBack">
               <i class="material-icons">&#xe314;</i>
             </button>
           </div>

@@ -32,9 +32,9 @@ export class OauthService {
    * App：原生點擊登入按鈕（帶queryParams：isApp,deviceType,deviceCode），統一由Web向艾斯識別驗證
    * Web：登入按鈕帶入pathname，做為返回依據
    */
-  loginPage(isApp: number, pathname: string): void {
-    console.log(isApp);
-    if (isApp === null) {
+  loginPage(isApp: number, pathname: string): any {
+    console.log(' >>>> ', isApp);
+    if (isApp !== 1) {
       this.loginRequest.fromOriginUri = pathname;
       localStorage.setItem('M_fromOriginUri', pathname);
       console.log('M_fromOriginUri', pathname);
@@ -108,6 +108,7 @@ export class OauthService {
       const request = '';
       return this.http.post(environment.modifyUrl, { Data: JSON.stringify(request) }, { headers })
         .pipe(map((data: any) => {
+          // alert('變更密碼倒轉: ' + JSON.stringify(data.data));
           location.href = data.data;
           return data;
         }, catchError(this.handleError)));
@@ -133,7 +134,6 @@ export class OauthService {
   /** 清除Storage */
   onClearStorage() {
     sessionStorage.clear();
-    this.cookieService.deleteAll();
     localStorage.removeItem('M_fromOriginUri');
     localStorage.removeItem('M_deviceType');
   }

@@ -211,7 +211,7 @@ export class ExploreDetailComponent implements OnInit {
   sendDelivery(url: string): void {
     // 先判斷是否有登入
     if (this.appService.loginState === false) {
-      this.oauthService.loginPage(this.appService.isApp, location.pathname);
+      this.appService.logoutModal();
     } else {
       // 把商店code帶到DeliveryInfo頁面
       window.open(url);

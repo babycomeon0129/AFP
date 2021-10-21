@@ -35,8 +35,6 @@ export class AppService {
   public loginState = false;
   /** App訪問 (1:App) */
   public isApp: number = null;
-  /** App訪問 (idToken) */
-  public idToken: string = null;
   /** 使用者暱稱 */
   public userName = sessionStorage.getItem('userName') || null;
   /** 我的收藏物件陣列 */
@@ -90,9 +88,6 @@ export class AppService {
   }
 
   toApi(ctrl: string, command: string, request: any, lat: number = null, lng: number = null, deviceCode?: string): Observable<any> {
-    if (this.idToken === null) {
-      this.idToken = (this.cookieService.get('M_idToken') === '') ? '' : 'Bearer ' + this.cookieService.get('M_idToken');
-    }
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       xEyes_Command: command,
@@ -100,13 +95,22 @@ export class AppService {
       xEyes_Y: (lat != null) ? lat.toString() : '',
       xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
       xEyes_DeviceCode: deviceCode === undefined ? '' : deviceCode,
-      Authorization: this.idToken,
+      Authorization: (this.cookieService.get('M_idToken') === '') ? '' : ('Bearer ' + this.cookieService.get('M_idToken')),
     });
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
       .pipe(map((data: Response_APIModel) => {
         this.blockUI.stop();
         console.log(command, data);
+
+        /** 「艾斯身份證別-更新idToken」 */
+        const toApiData = data;
+        console.log(command, toApiData.IdToken, this.cookieService.get('M_idToken'));
+        if (toApiData.IdToken) {
+          if (this.cookieService.get('M_idToken') !== toApiData.IdToken) {
+            this.cookieService.set('M_idToken', toApiData.IdToken);
+          }
+        }
         switch (data.Base.Rtn_State) {
           case 1: // Response OK
             /** 手機驗證需要在eyesmedia-identity驗證, 故隱藏 */
@@ -132,19 +136,18 @@ export class AppService {
             //     this.onLogout();
             //     this.router.navigate(['/']);
             // }
-            if (this.idToken !== null && this.idToken !== '') { this.loginState = true; }
             return JSON.parse(data.Data);
           case 9996: // 查無商品詳細頁資料
             this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
               initialState: { success: false, message: data.Base.Rtn_Message, showType: 2, checkBtnMsg: '確定', target: 'GoBack' } });
             break;
           case 9998: // user資料不完整，讓使用者登出
-            this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
-              initialState: { success: false, message: '請先登入', showType: 5, checkBtnMsg: '重新登入' } });
-            this.onLogout();
+            this.logoutModal();
+            break;
+          case 609840001: // 登入不完整，讓使用者登出
+            this.logoutModal();
             break;
           default: // 其他錯誤
-            if (this.idToken === null && this.idToken === '') { this.loginState = false; }
             this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
               initialState: { success: false, message: data.Base.Rtn_Message, showType: 2, target: data.Base.Rtn_URL } });
             throw new Error('bad request');
@@ -201,14 +204,13 @@ export class AppService {
     this.cookieService.deleteAll();
     this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
     this.loginState = false;
-    this.idToken = null;
     this.userFavCodes = [];
     this.pushCount = 0;
     this.verifyMobileModalOpened = false;
     this.oauthService.onClearStorage();
 
     //  APP登出導頁
-    if (this.isApp !== null && this.isApp !== 0) {
+    if (this.isApp === 1) {
       window.location.href = '/ForApp/AppLogout';
     }
   }
@@ -221,16 +223,13 @@ export class AppService {
    * @param request 傳送資料
    */
   toApi_Logout(ctrl: string, command: string, request: any, lat: number = null, lng: number = null): Observable<any> {
-    if (this.idToken === null) {
-      this.idToken = (this.cookieService.get('M_idToken') === '') ? '' : 'Bearer ' + this.cookieService.get('M_idToken');
-    }
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       xEyes_Command: command,
       xEyes_X: (lng != null) ? lng.toString() : '',
       xEyes_Y: (lat != null) ? lat.toString() : '',
       xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
-      Authorization: this.idToken,
+      Authorization: (this.cookieService.get('M_idToken') === '') ? '' : ('Bearer ' + this.cookieService.get('M_idToken')),
     });
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
@@ -239,6 +238,11 @@ export class AppService {
       }, catchError(() => null)));
   }
 
+  logoutModal() {
+    this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
+        initialState: { success: false, message: '請先登入', showType: 5, checkBtnMsg: '登入/註冊' } });
+    this.onLogout();
+  }
   /** 登入初始化需帶入的 state，Apple、Line登入都需要用到
    * @description unix timestamp 前後相反後前4碼+ 10碼隨機英文字母 (大小寫不同)
    * @returns state 的值
@@ -306,9 +310,7 @@ export class AppService {
       },
     };
 
-    if (this.loginState === false) {
-      this.oauthService.loginPage(this.isApp, this.pathnameUri);
-    } else {
+    if (this.loginState === true) {
       this.toApi('Member', '1511', request).subscribe((data: Response_MemberFavourite) => {
         // update favorites to session
         console.log(data);
@@ -345,7 +347,7 @@ export class AppService {
   onVoucher(voucher: AFP_Voucher): void {
     // 點擊兌換時先進行登入判斷
     if (this.loginState === false) {
-      this.oauthService.loginPage(this.isApp, this.pathnameUri);
+      this.logoutModal();
     } else {
       switch (voucher.Voucher_IsFreq) {
         case 1:

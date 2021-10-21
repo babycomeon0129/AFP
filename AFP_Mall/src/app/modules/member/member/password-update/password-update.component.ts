@@ -38,7 +38,7 @@ export class PasswordUpdateComponent implements OnInit {
    */
   onUpdatePwd(form: NgForm): void {
     if (this.appService.loginState === false) {
-      this.oauthService.loginPage(this.appService.isApp, location.pathname);
+      this.appService.logoutModal();
     } else {
       this.requestUpdatePwd.SelectMode = 3;
       this.appService.toApi('Member', '1505', this.requestUpdatePwd).subscribe(() => {

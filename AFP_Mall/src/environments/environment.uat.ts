@@ -1,10 +1,12 @@
 export const environment = {
   production: false,
   apiUrl: 'https://afpapi-uat.mobii.ai/api/',
-  loginUrl: 'https://login-uuat.mobii.ai/auth/api/v1/login',
+  loginUrl: 'https://login-uat.mobii.ai/auth/api/v1/login',
+  tokenUrl: 'https://login-uat.mobii.ai/auth/api/v1/token',
+  modifyUrl: 'https://login-uat.mobii.ai/auth/api/v1/memberModify',
   FBApiKey: '349758176149496',
   GoogleApiKey: '260499247538-ctoucp9t09ufdpgqmd4ac368lfpgmorm.apps.googleusercontent.com',
-  cookieDomain: 'www-uat.mobii.ai',
+  cookieDomain: '.mobii.ai',
   cookieSecure: true,
   /** Apple登入redirectURI */
   AppleSignInURI: 'https://www-uat.mobii.ai',

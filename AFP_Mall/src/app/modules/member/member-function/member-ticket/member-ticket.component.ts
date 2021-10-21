@@ -39,7 +39,7 @@ export class MemberTicketComponent implements OnInit {
    */
   readTicketList(usedType: number): void {
     if (this.appService.loginState === false) {
-      this.oauthService.loginPage(this.appService.isApp, location.pathname);
+      this.appService.logoutModal();
     } else {
       this.appService.openBlock();
       this.listType = usedType;

@@ -20,6 +20,8 @@ export interface Response_APIModel {
   Data?: string;
   /** 認證資訊 */
   Verification?: Model_Verification;
+  /** 登入認證 */
+  IdToken?: string;
 }
 
 /** 驗證Model */

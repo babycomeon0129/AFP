@@ -19,8 +19,10 @@
         </div>
         <!-- 登入前 -->
         <div *ngIf="appService.loginState===false">
-          <button (click)="oauthService.loginPage(appService.isApp, appService.pathnameUri)" type="button" class="btn white-outline-btn btw-small">登入/註冊<img
-              src="../img/share/forward_w.png" class="h20"></button>
+          <button (click)="oauthService.loginPage(appService.isApp, appService.pathnameUri)" type="button" class="btn white-outline-btn btw-small">
+            登入/註冊
+            <img src="../img/share/forward_w.png" class="h20">
+          </button>
         </div>
         <!-- 登入後 -->
         <div *ngIf="appService.loginState===true" class="flex-inline-between">

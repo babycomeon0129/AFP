@@ -32,6 +32,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   /** 使用者grantCode */
   public grantCode = '';
   public loginJsonData: object;
+  public temp: any;
 
   constructor(public appService: AppService, public oauthService: OauthService, private router: Router,
               public el: ElementRef, private activatedRoute: ActivatedRoute, public bsModalService: BsModalService,
@@ -58,7 +59,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         }
         this.oauthService.loginRequest.deviceCode = localStorage.getItem('M_DeviceCode');
       }
-
 
       /** 「艾斯身份證別-登入2-1」 艾斯身份識別登入成功後，由Redirect API取得grantCode及List_MultipleUser
        * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/30001-token-api-mobii
@@ -91,10 +91,14 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       if (params.forgetPassword === 'true' && this.cookieService.get('M_idToken') !== '') {
         this.onLoginOK();
       }
+
     });
   }
 
   ngOnInit() {
+    document.getElementById('loginRequest').innerHTML = this.temp +
+        '<div>loginState: ' + this.appService.loginState + '</div>' +
+        '<div>idToken: ' + this.cookieService.get('M_idToken') + '</div>';
     console.log('ngOnInit viewType', this.viewType, localStorage.getItem('M_upgrade'));
     if (localStorage.getItem('M_upgrade') === null) {
       this.viewType = '0';
@@ -115,8 +119,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.appService.loginState = (this.cookieService.get('M_idToken') === '' ) ?  false : true;
         break;
       case '3':
-        let temp = document.getElementById('loginRequest').innerHTML;
-        document.getElementById('loginRequest').innerHTML = temp + '<div>viewType: ' + this.viewType + '</div>';
+        document.getElementById('loginRequest').innerHTML = this.temp + '<div>viewType: ' + this.viewType + '</div>';
         this.onLoginOK();
         break;
       default:
@@ -127,8 +130,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
   getViewData() {
     console.log('loginRequest', this.oauthService.loginRequest);
-    let temp = document.getElementById('loginRequest').innerHTML;
-    document.getElementById('loginRequest').innerHTML = temp + JSON.stringify(this.oauthService.loginRequest);
+    document.getElementById('loginRequest').innerHTML = this.temp + JSON.stringify(this.oauthService.loginRequest);
     /** 「艾斯身份證別-登入1-2-1」AJAX提供登入所需Request給後端，以便response取得後端提供的資料 */
     this.oauthService.toOauthRequest(this.oauthService.loginRequest).subscribe((data: ViewConfig) => {
       /** 「艾斯身份證別-登入1-2-3」取得Response資料，讓Form渲染 */
@@ -178,50 +180,52 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     /** 「艾斯身份證別-登入3-1」已登入過艾斯(未有idToken)且非多重帳號，點擊過公告頁登入註冊按鈕(M_upgrade=1)，可取得idToken，則否讓使用者選完再取得idToken
      * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/20001-redirect-api-mobii
      */
-    if ((code && code !== '') && !M_idToken) {
-      // grantCode只能使用一次，註冊Mobii會員
-      this.oauthService.grantRequest.grantCode = code;
-      this.oauthService.grantRequest.UserInfoId = uid;
-      /** 「艾斯身份證別-登入3-2-1」取得idToken */
-      this.oauthService.toTokenApi(this.oauthService.grantRequest).subscribe((data: ResponseIdTokenApi) => {
-        console.log('3-2TokenApiResponse', this.viewType, JSON.stringify(data));
-        const tokenData =  Object.assign(data);
-        if (tokenData.errorCode === '996600001') {
-          /** 「艾斯身份證別-登入3-2-2」取得idToken帶入header:Authorization */
-          sessionStorage.setItem('M_idToken', tokenData.data.idToken);
-          sessionStorage.setItem('userName', tokenData.data.Customer_Name);
-          sessionStorage.setItem('userCode', tokenData.data.Customer_Code);
-          sessionStorage.setItem('userFavorites', JSON.stringify(tokenData.data.List_UserFavourite));
-          this.cookieService.set('M_idToken', tokenData.data.idToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-          this.cookieService.set('userName', tokenData.data.Customer_Name, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-          this.cookieService.set('userCode', tokenData.data.Customer_Code, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-          this.appService.userName = tokenData.data.Customer_Name;
-          this.appService.loginState = true;
-          this.appService.userLoggedIn = true;
-          this.viewType = '3';
-          console.log('3-2idToken', tokenData.data.idToken);
-          /** 「艾斯身份證別-登入3-2-3」裝置若為APP傳interface */
-          // if (this.appService.isApp !== null) {
-          this.callApp.getLoginData(tokenData.data.idToken, tokenData.data.Customer_Code);
-          // }
-          this.appService.jumpUrl();
-        } else {
-          const content = `登入註冊失敗<br>錯誤代碼：${tokenData.errorCode}<br>請重新登入註冊`;
-          this.bsModalService.show(MessageModalComponent, {
-            class: 'modal-dialog-centered',
-            initialState: { success: true, message: content, showType: 5, checkBtnMsg: '我知道了' } });
-          /* if (this.cookieService.get('M_idToken') !== '') {
-            this.onLoginOK();
+    if (code && code !== '') {
+      if (!M_idToken) {
+        // grantCode只能使用一次，註冊Mobii會員
+        this.oauthService.grantRequest.grantCode = code;
+        this.oauthService.grantRequest.UserInfoId = uid;
+        /** 「艾斯身份證別-登入3-2-1」取得idToken */
+        this.oauthService.toTokenApi(this.oauthService.grantRequest).subscribe((data: ResponseIdTokenApi) => {
+          console.log('3-2TokenApiResponse', this.viewType, JSON.stringify(data));
+          const tokenData =  Object.assign(data);
+          if (tokenData.errorCode === '996600001') {
+            /** 「艾斯身份證別-登入3-2-2」取得idToken帶入header:Authorization */
+            sessionStorage.setItem('M_idToken', tokenData.data.idToken);
+            sessionStorage.setItem('userName', tokenData.data.Customer_Name);
+            sessionStorage.setItem('userCode', tokenData.data.Customer_Code);
+            sessionStorage.setItem('userFavorites', JSON.stringify(tokenData.data.List_UserFavourite));
+            this.cookieService.set('M_idToken', tokenData.data.idToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+            this.cookieService.set('userName', tokenData.data.Customer_Name, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+            this.cookieService.set('userCode', tokenData.data.Customer_Code, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+            this.appService.userName = tokenData.data.Customer_Name;
+            this.appService.loginState = true;
+            this.appService.userLoggedIn = true;
+            this.viewType = '3';
+            console.log('3-2idToken', tokenData.data.idToken);
+            this.appService.jumpUrl();
+            /** 「艾斯身份證別-登入3-2-3」裝置若為APP傳interface */
+            if (this.appService.isApp) {
+              this.callApp.getLoginData(tokenData.data.idToken, tokenData.data.Customer_Code);
+            }
           } else {
             const content = `登入註冊失敗<br>錯誤代碼：${tokenData.errorCode}<br>請重新登入註冊`;
             this.bsModalService.show(MessageModalComponent, {
               class: 'modal-dialog-centered',
               initialState: { success: true, message: content, showType: 5, checkBtnMsg: '我知道了' } });
-          } */
-        }
-      });
-    } else if (M_idToken && M_idToken.length > 0) {
-      this.onLoginOK();
+            /* if (this.cookieService.get('M_idToken') !== '') {
+              this.onLoginOK();
+            } else {
+              const content = `登入註冊失敗<br>錯誤代碼：${tokenData.errorCode}<br>請重新登入註冊`;
+              this.bsModalService.show(MessageModalComponent, {
+                class: 'modal-dialog-centered',
+                initialState: { success: true, message: content, showType: 5, checkBtnMsg: '我知道了' } });
+            } */
+          }
+        });
+      } else {
+        this.onLoginOK();
+      }
     }
   }
 
@@ -231,6 +235,9 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     this.callApp.getLoginData(this.cookieService.get('M_idToken'), this.cookieService.get('userCode'));
     if (localStorage.getItem('M_fromOriginUri') === '/Login') { localStorage.removeItem('M_fromOriginUri'); }
     this.appService.jumpUrl();
+    if (this.appService.isApp) {
+      this.callApp.getLoginData(this.cookieService.get('M_idToken'), this.cookieService.get('userCode'));
+    }
   }
 
   ngAfterViewInit() {

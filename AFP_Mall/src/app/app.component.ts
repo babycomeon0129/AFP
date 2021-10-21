@@ -41,8 +41,8 @@ export class AppComponent implements OnInit, DoCheck {
       if (this.appService.isApp == null && typeof params.isApp !== 'undefined') {
         this.appService.isApp = Number(params.isApp);
       }
-      if (this.appService.idToken !== null && typeof params.idToken !== 'undefined') {
-        this.appService.idToken = params.idToken;
+      if (typeof params.IdToken !== 'undefined' && params.IdToken !== null) {
+        this.cookieService.set('M_idToken', params.IdToken);
       }
 
       if (typeof params.fromOriginUri !== 'undefined') {
@@ -88,7 +88,7 @@ export class AppComponent implements OnInit, DoCheck {
       }
 
       /** 「艾斯身份證別-登出」變更密碼返回登出 */
-      if (typeof params.logout === 'undefined' && params.logout) {
+      if (params.logout) {
         this.appService.onLogout();
       }
       // // 第三方登入(LINE)
@@ -139,6 +139,7 @@ export class AppComponent implements OnInit, DoCheck {
     // 當路由器成功完成路由的解析階段時，先通知app將footer關閉(開啟則靠app-mobile-footer通知開啟)
     this.router.events.pipe(filter(event => event instanceof ResolveEnd))
       .subscribe((event: ResolveEnd) => {
+        console.log('>>>>>>>>>>>>>' + this.appService.isApp);
         window.scrollTo(0, 0);
         this.callApp.appShowMobileFooter(false);
         this.appService.verifyMobileModalOpened = false;
@@ -147,7 +148,7 @@ export class AppComponent implements OnInit, DoCheck {
       });
     this.detectOld();
     // this.appService.initPush();
-
+    // TODO 點10下用
     setInterval(() => {
       this.test = location.href;
     }, 3000);

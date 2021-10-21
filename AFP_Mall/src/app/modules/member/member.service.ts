@@ -35,14 +35,13 @@ export class MemberService {
       return new Promise(resolve => {
         this.appService.toApi('Member', '1502', request).subscribe((data: Response_MemberProfile) => {
           this.userProfile = data;
+
           if (this.userProfile !== null) {
             this.appService.userName = this.userProfile.User_NickName;
             // 解決ngx-bootstrap 套件日期減一天問題
             if (this.userProfile.UserProfile_Birthday !== null) {
               this.userProfile.UserProfile_Birthday = new Date(this.userProfile.UserProfile_Birthday);
             }
-          } else {
-            this.oauthService.loginPage(this.appService.isApp, location.pathname);
           }
           resolve(true);
         });

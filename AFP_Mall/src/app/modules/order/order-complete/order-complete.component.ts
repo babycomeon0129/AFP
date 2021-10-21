@@ -77,7 +77,7 @@ export class OrderCompleteComponent implements OnInit {
 
   /** 前往商城首頁 */
   GoECIndex(): void {
-    if (this.appService.isApp != null && this.appService.isApp !== 0) {
+    if (this.appService.isApp === 1) {
       location.href = '/Shopping';
     } else {
       this.router.navigate(['/Shopping']);

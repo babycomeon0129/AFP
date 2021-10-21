@@ -96,8 +96,9 @@ export class ExploreMapComponent implements OnInit {
         IndexArea_Distance: 5000
       }
     };
+
+    this.appService.openBlock(); // 在畫面資料ready前顯示loader避免過早使用swiper卡住
     this.appService.toApi('Area', '1401', request, this.lat, this.lng).subscribe((data: Response_AreaIndex) => {
-      this.appService.openBlock(); // 在畫面資料ready前顯示loader避免過早使用swiper卡住
       // 近 > 遠
       this.AreaList = data.List_AreaData[0].ECStoreData.sort((a, b) => {
         return a.ECStore_Distance - b.ECStore_Distance;
@@ -122,7 +123,7 @@ export class ExploreMapComponent implements OnInit {
         }
       }
       this.dirFilterOpen = false; // 關閉篩選清單
-      // this.appService.blockUI.stop();
+      this.appService.blockUI.stop();
     });
   }
 
