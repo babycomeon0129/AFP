@@ -23,6 +23,8 @@ import { NgxMasonryOptions } from 'ngx-masonry';
 })
 export class EntranceComponent implements OnInit {
 
+  /** 隱私權提示 (0顯示，1關閉) */
+  public cookieShow: string;
   /** 進場廣告swiper */
   public adIndexOption = {
     observer: true,
@@ -282,6 +284,8 @@ export class EntranceComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.cookieShow = localStorage.getItem('M_cookieShow') ? '1' : '0';
+    console.log(this.cookieShow);
     // 從route resolver取得首頁資料
     // this.route.data.subscribe((data: { homeData: Response_Home }) => {
     //   // 接資料
@@ -296,6 +300,10 @@ export class EntranceComponent implements OnInit {
     // }
   }
 
+  cookieShowClick() {
+    this.cookieShow = '1';
+    localStorage.setItem('M_cookieShow', '1');
+  }
   /** 讀取首頁上方資料（皆為廣告及會員資料，我的服務除外） */
   readUp(): void {
     const request: Request_Home = {

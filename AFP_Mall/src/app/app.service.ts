@@ -35,6 +35,8 @@ export class AppService {
   public loginState = false;
   /** App訪問 (1:App) */
   public isApp: number = null;
+  /** App狀態 (登入1,登出2) */
+  public appLoginType: string;
   /** 使用者暱稱 */
   public userName = sessionStorage.getItem('userName') || null;
   /** 我的收藏物件陣列 */
@@ -211,7 +213,7 @@ export class AppService {
     this.oauthService.onClearStorage();
 
     //  APP登出導頁
-    if (this.isApp === 1) {
+    if (this.isApp === 1 && this.appLoginType === '1') {
       window.location.href = '/ForApp/AppLogout';
     }
   }
@@ -242,8 +244,8 @@ export class AppService {
 
   logoutModal() {
     this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
-        initialState: { success: false, message: '請先登入', showType: 5, checkBtnMsg: '登入/註冊' } });
-    this.onLogout();
+        initialState: { success: false, message: '請先登入', showType: 5, checkBtnMsg: '我知道了' } });
+    if (this.loginState === true) { this.onLogout(); }
   }
   /** 登入初始化需帶入的 state，Apple、Line登入都需要用到
    * @description unix timestamp 前後相反後前4碼+ 10碼隨機英文字母 (大小寫不同)
@@ -539,7 +541,10 @@ export class AppService {
       console.log('jumpUrl router', localStorage.getItem('M_fromOriginUri'));
       this.router.navigate([uri], {
         relativeTo: this.route,
-        replaceUrl: true
+        replaceUrl: true,
+        queryParams: {
+          isApp: this.isApp
+        }
       });
     }
   }

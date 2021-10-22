@@ -41,13 +41,13 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     this.activatedRoute.queryParams.subscribe(params => {
 
       /** 「艾斯身份證別-登入1-1-2」接收queryParams */
-      if (params.isApp) {
+      if (params.isApp === '1') {
         /** 「艾斯身份證別-登入1-1-1b」 App (接收App queryParams：isApp, deviceType, deviceCode) */
         this.oauthService.loginRequest.deviceType = Number(params.deviceType);
         localStorage.setItem('M_deviceType', params.deviceType);
         this.appService.isApp = params.isApp;
         this.oauthService.loginRequest.deviceCode = params.deviceCode;
-        this.oauthService.loginPage(params.isApp, '/');
+        console.log('1', this.oauthService.loginRequest);
       } else {
         /** 「艾斯身份證別-登入1-1-1a」活動頁帶返回頁參數 */
         this.oauthService.loginRequest.deviceType = 0;
@@ -58,6 +58,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
           localStorage.setItem('M_fromOriginUri', params.fromOriginUri);
         }
         this.oauthService.loginRequest.deviceCode = localStorage.getItem('M_DeviceCode');
+        console.log('0', this.oauthService.loginRequest);
       }
 
       /** 「艾斯身份證別-登入2-1」 艾斯身份識別登入成功後，由Redirect API取得grantCode及List_MultipleUser
@@ -99,14 +100,12 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     document.getElementById('loginRequest').innerHTML = this.temp +
         '<div>loginState: ' + this.appService.loginState + '</div>' +
         '<div>idToken: ' + this.cookieService.get('M_idToken') + '</div>';
-    console.log('ngOnInit viewType', this.viewType, localStorage.getItem('M_upgrade'));
+    console.log('ngOnInit viewType', this.viewType, localStorage.getItem('M_upgrade'), this.appService.isApp);
     if (localStorage.getItem('M_upgrade') === null) {
       this.viewType = '0';
     }
     if (!this.cookieService.get('M_idToken')) {
       this.getViewData();
-    } else {
-      this.onLoginOK();
     }
     switch (this.viewType) {
       case '0':
@@ -232,12 +231,11 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   onLoginOK() {
     this.viewType = '';
     this.appService.blockUI.stop();
-    this.callApp.getLoginData(this.cookieService.get('M_idToken'), this.cookieService.get('userCode'));
     if (localStorage.getItem('M_fromOriginUri') === '/Login') { localStorage.removeItem('M_fromOriginUri'); }
-    this.appService.jumpUrl();
-    if (this.appService.isApp) {
+    if (this.appService.isApp === 1) {
       this.callApp.getLoginData(this.cookieService.get('M_idToken'), this.cookieService.get('userCode'));
     }
+    this.appService.jumpUrl();
   }
 
   ngAfterViewInit() {

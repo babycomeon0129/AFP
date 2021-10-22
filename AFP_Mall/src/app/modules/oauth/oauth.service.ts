@@ -32,14 +32,9 @@ export class OauthService {
    * App：原生點擊登入按鈕（帶queryParams：isApp,deviceType,deviceCode），統一由Web向艾斯識別驗證
    * Web：登入按鈕帶入pathname，做為返回依據
    */
-  loginPage(isApp: number, pathname: string): any {
-    console.log(' >>>> ', isApp);
-    if (isApp !== 1) {
-      this.loginRequest.fromOriginUri = pathname;
-      localStorage.setItem('M_fromOriginUri', pathname);
-      console.log('M_fromOriginUri', pathname);
-      this.router.navigate(['/Login']);
-    } else {
+  loginPage(code: number, pathname: string): any {
+    if (code === 1) {
+      console.log(' app>>>> ', code, pathname);
       if (navigator.userAgent.match(/android/i)) {
         //  Android
         AppJSInterface.login();
@@ -47,6 +42,12 @@ export class OauthService {
         //  IOS
         (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'login' });
       }
+    } else {
+      console.log(' web>>>> ', code, pathname);
+      this.loginRequest.fromOriginUri = pathname;
+      localStorage.setItem('M_fromOriginUri', pathname);
+      console.log('M_fromOriginUri', pathname);
+      this.router.navigate(['/Login'], { queryParams: { isApp: code }});
     }
   }
 

@@ -56,7 +56,6 @@ export class MessageModalComponent implements OnInit {
         this.goToUrl(this.target, this.queryParams1);
         break;
       case 5:
-        this.router.navigate(['/Login']);
         break;
     }
     this.bsModalRef.hide();
