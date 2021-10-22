@@ -81,7 +81,7 @@
 
   <footer class="success-mode container">
     <form id="postPayment" action="{{apiUrl}}CheckPay" method="POST" (ngSubmit)="onSubmit(postPayment)" #postPayment="ngForm">
-      <input type="hidden" name="Idtoken" [value]="cookieService.get('M_idToken')" />
+      <input type="hidden" name="Idtoken" [value]="idToken" />
       <input type="hidden" name="CSPayment_ID" [value]="reqData.CSPayment_ID" />
       <input type="hidden" name="CSPaymentPart_ID" [value]="reqData.CSPaymentPart_ID" />
       <input type="hidden" name="CreaditBind" [value]="reqData.CreaditBind" />

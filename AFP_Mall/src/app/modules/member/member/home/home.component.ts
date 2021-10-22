@@ -10,6 +10,7 @@ import { MemberService } from '@app/modules/member/member.service';
 import { AuthService, SocialUser } from 'angularx-social-login';
 import { BsModalService } from 'ngx-bootstrap';
 import { Session } from 'inspector';
+import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 
 declare var AppJSInterface: any;
 
@@ -33,7 +34,7 @@ export class HomeComponent implements OnInit {
     }
   };
 
-  constructor(public appService: AppService, public oauthService: OauthService,
+  constructor(public appService: AppService, public oauthService: OauthService, private callApp: AppJSInterfaceService,
               private router: Router, private modal: ModalService,
               public memberService: MemberService) {
   }
@@ -41,6 +42,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.readIndexData();
     this.memberService.readProfileData();
+    this.callApp.appShowMobileFooter(true);
     //  第三方登入取得資料
     // this.authService.authState.subscribe((user) => {
     //   this.thirdUser = user;

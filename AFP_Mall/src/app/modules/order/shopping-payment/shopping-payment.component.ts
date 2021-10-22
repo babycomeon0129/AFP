@@ -18,6 +18,7 @@ declare var $: any;
   animations: [layerAnimation]
 })
 export class ShoppingPaymentComponent implements OnInit {
+  public idToken = this.cookieService.get('M_idToken');
   /** 同頁滑動切換 0:本頁 1:輸入卡號 */
   public layerTrig = 0;
   public apiUrl = environment.apiUrl;
