@@ -28,11 +28,14 @@ export class AppComponent implements OnInit, DoCheck {
   private serviceDiffer: KeyValueDiffer<string, any>;
   /** 第三方登入 request, 此處用於Line登入 */
   public thirdRequest: Request_AFPThird = new Request_AFPThird();
+  /** 隱私權提示 (0顯示，1關閉) */
+  public cookieShow: string;
+  /** 錯誤提示用 */
   public test: string;
   public testCount = 0;
 
   constructor(private router: Router, public appService: AppService, private activatedRoute: ActivatedRoute, public modal: ModalService,
-              private cookieService: CookieService, private differs: KeyValueDiffers, private callApp: AppJSInterfaceService,
+              public cookieService: CookieService, private differs: KeyValueDiffers, private callApp: AppJSInterfaceService,
               public oauthService: OauthService, public bsModalService: BsModalService) {
     this.serviceDiffer = this.differs.find({}).create();
 
@@ -133,6 +136,10 @@ export class AppComponent implements OnInit, DoCheck {
   }
 
   ngOnInit() {
+    console.log(this.cookieService.get('M_cookieShow'));
+    console.log(!this.cookieService.get('M_cookieShow'));
+    this.cookieShow = this.cookieService.get('M_cookieShow') ? '1' : '0';
+    console.log(this.cookieShow);
     this.appService.loginState = (this.cookieService.get('M_idToken') === '' ) ?  false : true;
     this.appService.getPushPermission();
     this.appService.receiveMessage();

@@ -158,3 +158,39 @@ footer .menu-bar {
     max-width: -webkit-fill-available;
   }
 }
+
+// cookieNotifyBox
+.cookieNotifyBox {
+  text-align: center;
+  position: fixed;
+  animation: MoveDownUp 2s ease-in-out;
+  z-index: 1050;
+  width: 100%;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  .cookieNotify {
+    padding: 1em;
+    color: #fff;
+    p {
+      font-size: small;
+    }
+    button {
+      margin: 1em;
+      padding: .5em 3em;
+      font-size: medium;
+      color: #fff;
+      border: 1px solid #fff;
+      border-radius: 30px;
+    }
+  }
+}
+@keyframes MoveDownUp {
+  0% {
+    opacity: 1;
+    bottom: -100%;
+  }
+  100% {
+    opacity: 0;
+    bottom: 0;
+  }
+}
