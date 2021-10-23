@@ -117,7 +117,6 @@ export class AppService {
         switch (data.Base.Rtn_State) {
           case 1: // Response OK
             /** 手機驗證需要在eyesmedia-identity驗證, 故隱藏 */
-            // 手機是否驗證
             // switch (data.Verification.MobileVerified) {
             //   case 1:
             //     // 「一般登入」、「第三方登入」、「艾斯身份證別-登入後讀購物車數量」、「推播」不引導驗證手機
