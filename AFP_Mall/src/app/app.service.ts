@@ -106,14 +106,6 @@ export class AppService {
         this.blockUI.stop();
         console.log(command, data);
 
-        /** 「艾斯身份證別-更新idToken」 */
-        const toApiData = data;
-        console.log(command, toApiData.IdToken, this.cookieService.get('M_idToken'));
-        if (toApiData.IdToken) {
-          if (this.cookieService.get('M_idToken') !== toApiData.IdToken) {
-            this.cookieService.set('M_idToken', toApiData.IdToken);
-          }
-        }
         switch (data.Base.Rtn_State) {
           case 1: // Response OK
             /** 手機驗證需要在eyesmedia-identity驗證, 故隱藏 */
@@ -138,6 +130,17 @@ export class AppService {
             //     this.onLogout();
             //     this.router.navigate(['/']);
             // }
+
+            /** 「艾斯身份證別-更新idToken」 */
+            const toApiData = data;
+            console.log(command, 'cookie token', this.cookieService.get('M_idToken'));
+            if (toApiData.IdToken) {
+              console.log('toapi token', toApiData.IdToken);
+              if (this.cookieService.get('M_idToken') !== toApiData.IdToken) {
+                this.cookieService.set('M_idToken', toApiData.IdToken);
+                console.log('change token', toApiData.IdToken);
+              }
+            }
             return JSON.parse(data.Data);
           case 9996: // 查無商品詳細頁資料
             this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
