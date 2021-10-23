@@ -28,25 +28,23 @@ export class MemberService {
 
   /** 讀取我的檔案（會員首頁、我的檔案、手機驗證皆會使用） */
   readProfileData() {
-    if (this.appService.loginState && this.cookieService.get('M_idToken') !== '') {
-      const request: Request_MemberProfile = {
-        SelectMode: 4
-      };
-      return new Promise(resolve => {
-        this.appService.toApi('Member', '1502', request).subscribe((data: Response_MemberProfile) => {
-          this.userProfile = data;
+    const request: Request_MemberProfile = {
+      SelectMode: 4
+    };
+    return new Promise(resolve => {
+      this.appService.toApi('Member', '1502', request).subscribe((data: Response_MemberProfile) => {
+        this.userProfile = data;
 
-          if (this.userProfile !== null) {
-            this.appService.userName = this.userProfile.User_NickName;
-            // 解決ngx-bootstrap 套件日期減一天問題
-            if (this.userProfile.UserProfile_Birthday !== null) {
-              this.userProfile.UserProfile_Birthday = new Date(this.userProfile.UserProfile_Birthday);
-            }
+        if (this.userProfile !== null) {
+          this.appService.userName = this.userProfile.User_NickName;
+          // 解決ngx-bootstrap 套件日期減一天問題
+          if (this.userProfile.UserProfile_Birthday !== null) {
+            this.userProfile.UserProfile_Birthday = new Date(this.userProfile.UserProfile_Birthday);
           }
-          resolve(true);
-        });
+        }
+        resolve(true);
       });
-    }
+    });
   }
 
   /** 讀取社群帳號（會員首頁、社群帳號綁定皆會使用） */

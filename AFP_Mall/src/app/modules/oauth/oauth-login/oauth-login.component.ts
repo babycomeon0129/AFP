@@ -205,7 +205,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
             this.appService.jumpUrl();
             /** 「艾斯身份證別-登入3-2-3」裝置若為APP傳interface */
             if (this.appService.isApp) {
-              this.callApp.getLoginData(tokenData.data.idToken, tokenData.data.Customer_Code);
+              this.callApp.getLoginData(tokenData.data.idToken, tokenData.data.Customer_Code, tokenData.data.Customer_Name);
             }
           } else {
             const content = `登入註冊失敗<br>錯誤代碼：${tokenData.errorCode}<br>請重新登入註冊`;
@@ -236,7 +236,8 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     this.viewType = '3';
     if (localStorage.getItem('M_fromOriginUri') === '/Login') { localStorage.removeItem('M_fromOriginUri'); }
     if (this.appService.isApp === 1) {
-      this.callApp.getLoginData(this.cookieService.get('M_idToken'), this.cookieService.get('userCode'));
+      this.callApp.getLoginData(this.cookieService.get('M_idToken'),
+      this.cookieService.get('userCode'), this.cookieService.get('userName'));
     }
     this.appService.jumpUrl();
   }

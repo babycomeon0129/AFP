@@ -99,19 +99,19 @@ export class AppJSInterfaceService {
   }
 
   /** 通知APP登入idToken
-   * @param userInfo https://bookstack.eyesmedia.com.tw/books/mobii-x/page/responseapimodel-api-mobii
+   * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/responseapimodel-api-mobii
    */
-   getLoginData(userInfo: string, code: string): void {
+   getLoginData(userInfo: string, code: string, name: string): void {
     if (this.appService.isApp === 1) {
       if (navigator.userAgent.match(/android/i)) {
         //  Android
-        AppJSInterface.getLoginData(userInfo, code);
+        AppJSInterface.getLoginData(userInfo, code, name);
       } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
         //  IOS
         if ((window as any).webkit) {
           if ((window as any).webkit.messageHandlers) {
             (window as any).webkit.messageHandlers.AppJSInterface.postMessage({
-              action: 'getLoginData', idToken: userInfo, userCode: code, deviceType: Number(localStorage.getItem('M_deviceType'))});
+              action: 'getLoginData', idToken: userInfo, userCode: code, userName: name});
           }
         }
       }

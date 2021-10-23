@@ -118,8 +118,8 @@ export class MyProfileComponent implements OnInit {
       // 取得並顯示我的檔案資料
       this.memberService.readProfileData().then(() => {
         // 更新session 和 app.service 中的 userName 讓其他頁面名稱同步
-        // sessionStorage.setItem('userName', this.memberService.userProfile.User_NickName);
-        // this.cookieService.set('userName', this.memberService.userProfile.User_NickName, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+        sessionStorage.setItem('userName', this.memberService.userProfile.User_NickName);
+        this.cookieService.set('userName', this.memberService.userProfile.User_NickName, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
         this.appService.userName = this.memberService.userProfile.User_NickName;
       });
       this.editMode = false;

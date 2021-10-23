@@ -46,9 +46,6 @@ export class AppComponent implements OnInit, DoCheck {
       if (typeof params.IdToken !== 'undefined' && params.IdToken !== null) {
         this.cookieService.set('M_idToken', params.IdToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       }
-      if (typeof params.M_idToken !== 'undefined' && params.M_idToken !== null) {
-        this.cookieService.set('M_idToken', params.M_idToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-      }
 
       if (typeof params.fromOriginUri !== 'undefined') {
         /** 「艾斯身份證別-登入1-1-1a」活動頁帶返回頁參數 */
@@ -61,13 +58,16 @@ export class AppComponent implements OnInit, DoCheck {
         this.cookieService.set('cart_code', params.cartCode, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       }
 
-      // 任務用
+      // 任務用 & 我的用
+
       if (typeof params.loginType !== 'undefined') {
+        if (typeof params.M_idToken !== 'undefined' && params.M_idToken !== null) {
+          this.cookieService.set('M_idToken', params.M_idToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+        }
         this.appService.appLoginType = params.loginType;
         if (params.loginType === '1') {
           // APP 為登入狀態則將該 webview 也同步為登入
-          if (typeof params.customerInfo !== 'undefined' && typeof params.userCode !== 'undefined'
-            && typeof params.userName !== 'undefined') {
+          if (typeof params.userCode !== 'undefined' && typeof params.userName !== 'undefined') {
             if (typeof params.userCode !== 'undefined') { sessionStorage.setItem('userCode', encodeURIComponent(params.userCode)); }
             if (typeof params.userName !== 'undefined') { sessionStorage.setItem('userName', params.userName); }
             if (typeof params.userName !== 'undefined') { this.cookieService.set('userName', params.userName, 90, '/',
@@ -75,6 +75,7 @@ export class AppComponent implements OnInit, DoCheck {
             if (typeof params.userCode !== 'undefined') { this.cookieService.set('userCode', encodeURIComponent(params.userCode), 90, '/',
                 environment.cookieDomain, environment.cookieSecure, 'Lax'); }
             this.appService.loginState = true;
+            this.appService.userLoggedIn = true;
           }
         // } else if (params.loginType === '2') {
         //   // APP 為登出狀態但該 webview 登入狀態被cache住還是登入則將其改為登出
@@ -93,6 +94,7 @@ export class AppComponent implements OnInit, DoCheck {
             environment.cookieDomain, environment.cookieSecure, 'Lax'); }
         if (typeof params.userCode !== 'undefined') { this.cookieService.set('userCode', params.Order_UserCode, 90, '/',
             environment.cookieDomain, environment.cookieSecure, 'Lax'); }
+        this.appService.loginState = true;
         this.appService.loginState = true;
       }
 
@@ -142,7 +144,6 @@ export class AppComponent implements OnInit, DoCheck {
   }
 
   ngOnInit() {
-    this.appService.loginState = (this.cookieService.get('M_idToken') === '' ) ?  false : true;
     this.appService.getPushPermission();
     this.appService.receiveMessage();
     // 當路由器成功完成路由的解析階段時，先通知app將footer關閉(開啟則靠app-mobile-footer通知開啟)
