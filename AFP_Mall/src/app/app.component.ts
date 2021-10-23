@@ -43,7 +43,7 @@ export class AppComponent implements OnInit, DoCheck {
         this.appService.isApp = Number(params.isApp);
       }
       if (typeof params.IdToken !== 'undefined' && params.IdToken !== null) {
-        this.cookieService.set('M_idToken', params.IdToken);
+        this.cookieService.set('M_idToken', params.IdToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       }
 
       if (typeof params.fromOriginUri !== 'undefined') {

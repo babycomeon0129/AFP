@@ -137,7 +137,7 @@ export class AppService {
             if (toApiData.IdToken) {
               console.log('toapi token', toApiData.IdToken);
               if (this.cookieService.get('M_idToken') !== toApiData.IdToken) {
-                this.cookieService.set('M_idToken', toApiData.IdToken);
+                this.cookieService.set('M_idToken', toApiData.IdToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
                 console.log('change token', toApiData.IdToken);
               }
             }
