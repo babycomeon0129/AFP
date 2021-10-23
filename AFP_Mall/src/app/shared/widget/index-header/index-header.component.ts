@@ -26,7 +26,7 @@ export class IndexHeaderComponent implements OnInit {
 
   /** 前往頁面前判斷登入狀態 */
   goTo() {
-    if (this.appService.loginState === false) {
+    if (!this.appService.loginState) {
       this.oauthService.loginPage(this.appService.isApp, location.pathname);
     } else {
       this.router.navigate(['/Notification/NotificationList']);

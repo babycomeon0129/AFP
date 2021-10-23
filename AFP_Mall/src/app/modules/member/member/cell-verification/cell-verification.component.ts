@@ -52,7 +52,7 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
       this.toVerifyCell = true;
       this.shownSection = 0;
     } else {
-      if (this.appService.loginState === false) {
+      if (!this.appService.loginState) {
         this.shownSection = 0;
         this.appService.logoutModal();
       } else {
@@ -128,7 +128,7 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
   /** 離開輸入驗證碼頁面 */
   cancelVerify(): void {
     clearInterval(this.vcodeTimer);
-    if (this.appService.loginState === true) {
+    if (this.appService.loginState) {
       this.shownSection = 1;
     } else {
       this.location.back();

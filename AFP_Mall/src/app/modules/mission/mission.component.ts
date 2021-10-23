@@ -45,9 +45,9 @@ export class MissionComponent implements OnInit {
   ngOnInit() {
     this.readData();
     // 為了APP再取一次userName（APP 登入頁為原生頁，因此 web 這邊登入後做的事在app webview中都沒有執行）
-    // if (sessionStorage.getItem('userName') !== null) {
-    //   this.appService.userName = sessionStorage.getItem('userName');
-    // }
+    if (sessionStorage.getItem('userName') !== null) {
+      this.appService.userName = sessionStorage.getItem('userName');
+    }
   }
 
   /** 讀取任務資料 */
@@ -62,7 +62,7 @@ export class MissionComponent implements OnInit {
       this.userPoint = data.TotalPoint;
       this.tabChange();
       // 計算所有任務的未完成任務數量
-      if (this.appService.loginState === true) {
+      if (this.appService.loginState) {
         this.allMission.forEach(missionlist => {
           missionlist.undoneMissionCount = missionlist.List_Mission.filter(mission => mission.Mission_ClickState === 2).length;
         });
@@ -101,7 +101,7 @@ export class MissionComponent implements OnInit {
    * @param url 當前任務網址
    */
   buttonText(state: number, url: string): string {
-    if (this.appService.loginState === true) {
+    if (!this.appService.loginState) {
       return state === 3 ? '已結束' : 'GO';
     } else {
       switch (state) {
@@ -121,7 +121,7 @@ export class MissionComponent implements OnInit {
    * @param mission 單一項任務
    */
   buttonAction(mission: AFP_Mission): void {
-    if (this.appService.loginState === false) {
+    if (!this.appService.loginState) {
       this.appService.logoutModal();
     } else {
       switch (mission.Mission_ClickState) {
@@ -130,7 +130,7 @@ export class MissionComponent implements OnInit {
           if (mission.Mission_CurrentURL.indexOf('/feedback/?') > 0) {
             // const strUser = '?customerInfo=' + sessionStorage.getItem('CustomerInfo') + '&userCode=' + sessionStorage.getItem('userCode') + '&userName=' + sessionStorage.getItem('userName') + '&loginType=1';
             // const device = { system: '', isApp: this.appService.isApp !== null ? strUser + '&isApp=1' : '' };
-            const strUser = '?idToken=' + this.cookieService.get('M_idToken') + '&loginType=1';
+            const strUser = '?M_idToken=' + sessionStorage.getItem('M_idToken') + '&userCode=' + sessionStorage.getItem('userCode') + '&userName=' + sessionStorage.getItem('userName') + '&loginType=1';
             const device = { system: '', isApp: this.appService.isApp !== null ? strUser + '&isApp=1' : '' };
             //  Justka特別處理
             if (navigator.userAgent.match(/android/i)) {
@@ -194,7 +194,7 @@ export class MissionComponent implements OnInit {
 
   /** 前往MemberCoin頁 */
   conditionGo(): void {
-    if (this.appService.loginState === false) {
+    if (!this.appService.loginState) {
       this.appService.logoutModal();
     } else {
       this.router.navigate(['/MemberFunction/MemberCoin'], { queryParams: { showBack: true } });

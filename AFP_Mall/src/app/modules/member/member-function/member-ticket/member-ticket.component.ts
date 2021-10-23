@@ -38,7 +38,7 @@ export class MemberTicketComponent implements OnInit {
    * @param usedType 使用狀態 1: 可用, 2: 歷史
    */
   readTicketList(usedType: number): void {
-    if (this.appService.loginState === false) {
+    if (!this.appService.loginState) {
       this.appService.logoutModal();
     } else {
       this.appService.openBlock();

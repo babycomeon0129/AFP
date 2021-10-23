@@ -62,7 +62,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
 
   /** 讀取社群帳號 */
   readThirdData(): void {
-    if (this.appService.loginState === false) {
+    if (!this.appService.loginState) {
       this.appService.logoutModal();
     } else {
       const request: Request_MemberThird = {
@@ -121,7 +121,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
    * @param mode 綁定方式 1:FB 2:Line 3:Google 5:Apple
    */
   signInWiththirdBind(mode: number): void {
-    if (this.appService.loginState === false) {
+    if (!this.appService.loginState) {
       this.appService.logoutModal();
     } else {
       this.bindMode = mode;

@@ -43,7 +43,7 @@ export class MemberFavoriteComponent implements OnInit {
    * @param favType 51 商品, 52 商家, 53 周邊, 54 行程
    */
   onFavList(favType: number): void {
-    if (this.appService.loginState === false) {
+    if (!this.appService.loginState) {
       this.appService.logoutModal();
     } else {
       this.selectedType = favType;

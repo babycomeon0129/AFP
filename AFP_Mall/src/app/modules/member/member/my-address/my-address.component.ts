@@ -47,7 +47,7 @@ export class MyAddressComponent implements OnInit {
 
   /** 讀取地址列表，及「新增地址」中的縣市和行政區 */
   onGetAddressList(): void {
-    if (this.appService.loginState === false) {
+    if (!this.appService.loginState) {
       this.appService.logoutModal();
     } else {
       const request: Request_MemberAddress = {
@@ -77,7 +77,7 @@ export class MyAddressComponent implements OnInit {
    * @param addressId 地址ID
    */
   onReadAddressDetail(addressID: number): void {
-    if (this.appService.loginState === false) {
+    if (!this.appService.loginState) {
       this.appService.logoutModal();
     } else {
       if (addressID > 0) {

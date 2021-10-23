@@ -118,7 +118,7 @@ export class ExploreDetailComponent implements OnInit {
       }
     });
     // 若是登入狀態下則顯示收藏狀態
-    if (this.appService.loginState === true) {
+    if (this.appService.loginState) {
       this.appService.showFavorites();
     }
   }
@@ -210,7 +210,7 @@ export class ExploreDetailComponent implements OnInit {
    */
   sendDelivery(url: string): void {
     // 先判斷是否有登入
-    if (this.appService.loginState === false) {
+    if (!this.appService.loginState) {
       this.appService.logoutModal();
     } else {
       // 把商店code帶到DeliveryInfo頁面

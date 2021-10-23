@@ -105,7 +105,7 @@ export class ScratchComponent implements OnInit, AfterViewInit {
   /** 使用者在畫布的行為事件-用者按下滑鼠按鈕時開始繪製 */
   eventDown(ev: { preventDefault: () => void; }): void {
     ev.preventDefault();
-    if (this.appService.loginState === false) {
+    if (!this.appService.loginState) {
       this.appService.logoutModal();
     } else {
       // 先判斷該遊戲是否為可遊玩狀態，0: 不可遊玩(未完成綁卡等條件，條件由後端判定) 1:可遊玩

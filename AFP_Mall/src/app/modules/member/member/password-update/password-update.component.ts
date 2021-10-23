@@ -37,7 +37,7 @@ export class PasswordUpdateComponent implements OnInit {
    * @param form 表單
    */
   onUpdatePwd(form: NgForm): void {
-    if (this.appService.loginState === false) {
+    if (!this.appService.loginState) {
       this.appService.logoutModal();
     } else {
       this.requestUpdatePwd.SelectMode = 3;

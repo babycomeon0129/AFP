@@ -41,10 +41,10 @@ export class MyProfileComponent implements OnInit {
   /** 我的檔案資料 */
   public userProfile: Response_MemberProfile = new Response_MemberProfile();
   /** 第三方資訊 */
-  public FBThird: number;
-  public GoogleThird: number;
-  public AppleThird: number;
-  public LineThird: number;
+  public FBThird: boolean;
+  public GoogleThird: boolean;
+  public AppleThird: boolean;
+  public LineThird: boolean;
 
   constructor(public appService: AppService, public modal: ModalService, public memberService: MemberService,
               private meta: Meta, private title: Title, private localeService: BsLocaleService, private cookieService: CookieService) {
@@ -71,16 +71,16 @@ export class MyProfileComponent implements OnInit {
         data.List_UserThird.forEach((value) => {
           switch (value.UserThird_Mode) {
             case 1: //  FB
-              this.FBThird = value.UserThird_Mode;
+              this.FBThird = true;
               break;
             case 2: //  Line
-              this.LineThird = value.UserThird_Mode;
+              this.LineThird = true;
               break;
             case 3: //  Google
-              this.GoogleThird = value.UserThird_Mode;
+              this.GoogleThird = true;
               break;
             case 5: // Apple
-              this.AppleThird = value.UserThird_Mode;
+              this.AppleThird = true;
               break;
           }
         });

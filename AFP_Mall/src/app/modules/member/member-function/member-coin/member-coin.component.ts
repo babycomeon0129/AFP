@@ -57,7 +57,7 @@ export class MemberCoinComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.appService.loginState === false) {
+    if (!this.appService.loginState) {
       this.appService.logoutModal();
     } else {
       this.appService.openBlock();
@@ -97,7 +97,7 @@ export class MemberCoinComponent implements OnInit {
 
   /** 歷史紀錄 */
   getHistory(): void {
-    if (this.appService.loginState === false) {
+    if (!this.appService.loginState) {
       this.appService.logoutModal();
     } else {
       this.appService.openBlock();

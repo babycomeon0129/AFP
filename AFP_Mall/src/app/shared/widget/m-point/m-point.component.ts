@@ -22,7 +22,7 @@ export class MPointComponent implements OnInit {
   constructor(public appService: AppService, private oauthService: OauthService, public router: Router, public modal: ModalService) { }
 
   ngOnInit(): void {
-    if (this.appService.loginState === false) {
+    if (!this.appService.loginState) {
       this.appService.logoutModal();
     } else {
       this.appService.openBlock();
@@ -40,7 +40,7 @@ export class MPointComponent implements OnInit {
 
   /** 到點數紀錄頁 */
   goToMpointHistory(): void {
-    if (this.appService.loginState === false) {
+    if (!this.appService.loginState) {
       this.appService.logoutModal();
     } else {
       this.router.navigate(['/MemberFunction/MemberCoin'], { queryParams: { coinHistory: 1, showBack: this.appService.showBack } });

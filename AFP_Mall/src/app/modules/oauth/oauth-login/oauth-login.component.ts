@@ -231,6 +231,9 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   onLoginOK() {
     this.viewType = '';
     this.appService.blockUI.stop();
+    this.appService.loginState = true;
+    this.appService.userLoggedIn = true;
+    this.viewType = '3';
     if (localStorage.getItem('M_fromOriginUri') === '/Login') { localStorage.removeItem('M_fromOriginUri'); }
     if (this.appService.isApp === 1) {
       this.callApp.getLoginData(this.cookieService.get('M_idToken'), this.cookieService.get('userCode'));

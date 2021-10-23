@@ -83,7 +83,7 @@ export class MemberCardComponent implements OnInit {
   /** 讀取卡片列表 */
   readCardList(): void {
     this.cardListLen = null;
-    if (this.appService.loginState === false) {
+    if (!this.appService.loginState) {
       this.appService.logoutModal();
     } else {
       const request: Request_MemberMyCard = {

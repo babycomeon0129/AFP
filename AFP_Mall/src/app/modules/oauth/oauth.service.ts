@@ -42,7 +42,8 @@ export class OauthService {
         //  IOS
         (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'login' });
       }
-    } else {
+    }
+    if (!this.cookieService.get('M_idToken')) {
       console.log(' web>>>> ', code, pathname);
       this.loginRequest.fromOriginUri = pathname;
       localStorage.setItem('M_fromOriginUri', pathname);

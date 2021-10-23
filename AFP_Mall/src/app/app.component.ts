@@ -11,6 +11,7 @@ import { slideInAnimation } from './animations';
 import { filter } from 'rxjs/operators';
 import { Request_AFPThird, Response_AFPLogin } from './_models';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { backgroundClip } from 'html2canvas/dist/types/css/property-descriptors/background-clip';
 
 @Component({
   selector: 'body',
@@ -45,6 +46,9 @@ export class AppComponent implements OnInit, DoCheck {
       if (typeof params.IdToken !== 'undefined' && params.IdToken !== null) {
         this.cookieService.set('M_idToken', params.IdToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       }
+      if (typeof params.M_idToken !== 'undefined' && params.M_idToken !== null) {
+        this.cookieService.set('M_idToken', params.M_idToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+      }
 
       if (typeof params.fromOriginUri !== 'undefined') {
         /** 「艾斯身份證別-登入1-1-1a」活動頁帶返回頁參數 */
@@ -64,28 +68,31 @@ export class AppComponent implements OnInit, DoCheck {
           // APP 為登入狀態則將該 webview 也同步為登入
           if (typeof params.customerInfo !== 'undefined' && typeof params.userCode !== 'undefined'
             && typeof params.userName !== 'undefined') {
-            sessionStorage.setItem('userCode', encodeURIComponent(params.userCode));
-            sessionStorage.setItem('userName', params.userName);
-            this.cookieService.set('userName', params.userName, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-            this.cookieService.set('userCode', encodeURIComponent(params.userCode), 90, '/',
-                                    environment.cookieDomain, environment.cookieSecure, 'Lax');
+            if (typeof params.userCode !== 'undefined') { sessionStorage.setItem('userCode', encodeURIComponent(params.userCode)); }
+            if (typeof params.userName !== 'undefined') { sessionStorage.setItem('userName', params.userName); }
+            if (typeof params.userName !== 'undefined') { this.cookieService.set('userName', params.userName, 90, '/',
+                environment.cookieDomain, environment.cookieSecure, 'Lax'); }
+            if (typeof params.userCode !== 'undefined') { this.cookieService.set('userCode', encodeURIComponent(params.userCode), 90, '/',
+                environment.cookieDomain, environment.cookieSecure, 'Lax'); }
             this.appService.loginState = true;
           }
-        } else if (params.loginType === '2') {
-          // APP 為登出狀態但該 webview 登入狀態被cache住還是登入則將其改為登出
-          sessionStorage.clear();
-          this.cookieService.deleteAll();
-          this.appService.loginState = false;
+        // } else if (params.loginType === '2') {
+        //   // APP 為登出狀態但該 webview 登入狀態被cache住還是登入則將其改為登出
+        //   sessionStorage.clear();
+        //   this.cookieService.deleteAll();
+        //   this.appService.loginState = false;
         }
       }
 
       //  訂單用
       if (typeof params.Order_CInfo !== 'undefined' && typeof params.Order_UserCode !== 'undefined'
         && typeof params.Order_UserName !== 'undefined') {
-        sessionStorage.setItem('userCode', params.Order_UserCode);
-        sessionStorage.setItem('userName', params.Order_UserName);
-        this.cookieService.set('userName', params.Order_UserName, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-        this.cookieService.set('userCode', params.Order_UserCode, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+        if (typeof params.userCode !== 'undefined') { sessionStorage.setItem('userCode', params.Order_UserCode); }
+        if (typeof params.userName !== 'undefined') { sessionStorage.setItem('userName', params.Order_UserName); }
+        if (typeof params.userName !== 'undefined') { this.cookieService.set('userName', params.Order_UserName, 90, '/',
+            environment.cookieDomain, environment.cookieSecure, 'Lax'); }
+        if (typeof params.userCode !== 'undefined') { this.cookieService.set('userCode', params.Order_UserCode, 90, '/',
+            environment.cookieDomain, environment.cookieSecure, 'Lax'); }
         this.appService.loginState = true;
       }
 
@@ -152,7 +159,8 @@ export class AppComponent implements OnInit, DoCheck {
     // this.appService.initPush();
     // TODO 點10下用
     setInterval(() => {
-      this.test = location.href;
+      this.test = location.href + '>>>> id token     ' + this.cookieService.get('M_idToken') + '     ' +
+      '>>>> loginState    ' + this.appService.loginState  ;
     }, 3000);
   }
 

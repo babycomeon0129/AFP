@@ -13,7 +13,7 @@ export class EntranceResolver implements Resolve<Response_Home> {
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any>|Promise<any> {
     const request: Request_Home = {
-      // User_Code: sessionStorage.getItem('userCode'),
+      User_Code: sessionStorage.getItem('userCode'),
       SearchModel: {
         IndexArea_Code: 100001,
         IndexTravel_Code: 21001,

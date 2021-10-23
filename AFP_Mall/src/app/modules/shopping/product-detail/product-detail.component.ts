@@ -86,6 +86,7 @@ export class ProductDetailComponent implements OnInit {
   ngOnInit() {
     // 讀取商品詳細
     const request: Request_ECProductDetail = {
+      User_Code: sessionStorage.getItem('userCode'),
       Cart_Count: 0,
       SearchModel: {
         Product_Code: this.productCode,
@@ -145,7 +146,7 @@ export class ProductDetailComponent implements OnInit {
       this.APPShareUrl = data.AppShareUrl;
     });
     // 若有登入則顯示我的收藏
-    if (this.appService.loginState === true) {
+    if (this.appService.loginState) {
       this.appService.showFavorites();
     }
     // APP從會員中心→我的收藏→商品詳細→購物車要顯示返回鍵（目前為購物車處理）
@@ -218,7 +219,7 @@ export class ProductDetailComponent implements OnInit {
   /** 加入購物車 */
   onAddToCart() {
     if (this.productIsBuy) {
-      if (this.productInfo.Product_Type === 21 && !this.appService.loginState === true) { // 電子票券: 先確認已登入
+      if (this.productInfo.Product_Type === 21 && !this.appService.loginState) { // 電子票券: 先確認已登入
         this.appService.logoutModal();
       } else if (this.productInfo.Product_Type === 2) { // 外部商品直接外連到外部頁面
         window.open(this.productInfo.Product_URL);

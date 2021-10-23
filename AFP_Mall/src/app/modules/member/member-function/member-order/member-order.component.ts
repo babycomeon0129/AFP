@@ -74,7 +74,7 @@ export class MemberOrderComponent implements OnInit {
         this.ETicket_selectedState = state;
         break;
     }
-    if (this.appService.loginState === false) {
+    if (!this.appService.loginState) {
       this.appService.logoutModal();
     } else {
       this.appService.openBlock();

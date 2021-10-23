@@ -197,7 +197,7 @@ export class AppService {
   onLogout(): void {
     // 登出紀錄
     const request = {
-      // User_Code: sessionStorage.getItem('userCode')
+      User_Code: sessionStorage.getItem('userCode')
     };
     this.toApi_Logout('Home', '1109', request).subscribe((Data: any) => { });
     // 第三方登入套件登出
@@ -205,6 +205,10 @@ export class AppService {
     //   this.authService.signOut();
     // }
     // 清除session、cookie、我的收藏資料，重置登入狀態及通知數量，返回原頁
+    //  APP登出導頁
+    if (this.isApp === 1 && this.appLoginType === '1' && this.loginState === true) {
+      window.location.href = '/ForApp/AppLogout';
+    }
     sessionStorage.clear();
     this.cookieService.deleteAll();
     this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
@@ -214,10 +218,6 @@ export class AppService {
     this.verifyMobileModalOpened = false;
     this.oauthService.onClearStorage();
 
-    //  APP登出導頁
-    if (this.isApp === 1 && this.appLoginType === '1') {
-      window.location.href = '/ForApp/AppLogout';
-    }
   }
 
   /**
@@ -535,19 +535,24 @@ export class AppService {
   /** 網頁跳轉(返回原頁) */
   jumpUrl() {
     console.log('jumpUrl', localStorage.getItem('M_fromOriginUri'));
-    const uri = (localStorage.getItem('M_fromOriginUri') !== null) ? localStorage.getItem('M_fromOriginUri') : '/' ;
+    const uri = (localStorage.getItem('M_fromOriginUri') !== null && localStorage.getItem('M_fromOriginUri') !== 'undefined')
+                ? localStorage.getItem('M_fromOriginUri') : '/' ;
     if (uri.startsWith('https') || uri.startsWith('http')) {
       console.log('jumpUrl href', localStorage.getItem('M_fromOriginUri'));
       location.replace(uri);
     } else {
       console.log('jumpUrl router', localStorage.getItem('M_fromOriginUri'));
-      this.router.navigate([uri], {
-        relativeTo: this.route,
-        replaceUrl: true,
-        queryParams: {
-          isApp: this.isApp
-        }
-      });
+      if (this.isApp === 1) {
+        location.replace(location.href);
+      } else {
+        this.router.navigate([uri], {
+          relativeTo: this.route,
+          replaceUrl: true,
+          queryParams: {
+            isApp: this.isApp
+          }
+        });
+      }
     }
   }
 }

@@ -117,7 +117,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
    * @param voucher 優惠券詳細
    */
   toVoucher(voucher: AFP_Voucher): void {
-    if (this.appService.loginState === false) {
+    if (!this.appService.loginState) {
       this.appService.logoutModal();
     } else {
       if (voucher.Voucher_DedPoint > 0 && voucher.Voucher_IsFreq === 1) {

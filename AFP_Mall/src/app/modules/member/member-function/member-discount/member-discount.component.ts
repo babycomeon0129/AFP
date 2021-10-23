@@ -62,7 +62,7 @@ export class MemberDiscountComponent implements OnInit {
 
   /** 讀取優惠券 */
   readVoucher(): void {
-    if (this.appService.loginState === false) {
+    if (!this.appService.loginState) {
       this.appService.logoutModal();
     } else {
       this.appService.openBlock();
@@ -209,7 +209,7 @@ export class MemberDiscountComponent implements OnInit {
   /** 新增優惠券 */
   onAddCoupon(): void {
     this.vSelectMode = 1;
-    if (this.appService.loginState === false) {
+    if (!this.appService.loginState) {
       this.appService.logoutModal();
     } else {
       const options: ModalOptions = { class: 'modal-dialog modal-dialog-centered modal-sm' };
