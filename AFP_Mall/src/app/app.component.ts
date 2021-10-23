@@ -76,12 +76,11 @@ export class AppComponent implements OnInit, DoCheck {
                 environment.cookieDomain, environment.cookieSecure, 'Lax'); }
             this.appService.loginState = true;
             this.appService.userLoggedIn = true;
+          } else if (params.loginType === '2') {
+            // APP 為登出狀態但該 webview 登入狀態被cache住還是登入則將其改為登出
+            this.appService.loginState = false;
+            this.appService.userLoggedIn = false;
           }
-        // } else if (params.loginType === '2') {
-        //   // APP 為登出狀態但該 webview 登入狀態被cache住還是登入則將其改為登出
-        //   sessionStorage.clear();
-        //   this.cookieService.deleteAll();
-        //   this.appService.loginState = false;
         }
       }
 
@@ -95,7 +94,7 @@ export class AppComponent implements OnInit, DoCheck {
         if (typeof params.userCode !== 'undefined') { this.cookieService.set('userCode', params.Order_UserCode, 90, '/',
             environment.cookieDomain, environment.cookieSecure, 'Lax'); }
         this.appService.loginState = true;
-        this.appService.loginState = true;
+        this.appService.userLoggedIn = true;
       }
 
       /** 「艾斯身份證別-登出」變更密碼返回登出 */
@@ -144,6 +143,14 @@ export class AppComponent implements OnInit, DoCheck {
   }
 
   ngOnInit() {
+    if (this.cookieService.get('M_idToken') !== '' && this.cookieService.get('M_idToken') !== undefined
+        && this.cookieService.get('M_idToken') !== null) {
+      this.appService.loginState = true;
+      this.appService.userLoggedIn = true;
+    } else {
+      this.appService.loginState = false;
+      this.appService.userLoggedIn = false;
+    }
     this.appService.getPushPermission();
     this.appService.receiveMessage();
     // 當路由器成功完成路由的解析階段時，先通知app將footer關閉(開啟則靠app-mobile-footer通知開啟)
@@ -158,9 +165,12 @@ export class AppComponent implements OnInit, DoCheck {
       });
     this.detectOld();
     // this.appService.initPush();
+
     // TODO 點10下用
     setInterval(() => {
-      this.test = location.href + '>>>> id token     ' + this.cookieService.get('M_idToken') + '     ' +
+      this.test = location.href + '   >>>> id token     ' +
+      (this.cookieService.get('M_idToken') !== '')  + '     ' +
+      this.cookieService.get('M_idToken') + '     ' +
       '>>>> loginState    ' + this.appService.loginState  ;
     }, 3000);
   }

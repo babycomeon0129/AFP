@@ -89,7 +89,8 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       }
 
       /** 「艾斯身份證別-忘記密碼1」Redirect API由後端取得艾斯導頁 */
-      if (params.forgetPassword === 'true' && this.cookieService.get('M_idToken') !== '') {
+      if (params.forgetPassword === 'true' && this.cookieService.get('M_idToken') !== ''
+          && this.cookieService.get('M_idToken') !== undefined && this.cookieService.get('M_idToken') !== null) {
         this.onLoginOK();
       }
 
@@ -104,7 +105,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     if (localStorage.getItem('M_upgrade') === null) {
       this.viewType = '0';
     }
-    if (!this.cookieService.get('M_idToken')) {
+    if (this.cookieService.get('M_idToken') === '' ) {
       this.getViewData();
     }
     switch (this.viewType) {
@@ -222,8 +223,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
             } */
           }
         });
-      } else {
-        this.onLoginOK();
       }
     }
   }

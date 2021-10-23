@@ -43,7 +43,7 @@ export class OauthService {
         (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'login' });
       }
     }
-    if (!this.cookieService.get('M_idToken')) {
+    if (this.cookieService.get('M_idToken') === '') {
       console.log(' web>>>> ', code, pathname);
       this.loginRequest.fromOriginUri = pathname;
       localStorage.setItem('M_fromOriginUri', pathname);
@@ -103,7 +103,8 @@ export class OauthService {
   }
   /** 「艾斯身份證別-變更密碼2」 */
   toModifyEyes(): Observable<any> {
-    if (this.cookieService.get('M_idToken') !== '') {
+    if (this.cookieService.get('M_idToken') !== '' && this.cookieService.get('M_idToken') !== undefined
+        && this.cookieService.get('M_idToken') !== null) {
       console.log('passwordUpdate:', this.cookieService.get('M_idToken'));
       const headers = new HttpHeaders({
         Authorization:  'Bearer ' + this.cookieService.get('M_idToken'),
