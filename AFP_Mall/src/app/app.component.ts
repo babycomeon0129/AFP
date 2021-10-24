@@ -169,7 +169,8 @@ export class AppComponent implements OnInit, DoCheck {
     setInterval(() => {
       this.test = location.href + '    >>>> cookie idToken     ' +
       this.cookieService.get('M_idToken') + '   >>>> loginState    ' +
-      this.appService.loginState  ;
+      this.appService.loginState + '   >>>> isApp    ' +
+      this.appService.isApp  ;
     }, 3000);
   }
 

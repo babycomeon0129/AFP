@@ -45,7 +45,7 @@ export class OauthService {
         (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'login' });
       }
     }
-    if (!this.M_idToken && this.M_idToken === 'undefined') {
+    if (!this.M_idToken || this.M_idToken === 'undefined') {
       console.log(' web>>>> ', code, pathname);
       this.loginRequest.fromOriginUri = pathname;
       localStorage.setItem('M_fromOriginUri', pathname);
