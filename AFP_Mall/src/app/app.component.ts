@@ -143,8 +143,7 @@ export class AppComponent implements OnInit, DoCheck {
   }
 
   ngOnInit() {
-    if (this.cookieService.get('M_idToken') !== '' && this.cookieService.get('M_idToken') !== undefined
-        && this.cookieService.get('M_idToken') !== null) {
+    if (this.cookieService.get('M_idToken') !== '' && this.cookieService.get('M_idToken') !== 'undefined') {
       this.appService.loginState = true;
       this.appService.userLoggedIn = true;
     } else {
@@ -168,10 +167,9 @@ export class AppComponent implements OnInit, DoCheck {
 
     // TODO 點10下用
     setInterval(() => {
-      this.test = location.href + '   >>>> id token     ' +
-      (this.cookieService.get('M_idToken') !== '')  + '     ' +
-      this.cookieService.get('M_idToken') + '     ' +
-      '>>>> loginState    ' + this.appService.loginState  ;
+      this.test = location.href + '    >>>> cookie idToken     ' +
+      this.cookieService.get('M_idToken') + '   >>>> loginState    ' +
+      this.appService.loginState  ;
     }, 3000);
   }
 

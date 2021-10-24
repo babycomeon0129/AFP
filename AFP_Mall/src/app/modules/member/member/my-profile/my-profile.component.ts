@@ -56,8 +56,10 @@ export class MyProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.memberService.readProfileData();
-    this.readThirdData();
+    if (this.cookieService.get('M_idToken') !=='' && this.cookieService.get('M_idToken') !== 'undefined') {
+      this.memberService.readProfileData();
+      this.readThirdData();
+    }
   }
 
   /** 讀取社群帳號（會員首頁、社群帳號綁定皆會使用） */
@@ -116,12 +118,12 @@ export class MyProfileComponent implements OnInit {
     }
     this.appService.toApi('Member', '1502', this.memberService.userProfile).subscribe((data: Response_MemberProfile) => {
       // 取得並顯示我的檔案資料
-      this.memberService.readProfileData().then(() => {
-        // 更新session 和 app.service 中的 userName 讓其他頁面名稱同步
-        sessionStorage.setItem('userName', this.memberService.userProfile.User_NickName);
-        this.cookieService.set('userName', this.memberService.userProfile.User_NickName, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-        this.appService.userName = this.memberService.userProfile.User_NickName;
-      });
+      // this.memberService.readProfileData().then(() => {
+      //   // 更新session 和 app.service 中的 userName 讓其他頁面名稱同步
+      //   sessionStorage.setItem('userName', this.memberService.userProfile.User_NickName);
+      //   this.cookieService.set('userName', this.memberService.userProfile.User_NickName, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+      //   this.appService.userName = this.memberService.userProfile.User_NickName;
+      // });
       this.editMode = false;
       form.resetForm();
     });

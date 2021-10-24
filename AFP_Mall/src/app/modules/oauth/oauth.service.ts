@@ -24,6 +24,8 @@ export class OauthService {
     grantCode: '',
     UserInfoId: 0,
   };
+  /** 登入憑證 */
+  public M_idToken = this.cookieService.get('M_idToken');
 
   constructor(private router: Router, private http: HttpClient, private cookieService: CookieService) {}
 
@@ -43,7 +45,7 @@ export class OauthService {
         (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'login' });
       }
     }
-    if (this.cookieService.get('M_idToken') === '') {
+    if (!this.M_idToken && this.M_idToken === 'undefined') {
       console.log(' web>>>> ', code, pathname);
       this.loginRequest.fromOriginUri = pathname;
       localStorage.setItem('M_fromOriginUri', pathname);
@@ -103,11 +105,10 @@ export class OauthService {
   }
   /** 「艾斯身份證別-變更密碼2」 */
   toModifyEyes(): Observable<any> {
-    if (this.cookieService.get('M_idToken') !== '' && this.cookieService.get('M_idToken') !== undefined
-        && this.cookieService.get('M_idToken') !== null) {
-      console.log('passwordUpdate:', this.cookieService.get('M_idToken'));
+    if (this.M_idToken !== '' && this.M_idToken !== 'undefined') {
+      console.log('passwordUpdate:', this.M_idToken);
       const headers = new HttpHeaders({
-        Authorization:  'Bearer ' + this.cookieService.get('M_idToken'),
+        Authorization:  'Bearer ' + this.M_idToken,
       });
       const request = '';
       return this.http.post(environment.modifyUrl, { Data: JSON.stringify(request) }, { headers })

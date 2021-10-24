@@ -32,7 +32,7 @@ export class SettingComponent implements OnInit {
 
   logout(): void {
     this.appService.onLogout();
-    if (this.appService.isApp === null) {
+    if (this.appService.isApp === null || this.appService.isApp === 0) {
       this.location.back();
     }
   }

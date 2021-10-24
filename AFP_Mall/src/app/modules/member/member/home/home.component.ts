@@ -41,10 +41,9 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.readIndexData();
 
-    if (this.cookieService.get('M_idToken') !== '' && this.cookieService.get('M_idToken') !== undefined
-        && this.cookieService.get('M_idToken') !== null) {
+    if (this.cookieService.get('M_idToken') !=='' && this.cookieService.get('M_idToken') !== 'undefined') {
+      this.readIndexData();
       this.memberService.readProfileData();
       this.callApp.appShowMobileFooter(true);
     }
@@ -70,13 +69,24 @@ export class HomeComponent implements OnInit {
 
   /** 讀取首頁資料 */
   readIndexData(): void {
-    const request: Request_MemberIndex = {
-      SelectMode: 4
-    };
+    if (this.cookieService.get('M_idToken') !== '' && this.cookieService.get('M_idToken') !== 'undefined') {
+      console.log('1501   ',
+      this.cookieService.get('M_idToken'),
+      !this.cookieService.get('M_idToken'),
+      this.cookieService.get('M_idToken') === null ,
+      this.cookieService.get('M_idToken') === undefined ,
+      this.cookieService.get('M_idToken') === '' ,
+      this.cookieService.get('M_idToken') !== '' ,
+      this.cookieService.get('M_idToken') !== null ,
+      this.cookieService.get('M_idToken') !== 'undefined');
+      const request: Request_MemberIndex = {
+        SelectMode: 4
+      };
 
-    this.appService.toApi('Member', '1501', request).subscribe((data: Response_MemberIndex) => {
-      this.indexData = data;
-    });
+      this.appService.toApi('Member', '1501', request).subscribe((data: Response_MemberIndex) => {
+        this.indexData = data;
+      });
+    }
   }
 
   /** 前往設定（判斷登入與否） */
