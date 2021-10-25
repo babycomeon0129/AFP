@@ -84,6 +84,8 @@ export class MyProfileComponent implements OnInit {
             case 5: // Apple
               this.AppleThird = true;
               break;
+            default:
+              break;
           }
         });
         console.log(this.FBThird, this.GoogleThird, this.AppleThird);
