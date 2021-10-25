@@ -118,6 +118,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     switch (this.viewType) {
       case '0':
         this.viewTitle = '帳號升級公告';
+        this.getViewData();
         break;
       case '1':
         this.viewTitle = '帳號整併';

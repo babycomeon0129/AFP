@@ -22,9 +22,7 @@ export class MPointComponent implements OnInit {
   constructor(public appService: AppService, private oauthService: OauthService, public router: Router, public modal: ModalService) { }
 
   ngOnInit(): void {
-    if (!this.appService.loginState) {
-      this.appService.logoutModal();
-    } else {
+    if (this.appService.loginState) {
       this.appService.openBlock();
       const getInfo: Request_MemberPoint = {
         SelectMode: 4,
