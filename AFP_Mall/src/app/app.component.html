@@ -1,10 +1,11 @@
-<div [@routeAnimations]="prepareRoute(outlet)" (click)="testCount = testCount + 1">
+<div [@routeAnimations]="prepareRoute(outlet)">
+<!-- <div [@routeAnimations]="prepareRoute(outlet)" (click)="testCount = testCount + 1">
   <div class="for-app-debug-box"
     [hidden]="testCount < 10">
     <button (click)="testCount = 0">close</button>
     <div>{{test}}</div>
     <div id="loginRequest"></div>
-  </div>
+  </div> -->
   <router-outlet id="routerView" #outlet="outlet"></router-outlet>
 </div>
 <block-ui>

@@ -30,8 +30,8 @@ export class AppComponent implements OnInit, DoCheck {
   /** 第三方登入 request, 此處用於Line登入 */
   public thirdRequest: Request_AFPThird = new Request_AFPThird();
   /** 錯誤提示用 */
-  public test: string;
-  public testCount = 0;
+  // public test: string;
+  // public testCount = 0;
 
   constructor(private router: Router, public appService: AppService, private activatedRoute: ActivatedRoute, public modal: ModalService,
               public cookieService: CookieService, private differs: KeyValueDiffers, private callApp: AppJSInterfaceService,
@@ -166,12 +166,12 @@ export class AppComponent implements OnInit, DoCheck {
     // this.appService.initPush();
 
     // TODO 點10下用
-    setInterval(() => {
-      this.test = location.href + '    >>>> cookie idToken     ' +
-      this.cookieService.get('M_idToken') + '   >>>> loginState    ' +
-      this.appService.loginState + '   >>>> isApp    ' +
-      this.appService.isApp  ;
-    }, 3000);
+    // setInterval(() => {
+    //   this.test = location.href + '    >>>> cookie idToken     ' +
+    //   this.cookieService.get('M_idToken') + '   >>>> loginState    ' +
+    //   this.appService.loginState + '   >>>> isApp    ' +
+    //   this.appService.isApp  ;
+    // }, 3000);
   }
 
   /** 獲取這個 outlet 指令的值（透過 #outlet="outlet"），並根據當前活動路由的自訂資料返回一個表示動畫狀態的字串值。用此資料來控制各個路由之間該執行哪個轉場 */

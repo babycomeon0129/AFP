@@ -32,6 +32,8 @@ export class MemberCardDetailComponent implements OnInit {
   public userFavouriteID: string;
   /** 卡片類型 */
   public userFavouriteTypeCode: string;
+  /** 卡片類型名稱 */
+  public userFavouriteTypeName: string;
 
   constructor(public appService: AppService, private oauthService: OauthService, public modal: ModalService, public bsModalRef: BsModalRef,
               private meta: Meta, private title: Title, private route: ActivatedRoute, private router: Router) {
@@ -49,13 +51,24 @@ export class MemberCardDetailComponent implements OnInit {
       this.onReadCardDetail();
     }
     this.cardGroupLink = false;
+    switch (this.userFavouriteTypeCode) {
+      case '1':
+        this.userFavouriteTypeName = '一卡通';
+        break;
+      case '11':
+        this.userFavouriteTypeName = '悠遊卡';
+        break;
+      case '12':
+        this.userFavouriteTypeName = '虛擬卡';
+        break;
+      default:
+        break;
+    }
   }
 
   /** 讀取卡片詳細 */
   onReadCardDetail() {
-    if (!this.appService.loginState) {
-      this.appService.logoutModal();
-    } else {
+    if (this.appService.loginState) {
       const request: Request_MemberMyCard = {
         SelectMode: 5,
         AFP_UserFavourite: {

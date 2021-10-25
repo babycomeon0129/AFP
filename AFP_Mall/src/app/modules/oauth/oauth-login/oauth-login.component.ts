@@ -33,8 +33,10 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   public grantCode = '';
   /** 登入憑證 */
   public M_idToken = this.cookieService.get('M_idToken');
+  /** 「艾斯身份證別-登入」後端回傳資料 */
   public loginJsonData: object;
-  public temp: any;
+  // TODO 測試用
+  // public temp: any;
 
   constructor(public appService: AppService, public oauthService: OauthService, private router: Router,
               public el: ElementRef, private activatedRoute: ActivatedRoute, public bsModalService: BsModalService,
@@ -106,11 +108,12 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     // 避免直接貼上，導回Login頁
     if (localStorage.getItem('M_fromOriginUri') === '/Login') { localStorage.removeItem('M_fromOriginUri'); }
 
-    document.getElementById('loginRequest').innerHTML = this.temp +
-        '<div>loginState: ' + this.appService.loginState + '</div>' +
-        '<div>idToken: ' + this.M_idToken + '</div>';
-    console.log('ngOnInit viewType', this.viewType, localStorage.getItem('M_upgrade'), this.appService.isApp);
-    console.log('ngOnInit M_idToken', this.cookieService.get('M_idToken'));
+    // TODO 測試用
+    // document.getElementById('loginRequest').innerHTML = this.temp +
+    //     '<div>loginState: ' + this.appService.loginState + '</div>' +
+    //     '<div>idToken: ' + this.M_idToken + '</div>';
+    // console.log('ngOnInit viewType', this.viewType, localStorage.getItem('M_upgrade'), this.appService.isApp);
+    // console.log('ngOnInit M_idToken', this.cookieService.get('M_idToken'));
 
     if (localStorage.getItem('M_upgrade') === null) {
       this.viewType = '0';
@@ -127,7 +130,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.getViewData();
         break;
       case '3':
-        document.getElementById('loginRequest').innerHTML = this.temp + '<div>viewType: ' + this.viewType + '</div>';
         this.onLoginOK();
         break;
       default:
@@ -139,7 +141,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
   getViewData() {
     console.log('loginRequest', this.oauthService.loginRequest);
-    document.getElementById('loginRequest').innerHTML = this.temp + JSON.stringify(this.oauthService.loginRequest);
     /** 「艾斯身份證別-登入1-2-1」AJAX提供登入所需Request給後端，以便response取得後端提供的資料 */
     this.oauthService.toOauthRequest(this.oauthService.loginRequest).subscribe((data: ViewConfig) => {
       /** 「艾斯身份證別-登入1-2-3」取得Response資料，讓Form渲染 */
