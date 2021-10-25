@@ -10,6 +10,7 @@
     "build-uat": "ng build -c uat",
     "build-uuat": "ng build -c uuat",
     "build-prod": "ng build --prod",
+    "build-prod": "ng build -c preprod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

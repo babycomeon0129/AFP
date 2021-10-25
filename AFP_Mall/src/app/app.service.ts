@@ -316,18 +316,16 @@ export class AppService {
       },
     };
 
-    if (this.loginState === true) {
-      this.toApi('Member', '1511', request).subscribe((data: Response_MemberFavourite) => {
-        // update favorites to session
-        console.log(data);
-        sessionStorage.setItem('userFavorites', JSON.stringify(data.List_UserFavourite));
-        // update favorites to array
-        this.showFavorites();
-        if (favAction === 1) {
-          this.bsModalService.show(FavoriteModalComponent);
-        }
-      });
-    }
+    this.toApi('Member', '1511', request).subscribe((data: Response_MemberFavourite) => {
+      // update favorites to session
+      console.log(data);
+      sessionStorage.setItem('userFavorites', JSON.stringify(data.List_UserFavourite));
+      // update favorites to array
+      this.showFavorites();
+      if (favAction === 1) {
+        this.bsModalService.show(FavoriteModalComponent);
+      }
+    });
   }
 
   /** 讀取購物車 (主要為更新數量) */
