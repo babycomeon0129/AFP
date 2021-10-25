@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start-preprod": "ng serve --preprod",
     "start-prod": "ng serve --prod",
     "build-sit": "ng build -c sit",
     "build-uat": "ng build -c uat",

@@ -6,7 +6,6 @@
 export const environment = {
   production: false,
   apiUrl: 'https://sit-afpapi.mobii.ai/api/',
-  loginUrl: 'https://login-uuat.mobii.ai/auth/api/v1/login',
   FBApiKey: '349758176149496',
   GoogleApiKey: '260499247538-ctoucp9t09ufdpgqmd4ac368lfpgmorm.apps.googleusercontent.com',
   cookieDomain: 'sit.mobii.ai',
