@@ -36,6 +36,8 @@ export class MessageModalComponent implements OnInit {
   rightBtnMsg: string;
   /** 右邊按鈕連結 (視窗需要2顆確認按鈕時使用) */
   rightBtnUrl: string;
+  /** 右邊按鈕callback function */
+  rightBtnFn: any;
   /** 網址傳參 (連結跳轉須加上參數時使用，預設為單顆按鈕/ 雙顆按鈕左邊按鈕的傳參) */
   queryParams1: object;
   /** 網址傳參2 (連結跳轉須加上參數時使用，預設為雙顆按鈕時右邊按鈕的傳參) */
@@ -73,6 +75,9 @@ export class MessageModalComponent implements OnInit {
    */
   goToUrl(url: string, params: object): void {
     this.bsModalRef.hide();
+    if (this.rightBtnFn) {
+      this.rightBtnFn();
+    }
     // 先判斷按下確定鍵後是否需要返回上一頁
     if (url === 'GoBack') {
       history.back();

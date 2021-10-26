@@ -332,7 +332,7 @@ export class ShoppingCartComponent implements OnInit {
     } else {
       // 若未登入，則跳出登入視窗
       if (!this.appService.loginState) {
-        this.oauthService.loginPage(this.appService.isApp, '/Order/ShoppingCart');
+        this.appService.logoutModal();
       } else {
         // 已登入
         // (若有更動過的商品)更改商品數

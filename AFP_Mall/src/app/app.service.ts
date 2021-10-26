@@ -206,7 +206,7 @@ export class AppService {
     // }
     // 清除session、cookie、我的收藏資料，重置登入狀態及通知數量，返回原頁
     //  APP登出導頁
-    if (this.isApp === 1 && this.appLoginType === '1' && this.loginState === true) {
+    if (this.isApp === 1 && this.appLoginType === '1' && this.loginState) {
       window.location.href = '/ForApp/AppLogout';
     }
     sessionStorage.clear();
@@ -245,9 +245,20 @@ export class AppService {
   }
 
   logoutModal() {
-    this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
-        initialState: { success: false, message: '請先登入', showType: 5, checkBtnMsg: '我知道了' } });
-    if (this.loginState === true) { this.onLogout(); }
+    this.bsModalService.show(MessageModalComponent, {
+      class: 'modal-dialog-centered',
+      initialState: {
+        success: false,
+        message: '請先登入',
+        showType: 6,
+        leftBtnMsg: '我知道了',
+        rightBtnMsg: '前往登入/註冊',
+        rightBtnFn: () => {
+          this.oauthService.loginPage(this.isApp, location.pathname);
+        }
+      }
+    });
+    if (this.loginState) { this.onLogout(); }
   }
   /** 登入初始化需帶入的 state，Apple、Line登入都需要用到
    * @description unix timestamp 前後相反後前4碼+ 10碼隨機英文字母 (大小寫不同)
@@ -304,28 +315,31 @@ export class AppService {
    * @param favCode 商品/商家/周邊/行程編碼
    */
   favToggle(favAction: number, favType: number, favCode?: number): void {
-    const request: Request_MemberFavourite = {
-      SelectMode: favAction,
-      AFP_UserFavourite: {
-        UserFavourite_ID: 0,
-        UserFavourite_CountryCode: 886,
-        UserFavourite_Type: favType,
-        UserFavourite_UserInfoCode: 0,
-        UserFavourite_TypeCode: favCode,
-        UserFavourite_IsDefault: 0
-      },
-    };
+    if (!this.loginState) {
+      this.logoutModal();
+    } else {
+      const request: Request_MemberFavourite = {
+        SelectMode: favAction,
+        AFP_UserFavourite: {
+          UserFavourite_ID: 0,
+          UserFavourite_CountryCode: 886,
+          UserFavourite_Type: favType,
+          UserFavourite_UserInfoCode: 0,
+          UserFavourite_TypeCode: favCode,
+          UserFavourite_IsDefault: 0
+        },
+      };
 
-    this.toApi('Member', '1511', request).subscribe((data: Response_MemberFavourite) => {
-      // update favorites to session
-      console.log(data);
-      sessionStorage.setItem('userFavorites', JSON.stringify(data.List_UserFavourite));
-      // update favorites to array
-      this.showFavorites();
-      if (favAction === 1) {
-        this.bsModalService.show(FavoriteModalComponent);
-      }
-    });
+      this.toApi('Member', '1511', request).subscribe((data: Response_MemberFavourite) => {
+        // update favorites to session
+        sessionStorage.setItem('userFavorites', JSON.stringify(data.List_UserFavourite));
+        // update favorites to array
+        this.showFavorites();
+        if (favAction === 1) {
+          this.bsModalService.show(FavoriteModalComponent);
+        }
+      });
+    }
   }
 
   /** 讀取購物車 (主要為更新數量) */
@@ -350,7 +364,7 @@ export class AppService {
    */
   onVoucher(voucher: AFP_Voucher): void {
     // 點擊兌換時先進行登入判斷
-    if (this.loginState === false) {
+    if (!this.loginState) {
       this.logoutModal();
     } else {
       switch (voucher.Voucher_IsFreq) {

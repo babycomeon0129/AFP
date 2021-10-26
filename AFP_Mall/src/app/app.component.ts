@@ -1,6 +1,6 @@
 import { AppJSInterfaceService } from './app-jsinterface.service';
 import { environment } from '@env/environment';
-import { Component, DoCheck, KeyValueDiffer, KeyValueDiffers, OnInit } from '@angular/core';
+import { Component, DoCheck, KeyValueDiffer, KeyValueDiffers, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, ResolveEnd } from '@angular/router';
 import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
@@ -18,7 +18,7 @@ import { backgroundClip } from 'html2canvas/dist/types/css/property-descriptors/
   templateUrl: './app.component.html',
   animations: [slideInAnimation]
 })
-export class AppComponent implements OnInit, DoCheck {
+export class AppComponent implements OnInit, DoCheck, OnDestroy {
   /** 裝置系統或瀏覽器版本是否過舊 */
   public isOld: boolean;
   /** 需更新項目 */
@@ -264,6 +264,10 @@ export class AppComponent implements OnInit, DoCheck {
         }
       });
     }
+  }
+
+  ngOnDestroy() {
+    // 應用程式銷毀前，判斷是否有isApp，for App用
   }
 
 }

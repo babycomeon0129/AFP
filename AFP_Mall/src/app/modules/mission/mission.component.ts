@@ -125,20 +125,26 @@ export class MissionComponent implements OnInit {
       this.appService.logoutModal();
     } else {
       switch (mission.Mission_ClickState) {
-        case 2: // 前往任務
+        case 2: // 前往任務(進階任務)
           // 填寫意見表任務特別處理
           if (mission.Mission_CurrentURL.indexOf('/feedback/?') > 0) {
             // const strUser = '?customerInfo=' + sessionStorage.getItem('CustomerInfo') + '&userCode=' + sessionStorage.getItem('userCode') + '&userName=' + sessionStorage.getItem('userName') + '&loginType=1';
             // const device = { system: '', isApp: this.appService.isApp !== null ? strUser + '&isApp=1' : '' };
             const strUser = '?M_idToken=' + sessionStorage.getItem('M_idToken') + '&userCode=' + sessionStorage.getItem('userCode') + '&userName=' + sessionStorage.getItem('userName') + '&loginType=1';
-            const device = { system: '', isApp: this.appService.isApp !== null ? strUser + '&isApp=1' : '' };
+            const device = {
+              system: '',
+              // isApp: (this.appService.isApp !== null) ? strUser + '&isApp=1' : ''
+              isApp: (this.appService.isApp === 1) ? strUser + '&isApp=1' : ''
+            };
             //  Justka特別處理
             if (navigator.userAgent.match(/android/i)) {
               //  Android
               device.system = 'android';
+              device.isApp = strUser + '&isApp=1';
             } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
               //  IOS
               device.system = 'iOs';
+              device.isApp = strUser + '&isApp=1';
             } else {
               device.system = 'web';
             }
@@ -148,7 +154,7 @@ export class MissionComponent implements OnInit {
             window.open(mission.Mission_CurrentURL, mission.Mission_CurrentURLTarget);
           } else {
             // 其他一般任務
-            if (this.appService.isApp !== null) {
+            if (this.appService.isApp === 1) {
               // APP
               mission.Mission_CurrentURL = mission.Mission_CurrentURL + '?isApp=1';
               window.open(mission.Mission_CurrentURL, mission.Mission_CurrentURLTarget);
