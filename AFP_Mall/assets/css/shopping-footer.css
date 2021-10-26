@@ -1,0 +1,126 @@
+/* footer */
+.shopping-cartfooter {
+  box-shadow: 1px 1px 5px 0px #ccc;
+  background-color: #fff;
+}
+
+.shopping-cartfooter .shopping-coupon {
+  box-shadow: 1px 1px 5px 0px #ccc;
+  height: 95px;
+  background-color: #fff;
+  color: #182B56;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+.shopping-cartfooter .shopping-coupon .coupon-box {
+  padding: .5em;
+}
+
+.shopping-cartfooter .shopping-coupon img {
+  height: 1.5em;
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+  .shopping-cartfooter .shopping-coupon {
+    height: 114px;
+  }
+}
+
+.shopping-cartfooter .subtotal-info {
+  border-top: 1px solid #f8f8f8;
+  background-color: #fff;
+  padding: .5em;
+  line-height: 1.3;
+}
+
+.shopping-cartfooter .subtotal-info .price-subtotal {
+  color: #FD5F00;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.shopping-cartfooter p {
+  text-align: right;
+}
+
+.shopping-cartfooter p .small-price {
+  color: tomato;
+}
+
+.shopping-cartfooter p.mobi {
+  color: #8E8E93;
+  font-size: .8em;
+}
+
+.shopping-cartfooter ul {
+  padding: 5px 15px 15px 15px;
+}
+
+.shopping-cartfooter ul li {
+  display: flex;
+  align-items: flex-end;
+}
+
+.shopping-cartfooter ul li .item {
+  flex: 1;
+  margin: 0 5px;
+  text-align: center;
+}
+
+.shopping-cartfooter ul li p {
+  color: #FD5F00;
+  text-align: right;
+  flex: 2;
+  padding-right: .5em;
+  font-size: .9em;
+}
+
+footer.success-mode {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 -5px 5px rgba(0, 0, 0, 0.2);
+  padding: 15px;
+}
+
+footer.success-mode button {
+  width: 100%;
+  border-radius: 100px;
+  padding: 10px 0;
+  border: none;
+}
+
+footer.success-mode button.btn-ok {
+  background-color: #FD5F00;
+  color: #fff;
+}
+
+footer.success-mode button.btn-takeout {
+  background-color: #F99C12;
+  color: #fff;
+}
+
+footer .fixed-shadow {
+  box-shadow: 1px 1px 5px 0px #ccc;
+}
+
+footer .order-go-pay {
+  display: flex;
+  justify-content: flex-end;
+}
+
+footer .order-go-pay .item {
+  margin-left: 5px;
+}
+
+footer.order-icon {
+  display: flex;
+  justify-content: space-around;
+}
+
+footer.order-icon button.w-45 {
+  width: 45%;
+}
+/*# sourceMappingURL=shopping-footer.css.map */

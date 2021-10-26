@@ -1,0 +1,158 @@
+@charset "UTF-8";
+/** 篩選 */
+.active {
+  font-weight: bold;
+}
+
+button {
+  border: 0;
+}
+
+button.filter-item {
+  border: 0;
+}
+
+button.btnList {
+  width: inherit;
+}
+
+button.active {
+  color: #0056b3;
+  font-size: 0.9em;
+}
+
+.filterWrap {
+  position: inherit;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+.filterWrap > div {
+  margin-top: 117px;
+}
+
+.explore-container {
+  background-color: #fff;
+  position: relative;
+}
+
+.explore-container .explore-card-list {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.explore-top-box {
+  background-color: #fff;
+  padding: 15px;
+  width: 100%;
+  min-width: 320px;
+  max-width: auto;
+  height: 124px;
+  top: 0;
+  bottom: 0;
+  position: fixed;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  z-index: 1030;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.filter-contentbox {
+  position: fixed;
+  background-color: white;
+  z-index: 299;
+  transform: translateY(-1px);
+}
+
+.filter-contentbox .filter-content {
+  height: 100vh;
+  overflow-y: auto;
+}
+
+@media (max-width: 767px) {
+  .filter-contentbox ul {
+    padding-bottom: 150px;
+  }
+}
+
+.explore-container {
+  padding-top: 125px;
+}
+
+.card-item {
+  display: flex;
+  padding: 15px;
+  border-bottom: 1px #eee solid;
+  color: #182B56;
+}
+
+.card-item .img-box {
+  width: 80px;
+  height: 80px;
+  border-radius: 5px;
+  overflow: hidden;
+  background: #eee;
+}
+
+.card-item .img-box img {
+  width: 100%;
+}
+
+.card-item.sm {
+  padding: 10px;
+  font-size: small;
+  border-bottom: 0;
+}
+
+.card-item.sm .info-near {
+  font-size: x-small;
+}
+
+.card-item .info-box {
+  flex: 1;
+  padding-left: 15px;
+}
+
+.card-item .info-box .info-list {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-item .info-box .info-name {
+  font-weight: 600;
+  font-size: 1em;
+}
+
+.card-item .info-box li {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+}
+
+.card-item .info-box li.info-near {
+  margin-top: auto;
+}
+
+.card-item .info-box .item-tag {
+  display: flex;
+  align-items: center;
+  border: 1px solid #e5e9f2;
+  padding: 1px 10px;
+  border-radius: 100px;
+  line-height: 1.3;
+  font-size: 13px;
+}
+
+.card-item .info-box .item-ticket {
+  padding: 1px 10px;
+  background: #f2f5fa;
+  border-radius: 5px;
+}
+
+.card-item .info-box .item-ticket .material-icons {
+  font-size: 18px;
+}
+/*# sourceMappingURL=explore-list.css.map */

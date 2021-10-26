@@ -1,33 +1,35 @@
-<footer id="footmb" class="mobile-footer for-mobile container" *ngIf="appService.isApp === null || appService.isApp === 0">
-  <div class="menu-bar">
-    <a [routerLink]="['/']" class="bar-item" [ngClass]="{'active': currentUrl=='/'}">
-      <img class="default-img" src="img/index/tabbar/home.png" alt="">
-      <img class="active-img" src="img/index/tabbar/home_choosen.png" alt="">
-      首頁
-    </a>
-    <a [routerLink]="['/Explore/ExploreMap']" class="bar-item" [ngClass]="{'active': currentUrl.indexOf('/Explore') != -1}">
-      <img class="default-img" src="img/index/tabbar/nearby.png" alt="">
-      <img class="active-img" src="img/index/tabbar/nearby_choosen.png" alt="">
-      周邊
-    </a>
-    <a [routerLink]="['/Mission']" class="bar-item" [ngClass]="{'active': currentUrl.indexOf('/Mission') != -1}">
-      <img class="default-img" src="img/index/tabbar/mission.png" alt="">
-      <img class="active-img" src="img/index/tabbar/mission_choosen.png" alt="">
-      任務
-    </a>
-    <a [routerLink]="['/Shopping']" class="bar-item" [ngClass]="{'active': currentUrl.indexOf('/Shopping') != -1}">
-    <!-- <a (click)="goTo()" [ngClass]="{'active': currentUrl.indexOf('/Notification') != -1}" id="BearIcon" class="bar-item">
-      <ng-container *ngIf="appService.pushCount > 0">
-        <div class="more-dot"></div>
-      </ng-container> -->
-      <img class="default-img" src="img/index/tabbar/shopping.png" alt="">
-      <img class="active-img" src="img/index/tabbar/shopping_choosen.png" alt="">
-      商城
-    </a>
-    <a href="javascript:;" class="bar-item" [routerLink]="['/Member']" [ngClass]="{'active': currentUrl.indexOf('/Member') != -1}">
-      <img class="default-img" src="img/index/tabbar/my.png" alt="">
-      <img class="active-img" src="img/index/tabbar/my_choosen.png" alt="">
-      我的
-    </a>
-  </div>
-</footer>
+<div *ngIf="appService.isApp === null || appService.isApp === 0">
+  <footer id="footmb" class="mobile-footer for-mobile container">
+    <div class="menu-bar">
+      <a [routerLink]="['/']" class="bar-item" [ngClass]="{'active': currentUrl=='/'}">
+        <img class="default-img" src="img/index/tabbar/home.png" alt="">
+        <img class="active-img" src="img/index/tabbar/home_choosen.png" alt="">
+        首頁
+      </a>
+      <a [routerLink]="['/Explore/ExploreMap']" class="bar-item" [ngClass]="{'active': currentUrl.indexOf('/Explore') != -1}">
+        <img class="default-img" src="img/index/tabbar/nearby.png" alt="">
+        <img class="active-img" src="img/index/tabbar/nearby_choosen.png" alt="">
+        周邊
+      </a>
+      <a [routerLink]="['/Mission']" class="bar-item" [ngClass]="{'active': currentUrl.indexOf('/Mission') != -1}">
+        <img class="default-img" src="img/index/tabbar/mission.png" alt="">
+        <img class="active-img" src="img/index/tabbar/mission_choosen.png" alt="">
+        任務
+      </a>
+      <a [routerLink]="['/Shopping']" class="bar-item" [ngClass]="{'active': currentUrl.indexOf('/Shopping') != -1}">
+      <!-- <a (click)="goTo()" [ngClass]="{'active': currentUrl.indexOf('/Notification') != -1}" id="BearIcon" class="bar-item">
+        <ng-container *ngIf="appService.pushCount > 0">
+          <div class="more-dot"></div>
+        </ng-container> -->
+        <img class="default-img" src="img/index/tabbar/shopping.png" alt="">
+        <img class="active-img" src="img/index/tabbar/shopping_choosen.png" alt="">
+        商城
+      </a>
+      <a href="javascript:;" class="bar-item" [routerLink]="['/Member']" [ngClass]="{'active': currentUrl.indexOf('/Member') != -1}">
+        <img class="default-img" src="img/index/tabbar/my.png" alt="">
+        <img class="active-img" src="img/index/tabbar/my_choosen.png" alt="">
+        我的
+      </a>
+    </div>
+  </footer>
+</div>

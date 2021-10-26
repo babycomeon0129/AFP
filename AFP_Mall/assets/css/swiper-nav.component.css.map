@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../../src/app/shared/swiper/swiper-nav/swiper-nav.component.scss"
+    ],
+    "names": [],
+    "file": "swiper-nav.component.css"
+}

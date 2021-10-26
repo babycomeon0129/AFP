@@ -1,0 +1,128 @@
+@charset "UTF-8";
+/** myfavorite我的收藏 */
+.favorite-explore {
+  padding: 15px;
+}
+
+.favorite-explore > div {
+  border-bottom: 1px #eee solid;
+}
+
+.favorite-explore a.d-flex {
+  color: #182B56;
+}
+
+.favorite-explore a.item-explore {
+  color: #182B56;
+}
+
+.favorite-explore .img-box {
+  width: 80px;
+  height: 80px;
+  border-radius: 5px;
+  overflow: hidden;
+  margin: .5em;
+}
+
+.favorite-explore .img-box img {
+  width: 100%;
+}
+
+.favorite-explore .item-del {
+  font-size: small;
+  white-space: nowrap;
+  padding: 1em;
+  color: #fff;
+  background: #FD5F00;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid #fff;
+}
+
+.favorite-explore .info-box {
+  flex: 1;
+  margin: .5em;
+}
+
+.favorite-explore .info-box .text-member {
+  color: #FD5F00;
+}
+
+.favorite-explore .info-box .info-list {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.favorite-explore .info-box .info-name {
+  font-weight: 600;
+  font-size: 1em;
+}
+
+.favorite-explore .info-box li {
+  font-size: small;
+}
+
+.favorite-explore .info-box .item-tag {
+  margin: 5px 5px 5px 0;
+  margin-right: 5px;
+  color: #FD5F00;
+  border-color: #FD5F00;
+}
+
+.favorite-explore .info-box .price-asking {
+  color: tomato;
+  font-size: 1.2em;
+  font-weight: 700;
+}
+
+.favorite-explore .info-box .price-original {
+  color: gray;
+  text-decoration: line-through;
+}
+
+.favorite-explore .info-box .info-province {
+  font-size: small;
+  color: gray;
+}
+
+.item-ticket {
+  font-size: xx-small;
+  color: #FD5F00;
+  padding: 0 6px;
+  background: transparent;
+  border-radius: 10rem;
+  border-top: 1px solid #FD5F00;
+  border-bottom: 1px solid #FD5F00;
+  border-left: 1px solid #FD5F00;
+  border-right: 1px solid #FD5F00;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1px;
+}
+
+.item-ticket img {
+  height: 2.3em;
+}
+
+.brightness:before {
+  color: #fff;
+  content: '已下架';
+  display: block;
+  position: absolute;
+  left: inherit;
+  transform: translate(50%, 150%);
+  z-index: 1;
+}
+
+.brightness .img-box {
+  filter: brightness(0.4);
+}
+
+.brightness ul {
+  filter: grayscale(100%);
+  opacity: .45;
+}
+/*# sourceMappingURL=member-favorite.css.map */

@@ -1,0 +1,141 @@
+.mission-personal {
+  background: #005792;
+  color: white;
+  padding: 1em 1.5em;
+}
+
+.mission-personal .item {
+  margin-bottom: .5em;
+}
+
+.mission-personal .item:last-child {
+  margin-bottom: 0;
+}
+
+.mission-personal .item.coin {
+  font-size: 1.3em;
+  font-weight: 700;
+}
+
+.mission-personal .item.progress {
+  height: .5em;
+  border-radius: 30px;
+}
+
+.mission-personal .item.task {
+  font-size: .9em;
+}
+
+.mission-personal .item .info-img {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  overflow: hidden;
+  margin-right: 15px;
+}
+
+.mission-personal .item .info-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ms-item {
+  border-bottom: 1px solid #eee;
+}
+
+.info-box {
+  color: #182B56;
+  flex: 1;
+  margin: .5em;
+}
+
+.info-box .info-list {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.info-box .info-name {
+  font-weight: 600;
+  font-size: 1em;
+}
+
+.info-box li {
+  font-size: small;
+}
+
+.info-box li span.num {
+  color: #FD5F00;
+  font-size: 1.4em;
+  font-weight: 600;
+}
+
+.progressbar {
+  line-height: 0;
+}
+
+.progressbar .circle {
+  width: 50px;
+  margin: 0px;
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.progressbar .circle strong {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  width: 100%;
+  text-align: center;
+  line-height: 1.4em;
+  font-size: 1.2em;
+  color: #FD5F00;
+}
+
+.progressbar .circle strong i {
+  font-style: normal;
+  font-size: 0.6em;
+  font-weight: normal;
+}
+
+.progressbar canvas {
+  margin-top: 0;
+  font-size: 1.2em;
+}
+
+.progressbar .second.circle {
+  background-color: #fdebef;
+  border-radius: 100%;
+}
+
+.progressbar .second.circle canvas {
+  margin-top: 0;
+  font-size: 1.2em;
+  background-color: #fdebef;
+  border-radius: 100%;
+}
+
+.circular-progress-bar {
+  display: inline-block;
+  border-radius: 50%;
+}
+
+.circular-progress-bar .circular-progress-bar_value {
+  position: relative;
+  display: inline-block;
+  border-radius: 50%;
+}
+
+.circular-progress-bar .circular-progress-bar_value .circular-progress-bar_value_text {
+  text-align: center;
+  font-family: monospace;
+  color: #fff;
+  mix-blend-mode: difference;
+}
+/*# sourceMappingURL=mission.css.map */

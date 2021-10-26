@@ -36,7 +36,6 @@ export class OauthService {
    */
   loginPage(code: number, pathname: string): any {
     if (code === 1) {
-      console.log(' app>>>> ', code, pathname);
       if (navigator.userAgent.match(/android/i)) {
         //  Android
         AppJSInterface.login();
@@ -44,8 +43,7 @@ export class OauthService {
         //  IOS
         (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'login' });
       }
-    }
-    if ((!this.M_idToken || this.M_idToken === 'undefined') && code !== 1) {
+    } else {
       console.log(' web>>>> ', code, pathname);
       this.loginRequest.fromOriginUri = pathname;
       localStorage.setItem('M_fromOriginUri', pathname);

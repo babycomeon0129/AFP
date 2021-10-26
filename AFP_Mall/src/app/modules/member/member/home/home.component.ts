@@ -42,10 +42,12 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
 
-    if (this.cookieService.get('M_idToken') !=='' && this.cookieService.get('M_idToken') !== 'undefined') {
+    if (this.cookieService.get('M_idToken') !== '' && this.cookieService.get('M_idToken') !== 'undefined') {
       this.readIndexData();
       this.memberService.readProfileData();
-      this.callApp.appShowMobileFooter(true);
+      if (this.appService.isApp === 1) {
+        this.callApp.appShowMobileFooter(true);
+      }
     }
     //  第三方登入取得資料
     // this.authService.authState.subscribe((user) => {

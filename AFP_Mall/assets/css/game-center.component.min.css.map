@@ -1,0 +1,10 @@
+{
+    "version": 3,
+    "mappings": "AAEA,AAAA,UAAU,AAAC,CACT,QAAQ,CAAE,QAAQ,CAClB,SAAS,CAAE,sBAAsB,CAQlC,AAVD,AAGE,UAHQ,CAGR,MAAM,AAAC,CACL,MAAM,CAAE,GAAG,CAAC,KAAK,CCET,OAAO,CDDf,aAAa,CAAE,IAAI,CACnB,gBAAgB,CAAE,IAAI,CACtB,YAAY,CAAE,KAAK,CACnB,aAAa,CAAE,KAAK,CACrB",
+    "sources": [
+        "../../src/app/modules/game-center/game-center/game-center.component.scss",
+        "../../src/styles/module/_variable.scss"
+    ],
+    "names": [],
+    "file": "game-center.component.min.css"
+}

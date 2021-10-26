@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../../src/app/modules/info/mpoints/mpoints.component.scss"
+    ],
+    "names": [],
+    "file": "mpoints.component.min.css"
+}

@@ -8,7 +8,7 @@ import { AppService } from '@app/app.service';
 @Component({
   selector: 'app-mobile-footer',
   templateUrl: './mobile-footer.component.html',
-  styleUrls: ['./mobile-footer.component.css']
+  styleUrls: ['./mobile-footer.component.scss']
 })
 export class MobileFooterComponent implements OnInit {
   /** 當前網址（判斷icon是否填滿） */
@@ -25,7 +25,9 @@ export class MobileFooterComponent implements OnInit {
   ngOnInit() {
     this.currentUrl = this.router.url;
     // 初始時告訴app開啟footer
-    this.callApp.appShowMobileFooter(true);
+    if (this.appService.isApp === 1) {
+      this.callApp.appShowMobileFooter(true);
+    }
   }
 
 }

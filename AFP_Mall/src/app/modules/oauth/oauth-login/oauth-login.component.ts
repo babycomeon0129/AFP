@@ -114,7 +114,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     //     '<div>idToken: ' + this.M_idToken + '</div>';
     // console.log('ngOnInit viewType', this.viewType, localStorage.getItem('M_upgrade'), this.appService.isApp);
     // console.log('ngOnInit M_idToken', this.cookieService.get('M_idToken'));
-
+    this.appService.openBlock();
     if (localStorage.getItem('M_upgrade') === null) {
       this.viewType = '0';
     }
@@ -248,7 +248,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-
+    this.appService.blockUI.stop();
   }
 
 }
