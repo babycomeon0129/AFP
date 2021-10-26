@@ -221,14 +221,14 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
             const content = `登入註冊失敗<br>錯誤代碼：${tokenData.errorCode}<br>請重新登入註冊`;
             this.bsModalService.show(MessageModalComponent, {
               class: 'modal-dialog-centered',
-              initialState: { success: true, message: content, showType: 5, checkBtnMsg: '我知道了' } });
+              initialState: { success: true, message: content, showType: 2, checkBtnMsg: '我知道了' } });
             /* if (this.cookieService.get('M_idToken') !== '') {
               this.onLoginOK();
             } else {
               const content = `登入註冊失敗<br>錯誤代碼：${tokenData.errorCode}<br>請重新登入註冊`;
               this.bsModalService.show(MessageModalComponent, {
                 class: 'modal-dialog-centered',
-                initialState: { success: true, message: content, showType: 5, checkBtnMsg: '我知道了' } });
+                initialState: { success: true, message: content, showType: 2, checkBtnMsg: '我知道了' } });
             } */
           }
         });

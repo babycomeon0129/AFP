@@ -250,7 +250,7 @@ export class AppService {
       initialState: {
         success: false,
         message: '請先登入',
-        showType: 6,
+        showType: 5,
         leftBtnMsg: '我知道了',
         rightBtnMsg: '登入/註冊',
         rightBtnFn: () => {

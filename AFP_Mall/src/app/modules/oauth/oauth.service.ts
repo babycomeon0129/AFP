@@ -103,18 +103,14 @@ export class OauthService {
   }
   /** 「艾斯身份證別-變更密碼2」 */
   toModifyEyes(): Observable<any> {
-    console.log((this.M_idToken !== '' && this.M_idToken !== 'undefined'), this.M_idToken);
-    if (this.M_idToken !== '' && this.M_idToken !== 'undefined') {
-      console.log('passwordUpdate:', this.M_idToken);
-      const headers = new HttpHeaders({
-        Authorization:  'Bearer ' + this.M_idToken,
-      });
-      return this.http.post(environment.modifyUrl, '', { headers })
-        .pipe(map((data: any) => {
-          // alert('變更密碼倒轉: ' + data.data);
-          location.href = data.data;
-        }, catchError(this.handleError)));
-    }
+    const headers = new HttpHeaders({
+      Authorization:  'Bearer ' + this.M_idToken,
+    });
+    return this.http.post(environment.modifyUrl, '', { headers })
+      .pipe(map((data: any) => {
+        // alert('變更密碼倒轉: ' + data.data);
+        location.href = data.data;
+      }, catchError(this.handleError)));
   }
 
   private handleError(error: HttpErrorResponse) {
