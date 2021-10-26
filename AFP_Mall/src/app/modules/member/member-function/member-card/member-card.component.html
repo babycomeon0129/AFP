@@ -224,11 +224,13 @@
               </div>
               <div class="item tied-card-content">
                 <div class="tied-card-tag">
-                  <span class="general-card">{{card.UserFavourite_TypeCode === 1 ? '一卡通' : '悠遊卡'}}</span>
+                  <span class="general-card" *ngIf="card.UserFavourite_TypeCode===1">一卡通</span>
+                  <span class="general-card" *ngIf="card.UserFavourite_TypeCode===11">悠遊卡</span>
+                  <span class="general-card" *ngIf="card.UserFavourite_TypeCode===12">虛擬卡</span>
                   <span class="special-card txt-line-clamp1" *ngIf="card.CardGroup_List !== null">
-                    <span *ngFor="let item of card.CardGroup_List">
-                      {{item.CardGroup_Name}}
-                    </span>
+                  <span *ngFor="let item of card.CardGroup_List">
+                    {{item.CardGroup_Name}}
+                  </span>
                   </span>
                 </div>
                 <h6 class="txt-line-clamp1 mt-2 mb-1">{{card?.UserFavourite_Text1}}</h6>
