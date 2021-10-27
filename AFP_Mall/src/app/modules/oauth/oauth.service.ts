@@ -44,8 +44,21 @@ export class OauthService {
         (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'login' });
       }
     } else {
-      this.loginRequest.fromOriginUri = pathname;
-      localStorage.setItem('M_fromOriginUri', pathname);
+      let pathTemp = '';
+      switch (pathname) {
+        case '/':
+          pathTemp = (location.pathname !== pathname) ? location.pathname : '/';
+          break;
+        case '/Login':
+          pathTemp = '/';
+          break;
+        default:
+          pathTemp = pathname;
+          break;
+      }
+      console.log(location.pathname, pathname);
+      this.loginRequest.fromOriginUri = pathTemp;
+      localStorage.setItem('M_fromOriginUri', pathTemp);
       this.router.navigate(['/Login'], { queryParams: { isApp: code }});
     }
   }

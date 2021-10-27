@@ -253,7 +253,6 @@ export class AppService {
         }
       }
     });
-    if (this.loginState) { this.onLogout(); }
   }
   /** 登入初始化需帶入的 state，Apple、Line登入都需要用到
    * @description unix timestamp 前後相反後前4碼+ 10碼隨機英文字母 (大小寫不同)
@@ -551,7 +550,6 @@ export class AppService {
       } else {
         this.router.navigate([uri], {
           relativeTo: this.route,
-          replaceUrl: true,
           queryParams: {
             isApp: this.isApp
           }

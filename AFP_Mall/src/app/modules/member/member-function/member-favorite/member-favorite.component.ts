@@ -43,40 +43,36 @@ export class MemberFavoriteComponent implements OnInit {
    * @param favType 51 商品, 52 商家, 53 周邊, 54 行程
    */
   onFavList(favType: number): void {
-    if (!this.appService.loginState) {
-      this.appService.logoutModal();
-    } else {
-      this.selectedType = favType;
-      this.editMode = false;
-      this.appService.openBlock();
-      const request: Request_MemberFavourite = {
-        SelectMode: 11,
-        AFP_UserFavourite: {
-          UserFavourite_ID: 0,
-          UserFavourite_CountryCode: 886,
-          UserFavourite_Type: favType,
-          UserFavourite_UserInfoCode: 0,
-          UserFavourite_IsDefault: 0
-        }
-      };
+    this.selectedType = favType;
+    this.editMode = false;
+    this.appService.openBlock();
+    const request: Request_MemberFavourite = {
+      SelectMode: 11,
+      AFP_UserFavourite: {
+        UserFavourite_ID: 0,
+        UserFavourite_CountryCode: 886,
+        UserFavourite_Type: favType,
+        UserFavourite_UserInfoCode: 0,
+        UserFavourite_IsDefault: 0
+      }
+    };
 
-      this.appService.toApi('Member', '1511', request).subscribe((data: Response_MemberFavourite) => {
-        switch (favType) {
-          case 51:
-            this.listProduct = data.List_Product;
-            break;
-          case 52:
-            this.listEcstore = data.List_ECStore;
-            break;
-          case 53:
-            this.listArea = data.List_Area;
-            break;
-          case 54:
-            this.listTravel = data.List_Travel;
-            break;
-        }
-      });
-    }
+    this.appService.toApi('Member', '1511', request).subscribe((data: Response_MemberFavourite) => {
+      switch (favType) {
+        case 51:
+          this.listProduct = data.List_Product;
+          break;
+        case 52:
+          this.listEcstore = data.List_ECStore;
+          break;
+        case 53:
+          this.listArea = data.List_Area;
+          break;
+        case 54:
+          this.listTravel = data.List_Travel;
+          break;
+      }
+    });
   }
 
   /** 刪除收藏
