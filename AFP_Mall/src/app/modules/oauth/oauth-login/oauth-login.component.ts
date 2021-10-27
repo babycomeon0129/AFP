@@ -33,7 +33,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   public grantCode = '';
   /** 登入憑證 */
   public M_idToken = this.cookieService.get('M_idToken');
-  /** 「艾斯身份證別-登入」後端回傳資料 */
+  /** 「艾斯身份證別_登入」後端回傳資料 */
   public loginJsonData: object;
   // TODO 測試用
   // public temp: any;
@@ -44,15 +44,15 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
     this.activatedRoute.queryParams.subscribe(params => {
 
-      /** 「艾斯身份證別-登入1-1-2」接收queryParams */
+      /** 「艾斯身份證別_登入1-1-2」接收queryParams */
       if (params.isApp === '1') {
-        /** 「艾斯身份證別-登入1-1-1b」 App (接收App queryParams：isApp, deviceType, deviceCode) */
+        /** 「艾斯身份證別_登入1-1-1b」 App (接收App queryParams：isApp, deviceType, deviceCode) */
         this.oauthService.loginRequest.deviceType = Number(params.deviceType);
         localStorage.setItem('M_deviceType', params.deviceType);
         this.appService.isApp = params.isApp;
         this.oauthService.loginRequest.deviceCode = params.deviceCode;
       } else {
-        /** 「艾斯身份證別-登入1-1-1a」活動頁帶返回頁參數 */
+        /** 「艾斯身份證別_登入1-1-1a」活動頁帶返回頁參數 */
         this.oauthService.loginRequest.deviceType = 0;
         localStorage.setItem('M_deviceType', '0');
         if (typeof params.fromOriginUri !== 'undefined') {
@@ -62,7 +62,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.oauthService.loginRequest.deviceCode = localStorage.getItem('M_DeviceCode');
       }
 
-      /** 「艾斯身份證別-登入2-1」 艾斯身份識別登入成功後，由Redirect API取得grantCode及List_MultipleUser
+      /** 「艾斯身份證別_登入2-1」 艾斯身份識別登入成功後，由Redirect API取得grantCode及List_MultipleUser
        * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/30001-token-api-mobii
        */
       if (!this.M_idToken) {
@@ -73,16 +73,16 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
           // 只能打一次，否則errorCode:609830001
           if (loginJson.data.grantCode) {
             this.grantCode = loginJson.data.grantCode;
-            /** 「艾斯身份證別-登入2-2」多重帳號頁面渲染
+            /** 「艾斯身份證別_登入2-2」多重帳號頁面渲染
              * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/30001-token-api-mobii
              */
             if (loginJson.data.List_MultipleUser) {
-              /** 「艾斯身份證別-登入2-2-1」有多重帳號時，使用者點擊取得idToken */
+              /** 「艾斯身份證別_登入2-2-1」有多重帳號時，使用者點擊取得idToken */
               this.viewType = '1';
               this.List_MultipleUser = loginJson.data.List_MultipleUser;
               this.UserInfoId = loginJson.data.List_MultipleUser[0].UserInfoId;
             } else {
-              /** 「艾斯身份證別-登入2-2-2」無多重帳號時，用grantCode取得idToken */
+              /** 「艾斯身份證別_登入2-2-2」無多重帳號時，用grantCode取得idToken */
               this.onGetToken(loginJson.data.grantCode, 0);
             }
           }
@@ -91,7 +91,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.onLoginOK();
       }
 
-      /** 「艾斯身份證別-忘記密碼1」Redirect API由後端取得艾斯導頁 */
+      /** 「艾斯身份證別_忘記密碼1」Redirect API由後端取得艾斯導頁 */
       if (params.forgetPassword === 'true' && this.M_idToken !== '' && this.M_idToken !== 'undefined') {
         this.onLoginOK();
       }
@@ -135,15 +135,15 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   }
 
   getViewData() {
-    /** 「艾斯身份證別-登入1-2-1」AJAX提供登入所需Request給後端，以便response取得後端提供的資料 */
+    /** 「艾斯身份證別_登入1-2-1」AJAX提供登入所需Request給後端，以便response取得後端提供的資料 */
     this.oauthService.toOauthRequest(this.oauthService.loginRequest).subscribe((data: ViewConfig) => {
-      /** 「艾斯身份證別-登入1-2-3」取得Response資料，讓Form渲染 */
+      /** 「艾斯身份證別_登入1-2-3」取得Response資料，讓Form渲染 */
       this.viewData = Object.assign(data);
       this.AuthorizationUri = data.AuthorizationUri;
       this.viewList = Object.entries(data).map(([key, val]) => {
         return {name: key, value: val};
       });
-      /** 「艾斯身份證別-登入4-1-1」曾經登入成功過(沒有idToken)，需等待form渲染後，再至艾斯登入 */
+      /** 「艾斯身份證別_登入4-1-1」曾經登入成功過(沒有idToken)，需等待form渲染後，再至艾斯登入 */
       if (this.viewList.length > 0 && !this.M_idToken &&
           localStorage.getItem('M_upgrade') === '1' && this.viewType === '2') {
         this.appService.openBlock();
@@ -155,7 +155,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   }
 
   onLoginEyes() {
-    /** 「艾斯身份證別-登入1-3」點擊登入註冊按鈕FORM POST給艾斯識別(M_upgrade:1 代表不再顯示公告頁) */
+    /** 「艾斯身份證別_登入1-3」點擊登入註冊按鈕FORM POST給艾斯識別(M_upgrade:1 代表不再顯示公告頁) */
     localStorage.setItem('M_upgrade', '1');
     (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
   }
@@ -177,7 +177,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     window.addEventListener('popstate', () => {
       history.pushState(null, null, document.URL);
     });
-    /** 「艾斯身份證別-登入3-1」已登入過艾斯(未有idToken)且非多重帳號，點擊過公告頁登入註冊按鈕(M_upgrade=1)，可取得idToken，則否讓使用者選完再取得idToken
+    /** 「艾斯身份證別_登入3-1」已登入過艾斯(未有idToken)且非多重帳號，點擊過公告頁登入註冊按鈕(M_upgrade=1)，可取得idToken，則否讓使用者選完再取得idToken
      * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/20001-redirect-api-mobii
      */
     if (code && code !== '') {
@@ -185,11 +185,11 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         // grantCode只能使用一次，註冊Mobii會員
         this.oauthService.grantRequest.grantCode = code;
         this.oauthService.grantRequest.UserInfoId = uid;
-        /** 「艾斯身份證別-登入3-2-1」取得idToken */
+        /** 「艾斯身份證別_登入3-2-1」取得idToken */
         this.oauthService.toTokenApi(this.oauthService.grantRequest).subscribe((data: ResponseIdTokenApi) => {
           const tokenData =  Object.assign(data);
           if (tokenData.errorCode === '996600001') {
-            /** 「艾斯身份證別-登入3-2-2」取得idToken帶入header:Authorization */
+            /** 「艾斯身份證別_登入3-2-2」取得idToken帶入header:Authorization */
             sessionStorage.setItem('M_idToken', tokenData.data.idToken);
             sessionStorage.setItem('userName', tokenData.data.Customer_Name);
             sessionStorage.setItem('userCode', tokenData.data.Customer_Code);
@@ -201,7 +201,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
             this.appService.loginState = true;
             this.appService.userLoggedIn = true;
             this.viewType = '3';
-            /** 「艾斯身份證別-登入3-2-3」裝置若為APP傳interface */
+            /** 「艾斯身份證別_登入3-2-3」裝置若為APP傳interface */
             if (this.appService.isApp === 1) {
               this.callApp.getLoginData(tokenData.data.idToken, tokenData.data.Customer_Code, tokenData.data.Customer_Name);
             }

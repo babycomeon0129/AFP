@@ -37,7 +37,7 @@ export class SettingComponent implements OnInit {
     }
   }
 
-  /** 「艾斯身份證別-密碼修改1」 */
+  /** 「艾斯身份證別_密碼修改1」 */
   passwordUpdate() {
     this.oauthService.toModifyEyes().subscribe(() => {});
   }

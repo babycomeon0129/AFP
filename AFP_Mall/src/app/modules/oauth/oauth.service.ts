@@ -30,7 +30,7 @@ export class OauthService {
   constructor(private router: Router, private http: HttpClient, private cookieService: CookieService) {}
 
 
-  /** 「艾斯身份證別-登入1-1-3」呼叫APP跳出登入頁、Web返回頁儲存
+  /** 「艾斯身份證別_登入1-1-3」呼叫APP跳出登入頁、Web返回頁儲存
    * App：原生點擊登入按鈕（帶queryParams：isApp,deviceType,deviceCode），統一由Web向艾斯識別驗證
    * Web：登入按鈕帶入pathname，做為返回依據
    */
@@ -63,7 +63,7 @@ export class OauthService {
     }
   }
 
-  /** 「艾斯身份證別-登入1-2-2」取得AJAX資料並POST給後端，以便取得viewConfig資料  */
+  /** 「艾斯身份證別_登入1-2-2」取得AJAX資料並POST給後端，以便取得viewConfig資料  */
   toOauthRequest(req: RequestOauthLogin): Observable<any> {
     const formData = new FormData();
     formData.append('deviceType', req.deviceType.toString());
@@ -75,7 +75,7 @@ export class OauthService {
       }, catchError(this.handleError)));
   }
 
-  /** 「艾斯身份證別-登入2-3」將grantCode或勾選的帳號給後端，以便取得Response
+  /** 「艾斯身份證別_登入2-3」將grantCode或勾選的帳號給後端，以便取得Response
    * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/30001-token-api-mobii
    */
   toTokenApi(req: RequestIdTokenApi): Observable<any> {
@@ -90,7 +90,7 @@ export class OauthService {
       }, catchError(this.handleError)));
   }
 
-  /** 「艾斯身份證別-登入4-1-2」曾經登入成功過(沒有idToken)，直接post至艾斯登入，取得idToken */
+  /** 「艾斯身份證別_登入4-1-2」曾經登入成功過(沒有idToken)，直接post至艾斯登入，取得idToken */
   toEyesRequest(request: ViewConfig): Observable<any> {
     const req = request;
     // const headers = new HttpHeaders({});
@@ -109,7 +109,7 @@ export class OauthService {
       return data;
     }, catchError(this.handleError)));
   }
-  /** 「艾斯身份證別-變更密碼2」 */
+  /** 「艾斯身份證別_變更密碼2」 */
   toModifyEyes(): Observable<any> {
     const headers = new HttpHeaders({
       Authorization:  'Bearer ' + this.M_idToken,

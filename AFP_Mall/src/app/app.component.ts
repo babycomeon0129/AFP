@@ -47,12 +47,6 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
         this.cookieService.set('M_idToken', params.IdToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       }
 
-      if (typeof params.fromOriginUri !== 'undefined') {
-        /** 「艾斯身份證別-登入1-1-1a」活動頁帶返回頁參數 */
-        this.oauthService.loginRequest.fromOriginUri = params.fromOriginUri;
-        localStorage.setItem('M_fromOriginUri', params.fromOriginUri);
-      }
-
       //  購物車編碼 APP用
       if (typeof params.cartCode !== 'undefined') {
         this.cookieService.set('cart_code', params.cartCode, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
@@ -97,7 +91,7 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
         this.appService.userLoggedIn = true;
       }
 
-      /** 「艾斯身份證別-登出」變更密碼返回登出 */
+      /** 「艾斯身份證別_登出」變更密碼返回登出 */
       if (params.logout) {
         this.appService.onLogout();
         this.router.navigate(['/']);
