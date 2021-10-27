@@ -91,10 +91,10 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
         this.appService.userLoggedIn = true;
       }
 
-      /** 「艾斯身份證別_登出」變更密碼返回登出 */
+      /** 「艾斯身份證別_登出」變更密碼返回登出，並清除logout參數 */
       if (params.logout) {
         this.appService.onLogout();
-        this.router.navigate(['/']);
+        this.router.navigate(['/Member']);
       }
       // // 第三方登入(LINE)
       // if (params.Mobii_ThirdLogin === 'true' && params.Mode !== undefined && params.Token !== undefined && !this.appService.loginState) {
