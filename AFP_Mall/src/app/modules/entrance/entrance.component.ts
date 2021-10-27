@@ -285,7 +285,6 @@ export class EntranceComponent implements OnInit {
 
   ngOnInit() {
     this.cookieShow = localStorage.getItem('M_cookieShow') ? '1' : '0';
-    console.log(this.cookieShow);
     // 從route resolver取得首頁資料
     // this.route.data.subscribe((data: { homeData: Response_Home }) => {
     //   // 接資料

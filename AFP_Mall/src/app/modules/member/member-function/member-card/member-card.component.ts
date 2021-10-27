@@ -60,6 +60,8 @@ export class MemberCardComponent implements OnInit {
   public cardTypeImg1: string;
   /** 卡號位置圖2 */
   public cardTypeImg2: string;
+  /** 卡片類型名稱 */
+  public userFavouriteTypeName: string;
 
   constructor(public appService: AppService, private oauthService: OauthService, public modal: ModalService, private router: Router,
               private route: ActivatedRoute, private meta: Meta, private title: Title, private callApp: AppJSInterfaceService) {

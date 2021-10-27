@@ -104,7 +104,7 @@ export class AppService {
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
       .pipe(map((data: Response_APIModel) => {
         this.blockUI.stop();
-        console.log(command, data);
+        // console.log(command, data);
 
         switch (data.Base.Rtn_State) {
           case 1: // Response OK
@@ -133,12 +133,9 @@ export class AppService {
 
             /** 「艾斯身份證別-更新idToken」 */
             const toApiData = data;
-            console.log(command, 'cookie token', this.cookieService.get('M_idToken'));
             if (toApiData.IdToken) {
-              console.log('toapi token', toApiData.IdToken);
               if (this.cookieService.get('M_idToken') !== toApiData.IdToken) {
                 this.cookieService.set('M_idToken', toApiData.IdToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-                console.log('change token', toApiData.IdToken);
               }
             }
             return JSON.parse(data.Data);
@@ -161,8 +158,6 @@ export class AppService {
   }
 
   private handleError(error: HttpErrorResponse) {
-    console.log('error');
-    this.blockUI.stop();
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error.message);
@@ -546,14 +541,11 @@ export class AppService {
 
   /** 網頁跳轉(返回原頁) */
   jumpUrl() {
-    console.log('jumpUrl', localStorage.getItem('M_fromOriginUri'));
     const uri = (localStorage.getItem('M_fromOriginUri') !== null && localStorage.getItem('M_fromOriginUri') !== 'undefined')
                 ? localStorage.getItem('M_fromOriginUri') : '/' ;
     if (uri.startsWith('https') || uri.startsWith('http')) {
-      console.log('jumpUrl href', localStorage.getItem('M_fromOriginUri'));
       location.replace(uri);
     } else {
-      console.log('jumpUrl router', localStorage.getItem('M_fromOriginUri'));
       if (this.isApp === 1) {
         location.replace(location.href);
       } else {

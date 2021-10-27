@@ -51,18 +51,15 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         localStorage.setItem('M_deviceType', params.deviceType);
         this.appService.isApp = params.isApp;
         this.oauthService.loginRequest.deviceCode = params.deviceCode;
-        console.log('1', this.oauthService.loginRequest);
       } else {
         /** 「艾斯身份證別-登入1-1-1a」活動頁帶返回頁參數 */
         this.oauthService.loginRequest.deviceType = 0;
         localStorage.setItem('M_deviceType', '0');
         if (typeof params.fromOriginUri !== 'undefined') {
-          console.log('params.fromOriginUri', this.viewType, params.fromOriginUri);
           this.oauthService.loginRequest.fromOriginUri = params.fromOriginUri;
           localStorage.setItem('M_fromOriginUri', params.fromOriginUri);
         }
         this.oauthService.loginRequest.deviceCode = localStorage.getItem('M_DeviceCode');
-        console.log('0', this.oauthService.loginRequest);
       }
 
       /** 「艾斯身份證別-登入2-1」 艾斯身份識別登入成功後，由Redirect API取得grantCode及List_MultipleUser
@@ -76,7 +73,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
           // 只能打一次，否則errorCode:609830001
           if (loginJson.data.grantCode) {
             this.grantCode = loginJson.data.grantCode;
-            console.log('2-1Redirect API:', this.viewType, loginJson.data.grantCode, loginJson.data.List_MultipleUser);
             /** 「艾斯身份證別-登入2-2」多重帳號頁面渲染
              * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/30001-token-api-mobii
              */
@@ -85,7 +81,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
               this.viewType = '1';
               this.List_MultipleUser = loginJson.data.List_MultipleUser;
               this.UserInfoId = loginJson.data.List_MultipleUser[0].UserInfoId;
-              console.log('2-2List_MultipleUser', this.viewType, this.List_MultipleUser);
             } else {
               /** 「艾斯身份證別-登入2-2-2」無多重帳號時，用grantCode取得idToken */
               this.onGetToken(loginJson.data.grantCode, 0);
@@ -140,17 +135,14 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   }
 
   getViewData() {
-    console.log('loginRequest', this.oauthService.loginRequest);
     /** 「艾斯身份證別-登入1-2-1」AJAX提供登入所需Request給後端，以便response取得後端提供的資料 */
     this.oauthService.toOauthRequest(this.oauthService.loginRequest).subscribe((data: ViewConfig) => {
       /** 「艾斯身份證別-登入1-2-3」取得Response資料，讓Form渲染 */
-      console.log('viewData', this.viewType, data);
       this.viewData = Object.assign(data);
       this.AuthorizationUri = data.AuthorizationUri;
       this.viewList = Object.entries(data).map(([key, val]) => {
         return {name: key, value: val};
       });
-      console.log('M_upgrade', localStorage.getItem('M_upgrade'));
       /** 「艾斯身份證別-登入4-1-1」曾經登入成功過(沒有idToken)，需等待form渲染後，再至艾斯登入 */
       if (this.viewList.length > 0 && !this.M_idToken &&
           localStorage.getItem('M_upgrade') === '1' && this.viewType === '2') {
@@ -171,7 +163,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   delaySubmit() {
     return new Promise(() => {
       setTimeout(() => {
-        console.log('viewLen', this.viewList.length, localStorage.getItem('M_upgrade'));
         if (this.viewList.length > 0 && !this.M_idToken &&
           localStorage.getItem('M_upgrade') === '1' && this.viewType === '2') {
           (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
@@ -196,7 +187,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.oauthService.grantRequest.UserInfoId = uid;
         /** 「艾斯身份證別-登入3-2-1」取得idToken */
         this.oauthService.toTokenApi(this.oauthService.grantRequest).subscribe((data: ResponseIdTokenApi) => {
-          console.log('3-2TokenApiResponse', this.viewType, JSON.stringify(data));
           const tokenData =  Object.assign(data);
           if (tokenData.errorCode === '996600001') {
             /** 「艾斯身份證別-登入3-2-2」取得idToken帶入header:Authorization */
@@ -211,7 +201,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
             this.appService.loginState = true;
             this.appService.userLoggedIn = true;
             this.viewType = '3';
-            console.log('3-2idToken', tokenData.data.idToken);
             /** 「艾斯身份證別-登入3-2-3」裝置若為APP傳interface */
             if (this.appService.isApp === 1) {
               this.callApp.getLoginData(tokenData.data.idToken, tokenData.data.Customer_Code, tokenData.data.Customer_Name);

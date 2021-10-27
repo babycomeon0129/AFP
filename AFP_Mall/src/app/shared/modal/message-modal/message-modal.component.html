@@ -22,16 +22,16 @@
           {{checkBtnMsg}}
         </button>
         <!-- 雙顆按鈕，左右按鈕功能(登入用) -->
-        <div class="row px-4">
+        <div class="row px-4" *ngIf="showType === 5">
           <div class="col-6 pr-4">
-            <button type="button" *ngIf="showType === 5" (click)="clickSingleBtn()"
+            <button type="button" (click)="clickSingleBtn()"
               [disabled]="leftBtnUrl === null"
               [ngClass]="{'btn w-100 index-btn left-btn txt-line-clamp1': leftBtnUrl !== null, 'small-80': leftBtnUrl === null}">
               {{ leftBtnMsg }}
             </button>
           </div>
           <div class="col-6">
-            <button type="button" *ngIf="showType === 5" (click)="goToUrl(rightBtnUrl, queryParams1)"
+            <button type="button" (click)="goToUrl(rightBtnUrl, queryParams1)"
               [disabled]="rightBtnUrl === null"
               [ngClass]="{'btn w-100 index-btn txt-line-clamp1': rightBtnUrl !== null, 'small-80': rightBtnUrl === null}">
               {{ rightBtnMsg }}
@@ -39,16 +39,16 @@
           </div>
         </div>
         <!-- 雙顆按鈕，左右按鈕內容、連結全客製化 -->
-        <div class="row px-4">
+        <div class="row px-4" *ngIf="showType === 6">
           <div class="col-6 pr-4">
-            <button type="button" *ngIf="showType === 6" (click)="goToUrl(leftBtnUrl, queryParams1)"
+            <button type="button" (click)="goToUrl(leftBtnUrl, queryParams1)"
               [disabled]="leftBtnUrl === null"
               [ngClass]="{'btn w-100 index-btn left-btn txt-line-clamp1': leftBtnUrl !== null, 'small-80': leftBtnUrl === null}">
               {{ leftBtnMsg }}
             </button>
           </div>
           <div class="col-6">
-            <button type="button" *ngIf="showType === 6" (click)="goToUrl(rightBtnUrl, queryParams2)"
+            <button type="button" (click)="goToUrl(rightBtnUrl, queryParams2)"
               [disabled]="rightBtnUrl === null"
               [ngClass]="{'btn w-100 index-btn txt-line-clamp1': rightBtnUrl !== null, 'small-80': rightBtnUrl === null}">
               {{ rightBtnMsg }}

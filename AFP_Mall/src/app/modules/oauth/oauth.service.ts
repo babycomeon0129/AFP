@@ -44,10 +44,8 @@ export class OauthService {
         (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'login' });
       }
     } else {
-      console.log(' web>>>> ', code, pathname);
       this.loginRequest.fromOriginUri = pathname;
       localStorage.setItem('M_fromOriginUri', pathname);
-      console.log('M_fromOriginUri', pathname);
       this.router.navigate(['/Login'], { queryParams: { isApp: code }});
     }
   }
@@ -75,7 +73,6 @@ export class OauthService {
     });
     return this.http.post(environment.tokenUrl, JSON.stringify(this.grantRequest), { headers })
       .pipe(map((data: ResponseIdTokenApi) => {
-        console.log('3-1TokenApiResponseGrantCode', JSON.stringify(this.grantRequest));
         return data;
       }, catchError(this.handleError)));
   }
@@ -83,7 +80,6 @@ export class OauthService {
   /** 「艾斯身份證別-登入4-1-2」曾經登入成功過(沒有idToken)，直接post至艾斯登入，取得idToken */
   toEyesRequest(request: ViewConfig): Observable<any> {
     const req = request;
-    console.log('4-1-2', req);
     // const headers = new HttpHeaders({});
     const requestEyes = {
       accountId: req.accountId,
@@ -97,7 +93,6 @@ export class OauthService {
     };
     return this.http.post(req.AuthorizationUri, JSON.parse(JSON.stringify(requestEyes)))
     .pipe(map((data: ResponseEyes) => {
-      console.log('4-2', data);
       return data;
     }, catchError(this.handleError)));
   }

@@ -88,7 +88,6 @@ export class MyProfileComponent implements OnInit {
               break;
           }
         });
-        console.log(this.FBThird, this.GoogleThird, this.AppleThird);
       }
     });
   }

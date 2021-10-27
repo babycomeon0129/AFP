@@ -156,7 +156,6 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
     // 當路由器成功完成路由的解析階段時，先通知app將footer關閉(開啟則靠app-mobile-footer通知開啟)
     this.router.events.pipe(filter(event => event instanceof ResolveEnd))
       .subscribe((event: ResolveEnd) => {
-        console.log('>>>>>>>>>>>>>' + this.appService.isApp);
         window.scrollTo(0, 0);
         this.callApp.appShowMobileFooter(false);
         this.appService.verifyMobileModalOpened = false;

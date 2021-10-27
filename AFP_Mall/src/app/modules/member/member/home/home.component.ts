@@ -72,15 +72,6 @@ export class HomeComponent implements OnInit {
   /** 讀取首頁資料 */
   readIndexData(): void {
     if (this.cookieService.get('M_idToken') !== '' && this.cookieService.get('M_idToken') !== 'undefined') {
-      console.log('1501   ',
-      this.cookieService.get('M_idToken'),
-      !this.cookieService.get('M_idToken'),
-      this.cookieService.get('M_idToken') === null ,
-      this.cookieService.get('M_idToken') === undefined ,
-      this.cookieService.get('M_idToken') === '' ,
-      this.cookieService.get('M_idToken') !== '' ,
-      this.cookieService.get('M_idToken') !== null ,
-      this.cookieService.get('M_idToken') !== 'undefined');
       const request: Request_MemberIndex = {
         SelectMode: 4
       };
