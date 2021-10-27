@@ -111,7 +111,7 @@ export class AppService {
             /** 手機驗證需要在eyesmedia-identity驗證, 故隱藏 */
             // switch (data.Verification.MobileVerified) {
             //   case 1:
-            //     // 「一般登入」、「第三方登入」、「艾斯身份證別_登入後讀購物車數量」、「推播」不引導驗證手機
+            //     // 「一般登入」、「第三方登入」、「艾斯身份證別-登入後讀購物車數量」、「推播」不引導驗證手機
             //     if (command !== '1104' && command !== '1105' && command !== '1204' && command !== '1113') {
             //       if (!this.verifyMobileModalOpened) {
             //         this.bsModalService.show(VerifyMobileModalComponent);
@@ -131,7 +131,7 @@ export class AppService {
             //     this.router.navigate(['/']);
             // }
 
-            /** 「艾斯身份證別_更新idToken」 */
+            /** 「艾斯身份證別-更新idToken」 */
             const toApiData = data;
             if (toApiData.IdToken) {
               if (this.cookieService.get('M_idToken') !== toApiData.IdToken) {
@@ -249,6 +249,7 @@ export class AppService {
         leftBtnMsg: '我知道了',
         rightBtnMsg: '登入/註冊',
         rightBtnFn: () => {
+          this.onLogout();
           this.oauthService.loginPage(this.isApp, location.pathname);
         }
       }
