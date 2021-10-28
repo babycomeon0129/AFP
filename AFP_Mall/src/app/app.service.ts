@@ -465,7 +465,15 @@ export class AppService {
 
   /** 打開JustKa iframe */
   showJustka(url: string): void {
-    this.bsModalService.show(JustkaModalComponent, { initialState: { justkaUrl: url } });
+    if (!this.loginState) {
+      this.logoutModal();
+    } else {
+      this.bsModalService.show(JustkaModalComponent, {
+        initialState: {
+          justkaUrl: url + '&J_idToken=' + this.cookieService.get('M_idToken')
+        }
+      });
+    }
   }
 
   /** 向firebase message 請求token */

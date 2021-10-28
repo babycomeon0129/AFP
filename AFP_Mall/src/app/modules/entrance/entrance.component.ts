@@ -585,7 +585,7 @@ export class EntranceComponent implements OnInit {
         if (Link.Function_URLTarget === '_app') {
           this.modal.confirm({ initialState: { message: '請問是否要開啟Mobii App?' } }).subscribe(res => {
             if (res) {
-              window.location.href = Link.Function_URL;
+              location.href = Link.Function_URL;
               setTimeout(() => { this.router.navigate(['/ForApp/AppDownload']); }, 25);
             }
           });
@@ -614,7 +614,7 @@ export class EntranceComponent implements OnInit {
 
   /** 立即下載APP */
   toDownloadAPP(): void {
-    window.location.href = 'mobii://';
+    location.href = 'mobii://';
     setTimeout(() => {
       if (document.visibilityState === 'visible') {
         // 未成功開啟APP則前往AppDownload被引導至平台下載
@@ -631,22 +631,26 @@ export class EntranceComponent implements OnInit {
     this.animationMoveUpOut = true;
   }
 
-  /** justKa點擊事件（justKa modal 顯示與否）*/
+  /** justKa點擊事件（justKa modal 顯示與否） */
   toggle(): void {
-    this.show = !this.show;
-    if (this.show) {
-      this.modal.show('justka',
-        {
-          initialState:
-          {
-            justkaUrl:
-              'https://biz.justka.ai/webapp/home?q=a2d422f6-b4bc-4e1d-9ca0-7b4db3258f35&a=d3f53a60-db70-11e9-8a34-2a2ae2dbcce4'
-          }
-        },
-        this.bsModalRef);
+    const JKurl = 'https://biz.justka.ai/webapp/home?q=a2d422f6-b4bc-4e1d-9ca0-7b4db3258f35&a=d3f53a60-db70-11e9-8a34-2a2ae2dbcce4&J_idToken=' + this.cookieService.get('M_idToken');
+    if (!this.appService.loginState) {
+      this.appService.logoutModal();
     } else {
-      this.modal.closeModal1();
-      document.querySelector('body').classList.remove('modal-open');
+      this.show = !this.show;
+      if (this.show) {
+        this.modal.show('justka',
+          {
+            initialState:
+            {
+              justkaUrl: JKurl
+            }
+          },
+          this.bsModalRef);
+      } else {
+        this.modal.closeModal1();
+        document.querySelector('body').classList.remove('modal-open');
+      }
     }
   }
 
