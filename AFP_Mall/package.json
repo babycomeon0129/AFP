@@ -28,7 +28,6 @@
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
     "@types/swiper": "^5.2.0",
-    "angular-resize-event": "^2.0.0",
     "angular2-text-mask": "^9.0.0",
     "angularx-qrcode": "^2.1.0",
     "animate.css": "^3.7.2",

@@ -585,7 +585,7 @@ export class EntranceComponent implements OnInit {
         if (Link.Function_URLTarget === '_app') {
           this.modal.confirm({ initialState: { message: '請問是否要開啟Mobii App?' } }).subscribe(res => {
             if (res) {
-              window.location.href = Link.Function_URL;
+              location.href = Link.Function_URL;
               setTimeout(() => { this.router.navigate(['/ForApp/AppDownload']); }, 25);
             }
           });
@@ -614,7 +614,7 @@ export class EntranceComponent implements OnInit {
 
   /** 立即下載APP */
   toDownloadAPP(): void {
-    window.location.href = 'mobii://';
+    location.href = 'mobii://';
     setTimeout(() => {
       if (document.visibilityState === 'visible') {
         // 未成功開啟APP則前往AppDownload被引導至平台下載
@@ -631,7 +631,7 @@ export class EntranceComponent implements OnInit {
     this.animationMoveUpOut = true;
   }
 
-  /** justKa點擊事件（justKa modal 顯示與否）*/
+  /** justKa點擊事件（justKa modal 顯示與否） */
   toggle(): void {
     this.show = !this.show;
     if (this.show) {
