@@ -7,7 +7,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { SwiperOptions } from 'swiper';
 import { MemberService } from '@app/modules/member/member.service';
-import { AuthService, SocialUser } from 'angularx-social-login';
 import { BsModalService } from 'ngx-bootstrap';
 import { Session } from 'inspector';
 import { AppJSInterfaceService } from '@app/app-jsinterface.service';
@@ -22,7 +21,7 @@ declare var AppJSInterface: any;
 })
 export class HomeComponent implements OnInit {
   // 第三方登入 User容器
-  thirdUser: SocialUser;
+  // thirdUser: SocialUser;
   thirdClick = false;
 
   /** 首頁資訊（廣告列表） */

@@ -11,7 +11,6 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { environment } from '@env/environment';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { AuthService } from 'angularx-social-login';
 // import { SwPush } from '@angular/service-worker';
 // import firebase from 'firebase/app';
 // import 'firebase/messaging';

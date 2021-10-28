@@ -3,7 +3,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { environment } from '@env/environment';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { AppService } from '@app/app.service';
-import { AuthService, SocialUser, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 import { NgForm } from '@angular/forms';
 import {
   Model_ShareData, Response_AFPLogin, Request_AFPAccount, Request_AFPVerifyCode,

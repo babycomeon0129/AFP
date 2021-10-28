@@ -1,7 +1,6 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Request_MemberThird, Response_MemberThird } from '../member.component';
-import { AuthService, SocialUser, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
 import { ModalService } from '@app/shared/modal/modal.service';

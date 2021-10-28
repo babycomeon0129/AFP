@@ -4,7 +4,6 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
-import { SocialLoginModule, AuthServiceConfig, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ModalModule, BsModalRef } from 'ngx-bootstrap';
