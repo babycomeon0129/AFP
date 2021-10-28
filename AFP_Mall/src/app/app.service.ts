@@ -201,7 +201,7 @@ export class AppService {
     // 清除session、cookie、我的收藏資料，重置登入狀態及通知數量，返回原頁
     //  APP登出導頁
     if (this.isApp === 1 && this.appLoginType === '1' && this.loginState) {
-      window.location.href = '/ForApp/AppLogout';
+      location.href = '/ForApp/AppLogout';
     }
     sessionStorage.clear();
     this.cookieService.deleteAll();
@@ -542,8 +542,19 @@ export class AppService {
   jumpUrl(link?: string) {
     // 站外連結
     if (!link) {
-      location.href = link;
+      if (link.slice(0, 1) === '/') {
+        if (link.includes('?')) {
+          // 若原有參數則帶著前往
+          const linkUrl = link.split('?')[0];
+          this.router.navigate([linkUrl], { queryParams: this.route.snapshot.queryParams });
+        } else {
+          this.router.navigate([link]);
+        }
+      } else {
+        location.href = link;
+      }
     }
+
     // 登入用
     const uri = (localStorage.getItem('M_fromOriginUri') !== null && localStorage.getItem('M_fromOriginUri') !== 'undefined')
                 ? localStorage.getItem('M_fromOriginUri') : '/' ;
