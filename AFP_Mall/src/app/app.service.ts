@@ -538,24 +538,49 @@ export class AppService {
     }
   }
 
-  /** 網頁跳轉(返回原頁) */
-  jumpUrl(link?: string) {
-    // 站外連結
-    if (!link) {
-      if (link.slice(0, 1) === '/') {
-        if (link.includes('?')) {
-          // 若原有參數則帶著前往
-          const linkUrl = link.split('?')[0];
-          this.router.navigate([linkUrl], { queryParams: this.route.snapshot.queryParams });
+  /** 網頁跳轉（瀏覽器會紀錄連結的歷史紀錄） */
+  jumpHref(link: string, tag: string) {
+    switch (tag) {
+      case '_blank':
+        if (link.slice(0, 1) === '/') {
+          // blank需要絕對路徑
+          window.open(location.origin + link, tag);
         } else {
-          this.router.navigate([link]);
+          window.open(link, tag);
         }
-      } else {
-        location.href = link;
-      }
+        break;
+      default:
+        if (link.startsWith('https') || link.startsWith('http')) {
+          // 絕對路徑
+          const openUrl = new URL(link);
+          if (openUrl.host !== location.host) {
+            location.href = link;
+          } else {
+            // 若絕對路徑為站內連結
+            if (link.includes('?')) {
+              // 若原有參數則帶著前往
+              const selfUrl = link.split('?')[0];
+              this.router.navigate([selfUrl], { queryParams: this.route.snapshot.queryParams });
+            } else {
+              this.router.navigate([link]);
+            }
+          }
+        } else {
+          // 相對路徑
+          if (link.includes('?')) {
+            // 若原有參數則帶著前往
+            const selfUrl = link.split('?')[0];
+            this.router.navigate([selfUrl], { queryParams: this.route.snapshot.queryParams });
+          } else {
+            this.router.navigate([link]);
+          }
+        }
+        break;
     }
+  }
 
-    // 登入用
+  /** 網頁跳轉(登入用，不會紀錄連結的歷史紀錄) */
+  jumpUrl() {
     const uri = (localStorage.getItem('M_fromOriginUri') !== null && localStorage.getItem('M_fromOriginUri') !== 'undefined')
                 ? localStorage.getItem('M_fromOriginUri') : '/' ;
     if (uri.startsWith('https') || uri.startsWith('http')) {

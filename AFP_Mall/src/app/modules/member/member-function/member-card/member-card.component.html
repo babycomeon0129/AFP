@@ -59,7 +59,7 @@
             <div class="row w-100">
               <div class="col-6" *ngFor="let cardImg of cardADList">
                 <div class="mycard-container">
-                  <a href="javascript:;" (click)="appService.jumpUrl([cardImg.ADImg_URL])" [target]="[cardImg.ADImg_URLTarget]">
+                  <a href="javascript:;" (click)="appService.jumpHref(cardImg.ADImg_URL, cardImg.ADImg_URLTarget)">
                     <div class="card-img-box">
                       <div class="rwdimg h60" [lazyLoad]="cardImg.ADImg_Img" [defaultImage]="appService.defaultImage"></div>
                     </div>

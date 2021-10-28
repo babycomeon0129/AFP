@@ -25,7 +25,7 @@
         <img class="active-img" src="img/index/tabbar/shopping_choosen.png" alt="">
         商城
       </a>
-      <a href="javascript:;" class="bar-item" [routerLink]="['/Member']" [ngClass]="{'active': currentUrl.indexOf('/Member') != -1}">
+      <a [routerLink]="['/Member']" class="bar-item" [ngClass]="{'active': currentUrl.indexOf('/Member') != -1}">
         <img class="default-img" src="img/index/tabbar/my.png" alt="">
         <img class="active-img" src="img/index/tabbar/my_choosen.png" alt="">
         我的
