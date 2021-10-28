@@ -53,13 +53,13 @@
         <!-- 特殊綁卡(廣告版位) -->
         <div class="my-card-box" *ngIf="cardADList.length > 0">
           <div class="p-2">
-            <p class="font-bold">特殊綁卡</p>
+            <p class="font-bold">專區</p>
           </div>
           <div class="p-0">
             <div class="row w-100">
               <div class="col-6" *ngFor="let cardImg of cardADList">
                 <div class="mycard-container">
-                  <a [routerLink]="[cardImg.ADImg_URL]" [target]="[cardImg.ADImg_URLTarget]">
+                  <a href="javascript:;" (click)="appService.jumpUrl([cardImg.ADImg_URL])" [target]="[cardImg.ADImg_URLTarget]">
                     <div class="card-img-box">
                       <div class="rwdimg h60" [lazyLoad]="cardImg.ADImg_Img" [defaultImage]="appService.defaultImage"></div>
                     </div>

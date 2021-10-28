@@ -539,7 +539,12 @@ export class AppService {
   }
 
   /** 網頁跳轉(返回原頁) */
-  jumpUrl() {
+  jumpUrl(link?: string) {
+    // 站外連結
+    if (!link) {
+      location.href = link;
+    }
+    // 登入用
     const uri = (localStorage.getItem('M_fromOriginUri') !== null && localStorage.getItem('M_fromOriginUri') !== 'undefined')
                 ? localStorage.getItem('M_fromOriginUri') : '/' ;
     if (uri.startsWith('https') || uri.startsWith('http')) {
