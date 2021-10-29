@@ -62,6 +62,9 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.oauthService.loginRequest.deviceCode = localStorage.getItem('M_DeviceCode');
       }
 
+      if (typeof params.IdToken !== 'undefined' && params.IdToken !== null) {
+        this.cookieService.set('M_idToken', params.IdToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+      }
       /** 「艾斯身份證別_登入2-1」 艾斯身份識別登入成功後，由Redirect API取得grantCode及List_MultipleUser
        * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/30001-token-api-mobii
        */
@@ -200,6 +203,8 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
             this.appService.userName = tokenData.data.Customer_Name;
             this.appService.loginState = true;
             this.appService.userLoggedIn = true;
+            this.appService.showFavorites();
+            this.appService.readCart();
             this.viewType = '3';
             /** 「艾斯身份證別_登入3-2-3」裝置若為APP傳interface */
             if (this.appService.isApp === 1) {
@@ -229,6 +234,8 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     this.appService.blockUI.stop();
     this.appService.loginState = true;
     this.appService.userLoggedIn = true;
+    this.appService.showFavorites();
+    this.appService.readCart();
     if (this.appService.isApp === 1) {
       this.callApp.getLoginData(this.cookieService.get('M_idToken'),
       this.cookieService.get('userCode'), this.cookieService.get('userName'));

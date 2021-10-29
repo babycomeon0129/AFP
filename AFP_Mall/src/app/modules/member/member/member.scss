@@ -259,18 +259,6 @@ ul{
               font-size: small;
               background: $gray-light8;
           }
-          li.captchabox{
-              padding: 5px 15px;
-              justify-content: flex-end;
-              background: $gray-light8;
-              button{
-                  color: $index-default;
-              }
-              .captnote{
-                  padding-right: 120px;
-                  transform: translate(0%, -50%);
-              }
-          }
       }
   }
   ul{
