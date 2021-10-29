@@ -43,9 +43,6 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
       if (this.appService.isApp == null && typeof params.isApp !== 'undefined') {
         this.appService.isApp = Number(params.isApp);
       }
-      if (typeof params.IdToken !== 'undefined' && params.IdToken !== null) {
-        this.cookieService.set('M_idToken', params.IdToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-      }
 
       //  購物車編碼 APP用
       if (typeof params.cartCode !== 'undefined') {
@@ -55,26 +52,28 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
       // 任務用 & 我的用
 
       if (typeof params.loginType !== 'undefined') {
-        if (typeof params.M_idToken !== 'undefined' && params.M_idToken !== null) {
-          this.cookieService.set('M_idToken', params.M_idToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-        }
         this.appService.appLoginType = params.loginType;
-        if (params.loginType === '1') {
+        if (params.loginType === '1' && (typeof params.M_idToken !== 'undefined' && params.M_idToken !== null)) {
           // APP 為登入狀態則將該 webview 也同步為登入
-          if (typeof params.userCode !== 'undefined' && typeof params.userName !== 'undefined') {
-            if (typeof params.userCode !== 'undefined') { sessionStorage.setItem('userCode', encodeURIComponent(params.userCode)); }
-            if (typeof params.userName !== 'undefined') { sessionStorage.setItem('userName', params.userName); }
-            if (typeof params.userName !== 'undefined') { this.cookieService.set('userName', params.userName, 90, '/',
-                environment.cookieDomain, environment.cookieSecure, 'Lax'); }
-            if (typeof params.userCode !== 'undefined') { this.cookieService.set('userCode', encodeURIComponent(params.userCode), 90, '/',
-                environment.cookieDomain, environment.cookieSecure, 'Lax'); }
-            this.appService.loginState = true;
-            this.appService.userLoggedIn = true;
-          } else if (params.loginType === '2') {
-            // APP 為登出狀態但該 webview 登入狀態被cache住還是登入則將其改為登出
-            this.appService.loginState = false;
-            this.appService.userLoggedIn = false;
-          }
+          this.cookieService.set('M_idToken', params.M_idToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+          if (typeof params.userCode !== 'undefined') { sessionStorage.setItem('userCode', encodeURIComponent(params.userCode)); }
+          if (typeof params.userName !== 'undefined') { sessionStorage.setItem('userName', params.userName); }
+          if (typeof params.userName !== 'undefined') { this.cookieService.set('userName', params.userName, 90, '/',
+              environment.cookieDomain, environment.cookieSecure, 'Lax'); }
+          if (typeof params.userCode !== 'undefined') { this.cookieService.set('userCode', encodeURIComponent(params.userCode), 90, '/',
+              environment.cookieDomain, environment.cookieSecure, 'Lax'); }
+
+          this.appService.userName = params.userName;
+          this.appService.loginState = true;
+          this.appService.userLoggedIn = true;
+          this.appService.showFavorites();
+          this.appService.readCart();
+          this.appService.getPushPermission();
+          // 通知推播
+          // this.appService.initPush();
+        } else if (params.loginType === '2') {
+          // APP 為登出狀態但該 webview 登入狀態被cache住還是登入則將其改為登出
+          this.appService.onLogout();
         }
       }
 
@@ -93,7 +92,9 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
 
       /** 「艾斯身份證別_登出」變更密碼返回登出，並清除logout參數 */
       if (params.logout) {
-        this.appService.onLogout();
+        if (this.appService.loginState) {
+          this.appService.onLogout();
+        }
         this.router.navigate(['/Member']);
       }
       // // 第三方登入(LINE)
@@ -138,12 +139,9 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngOnInit() {
-    if (this.cookieService.get('M_idToken') !== '' && this.cookieService.get('M_idToken') !== 'undefined') {
-      this.appService.loginState = true;
-      this.appService.userLoggedIn = true;
-    } else {
-      this.appService.loginState = false;
-      this.appService.userLoggedIn = false;
+    const M_itToken = this.cookieService.get('M_idToken');
+    if (!M_itToken && M_itToken !== '' && M_itToken !== 'undefined') {
+      this.router.navigate(['/Login'], { queryParams: this.activatedRoute.snapshot.params });
     }
     this.appService.getPushPermission();
     this.appService.receiveMessage();
@@ -166,6 +164,12 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
     //   this.appService.loginState + '   >>>> isApp    ' +
     //   this.appService.isApp  ;
     // }, 3000);
+
+    /** JustKa登入偵聽 */
+    window.addEventListener('message', (e) => {
+      // console.log(e);
+    }, false);
+
   }
 
   /** 獲取這個 outlet 指令的值（透過 #outlet="outlet"），並根據當前活動路由的自訂資料返回一個表示動畫狀態的字串值。用此資料來控制各個路由之間該執行哪個轉場 */

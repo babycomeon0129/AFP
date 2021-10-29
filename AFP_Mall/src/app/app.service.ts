@@ -207,6 +207,7 @@ export class AppService {
     this.cookieService.deleteAll();
     this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
     this.loginState = false;
+    this.userLoggedIn = false;
     this.userFavCodes = [];
     this.pushCount = 0;
     this.verifyMobileModalOpened = false;
@@ -248,7 +249,9 @@ export class AppService {
         leftBtnMsg: '我知道了',
         rightBtnMsg: '登入/註冊',
         rightBtnFn: () => {
-          this.onLogout();
+          if (this.loginState) {
+            this.onLogout();
+          }
           this.oauthService.loginPage(this.isApp, location.pathname);
         }
       }
