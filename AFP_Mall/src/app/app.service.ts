@@ -604,6 +604,7 @@ export class AppService {
         }
       });
     }
+    localStorage.removeItem('M_fromOriginUri');
   }
 }
 
