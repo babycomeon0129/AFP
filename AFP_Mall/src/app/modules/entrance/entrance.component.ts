@@ -312,6 +312,8 @@ export class EntranceComponent implements OnInit {
     this.appService.toApi('Home', '1021', request).subscribe((data: Response_Home) => {
       // 會員資訊
       this.userPoint = data.TotalPoint;
+      sessionStorage.setItem('userName', data.UserName);
+      this.appService.userName = data.UserName;
       this.userVoucherCount = data.VoucherCount;
       // 廣告
       this.adTop = data.ADImg_Top;

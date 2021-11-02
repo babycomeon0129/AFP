@@ -1,3 +1,4 @@
+import { AppService } from '@app/app.service';
 import { environment } from '@env/environment';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -5,6 +6,8 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, retry } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
+import { BsModalService } from 'ngx-bootstrap';
+import { MessageModalComponent } from '@app/shared/modal/message-modal/message-modal.component';
 
 declare var AppJSInterface: any;
 @Injectable({
@@ -27,7 +30,8 @@ export class OauthService {
   /** 登入憑證 */
   public M_idToken = this.cookieService.get('M_idToken');
 
-  constructor(private router: Router, private http: HttpClient, private cookieService: CookieService) {}
+  constructor(private router: Router, private http: HttpClient, private cookieService: CookieService,
+              private bsModalService: BsModalService) {}
 
 
   /** 「艾斯身份證別_登入1-1-3」呼叫APP跳出登入頁、Web返回頁儲存
@@ -35,6 +39,7 @@ export class OauthService {
    * Web：登入按鈕帶入pathname，做為返回依據
    */
   loginPage(code: number, pathname: string): any {
+    this.onClearStorage();
     if (code === 1) {
       if (navigator.userAgent.match(/android/i)) {
         //  Android
@@ -46,8 +51,11 @@ export class OauthService {
     } else {
       let pathTemp = '';
       switch (pathname) {
+        case 'undefined':
+          pathTemp = '/';
+          break;
         case '/':
-          pathTemp = (location.pathname !== pathname) ? location.pathname : '/';
+          pathTemp = '/';
           break;
         case '/Login':
           pathTemp = '/';
@@ -59,7 +67,7 @@ export class OauthService {
       console.log(location.pathname, pathname);
       this.loginRequest.fromOriginUri = pathTemp;
       localStorage.setItem('M_fromOriginUri', pathTemp);
-      this.router.navigate(['/Login'], { queryParams: { isApp: code }});
+      this.router.navigate(['/Login'], { preserveQueryParams: true });
     }
   }
 
@@ -71,7 +79,14 @@ export class OauthService {
     formData.append('fromOriginUri', req.fromOriginUri);
     return this.http.post(environment.loginUrl, formData)
       .pipe(map((data: ResponseOauthLogin) => {
-        return data.data;
+        switch (data.errorCode) {
+          case '996600001':
+            return data.data;
+          default:
+            this.onClearStorage();
+            this.msgModal(`登入逾時<br>錯誤代碼：${data.errorCode}<br>請重新登入註冊`);
+            break;
+        }
       }, catchError(this.handleError)));
   }
 
@@ -85,39 +100,34 @@ export class OauthService {
       'Access-Control-Allow-Origin': '*',
     });
     return this.http.post(environment.tokenUrl, JSON.stringify(this.grantRequest), { headers })
-      .pipe(map((data: ResponseIdTokenApi) => {
-        return data;
+      .pipe(map((data: ResponseOauthApi) => {
+        switch (data.errorCode) {
+          case '996600001':
+            return data;
+          default:
+            this.onClearStorage();
+            this.msgModal('註冊失敗');
+            break;
+        }
       }, catchError(this.handleError)));
   }
 
-  /** 「艾斯身份證別_登入4-1-2」曾經登入成功過(沒有idToken)，直接post至艾斯登入，取得idToken */
-  toEyesRequest(request: ViewConfig): Observable<any> {
-    const req = request;
-    // const headers = new HttpHeaders({});
-    const requestEyes = {
-      accountId: req.accountId,
-      clientId: req.clientId,
-      state: req.state,
-      scope: req.scope,
-      redirectUri: req.redirectUri,
-      homeUri: req.homeUri,
-      responseType: req.responseType,
-      viewConfig: req.viewConfig
-    };
-    return this.http.post(req.AuthorizationUri, JSON.parse(JSON.stringify(requestEyes)))
-    .pipe(map((data: ResponseEyes) => {
-      return data;
-    }, catchError(this.handleError)));
-  }
   /** 「艾斯身份證別_變更密碼2」 */
   toModifyEyes(): Observable<any> {
     const headers = new HttpHeaders({
       Authorization:  'Bearer ' + this.M_idToken,
     });
     return this.http.post(environment.modifyUrl, '', { headers })
-      .pipe(map((data: any) => {
-        // alert('變更密碼倒轉: ' + data.data);
-        location.href = data.data;
+      .pipe(map((data: ResponseOauthApi) => {
+        switch (data.errorCode) {
+          case '996600001':
+            location.href = data.data;
+            break;
+          default:
+            this.onClearStorage();
+            this.msgModal('請重新登入');
+            break;
+        }
       }, catchError(this.handleError)));
   }
 
@@ -137,16 +147,35 @@ export class OauthService {
       'Something bad happened; please try again later.' + error);
   }
 
+  msgModal(msg: any) {
+    this.bsModalService.show(MessageModalComponent, {
+      class: 'modal-dialog-centered',
+      initialState: {
+        success: true,
+        message: msg,
+        showType: 5,
+        leftBtnMsg: '我知道了',
+        rightBtnMsg: '登入/註冊',
+        rightBtnFn: () => {
+          this.onClearStorage();
+          this.loginPage(0, location.pathname);
+        }
+      }
+    });
+  }
+
   /** 清除Storage */
   onClearStorage() {
     sessionStorage.clear();
+    this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
     localStorage.removeItem('M_fromOriginUri');
     localStorage.removeItem('M_deviceType');
   }
 }
 
+
 /** 登入 API Request interface
- * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/oauth2-api
+ * https://bookstack.eyesmedia.com.tw/books/mobii-x/chapter/api
  */
 
 export interface RequestOauthLogin {
@@ -210,7 +239,7 @@ export interface RequestIdTokenApi {
   grantCode: string;
   UserInfoId: number;
 }
-export interface ResponseIdTokenApi {
+export interface ResponseOauthApi {
   messageId: string;
   errorCode: string;
   errorDesc: string;

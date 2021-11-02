@@ -95,7 +95,7 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
         if (this.appService.loginState) {
           this.appService.onLogout();
         }
-        this.router.navigate(['/Member']);
+        this.router.navigate(['/Member'], {queryParams: {isApp: this.appService.isApp}});
       }
       // // 第三方登入(LINE)
       // if (params.Mobii_ThirdLogin === 'true' && params.Mode !== undefined && params.Token !== undefined && !this.appService.loginState) {
@@ -140,7 +140,8 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
 
   ngOnInit() {
     const M_itToken = this.cookieService.get('M_idToken');
-    if (!M_itToken && M_itToken !== '' && M_itToken !== 'undefined') {
+    console.log(M_itToken);
+    if (M_itToken !== '' && M_itToken !== 'undefined') {
       this.router.navigate(['/Login'], { queryParams: this.activatedRoute.snapshot.params });
     }
     this.appService.getPushPermission();

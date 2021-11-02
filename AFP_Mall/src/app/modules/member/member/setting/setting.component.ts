@@ -3,7 +3,9 @@ import { AppService } from '@app/app.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Meta, Title } from '@angular/platform-browser';
-import { OauthService } from '@app/modules/oauth/oauth.service';
+import { OauthService, ResponseOauthApi } from '@app/modules/oauth/oauth.service';
+import { MessageModalComponent } from '@app/shared/modal/message-modal/message-modal.component';
+import { BsModalService } from 'ngx-bootstrap';
 // APP的Interface
 declare var BindingSocialJSInterface: any;
 
@@ -15,7 +17,7 @@ declare var BindingSocialJSInterface: any;
 export class SettingComponent implements OnInit {
 
   constructor(public appService: AppService, public route: ActivatedRoute, public location: Location, private router: Router,
-              private meta: Meta, private title: Title, private oauthService: OauthService) {
+              private meta: Meta, private title: Title, private oauthService: OauthService, private bsModalService: BsModalService) {
     this.title.setTitle('帳號設定 - Mobii!');
     this.meta.updateTag({ name: 'description', content: '' });
     this.meta.updateTag({ content: '帳號設定 - Mobii!', property: 'og:title' });

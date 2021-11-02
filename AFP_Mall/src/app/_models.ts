@@ -247,6 +247,8 @@ export interface Request_Home extends Model_ShareData {
 export interface Response_Home {
   /** 會員點數 */
   TotalPoint: number;
+  /** 會員姓名 */
+  UserName: string;
   /** 優惠卷數量 */
   VoucherCount: number;
   /** 廣告列表 10001 */
