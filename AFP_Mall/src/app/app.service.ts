@@ -66,10 +66,6 @@ export class AppService {
    * 偵測到 loginState 由 false 轉為 true時，重新訪問當前頁面以取得會員相關資訊。
    */
   public userLoggedIn = false;
-  /** 引導手機驗證 modal 是否已開啟（控制此 modal 只開啟一個，避免在需呼叫１個以上 API 的頁面重複開啟）
-   * TODO: 暫時作法
-   */
-  public verifyMobileModalOpened = false;
   /** 是否顯示返回鍵 (app特例) */
   public showBack = false;
   /** line 登入用 state (用於取code) */
@@ -106,7 +102,7 @@ export class AppService {
         console.log(command, data);
 
         switch (data.Base.Rtn_State) {
-          case 1: // Response OK
+          case 1:
             /** 手機驗證需要在eyesmedia-identity驗證, 故隱藏 */
             // switch (data.Verification.MobileVerified) {
             //   case 1:
@@ -210,7 +206,6 @@ export class AppService {
     this.userLoggedIn = false;
     this.userFavCodes = [];
     this.pushCount = 0;
-    this.verifyMobileModalOpened = false;
     this.oauthService.onClearStorage();
 
   }
@@ -544,7 +539,9 @@ export class AppService {
         AppJSInterface.appShare(sharedContent + '\n' + APPShareUrl);
       } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
         //  IOS
-        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'appShare', content: sharedContent + '\n' + APPShareUrl });
+        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({
+          action: 'appShare', content: sharedContent + '\n' + APPShareUrl
+        });
       }
     }
   }

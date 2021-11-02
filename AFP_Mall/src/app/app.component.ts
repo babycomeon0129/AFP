@@ -66,9 +66,8 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
           this.appService.userName = params.userName;
           this.appService.loginState = true;
           this.appService.userLoggedIn = true;
-          this.appService.showFavorites();
-          this.appService.readCart();
-          this.appService.getPushPermission();
+          // this.appService.showFavorites();
+          // this.appService.readCart();
           // 通知推播
           // this.appService.initPush();
         } else if (params.loginType === '2') {
@@ -139,11 +138,6 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngOnInit() {
-    const M_itToken = this.cookieService.get('M_idToken');
-    console.log(M_itToken);
-    if (M_itToken !== '' && M_itToken !== 'undefined') {
-      this.router.navigate(['/Login'], { queryParams: this.activatedRoute.snapshot.params });
-    }
     this.appService.getPushPermission();
     this.appService.receiveMessage();
     // 當路由器成功完成路由的解析階段時，先通知app將footer關閉(開啟則靠app-mobile-footer通知開啟)
@@ -151,7 +145,6 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
       .subscribe((event: ResolveEnd) => {
         window.scrollTo(0, 0);
         this.callApp.appShowMobileFooter(false);
-        this.appService.verifyMobileModalOpened = false;
         this.appService.prevUrl = event.url;  // 取得前一頁面url
         this.appService.pathnameUri = location.pathname;  // 取得當前頁面pathname
       });
