@@ -1,7 +1,7 @@
 import { CookieService } from 'ngx-cookie-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppService } from '@app/app.service';
-import { OauthService, ResponseIdTokenApi, ViewConfig } from '@app/modules/oauth/oauth.service';
+import { OauthService, ResponseOauthApi, ViewConfig } from '@app/modules/oauth/oauth.service';
 import { Component, ElementRef, OnInit, AfterViewInit } from '@angular/core';
 import { environment } from '@env/environment';
 import { AppJSInterfaceService } from '@app/app-jsinterface.service';
@@ -105,7 +105,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     // 避免直接貼上，導回Login頁
     if (localStorage.getItem('M_fromOriginUri') === '/Login') { localStorage.removeItem('M_fromOriginUri'); }
-
+    console.log(this.viewType);
     // TODO 測試用
     // document.getElementById('loginRequest').innerHTML = this.temp +
     //     '<div>loginState: ' + this.appService.loginState + '</div>' +
@@ -189,7 +189,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.oauthService.grantRequest.grantCode = code;
         this.oauthService.grantRequest.UserInfoId = uid;
         /** 「艾斯身份證別_登入3-2-1」取得idToken */
-        this.oauthService.toTokenApi(this.oauthService.grantRequest).subscribe((data: ResponseIdTokenApi) => {
+        this.oauthService.toTokenApi(this.oauthService.grantRequest).subscribe((data: ResponseOauthApi) => {
           const tokenData =  Object.assign(data);
           if (tokenData.errorCode === '996600001') {
             /** 「艾斯身份證別_登入3-2-2」取得idToken帶入header:Authorization */
@@ -209,21 +209,14 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
             /** 「艾斯身份證別_登入3-2-3」裝置若為APP傳interface */
             if (this.appService.isApp === 1) {
               this.callApp.getLoginData(tokenData.data.idToken, tokenData.data.Customer_Code, tokenData.data.Customer_Name);
-            }
-            this.appService.jumpUrl();
-          } else {
-            const content = `登入註冊失敗<br>錯誤代碼：${tokenData.errorCode}<br>請重新登入註冊`;
-            this.bsModalService.show(MessageModalComponent, {
-              class: 'modal-dialog-centered',
-              initialState: { success: true, message: content, showType: 2, checkBtnMsg: '我知道了' } });
-            /* if (this.cookieService.get('M_idToken') !== '') {
-              this.onLoginOK();
             } else {
-              const content = `登入註冊失敗<br>錯誤代碼：${tokenData.errorCode}<br>請重新登入註冊`;
-              this.bsModalService.show(MessageModalComponent, {
-                class: 'modal-dialog-centered',
-                initialState: { success: true, message: content, showType: 2, checkBtnMsg: '我知道了' } });
-            } */
+              this.appService.jumpUrl();
+            }
+          // } else {
+          //   const content = `登入註冊失敗<br>錯誤代碼：${tokenData.errorCode}<br>請重新登入註冊`;
+          //   this.bsModalService.show(MessageModalComponent, {
+          //     class: 'modal-dialog-centered',
+          //     initialState: { success: true, message: content, showType: 2, checkBtnMsg: '我知道了' } });
           }
         });
       }
@@ -238,9 +231,10 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     this.appService.readCart();
     if (this.appService.isApp === 1) {
       this.callApp.getLoginData(this.cookieService.get('M_idToken'),
-      this.cookieService.get('userCode'), this.cookieService.get('userName'));
+      this.cookieService.get('userCode'), this.cookieService.get('userCode'));
+    } else {
+      this.appService.jumpUrl();
     }
-    this.appService.jumpUrl();
   }
 
   ngAfterViewInit() {
