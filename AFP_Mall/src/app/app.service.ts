@@ -103,29 +103,6 @@ export class AppService {
 
         switch (data.Base.Rtn_State) {
           case 1:
-            /** 手機驗證需要在eyesmedia-identity驗證, 故隱藏 */
-            // switch (data.Verification.MobileVerified) {
-            //   case 1:
-            //     // 「一般登入」、「第三方登入」、「艾斯身份證別-登入後讀購物車數量」、「推播」不引導驗證手機
-            //     if (command !== '1104' && command !== '1105' && command !== '1204' && command !== '1113') {
-            //       if (!this.verifyMobileModalOpened) {
-            //         this.bsModalService.show(VerifyMobileModalComponent);
-            //         this.verifyMobileModalOpened = true;
-            //       }
-            //     }
-            //     break;
-            //   case 2:
-            //   case 3:
-            //     break;
-            //   case 4:
-            //     sessionStorage.setItem('CustomerInfo', data.Verification.CustomerInfo);
-            //     this.cookieService.set('CustomerInfo', data.Verification.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-            //     break;
-            //   default:
-            //     this.onLogout();
-            //     this.router.navigate(['/']);
-            // }
-
             /** 「艾斯身份證別-更新idToken」 */
             const toApiData = data;
             if (toApiData.IdToken) {
@@ -190,15 +167,11 @@ export class AppService {
       User_Code: sessionStorage.getItem('userCode')
     };
     this.toApi_Logout('Home', '1109', request).subscribe((Data: any) => { });
-    // 第三方登入套件登出
-    // if (this.cookieService.get('Mobii_ThirdLogin') === 'true') {
-    //   this.authService.signOut();
-    // }
-    // 清除session、cookie、我的收藏資料，重置登入狀態及通知數量，返回原頁
-    //  APP登出導頁
+    // APP登出導頁
     if (this.isApp === 1 && this.appLoginType === '1' && this.loginState) {
       location.href = '/ForApp/AppLogout';
     }
+    // 清除session、cookie、我的收藏資料，重置登入狀態及通知數量
     sessionStorage.clear();
     this.cookieService.deleteAll();
     this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
@@ -207,12 +180,9 @@ export class AppService {
     this.userFavCodes = [];
     this.pushCount = 0;
     this.oauthService.onClearStorage();
-
   }
 
-  /**
-   *  登出用
-   *
+  /** 登出用
    * @param ctrl 目標
    * @param command 指令編碼
    * @param request 傳送資料
@@ -234,6 +204,7 @@ export class AppService {
       }, catchError(() => null)));
   }
 
+  /** 登入註冊提示視窗 */
   logoutModal() {
     this.bsModalService.show(MessageModalComponent, {
       class: 'modal-dialog-centered',
@@ -252,6 +223,7 @@ export class AppService {
       }
     });
   }
+
   /** 登入初始化需帶入的 state，Apple、Line登入都需要用到
    * @description unix timestamp 前後相反後前4碼+ 10碼隨機英文字母 (大小寫不同)
    * @returns state 的值
@@ -444,22 +416,6 @@ export class AppService {
       }
     });
   }
-
-  /** 判斷跳出網頁或APP的登入頁 */
-  // loginPage(): void {
-  //   if (this.isApp == null) {
-  //     this.bsModalService.show(LoginRegisterModalComponent, { class: 'modal-full' });
-  //   } else {
-  //     if (navigator.userAgent.match(/android/i)) {
-  //       //  Android
-  //       AppJSInterface.login();
-  //     } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-  //       //  IOS
-  //       (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'login' });
-  //     }
-  //   }
-  // }
-
 
   /** 打開JustKa iframe */
   showJustka(url: string): void {

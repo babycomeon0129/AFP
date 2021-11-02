@@ -1,6 +1,6 @@
 import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 import { AppService } from '@app/app.service';
 
@@ -20,7 +20,7 @@ export class MobileFooterComponent implements OnInit {
   // 'NotificationDetail', 'Terms', 'Privacy', 'QA', 'Error404', 'Error500', 'Error503'];
 
   constructor(public appService: AppService, public oauthService: OauthService,
-              public router: Router, private callApp: AppJSInterfaceService) { }
+              public router: Router, private callApp: AppJSInterfaceService, public activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.currentUrl = this.router.url;

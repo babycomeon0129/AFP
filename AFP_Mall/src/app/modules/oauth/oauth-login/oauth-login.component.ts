@@ -95,7 +95,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       }
 
       /** 「艾斯身份證別_忘記密碼1」Redirect API由後端取得艾斯導頁 */
-      if (params.forgetPassword === 'true' && this.M_idToken !== '' && this.M_idToken !== 'undefined') {
+      if (params.forgetPassword === 'true' && (this.M_idToken !== '' && this.M_idToken !== 'undefined')) {
         this.onLoginOK();
       }
 
@@ -105,7 +105,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     // 避免直接貼上，導回Login頁
     if (localStorage.getItem('M_fromOriginUri') === '/Login') { localStorage.removeItem('M_fromOriginUri'); }
-    console.log(this.viewType);
+
     // TODO 測試用
     // document.getElementById('loginRequest').innerHTML = this.temp +
     //     '<div>loginState: ' + this.appService.loginState + '</div>' +
@@ -128,7 +128,11 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.getViewData();
         break;
       case '3':
-        this.onLoginOK();
+        if (this.M_idToken !== '' && this.M_idToken !== 'undefined') {
+          this.onLoginOK();
+        } else {
+          this.getViewData();
+        }
         break;
       default:
         this.viewTitle = '';
@@ -223,7 +227,9 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /** 「艾斯身份證別_登入4-2」曾經登入成功過(有idToken)，登入狀態true，導回原頁 */
   onLoginOK() {
+    console.log('login ok>>>>>>');
     this.appService.blockUI.stop();
     this.appService.loginState = true;
     this.appService.userLoggedIn = true;

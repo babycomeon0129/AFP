@@ -44,13 +44,12 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
         this.appService.isApp = Number(params.isApp);
       }
 
-      //  購物車編碼 APP用
+      //  購物車編碼 (APP用)
       if (typeof params.cartCode !== 'undefined') {
         this.cookieService.set('cart_code', params.cartCode, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       }
 
-      // 任務用 & 我的用
-
+      // 任務用 & 我的用 (APP用)
       if (typeof params.loginType !== 'undefined') {
         this.appService.appLoginType = params.loginType;
         if (params.loginType === '1' && (typeof params.M_idToken !== 'undefined' && params.M_idToken !== null)) {
@@ -62,12 +61,11 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
               environment.cookieDomain, environment.cookieSecure, 'Lax'); }
           if (typeof params.userCode !== 'undefined') { this.cookieService.set('userCode', encodeURIComponent(params.userCode), 90, '/',
               environment.cookieDomain, environment.cookieSecure, 'Lax'); }
-
           this.appService.userName = params.userName;
           this.appService.loginState = true;
           this.appService.userLoggedIn = true;
-          // this.appService.showFavorites();
-          // this.appService.readCart();
+          this.appService.showFavorites();
+          this.appService.readCart();
           // 通知推播
           // this.appService.initPush();
         } else if (params.loginType === '2') {
@@ -77,62 +75,24 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
       }
 
       //  訂單用
-      if (typeof params.Order_CInfo !== 'undefined' && typeof params.Order_UserCode !== 'undefined'
-        && typeof params.Order_UserName !== 'undefined') {
-        if (typeof params.userCode !== 'undefined') { sessionStorage.setItem('userCode', params.Order_UserCode); }
-        if (typeof params.userName !== 'undefined') { sessionStorage.setItem('userName', params.Order_UserName); }
-        if (typeof params.userName !== 'undefined') { this.cookieService.set('userName', params.Order_UserName, 90, '/',
-            environment.cookieDomain, environment.cookieSecure, 'Lax'); }
-        if (typeof params.userCode !== 'undefined') { this.cookieService.set('userCode', params.Order_UserCode, 90, '/',
-            environment.cookieDomain, environment.cookieSecure, 'Lax'); }
-        this.appService.loginState = true;
-        this.appService.userLoggedIn = true;
-      }
+      // if (typeof params.Order_CInfo !== 'undefined' && typeof params.Order_UserCode !== 'undefined'
+      //   && typeof params.Order_UserName !== 'undefined') {
+      //   if (typeof params.userCode !== 'undefined') { sessionStorage.setItem('userCode', params.Order_UserCode); }
+      //   if (typeof params.userName !== 'undefined') { sessionStorage.setItem('userName', params.Order_UserName); }
+      //   if (typeof params.userName !== 'undefined') { this.cookieService.set('userName', params.Order_UserName, 90, '/',
+      //       environment.cookieDomain, environment.cookieSecure, 'Lax'); }
+      //   if (typeof params.userCode !== 'undefined') { this.cookieService.set('userCode', params.Order_UserCode, 90, '/',
+      //       environment.cookieDomain, environment.cookieSecure, 'Lax'); }
+      //   this.appService.userName = params.userName;
+      // }
 
       /** 「艾斯身份證別_登出」變更密碼返回登出，並清除logout參數 */
       if (params.logout) {
         if (this.appService.loginState) {
           this.appService.onLogout();
         }
-        this.router.navigate(['/Member'], {queryParams: {isApp: this.appService.isApp}});
+        this.router.navigate([location.pathname], {queryParams: {isApp: this.appService.isApp}});
       }
-      // // 第三方登入(LINE)
-      // if (params.Mobii_ThirdLogin === 'true' && params.Mode !== undefined && params.Token !== undefined && !this.appService.loginState) {
-      //   this.thirdRequest.Mode = Number(params.Mode);
-      //   this.thirdRequest.Account = params.Token;
-      //   this.thirdRequest.Token = params.Token;
-      //   this.appService.toApi('AFPAccount', '1105', this.thirdRequest).subscribe((data: Response_AFPLogin) => {
-      //     // 塞Session
-      //     sessionStorage.setItem('userName', data.Model_UserInfo.Customer_Name);
-      //     sessionStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
-      //     sessionStorage.setItem('CustomerInfo', data.Model_UserInfo.CustomerInfo);
-      //     sessionStorage.setItem('userFavorites', JSON.stringify(data.List_UserFavourite));
-      //     this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-      //     this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-      //     this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-      //     this.cookieService.set('Mobii_ThirdLogin', 'true', 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-      //     this.appService.userName = data.Model_UserInfo.Customer_Name;
-      //     this.appService.loginState = true;
-      //     this.appService.userLoggedIn = true;
-      //     this.appService.showFavorites();
-      //     this.appService.readCart();
-      //     // 通知推播
-      //     // this.appService.initPush();
-      //     this.appService.getPushPermission();
-      //   });
-      // }
-
-      // // 第三方登入失敗 (目前只有Line)
-      // if (params.Mobii_ThirdLogin === 'false' && params.Mode !== undefined && params.Error === '2' && !this.appService.loginState) {
-      //   let errMessage = '';
-      //   switch (params.Mode) {
-      //     case '2':
-      //       errMessage = 'Line@';
-      //       break;
-      //   }
-      //   this.modal.show('message', { initialState: { success: false, message: `${errMessage}驗證失敗，請重新取得授權`, showType: 1 } });
-      // }
-
     });
 
   }

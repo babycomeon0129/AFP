@@ -41,6 +41,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     if (this.cookieService.get('M_idToken') !== '' && this.cookieService.get('M_idToken') !== 'undefined') {
+      this.appService.loginState = true;
       this.readIndexData();
       this.memberService.readProfileData();
       if (this.appService.isApp === 1) {
