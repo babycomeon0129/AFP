@@ -74,18 +74,6 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
         }
       }
 
-      //  訂單用
-      // if (typeof params.Order_CInfo !== 'undefined' && typeof params.Order_UserCode !== 'undefined'
-      //   && typeof params.Order_UserName !== 'undefined') {
-      //   if (typeof params.userCode !== 'undefined') { sessionStorage.setItem('userCode', params.Order_UserCode); }
-      //   if (typeof params.userName !== 'undefined') { sessionStorage.setItem('userName', params.Order_UserName); }
-      //   if (typeof params.userName !== 'undefined') { this.cookieService.set('userName', params.Order_UserName, 90, '/',
-      //       environment.cookieDomain, environment.cookieSecure, 'Lax'); }
-      //   if (typeof params.userCode !== 'undefined') { this.cookieService.set('userCode', params.Order_UserCode, 90, '/',
-      //       environment.cookieDomain, environment.cookieSecure, 'Lax'); }
-      //   this.appService.userName = params.userName;
-      // }
-
       /** 「艾斯身份證別_登出」變更密碼返回登出，並清除logout參數 */
       if (params.logout) {
         if (this.appService.loginState) {
@@ -98,6 +86,11 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngOnInit() {
+    /** 「艾斯身份證別_登入4-3」曾經登入成功過(有idToken)，重整頁面避免登入狀態遺失 */
+    if (this.cookieService.get('M_idToken') && this.appService.isApp !== 1) {
+      this.appService.loginState = true;
+      this.appService.userLoggedIn = true;
+    }
     this.appService.getPushPermission();
     this.appService.receiveMessage();
     // 當路由器成功完成路由的解析階段時，先通知app將footer關閉(開啟則靠app-mobile-footer通知開啟)
