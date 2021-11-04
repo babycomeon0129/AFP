@@ -109,6 +109,8 @@ export class AppService {
               if (this.cookieService.get('M_idToken') !== toApiData.IdToken) {
                 this.cookieService.set('M_idToken', toApiData.IdToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
               }
+              this.loginState = true;
+              this.userLoggedIn = true;
             }
             return JSON.parse(data.Data);
           case 9996: // 查無商品詳細頁資料
@@ -279,7 +281,7 @@ export class AppService {
    * @param favCode 商品/商家/周邊/行程編碼
    */
   favToggle(favAction: number, favType: number, favCode?: number): void {
-    if (!this.loginState) {
+    if (!this.cookieService.get('M_idToken')) {
       this.logoutModal();
     } else {
       const request: Request_MemberFavourite = {
@@ -328,7 +330,7 @@ export class AppService {
    */
   onVoucher(voucher: AFP_Voucher): void {
     // 點擊兌換時先進行登入判斷
-    if (!this.loginState) {
+    if (!this.cookieService.get('M_idToken')) {
       this.logoutModal();
     } else {
       switch (voucher.Voucher_IsFreq) {
@@ -419,7 +421,7 @@ export class AppService {
 
   /** 打開JustKa iframe */
   showJustka(url: string): void {
-    if (!this.loginState) {
+    if (!this.cookieService.get('M_idToken')) {
       this.logoutModal();
     } else {
       this.bsModalService.show(JustkaModalComponent, {
