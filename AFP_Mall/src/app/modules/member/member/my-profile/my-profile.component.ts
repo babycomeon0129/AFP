@@ -11,6 +11,7 @@ import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { environment } from '@env/environment';
 import { Response_MemberProfile, Request_MemberThird, Response_MemberThird,
   AFP_UserThird } from '@app/modules/member/member/member.component';
+import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 
 @Component({
   selector: 'app-my-profile',
@@ -47,7 +48,8 @@ export class MyProfileComponent implements OnInit {
   public LineThird: boolean;
 
   constructor(public appService: AppService, public modal: ModalService, public memberService: MemberService,
-              private meta: Meta, private title: Title, private localeService: BsLocaleService, private cookieService: CookieService) {
+              private meta: Meta, private title: Title, private localeService: BsLocaleService,
+              private callApp: AppJSInterfaceService, private cookieService: CookieService) {
     this.title.setTitle('我的檔案 - Mobii!');
     this.meta.updateTag({ name: 'description', content: '' });
     this.meta.updateTag({ content: '我的檔案 - Mobii!', property: 'og:title' });
@@ -125,6 +127,9 @@ export class MyProfileComponent implements OnInit {
         this.cookieService.set('userName', this.memberService.userProfile.User_NickName, 90, '/',
         environment.cookieDomain, environment.cookieSecure, 'Lax');
         this.appService.userName = this.memberService.userProfile.User_NickName;
+        if (this.appService.isApp === 1) {
+          this.callApp.getLoginData(null, null, this.memberService.userProfile.User_NickName);
+        }
       });
       this.editMode = false;
       form.resetForm();

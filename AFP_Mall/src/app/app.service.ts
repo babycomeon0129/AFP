@@ -70,10 +70,11 @@ export class AppService {
   public showBack = false;
   /** line 登入用 state (用於取code) */
   public lineSigninState: string;
+  private idToken = null;
 
   @BlockUI() blockUI: NgBlockUI;
   constructor(private http: HttpClient, private router: Router, private bsModalService: BsModalService,
-              private cookieService: CookieService, private route: ActivatedRoute,
+              public cookieService: CookieService, private route: ActivatedRoute,
               private angularFireMessaging: AngularFireMessaging, private oauthService: OauthService) {
     // firebase message設置。這裡在幹嘛我也不是很懂
     // 詳：https://stackoverflow.com/questions/61244212/fcm-messaging-issue
@@ -103,9 +104,14 @@ export class AppService {
 
         switch (data.Base.Rtn_State) {
           case 1:
-            /** 「艾斯身份證別-更新idToken」 */
+            /** 「艾斯身份證別_更新idToken」 */
             const toApiData = data;
-            if (toApiData.IdToken) {
+            if (toApiData.IdToken && toApiData.IdToken !== null) {
+              // 避免call api時，重複存M_idToken
+              if (this.idToken === null) {
+                this.idToken = toApiData.IdToken;
+                this.cookieService.set('M_idToken', toApiData.IdToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+              }
               if (this.cookieService.get('M_idToken') !== toApiData.IdToken) {
                 this.cookieService.set('M_idToken', toApiData.IdToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
               }
@@ -170,9 +176,19 @@ export class AppService {
     };
     this.toApi_Logout('Home', '1109', request).subscribe((Data: any) => { });
     // APP登出導頁
-    if (this.isApp === 1 && this.appLoginType === '1' && this.loginState) {
+    console.log(this.isApp === 1 || this.appLoginType === '1' || this.loginState);
+    if (this.isApp === 1 || this.appLoginType === '1' || this.loginState) {
       location.href = '/ForApp/AppLogout';
     }
+
+    // web導頁(清除logout參數)
+    const url = new URL(location.href);
+    const params = new URLSearchParams(url.search);
+    const logout = params.get('logout');
+    if (logout) {
+      this.router.navigate([location.pathname], {queryParams: {isApp: this.isApp}});
+    }
+
     // 清除session、cookie、我的收藏資料，重置登入狀態及通知數量
     sessionStorage.clear();
     this.cookieService.deleteAll();
@@ -547,19 +563,17 @@ export class AppService {
 
   /** 網頁跳轉(登入用，不會紀錄連結的歷史紀錄) */
   jumpUrl() {
-    const uri = (localStorage.getItem('M_fromOriginUri') !== null && localStorage.getItem('M_fromOriginUri') !== 'undefined')
+    const uri = (localStorage.getItem('M_fromOriginUri') !== null &&
+                localStorage.getItem('M_fromOriginUri') !== 'undefined')
                 ? localStorage.getItem('M_fromOriginUri') : '/' ;
+    console.log('jumpUrl', localStorage.getItem('M_fromOriginUri'), uri);
     if (uri.startsWith('https') || uri.startsWith('http')) {
       location.replace(uri);
     } else {
       this.router.navigate([uri], {
-        relativeTo: this.route,
-        queryParams: {
-          isApp: this.isApp
-        }
+        relativeTo: this.route
       });
     }
-    localStorage.removeItem('M_fromOriginUri');
   }
 }
 

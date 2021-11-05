@@ -1,3 +1,4 @@
+import { CookieService } from 'ngx-cookie-service';
 import { Component, OnInit } from '@angular/core';
 import { AppService } from '@app/app.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -17,7 +18,7 @@ declare var BindingSocialJSInterface: any;
 export class SettingComponent implements OnInit {
 
   constructor(public appService: AppService, public route: ActivatedRoute, public location: Location, private router: Router,
-              private meta: Meta, private title: Title, private oauthService: OauthService, private bsModalService: BsModalService) {
+              private meta: Meta, private title: Title, private oauthService: OauthService, public cookieService: CookieService) {
     this.title.setTitle('帳號設定 - Mobii!');
     this.meta.updateTag({ name: 'description', content: '' });
     this.meta.updateTag({ content: '帳號設定 - Mobii!', property: 'og:title' });
@@ -41,7 +42,12 @@ export class SettingComponent implements OnInit {
 
   /** 「艾斯身份證別_密碼修改1」 */
   passwordUpdate() {
-    this.oauthService.toModifyEyes().subscribe(() => {});
+    this.oauthService.toModifyEyes(this.appService.isApp, this.cookieService.get('M_idToken'))
+    .subscribe((data: string) => {
+      if (data.indexOf('https') === 0) {
+        location.href = data;
+      }
+    });
   }
   /** 判斷是否為App，如果是則跳到App原生  */
   // MOB-3425 前端隱藏
