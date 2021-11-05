@@ -68,18 +68,12 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
           this.appService.readCart();
           // 通知推播
           // this.appService.initPush();
-        } else if (params.loginType === '2') {
-          // APP 為登出狀態但該 webview 登入狀態被cache住還是登入則將其改為登出
-          this.appService.onLogout();
         }
       }
 
       /** 「艾斯身份證別_登出」變更密碼返回登出，並清除logout參數 */
-      if (params.logout) {
-        if (this.appService.loginState) {
-          this.appService.onLogout();
-        }
-        this.router.navigate([location.pathname], {queryParams: {isApp: this.appService.isApp}});
+      if (params.logout === 'true') {
+        this.appService.onLogout();
       }
     });
 
@@ -97,7 +91,9 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
     this.router.events.pipe(filter(event => event instanceof ResolveEnd))
       .subscribe((event: ResolveEnd) => {
         window.scrollTo(0, 0);
-        this.callApp.appShowMobileFooter(false);
+        if (this.appService.isApp === 1) {
+          this.callApp.appShowMobileFooter(false);
+        }
         this.appService.prevUrl = event.url;  // 取得前一頁面url
         this.appService.pathnameUri = location.pathname;  // 取得當前頁面pathname
       });

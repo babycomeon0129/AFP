@@ -40,12 +40,12 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
   constructor(public appService: AppService, public oauthService: OauthService, private router: Router,
               public el: ElementRef, private activatedRoute: ActivatedRoute, public bsModalService: BsModalService,
-              private callApp: AppJSInterfaceService, private cookieService: CookieService) {
+              private callApp: AppJSInterfaceService, public cookieService: CookieService) {
 
     this.activatedRoute.queryParams.subscribe(params => {
 
       /** 「艾斯身份證別_登入1-1-2」接收queryParams */
-      if (params.isApp === '1') {
+      if (params.isApp === '1' && typeof params.deviceType !== 'undefined') {
         /** 「艾斯身份證別_登入1-1-1b」 App (接收App queryParams：isApp, deviceType, deviceCode) */
         this.oauthService.loginRequest.deviceType = Number(params.deviceType);
         localStorage.setItem('M_deviceType', params.deviceType);
@@ -66,7 +66,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.cookieService.set('M_idToken', params.IdToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       }
       /** 「艾斯身份證別_登入2-1」 艾斯身份識別登入成功後，由Redirect API取得grantCode及List_MultipleUser
-       * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/30001-token-api-mobii
+       * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/20001-redirect-api-mobii
        */
       if (!this.M_idToken) {
         if (typeof params.loginJson !== 'undefined' && JSON.parse(params.loginJson).errorCode === '996600001') {
@@ -90,12 +90,12 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
             }
           }
         }
-      } else if (this.M_idToken !== '' && this.M_idToken !== 'undefined') {
-        this.onLoginOK();
       }
 
       /** 「艾斯身份證別_忘記密碼1」Redirect API由後端取得艾斯導頁 */
       if (params.forgetPassword === 'true' && (this.M_idToken !== '' && this.M_idToken !== 'undefined')) {
+        console.log('psw', localStorage.getItem('M_fromOriginUri'));
+        console.log(location.href);
         this.onLoginOK();
       }
 
@@ -116,6 +116,8 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     if (localStorage.getItem('M_upgrade') === null) {
       this.viewType = '0';
     }
+    sessionStorage.setItem('viewType', this.viewType);
+    console.log('isApp', this.appService.isApp, localStorage.getItem('M_fromOriginUri'));
     switch (this.viewType) {
       case '0':
         this.viewTitle = '帳號升級公告';
@@ -125,10 +127,16 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.viewTitle = '帳號整併';
         break;
       case '2':
-        this.getViewData();
+        if (this.M_idToken !== '' && this.M_idToken !== 'undefined') {
+          console.log('v2', localStorage.getItem('M_fromOriginUri'));
+          this.onLoginOK();
+        } else {
+          this.getViewData();
+        }
         break;
       case '3':
         if (this.M_idToken !== '' && this.M_idToken !== 'undefined') {
+          console.log('v3', localStorage.getItem('M_fromOriginUri'));
           this.onLoginOK();
         } else {
           this.getViewData();
@@ -178,15 +186,16 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /** 「艾斯身份證別_登入3-1」已登入過艾斯(未有idToken)，點擊過公告頁登入註冊按鈕(M_upgrade=1)，可取得idToken，則否讓使用者選完再取得idToken
+   * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/20001-redirect-api-mobii
+   */
   onGetToken(code: string, uid: number) {
-    // 有grantCode禁止回上一頁
+    // 禁止回上一頁(上一頁為艾斯及後端Redirect，故禁止返回)
     history.pushState(null, null, document.URL);
     window.addEventListener('popstate', () => {
       history.pushState(null, null, document.URL);
     });
-    /** 「艾斯身份證別_登入3-1」已登入過艾斯(未有idToken)且非多重帳號，點擊過公告頁登入註冊按鈕(M_upgrade=1)，可取得idToken，則否讓使用者選完再取得idToken
-     * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/20001-redirect-api-mobii
-     */
+    // 有grantCode且無idToken
     if (code && code !== '') {
       if (!this.M_idToken) {
         // grantCode只能使用一次，註冊Mobii會員
@@ -196,7 +205,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.oauthService.toTokenApi(this.oauthService.grantRequest).subscribe((data: ResponseOauthApi) => {
           const tokenData =  Object.assign(data);
           if (tokenData.errorCode === '996600001') {
-            /** 「艾斯身份證別_登入3-2-2」取得idToken帶入header:Authorization */
             sessionStorage.setItem('M_idToken', tokenData.data.idToken);
             sessionStorage.setItem('userName', tokenData.data.Customer_Name);
             sessionStorage.setItem('userCode', tokenData.data.Customer_Code);
@@ -214,6 +222,8 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
             if (this.appService.isApp === 1) {
               this.callApp.getLoginData(tokenData.data.idToken, tokenData.data.Customer_Code, tokenData.data.Customer_Name);
             } else {
+              // web登入成功導址
+              console.log('t3', localStorage.getItem('M_fromOriginUri'));
               this.appService.jumpUrl();
             }
           // } else {
@@ -239,6 +249,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       this.callApp.getLoginData(this.cookieService.get('M_idToken'),
       this.cookieService.get('userCode'), this.cookieService.get('userCode'));
     } else {
+      console.log('ok', this.viewType, localStorage.getItem('M_fromOriginUri'));
       this.appService.jumpUrl();
     }
   }

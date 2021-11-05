@@ -23,6 +23,7 @@ export class OauthService {
     deviceCode: '',
     fromOriginUri: '/'
   };
+  /** toTokenApi所需要的Request */
   public grantRequest = {
     grantCode: '',
     UserInfoId: 0,
@@ -30,7 +31,7 @@ export class OauthService {
   /** 登入憑證 */
   public M_idToken = this.cookieService.get('M_idToken');
 
-  constructor(private router: Router, private http: HttpClient, private cookieService: CookieService,
+  constructor(private router: Router, private http: HttpClient, public cookieService: CookieService,
               private bsModalService: BsModalService) {}
 
 
@@ -83,14 +84,13 @@ export class OauthService {
           case '996600001':
             return data.data;
           default:
-            this.onClearStorage();
             this.msgModal(`登入逾時<br>錯誤代碼：${data.errorCode}<br>請重新登入註冊`);
             break;
         }
       }, catchError(this.handleError)));
   }
 
-  /** 「艾斯身份證別_登入2-3」將grantCode或勾選的帳號給後端，以便取得Response
+  /** 「艾斯身份證別_登入3-2-2」將grantCode或勾選的帳號給後端，以便取得Response
    * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/30001-token-api-mobii
    */
   toTokenApi(req: RequestIdTokenApi): Observable<any> {
@@ -105,7 +105,6 @@ export class OauthService {
           case '996600001':
             return data;
           default:
-            this.onClearStorage();
             this.msgModal('註冊失敗');
             break;
         }
@@ -113,22 +112,23 @@ export class OauthService {
   }
 
   /** 「艾斯身份證別_變更密碼2」 */
-  toModifyEyes(): Observable<any> {
-    const headers = new HttpHeaders({
-      Authorization:  'Bearer ' + this.M_idToken,
-    });
-    return this.http.post(environment.modifyUrl, '', { headers })
-      .pipe(map((data: ResponseOauthApi) => {
-        switch (data.errorCode) {
-          case '996600001':
-            location.href = data.data;
-            break;
-          default:
-            this.onClearStorage();
-            this.msgModal('請重新登入');
-            break;
-        }
-      }, catchError(this.handleError)));
+  toModifyEyes(app: number, token: string): Observable<any> {
+    if (token) {
+      const headers = new HttpHeaders({
+        Authorization:  'Bearer ' + token,
+      });
+      const request = {
+        isApp: (app !== undefined && app !== null) ? app : 0
+      };
+      return this.http.post(environment.modifyUrl, request, { headers })
+        .pipe(map((data: ResponseOauthApi) => {
+          if (data.errorCode === '996600001') {
+            return data.data;
+          }
+        }, catchError(this.handleError)));
+    } else {
+      this.msgModal('請重新登入');
+    }
   }
 
   private handleError(error: HttpErrorResponse) {
