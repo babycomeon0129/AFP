@@ -245,6 +245,8 @@ export interface Request_Home extends Model_ShareData {
 
 /** 大首頁 ResponseModel */
 export interface Response_Home {
+  /** JustKa連結 */
+  JustKaUrl: string;
   /** 會員點數 */
   TotalPoint: number;
   /** 會員姓名 */

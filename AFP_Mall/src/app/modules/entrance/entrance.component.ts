@@ -23,6 +23,8 @@ import { NgxMasonryOptions } from 'ngx-masonry';
 })
 export class EntranceComponent implements OnInit {
 
+  /** JustKa連結 */
+  public JustKaUrl: string;
   /** 隱私權提示 (0顯示，1關閉) */
   public cookieShow: string;
   /** 進場廣告swiper */
@@ -284,6 +286,7 @@ export class EntranceComponent implements OnInit {
   }
 
   ngOnInit() {
+    /** 下方隱私權顯示與否(0顯示，1不顯示) */
     this.cookieShow = localStorage.getItem('M_cookieShow') ? '1' : '0';
     // 從route resolver取得首頁資料
     // this.route.data.subscribe((data: { homeData: Response_Home }) => {
@@ -299,6 +302,7 @@ export class EntranceComponent implements OnInit {
     // }
   }
 
+  /** 下方隱私權顯示與否(0顯示，1不顯示) */
   cookieShowClick() {
     this.cookieShow = '1';
     localStorage.setItem('M_cookieShow', '1');
@@ -310,6 +314,9 @@ export class EntranceComponent implements OnInit {
     };
     this.appService.openBlock();
     this.appService.toApi('Home', '1021', request).subscribe((data: Response_Home) => {
+      // JustKa連結
+      console.log(data.JustKaUrl);
+      this.JustKaUrl = data.JustKaUrl;
       // 會員資訊
       this.userPoint = data.TotalPoint;
       sessionStorage.setItem('userName', data.UserName);
@@ -634,8 +641,7 @@ export class EntranceComponent implements OnInit {
   }
 
   /** justKa點擊事件（justKa modal 顯示與否） */
-  toggle(): void {
-    const JKurl = 'https://biz.justka.ai/webapp/home?q=a2d422f6-b4bc-4e1d-9ca0-7b4db3258f35&a=d3f53a60-db70-11e9-8a34-2a2ae2dbcce4&J_idToken=' + this.cookieService.get('M_idToken');
+  toggle(url: string): void {
     if (!this.appService.loginState) {
       this.appService.logoutModal();
     } else {
@@ -645,7 +651,7 @@ export class EntranceComponent implements OnInit {
           {
             initialState:
             {
-              justkaUrl: JKurl
+              justkaUrl: url + '&J_idToken=' + this.cookieService.get('M_idToken')
             }
           },
           this.bsModalRef);
