@@ -54,10 +54,10 @@
         <p class="order-success text-center">訂購完成!</p>
         <div class="container">
           <div class="row">
-            <div [ngClass]="{'col-6': appService.isApp === null, 'col-12': appService.isApp !== null}">
+            <div [ngClass]="{'col-6': appService.isApp !== 1, 'col-12': appService.isApp === 1}">
               <button class="btn index-outline-btn w-100" [routerLink]="['/MemberFunction/MemberOrder']" [queryParams]="{referrer: 'OrderComplete'}">查看訂單</button>
             </div>
-            <div class="col-6" *ngIf="appService.isApp === null">
+            <div class="col-6" *ngIf="appService.isApp !== 1">
               <button class="btn index-btn w-100" (click)="GoECIndex()">繼續逛逛</button>
             </div>
           </div>
@@ -80,7 +80,7 @@
         <div class="container text-center">
           <div class="row">
             <div class="col-12">
-              <button *ngIf="appService.isApp === null" class="btn index-btn btn-ok w-50" (click)="goRepurchase()">重新購買</button>
+              <button *ngIf="appService.isApp !== 1" class="btn index-btn btn-ok w-50" (click)="goRepurchase()">重新購買</button>
             </div>
           </div>
         </div>

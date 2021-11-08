@@ -52,7 +52,6 @@ export class OrderCompleteComponent implements OnInit {
     this.appService.toApi('Member', '1604', request).subscribe((data: Response_OrderComplete) => {
       this.ResponseModel = data;
       this.appService.isApp = data.IsApp;
-      console.log('>>>>>>>', data);
       if (this.ResponseModel.Success) {
         this.title.setTitle('付款成功｜線上商城 - Mobii!');
         this.meta.updateTag({ content: '付款成功｜線上商城 - Mobii!', property: 'og:title' });
