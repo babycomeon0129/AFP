@@ -753,11 +753,20 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
               });
             } else {
               this.checkOut = false;
-              if (this.appService.isApp === null) {
-                this.modal.show('message', { initialState: { success: false, message: `${coResult.List_DiscontinuedProducts}已下架，無法購買`, queryParams1:  { referrer: 'illegal' } , showType: 1, checkBtnMsg: `我知道了`, target: '/Shopping/ShoppingCart' } });
+              if (this.appService.isApp !== 1) {
+                this.modal.show('message', { initialState: {
+                  success: false,
+                  message: `${coResult.List_DiscontinuedProducts}已下架，無法購買`,
+                  queryParams1:  { referrer: 'illegal' } ,
+                  showType: 1,
+                  checkBtnMsg: `我知道了`,
+                  target: '/Shopping/ShoppingCart' } });
               } else {
                 // 如果是APP，則按我知道了時APP把此頁關掉
-                this.modal.confirm({ initialState: { message: `${coResult.List_DiscontinuedProducts}已下架，無法購買`, checkBtnTxt: '我知道了', showCancel: false } }).subscribe(res => {
+                this.modal.confirm({ initialState: {
+                  message: `${coResult.List_DiscontinuedProducts}已下架，無法購買`,
+                  checkBtnTxt: '我知道了',
+                  showCancel: false } }).subscribe(res => {
                   if (res) {
                     this.callApp.appWebViewClose();
                   }
@@ -768,7 +777,12 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
         }
       });
     } else {
-      this.modal.show('message', { initialState: { success: false, message: result.message, showType: 1 } });
+      this.modal.show('message', {
+        initialState: {
+        success: false,
+        message: result.message,
+        showType: 1 }
+      });
     }
   }
 

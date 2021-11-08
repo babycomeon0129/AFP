@@ -65,7 +65,6 @@ export class OauthService {
           pathTemp = pathname;
           break;
       }
-      console.log(location.pathname, pathname);
       this.loginRequest.fromOriginUri = pathTemp;
       localStorage.setItem('M_fromOriginUri', pathTemp);
       this.router.navigate(['/Login'], { preserveQueryParams: true });

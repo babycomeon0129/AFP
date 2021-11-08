@@ -100,7 +100,7 @@ export class AppService {
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
       .pipe(map((data: Response_APIModel) => {
         this.blockUI.stop();
-        console.log(command, data);
+        // console.log(this.isApp, command, data);
 
         switch (data.Base.Rtn_State) {
           case 1:
@@ -176,7 +176,6 @@ export class AppService {
     };
     this.toApi_Logout('Home', '1109', request).subscribe((Data: any) => { });
     // APP登出導頁
-    console.log(this.isApp === 1 || this.appLoginType === '1' || this.loginState);
     if (this.isApp === 1 || this.appLoginType === '1' || this.loginState) {
       location.href = '/ForApp/AppLogout';
     }
@@ -566,7 +565,6 @@ export class AppService {
     const uri = (localStorage.getItem('M_fromOriginUri') !== null &&
                 localStorage.getItem('M_fromOriginUri') !== 'undefined')
                 ? localStorage.getItem('M_fromOriginUri') : '/' ;
-    console.log('jumpUrl', localStorage.getItem('M_fromOriginUri'), uri);
     if (uri.startsWith('https') || uri.startsWith('http')) {
       location.replace(uri);
     } else {

@@ -94,8 +94,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
       /** 「艾斯身份證別_忘記密碼1」Redirect API由後端取得艾斯導頁 */
       if (params.forgetPassword === 'true' && (this.M_idToken !== '' && this.M_idToken !== 'undefined')) {
-        console.log('psw', localStorage.getItem('M_fromOriginUri'));
-        console.log(location.href);
         this.onLoginOK();
       }
 
@@ -110,14 +108,11 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     // document.getElementById('loginRequest').innerHTML = this.temp +
     //     '<div>loginState: ' + this.appService.loginState + '</div>' +
     //     '<div>idToken: ' + this.M_idToken + '</div>';
-    // console.log('ngOnInit viewType', this.viewType, localStorage.getItem('M_upgrade'), this.appService.isApp);
-    // console.log('ngOnInit M_idToken', this.cookieService.get('M_idToken'));
     this.appService.openBlock();
     if (localStorage.getItem('M_upgrade') === null) {
       this.viewType = '0';
     }
     sessionStorage.setItem('viewType', this.viewType);
-    console.log('isApp', this.appService.isApp, localStorage.getItem('M_fromOriginUri'));
     switch (this.viewType) {
       case '0':
         this.viewTitle = '帳號升級公告';
@@ -128,7 +123,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         break;
       case '2':
         if (this.M_idToken !== '' && this.M_idToken !== 'undefined') {
-          console.log('v2', localStorage.getItem('M_fromOriginUri'));
           this.onLoginOK();
         } else {
           this.getViewData();
@@ -136,7 +130,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         break;
       case '3':
         if (this.M_idToken !== '' && this.M_idToken !== 'undefined') {
-          console.log('v3', localStorage.getItem('M_fromOriginUri'));
           this.onLoginOK();
         } else {
           this.getViewData();
@@ -223,7 +216,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
               this.callApp.getLoginData(tokenData.data.idToken, tokenData.data.Customer_Code, tokenData.data.Customer_Name);
             } else {
               // web登入成功導址
-              console.log('t3', localStorage.getItem('M_fromOriginUri'));
               this.appService.jumpUrl();
             }
           // } else {
@@ -239,7 +231,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
   /** 「艾斯身份證別_登入4-2」曾經登入成功過(有idToken)，登入狀態true，導回原頁 */
   onLoginOK() {
-    console.log('login ok>>>>>>');
     this.appService.blockUI.stop();
     this.appService.loginState = true;
     this.appService.userLoggedIn = true;
@@ -249,7 +240,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       this.callApp.getLoginData(this.cookieService.get('M_idToken'),
       this.cookieService.get('userCode'), this.cookieService.get('userName'));
     } else {
-      console.log('ok', this.viewType, localStorage.getItem('M_fromOriginUri'));
       this.appService.jumpUrl();
     }
   }

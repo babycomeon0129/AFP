@@ -102,7 +102,6 @@ export class AppJSInterfaceService {
    * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/responseapimodel-api-mobii
    */
    getLoginData(userInfo: string, code: string, name: string): void {
-    console.log('getLoginData', code, name, userInfo);
     if (this.appService.isApp === 1) {
       if (navigator.userAgent.match(/android/i)) {
         //  Android
