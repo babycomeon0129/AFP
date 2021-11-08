@@ -12,7 +12,8 @@
     </div>
     <div>
       <div class="mission-personal">
-        <div class="item d-flex">
+        <!-- MOB-3750 拿掉任務牆的暱稱 -->
+        <!-- <div class="item d-flex">
           <div class="info-box info-img">
             <div class="info-item">
               <img src="https://picsum.photos/300/300?random=1">
@@ -25,7 +26,7 @@
             </div>
             <div *ngIf="appService.loginState===true" class="small-80">哈囉！{{appService.userName}}</div>
           </div>
-        </div>
+        </div> -->
         <div class="item coin d-flex d-inline">
           <img src="../img/share/mobiicoin_red.png" class="h24 mr-2">
           <span class="d-block">{{appService.loginState===false ? '--' : userPoint | currency: '':'':'1.0-2'}}</span>

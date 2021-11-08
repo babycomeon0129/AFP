@@ -9,7 +9,7 @@ export const environment = {
   cookieDomain: 'mobii.ai',
   cookieSecure: true,
   /** Apple登入redirectURI */
-  AppleSignInURI: 'https://web.mobii.ai',
+  AppleSignInURI: 'https://www.mobii.ai',
   /** 是否啟用 service worker（for 推播服務） */
   swActivate: true,
   firebaseConfig: {

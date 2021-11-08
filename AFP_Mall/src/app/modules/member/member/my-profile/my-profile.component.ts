@@ -127,9 +127,6 @@ export class MyProfileComponent implements OnInit {
         this.cookieService.set('userName', this.memberService.userProfile.User_NickName, 90, '/',
         environment.cookieDomain, environment.cookieSecure, 'Lax');
         this.appService.userName = this.memberService.userProfile.User_NickName;
-        if (this.appService.isApp === 1) {
-          this.callApp.getLoginData(null, null, this.memberService.userProfile.User_NickName);
-        }
       });
       this.editMode = false;
       form.resetForm();

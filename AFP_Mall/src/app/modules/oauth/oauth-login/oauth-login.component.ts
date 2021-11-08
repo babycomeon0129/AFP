@@ -247,7 +247,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     this.appService.readCart();
     if (this.appService.isApp === 1) {
       this.callApp.getLoginData(this.cookieService.get('M_idToken'),
-      this.cookieService.get('userCode'), this.cookieService.get('userCode'));
+      this.cookieService.get('userCode'), this.cookieService.get('userName'));
     } else {
       console.log('ok', this.viewType, localStorage.getItem('M_fromOriginUri'));
       this.appService.jumpUrl();
