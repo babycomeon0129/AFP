@@ -176,7 +176,7 @@ export class AppService {
     };
     this.toApi_Logout('Home', '1109', request).subscribe((Data: any) => { });
     // APP登出導頁
-    if (this.isApp === 1 || this.appLoginType === '1' || this.loginState) {
+    if (this.isApp === 1 || this.appLoginType === '1') {
       location.href = '/ForApp/AppLogout';
     }
 
