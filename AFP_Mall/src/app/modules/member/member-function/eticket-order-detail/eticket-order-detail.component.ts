@@ -46,7 +46,6 @@ export class ETicketOrderDetailComponent implements OnInit {
 
   ngOnInit() {
     const request: Request_MemberOrder = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 2, // 詳細查詢
       SearchModel: {
         OrderNo: this.orderNo
@@ -101,7 +100,6 @@ export class ETicketOrderDetailComponent implements OnInit {
       this.appService.openBlock();
       // 系統收回票券（未開通或已開通但未使用才會成功）
       const request: Request_MemberTicketRefund = {
-        User_Code: sessionStorage.getItem('userCode'),
         SelectMode: 1,
         SearchModel: {
           Order_TableNo: this.orderInfo.Order_TableNo
@@ -113,7 +111,6 @@ export class ETicketOrderDetailComponent implements OnInit {
             // 產生客服單 (with selected reason )
             const serviceRequest: Request_MemberServices = {
               SelectMode: 1,
-              User_Code: sessionStorage.getItem('userCode'),
               AFP_Services: this.servicesModel
             };
             this.appService.toApi('Member', '1515', serviceRequest).subscribe((serviceData: Response_MemberServices) => {

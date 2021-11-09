@@ -1,21 +1,24 @@
 import { AppJSInterfaceService } from './app-jsinterface.service';
 import { environment } from '@env/environment';
-import { Component, KeyValueDiffer, KeyValueDiffers, OnInit } from '@angular/core';
+import { Component, DoCheck, KeyValueDiffer, KeyValueDiffers, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, ResolveEnd } from '@angular/router';
 import { AppService } from '@app/app.service';
-import { ModalService } from './shared/modal/modal.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
+import { ModalService } from '@app/shared/modal/modal.service';
 import { CookieService } from 'ngx-cookie-service';
 import { RouterOutlet } from '@angular/router';
 import { slideInAnimation } from './animations';
 import { filter } from 'rxjs/operators';
 import { Request_AFPThird, Response_AFPLogin } from './_models';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { backgroundClip } from 'html2canvas/dist/types/css/property-descriptors/background-clip';
 
 @Component({
   selector: 'body',
   templateUrl: './app.component.html',
   animations: [slideInAnimation]
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, DoCheck, OnDestroy {
   /** 裝置系統或瀏覽器版本是否過舊 */
   public isOld: boolean;
   /** 需更新項目 */
@@ -26,15 +29,14 @@ export class AppComponent implements OnInit {
   private serviceDiffer: KeyValueDiffer<string, any>;
   /** 第三方登入 request, 此處用於Line登入 */
   public thirdRequest: Request_AFPThird = new Request_AFPThird();
+  /** 錯誤提示用 */
+  // public test: string;
+  // public testCount = 0;
 
   constructor(private router: Router, public appService: AppService, private activatedRoute: ActivatedRoute, public modal: ModalService,
-              private cookieService: CookieService, private differs: KeyValueDiffers, private callApp: AppJSInterfaceService) {
+              public cookieService: CookieService, private differs: KeyValueDiffers, private callApp: AppJSInterfaceService,
+              public oauthService: OauthService, public bsModalService: BsModalService) {
     this.serviceDiffer = this.differs.find({}).create();
-    if (sessionStorage.getItem('CustomerInfo') !== null && sessionStorage.getItem('userCode') !== null
-      && sessionStorage.getItem('userName') !== null) {
-      this.appService.loginState = true;
-      this.appService.userName = sessionStorage.getItem('userName');
-    }
 
     // App訪問
     this.activatedRoute.queryParams.subscribe(params => {
@@ -42,99 +44,75 @@ export class AppComponent implements OnInit {
         this.appService.isApp = Number(params.isApp);
       }
 
-      if (typeof params.loginType !== 'undefined') {
-        if (params.loginType == 1) {
-          // APP 為登入狀態則將該 webview 也同步為登入
-          if (typeof params.customerInfo !== 'undefined' && typeof params.userCode !== 'undefined'
-            && typeof params.userName !== 'undefined') {
-            sessionStorage.setItem('CustomerInfo', encodeURIComponent(params.customerInfo));
-            sessionStorage.setItem('userCode', encodeURIComponent(params.userCode));
-            sessionStorage.setItem('userName', params.userName);
-            this.cookieService.set('userName', params.userName, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-            this.cookieService.set('userCode', encodeURIComponent(params.userCode), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-            this.cookieService.set('CustomerInfo', encodeURIComponent(params.customerInfo), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-
-            this.appService.loginState = true;
-          }
-        } else if (params.loginType == 2) {
-          // APP 為登出狀態但該 webview 登入狀態被cache住還是登入則將其改為登出
-          sessionStorage.clear();
-          this.cookieService.deleteAll();
-          this.appService.loginState = false;
-        }
-      }
-
-      //  訂單用
-      if (typeof params.Order_CInfo !== 'undefined' && typeof params.Order_UserCode !== 'undefined'
-        && typeof params.Order_UserName !== 'undefined') {
-        sessionStorage.setItem('CustomerInfo', params.Order_CInfo);
-        sessionStorage.setItem('userCode', params.Order_UserCode);
-        sessionStorage.setItem('userName', params.Order_UserName);
-
-        this.cookieService.set('userName', params.Order_UserName, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-        this.cookieService.set('userCode', params.Order_UserCode, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-        this.cookieService.set('CustomerInfo', params.Order_CInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-        this.appService.loginState = true;
-      }
-      //  購物車編碼 APP用
+      //  購物車編碼 (APP用)
       if (typeof params.cartCode !== 'undefined') {
         this.cookieService.set('cart_code', params.cartCode, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       }
 
-      // 第三方登入(LINE)
-      if (params.Mobii_ThirdLogin === 'true' && params.Mode !== undefined && params.Token !== undefined && !this.appService.loginState) {
-        this.thirdRequest.Mode = Number(params.Mode);
-        this.thirdRequest.Account = params.Token;
-        this.thirdRequest.Token = params.Token;
-        this.appService.toApi('AFPAccount', '1105', this.thirdRequest).subscribe((data: Response_AFPLogin) => {
-          // 塞Session
-          sessionStorage.setItem('userName', data.Model_UserInfo.Customer_Name);
-          sessionStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
-          sessionStorage.setItem('CustomerInfo', data.Model_UserInfo.CustomerInfo);
-          sessionStorage.setItem('userFavorites', JSON.stringify(data.List_UserFavourite));
-          this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-          this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-          this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-          this.cookieService.set('Mobii_ThirdLogin', 'true', 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-          this.appService.userName = data.Model_UserInfo.Customer_Name;
+      // 任務用 & 我的用 (APP用)
+      if (typeof params.loginType !== 'undefined') {
+        this.appService.appLoginType = params.loginType;
+        if (params.loginType === '1' && (typeof params.M_idToken !== 'undefined' && params.M_idToken !== null)) {
+          // APP 為登入狀態則將該 webview 也同步為登入
+          this.cookieService.set('M_idToken', params.M_idToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+          if (typeof params.userCode !== 'undefined') { sessionStorage.setItem('userCode', encodeURIComponent(params.userCode)); }
+          if (typeof params.userName !== 'undefined') { sessionStorage.setItem('userName', params.userName); }
+          if (typeof params.userName !== 'undefined') { this.cookieService.set('userName', params.userName, 90, '/',
+              environment.cookieDomain, environment.cookieSecure, 'Lax'); }
+          if (typeof params.userCode !== 'undefined') { this.cookieService.set('userCode', encodeURIComponent(params.userCode), 90, '/',
+              environment.cookieDomain, environment.cookieSecure, 'Lax'); }
+          this.appService.userName = params.userName;
           this.appService.loginState = true;
           this.appService.userLoggedIn = true;
           this.appService.showFavorites();
           this.appService.readCart();
           // 通知推播
           // this.appService.initPush();
-          this.appService.getPushPermission();
-        });
+        }
       }
 
-      // 第三方登入失敗 (目前只有Line)
-      if (params.Mobii_ThirdLogin === 'false' && params.Mode !== undefined && params.Error === '2' && !this.appService.loginState) {
-        let errMessage = '';
-        switch (params.Mode) {
-          case '2':
-            errMessage = 'Line@';
-            break;
-        }
-        this.modal.show('message', { initialState: { success: false, message: `${errMessage}驗證失敗，請重新取得授權`, showType: 1 } });
+      /** 「艾斯身份證別_登出」變更密碼返回登出，並清除logout參數 */
+      if (params.logout === 'true') {
+        this.appService.onLogout();
       }
     });
+
   }
 
   ngOnInit() {
+    /** 「艾斯身份證別_登入4-3」曾經登入成功過(有idToken)，重整頁面避免登入狀態遺失 */
+    if (this.cookieService.get('M_idToken') && this.appService.isApp !== 1) {
+      this.appService.loginState = true;
+      this.appService.userLoggedIn = true;
+    }
     this.appService.getPushPermission();
     this.appService.receiveMessage();
     // 當路由器成功完成路由的解析階段時，先通知app將footer關閉(開啟則靠app-mobile-footer通知開啟)
     this.router.events.pipe(filter(event => event instanceof ResolveEnd))
       .subscribe((event: ResolveEnd) => {
         window.scrollTo(0, 0);
-        this.callApp.appShowMobileFooter(false);
-        // 取得前一頁面url
-        this.appService.prevUrl = this.appService.currentUrl;
-        this.appService.currentUrl = event.url;
-        this.appService.verifyMobileModalOpened = false;
+        if (this.appService.isApp === 1) {
+          this.callApp.appShowMobileFooter(false);
+        }
+        this.appService.prevUrl = event.url;  // 取得前一頁面url
+        this.appService.pathnameUri = location.pathname;  // 取得當前頁面pathname
       });
     this.detectOld();
     // this.appService.initPush();
+
+    // TODO 點10下用
+    // setInterval(() => {
+    //   this.test = location.href + '    >>>> cookie idToken     ' +
+    //   this.cookieService.get('M_idToken') + '   >>>> loginState    ' +
+    //   this.appService.loginState + '   >>>> isApp    ' +
+    //   this.appService.isApp  ;
+    // }, 3000);
+
+    /** JustKa登入偵聽 */
+    window.addEventListener('message', (e) => {
+      // console.log(e);
+    }, false);
+
   }
 
   /** 獲取這個 outlet 指令的值（透過 #outlet="outlet"），並根據當前活動路由的自訂資料返回一個表示動畫狀態的字串值。用此資料來控制各個路由之間該執行哪個轉場 */
@@ -215,7 +193,7 @@ export class AppComponent implements OnInit {
           // 登入時重新訪問目前頁面以讀取會員相關資料
           this.router.routeReuseStrategy.shouldReuseRoute = () => false; // 判斷是否同一路由
           this.router.onSameUrlNavigation = 'reload';
-          let url = this.appService.currentUrl;
+          let url = this.router.url;
           if (url.includes('?')) {
             // 若url原有參數則帶著前往
             url = url.split('?')[0];
@@ -226,6 +204,10 @@ export class AppComponent implements OnInit {
         }
       });
     }
+  }
+
+  ngOnDestroy() {
+    // 應用程式銷毀前，判斷是否有isApp，for App用
   }
 
 }

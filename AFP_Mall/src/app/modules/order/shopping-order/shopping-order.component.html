@@ -43,7 +43,7 @@
             <div class="item one">姓名<span style="color: red;">*</span></div>
             <div class="item three">
               <input type="text" class="form-control" placeholder="請輸入" name="consumerName" #consumerName="ngModel"
-                [(ngModel)]="info.name" required minlength="2" maxlength="10" #consumerName />
+                [(ngModel)]="info.name" required minlength="2" maxlength="50" #consumerName />
               <small class="d-flex justify-content-end text-danger"
                 *ngIf="(consumerName.pristine && (consumerName.errors?.minlength || consumerName.errors?.maxlength)) ||
                   ((consumerName.touched || consumerName.dirty) && consumerName.invalid)">
@@ -589,7 +589,7 @@
           <button type="submit"
             [disabled]="formAddAddress.invalid || !requestAddress.UserFavourite_Number1 || !requestAddress.UserFavourite_Number2"
             [ngClass]="{'unable': formAddAddress.invalid || !requestAddress.UserFavourite_Number1 || !requestAddress.UserFavourite_Number2}"
-            class="btn next-btn">
+            class="btn index-btn">
             完成
           </button>
         </footer>

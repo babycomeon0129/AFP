@@ -1,0 +1,379 @@
+@charset "UTF-8";
+.my-card-box {
+  width: 100%;
+  position: relative;
+}
+
+.my-card-box .col-6 {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.my-card-box .col-6 .mycard-container {
+  margin: .5em;
+  border-radius: .75em;
+}
+
+.my-card-box .col-6 button.btn-card {
+  color: #182B56;
+  width: 100%;
+  border: 1px solid #E5E9F2;
+  border-radius: .75em;
+  display: block;
+}
+
+.my-card-box .col-6 button.btn-card[disabled]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: .5em solid #fff;
+  border-radius: 1.25em;
+}
+
+.my-card-box .card-img-box {
+  position: relative;
+  text-align: left;
+  width: 100%;
+}
+
+.my-card-box .card-img-box .rwdimg {
+  border-radius: .75em;
+}
+
+.my-card-box .card-img-box .img-txt {
+  font-size: medium;
+  line-height: 2em;
+  padding-bottom: .5em;
+  margin: 1.5em 0 .75em 1.5em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.my-card-box .card-img-box .img-icon {
+  width: 96px;
+  margin: 1em;
+}
+
+.my-card-box .card-img-box .img-plus {
+  width: 56px;
+  margin: 1.75em;
+  float: right;
+}
+
+@media (max-width: 767px) {
+  .my-card-box .card-img-box .img-txt {
+    margin: .5em 0 0 1em;
+    font-size: 90%;
+  }
+  .my-card-box .card-img-box .img-icon {
+    width: 48px;
+    margin: .75em;
+  }
+  .my-card-box .card-img-box .img-plus {
+    width: 28px;
+    margin: 1em .75em;
+  }
+}
+
+.mycard-add-title {
+  background: white;
+  position: absolute;
+  top: 0;
+}
+
+.mycard-add {
+  position: fixed;
+  left: 50%;
+  bottom: 2%;
+  transform: translate(-50%, 0);
+}
+
+.mycard-add span {
+  font-size: small;
+}
+
+@media (max-width: 767px) {
+  .mycard-add {
+    bottom: 12%;
+  }
+}
+
+.mycard-add img {
+  width: 24px;
+  margin: 0 0.5em;
+}
+
+.mycard-add button {
+  padding-left: 1em;
+  padding-right: 1em;
+  background: #005792;
+  color: white;
+  border-radius: 30px;
+}
+
+.badge-card {
+  background: #fff2eb;
+  color: #FD5F00;
+  margin: 0.25em 0.5em;
+}
+
+.card-fixed-bottom.tied {
+  min-width: 170px;
+  position: fixed;
+  bottom: 3em;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.card-fixed-bottom.tied .btn-tied-card {
+  color: #182B56;
+  background: #fff;
+  padding: 1em 1.5em;
+  border: 1px solid #E5E9F2;
+  border-radius: 30px;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+  white-space: nowrap;
+}
+
+/** 新增卡片 */
+.my-list-box ul {
+  background: #E5E5E5;
+  height: calc(100vh - 74px);
+}
+
+.my-list-box ul li {
+  background: #fff;
+}
+
+.my-list-box ul li.bg-light {
+  background: #FFFEF2;
+  border-right: 3px solid #FF3B30;
+}
+
+.my-list-box ul li.bg-light .input-box input[type='text'] {
+  background-color: transparent;
+}
+
+.my-list-box ul li:first-child {
+  background: linear-gradient(to bottom, #fbfdfd, #eaeaea);
+}
+
+.my-list-box ul li:last-child {
+  background: #E5E5E5;
+  border-bottom: none;
+  padding-bottom: 74px;
+}
+
+.my-list-box p {
+  background-color: transparent;
+  transform: translateY(-6px);
+  color: #FD5F00;
+}
+
+.my-list-box .card-line-height {
+  line-height: 2.5em;
+}
+
+.my-list-box .card-info {
+  color: #005792;
+  width: 100%;
+  text-align: center;
+}
+
+.my-list-box .card-warning {
+  color: #005792;
+  font-size: small;
+}
+
+.small-warning {
+  transform: translate(-2.3em, 1.7em);
+  position: absolute;
+}
+
+.icheck-material-blue {
+  display: flex;
+}
+
+.icheck-material-blue input[type='checkbox'] {
+  min-width: 21px;
+}
+
+/** 已綁定卡片 */
+.tied-card-list {
+  background: #E5E5E5;
+  height: calc(100vh - 74px);
+  padding: 1em;
+}
+
+.tied-card-list .tied-card-item {
+  margin-bottom: 1em;
+  padding: 1em;
+  background: #fff;
+  border-radius: .5em;
+}
+
+.tied-card-list .tied-card-item .d-flex {
+  align-items: center;
+}
+
+.tied-card-list .tied-card-item .d-flex .item:first-child {
+  width: 64px;
+}
+
+.tied-card-list .tied-card-item .d-flex .item:last-child {
+  width: 34px;
+}
+
+.tied-card-list .tied-card-item .d-flex .tied-card-content {
+  width: calc(100% - 98px);
+  padding-left: .75em;
+  padding-right: .75em;
+  line-height: 2em;
+}
+
+.tied-card-list .tied-card-item .d-flex .tied-card-content .tied-card-tag {
+  line-height: 1.5em;
+  width: 100% !important;
+  display: inline-flex;
+}
+
+.tied-card-list .tied-card-item .d-flex .tied-card-content span {
+  font-size: small;
+  border-radius: 5px;
+  padding: .2em .5em;
+  margin-right: .5em;
+}
+
+.tied-card-list .tied-card-item .d-flex .tied-card-content span.general-card {
+  background: rgba(196, 196, 196, 0.2);
+  color: #828282;
+  white-space: nowrap;
+}
+
+.tied-card-list .tied-card-item .d-flex .tied-card-content span.special-card {
+  background: #fff2eb;
+  color: #fd5f00;
+}
+
+.tied-card-list .tied-card-item .d-flex .tied-card-content span.special-card span {
+  border-radius: 0;
+  padding: 0;
+  margin-right: 0;
+}
+
+.tied-card-list .tied-card-item .d-flex .tied-card-content span.special-card span::after {
+  position: absolute;
+  content: ",";
+  display: contents;
+}
+
+.tied-card-list .tied-card-item .d-flex .tied-card-content span.special-card span:last-child::after {
+  position: absolute;
+  content: "";
+  display: contents;
+}
+
+.tied-card-list .tied-card-item .d-flex .tied-card-content p {
+  white-space: nowrap;
+  color: #818181;
+}
+
+.tied-card-list .img-box {
+  width: 48px;
+  height: 48px;
+  margin: .5em;
+}
+
+.tied-card-list .img-box .img-logo {
+  border-radius: .15em;
+  width: 100%;
+  height: auto;
+  padding-bottom: 100%;
+  overflow: hidden;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.tied-card-list .img-crud {
+  height: 32px;
+}
+
+.card-fixed-bottom.add {
+  position: fixed;
+  bottom: 2.4em;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.card-fixed-bottom.add .card-add-btn {
+  min-width: 170px;
+  padding: .75em 1.5em;
+  color: #fff;
+  background: #005792;
+  border-radius: 30px;
+  white-space: nowrap;
+}
+
+.card-fixed-bottom.add .card-add-btn.unable {
+  color: #fff;
+  background: #D3D3D3;
+}
+
+.card-fixed-bottom.add .card-add-btn img {
+  padding-right: .5em;
+}
+
+.card-fixed-bottom.add .card-add-btn span {
+  vertical-align: middle;
+  font-size: small;
+  font-weight: 700;
+}
+
+/** 榮民卡 */
+.addCertificate .bg-linear-gray {
+  width: 100%;
+  padding: 2em;
+  text-align: center;
+  justify-content: center;
+  background: linear-gradient(to bottom, #fbfdfd, #eaeaea);
+}
+
+.addCertificate img.logo {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+  width: 240px;
+  height: 240px;
+}
+
+@media (max-width: 767px) {
+  .addCertificate img.logo {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+.addCertificate .veterans-info {
+  width: 100%;
+  padding: 1.5em;
+  line-height: 2.5em;
+}
+
+.addCertificate .veterans-info div {
+  width: 100%;
+}
+
+.addCertificate .veterans-info .input-box input[type='text'] {
+  text-align: left;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 1px solid #ccc;
+}
+/*# sourceMappingURL=member-card.css.map */

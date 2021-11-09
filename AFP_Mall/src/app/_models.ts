@@ -20,6 +20,8 @@ export interface Response_APIModel {
   Data?: string;
   /** 認證資訊 */
   Verification?: Model_Verification;
+  /** 登入認證 */
+  IdToken?: string;
 }
 
 /** 驗證Model */
@@ -32,11 +34,11 @@ export interface Model_Verification {
    * 3: 已驗證
    * 4: 已驗證 更換消費者包 and UserCode
    */
-  MobileVerified: number;
+  MobileVerified?: number;
   /** 消費者包（MobileVerified = 3 會回傳,其餘狀態為空） */
-  CustomerInfo: string;
+  CustomerInfo?: string;
   /** 使用者編碼（MobileVerified = 3 會回傳,其餘狀態為空） */
-  UserCode: string;
+  UserCode?: string;
 }
 
 /** ResponseModel 中 Base 模組 */
@@ -243,8 +245,12 @@ export interface Request_Home extends Model_ShareData {
 
 /** 大首頁 ResponseModel */
 export interface Response_Home {
+  /** JustKa連結 */
+  JustKaUrl: string;
   /** 會員點數 */
   TotalPoint: number;
+  /** 會員姓名 */
+  UserName: string;
   /** 優惠卷數量 */
   VoucherCount: number;
   /** 廣告列表 10001 */
@@ -790,7 +796,7 @@ export interface Request_ECProductList extends Model_ShareData {
      * 2: 熱門程度優先
      * 3: 價格低->高
      * 4: 價格高->低
-     * */
+     */
     Sort_Mode?: number;
     /** 購物車Code */
     Cart_Code: number;

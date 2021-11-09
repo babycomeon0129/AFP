@@ -1,0 +1,109 @@
+/* products-list (no masonry) */
+.products-listbox-nom {
+  background: #f8f8f8;
+  padding: .5em 0 .5em .5em;
+  margin: 0 auto;
+  position: relative;
+}
+
+.products-listbox-nom .products-item {
+  padding: .5em;
+}
+
+.products-listbox-nom .products-item .products-title {
+  color: #182B56;
+  font-weight: bold;
+  font-size: .95em;
+  padding: 0 0.5em;
+}
+
+.products-listbox-nom .products-item .products-title p {
+  height: 47px;
+  overflow: hidden;
+}
+
+.products-listbox-nom .products-item .products-price {
+  padding: 0 0.5em;
+  display: flex;
+  align-items: center;
+}
+
+.products-listbox-nom .products-item .products-price .price-asking {
+  color: tomato;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.products-listbox-nom .products-item .products-price .price-original {
+  color: gray;
+  text-decoration: line-through;
+  text-align: bottom;
+  font-size: 0.8em;
+  padding-left: .5em;
+}
+
+/* products-list & explore-datail (masonry) */
+.products-listbox {
+  background: #f8f8f8;
+  padding-top: 1em;
+  padding-left: 4%;
+  margin: 0 auto;
+  position: relative;
+}
+
+.products-listbox .products-item {
+  width: 31.3%;
+  background-color: #fff;
+  margin-bottom: 12px;
+}
+
+.products-listbox .products-item .products-title {
+  color: #182B56;
+  font-weight: bold;
+  font-size: .95em;
+  padding: 0 0.5em;
+}
+
+.products-listbox .products-item .products-title p {
+  height: 47px;
+  overflow: hidden;
+}
+
+.products-listbox .products-item .products-price {
+  padding: 0 0.5em;
+  display: flex;
+  align-items: center;
+}
+
+.products-listbox .products-item .products-price .price-asking {
+  color: tomato;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.products-listbox .products-item .products-price .price-original {
+  color: gray;
+  text-decoration: line-through;
+  text-align: bottom;
+  font-size: 0.8em;
+  padding-left: .5em;
+}
+
+@media (max-width: 767px) {
+  .products-listbox {
+    padding-left: 4%;
+  }
+  .products-listbox .products-item {
+    width: 30%;
+  }
+}
+
+@media (max-width: 480px) {
+  .products-listbox {
+    padding-left: 1em;
+  }
+  .products-listbox .products-item {
+    width: 47%;
+  }
+}
+/*# sourceMappingURL=product-list.css.map */

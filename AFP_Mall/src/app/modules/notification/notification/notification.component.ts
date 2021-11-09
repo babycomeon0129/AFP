@@ -38,7 +38,6 @@ export class NotificationComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const request: Request_MemberMsg = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 4,
       SearchModel: {
         MsgCategory_Code: null
@@ -67,7 +66,6 @@ export class NotificationComponent implements OnInit, OnDestroy {
   showCategoryList(categoryName: string, categoryCode: number) {
     this.SCategoryName = categoryName;
     const request: Request_MemberMsg = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 5,
       SearchModel: {
         MsgCategory_Code: categoryCode

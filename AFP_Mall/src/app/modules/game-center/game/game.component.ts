@@ -26,7 +26,6 @@ export class GameComponent implements OnInit {
 
   ngOnInit() {
     const request: Request_Games = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 4,
       SearchModel: {
         Game_Code: this.gameCode
@@ -79,7 +78,7 @@ export class GameComponent implements OnInit {
       rightBtnUrl: this.alertInfo.RightBtnUrl
     };
     // 先判斷是否裝置為app，如果是，queryParams帶isApp到message modal
-    initialState.queryParams1 = this.appService.isApp !== null ? {isApp: this.appService.isApp} : null
+    initialState.queryParams1 = (this.appService.isApp === 1) ? {isApp: this.appService.isApp} : null;
 
     this.modal.show('message', { initialState });
   }

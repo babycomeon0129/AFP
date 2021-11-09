@@ -11,20 +11,18 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { environment } from '@env/environment';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { AuthService } from 'angularx-social-login';
-//import { SwPush } from '@angular/service-worker';
+// import { SwPush } from '@angular/service-worker';
 // import firebase from 'firebase/app';
 // import 'firebase/messaging';
 // 推播
 import { AngularFireMessaging } from '@angular/fire/messaging';
 // Component
-import { VerifyMobileModalComponent } from './shared/modal/verify-mobile-modal/verify-mobile-modal.component';
 import { FavoriteModalComponent } from './shared/modal/favorite-modal/favorite-modal.component';
-import { LoginRegisterModalComponent } from './shared/modal/login-register-modal/login-register-modal.component';
 import { JustkaModalComponent } from './shared/modal/justka-modal/justka-modal.component';
 import { MsgShareModalComponent } from './shared/modal/msg-share-modal/msg-share-modal.component';
 import { MessageModalComponent } from './shared/modal/message-modal/message-modal.component';
 import { ConfirmModalComponent } from './shared/modal/confirm-modal/confirm-modal.component';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 
 declare var AppJSInterface: any;
 
@@ -32,12 +30,14 @@ declare var AppJSInterface: any;
   providedIn: 'root'
 })
 export class AppService {
-  /** 登入狀態 */
+  /** 登入狀態 (登入true,登出false) */
   public loginState = false;
-  /** 使用者暱稱 */
-  public userName: string;
-  /** App訪問 */
+  /** App訪問 (1:App) */
   public isApp: number = null;
+  /** App狀態 (登入1,登出2) */
+  public appLoginType: string;
+  /** 使用者暱稱 */
+  public userName = sessionStorage.getItem('userName') || null;
   /** 我的收藏物件陣列 */
   public userFavArr = [];
   /** 我的收藏編碼陣列 */
@@ -46,8 +46,8 @@ export class AppService {
   public showAPPHint = true;
   /** 前一頁url */
   public prevUrl = '';
-  /** 當前頁url */
-  public currentUrl = this.router.url;
+  /** 當前url */
+  public pathnameUri: string;
   /** lazyload 的初始圖片 */
   public defaultImage = '/img/share/eee.jpg';
   /** 當前訊息 */
@@ -66,19 +66,16 @@ export class AppService {
    * 偵測到 loginState 由 false 轉為 true時，重新訪問當前頁面以取得會員相關資訊。
    */
   public userLoggedIn = false;
-  /** 引導手機驗證 modal 是否已開啟（控制此 modal 只開啟一個，避免在需呼叫１個以上 API 的頁面重複開啟）
-   * TODO: 暫時作法
-   */
-  public verifyMobileModalOpened = false;
   /** 是否顯示返回鍵 (app特例) */
   public showBack = false;
   /** line 登入用 state (用於取code) */
   public lineSigninState: string;
+  private idToken = null;
 
   @BlockUI() blockUI: NgBlockUI;
-  constructor(private http: HttpClient, private bsModal: BsModalService, private router: Router,
-              private cookieService: CookieService, private route: ActivatedRoute, private authService: AuthService,
-              private angularFireMessaging: AngularFireMessaging, private bsModalService: BsModalService) {
+  constructor(private http: HttpClient, private router: Router, private bsModalService: BsModalService,
+              public cookieService: CookieService, private route: ActivatedRoute,
+              private angularFireMessaging: AngularFireMessaging, private oauthService: OauthService) {
     // firebase message設置。這裡在幹嘛我也不是很懂
     // 詳：https://stackoverflow.com/questions/61244212/fcm-messaging-issue
     this.angularFireMessaging.messages.subscribe(
@@ -91,59 +88,50 @@ export class AppService {
   toApi(ctrl: string, command: string, request: any, lat: number = null, lng: number = null, deviceCode?: string): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
       xEyes_Command: command,
       xEyes_X: (lng != null) ? lng.toString() : '',
       xEyes_Y: (lat != null) ? lat.toString() : '',
-      xEyes_DeviceType: (this.isApp != null) ? '1' : '0',
-      xEyes_CustomerInfo: (sessionStorage.getItem('CustomerInfo') !== null) ? sessionStorage.getItem('CustomerInfo') : '',
-      xEyes_DeviceCode: deviceCode === undefined ? '' : deviceCode
+      xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
+      xEyes_DeviceCode: deviceCode === undefined ? '' : deviceCode,
+      Authorization: (this.cookieService.get('M_idToken') === '') ? '' : ('Bearer ' + this.cookieService.get('M_idToken')),
     });
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
       .pipe(map((data: Response_APIModel) => {
         this.blockUI.stop();
+        // console.log(this.isApp, command, data);
+
         switch (data.Base.Rtn_State) {
-          case 1: // Response OK
-            // 手機是否驗證
-            switch (data.Verification.MobileVerified) {
-              case 1:
-                // 「一般登入」、「第三方登入」、「登入後讀購物車數量」、「推播」不引導驗證手機
-                if (command !== '1104' && command !== '1105' && command !== '1204' && command !== '1113') {
-                  if (!this.verifyMobileModalOpened) {
-                    this.bsModal.show(VerifyMobileModalComponent);
-                    this.verifyMobileModalOpened = true;
-                  }
-                }
-                break;
-              case 2:
-              case 3:
-                break;
-              case 4:
-                sessionStorage.setItem('userCode', data.Verification.UserCode);
-                sessionStorage.setItem('CustomerInfo', data.Verification.CustomerInfo);
-                this.cookieService.set('userCode', data.Verification.UserCode, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-                this.cookieService.set('CustomerInfo', data.Verification.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-                break;
-              default:
-                this.onLogout();
-                this.router.navigate(['/']);
+          case 1:
+            /** 「艾斯身份證別_更新idToken」 */
+            const toApiData = data;
+            if (toApiData.IdToken && toApiData.IdToken !== null) {
+              // 避免call api時，重複存M_idToken
+              if (this.idToken === null) {
+                this.idToken = toApiData.IdToken;
+                this.cookieService.set('M_idToken', toApiData.IdToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+              }
+              if (this.cookieService.get('M_idToken') !== toApiData.IdToken) {
+                this.cookieService.set('M_idToken', toApiData.IdToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+              }
+              this.loginState = true;
+              this.userLoggedIn = true;
             }
             return JSON.parse(data.Data);
           case 9996: // 查無商品詳細頁資料
-            this.bsModal.show(MessageModalComponent, { initialState: { success: false, message: data.Base.Rtn_Message, showType: 1, checkBtnMsg: `確定`, target: 'GoBack' } });
+            this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
+              initialState: { success: false, message: data.Base.Rtn_Message, showType: 2, checkBtnMsg: '確定', target: 'GoBack' } });
             break;
           case 9998: // user資料不完整，讓使用者登出
-            this.bsModal.show(MessageModalComponent, { initialState: { success: false, message: '請先登入', showType: 2, singleBtnMsg: `重新登入` } });
-            this.onLogout();
+            this.logoutModal();
+            break;
+          case 609840001: // 登入不完整，讓使用者登出
+            this.logoutModal();
             break;
           default: // 其他錯誤
-            this.bsModal.show(MessageModalComponent
-              , {
-                class: 'modal-sm modal-smbox', initialState: {
-                  success: false, message: data.Base.Rtn_Message
-                  , target: data.Base.Rtn_URL
-                }
-              });
+            this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
+              initialState: { success: false, message: data.Base.Rtn_Message, showType: 2, target: data.Base.Rtn_URL } });
             throw new Error('bad request');
         }
       }, catchError(this.handleError)));
@@ -172,13 +160,8 @@ export class AppService {
     return this.http.post(environment.apiUrl + ctrl, request, { headers })
       .pipe(map((data: Response_APIModel) => {
         if (data.Base.Rtn_State !== 1) {
-          this.bsModal.show(MessageModalComponent
-            , {
-              class: 'modal-sm modal-smbox', initialState: {
-                success: false, message: data.Base.Rtn_Message
-                , target: data.Base.Rtn_URL
-              }
-            });
+          this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
+            initialState: { success: false, message: data.Base.Rtn_Message, showType: 2, target: data.Base.Rtn_URL } });
           throw new Error('bad request');
         }
         return JSON.parse(data.Data);
@@ -187,31 +170,36 @@ export class AppService {
 
   /** 登出 */
   onLogout(): void {
+    // 登出紀錄
     const request = {
       User_Code: sessionStorage.getItem('userCode')
     };
     this.toApi_Logout('Home', '1109', request).subscribe((Data: any) => { });
-    // 第三方登入套件登出
-    if (this.cookieService.get('Mobii_ThirdLogin') === 'true') {
-      this.authService.signOut();
+    // APP登出導頁
+    if (this.isApp === 1 || this.appLoginType === '1' || this.loginState) {
+      location.href = '/ForApp/AppLogout';
     }
+
+    // web導頁(清除logout參數)
+    const url = new URL(location.href);
+    const params = new URLSearchParams(url.search);
+    const logout = params.get('logout');
+    if (logout) {
+      this.router.navigate([location.pathname], {queryParams: {isApp: this.isApp}});
+    }
+
     // 清除session、cookie、我的收藏資料，重置登入狀態及通知數量
     sessionStorage.clear();
+    this.cookieService.deleteAll();
     this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
     this.loginState = false;
+    this.userLoggedIn = false;
     this.userFavCodes = [];
     this.pushCount = 0;
-    this.verifyMobileModalOpened = false;
-
-    //  APP登出導頁
-    if (this.isApp !== null) {
-      window.location.href = '/ForApp/AppLogout';
-    }
+    this.oauthService.onClearStorage();
   }
 
-  /**
-   *  登出用
-   *
+  /** 登出用
    * @param ctrl 目標
    * @param command 指令編碼
    * @param request 傳送資料
@@ -219,11 +207,12 @@ export class AppService {
   toApi_Logout(ctrl: string, command: string, request: any, lat: number = null, lng: number = null): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
       xEyes_Command: command,
       xEyes_X: (lng != null) ? lng.toString() : '',
       xEyes_Y: (lat != null) ? lat.toString() : '',
-      xEyes_DeviceType: (this.isApp != null) ? '1' : '0',
-      xEyes_CustomerInfo: (sessionStorage.getItem('CustomerInfo') !== null) ? sessionStorage.getItem('CustomerInfo') : ''
+      xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
+      Authorization: (this.cookieService.get('M_idToken') === '') ? '' : ('Bearer ' + this.cookieService.get('M_idToken')),
     });
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
@@ -232,17 +221,37 @@ export class AppService {
       }, catchError(() => null)));
   }
 
+  /** 登入註冊提示視窗 */
+  logoutModal() {
+    this.bsModalService.show(MessageModalComponent, {
+      class: 'modal-dialog-centered',
+      initialState: {
+        success: false,
+        message: '請先登入',
+        showType: 5,
+        leftBtnMsg: '我知道了',
+        rightBtnMsg: '登入/註冊',
+        rightBtnFn: () => {
+          if (this.loginState) {
+            this.onLogout();
+          }
+          this.oauthService.loginPage(this.isApp, location.pathname);
+        }
+      }
+    });
+  }
+
   /** 登入初始化需帶入的 state，Apple、Line登入都需要用到
-  * @description unix timestamp 前後相反後前4碼+ 10碼隨機英文字母 (大小寫不同)
-  * @returns state 的值
-  */
+   * @description unix timestamp 前後相反後前4碼+ 10碼隨機英文字母 (大小寫不同)
+   * @returns state 的值
+   */
   getState(): string {
     // 取得 unix
     const dateTime = Date.now();
     const timestampStr = Math.floor(dateTime / 1000).toString();
     // 前後相反
     let reverseTimestamp = '';
-    for (var i = timestampStr.length - 1; i >= 0; i--) {
+    for (let i = timestampStr.length - 1; i >= 0; i--) {
       reverseTimestamp += timestampStr[i];
     }
     // 取前4碼
@@ -250,8 +259,8 @@ export class AppService {
     // 取得10個隨機英文字母，組成字串
     function getRandomInt(max: number) {
       return Math.floor(Math.random() * max);
-    };
-    const engLettersArr = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+    }
+    const engLettersArr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
     let randomEngLetter = '';
     for (let x = 0; x < 10; x++) {
       const randomInt = getRandomInt(engLettersArr.length);
@@ -287,33 +296,30 @@ export class AppService {
    * @param favCode 商品/商家/周邊/行程編碼
    */
   favToggle(favAction: number, favType: number, favCode?: number): void {
-    const request: Request_MemberFavourite = {
-      SelectMode: favAction,
-      User_Code: sessionStorage.getItem('userCode'),
-      AFP_UserFavourite: {
-        UserFavourite_ID: 0,
-        UserFavourite_CountryCode: 886,
-        UserFavourite_Type: favType,
-        UserFavourite_UserInfoCode: 0,
-        UserFavourite_TypeCode: favCode,
-        UserFavourite_IsDefault: 0
-      },
-    };
+    if (!this.cookieService.get('M_idToken')) {
+      this.logoutModal();
+    } else {
+      const request: Request_MemberFavourite = {
+        SelectMode: favAction,
+        AFP_UserFavourite: {
+          UserFavourite_ID: 0,
+          UserFavourite_CountryCode: 886,
+          UserFavourite_Type: favType,
+          UserFavourite_UserInfoCode: 0,
+          UserFavourite_TypeCode: favCode,
+          UserFavourite_IsDefault: 0
+        },
+      };
 
-    if (this.loginState) {
       this.toApi('Member', '1511', request).subscribe((data: Response_MemberFavourite) => {
         // update favorites to session
-        console.log(data);
         sessionStorage.setItem('userFavorites', JSON.stringify(data.List_UserFavourite));
         // update favorites to array
         this.showFavorites();
         if (favAction === 1) {
-          this.bsModal.show(FavoriteModalComponent);
-
+          this.bsModalService.show(FavoriteModalComponent);
         }
       });
-    } else {
-      this.loginPage();
     }
   }
 
@@ -321,14 +327,14 @@ export class AppService {
   readCart(): void {
     const request: Request_ECCart = {
       SelectMode: 4, // 固定讀取
-      User_Code: sessionStorage.getItem('userCode'),
       SearchModel: {
         Cart_Code: Number(this.cookieService.get('cart_code'))
       },
     };
 
     this.toApi('EC', '1204', request).subscribe((data: Response_ECCart) => {
-      this.cookieService.set('cart_count_Mobii', data.Cart_Count.toString(), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+      this.cookieService.set('cart_count_Mobii', data.Cart_Count.toString(), 90, '/',
+                              environment.cookieDomain, environment.cookieSecure, 'Lax');
     });
   }
 
@@ -339,7 +345,9 @@ export class AppService {
    */
   onVoucher(voucher: AFP_Voucher): void {
     // 點擊兌換時先進行登入判斷
-    if (this.loginState) {
+    if (!this.cookieService.get('M_idToken')) {
+      this.logoutModal();
+    } else {
       switch (voucher.Voucher_IsFreq) {
         case 1:
           // 先判斷是否需要扣點才能兌換，如需扣點必須先跳扣點提示
@@ -354,12 +362,10 @@ export class AppService {
                 this.exchangeVoucher(voucher);
               } else {
                 // 點選取消扣點
-                const initialState = {
-                  success: true,
-                  type: 1,
-                  message: `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-failed.png"><p>兌換失敗！</p></div>`
-                };
-                this.bsModal.show(MessageModalComponent, { initialState });
+                const content =
+                  `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-failed.png"><p>兌換失敗！</p></div>`;
+                this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
+                  initialState: { success: true, message: content, showType: 1 } });
               }
             });
           } else {
@@ -392,8 +398,6 @@ export class AppService {
           this.router.navigate(['/Voucher/VoucherDetail', code], { queryParams: { showBack: this.showBack}});
           break;
       }
-    } else {
-      this.loginPage();
     }
   }
 
@@ -407,7 +411,6 @@ export class AppService {
   exchangeVoucher(voucher: AFP_Voucher): void {
     // 加入到「我的優惠券」
     const request: Request_MemberUserVoucher = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 1, // 新增
       Voucher_Code: voucher.Voucher_Code, // 優惠券Code
       Voucher_ActivityCode: null, // 優惠代碼
@@ -423,35 +426,25 @@ export class AppService {
       voucher.Voucher_ReleasedCount += 1;
       // 如果是扣點才能兌換的優惠券，需跳兌換成功提示
       if (voucher.Voucher_DedPoint > 0) {
-        const initialState = {
-          success: true,
-          type: 1,
-          message: `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-ok.png"><p>兌換成功！</p></div>`
-        };
-        this.bsModal.show(MessageModalComponent, { initialState });
+        const content =
+        `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-ok.png"><p>兌換成功！</p></div>`;
+        this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
+          initialState: { success: true, message: content, showType: 1 } });
       }
     });
   }
 
-  /** 判斷跳出網頁或APP的登入頁 */
-  loginPage(): void {
-    if (this.isApp == null) {
-      this.bsModal.show(LoginRegisterModalComponent, { class: 'modal-full' });
-    } else {
-      if (navigator.userAgent.match(/android/i)) {
-        //  Android
-        AppJSInterface.login();
-      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-        //  IOS
-        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'login' });
-      }
-    }
-  }
-
-
   /** 打開JustKa iframe */
   showJustka(url: string): void {
-    this.bsModal.show(JustkaModalComponent, { initialState: { justkaUrl: url } });
+    if (!this.cookieService.get('M_idToken')) {
+      this.logoutModal();
+    } else {
+      this.bsModalService.show(JustkaModalComponent, {
+        initialState: {
+          justkaUrl: url + '&J_idToken=' + this.cookieService.get('M_idToken')
+        }
+      });
+    }
   }
 
   /** 向firebase message 請求token */
@@ -462,9 +455,7 @@ export class AppService {
           this.deviceCode = this.guid();
           localStorage.setItem('M_DeviceCode', this.deviceCode);
         }
-        if (this.loginState) {
-          this.toPushApi(token);
-        }
+        this.toPushApi(token);
       },
       (err) => {
         console.error('Unable to get permission to notify.', err);
@@ -476,7 +467,7 @@ export class AppService {
   receiveMessage(): void {
     this.angularFireMessaging.messages.subscribe(
       (payload) => {
-        console.log("new message received. ", payload);
+        console.log('new message received. ', payload);
         this.currentMessage.next(payload);
         this.pushCount++;
         this.cookieService.set('pushCount', this.pushCount.toString(), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
@@ -485,14 +476,12 @@ export class AppService {
 
   /** 推播-取得含device code的新消費者包 */
   toPushApi(token: string): void {
-    const request: Request_AFPPushToken = {
-      User_Code: sessionStorage.getItem('userCode'),
-      Token: token
-    };
-    this.toApi('Home', '1113', request, null, null, this.deviceCode).subscribe((data: Response_AFPPushToken) => {
-      sessionStorage.setItem('CustomerInfo', data.CustomerInfo);
-      this.cookieService.set('CustomerInfo', data.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-    });
+    if (token !== null && token !== undefined) {
+      const request: Request_AFPPushToken = {
+        Token: token
+      };
+      this.toApi('Home', '1113', request, null, null, this.deviceCode).subscribe((data) => { });
+    }
   }
 
   /** 產生device code */
@@ -515,7 +504,7 @@ export class AppService {
   shareContent(sharedContent: string, APPShareUrl: string): void {
     if (this.isApp === null) {
       // web
-      this.bsModal.show(MsgShareModalComponent, { initialState: { sharedText: sharedContent } });
+      this.bsModalService.show(MsgShareModalComponent, { initialState: { sharedText: sharedContent } });
     } else {
       // APP: 呼叫APP分享功能
       if (navigator.userAgent.match(/android/i)) {
@@ -523,11 +512,67 @@ export class AppService {
         AppJSInterface.appShare(sharedContent + '\n' + APPShareUrl);
       } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
         //  IOS
-        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'appShare', content: sharedContent + '\n' + APPShareUrl });
+        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({
+          action: 'appShare', content: sharedContent + '\n' + APPShareUrl
+        });
       }
     }
   }
 
+  /** 網頁跳轉（瀏覽器會紀錄連結的歷史紀錄） */
+  jumpHref(link: string, tag: string) {
+    switch (tag) {
+      case '_blank':
+        if (link.slice(0, 1) === '/') {
+          // blank需要絕對路徑
+          window.open(location.origin + link, tag);
+        } else {
+          window.open(link, tag);
+        }
+        break;
+      default:
+        if (link.startsWith('https') || link.startsWith('http')) {
+          // 絕對路徑
+          const openUrl = new URL(link);
+          if (openUrl.host !== location.host) {
+            location.href = link;
+          } else {
+            // 若絕對路徑為站內連結
+            if (link.includes('?')) {
+              // 若原有參數則帶著前往
+              const selfUrl = link.split('?')[0];
+              this.router.navigate([selfUrl], { queryParams: this.route.snapshot.queryParams });
+            } else {
+              this.router.navigate([link]);
+            }
+          }
+        } else {
+          // 相對路徑
+          if (link.includes('?')) {
+            // 若原有參數則帶著前往
+            const selfUrl = link.split('?')[0];
+            this.router.navigate([selfUrl], { queryParams: this.route.snapshot.queryParams });
+          } else {
+            this.router.navigate([link]);
+          }
+        }
+        break;
+    }
+  }
+
+  /** 網頁跳轉(登入用，不會紀錄連結的歷史紀錄) */
+  jumpUrl() {
+    const uri = (localStorage.getItem('M_fromOriginUri') !== null &&
+                localStorage.getItem('M_fromOriginUri') !== 'undefined')
+                ? localStorage.getItem('M_fromOriginUri') : '/' ;
+    if (uri.startsWith('https') || uri.startsWith('http')) {
+      location.replace(uri);
+    } else {
+      this.router.navigate([uri], {
+        relativeTo: this.route
+      });
+    }
+  }
 }
 
 
@@ -537,8 +582,4 @@ interface Request_AFPPushToken extends Model_ShareData {
   Token: string;
 }
 
-/** 推撥登記 ResponseModel */
-interface Response_AFPPushToken extends Model_ShareData {
-  /** 消費者包 */
-  CustomerInfo: string;
-}
+

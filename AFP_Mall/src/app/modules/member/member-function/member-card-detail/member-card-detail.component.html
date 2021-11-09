@@ -25,11 +25,13 @@
         <div class="item">
           <ul>
             <li class="bg-linear-gray">
-              <button type="button" class="btn card-delete" (click)="btnDel()">
-                <div class="img-logo" [lazyLoad]="cardGroupImg" [defaultImage]="cardGroupImgDef">
-                  <img src="../../img/member/delete.png" class="img-del">
-                </div>
-              </button>
+                <button type="button" class="btn card-delete">
+                  <div class="img-logo" [lazyLoad]="cardGroupImg" [defaultImage]="cardGroupImgDef">
+                    <div *ngIf="requestCard.UserFavourite_TypeCode !== 12" (click)="btnDel()">
+                      <img src="../../img/member/delete.png" class="img-del">
+                    </div>
+                  </div>
+                </button>
             </li>
             <li class="card-line-height">
               <div class="item text-muted">卡片名稱</div>
@@ -42,7 +44,7 @@
               <div class="item">卡片類型<span class="text-org">*</span></div>
               <div class="item">
                 <div class="tied-card-tag">
-                  <span class="general-card">{{ requestCard.UserFavourite_TypeCode === 1 ? '一卡通' : '悠遊卡' }}</span>
+                  <span class="general-card">{{ userFavouriteTypeName }}</span>
                 </div>
               </div>
             </li>

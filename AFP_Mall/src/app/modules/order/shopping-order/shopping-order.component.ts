@@ -81,14 +81,13 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
       this.appService.openBlock();
       const getCheckout: Request_GetCheckout = {
         SelectMode: 4, // 查詢
-        User_Code: sessionStorage.getItem('userCode'),
         List_Cart: afpCart
       };
       this.appService.toApi('Checkout', '1605', getCheckout).subscribe((data: Response_GetCheckout) => {
         this.checkout = data;
         // 進入結帳頁時，如商品改變價格，則跳出提醒用戶商品價格改變
         if (data.List_PriceChange !== null) {
-          this.modal.show('message', { initialState: { success: false, message: `提醒您，${data.List_PriceChange}價格變更了！`, showType: 1, singleBtnMsg: `我知道了` } });
+          this.modal.show('message', { initialState: { success: false, message: `提醒您，${data.List_PriceChange}價格變更了！`, showType: 1, checkBtnMsg: `我知道了` } });
         }
         // 帶入會員資訊 (姓名、手機、email)
         this.info.name = this.checkout.UserInfo_Name;
@@ -96,7 +95,6 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
         this.info.email = this.checkout.UserProfile_Email;
         const getVoucher: Request_GetUserVoucher = {
           SelectMode: 4, // 查詢
-          User_Code: sessionStorage.getItem('userCode'),
           List_Cart: this.checkout.List_Cart
         };
         this.appService.toApi('Checkout', '1606', getVoucher).subscribe((voucher: Response_GetUserVoucher) => {
@@ -341,7 +339,6 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
     }
 
     const checkUserVoucher: Request_CheckUserVoucher = {
-      User_Code: sessionStorage.getItem('userCode'),
       List_Cart: this.checkout.List_Cart,
       List_UserVoucher: userVouchers
     };
@@ -692,7 +689,6 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
 
     const request: Request_MemberAddress = {
       SelectMode: 1,
-      User_Code: sessionStorage.getItem('userCode'),
       AFP_UserFavourite: this.requestAddress
     };
 
@@ -745,7 +741,6 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
           // });
           this.appService.openBlock();
           const createOrder: Request_CreateOrder = {
-            User_Code: sessionStorage.getItem('userCode'),
             List_Cart: this.checkout.List_Cart,
             List_UserVoucher: this.userVouchers,
             List_Order: orders
@@ -758,11 +753,20 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
               });
             } else {
               this.checkOut = false;
-              if (this.appService.isApp === null) {
-                this.modal.show('message', { initialState: { success: false, message: `${coResult.List_DiscontinuedProducts}已下架，無法購買`, queryParams1:  { referrer: 'illegal' } , showType: 1, singleBtnMsg: `我知道了`, target: '/Shopping/ShoppingCart' } });
+              if (this.appService.isApp !== 1) {
+                this.modal.show('message', { initialState: {
+                  success: false,
+                  message: `${coResult.List_DiscontinuedProducts}已下架，無法購買`,
+                  queryParams1:  { referrer: 'illegal' } ,
+                  showType: 1,
+                  checkBtnMsg: `我知道了`,
+                  target: '/Shopping/ShoppingCart' } });
               } else {
                 // 如果是APP，則按我知道了時APP把此頁關掉
-                this.modal.confirm({ initialState: { message: `${coResult.List_DiscontinuedProducts}已下架，無法購買`, checkBtnTxt: '我知道了', showCancel: false } }).subscribe(res => {
+                this.modal.confirm({ initialState: {
+                  message: `${coResult.List_DiscontinuedProducts}已下架，無法購買`,
+                  checkBtnTxt: '我知道了',
+                  showCancel: false } }).subscribe(res => {
                   if (res) {
                     this.callApp.appWebViewClose();
                   }
@@ -773,7 +777,12 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
         }
       });
     } else {
-      this.modal.show('message', { initialState: { success: false, message: result.message, showType: 1 } });
+      this.modal.show('message', {
+        initialState: {
+        success: false,
+        message: result.message,
+        showType: 1 }
+      });
     }
   }
 

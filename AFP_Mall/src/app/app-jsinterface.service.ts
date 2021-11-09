@@ -7,6 +7,7 @@ declare var AppJSInterface: any;
 })
 /** Call APP所需的Interface都會在這裡 */
 export class AppJSInterfaceService {
+  AppJSInterface: any;
 
 
   constructor(private appService: AppService) { }
@@ -15,14 +16,12 @@ export class AppJSInterfaceService {
    * @param isOpen true: 開 , false: 關
    */
    appShowMobileFooter(isOpen: boolean): void {
-    if (this.appService.isApp !== null) {
-      if (navigator.userAgent.match(/android/i)) {
-        //  Android
-        AppJSInterface.showBottomBar(isOpen);
-      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-        //  IOS
-        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showBottomBar', isShow: isOpen });
-      }
+    if (navigator.userAgent.match(/android/i)) {
+      //  Android
+      AppJSInterface.showBottomBar(isOpen);
+    } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+      //  IOS
+      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showBottomBar', isShow: isOpen });
     }
   }
 
@@ -30,7 +29,7 @@ export class AppJSInterfaceService {
    * @param isShowBt true: 開 , false: 關
    */
    appShowBackButton(isShowBt: boolean): void {
-    if (this.appService.isApp !== null) {
+    if (this.appService.isApp === 1) {
       if (navigator.userAgent.match(/android/i)) {
         // Android
         AppJSInterface.showBackButton(isShowBt);
@@ -45,7 +44,7 @@ export class AppJSInterfaceService {
    * @param isOpen true: 關閉 false: 開啟
    */
   appWebViewbutton(isOpen: boolean): void {
-    if (this.appService.isApp !== null) {
+    if (this.appService.isApp === 1) {
       if (navigator.userAgent.match(/android/i)) {
         //  Android
         AppJSInterface.showCloseButton(isOpen);
@@ -58,12 +57,14 @@ export class AppJSInterfaceService {
 
   /** 通知App關閉web view */
   appWebViewClose(): void {
-    if (navigator.userAgent.match(/android/i)) {
-      //  Android
-      AppJSInterface.back();
-    } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-      //  IOS
-      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'back' });
+    if (this.appService.isApp === 1) {
+      if (navigator.userAgent.match(/android/i)) {
+        //  Android
+        AppJSInterface.back();
+      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+        //  IOS
+        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'back' });
+      }
     }
   }
 
@@ -71,25 +72,50 @@ export class AppJSInterfaceService {
    * @param code 商店code
    */
   goAppExploreDetail(code: number): void {
-    if (navigator.userAgent.match(/android/i)) {
-      //  Android
-      AppJSInterface.goAppExploreDetail(code);
-    } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-      //  IOS
-      (window as any).webkit.messageHandlers.AppJSInterface
-      .postMessage({ action: 'goAppExploreDetail', storeId: code });
+    if (this.appService.isApp === 1) {
+      if (navigator.userAgent.match(/android/i)) {
+        //  Android
+        AppJSInterface.goAppExploreDetail(code);
+      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+        //  IOS
+        (window as any).webkit.messageHandlers.AppJSInterface
+        .postMessage({ action: 'goAppExploreDetail', storeId: code });
+      }
     }
   }
 
   /** 如果是app，開啟產品資訊頁時導到原生產品資訊頁 */
   goAppShoppingDetail(code: number, code1: number): void {
-    if (navigator.userAgent.match(/android/i)) {
-      //  Android
-      AppJSInterface.goAppShoppingDetail(code, code1);
-    } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-      //  IOS
-      (window as any).webkit.messageHandlers.AppJSInterface
-      .postMessage({ action: 'goAppShoppingDetail', productId: code, userDefineCode: code1 });
+    if (this.appService.isApp === 1) {
+      if (navigator.userAgent.match(/android/i)) {
+        //  Android
+        AppJSInterface.goAppShoppingDetail(code, code1);
+      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+        //  IOS
+        (window as any).webkit.messageHandlers.AppJSInterface
+        .postMessage({ action: 'goAppShoppingDetail', productId: code, userDefineCode: code1 });
+      }
     }
   }
+
+  /** 通知APP登入idToken
+   * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/responseapimodel-api-mobii
+   */
+   getLoginData(userInfo: string, code: string, name: string): void {
+    if (this.appService.isApp === 1) {
+      if (navigator.userAgent.match(/android/i)) {
+        //  Android
+        AppJSInterface.getLoginData(userInfo, code, name);
+      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+        //  IOS
+        if ((window as any).webkit) {
+          if ((window as any).webkit.messageHandlers) {
+            (window as any).webkit.messageHandlers.AppJSInterface.postMessage({
+              action: 'getLoginData', idToken: userInfo, userCode: code, userName: name});
+          }
+        }
+      }
+    }
+  }
+
 }

@@ -1,0 +1,73 @@
+<div class="wrap container">
+  <header *ngIf="viewType !== '2'">
+      <div class="header-secondary container linebt-row">
+          <div class="index-flex justify-content-between">
+              <div class="item two">
+                  <!-- <div *ngIf="appService.isApp !== 1" [hidden]="viewType !== '0'" class="close-btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁">
+                      <i class="material-icons">&#xe314;</i>
+                  </div> -->
+              </div>
+              <div class="item three text-center">
+                  <div class="title-name">{{viewTitle}}</div>
+              </div>
+              <div class="item two text-right">
+                  <div class="close-btn"></div>
+              </div>
+          </div>
+      </div>
+  </header>
+  <main>
+    <div class="content">
+      <div class="logo-box">
+        <img alt="logo" src="/img/share/mlogo.png">
+      </div>
+      <div *ngIf="viewType==='0'" class="px-3">
+        <p class="text-danger text-center w-100">Mobii 系統升級變強，<br>
+        新會員、舊會員都需要重新註冊哦！</p>
+        <p>親愛的用戶目前因『會員登入系統』將全面升級，故須重新註冊及手機驗證。
+        <br>(原會員資料、M Points、已領取之優惠券、商品訂單與既有服務並不受到影響。)</p>
+        <p>新註冊會員須知：
+        <br>新註冊會員的朋友，請點擊"登入/註冊"按鈕，進行手機驗證及設定帳號密碼，也可使用第三方帳號進行登入，完成後即可成為Mobii會員。</p>
+        <p>舊會員須知：
+        <br>若您已是 Mobii 會員，仍須重新進行手機驗證，如先前是以『手機號碼』或『第三方帳號』方式登入，
+        請務必以<span class="text-danger">當初註冊於 Mobii 的手機號碼</span>進行驗證，驗證完後即重新成為Mobii會員。
+        <br>(如用第三方帳號登入之用戶，請登入網站後至"帳號設定"內進行密碼設置。)</p>
+      </div>
+      <div *ngIf="viewType==='1'">
+        <p class="text-center">因應目前『會員登入系統』全面升級，您目前擁有多個Mobii帳號需進行整合，請您選擇以下最常用的帳號作為升級綁定之用，如未選定，系統將自動幫您選擇"點數最多"的帳戶為優先綁定，剩餘帳號則為變成註銷狀態，如有綁定疑問，請洽Mobii客服詢問(02-2707-8600#14)。</p>
+        <ul>
+          <li class="mb-2">
+            <div class="form-inline" *ngFor="let item of List_MultipleUser; let i = index">
+              <input type="radio" name="checkUUID" (click)="UserInfoId = item.UserInfoId" [id]="'i'+i"
+                class="form-check-input radioBgOrg" [checked]="i===0">
+              <label class="form-check-label" [for]="'i'+i">
+                <div class="p-3">
+                  UUID：{{item.UserInfoUuid}}<br>
+                  目前點數：{{item.UserInfoPoint}}<br>
+                  <div *ngIf="item.UserLoginStateLoginTime">上次登入時間：{{item.UserLoginStateLoginTime}}<br></div>
+                </div>
+              </label>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </main>
+  <footer class="shopping-cartfooter order-go-pay">
+    <div class="fixed-bottom container fixed-shadow" *ngIf="viewType==='0' || viewType==='1'">
+      <div *ngIf="viewType==='0'" class="p-3">
+        <button type="button" (click)="onLoginEyes()" class="btn index-btn w-100 login-ok" id="loginEyesBtn">前往登入註冊</button>
+      </div>
+      <div *ngIf="viewType==='1'" class="p-3">
+        <button type="button" (click)="onGetToken(grantCode, UserInfoId)" class="btn index-btn w-100 login-ok">立即升級綁定</button>
+      </div>
+    </div>
+    <div *ngIf="viewType==='0' || viewType==='2'">
+      <form [(action)]="AuthorizationUri" method="POST" id="oauthLoginForm" #oauthLoginForm>
+        <div *ngFor="let item of viewList">
+          <input type="hidden" [name]="item.name" [value]="item.value" *ngIf="item.name !=='AuthorizationUri'">
+        </div>
+      </form>
+    </div>
+  </footer>
+</div>

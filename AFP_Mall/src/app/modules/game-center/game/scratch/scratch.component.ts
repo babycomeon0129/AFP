@@ -1,6 +1,7 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, Input, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { AppService } from '@app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Response_Games, Request_Games, AFP_GamePart } from '@app/_models';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { layerAnimation, layerAnimationUp } from '@app/animations';
@@ -52,7 +53,7 @@ export class ScratchComponent implements OnInit, AfterViewInit {
   /** 允許進行遊戲。需使用者點擊扣點確認視窗的「確認」才允許進行遊戲 */
   public goPlay = false;
 
-  constructor(public appService: AppService, public modal: ModalService, private route: ActivatedRoute) {
+  constructor(public appService: AppService, public oauthService: OauthService, public modal: ModalService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -104,7 +105,9 @@ export class ScratchComponent implements OnInit, AfterViewInit {
   /** 使用者在畫布的行為事件-用者按下滑鼠按鈕時開始繪製 */
   eventDown(ev: { preventDefault: () => void; }): void {
     ev.preventDefault();
-    if (this.appService.loginState) {
+    if (!this.appService.loginState) {
+      this.appService.logoutModal();
+    } else {
       // 先判斷該遊戲是否為可遊玩狀態，0: 不可遊玩(未完成綁卡等條件，條件由後端判定) 1:可遊玩
       if (this.gameData.GameState) {
         // 若可玩次數 === 0或是所剩點數不夠遊完一次，則阻擋使用者進行遊戲
@@ -135,8 +138,6 @@ export class ScratchComponent implements OnInit, AfterViewInit {
       } else {
         this.noGameStateAlert.emit();
       }
-    } else {
-      this.appService.loginPage();
     }
   }
   /** 使用者在畫布的行為事件-放開滑鼠按鈕的動作、在刮刮樂touchend的動作。當出現上述動作時，停止繪製 */
@@ -204,7 +205,6 @@ export class ScratchComponent implements OnInit, AfterViewInit {
           this.mousedown = false;
           // call api 取得開獎結果、總點數、可玩次數
           const request: Request_Games = {
-            User_Code: sessionStorage.getItem('userCode'),
             SelectMode: 1,
             Game_Code: this.gameData.AFP_Game.Game_Code,
             SearchModel: {

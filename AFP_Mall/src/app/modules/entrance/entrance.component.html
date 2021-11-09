@@ -28,11 +28,11 @@
     <!-- 手機版 上方banner -->
     <section class="mobii-bnbox">
       <div class="userbox mr-auto">
-        <div *ngIf="appService.loginState" class="txt-line-clamp1 user-hi">你好，{{appService.userName}}</div>
+        <div *ngIf="appService.loginState===true" class="txt-line-clamp1 user-hi">你好，{{appService.userName}}</div>
         <ul class="m-bnbox-item">
           <li class="txt-line-clamp1">
             <img src="img/share/mobiicoin.png" alt="" class="mr-1 h20">
-            <span class="user-mobii">{{appService.loginState? (userPoint | currency: '':'':'1.0-0') : '--'}}</span>點
+            <span class="user-mobii">{{appService.loginState===true ? (userPoint | currency: '':'':'1.0-0') : '--'}}</span>點
           </li>
         </ul>
       </div>
@@ -338,7 +338,7 @@
             </div>
           </div>
         </div>
-        <div class="service-box bt1-solid" [hidden]="!appService.loginState">
+        <div class="service-box bt1-solid" [hidden]="appService.loginState===false">
           <!-- 我的服務 -->
           <div class="title-item pt-3">
             我的服務<span class="pl-2 small text-muted editnote1">長按可以拖動排序</span>
@@ -403,7 +403,7 @@
 <div class="bearservice">
   <div class="scroll-top-wrapper">
     <span class="scroll-top-inner">
-      <button (click)="toggle();" type="button" id="webservice">
+      <button (click)="appService.showJustka(this.JustKaUrl)" type="button" id="webservice">
         <img [lazyLoad]="'img/index/icons/for-pc/icon_service.png'" class="justka-img"
           [defaultImage]="appService.defaultImage"></button>
     </span>
@@ -416,3 +416,12 @@
 <app-go-top></app-go-top>
 <app-pc-footer></app-pc-footer>
 <app-mobile-footer></app-mobile-footer>
+
+<section class="cookieNotifyBox" *ngIf="cookieShow==='0'">
+  <div class="cookieNotify container">
+    <p>本網站使用cookie以為確保使用者獲得最佳體驗，請您務必查閱
+      <a href="/Info/Privacy" target="_black" style="color: #fff;">[隱私權政策]</a>
+      ，如您繼續使用本網站，即表示您確認並同意本網站的隱私權政策。</p>
+    <button type="button" (click)="cookieShowClick()">我知道了</button>
+  </div>
+</section>

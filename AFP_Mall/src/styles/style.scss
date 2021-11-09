@@ -1,12 +1,12 @@
-@import 'src/styles/module/variable';
-@import 'src/styles/module/global';
-@import 'src/styles/layer/header.scss';
-@import 'src/styles/layer/bs4modal.scss';
-@import 'src/styles/layer/swiperSet.scss';
-@import 'src/styles/layer/flex.scss';
-@import 'src/styles/layer/navlink.scss';
-@import 'src/styles/layer/footer.scss';
-@import 'src/styles/layer/serviceQA.scss';
+@import './module/variable';
+@import './module/global';
+@import './layer/header.scss';
+@import './layer/bs4modal.scss';
+@import './layer/swiperSet.scss';
+@import './layer/flex.scss';
+@import './layer/navlink.scss';
+@import './layer/footer.scss';
+@import './layer/serviceQA.scss';
 
 .container{
   padding-right: 0;
@@ -529,7 +529,6 @@ button.btn{
   white-space: nowrap;
 }
 .edit-btn,
-.next-btn,
 .index-btn{
   color: #fff;
   background: $index-default;
@@ -551,6 +550,12 @@ button.btn{
     text-align: center;
     display: inline-block;
     padding: .25em .5em;
+  }
+  &.left-btn {
+    color: #fff;
+    background: #F99C12;
+    border-radius: 30px;
+    white-space: nowrap;
   }
 }
 .index-outline-btn{
@@ -1428,4 +1433,21 @@ img.nearbyimg{
     100%{ -webkit-transform: rotate(360deg); transform: rotate(360deg);}
   }
 
+}
+
+
+// app 內debug用
+.for-app-debug-box {
+  position: fixed;
+  z-index: 99999999;
+  background-color: #ffffff;
+  top: 10%;
+  height: 80vh;
+  width: 100%;
+  border: 1px solid #000;
+  overflow: scroll;
+  #loginRequest {
+    padding: 10px;
+    background-color: rgb(255, 255, 183);
+  }
 }

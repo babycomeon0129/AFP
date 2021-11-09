@@ -3,14 +3,15 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AppService } from '@app/app.service';
 import { Model_ShareData, AFP_UserFavourite } from '@app/_models';
-import { Response_MemberProfile } from '../member.component';
 import { ModalService } from '@app/shared/modal/modal.service';
-import { MemberService } from '../../member.service';
+import { MemberService } from '@app/modules/member/member.service';
 import { layerAnimation, layerAnimationUp } from '@app/animations';
 import { Meta, Title } from '@angular/platform-browser';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { environment } from '@env/environment';
-
+import { Response_MemberProfile, Request_MemberThird, Response_MemberThird,
+  AFP_UserThird } from '@app/modules/member/member/member.component';
+import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 
 @Component({
   selector: 'app-my-profile',
@@ -38,8 +39,17 @@ export class MyProfileComponent implements OnInit {
   /** 同頁滑動切換 0:本頁 1:開啟瀏覽檔案上傳  */
   public layerTrigUp = 0;
 
+  /** 我的檔案資料 */
+  public userProfile: Response_MemberProfile = new Response_MemberProfile();
+  /** 第三方資訊 */
+  public FBThird: boolean;
+  public GoogleThird: boolean;
+  public AppleThird: boolean;
+  public LineThird: boolean;
+
   constructor(public appService: AppService, public modal: ModalService, public memberService: MemberService,
-              private meta: Meta, private title: Title, private localeService: BsLocaleService, private cookieService: CookieService) {
+              private meta: Meta, private title: Title, private localeService: BsLocaleService,
+              private callApp: AppJSInterfaceService, private cookieService: CookieService) {
     this.title.setTitle('我的檔案 - Mobii!');
     this.meta.updateTag({ name: 'description', content: '' });
     this.meta.updateTag({ content: '我的檔案 - Mobii!', property: 'og:title' });
@@ -48,7 +58,40 @@ export class MyProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.memberService.readProfileData();
+    if (this.cookieService.get('M_idToken') !== '' && this.cookieService.get('M_idToken') !== 'undefined') {
+      this.memberService.readProfileData();
+      this.readThirdData();
+    }
+  }
+
+  /** 讀取社群帳號（會員首頁、社群帳號綁定皆會使用） */
+  readThirdData(): void {
+    const request: Request_MemberThird = {
+      SelectMode: 3,
+    };
+    this.appService.toApi('Member', '1506', request).subscribe((data: Response_MemberThird) => {
+      if (data !== null) {
+        /** 類型 1: Facebook 2: Line 3: Google 4: WeChat 5: Apple */
+        data.List_UserThird.forEach((value) => {
+          switch (value.UserThird_Mode) {
+            case 1: //  FB
+              this.FBThird = true;
+              break;
+            case 2: //  Line
+              this.LineThird = true;
+              break;
+            case 3: //  Google
+              this.GoogleThird = true;
+              break;
+            case 5: // Apple
+              this.AppleThird = true;
+              break;
+            default:
+              break;
+          }
+        });
+      }
+    });
   }
 
   /** 性別轉換  */
@@ -69,11 +112,11 @@ export class MyProfileComponent implements OnInit {
   onProfileSubmit(form: NgForm): void {
     this.appService.openBlock();
     this.memberService.userProfile.SelectMode = 3;
-    this.memberService.userProfile.User_Code = sessionStorage.getItem('userCode');
     if (this.memberService.userProfile.UserProfile_Birthday !== null) {
         if (this.memberService.userProfile.UserProfile_Birthday.getMonth() < new Date().getMonth()) {
           this.memberService.userProfile.UserProfile_Birthday =
-            new Date(this.memberService.userProfile.UserProfile_Birthday.getTime() - this.memberService.userProfile.UserProfile_Birthday.getTimezoneOffset() * 60 * 1000);
+            new Date(this.memberService.userProfile.UserProfile_Birthday.getTime() -
+            this.memberService.userProfile.UserProfile_Birthday.getTimezoneOffset() * 60 * 1000);
         }
     }
     this.appService.toApi('Member', '1502', this.memberService.userProfile).subscribe((data: Response_MemberProfile) => {
@@ -81,7 +124,8 @@ export class MyProfileComponent implements OnInit {
       this.memberService.readProfileData().then(() => {
         // 更新session 和 app.service 中的 userName 讓其他頁面名稱同步
         sessionStorage.setItem('userName', this.memberService.userProfile.User_NickName);
-        this.cookieService.set('userName', this.memberService.userProfile.User_NickName, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+        this.cookieService.set('userName', this.memberService.userProfile.User_NickName, 90, '/',
+        environment.cookieDomain, environment.cookieSecure, 'Lax');
         this.appService.userName = this.memberService.userProfile.User_NickName;
       });
       this.editMode = false;
@@ -100,7 +144,6 @@ export class MyProfileComponent implements OnInit {
     const request: Request_MemberCertificate = {
       /** 區別操作(通用) 1:新增 2:刪除 3:編輯 4:查詢列表 5:查詢詳細 */
       SelectMode: 4,
-      User_Code: sessionStorage.getItem('userCode'),
       AFP_UserFavourite: {
         UserFavourite_ID: 0,
         UserFavourite_Number1: CertificateType,
@@ -165,7 +208,6 @@ export class MyProfileComponent implements OnInit {
         this.appService.openBlock();
         const request: Request_MemberCertificate = {
           SelectMode: (this.userCertificate.UserFavourite_ID > 0) ? 3 : 1,
-          User_Code: sessionStorage.getItem('userCode'),
           AFP_UserFavourite: this.userCertificate
         };
         this.appService.toApi('Member', '1513', request).subscribe((data: Response_MemberCertificate) => {

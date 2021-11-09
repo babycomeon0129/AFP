@@ -7,7 +7,8 @@ import { MissionComponent } from './mission.component';
 
 
 const routes: Routes = [
-  { path: '', canActivate: [SessionAliveGuard],  component: MissionComponent}
+  { path: '',  component: MissionComponent}
+  // { path: '', canActivate: [SessionAliveGuard],  component: MissionComponent}
 ];
 
 @NgModule({

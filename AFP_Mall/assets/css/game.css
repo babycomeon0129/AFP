@@ -1,0 +1,165 @@
+.bg-mission {
+  background: #005792;
+}
+
+.dedpoint {
+  font-size: small;
+  color: #182B56;
+}
+
+.text-mission {
+  font-size: .9em;
+  color: #005792;
+}
+
+.img-fluid {
+  width: 100%;
+  height: auto;
+}
+
+.conopybox-top {
+  padding: 1.2em 0;
+  background: transparent !important;
+  position: relative;
+}
+
+.conopybox-top img {
+  height: 2em;
+}
+
+.conopybox-top .conopybox {
+  position: absolute;
+  top: 0px;
+  width: 100%;
+  height: 40px;
+  display: flex;
+  overflow: hidden;
+  justify-content: center;
+}
+
+.conopybox-top .canopy-l {
+  background-image: url("/img/mission/canopy_l.png");
+  background-position: right;
+  background-repeat: repeat-x;
+  background-size: contain;
+  flex: auto;
+  height: 40px;
+  min-width: 92px;
+}
+
+@media (max-width: 375px) {
+  .conopybox-top .canopy-l {
+    display: none;
+  }
+}
+
+.conopybox-top .canopy-c {
+  background-image: url("/img/mission/canopy_c.png");
+  background-position: center;
+  background-repeat: repeat-x;
+  background-size: contain;
+  min-width: 383px;
+  height: 40px;
+}
+
+@media (max-width: 375px) {
+  .conopybox-top .canopy-c {
+    width: 100%;
+    height: 40px;
+  }
+}
+
+.conopybox-top .canopy-r {
+  background-image: url("/img/mission/canopy_r.png");
+  background-position: left;
+  background-repeat: repeat-x;
+  background-size: contain;
+  flex: auto;
+  height: 40px;
+  min-width: 92px;
+}
+
+@media (max-width: 375px) {
+  .conopybox-top .canopy-r {
+    display: none;
+  }
+}
+
+.mobiicoin-num {
+  font-size: 1.2em;
+  font-weight: 700;
+  color: #FD5F00;
+}
+
+.brder-mission {
+  border-bottom: 4px solid #418BBD;
+  border-right: 4px solid #418BBD;
+  border-left: 4px solid #0A3450;
+  border-top: 1px solid #0A3450;
+}
+
+.winmsg {
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.winmsg .winbtn {
+  position: absolute;
+  right: 0;
+  font-size: 1.5em;
+  color: #182B56;
+}
+
+.winmsg .winbox {
+  background-image: url("/img/mission/bg-win.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.winmsg .winbox .wincontbox {
+  background-color: #fff;
+  text-align: center;
+  align-items: center;
+  border: 1px solid #f8f8f8;
+  border-radius: .5em;
+  padding: 1em;
+  margin: 2em 1em;
+  box-shadow: 5px 10px 8px #eee;
+}
+
+.winmsg .winbox .wincontbox img {
+  max-width: 100px;
+}
+
+.scratch-rules .rulescontext,
+.luckspin-rules .rulescontext {
+  padding: 1em;
+}
+
+.scratch-rules .rulescontext label,
+.luckspin-rules .rulescontext label {
+  font-weight: 700;
+}
+
+.scratch-rules .rulescontext ul,
+.luckspin-rules .rulescontext ul {
+  padding: 0 1em 1em 1em;
+}
+
+.scratch-rules .rulescontext ul li,
+.luckspin-rules .rulescontext ul li {
+  font-size: small;
+}
+
+.warning-note {
+  padding: 1em 2em;
+  font-size: x-small;
+  color: #f8f8f8;
+  background: #182B56;
+}
+/*# sourceMappingURL=game.css.map */

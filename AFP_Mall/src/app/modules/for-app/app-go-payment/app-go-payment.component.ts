@@ -22,7 +22,6 @@ export class AppGoPaymentComponent implements OnInit {
 
     this.appService.isApp = 1;
     const request: Request_ECCart = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 6, // 查詢
       SearchModel: {
         Cart_Code: 0, // 購物車Code

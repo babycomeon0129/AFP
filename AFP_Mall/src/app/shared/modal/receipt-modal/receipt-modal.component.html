@@ -117,7 +117,7 @@
       </div>
       <div class="px-2 pb-4 mb-4">收據如需更改請於次月5號前通知,逾期恕無法辦理。
         <!-- 若是APP訪問則先隱藏下載鈕 -->
-        <button [hidden]="appService.isApp !== null" (click)="download()" type="button" class="btn bluedk-outline-btn">下載收據圖檔</button>
+        <button [hidden]="appService.isApp === 1" (click)="download()" type="button" class="btn bluedk-outline-btn">下載收據圖檔</button>
       </div>
       <fieldset>
         <div>

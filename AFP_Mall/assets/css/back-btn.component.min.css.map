@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../../src/app/shared/widget/back-btn/back-btn.component.scss"
+    ],
+    "names": [],
+    "file": "back-btn.component.min.css"
+}

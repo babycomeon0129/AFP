@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from '@app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { AFP_UserFavourite, AFP_UserReport, Request_MemberAddress, Response_MemberAddress } from '@app/_models';
 import { NgForm } from '@angular/forms';
 import { ModalService } from '@app/shared/modal/modal.service';
@@ -32,7 +33,8 @@ export class MyAddressComponent implements OnInit {
   /** 同頁滑動切換 0: 本頁 1:縣市區  2:行政區 */
   public layerTrig = 0;
 
-  constructor(public appService: AppService, public modal: ModalService, private meta: Meta, private title: Title) {
+  constructor(public appService: AppService, private oauthService: OauthService,
+              public modal: ModalService, private meta: Meta, private title: Title) {
     this.title.setTitle('我的地址 - Mobii!');
     this.meta.updateTag({ name: 'description', content: '' });
     this.meta.updateTag({ content: '我的地址 - Mobii!', property: 'og:title' });
@@ -45,10 +47,11 @@ export class MyAddressComponent implements OnInit {
 
   /** 讀取地址列表，及「新增地址」中的縣市和行政區 */
   onGetAddressList(): void {
-    if (this.appService.loginState) {
+    if (!this.appService.loginState) {
+      this.appService.logoutModal();
+    } else {
       const request: Request_MemberAddress = {
         SelectMode: 4,
-        User_Code: sessionStorage.getItem('userCode')
       };
       this.appService.toApi('Member', '1503', request).subscribe((data: Response_MemberAddress) => {
         // 地址列表
@@ -67,8 +70,6 @@ export class MyAddressComponent implements OnInit {
           }
         }
       });
-    } else {
-      this.appService.loginPage();
     }
   }
 
@@ -76,12 +77,13 @@ export class MyAddressComponent implements OnInit {
    * @param addressId 地址ID
    */
   onReadAddressDetail(addressID: number): void {
-    if (this.appService.loginState) {
+    if (!this.appService.loginState) {
+      this.appService.logoutModal();
+    } else {
       if (addressID > 0) {
         this.appService.openBlock();
         const request: Request_MemberAddress = {
           SelectMode: 5,
-          User_Code: sessionStorage.getItem('userCode'),
           AFP_UserFavourite: {
             UserFavourite_ID: addressID,
             UserFavourite_CountryCode: 886,
@@ -103,8 +105,6 @@ export class MyAddressComponent implements OnInit {
 
       this.addressId = addressID;
       this.showDetail = true;
-    } else {
-      this.appService.loginPage();
     }
   }
 
@@ -136,7 +136,6 @@ export class MyAddressComponent implements OnInit {
     }
     const request: Request_MemberAddress = {
       SelectMode: (this.addressId) > 0 ? 3 : 1,
-      User_Code: sessionStorage.getItem('userCode'),
       AFP_UserFavourite: this.requestAddress
     };
     this.appService.toApi('Member', '1503', request).subscribe(() => {
@@ -155,7 +154,6 @@ export class MyAddressComponent implements OnInit {
       if (res) {
         const request: Request_MemberAddress = {
           SelectMode: 2,
-          User_Code: sessionStorage.getItem('userCode'),
           AFP_UserFavourite: {
             UserFavourite_ID: this.addressId,
             UserFavourite_CountryCode: 886,

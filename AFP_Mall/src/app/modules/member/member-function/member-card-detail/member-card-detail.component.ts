@@ -4,6 +4,7 @@ import { ModalService } from '@app/shared/modal/modal.service';
 import { AFP_UserFavourite, Request_MemberMyCard, Response_MemberMyCard } from '@app/modules/member/_module-member';
 import { NgForm } from '@angular/forms';
 import { AppService } from '@app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 
@@ -31,8 +32,10 @@ export class MemberCardDetailComponent implements OnInit {
   public userFavouriteID: string;
   /** 卡片類型 */
   public userFavouriteTypeCode: string;
+  /** 卡片類型名稱 */
+  public userFavouriteTypeName: string;
 
-  constructor(public appService: AppService, public modal: ModalService, public bsModalRef: BsModalRef,
+  constructor(public appService: AppService, private oauthService: OauthService, public modal: ModalService, public bsModalRef: BsModalRef,
               private meta: Meta, private title: Title, private route: ActivatedRoute, private router: Router) {
     this.title.setTitle('我的卡片 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 我的卡片。你可以新增信用卡、悠遊卡或一卡通等卡片，並在 Mobii! APP 或網頁上，使用這些卡片來購物、支付或乘車。' });
@@ -48,13 +51,25 @@ export class MemberCardDetailComponent implements OnInit {
       this.onReadCardDetail();
     }
     this.cardGroupLink = false;
+    switch (this.userFavouriteTypeCode) {
+      case '1':
+        this.userFavouriteTypeName = '一卡通';
+        break;
+      case '11':
+        this.userFavouriteTypeName = '悠遊卡';
+        break;
+      case '12':
+        this.userFavouriteTypeName = '虛擬卡';
+        break;
+      default:
+        break;
+    }
   }
 
   /** 讀取卡片詳細 */
   onReadCardDetail() {
     if (this.appService.loginState) {
       const request: Request_MemberMyCard = {
-        User_Code: sessionStorage.getItem('userCode'),
         SelectMode: 5,
         AFP_UserFavourite: {
           UserFavourite_CountryCode: 886,
@@ -93,8 +108,6 @@ export class MemberCardDetailComponent implements OnInit {
           this.cardGroupList = this.requestCard.CardGroup_List.filter(item => (item.CardGroup_Link !== null && item.CardGroup_State === 0));
         }
       });
-    } else {
-      this.appService.loginPage();
     }
   }
 
@@ -109,7 +122,6 @@ export class MemberCardDetailComponent implements OnInit {
     this.requestCard.UserFavourite_Text1 = form.value.UcardName;
 
     const request: Request_MemberMyCard = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 3, // 修改
       AFP_UserFavourite: this.requestCard,
       SearchModel: {
@@ -127,7 +139,6 @@ export class MemberCardDetailComponent implements OnInit {
     this.modal.confirm({ initialState: { message: '是否確定解除此會員卡?' } }).subscribe(res => {
       if (res) {
         const request: Request_MemberMyCard = {
-          User_Code: sessionStorage.getItem('userCode'),
           SelectMode: 2,
           AFP_UserFavourite: {
             UserFavourite_ID: parseInt(this.userFavouriteID, 10),

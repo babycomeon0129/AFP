@@ -49,17 +49,17 @@ export class Request_MemberProfile extends Model_ShareData {
 /** 會員中心我的檔案 - ResponseModel */
 export class Response_MemberProfile extends Model_ShareData {
   /** 人員帳號 */
-  UserAccount: string;
+  UserAccount?: string;
   /** 暱稱 */
   User_NickName: string;
   /** 人員姓名 */
-  UserProfile_Name: string;
+  UserProfile_Name?: string;
   /** 生日 */
-  UserProfile_Birthday: Date;
+  UserProfile_Birthday?: Date;
   /** E-Mail */
-  UserProfile_Email: string;
+  UserProfile_Email?: string;
   /** 隱碼E-Mail */
-  UserProfile_HiddenEmail: string;
+  UserProfile_HiddenEmail?: string;
   /** 手機號碼 */
   UserProfile_Mobile: string;
   /** 是否有護照 */
@@ -71,7 +71,7 @@ export class Response_MemberProfile extends Model_ShareData {
   /** 是否有教師證 */
   UserProfile_TeacherID: boolean;
   /** 人員性別 */
-  UserProfile_Sex: number;
+  UserProfile_Sex?: number;
   /** 會員點數 */
   UserPoint: number;
   /** UUID */

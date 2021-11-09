@@ -1,0 +1,40 @@
+.faqbox button:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.faqbox button[aria-expanded="true"] i.material-icons {
+  transform: rotate(180deg);
+}
+
+.faqbox li {
+  padding: .5em;
+  color: #182B56;
+  border-bottom: 1px #eee solid;
+}
+
+.faqbox li .col-12 {
+  font-size: small;
+  color: gray;
+}
+
+.faqbox li .col-12 button {
+  padding: .75em 0;
+  font-size: small;
+  color: gray;
+  border-top: 1px #eee solid;
+}
+
+.faqbox li .col-12:first-child button {
+  border-top: 0;
+}
+
+.faqbox li .col-12 .abox {
+  background: #eee;
+  padding: 1em;
+}
+
+.faqbox li .col-12 li {
+  color: gray;
+}
+/*# sourceMappingURL=qa.css.map */

@@ -55,7 +55,7 @@
         </div>
         <div class="col-12 py-3">
           <button type="submit" class="btn index-btn footerBtn msg-open" value="msg-vphone" data-toggle="modal"
-            data-target="#messageModal" data-dismiss="modal"
+            data-dismiss="modal"
             [ngClass]="{'gray-btn': request.VerifiedInfo.CheckValue === null || changePwdForm.form.invalid}"
             [disabled]="request.VerifiedInfo.CheckValue === null || changePwdForm.form.invalid"
             aria-label="Close">立即驗證</button>

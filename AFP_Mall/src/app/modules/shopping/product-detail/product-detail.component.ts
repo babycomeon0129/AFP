@@ -1,6 +1,7 @@
 import { environment } from '@env/environment';
 import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { AppService } from '@app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import {
   Request_ECProductDetail, Response_ECProductDetail, AFP_Product, AFP_ECStore, AFP_Attribute, Request_ECCart,
   Response_ECCart, AFP_Voucher, AFP_ProductImg, CartStoreList
@@ -74,8 +75,9 @@ export class ProductDetailComponent implements OnInit {
   /** 同頁滑動切換 0:本頁 1:選擇商品規格 */
   public layerTrigUp = 0;
 
-  constructor(public appService: AppService, private router: Router, private route: ActivatedRoute, public modal: ModalService,
-    private cookieService: CookieService, private meta: Meta, private title: Title) {
+  constructor(public appService: AppService, private oauthService: OauthService,
+              private router: Router, private route: ActivatedRoute, public modal: ModalService,
+              private cookieService: CookieService, private meta: Meta, private title: Title) {
     this.productCode = parseInt(this.route.snapshot.params.Product_Code, 10);
     this.productDirCode = parseInt(this.route.snapshot.params.ProductDir_Code, 10);
     this.cartCode = Number(this.cookieService.get('cart_code'));
@@ -218,12 +220,11 @@ export class ProductDetailComponent implements OnInit {
   onAddToCart() {
     if (this.productIsBuy) {
       if (this.productInfo.Product_Type === 21 && !this.appService.loginState) { // 電子票券: 先確認已登入
-        this.appService.loginPage();
+        this.appService.logoutModal();
       } else if (this.productInfo.Product_Type === 2) { // 外部商品直接外連到外部頁面
         window.open(this.productInfo.Product_URL);
       } else {  // 一般商品 & 電子票券(已登入) 走以下流程
         const request: Request_ECCart = {
-          User_Code: sessionStorage.getItem('userCode'),
           SelectMode: 1,
           Cart_Count: this.cartCount,
           SearchModel: {
@@ -296,7 +297,7 @@ export class ProductDetailComponent implements OnInit {
           } else {
             this.buybtnTxt = '銷售一空';
             this.productIsBuy = data.Product_IsBuy;
-            this.modal.show('message', { initialState: { success: true, message: `${this.productInfo.Product_ExtName}已下架，無法購買`, showType: 1, singleBtnMsg: `我知道了` } });
+            this.modal.show('message', { initialState: { success: true, message: `${this.productInfo.Product_ExtName}已下架，無法購買`, showType: 1, checkBtnMsg: `我知道了` } });
           }
         });
       }

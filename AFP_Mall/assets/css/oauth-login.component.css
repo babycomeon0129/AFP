@@ -1,0 +1,78 @@
+@charset "UTF-8";
+.content {
+  background: #fafafa;
+  width: 100%;
+  height: calc(100vh - 140px);
+}
+
+.content p {
+  padding-top: .5em;
+  padding-bottom: .5em;
+}
+
+.logo-box {
+  padding-top: 2em;
+  width: 100%;
+  text-align: center;
+}
+
+.logo-box img {
+  width: 160px;
+}
+
+ul li {
+  background: white;
+  padding: .5em 1em;
+  margin-top: .25em;
+}
+
+input[type='radio'].radioBgOrg {
+  --active: #FD5F00;
+  --border-hover: #FD5F00;
+}
+
+input[type='radio']:not(.switch) {
+  border-radius: 50%;
+}
+
+input[type='radio']:not(.switch):after {
+  color: #fff;
+  content: "✔";
+  width: 1px;
+  height: 1px;
+  border: 1px solid #FD5F00;
+  border-top: 0;
+  border-left: 0;
+  left: 3px;
+  top: -2px;
+  font-size: xx-large;
+}
+
+input[type='radio']:not(.switch):focus {
+  box-shadow: none;
+}
+
+input[type='radio'].switch {
+  width: 38px;
+  border-radius: 11px;
+}
+
+input[type='radio'].switch:after {
+  left: 2px;
+  top: 2px;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  background: var(--ab, var(--border));
+  transform: translateX(var(--x, 0));
+}
+
+input[type='radio'].switch:checked {
+  --ab: var(--active-inner);
+  --x: 17px;
+}
+
+input[type='radio'].switch:disabled:not(:checked):after {
+  opacity: .6;
+}
+/*# sourceMappingURL=oauth-login.component.css.map */

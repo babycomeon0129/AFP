@@ -53,13 +53,13 @@
         <!-- 特殊綁卡(廣告版位) -->
         <div class="my-card-box" *ngIf="cardADList.length > 0">
           <div class="p-2">
-            <p class="font-bold">特殊綁卡</p>
+            <p class="font-bold">專區</p>
           </div>
           <div class="p-0">
             <div class="row w-100">
               <div class="col-6" *ngFor="let cardImg of cardADList">
                 <div class="mycard-container">
-                  <a [routerLink]="[cardImg.ADImg_URL]" [target]="[cardImg.ADImg_URLTarget]">
+                  <a href="javascript:;" (click)="appService.jumpHref(cardImg.ADImg_URL, cardImg.ADImg_URLTarget)">
                     <div class="card-img-box">
                       <div class="rwdimg h60" [lazyLoad]="cardImg.ADImg_Img" [defaultImage]="appService.defaultImage"></div>
                     </div>
@@ -188,7 +188,7 @@
             </ul>
           </div>
           <div class="fixed-btn container">
-            <button type="submit" class="btn next-btn w-100"
+            <button type="submit" class="btn index-btn w-100"
             [ngClass]="{'unable': cardNumber.invalid || !isChecked}" [disabled]="cardNumber.invalid || !isChecked">確認</button>
           </div>
         </form>
@@ -224,11 +224,13 @@
               </div>
               <div class="item tied-card-content">
                 <div class="tied-card-tag">
-                  <span class="general-card">{{card.UserFavourite_TypeCode === 1 ? '一卡通' : '悠遊卡'}}</span>
+                  <span class="general-card" *ngIf="card.UserFavourite_TypeCode===1">一卡通</span>
+                  <span class="general-card" *ngIf="card.UserFavourite_TypeCode===11">悠遊卡</span>
+                  <span class="general-card" *ngIf="card.UserFavourite_TypeCode===12">虛擬卡</span>
                   <span class="special-card txt-line-clamp1" *ngIf="card.CardGroup_List !== null">
-                    <span *ngFor="let item of card.CardGroup_List">
-                      {{item.CardGroup_Name}}
-                    </span>
+                  <span *ngFor="let item of card.CardGroup_List">
+                    {{item.CardGroup_Name}}
+                  </span>
                   </span>
                 </div>
                 <h6 class="txt-line-clamp1 mt-2 mb-1">{{card?.UserFavourite_Text1}}</h6>
@@ -296,7 +298,7 @@
                     autofocus required>
                   </div>
                   <div class="py-5">
-                    <button type="submit" class="btn next-btn w-100"
+                    <button type="submit" class="btn index-btn w-100"
                     [ngClass]="{'unable': cardNumber.invalid}" [disabled]="cardNumber.invalid">立即綁定</button>
                   </div>
                 </div>

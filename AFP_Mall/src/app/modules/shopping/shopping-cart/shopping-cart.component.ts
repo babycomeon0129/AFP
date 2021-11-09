@@ -1,6 +1,7 @@
 import { environment } from '@env/environment';
 import { Component, OnInit } from '@angular/core';
 import { AppService } from '@app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Request_ECCart, Response_ECCart, AFP_Cart, CartStoreList, ProductInfo } from '@app/_models';
 import { CookieService } from 'ngx-cookie-service';
@@ -32,8 +33,9 @@ export class ShoppingCartComponent implements OnInit {
   /** 空購物車圖示顯示 */
   public nocartShow = false;
 
-  constructor(public appService: AppService, public modal: ModalService, private cookieService: CookieService, private router: Router,
-    private route: ActivatedRoute, private meta: Meta, private title: Title) {
+  constructor(public appService: AppService, private oauthService: OauthService,
+              public modal: ModalService, private cookieService: CookieService, private router: Router,
+              private route: ActivatedRoute, private meta: Meta, private title: Title) {
     this.title.setTitle('購物車｜線上商城 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! 線上商城購物車。你是不是…還有商品在購物車裡忘了結帳？趕快結帳把購物車清空，賺取 Mobii! M Points 回饋點數吧！我 OK，你先買！' });
     this.meta.updateTag({ content: '購物車｜線上商城 - Mobii!', property: 'og:title' });
@@ -50,7 +52,6 @@ export class ShoppingCartComponent implements OnInit {
   showCartData(): void {
     this.appService.openBlock();
     const request: Request_ECCart = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 4, // 查詢
       SearchModel: {
         Cart_Code: this.cartCode // 購物車Code
@@ -66,7 +67,7 @@ export class ShoppingCartComponent implements OnInit {
       }
       // 進入購物車頁時，如商品改變價格，則跳出提醒用戶商品價格改變
       if(data.List_PriceChange !== null ) {
-        this.modal.show('message', { initialState: { success: false, message: `提醒您，${data.List_PriceChange}價格變更了！`, showType: 1, singleBtnMsg: `我知道了` } });
+        this.modal.show('message', { initialState: { success: false, message: `提醒您，${data.List_PriceChange}價格變更了！`, showType: 1, checkBtnMsg: `我知道了` } });
       }
       // loop後端傳來的每樣商品資訊
       for (const store of data.List_Cart) {
@@ -268,7 +269,6 @@ export class ShoppingCartComponent implements OnInit {
    */
   onRemoveProduct(store: CartStoreList, product: ProductInfo): void {
     const request: Request_ECCart = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 2,
       Cart_Count: this.cartCount,
       SearchModel: {
@@ -330,15 +330,14 @@ export class ShoppingCartComponent implements OnInit {
     if (this.selectedProductsList.length === 0 || this.selectedStoresList.length === 0) {
       this.modal.show('message', { initialState: { success: false, message: '還沒有選擇要結帳的商家及商品喔!', showType: 1 } });
     } else {
-      if (!this.appService.loginState) {
-        // 若未登入，則跳出登入視窗
-        this.appService.loginPage();
+      // 若未登入，則跳出登入視窗
+      if (!this.cookieService.get('M_idToken')) {
+        this.appService.logoutModal();
       } else {
         // 已登入
         // (若有更動過的商品)更改商品數
         if (this.productsToUpdate.length > 0) {
           const request: Request_ECCart = {
-            User_Code: sessionStorage.getItem('userCode'),
             SelectMode: 5, // 多筆更新
             Cart_Count: this.cartCount,
             SearchModel: {

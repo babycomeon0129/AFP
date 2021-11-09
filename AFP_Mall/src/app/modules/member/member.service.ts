@@ -1,5 +1,7 @@
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Injectable } from '@angular/core';
 import { AppService } from '@app/app.service';
+import { CookieService } from 'ngx-cookie-service';
 import {
   Response_MemberProfile, Request_MemberProfile, Request_MemberThird, Response_MemberThird,
   AFP_UserThird
@@ -22,23 +24,24 @@ export class MemberService {
   /** 訂單狀態切換(目前用於我的訂單[MemberOrde]  1: 處理中 2: 待收貨 3:已完成 4:退貨 */
   public statusSwitch = 1;
 
-  constructor(private appService: AppService) { }
+  constructor(private appService: AppService, private oauthService: OauthService, private cookieService: CookieService) { }
 
   /** 讀取我的檔案（會員首頁、我的檔案、手機驗證皆會使用） */
   readProfileData() {
-    if (this.appService.loginState) {
-      this.appService.openBlock();
+    if (this.cookieService.get('M_idToken') !== '' && this.cookieService.get('M_idToken') !== 'undefined') {
       const request: Request_MemberProfile = {
-        SelectMode: 4,
-        User_Code: sessionStorage.getItem('userCode')
+        SelectMode: 4
       };
       return new Promise(resolve => {
         this.appService.toApi('Member', '1502', request).subscribe((data: Response_MemberProfile) => {
           this.userProfile = data;
-          this.appService.userName = this.userProfile.User_NickName;
-          // 解決ngx-bootstrap 套件日期減一天問題
-          if (this.userProfile.UserProfile_Birthday !== null) {
-            this.userProfile.UserProfile_Birthday = new Date(this.userProfile.UserProfile_Birthday);
+
+          if (this.userProfile !== null) {
+            this.appService.userName = this.userProfile.User_NickName;
+            // 解決ngx-bootstrap 套件日期減一天問題
+            if (this.userProfile.UserProfile_Birthday !== null) {
+              this.userProfile.UserProfile_Birthday = new Date(this.userProfile.UserProfile_Birthday);
+            }
           }
           resolve(true);
         });
@@ -54,7 +57,6 @@ export class MemberService {
     this.AppleThird = null;
     const request: Request_MemberThird = {
       SelectMode: 3,
-      User_Code: sessionStorage.getItem('userCode'),
       Store_Note: ''
     };
     this.appService.toApi('Member', '1506', request).subscribe((data: Response_MemberThird) => {

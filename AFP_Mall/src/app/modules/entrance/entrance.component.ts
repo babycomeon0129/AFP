@@ -23,6 +23,10 @@ import { NgxMasonryOptions } from 'ngx-masonry';
 })
 export class EntranceComponent implements OnInit {
 
+  /** JustKa連結 */
+  public JustKaUrl: string;
+  /** 隱私權提示 (0顯示，1關閉) */
+  public cookieShow: string;
   /** 進場廣告swiper */
   public adIndexOption = {
     observer: true,
@@ -282,6 +286,8 @@ export class EntranceComponent implements OnInit {
   }
 
   ngOnInit() {
+    /** 下方隱私權顯示與否(0顯示，1不顯示) */
+    this.cookieShow = localStorage.getItem('M_cookieShow') ? '1' : '0';
     // 從route resolver取得首頁資料
     // this.route.data.subscribe((data: { homeData: Response_Home }) => {
     //   // 接資料
@@ -296,6 +302,11 @@ export class EntranceComponent implements OnInit {
     // }
   }
 
+  /** 下方隱私權顯示與否(0顯示，1不顯示) */
+  cookieShowClick() {
+    this.cookieShow = '1';
+    localStorage.setItem('M_cookieShow', '1');
+  }
   /** 讀取首頁上方資料（皆為廣告及會員資料，我的服務除外） */
   readUp(): void {
     const request: Request_Home = {
@@ -303,8 +314,12 @@ export class EntranceComponent implements OnInit {
     };
     this.appService.openBlock();
     this.appService.toApi('Home', '1021', request).subscribe((data: Response_Home) => {
+      // JustKa連結
+      this.JustKaUrl = data.JustKaUrl;
       // 會員資訊
       this.userPoint = data.TotalPoint;
+      sessionStorage.setItem('userName', data.UserName);
+      this.appService.userName = data.UserName;
       this.userVoucherCount = data.VoucherCount;
       // 廣告
       this.adTop = data.ADImg_Top;
@@ -342,7 +357,6 @@ export class EntranceComponent implements OnInit {
     const request: Request_ECHome = {
       // SelectMode 1:  讀取商城所有資料 2:只有熱門商品資料，用於熱門商品瀑布流
       SelectMode: 2,
-      User_Code: sessionStorage.getItem('userCode'),
       Cart_Count: 0,
       Model_BasePage: {
         Model_Page: this.currentPage
@@ -371,7 +385,8 @@ export class EntranceComponent implements OnInit {
   /** 近期熱門商品瀑布流 */
   @HostListener('window: scroll', ['$event'])
   prodWaterfall(event: Event): void {
-    if ((Math.floor(window.scrollY + window.innerHeight) >= document.documentElement.offsetHeight -1 ) && this.currentPage < this.totalPage) {
+    if ((Math.floor(window.scrollY + window.innerHeight) >= document.documentElement.offsetHeight - 1 )
+        && this.currentPage < this.totalPage) {
       this.appService.openBlock();
       this.currentPage ++;
       this.readhotProducts(2);
@@ -428,7 +443,6 @@ export class EntranceComponent implements OnInit {
   getHomeservice(): void {
     this.appService.openBlock();
     const request: Request_AFPUserService = {
-      User_Code: sessionStorage.getItem('userCode'),
       // SelectMode 1 : 首頁 10 : 我的服務
       SelectMode: 1
     };
@@ -510,7 +524,6 @@ export class EntranceComponent implements OnInit {
     // 將我的服務的function code 陣列result傳給後端
     const result = this.ftBottom.map((item: AFP_Function) => item.Function_Code);
     const request: Request_AFPUpdateUserService = {
-      User_Code: sessionStorage.getItem('userCode'),
       Model_UserFavourite: null,
       Model_UserFunction: result
     };
@@ -580,12 +593,12 @@ export class EntranceComponent implements OnInit {
         if (Link.Function_URLTarget === '_app') {
           this.modal.confirm({ initialState: { message: '請問是否要開啟Mobii App?' } }).subscribe(res => {
             if (res) {
-              window.location.href = Link.Function_URL;
+              location.href = Link.Function_URL;
               setTimeout(() => { this.router.navigate(['/ForApp/AppDownload']); }, 25);
             }
           });
         } else {
-          if (this.appService.isApp !== null) {
+          if (this.appService.isApp === 1) {
             this.router.navigate([Link.Function_URL], { queryParams: { isApp: this.appService.isApp } });
           } else {
             // this.router.navigate([Link.Function_URL]);
@@ -609,7 +622,7 @@ export class EntranceComponent implements OnInit {
 
   /** 立即下載APP */
   toDownloadAPP(): void {
-    window.location.href = 'mobii://';
+    location.href = 'mobii://';
     setTimeout(() => {
       if (document.visibilityState === 'visible') {
         // 未成功開啟APP則前往AppDownload被引導至平台下載
@@ -626,22 +639,25 @@ export class EntranceComponent implements OnInit {
     this.animationMoveUpOut = true;
   }
 
-  /** justKa點擊事件（justKa modal 顯示與否）*/
-  toggle(): void {
-    this.show = !this.show;
-    if (this.show) {
-      this.modal.show('justka',
-        {
-          initialState:
-          {
-            justkaUrl:
-              'https://biz.justka.ai/webapp/home?q=a2d422f6-b4bc-4e1d-9ca0-7b4db3258f35&a=d3f53a60-db70-11e9-8a34-2a2ae2dbcce4'
-          }
-        },
-        this.bsModalRef);
+  /** justKa點擊事件（justKa modal 顯示與否） */
+  toggle(url: string): void {
+    if (!this.appService.loginState) {
+      this.appService.logoutModal();
     } else {
-      this.modal.closeModal1();
-      document.querySelector('body').classList.remove('modal-open');
+      this.show = !this.show;
+      if (this.show) {
+        this.modal.show('justka',
+          {
+            initialState:
+            {
+              justkaUrl: url + '&J_idToken=' + this.cookieService.get('M_idToken')
+            }
+          },
+          this.bsModalRef);
+      } else {
+        this.modal.closeModal1();
+        document.querySelector('body').classList.remove('modal-open');
+      }
     }
   }
 

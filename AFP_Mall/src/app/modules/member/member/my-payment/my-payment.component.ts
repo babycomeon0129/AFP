@@ -28,8 +28,7 @@ export class MyPaymentComponent implements OnInit {
   /** 付款設定 */
   onGetPaymentList(): void  {
     const request: Request_MemberPaySetting = {
-      SelectMode: 4,
-      User_Code: sessionStorage.getItem('userCode')
+      SelectMode: 4
     };
 
     this.appService.toApi('Member', '1504', request).subscribe((data: Response_MemberPaySetting) => {
@@ -52,7 +51,6 @@ export class MyPaymentComponent implements OnInit {
       if (res) {
         const request: Request_MemberPaySetting = {
           SelectMode: 2,
-          User_Code: sessionStorage.getItem('userCode'),
           AFP_UserFavourite: {
             UserFavourite_ID: itemId
           }
@@ -75,7 +73,6 @@ export class MyPaymentComponent implements OnInit {
 
     const request: Request_MemberPaySetting = {
       SelectMode: 3,
-      User_Code: sessionStorage.getItem('userCode'),
       AFP_UserFavourite: {
         UserFavourite_ID: this.paymentDetail.UserFavourite_ID,
         UserFavourite_IsDefault: this.paymentDetail.UserFavourite_IsDefault

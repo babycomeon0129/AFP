@@ -1,8 +1,8 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Request_MemberThird, Response_MemberThird } from '../member.component';
-import { AuthService, SocialUser, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 import { AppService } from '@app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import jwt_decode from 'jwt-decode';
 import { environment } from '@env/environment';
@@ -14,7 +14,7 @@ import { environment } from '@env/environment';
 })
 export class ThirdBindingComponent implements OnInit, OnDestroy {
   // 第三方登入 User容器
-  public thirdUser: SocialUser;
+  // public thirdUser: SocialUser;
   // 第三方登入Request
   public thirdRequest: Request_MemberThird = new Request_MemberThird();
   /** 第三方資訊類型 1: FB 2: Line 3:Google 5:Apple */
@@ -29,43 +29,43 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
   public newThirdRequest: NewThirdBindRequest = new NewThirdBindRequest();
 
 
-  constructor(public appService: AppService, private authService: AuthService, public modal: ModalService, private router: ActivatedRoute) {
+  constructor(public appService: AppService, private oauthService: OauthService,
+              public modal: ModalService, private router: ActivatedRoute) {
     this.detectApple();
   }
 
   ngOnInit() {
 
     this.readThirdData();
-    this.authService.authState.subscribe((user: SocialUser) => {
-      this.thirdUser = user;
-      // 為了FB登入特例處理，多判斷 this.bindMode > 0 才呼叫API
-      if (this.thirdUser !== null && this.bindMode > 0) {
-        this.thirdRequest = {
-          SelectMode: 1,
-          User_Code: sessionStorage.getItem('userCode'),
-          Store_Note: '',
-          Mode: this.bindMode,
-          Token: this.thirdUser.id,
-          JsonData: JSON.stringify(this.thirdUser)
-        };
-        this.thirdbind(this.thirdRequest, this.bindMode);
-      }
-    });
+    // this.authService.authState.subscribe((user: SocialUser) => {
+    //   this.thirdUser = user;
+    //   // 為了FB登入特例處理，多判斷 this.bindMode > 0 才呼叫API
+    //   if (this.thirdUser !== null && this.bindMode > 0) {
+    //     this.thirdRequest = {
+    //       SelectMode: 1,
+    //       Store_Note: '',
+    //       Mode: this.bindMode,
+    //       Token: this.thirdUser.id,
+    //       JsonData: JSON.stringify(this.thirdUser)
+    //     };
+    //     this.thirdbind(this.thirdRequest, this.bindMode);
+    //   }
+    // });
 
     // LINE 第三方社群綁定
     this.newThirdRequest.DeviceType = this.appService.isApp !== null ? '1' : '0';
     this.newThirdRequest.CustomerInfo = sessionStorage.getItem('CustomerInfo');
-    this.newThirdRequest.User_Code = sessionStorage.getItem('userCode');
-    this.newThirdRequest.mode = 2
+    this.newThirdRequest.mode = 2;
 
   }
 
   /** 讀取社群帳號 */
   readThirdData(): void {
-    if (this.appService.loginState) {
+    if (!this.appService.loginState) {
+      this.appService.logoutModal();
+    } else {
       const request: Request_MemberThird = {
         SelectMode: 3,
-        User_Code: sessionStorage.getItem('userCode'),
         Store_Note: ''
       };
       this.appService.toApi('Member', '1506', request).subscribe((data: Response_MemberThird) => {
@@ -92,7 +92,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
           if (this.router.snapshot.queryParams.Mobii_ThirdBind === 'false' && this.router.snapshot.queryParams.Mode !== undefined && this.router.snapshot.queryParams.Error !== undefined) {
             let msg = '';
             let mode = '';
-            switch(this.router.snapshot.queryParams.Error){
+            switch (this.router.snapshot.queryParams.Error) {
               case '1':
                 msg = '帳號已被綁定';
                 break;
@@ -101,7 +101,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
                 break;
             }
 
-            switch(this.router.snapshot.queryParams.Mode) {
+            switch (this.router.snapshot.queryParams.Mode) {
               case '2':
                 mode = 'Line@';
                 break;
@@ -109,12 +109,10 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
 
             if (!this.bindStatus.line) {
               this.modal.show('message', { initialState: { success: false, message: `${mode}${msg}`, showType: 1 } });
-            }0
+            }
           }
         }
       });
-    } else {
-      this.appService.loginPage();
     }
   }
 
@@ -122,39 +120,38 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
    * @param mode 綁定方式 1:FB 2:Line 3:Google 5:Apple
    */
   signInWiththirdBind(mode: number): void {
-    if (this.appService.loginState) {
-      this.bindMode = mode;
-      switch (mode) {
-        case 1:
-          this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
-          break;
-        case 2:
-          (document.getElementById('postLineBind') as HTMLFormElement).submit();
-          this.appService.openBlock();
-          break;
-        case 3:
-          this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
-          break;
-        case 5:
-          this.modal.appleLogin({}).subscribe(appleUser => {
-            if (appleUser !== null) {
-              const idTokenModel: any = jwt_decode(appleUser.authorization.id_token);
-              const appleToken = idTokenModel.sub;
-              this.thirdRequest = {
-                SelectMode: 1,
-                User_Code: sessionStorage.getItem('userCode'),
-                Store_Note: '',
-                Mode: this.bindMode,
-                Token: appleToken,
-                JsonData: JSON.stringify(appleUser)
-              };
-              this.thirdbind(this.thirdRequest, this.bindMode);
-            }
-          });
-          break;
-      }
+    if (!this.appService.loginState) {
+      this.appService.logoutModal();
     } else {
-      this.appService.loginPage();
+      this.bindMode = mode;
+      // switch (mode) {
+      //   case 1:
+      //     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+      //     break;
+      //   case 2:
+      //     (document.getElementById('postLineBind') as HTMLFormElement).submit();
+      //     this.appService.openBlock();
+      //     break;
+      //   case 3:
+      //     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
+      //     break;
+      //   case 5:
+      //     this.modal.appleLogin({}).subscribe(appleUser => {
+      //       if (appleUser !== null) {
+      //         const idTokenModel: any = jwt_decode(appleUser.authorization.id_token);
+      //         const appleToken = idTokenModel.sub;
+      //         this.thirdRequest = {
+      //           SelectMode: 1,
+      //           Store_Note: '',
+      //           Mode: this.bindMode,
+      //           Token: appleToken,
+      //           JsonData: JSON.stringify(appleUser)
+      //         };
+      //         this.thirdbind(this.thirdRequest, this.bindMode);
+      //       }
+      //     });
+      //     break;
+      // }
     }
   }
 
@@ -168,7 +165,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
     const timestampStr = Math.floor(dateTime / 1000).toString();
     // 前後相反
     let reverseTimestamp = '';
-    for (var i = timestampStr.length - 1; i >= 0; i--) {
+    for (let i = timestampStr.length - 1; i >= 0; i--) {
       reverseTimestamp += timestampStr[i];
     }
     // 取前4碼
@@ -177,7 +174,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
     function getRandomInt(max: number) {
       return Math.floor(Math.random() * max);
     };
-    const engLettersArr = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+    const engLettersArr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
     let randomEngLetter = '';
     for (let x = 0; x < 10; x++) {
       const randomInt = getRandomInt(engLettersArr.length);
@@ -217,7 +214,7 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
             this.bindStatus.apple = true;
             break;
         }
-        this.authService.signOut();
+        // this.authService.signOut();
       }
     });
   }
@@ -229,7 +226,6 @@ export class ThirdBindingComponent implements OnInit, OnDestroy {
         this.appService.openBlock();
         const request: Request_MemberThird = {
           SelectMode: 2,
-          User_Code: sessionStorage.getItem('userCode'),
           Mode: mode
         };
 
@@ -263,5 +259,5 @@ class NewThirdBindRequest {
   /** 消費者包 */
   CustomerInfo: string;
   /** 消費者編碼 */
-  User_Code: string;
+  User_Code?: string;
 }

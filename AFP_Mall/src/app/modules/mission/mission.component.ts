@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Model_ShareData } from '@app/_models';
 import { AppService } from '@app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-mission',
@@ -26,7 +28,9 @@ export class MissionComponent implements OnInit {
   /** 第三方登入 (目前僅適用於Line) */
 
 
-  constructor(public appService: AppService, public modal: ModalService, private router: Router, private route: ActivatedRoute, private meta: Meta, private title: Title) {
+  constructor(public appService: AppService, public oauthService: OauthService,
+              public modal: ModalService, private router: Router, private route: ActivatedRoute,
+              private meta: Meta, private title: Title, private cookieService: CookieService) {
     this.title.setTitle('任務 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 任務。這裡會顯示 Mobii! 用戶在 Mobii! 平台上的任務，包括每日登入、每日遊戲可以拿回饋點數 M Points，三不五時會更換使用者要完成的任務。請先登入註冊以開啟功能。' });
     this.meta.updateTag({ content: '任務 - Mobii!', property: 'og:title' });
@@ -50,7 +54,6 @@ export class MissionComponent implements OnInit {
   readData(): void {
     this.appService.openBlock();
     const request: Request_MemberMission = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 4
     };
 
@@ -119,21 +122,29 @@ export class MissionComponent implements OnInit {
    */
   buttonAction(mission: AFP_Mission): void {
     if (!this.appService.loginState) {
-      this.appService.loginPage(); // 需登入才能前往任務
+      this.appService.logoutModal();
     } else {
       switch (mission.Mission_ClickState) {
-        case 2: // 前往任務
+        case 2: // 前往任務(進階任務)
           // 填寫意見表任務特別處理
           if (mission.Mission_CurrentURL.indexOf('/feedback/?') > 0) {
-            const strUser = '?customerInfo=' + sessionStorage.getItem('CustomerInfo') + '&userCode=' + sessionStorage.getItem('userCode') + '&userName=' + sessionStorage.getItem('userName') + '&loginType=1';
-            const device = { system: '', isApp: this.appService.isApp !== null ? strUser + '&isApp=1' : '' };
+            // const strUser = '?customerInfo=' + sessionStorage.getItem('CustomerInfo') + '&userCode=' + sessionStorage.getItem('userCode') + '&userName=' + sessionStorage.getItem('userName') + '&loginType=1';
+            // const device = { system: '', isApp: this.appService.isApp !== null ? strUser + '&isApp=1' : '' };
+            const strUser = '?M_idToken=' + sessionStorage.getItem('M_idToken') + '&userCode=' + sessionStorage.getItem('userCode') + '&userName=' + sessionStorage.getItem('userName') + '&loginType=1';
+            const device = {
+              system: '',
+              // isApp: (this.appService.isApp !== null) ? strUser + '&isApp=1' : ''
+              isApp: (this.appService.isApp === 1) ? strUser + '&isApp=1' : ''
+            };
             //  Justka特別處理
             if (navigator.userAgent.match(/android/i)) {
               //  Android
               device.system = 'android';
+              device.isApp = strUser + '&isApp=1';
             } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
               //  IOS
               device.system = 'iOs';
+              device.isApp = strUser + '&isApp=1';
             } else {
               device.system = 'web';
             }
@@ -143,7 +154,7 @@ export class MissionComponent implements OnInit {
             window.open(mission.Mission_CurrentURL, mission.Mission_CurrentURLTarget);
           } else {
             // 其他一般任務
-            if (this.appService.isApp !== null) {
+            if (this.appService.isApp === 1) {
               // APP
               mission.Mission_CurrentURL = mission.Mission_CurrentURL + '?isApp=1';
               window.open(mission.Mission_CurrentURL, mission.Mission_CurrentURLTarget);
@@ -173,7 +184,6 @@ export class MissionComponent implements OnInit {
    */
   claimPoints(mission: AFP_Mission): void {
     const request: Request_MemberMission = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 1,
       Mission_Code: mission.Mission_Code
     };
@@ -190,10 +200,10 @@ export class MissionComponent implements OnInit {
 
   /** 前往MemberCoin頁 */
   conditionGo(): void {
-    if (this.appService.loginState) {
-      this.router.navigate(['/MemberFunction/MemberCoin'], { queryParams: { showBack: true } });
+    if (!this.appService.loginState) {
+      this.appService.logoutModal();
     } else {
-      this.appService.loginPage();
+      this.router.navigate(['/MemberFunction/MemberCoin'], { queryParams: { showBack: true } });
     }
   }
 

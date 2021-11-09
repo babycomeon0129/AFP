@@ -3,7 +3,7 @@ export const environment = {
   apiUrl: 'https://afpapi-uat.mobii.ai/api/',
   FBApiKey: '349758176149496',
   GoogleApiKey: '260499247538-ctoucp9t09ufdpgqmd4ac368lfpgmorm.apps.googleusercontent.com',
-  cookieDomain: 'www-uat.mobii.ai',
+  cookieDomain: '.mobii.ai',
   cookieSecure: true,
   /** Apple登入redirectURI */
   AppleSignInURI: 'https://www-uat.mobii.ai',

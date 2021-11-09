@@ -7,8 +7,10 @@ import { GameCenterComponent } from './game-center/game-center.component';
 import { GameComponent } from './game/game.component';
 
 const routes: Routes = [
-  { path: '', canActivate: [SessionAliveGuard], component: GameCenterComponent },
-  { path: 'Game/:Game_Code', canActivate: [SessionAliveGuard], component: GameComponent }
+  { path: '', component: GameCenterComponent },
+  { path: 'Game/:Game_Code', component: GameComponent }
+  // { path: '', canActivate: [SessionAliveGuard], component: GameCenterComponent },
+  // { path: 'Game/:Game_Code', canActivate: [SessionAliveGuard], component: GameComponent }
 ];
 
 @NgModule({

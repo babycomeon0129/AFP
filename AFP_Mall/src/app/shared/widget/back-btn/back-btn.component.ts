@@ -28,7 +28,7 @@ export class BackBtnComponent implements OnInit {
 
   /** 點擊返回鍵 */
   gotoBack(): void {
-    switch(this.mode) {
+    switch (this.mode) {
       case 0 :
         this.location.back();
         break;

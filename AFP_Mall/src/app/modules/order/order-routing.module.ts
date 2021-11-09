@@ -12,7 +12,8 @@ const routes: Routes = [
   { path: 'ShoppingOrder', component: ShoppingOrderComponent },
   { path: 'ShoppingPayment', component: ShoppingPaymentComponent },
   { path: 'ETicketOrder', component: ETicketOrderComponent},
-  { path: 'OrderComplete', canActivate: [SessionAliveGuard], component: OrderCompleteComponent },
+  { path: 'OrderComplete', component: OrderCompleteComponent },
+  // { path: 'OrderComplete', canActivate: [SessionAliveGuard], component: OrderCompleteComponent },
   { path: '', redirectTo: '/Shopping' }
 ];
 

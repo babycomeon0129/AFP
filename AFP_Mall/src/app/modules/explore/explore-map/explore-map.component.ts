@@ -74,12 +74,9 @@ export class ExploreMapComponent implements OnInit {
         this.readAreaData(this.areaMenuCode);
       });
     } else {
-      const initialState = {
-        success: true,
-        message: '該瀏覽器不支援定位功能',
-        showType: 1
-      };
-      this.modal.show('message', { initialState }, this.bsModalRef);
+
+      this.modal.show('message', { class: 'modal-dialog-centered',
+        initialState: { success: true, message: '該瀏覽器不支援定位功能', showType: 1 } });
       this.lat = 25.034306;
       this.lng = 121.564603;
       this.readAreaData(this.areaMenuCode);
@@ -93,15 +90,15 @@ export class ExploreMapComponent implements OnInit {
     this.appService.openBlock();
     this.areaMenuCode = dirCode;
     const request: Request_AreaIndex = {
-      User_Code: sessionStorage.getItem('userCode'),
       SearchModel: {
         IndexArea_Code: 400001,
         AreaMenu_Code: this.areaMenuCode,
         IndexArea_Distance: 5000
       }
     };
+
+    this.appService.openBlock(); // 在畫面資料ready前顯示loader避免過早使用swiper卡住
     this.appService.toApi('Area', '1401', request, this.lat, this.lng).subscribe((data: Response_AreaIndex) => {
-      this.appService.openBlock(); // 在畫面資料ready前顯示loader避免過早使用swiper卡住
       // 近 > 遠
       this.AreaList = data.List_AreaData[0].ECStoreData.sort((a, b) => {
         return a.ECStore_Distance - b.ECStore_Distance;

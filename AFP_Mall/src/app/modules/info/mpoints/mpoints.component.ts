@@ -35,7 +35,6 @@ export class MPointsComponent implements OnInit {
     this.appService.openBlock();
     const request: Request_MemberQuestion = {
       SelectMode: 5,
-      User_Code: sessionStorage.getItem('userCode'),
       SearchModel: {
         QuestionContent_Mode: 11,
         QuestionContent_CategoryCode: 5

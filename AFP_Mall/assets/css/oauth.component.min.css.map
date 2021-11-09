@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../../src/app/modules/oauth/oauth/oauth.component.scss"
+    ],
+    "names": [],
+    "file": "oauth.component.min.css"
+}

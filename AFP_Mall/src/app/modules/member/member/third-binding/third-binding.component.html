@@ -63,7 +63,7 @@
           <div class="item auto-left">
             <form id="postLineBind" action="{{apiUrl}}Oauth/RedirectToAuthorize" method="POST" #postLineBind="ngForm" (ngSubmit)="signInWiththirdBind(2)">
               <input type="hidden" name="DeviceType" [value]="newThirdRequest.DeviceType">
-              <input type="hidden" name="User_Code" [value]="newThirdRequest.User_Code">
+              <!-- <input type="hidden" name="User_Code" [value]="newThirdRequest.User_Code"> -->
               <input type="hidden" name="CustomerInfo" [value]="newThirdRequest.CustomerInfo">
               <input type="hidden" name="mode" [value]="newThirdRequest.mode">
               <button type="submit" class="btn msg-open bind" [hidden]="bindStatus.line"

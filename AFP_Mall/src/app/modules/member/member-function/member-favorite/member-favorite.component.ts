@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from '@app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Request_MemberFavourite, Response_MemberFavourite, TravelJsonFile_Travel, AreaJsonFile_ECStore, AFP_ECStore, AFP_Product } from '@app/_models';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,7 +12,7 @@ import { Meta, Title } from '@angular/platform-browser';
   styleUrls: ['../../member/member.scss', './member-favorite.scss']
 })
 export class MemberFavoriteComponent implements OnInit {
-  /** 編輯模式  false: 編輯  ture: 完成 */
+  /** 編輯模式  false: 編輯  true: 完成 */
   public editMode = false;
   /** 選擇TAG  53: 探索周邊 51:按讚好物 52: 收藏商店 54: 旅遊行程 */
   public selectedType = 53;
@@ -24,8 +25,9 @@ export class MemberFavoriteComponent implements OnInit {
   /** 旅遊行程 */
   public listTravel: TravelJsonFile_Travel[] = [];
 
-  constructor(public appService: AppService, public modal: ModalService, private route: ActivatedRoute, private router: Router,
-    private meta: Meta, private title: Title) {
+  constructor(public appService: AppService, private oauthService: OauthService,
+              public modal: ModalService, private route: ActivatedRoute, private router: Router,
+              private meta: Meta, private title: Title) {
     this.title.setTitle('我的收藏 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 我的收藏。這裡會顯示 Mobii! 用戶按讚收藏的檔案，包括周邊、商品、店家以及旅遊行程。請先登入註冊以開啟功能。' });
     this.meta.updateTag({ content: '我的收藏 - Mobii!', property: 'og:title' });
@@ -41,41 +43,36 @@ export class MemberFavoriteComponent implements OnInit {
    * @param favType 51 商品, 52 商家, 53 周邊, 54 行程
    */
   onFavList(favType: number): void {
-    if (this.appService.loginState) {
-      this.selectedType = favType;
-      this.editMode = false;
-      this.appService.openBlock();
-      const request: Request_MemberFavourite = {
-        SelectMode: 11,
-        User_Code: sessionStorage.getItem('userCode'),
-        AFP_UserFavourite: {
-          UserFavourite_ID: 0,
-          UserFavourite_CountryCode: 886,
-          UserFavourite_Type: favType,
-          UserFavourite_UserInfoCode: 0,
-          UserFavourite_IsDefault: 0
-        }
-      };
+    this.selectedType = favType;
+    this.editMode = false;
+    this.appService.openBlock();
+    const request: Request_MemberFavourite = {
+      SelectMode: 11,
+      AFP_UserFavourite: {
+        UserFavourite_ID: 0,
+        UserFavourite_CountryCode: 886,
+        UserFavourite_Type: favType,
+        UserFavourite_UserInfoCode: 0,
+        UserFavourite_IsDefault: 0
+      }
+    };
 
-      this.appService.toApi('Member', '1511', request).subscribe((data: Response_MemberFavourite) => {
-        switch (favType) {
-          case 51:
-            this.listProduct = data.List_Product;
-            break;
-          case 52:
-            this.listEcstore = data.List_ECStore;
-            break;
-          case 53:
-            this.listArea = data.List_Area;
-            break;
-          case 54:
-            this.listTravel = data.List_Travel;
-            break;
-        }
-      });
-    } else {
-      this.appService.loginPage();
-    }
+    this.appService.toApi('Member', '1511', request).subscribe((data: Response_MemberFavourite) => {
+      switch (favType) {
+        case 51:
+          this.listProduct = data.List_Product;
+          break;
+        case 52:
+          this.listEcstore = data.List_ECStore;
+          break;
+        case 53:
+          this.listArea = data.List_Area;
+          break;
+        case 54:
+          this.listTravel = data.List_Travel;
+          break;
+      }
+    });
   }
 
   /** 刪除收藏
@@ -87,7 +84,6 @@ export class MemberFavoriteComponent implements OnInit {
     this.modal.confirm({ initialState: { message: '確認要刪除這個收藏嗎?' } }).subscribe(res => {
       const request: Request_MemberFavourite = {
         SelectMode: 2,
-        User_Code: sessionStorage.getItem('userCode'),
         AFP_UserFavourite: {
           UserFavourite_ID: 0,
           UserFavourite_CountryCode: 886,

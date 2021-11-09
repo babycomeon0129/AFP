@@ -1,5 +1,6 @@
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 import { AppService } from '@app/app.service';
 
@@ -7,7 +8,7 @@ import { AppService } from '@app/app.service';
 @Component({
   selector: 'app-mobile-footer',
   templateUrl: './mobile-footer.component.html',
-  styleUrls: ['./mobile-footer.component.css']
+  styleUrls: ['./mobile-footer.component.scss']
 })
 export class MobileFooterComponent implements OnInit {
   /** 當前網址（判斷icon是否填滿） */
@@ -18,12 +19,15 @@ export class MobileFooterComponent implements OnInit {
   // 'MyProfile', 'MyPayment', 'CellVerification', 'MyAddress', 'PasswordUpdate', 'ThirdBinding', 'DeliveryInfo', 'Game/', 'VoucherDetail',
   // 'NotificationDetail', 'Terms', 'Privacy', 'QA', 'Error404', 'Error500', 'Error503'];
 
-  constructor(public appService: AppService, public router: Router, private callApp: AppJSInterfaceService) { }
+  constructor(public appService: AppService, public oauthService: OauthService,
+              public router: Router, private callApp: AppJSInterfaceService, public activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.currentUrl = this.router.url;
     // 初始時告訴app開啟footer
-    this.callApp.appShowMobileFooter(true);
+    if (this.appService.isApp === 1) {
+      this.callApp.appShowMobileFooter(true);
+    }
   }
 
 }

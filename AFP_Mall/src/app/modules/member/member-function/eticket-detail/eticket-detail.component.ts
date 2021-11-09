@@ -30,7 +30,6 @@ export class ETicketDetailComponent implements OnInit {
 
   readTicket(): void {
     const request: Request_MemberTicket = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 5, // 查詢詳細
       SearchModel: {
         UserTicket_Code: this.ticketCode

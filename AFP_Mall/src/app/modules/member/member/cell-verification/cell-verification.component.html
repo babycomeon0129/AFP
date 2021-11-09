@@ -13,7 +13,7 @@
     <div class="my-phone-list">
         <p class="text-left mt-2">您的手機號碼已完成驗證，如需變更手機號碼，請重新驗證。</p>
         <p class="text-left mb-3">手機號碼：{{memberService.userProfile?.UserProfile_Mobile}}</p>
-        <button class="btn next-btn w-100" (click)="shownSection = 0; remainingSec = 0">重新驗證</button>
+        <button class="btn index-btn w-100" (click)="shownSection = 0; remainingSec = 0">重新驗證</button>
     </div>
   </div>
   <!-- 尚未/欲重新驗證 -->
@@ -61,7 +61,7 @@
         <div class="fixed-btn container">
             <button type="submit" [disabled]="formVerifyMobile.invalid || requestMobileVerify.VerifiedInfo.CheckValue === null"
             [ngClass]="{'unable': formVerifyMobile.invalid || requestMobileVerify.VerifiedInfo.CheckValue === null}"
-              class="btn next-btn w-100" data-dismiss="modal" aria-label="Close">
+              class="btn index-btn w-100" data-dismiss="modal" aria-label="Close">
               立即驗證
             </button>
         </div>

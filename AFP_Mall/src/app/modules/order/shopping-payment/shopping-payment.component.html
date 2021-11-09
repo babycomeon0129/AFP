@@ -81,6 +81,7 @@
 
   <footer class="success-mode container">
     <form id="postPayment" action="{{apiUrl}}CheckPay" method="POST" (ngSubmit)="onSubmit(postPayment)" #postPayment="ngForm">
+      <input type="hidden" name="Idtoken" [value]="idToken" />
       <input type="hidden" name="CSPayment_ID" [value]="reqData.CSPayment_ID" />
       <input type="hidden" name="CSPaymentPart_ID" [value]="reqData.CSPaymentPart_ID" />
       <input type="hidden" name="CreaditBind" [value]="reqData.CreaditBind" />
@@ -97,8 +98,8 @@
       <input type="hidden" name="InvoiceTaxID" [value]="reqData.InvoiceTaxID" />
       <input type="hidden" name="InvoiceTitle" [value]="reqData.InvoiceTitle" />
       <input type="hidden" name="InvoiceAddress" [value]="reqData.InvoiceAddress" />
-      <input type="hidden" name="xEyes_CustomerInfo" [value]="reqData.xEyes_CustomerInfo" />
-      <input type="hidden" name="User_Code" [value]="reqData.User_Code" />
+      <!-- <input type="hidden" name="xEyes_CustomerInfo" [value]="reqData.xEyes_CustomerInfo" /> -->
+      <!-- <input type="hidden" name="User_Code" [value]="reqData.User_Code" /> -->
       <button type="submit" [ngClass]="{'btn gray-btn': !ablePayment || paymentProcessed}" [disabled]="!ablePayment || paymentProcessed" class="btn index-btn">付款</button>
     </form>
   </footer>

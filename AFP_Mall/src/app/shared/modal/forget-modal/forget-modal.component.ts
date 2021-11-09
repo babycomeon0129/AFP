@@ -2,7 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { AppService } from '@app/app.service';
 import { Response_AFPVerifyCode, Request_AFPVerifyCode, Request_AFPReadMobile, Response_AFPReadMobile } from '@app/_models';
-import { LoginRegisterModalComponent } from '../login-register-modal/login-register-modal.component';
+// import { LoginRegisterModalComponent } from '../login-register-modal/login-register-modal.component';
 import { MessageModalComponent } from '../message-modal/message-modal.component';
 
 @Component({
@@ -36,7 +36,7 @@ export class ForgetModalComponent implements OnDestroy {
       this.existingAccount = true;
     } else {
       const request: Request_AFPReadMobile = {
-        User_Code: sessionStorage.getItem('userCode'),
+        // User_Code: sessionStorage.getItem('userCode'),
         SelectMode: 2,
         UserAccount: this.request.VerifiedInfo.VerifiedPhone
       };
@@ -73,10 +73,11 @@ export class ForgetModalComponent implements OnDestroy {
           message: '手機驗證成功！立即重設密碼',
           showType: 3,
           VerifiedInfo: data.VerifiedInfo,
-          checkBtnMsg: `確認`
+          checkBtnMsg: `確認`,
+          checkBtnUrl: location.pathname
         };
         // this.modalService.show('message', { initialState });
-        this.bsModal.show(MessageModalComponent, { initialState })
+        this.bsModal.show(MessageModalComponent, { initialState });
         this.closeModal();
       }
     });
@@ -84,7 +85,7 @@ export class ForgetModalComponent implements OnDestroy {
 
   /** 點擊返回 */
   goBackBtn(): void {
-    this.bsModal.show(LoginRegisterModalComponent);
+    // this.bsModal.show(LoginRegisterModalComponent);
     this.bsModalRef.hide();
     clearInterval(this.vcodeCount);
 

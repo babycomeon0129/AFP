@@ -37,7 +37,6 @@ export class ReturnDetailComponent implements OnInit {
     this.ServiceTableNO = this.route.snapshot.params.Services_TableNo;
 
     const request: Request_MemberServices = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 2, // 詳細查詢
       SearchModel: {
         Services_TableNo: this.ServiceTableNO

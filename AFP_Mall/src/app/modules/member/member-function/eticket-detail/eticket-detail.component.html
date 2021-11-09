@@ -66,7 +66,7 @@
             <!-- 狀態未開通或已開通才可使用 -->
               <button *ngIf="userTicket?.UserTicket_UsedState === 0 || userTicket?.UserTicket_UsedState === 1"
               (click)="layerTrig = 1"
-                type="button" class="btn index-btn w-100 msg-open" data-toggle="modal" data-target="#messageModal" data-dismiss="modal" aria-label="Close">
+                type="button" class="btn index-btn w-100 msg-open" data-toggle="modal" data-dismiss="modal" aria-label="Close">
                 使用
               </button>
           </div>

@@ -20,7 +20,6 @@ export class CouponModalComponent implements OnInit {
 
   btnOk(form: NgForm): void {
     const request: Request_MemberUserVoucher = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 1, // 新增
       Voucher_Code: null, // 優惠券Code
       Voucher_ActivityCode: this.requestAddCoupon.Voucher_ActivityCode, // 優惠代碼

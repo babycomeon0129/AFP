@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Request_MemberUserVoucher, AFP_Voucher, Model_DictionaryShort, Response_MemberUserVoucher } from '@app/_models';
 import { AppService } from '@app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
@@ -46,8 +47,9 @@ export class MemberDiscountComponent implements OnInit {
   /** 同頁滑動切換 0:本頁 1:排序清單 */
   public layerTrig = 0;
 
-  constructor(public appService: AppService, public modal: ModalService, public router: Router, private route: ActivatedRoute,
-    private meta: Meta, private title: Title) {
+  constructor(public appService: AppService, private oauthService: OauthService,
+              public modal: ModalService, public router: Router, private route: ActivatedRoute,
+              private meta: Meta, private title: Title) {
     this.title.setTitle('我的優惠券 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 我的優惠券。這裡會顯示 Mobii! 用戶領取的優惠券細節，店家、景點優惠券可以在 Mobii! APP首頁的找優惠發掘店家的優惠。' });
     this.meta.updateTag({ content: '我的優惠券 - Mobii!', property: 'og:title' });
@@ -60,31 +62,26 @@ export class MemberDiscountComponent implements OnInit {
 
   /** 讀取優惠券 */
   readVoucher(): void {
-    if (this.appService.loginState) {
-      this.appService.openBlock();
-      const request: Request_MemberUserVoucher = {
-        User_Code: sessionStorage.getItem('userCode'),
-        SelectMode: 4, // 查詢
-        Voucher_Code: null, // 優惠券Code
-        Voucher_ActivityCode: null, // 優惠代碼
-        SearchModel: {
-          SelectMode: this.vSelectMode
-        }
-      };
+    this.appService.openBlock();
+    const request: Request_MemberUserVoucher = {
+      SelectMode: 4, // 查詢
+      Voucher_Code: null, // 優惠券Code
+      Voucher_ActivityCode: null, // 優惠代碼
+      SearchModel: {
+        SelectMode: this.vSelectMode
+      }
+    };
 
-      this.appService.toApi('Member', '1510', request).subscribe((data: Response_MemberUserVoucher) => {
-        this.voucherListOrig = data.List_UserVoucher;
-        this.voucherList = this.voucherListOrig.concat();
-        this.useType = data.List_UsedType;
-        this.showType = data.List_ShowType.filter(item => item.Key !== 1000 && item.Key !== 1100);
-        this.voucherType = data.List_VoucherType;
-        if (this.vSelectMode === 1) {
-          this.resetSet();
-        }
-      });
-    } else {
-      this.appService.loginPage();
-    }
+    this.appService.toApi('Member', '1510', request).subscribe((data: Response_MemberUserVoucher) => {
+      this.voucherListOrig = data.List_UserVoucher;
+      this.voucherList = this.voucherListOrig.concat();
+      this.useType = data.List_UsedType;
+      this.showType = data.List_ShowType.filter(item => item.Key !== 1000 && item.Key !== 1100);
+      this.voucherType = data.List_VoucherType;
+      if (this.vSelectMode === 1) {
+        this.resetSet();
+      }
+    });
   }
 
   /** 優惠券折扣類型使用文字顯示轉換 */
@@ -208,7 +205,9 @@ export class MemberDiscountComponent implements OnInit {
   /** 新增優惠券 */
   onAddCoupon(): void {
     this.vSelectMode = 1;
-    if (this.appService.loginState) {
+    if (!this.appService.loginState) {
+      this.appService.logoutModal();
+    } else {
       const options: ModalOptions = { class: 'modal-dialog modal-dialog-centered modal-sm' };
       this.modal.addCoupon(options).subscribe(res => {
         if (res) {
@@ -216,8 +215,6 @@ export class MemberDiscountComponent implements OnInit {
           this.readVoucher();
         }
       });
-    } else {
-      this.appService.loginPage();
     }
   }
 

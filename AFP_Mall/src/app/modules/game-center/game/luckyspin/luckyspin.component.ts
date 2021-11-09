@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, AfterViewInit, Renderer2, EventEmitter } from '@angular/core';
 import { AppService } from '@app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Response_Games, Request_Games, AFP_GamePart } from '@app/_models';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -37,7 +38,9 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
   /** 提示視窗(向上) 0: 本頁 1: 開獎資訊 */
   public layerTrigUp = 0;
 
-  constructor(public appService: AppService, public modal: ModalService, private router: Router, private route: ActivatedRoute, private renderer2: Renderer2) {
+  constructor(public appService: AppService, private oauthService: OauthService,
+              public modal: ModalService, private router: Router,
+              private route: ActivatedRoute, private renderer2: Renderer2) {
     this.currentUrl = this.router.url;
   }
 
@@ -67,7 +70,9 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
 
   /** 按下play鍵 */
   play(): void {
-    if (this.appService.loginState) {
+    if (!this.appService.loginState) {
+      this.appService.logoutModal();
+    } else {
       // 按下play鍵之後，先判斷該遊戲是否為可遊玩狀態，0: 不可遊玩(未完成綁卡等條件，條件由後端判定) 1:可遊玩
       if (!this.gameData.GameState) {
         this.noGameStateAlert.emit();
@@ -90,8 +95,6 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
           this.startGame();
         }
       }
-    } else {
-      this.appService.loginPage();
     }
   }
 
@@ -113,7 +116,6 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
       });
       // call api 取得開獎結果
       const request: Request_Games = {
-        User_Code: sessionStorage.getItem('userCode'),
         SelectMode: 1,
         Game_Code: this.gameData.AFP_Game.Game_Code,
         SearchModel: {

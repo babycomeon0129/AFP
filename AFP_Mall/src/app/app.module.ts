@@ -4,7 +4,6 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
-import { SocialLoginModule, AuthServiceConfig, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ModalModule, BsModalRef } from 'ngx-bootstrap';
@@ -30,7 +29,7 @@ defineLocale('zh-cn', zhCnLocale);
 
 // Component
 import { AppComponent } from './app.component';
-import { MessageModalComponent } from './shared/modal/message-modal/message-modal.component';
+// import { MessageModalComponent } from './shared/modal/message-modal/message-modal.component';
 import { Error404Component } from './modules/error404/error404.component';
 
 // Service Worker
@@ -43,34 +42,34 @@ import { AngularFireModule } from '@angular/fire';
 
 
 // 第三方登入 config
-export function provideConfig() {
-  const config = new AuthServiceConfig([
-    {
-      id: GoogleLoginProvider.PROVIDER_ID,
-      provider: new GoogleLoginProvider(environment.GoogleApiKey),
-      lazyLoad: true
-    },
-    {
-      id: FacebookLoginProvider.PROVIDER_ID,
-      provider: new FacebookLoginProvider(environment.FBApiKey),
-      lazyLoad: true
-    }
-  ]);
+// export function provideConfig() {
+//   const config = new AuthServiceConfig([
+//     {
+//       id: GoogleLoginProvider.PROVIDER_ID,
+//       provider: new GoogleLoginProvider(environment.GoogleApiKey),
+//       lazyLoad: true
+//     },
+//     {
+//       id: FacebookLoginProvider.PROVIDER_ID,
+//       provider: new FacebookLoginProvider(environment.FBApiKey),
+//       lazyLoad: true
+//     }
+//   ]);
 
-  return config;
-}
+//   return config;
+// }
 
 @NgModule({
   declarations: [
     AppComponent,
-    Error404Component,
+    Error404Component
   ],
   imports: [
     BrowserModule,
     SharedModule,
     AppRoutingModule,
     HttpClientModule,
-    SocialLoginModule,
+    // SocialLoginModule,
     NgxUsefulSwiperModule,
     ReactiveFormsModule,
     FormsModule,
@@ -119,11 +118,11 @@ export function provideConfig() {
   ],
   providers: [
     BsModalRef,
-    {
-      provide: AuthServiceConfig,
-      useFactory: provideConfig
-    },
-    MessageModalComponent,
+    // {
+    //   provide: AuthServiceConfig,
+    //   useFactory: provideConfig
+    // },
+    // MessageModalComponent,
     CookieService
   ],
   bootstrap: [AppComponent],

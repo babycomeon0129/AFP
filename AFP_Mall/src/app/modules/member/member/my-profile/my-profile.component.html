@@ -32,25 +32,25 @@
         <div class="my-list-box">
           <ul>
             <form #formProfile="ngForm" id="formProfile" (ngSubmit)="formProfile.form.valid && onProfileSubmit(formProfile)">
-              <li>
+              <!-- MOB-3425 前端隱藏 -->
+              <!-- <li>
                 <div class="item">帳號</div>
                 <div class="item input-box">
                   {{memberService.userProfile.UserAccount}}
                 </div>
-              </li>
+              </li> -->
               <li>
                 <div class="item">姓名</div>
                 <div class="item input-box">
                   <input type="text" name="UserName" [placeholder]="editMode ? '請輸入' : ''" #UserName="ngModel"
-                    [(ngModel)]="memberService.userProfile.UserProfile_Name" [readOnly]="!editMode">
+                    [(ngModel)]="memberService.userProfile.UserProfile_Name" maxlength="30" [readOnly]="!editMode">
                 </div>
               </li>
               <li>
                 <div class="item">暱稱</div>
                 <div class="item input-box">
-                  <input type="text" name="UserNickname" [placeholder]="editMode ? '請輸入' : ''"
-                    #UserNickname="ngModel" [(ngModel)]="memberService.userProfile.User_NickName" maxlength="10"
-                    [readOnly]="!editMode">
+                  <input type="text" name="UserNickname" [placeholder]="editMode ? '請輸入' : ''" #UserNickname="ngModel"
+                    [(ngModel)]="memberService.userProfile.User_NickName" maxlength="50" [readOnly]="!editMode">
                 </div>
               </li>
               <li>
@@ -107,12 +107,22 @@
                 <div class="item">E-mail<span *ngIf="editMode" class="text-org">*</span></div>
                 <div class="item input-box">
                   <ng-container *ngIf="!editMode">{{ memberService.userProfile.UserProfile_HiddenEmail}}</ng-container>
-                  <input type="email" name="UserEmail" [placeholder]="editMode? '請輸入' : ''" class="txt-line-clamp1" [ngClass]="{'d-none': !editMode}"
-                    #UserEmail="ngModel" [(ngModel)]="memberService.userProfile.UserProfile_Email"
-                    [ngClass]="{'warning-red': editMode && formProfile.submitted && UserEmail.errors?.required}"
-                    pattern="[A-Za-z0-9\*._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$" required>
+                  <input type="email" name="UserEmail"
+                  #UserEmail="ngModel" [(ngModel)]="memberService.userProfile.UserProfile_Email" required
+                    [placeholder]="editMode? '請輸入' : ''" class="txt-line-clamp1"
+                    [ngClass]="{'d-none': !editMode, 'warning-red': editMode && formProfile.submitted && UserEmail.invalid}"
+                    pattern="[A-Za-z0-9\*._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$">
                 </div>
                 <small class="ml-3 text-danger" *ngIf="editMode && UserEmail.dirty && UserEmail.errors?.pattern">E-mail格式有誤</small>
+              </li>
+              <li>
+                <div class="item">社群帳號綁定</div>
+                <div class="item input-box third">
+                  <img src="../../../../../img/share/facebook.png" [ngClass]="{'able': FBThird}">
+                  <img src="../../../../../img/share/google.png" [ngClass]="{'able': GoogleThird}">
+                  <img src="../../../../../img/share/google-1.png" [ngClass]="{'able': AppleThird}">
+                  <img src="../../../../../img/share/line.png" [ngClass]="{'able': LineThird}">
+                </div>
               </li>
             </form>
             <!-- 上傳護照（暫不顯示） -->
@@ -248,7 +258,7 @@
         <div class="img-box">
           <img src="../img/member/passport-noti.svg" alt="">
         </div>
-        <div class="btn next-btn open-overlay-choice container" (click)="layerTrigUp = 1">
+        <div class="btn index-btn open-overlay-choice container" (click)="layerTrigUp = 1">
           下一步
         </div>
 

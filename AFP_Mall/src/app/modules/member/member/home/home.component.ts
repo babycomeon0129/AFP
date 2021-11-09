@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from '@app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Model_ShareData, AFP_ADImg } from '@app/_models';
 import { Request_MemberThird, Response_MemberThird } from '../member.component';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { SwiperOptions } from 'swiper';
 import { MemberService } from '@app/modules/member/member.service';
-import { AuthService, SocialUser } from 'angularx-social-login';
+import { BsModalService } from 'ngx-bootstrap';
+import { Session } from 'inspector';
+import { AppJSInterfaceService } from '@app/app-jsinterface.service';
+import { CookieService } from 'ngx-cookie-service';
 
 declare var AppJSInterface: any;
 
@@ -17,7 +21,7 @@ declare var AppJSInterface: any;
 })
 export class HomeComponent implements OnInit {
   // 第三方登入 User容器
-  thirdUser: SocialUser;
+  // thirdUser: SocialUser;
   thirdClick = false;
 
   /** 首頁資訊（廣告列表） */
@@ -30,13 +34,20 @@ export class HomeComponent implements OnInit {
     }
   };
 
-
-  constructor(public appService: AppService, private router: Router, public modal: ModalService, public memberService: MemberService, private authService: AuthService) {
+  constructor(public appService: AppService, public oauthService: OauthService, private callApp: AppJSInterfaceService,
+              private router: Router, private modal: ModalService, private route: ActivatedRoute,
+              public memberService: MemberService, private cookieService: CookieService) {
   }
 
   ngOnInit() {
-    this.readIndexData();
-    this.memberService.readProfileData();
+    if (this.cookieService.get('M_idToken') !== '' && this.cookieService.get('M_idToken') !== 'undefined') {
+      this.appService.loginState = true;
+      this.readIndexData();
+      this.memberService.readProfileData();
+      if (this.appService.isApp === 1) {
+        this.callApp.appShowMobileFooter(true);
+      }
+    }
     //  第三方登入取得資料
     // this.authService.authState.subscribe((user) => {
     //   this.thirdUser = user;
@@ -46,7 +57,6 @@ export class HomeComponent implements OnInit {
     //     // 社群帳號綁定
     //     const request: Request_MemberThird = {
     //       SelectMode: 1,
-    //       User_Code: sessionStorage.getItem('userCode'),
     //       Mode: this.memberService.bindMode,
     //       Token: this.thirdUser.id,
     //       JsonData: JSON.stringify(this.thirdUser)
@@ -60,22 +70,23 @@ export class HomeComponent implements OnInit {
 
   /** 讀取首頁資料 */
   readIndexData(): void {
-    const request: Request_MemberIndex = {
-      SelectMode: 4,
-      User_Code: sessionStorage.getItem('userCode')
-    };
+    if (this.cookieService.get('M_idToken') !== '' && this.cookieService.get('M_idToken') !== 'undefined') {
+      const request: Request_MemberIndex = {
+        SelectMode: 4
+      };
 
-    this.appService.toApi('Member', '1501', request).subscribe((data: Response_MemberIndex) => {
-      this.indexData = data;
-    });
+      this.appService.toApi('Member', '1501', request).subscribe((data: Response_MemberIndex) => {
+        this.indexData = data;
+      });
+    }
   }
 
   /** 前往設定（判斷登入與否） */
   goToSetting(): void {
-    if (this.appService.loginState) {
-      this.router.navigate(['/Member/Setting']);
+    if (!this.appService.loginState) {
+      this.appService.logoutModal();
     } else {
-      this.appService.loginPage();
+      this.router.navigate(['/Member/Setting']);
     }
   }
 
@@ -104,21 +115,19 @@ export class HomeComponent implements OnInit {
    * @param pageCode 通知原生開啟頁面 0: 我的卡片 1: 我的車票 2: 我的點餐 3: 我的優惠券 4: 我的收藏 5: 我的訂單 6: M Point
    */
   pageRoute(page: string, pageCode: number): void {
-    if (!this.appService.loginState) {
-      this.appService.loginPage();
+    if (page === '0') {
+      this.modal.show('message',  { class: 'modal-dialog-centered',
+      initialState: { success: true, message: '敬請期待!', showType: 1 } });
     } else {
-      if (page === '0') {
-        this.modal.show('message', { initialState: { success: true, message: '敬請期待!', showType: 1 } });
-      } else {
-        switch (pageCode) {
-          case 3:
-          case 4:
-            this.appService.isApp !== null ?　this.appShowMemberPage(pageCode) : this.routerForApp(page);
-            break;
-          default:
-            this.routerForApp(page);
-            break;
-        }
+      switch (pageCode) {
+        case 3:
+        case 4:
+          // 3: 我的優惠券 4: 我的收藏 皆為原生
+          this.appService.isApp === 1 ?　this.appShowMemberPage(pageCode) : this.routerForApp(page);
+          break;
+        default:
+          this.routerForApp(page);
+          break;
       }
     }
   }
@@ -137,6 +146,7 @@ export class HomeComponent implements OnInit {
   /** App 特例處理router */
   routerForApp(page: string): void {
     this.router.navigate([page], {
+      relativeTo: this.route,
       queryParams: {
         showBack: true
       }

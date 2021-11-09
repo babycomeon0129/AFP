@@ -2,9 +2,7 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { Router } from '@angular/router';
-import { AppService } from '@app/app.service';
 import { AFP_ADImg, AFP_VerifiedInfo } from '@app/_models';
-import { PasswordModalComponent } from '../password-modal/password-modal.component';
 
 @Component({
   selector: 'app-message-modal',
@@ -23,11 +21,13 @@ export class MessageModalComponent implements OnInit {
   /** 廣告圖 */
   adImgList: AFP_ADImg[];
   /** 重設密碼用 */
-  VerifiedInfo: AFP_VerifiedInfo;
+  // VerifiedInfo: AFP_VerifiedInfo;
   /** 優惠券名稱 */
   voucherName: string;
   /** 確認按鈕內容 (視窗只有1顆確認按鈕時使用)，預設內容為「確定」，如需更換內容，須設置 */
-  singleBtnMsg = '確定';
+  checkBtnMsg = '確定';
+  /** 確認按鈕連結 (視窗只有1顆確認按鈕時使用) */
+  checkBtnUrl: string;
   /** 左邊按鈕內容 (視窗需要2顆確認按鈕時使用) */
   leftBtnMsg: string;
   /** 左邊按鈕連結 (視窗需要2顆確認按鈕時使用) */
@@ -36,12 +36,15 @@ export class MessageModalComponent implements OnInit {
   rightBtnMsg: string;
   /** 右邊按鈕連結 (視窗需要2顆確認按鈕時使用) */
   rightBtnUrl: string;
-  /** 網址傳參 (連結跳轉須加上參數時使用，預設為單顆按鈕/ 雙顆按鈕左邊按鈕的傳參)*/
+  /** 右邊按鈕callback function */
+  rightBtnFn: any;
+  /** 網址傳參 (連結跳轉須加上參數時使用，預設為單顆按鈕/ 雙顆按鈕左邊按鈕的傳參) */
   queryParams1: object;
   /** 網址傳參2 (連結跳轉須加上參數時使用，預設為雙顆按鈕時右邊按鈕的傳參) */
   queryParams2: object;
 
-  constructor(public bsModalRef: BsModalRef, private bsModal: BsModalService, private router: Router, public appService: AppService, private location: Location) { }
+  constructor(public bsModalRef: BsModalRef, private bsModal: BsModalService,
+              private router: Router) { }
 
   ngOnInit() {
   }
@@ -50,16 +53,19 @@ export class MessageModalComponent implements OnInit {
   clickSingleBtn(): void {
     switch (this.showType) {
       case 1:
-        this.goToUrl(this.target, this.queryParams1);
         break;
       case 2:
-        this.appService.loginPage();
-        this.bsModalRef.hide();
+        this.goToUrl(this.target, this.queryParams1);
         break;
-      case 3:
-        this.doReset();
+      case 5:
         break;
     }
+    this.bsModalRef.hide();
+  }
+
+  clickCheckBtn(url: string): void {
+    this.router.navigate([url]);
+    this.bsModalRef.hide();
   }
 
 
@@ -69,29 +75,16 @@ export class MessageModalComponent implements OnInit {
    */
   goToUrl(url: string, params: object): void {
     this.bsModalRef.hide();
+    if (this.rightBtnFn) {
+      this.rightBtnFn();
+    }
     // 先判斷按下確定鍵後是否需要返回上一頁
     if (url === 'GoBack') {
-      this.location.back();
+      history.back();
     }  else if (url !== null && url !== undefined && url.replace(/(^s*)|(s*$)/g, '').length !== 0) {  // 判斷是否需要前往特定連結
        // 再判斷該連結是否需要傳參
       params === null ? this.router.navigate([url]) : this.router.navigate([url], {queryParams: params});
     }
   }
-
-  /** 跳轉至忘記密碼 */
-  doReset(): void {
-    if (this.appService.isApp !== null) {
-      this.bsModalRef.hide();
-    } else {
-      // 將VerifiedInfot傳到password modal那裏
-      const initialState = {
-        VerifiedInfo: this.VerifiedInfo
-      };
-      this.bsModal.show(PasswordModalComponent, { initialState });
-      this.bsModalRef.hide();
-      // this.modal.show('password', { initialState }, this.bsModalRef);
-    }
-  }
-
 
 }

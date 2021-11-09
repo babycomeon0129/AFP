@@ -114,7 +114,7 @@
           <span>{{voucherData.Voucher_DedPoint | currency: '':'':'1.0-2'}}</span>
         </div>
         <button (click)="toVoucher(voucherData)"
-          [disabled]="appService.loginState && (voucherData?.Voucher_IsFreq === 0 || voucherData?.Voucher_IsFreq === 3 || voucherData?.Voucher_IsFreq === 6)"
+          [disabled]="appService.loginState===true && (voucherData?.Voucher_IsFreq === 0 || voucherData?.Voucher_IsFreq === 3 || voucherData?.Voucher_IsFreq === 6)"
           [ngClass]="{'gray-obtn': voucherData?.Voucher_IsFreq === 0 || voucherData?.Voucher_IsFreq === 3 || voucherData?.Voucher_IsFreq === 6,
                       'index-btn': voucherData?.Voucher_IsFreq === 1,
                       'index-outline-btn': voucherData?.Voucher_IsFreq === 2 || voucherData?.Voucher_IsFreq === 5,

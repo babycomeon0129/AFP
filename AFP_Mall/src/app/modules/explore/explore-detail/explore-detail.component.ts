@@ -1,5 +1,6 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { AppService } from '@app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Response_AreaDetail, AFP_ECStore, Model_ShareData, AFP_Voucher, AFP_Product, AFP_ECStoreLink } from '@app/_models';
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'ngx-useful-swiper';
@@ -7,7 +8,6 @@ import { ActivatedRoute } from '@angular/router';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation } from '@app/animations';
-import { BsModalRef } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-explore-detail',
@@ -69,7 +69,9 @@ export class ExploreDetailComponent implements OnInit {
   /** 同頁滑動切換 0:本頁 1:篩選清單 2:篩選-商品分類 3:更多推薦 */
   public layerTrig = 0;
 
-  constructor(public appService: AppService, private route: ActivatedRoute, public modal: ModalService, private meta: Meta, private title: Title, private bsModalRef: BsModalRef ) {
+  constructor(public appService: AppService, private oauthService: OauthService,
+              private route: ActivatedRoute, private modal: ModalService,
+              private meta: Meta, private title: Title ) {
     // 取得商家/景點編碼
     this.siteCode = Number(this.route.snapshot.params.ECStore_Code);
     if (this.route.snapshot.params.ECStore_Code.tabNo !== undefined) {
@@ -92,12 +94,8 @@ export class ExploreDetailComponent implements OnInit {
         this.readTabData(1);
       });
     } else {
-      const initialState = {
-        success: true,
-        message: '該瀏覽器不支援定位功能',
-        showType: 1
-      };
-      this.modal.show('message', { initialState }, this.bsModalRef);
+      this.modal.show('message', { class: 'modal-dialog-centered',
+        initialState: { success: true, message: '該瀏覽器不支援定位功能', showType: 1 } });
       this.lat = 25.034306;
       this.lng = 121.564603;
       this.readTabData(1);
@@ -130,7 +128,6 @@ export class ExploreDetailComponent implements OnInit {
    */
   readTabData(index: number): void {
     const request: Request_AreaDetail = {
-      User_Code: sessionStorage.getItem('userCode'),
       SearchModel: {
         ECStore_Code: this.siteCode,
         TabIndex: index
@@ -213,11 +210,11 @@ export class ExploreDetailComponent implements OnInit {
    */
   sendDelivery(url: string): void {
     // 先判斷是否有登入
-    if (this.appService.loginState) {
+    if (!this.appService.loginState) {
+      this.appService.logoutModal();
+    } else {
       // 把商店code帶到DeliveryInfo頁面
       window.open(url);
-    } else {
-      this.appService.loginPage();
     }
   }
 

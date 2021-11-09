@@ -54,7 +54,6 @@ export class DeliveryInfoComponent implements OnInit {
     this.appService.openBlock();
     const request: Request_DeliveryCfm = {
       SelectMode: 1,
-      User_Code: sessionStorage.getItem('userCode'),
       Model_DeliveryForm: null,
       SearchModel: {
         ECStore_Code: this.siteCode
@@ -104,7 +103,6 @@ export class DeliveryInfoComponent implements OnInit {
     this.appService.openBlock();
     const request: Request_DeliveryCfm = {
       SelectMode: 2,
-      User_Code: sessionStorage.getItem('userCode'),
       Model_DeliveryForm: this.deliveryForm,
       SearchModel: {
         ECStore_Code: this.siteCode
@@ -112,7 +110,7 @@ export class DeliveryInfoComponent implements OnInit {
     };
     // 送外送表單資訊到server，索取跳轉至外送商家的Url
     this.appService.toApi('Area', '1404', request).subscribe((data: Response_DeliveryCfm) => {
-      window.location.href = data.SendURL.length > 0 ? data.SendURL : null;
+      location.href = data.SendURL.length > 0 ? data.SendURL : null;
     });
   }
 

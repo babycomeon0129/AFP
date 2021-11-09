@@ -4,6 +4,7 @@ import {
   Response_MemberUserVoucher, Request_MemberCheckStatus, Response_MemberCheckStatus
 } from '@app/_models';
 import { AppService } from '@app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
@@ -46,9 +47,8 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
   /** 同頁滑動切換 0:本頁 1:使用優惠券 */
   public layerTrig = 0;
 
-
-  constructor(public appService: AppService, private route: ActivatedRoute, private router: Router,
-    public modal: ModalService, private meta: Meta, private title: Title, private callApp: AppJSInterfaceService) {
+  constructor(public appService: AppService, private oauthService: OauthService, private route: ActivatedRoute, private router: Router,
+              public modal: ModalService, private meta: Meta, private title: Title, private callApp: AppJSInterfaceService) {
     this.voucherCode = this.route.snapshot.params.Voucher_Code;
     if (this.voucherCode.toString().substring(0, 2) === '46') {
       this.selectMode = 4;
@@ -64,7 +64,6 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
   /** 讀取優惠券資料 */
   readVoucherData(): void {
     const request: Request_ECVoucherDetail = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: this.selectMode,
       SearchModel: {
         Voucher_Code: this.voucherCode,
@@ -118,7 +117,9 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
    * @param voucher 優惠券詳細
    */
   toVoucher(voucher: AFP_Voucher): void {
-    if (this.appService.loginState) {
+    if (!this.appService.loginState) {
+      this.appService.logoutModal();
+    } else {
       if (voucher.Voucher_DedPoint > 0 && voucher.Voucher_IsFreq === 1) {
         this.modal.confirm({
           initialState: {
@@ -139,8 +140,6 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
       } else {
         this.onVoucher(voucher);
       }
-    } else {
-      this.appService.loginPage();
     }
   }
 
@@ -153,7 +152,6 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
       case 1:
         // 兌換（加入到「我的優惠券」）
         const request: Request_MemberUserVoucher = {
-          User_Code: sessionStorage.getItem('userCode'),
           SelectMode: 1, // 新增
           Voucher_Code: voucher.Voucher_Code, // 優惠券Code
           Voucher_ActivityCode: null, // 優惠代碼
@@ -205,7 +203,6 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
     // 每5秒問一次API是否已核銷
     this.checkTimer = setInterval(() => {
       const request: Request_MemberCheckStatus = {
-        User_Code: sessionStorage.getItem('userCode'),
         SelectMode: 1,
         QRCode: this.userVoucher.UserVoucher_QRCode
       };

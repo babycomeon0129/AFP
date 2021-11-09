@@ -37,7 +37,6 @@ export class ReturnComponent implements OnInit {
   constructor(private route: ActivatedRoute, public appService: AppService, private modal: ModalService, private router: Router, public callApp: AppJSInterfaceService) {
     this.orderNo = this.route.snapshot.params.Order_TableNo;
     const request: Request_MemberOrder = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 2, // 詳細查詢
       SearchModel: {
         OrderNo: this.orderNo,
@@ -69,8 +68,7 @@ export class ReturnComponent implements OnInit {
   // 讀取會員儲存地址
   readMemberAddress() {
     const request: Request_MemberAddress = {
-      SelectMode: 4,
-      User_Code: sessionStorage.getItem('userCode')
+      SelectMode: 4
     };
     this.appService.toApi('Member', '1503', request).subscribe((data: Response_MemberAddress) => {
       this.addressList = data.List_UserFavourite;
@@ -170,7 +168,6 @@ export class ReturnComponent implements OnInit {
 
     const request: Request_MemberAddress = {
       SelectMode: 1,
-      User_Code: sessionStorage.getItem('userCode'),
       AFP_UserFavourite: this.requestAddress
     };
 
@@ -191,7 +188,6 @@ export class ReturnComponent implements OnInit {
       if (this.servicesModel.Services_Address.length > 0) {
         const request: Request_MemberServices = {
           SelectMode: 1,
-          User_Code: sessionStorage.getItem('userCode'),
           AFP_Services: this.servicesModel
         };
         this.appService.toApi('Member', '1515', request).subscribe((data: Response_MemberServices) => {

@@ -45,7 +45,6 @@ export class OrderCompleteComponent implements OnInit {
     });
 
     const request: Request_OrderComplete = {
-      User_Code: sessionStorage.getItem('userCode'),
       PayOrderNo: this.PayOrderNo,
       ModelData: this.BindData
     };
@@ -78,7 +77,7 @@ export class OrderCompleteComponent implements OnInit {
 
   /** 前往商城首頁 */
   GoECIndex(): void {
-    if (this.appService.isApp != null) {
+    if (this.appService.isApp === 1) {
       location.href = '/Shopping';
     } else {
       this.router.navigate(['/Shopping']);

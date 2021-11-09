@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppService } from '@app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 
 @Component({
   selector: 'app-index-header',
@@ -11,7 +12,7 @@ export class IndexHeaderComponent implements OnInit {
   /** 只在電腦版顯示 */
   @Input() forPc = false;
 
-  constructor(public appService: AppService, private router: Router) { }
+  constructor(public appService: AppService, public oauthService: OauthService, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -25,10 +26,10 @@ export class IndexHeaderComponent implements OnInit {
 
   /** 前往頁面前判斷登入狀態 */
   goTo() {
-    if (this.appService.loginState) {
-      this.router.navigate(['/Notification/NotificationList']);
+    if (!this.appService.loginState) {
+      this.oauthService.loginPage(this.appService.isApp, location.pathname);
     } else {
-      this.appService.loginPage();
+      this.router.navigate(['/Notification/NotificationList']);
     }
   }
 }

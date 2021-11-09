@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { AppService } from '@app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { SwiperOptions } from 'swiper';
 import { AFP_Game, AFP_UserPoint, AFP_ChannelVoucher, AFP_Voucher } from '@app/_models';
@@ -46,7 +47,7 @@ export class MemberCoinComponent implements OnInit {
     }
   };
 
-  constructor(public appService: AppService, public router: Router, public modal: ModalService,
+  constructor(public appService: AppService, private oauthService: OauthService, public router: Router, public modal: ModalService,
               private meta: Meta, private title: Title, private route: ActivatedRoute, private activatedRoute: ActivatedRoute) {
     this.title.setTitle('Mobii Point - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - M Points。這裡會顯示 Mobii! 用戶擁有的 M Points 點數與歷史使用紀錄。點數累積的方式包括每日登入、玩遊戲、購物、乘車等回饋。' });
@@ -56,10 +57,11 @@ export class MemberCoinComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.appService.loginState) {
+    if (!this.appService.loginState) {
+      this.appService.logoutModal();
+    } else {
       this.appService.openBlock();
       const getInfo: Request_MemberPoint = {
-        User_Code: sessionStorage.getItem('userCode'),
         SelectMode: 4,
         SearchModel: {
           VouChannel_Code: 1111111
@@ -77,8 +79,6 @@ export class MemberCoinComponent implements OnInit {
           this.getHistory();
         }
       });
-    } else {
-      this.appService.loginPage();
     }
   }
 
@@ -97,10 +97,11 @@ export class MemberCoinComponent implements OnInit {
 
   /** 歷史紀錄 */
   getHistory(): void {
-    if (this.appService.loginState) {
+    if (!this.appService.loginState) {
+      this.appService.logoutModal();
+    } else {
       this.appService.openBlock();
       const getHistory: Request_MemberPoint = {
-        User_Code: sessionStorage.getItem('userCode'),
         SelectMode: 5,
         SearchModel: {
           UserPoint_Type: this.pointType
@@ -109,8 +110,6 @@ export class MemberCoinComponent implements OnInit {
       this.appService.toApi('Member', '1509', getHistory).subscribe((point: Response_MemberPoint) => {
         this.pointHistory = point.List_UserPoint;
       });
-    } else {
-      this.appService.loginPage();
     }
   }
 

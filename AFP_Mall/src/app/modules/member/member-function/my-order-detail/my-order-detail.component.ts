@@ -54,7 +54,6 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.appService.openBlock();
     const request: Request_MemberOrder = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 2, // 詳細查詢
       SearchModel: {
         OrderNo: this.orderNo
@@ -95,7 +94,6 @@ export class MyOrderDetailComponent implements OnInit, OnDestroy {
     // 每5秒問一次API是否已取貨
     this.checkTimer = setInterval(() => {
       const request: Request_MemberCheckStatus = {
-        User_Code: sessionStorage.getItem('userCode'),
         SelectMode: 1,
         QRCode: this.orderInfo.Order_QRCode
       };

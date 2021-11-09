@@ -33,7 +33,6 @@ export class ReturnDialogComponent implements OnInit {
 
   ngOnInit() {
     const request: Request_MemberServices = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 3, // 對話紀錄
       SearchModel: {
         Services_TableNo: this.ServiceTableNO
@@ -52,7 +51,6 @@ export class ReturnDialogComponent implements OnInit {
       const ServicesModel: AFP_Services = new AFP_Services();
       ServicesModel.Services_TableNo = this.ServiceTableNO;
       const request: Request_MemberServices = {
-        User_Code: sessionStorage.getItem('userCode'),
         SelectMode: 4, // 新增對話
         AFP_Services: ServicesModel,
         DealInfo_Content: this.CostomerMsg

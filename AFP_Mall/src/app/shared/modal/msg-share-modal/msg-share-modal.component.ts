@@ -13,11 +13,13 @@ export class MsgShareModalComponent implements OnInit {
   pageUrl: string;
   /** 分享時所帶文字 */
   sharedText: string;
-
+  /** 訊息視窗切換 */
+  subModal: number;
   constructor(public bsModalRef: BsModalRef, private bsModal: BsModalService) {
   }
 
   ngOnInit() {
+    this.subModal = 0;
     this.pageUrl = decodeURI(location.href);
   }
 
@@ -65,7 +67,8 @@ export class MsgShareModalComponent implements OnInit {
       document.execCommand('copy');
     }
     document.body.removeChild(el);
-    this.bsModal.show(MessageModalComponent,{ initialState: { success: true, message: '已複製網址!', showType: 1 } });
+    this.subModal = 1;
+    // this.bsModal.show(MessageModalComponent,{ initialState: { success: true, message: '已複製網址!', showType: 1 } });
   }
 
   /** 取得設備iOS版本

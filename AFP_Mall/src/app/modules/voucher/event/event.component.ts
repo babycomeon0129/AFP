@@ -62,7 +62,6 @@ export class EventComponent implements OnInit {
   readData(): void {
     this.appService.openBlock();
     const request: Request_ECVoucher = {
-      User_Code: sessionStorage.getItem('userCode'),
       SelectMode: 5
     };
     this.appService.toApi('EC', '1205', request).subscribe((data: Response_ECVoucher) => {
