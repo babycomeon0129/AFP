@@ -175,9 +175,11 @@ export class AppService {
       User_Code: sessionStorage.getItem('userCode')
     };
     this.toApi_Logout('Home', '1109', request).subscribe((Data: any) => { });
-    // APP登出導頁
-    if (this.isApp === 1 || this.appLoginType === '1') {
-      location.href = '/ForApp/AppLogout';
+    // APP登出導頁 (app且登入狀態下，方需登出)
+    if (this.isApp === 1) {
+      if (this.appLoginType === '1') {
+        location.href = '/ForApp/AppLogout';
+      }
     }
 
     // web導頁(清除logout參數)
