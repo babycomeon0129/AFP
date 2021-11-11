@@ -6,7 +6,7 @@ export const environment = {
   modifyUrl: 'https://login.mobii.ai/auth/api/v1/memberModify',
   FBApiKey: '1143928759336931',
   GoogleApiKey: '260499247538-0gafabuvc5n9d2881ufjgefeo71p51q5.apps.googleusercontent.com',
-  cookieDomain: '.mobii.ai',
+  cookieDomain: 'mobii.ai,www.mobii.ai,web.mobii.ai',
   cookieSecure: true,
   /** Apple登入redirectURI */
   AppleSignInURI: 'https://www.mobii.ai',

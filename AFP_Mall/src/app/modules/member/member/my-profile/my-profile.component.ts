@@ -1,3 +1,4 @@
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -49,7 +50,7 @@ export class MyProfileComponent implements OnInit {
 
   constructor(public appService: AppService, public modal: ModalService, public memberService: MemberService,
               private meta: Meta, private title: Title, private localeService: BsLocaleService,
-              private callApp: AppJSInterfaceService, private cookieService: CookieService) {
+              private callApp: AppJSInterfaceService, private cookieService: CookieService, private oauthService: OauthService) {
     this.title.setTitle('我的檔案 - Mobii!');
     this.meta.updateTag({ name: 'description', content: '' });
     this.meta.updateTag({ content: '我的檔案 - Mobii!', property: 'og:title' });
@@ -123,9 +124,9 @@ export class MyProfileComponent implements OnInit {
       // 取得並顯示我的檔案資料
       this.memberService.readProfileData().then(() => {
         // 更新session 和 app.service 中的 userName 讓其他頁面名稱同步
-        sessionStorage.setItem('userName', this.memberService.userProfile.User_NickName);
-        this.cookieService.set('userName', this.memberService.userProfile.User_NickName, 90, '/',
-        environment.cookieDomain, environment.cookieSecure, 'Lax');
+        this.oauthService.cookiesSet({
+          name: this.memberService.userProfile.User_NickName
+        });
         this.appService.userName = this.memberService.userProfile.User_NickName;
       });
       this.editMode = false;

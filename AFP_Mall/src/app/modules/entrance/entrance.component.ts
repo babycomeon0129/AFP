@@ -1,3 +1,4 @@
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { BsModalRef } from 'ngx-bootstrap';
 import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
 import { AppService } from '@app/app.service';
@@ -278,7 +279,7 @@ export class EntranceComponent implements OnInit {
 
   constructor(public appService: AppService, public bsModalRef: BsModalRef, public modal: ModalService,
               private router: Router, private meta: Meta, private title: Title, private cookieService: CookieService,
-              public route: ActivatedRoute, private renderer2: Renderer2) {
+              public route: ActivatedRoute, private renderer2: Renderer2, private oauthService: OauthService) {
     this.title.setTitle('Mobii!｜綠色城市優惠平台');
     this.meta.updateTag({ name: 'description', content: '使用 Mobii! APP，讓你的移動總是驚喜。乘車、購物、美食、景點、旅行資訊全都包，使用就享點數回饋，每日登入再領 M Points，會員再享獨家彩蛋大禮包。先下載 Mobii APP 看看裡面有什麼好玩的吧？' });
     this.meta.updateTag({ content: 'Mobii!｜綠色城市優惠平台', property: 'og:title' });
@@ -318,7 +319,9 @@ export class EntranceComponent implements OnInit {
       this.JustKaUrl = data.JustKaUrl;
       // 會員資訊
       this.userPoint = data.TotalPoint;
-      sessionStorage.setItem('userName', data.UserName);
+      this.oauthService.cookiesSet({
+        name: data.UserName
+      });
       this.appService.userName = data.UserName;
       this.userVoucherCount = data.VoucherCount;
       // 廣告
@@ -401,7 +404,9 @@ export class EntranceComponent implements OnInit {
     const adTimeString = JSON.parse(adTime);
     const nowTime = new Date().getFullYear().toString() + new Date().getMonth().toString() + new Date().getDate().toString();
     if (adTimeString !== nowTime) {
-      this.cookieService.set('adTime', JSON.stringify(nowTime), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+      this.oauthService.cookiesSet({
+        adTime: JSON.stringify(nowTime)
+      });
       this.adIndexTime = true;
       // 出現首頁廣告版面才禁止背景滑動
       if (this.adIndex.length > 0 && this.appService.adIndexOpen) {

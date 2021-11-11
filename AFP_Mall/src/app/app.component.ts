@@ -46,7 +46,9 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
 
       //  購物車編碼 (APP用)
       if (typeof params.cartCode !== 'undefined') {
-        this.cookieService.set('cart_code', params.cartCode, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+        this.oauthService.cookiesSet({
+          cart: params.cartCode
+        });
       }
 
       // 任務用 & 我的用 (APP用)
@@ -54,13 +56,24 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
         this.appService.appLoginType = params.loginType;
         if (params.loginType === '1' && (typeof params.M_idToken !== 'undefined' && params.M_idToken !== null)) {
           // APP 為登入狀態則將該 webview 也同步為登入
-          this.cookieService.set('M_idToken', params.M_idToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-          if (typeof params.userCode !== 'undefined') { sessionStorage.setItem('userCode', encodeURIComponent(params.userCode)); }
-          if (typeof params.userName !== 'undefined') { sessionStorage.setItem('userName', params.userName); }
-          if (typeof params.userName !== 'undefined') { this.cookieService.set('userName', params.userName, 90, '/',
-              environment.cookieDomain, environment.cookieSecure, 'Lax'); }
-          if (typeof params.userCode !== 'undefined') { this.cookieService.set('userCode', encodeURIComponent(params.userCode), 90, '/',
-              environment.cookieDomain, environment.cookieSecure, 'Lax'); }
+          this.oauthService.cookiesSet({
+            token: params.M_idToken
+          });
+          if (typeof params.userCode !== 'undefined') {
+            this.oauthService.cookiesSet({
+              code: encodeURIComponent(params.userCode)
+            });
+          }
+          if (typeof params.userName !== 'undefined') {
+            this.oauthService.cookiesSet({
+              code: encodeURIComponent(params.userName)
+            });
+          }
+          if (typeof params.userName !== 'undefined') {
+            this.oauthService.cookiesSet({
+              name: params.userName
+            });
+          }
           this.appService.userName = params.userName;
           this.appService.loginState = true;
           this.appService.userLoggedIn = true;

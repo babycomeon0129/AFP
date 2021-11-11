@@ -11,7 +11,10 @@ export const environment = {
   modifyUrl: 'https://login-uuat.mobii.ai/auth/api/v1/memberModify',
   FBApiKey: '349758176149496',
   GoogleApiKey: '260499247538-ctoucp9t09ufdpgqmd4ac368lfpgmorm.apps.googleusercontent.com',
-  cookieDomain: 'localhost',
+  cookieDomain: {
+    dns1: 'localhost',
+    dns2: '127.0.0.1'
+  },
   cookieSecure: false,
   /** Apple登入redirectURI */
   AppleSignInURI: 'https://www-uat.mobii.ai',

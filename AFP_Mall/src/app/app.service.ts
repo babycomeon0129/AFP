@@ -110,10 +110,14 @@ export class AppService {
               // 避免call api時，重複存M_idToken
               if (this.idToken === null) {
                 this.idToken = toApiData.IdToken;
-                this.cookieService.set('M_idToken', toApiData.IdToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+                this.oauthService.cookiesSet({
+                  token: toApiData.IdToken
+                });
               }
               if (this.cookieService.get('M_idToken') !== toApiData.IdToken) {
-                this.cookieService.set('M_idToken', toApiData.IdToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+                this.oauthService.cookiesSet({
+                  token: toApiData.IdToken
+                });
               }
               this.loginState = true;
               this.userLoggedIn = true;
@@ -193,7 +197,7 @@ export class AppService {
     // 清除session、cookie、我的收藏資料，重置登入狀態及通知數量
     sessionStorage.clear();
     this.cookieService.deleteAll();
-    this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+    this.oauthService.cookieDel('/');
     this.loginState = false;
     this.userLoggedIn = false;
     this.userFavCodes = [];
@@ -315,7 +319,9 @@ export class AppService {
 
       this.toApi('Member', '1511', request).subscribe((data: Response_MemberFavourite) => {
         // update favorites to session
-        sessionStorage.setItem('userFavorites', JSON.stringify(data.List_UserFavourite));
+        this.oauthService.cookiesSet({
+          favorite: JSON.stringify(data.List_UserFavourite)
+        });
         // update favorites to array
         this.showFavorites();
         if (favAction === 1) {
@@ -335,8 +341,9 @@ export class AppService {
     };
 
     this.toApi('EC', '1204', request).subscribe((data: Response_ECCart) => {
-      this.cookieService.set('cart_count_Mobii', data.Cart_Count.toString(), 90, '/',
-                              environment.cookieDomain, environment.cookieSecure, 'Lax');
+      this.oauthService.cookiesSet({
+        count: JSON.stringify(data.Cart_Count)
+      });
     });
   }
 
@@ -472,7 +479,9 @@ export class AppService {
         console.log('new message received. ', payload);
         this.currentMessage.next(payload);
         this.pushCount++;
-        this.cookieService.set('pushCount', this.pushCount.toString(), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+        this.oauthService.cookiesSet({
+          pushCount: JSON.stringify(this.pushCount)
+        });
       });
   }
 
@@ -564,9 +573,8 @@ export class AppService {
 
   /** 網頁跳轉(登入用，不會紀錄連結的歷史紀錄) */
   jumpUrl() {
-    const uri = (localStorage.getItem('M_fromOriginUri') !== null &&
-                localStorage.getItem('M_fromOriginUri') !== 'undefined')
-                ? localStorage.getItem('M_fromOriginUri') : '/' ;
+    const uri = (this.cookieService.check('M_fromOriginUri')) ?
+      '/' : this.cookieService.get('M_fromOriginUri');
     if (uri.startsWith('https') || uri.startsWith('http')) {
       location.replace(uri);
     } else {

@@ -46,29 +46,40 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
       /** 「艾斯身份證別_登入1-1-2」接收queryParams */
       if (params.isApp === '1' && typeof params.deviceType !== 'undefined') {
+        console.log('1-1');
         /** 「艾斯身份證別_登入1-1-1b」 App (接收App queryParams：isApp, deviceType, deviceCode) */
         this.oauthService.loginRequest.deviceType = Number(params.deviceType);
-        localStorage.setItem('M_deviceType', params.deviceType);
         this.appService.isApp = params.isApp;
         this.oauthService.loginRequest.deviceCode = params.deviceCode;
+        this.oauthService.cookiesSet({
+          type: params.deviceType,
+          uri: '/'
+        });
       } else {
+        console.log('1-2', typeof params.fromOriginUri !== 'undefined');
         /** 「艾斯身份證別_登入1-1-1a」活動頁帶返回頁參數 */
         this.oauthService.loginRequest.deviceType = 0;
-        localStorage.setItem('M_deviceType', '0');
         if (typeof params.fromOriginUri !== 'undefined') {
           this.oauthService.loginRequest.fromOriginUri = params.fromOriginUri;
-          localStorage.setItem('M_fromOriginUri', params.fromOriginUri);
+          this.oauthService.cookiesSet({
+            type: '0',
+            uri: params.fromOriginUri
+          });
         }
         this.oauthService.loginRequest.deviceCode = localStorage.getItem('M_DeviceCode');
       }
 
       if (typeof params.IdToken !== 'undefined' && params.IdToken !== null) {
-        this.cookieService.set('M_idToken', params.IdToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+        console.log('2');
+        this.oauthService.cookiesSet({
+          token: params.IdToken
+        });
       }
       /** 「艾斯身份證別_登入2-1」 艾斯身份識別登入成功後，由Redirect API取得grantCode及List_MultipleUser
        * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/20001-redirect-api-mobii
        */
       if (!this.M_idToken) {
+        console.log('3');
         if (typeof params.loginJson !== 'undefined' && JSON.parse(params.loginJson).errorCode === '996600001') {
           const loginJson = JSON.parse(params.loginJson);
           this.viewType = '2';
@@ -94,6 +105,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
       /** 「艾斯身份證別_忘記密碼1」Redirect API由後端取得艾斯導頁 */
       if (params.forgetPassword === 'true' && (this.M_idToken !== '' && this.M_idToken !== 'undefined')) {
+        console.log('4');
         this.onLoginOK();
       }
 
@@ -101,45 +113,47 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    console.log('oauth login...');
     // 避免直接貼上，導回Login頁
-    if (localStorage.getItem('M_fromOriginUri') === '/Login') { localStorage.removeItem('M_fromOriginUri'); }
+    // if (this.cookieService.get('M_fromOriginUri') === '/Login') { localStorage.removeItem('M_fromOriginUri'); }
 
     // TODO 測試用
     // document.getElementById('loginRequest').innerHTML = this.temp +
     //     '<div>loginState: ' + this.appService.loginState + '</div>' +
     //     '<div>idToken: ' + this.M_idToken + '</div>';
-    this.appService.openBlock();
-    if (localStorage.getItem('M_upgrade') === null) {
-      this.viewType = '0';
-    }
-    sessionStorage.setItem('viewType', this.viewType);
-    switch (this.viewType) {
-      case '0':
-        this.viewTitle = '帳號升級公告';
-        this.getViewData();
-        break;
-      case '1':
-        this.viewTitle = '帳號整併';
-        break;
-      case '2':
-        if (this.M_idToken !== '' && this.M_idToken !== 'undefined') {
-          this.onLoginOK();
-        } else {
-          this.getViewData();
-        }
-        break;
-      case '3':
-        if (this.M_idToken !== '' && this.M_idToken !== 'undefined') {
-          this.onLoginOK();
-        } else {
-          this.getViewData();
-        }
-        break;
-      default:
-        this.viewTitle = '';
-        this.getViewData();
-        break;
-    }
+
+    // this.appService.openBlock();
+    // if (localStorage.getItem('M_upgrade') === null) {
+    //   this.viewType = '0';
+    // }
+    // sessionStorage.setItem('viewType', this.viewType);
+    // switch (this.viewType) {
+    //   case '0':
+    //     this.viewTitle = '帳號升級公告';
+    //     this.getViewData();
+    //     break;
+    //   case '1':
+    //     this.viewTitle = '帳號整併';
+    //     break;
+    //   case '2':
+    //     if (this.M_idToken !== '' && this.M_idToken !== 'undefined') {
+    //       this.onLoginOK();
+    //     } else {
+    //       this.getViewData();
+    //     }
+    //     break;
+    //   case '3':
+    //     if (this.M_idToken !== '' && this.M_idToken !== 'undefined') {
+    //       this.onLoginOK();
+    //     } else {
+    //       this.getViewData();
+    //     }
+    //     break;
+    //   default:
+    //     this.viewTitle = '';
+    //     this.getViewData();
+    //     break;
+    // }
   }
 
   getViewData() {
@@ -198,13 +212,12 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.oauthService.toTokenApi(this.oauthService.grantRequest).subscribe((data: ResponseOauthApi) => {
           const tokenData =  Object.assign(data);
           if (tokenData.errorCode === '996600001') {
-            sessionStorage.setItem('M_idToken', tokenData.data.idToken);
-            sessionStorage.setItem('userName', tokenData.data.Customer_Name);
-            sessionStorage.setItem('userCode', tokenData.data.Customer_Code);
-            sessionStorage.setItem('userFavorites', JSON.stringify(tokenData.data.List_UserFavourite));
-            this.cookieService.set('M_idToken', tokenData.data.idToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-            this.cookieService.set('userName', tokenData.data.Customer_Name, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-            this.cookieService.set('userCode', tokenData.data.Customer_Code, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+            this.oauthService.cookiesSet({
+              token: tokenData.data.idToken,
+              name: tokenData.data.Customer_Name,
+              code: tokenData.data.Customer_Code,
+              favorite: JSON.stringify(tokenData.data.List_UserFavourite)
+            });
             this.appService.userName = tokenData.data.Customer_Name;
             this.appService.loginState = true;
             this.appService.userLoggedIn = true;
@@ -244,8 +257,10 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     }
   }
 
+
   ngAfterViewInit() {
     this.appService.blockUI.stop();
   }
 
 }
+
