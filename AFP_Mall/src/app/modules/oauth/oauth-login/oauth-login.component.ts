@@ -79,7 +79,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
        * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/20001-redirect-api-mobii
        */
       if (!this.M_idToken) {
-        console.log('3');
+        console.log('3', this.viewType);
         if (typeof params.loginJson !== 'undefined' && JSON.parse(params.loginJson).errorCode === '996600001') {
           const loginJson = JSON.parse(params.loginJson);
           this.viewType = '2';
@@ -115,45 +115,45 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     console.log('oauth login...');
     // 避免直接貼上，導回Login頁
-    // if (this.cookieService.get('M_fromOriginUri') === '/Login') { localStorage.removeItem('M_fromOriginUri'); }
+    if (this.cookieService.get('M_fromOriginUri') === '/Login') { localStorage.removeItem('M_fromOriginUri'); }
 
     // TODO 測試用
     // document.getElementById('loginRequest').innerHTML = this.temp +
     //     '<div>loginState: ' + this.appService.loginState + '</div>' +
     //     '<div>idToken: ' + this.M_idToken + '</div>';
 
-    // this.appService.openBlock();
-    // if (localStorage.getItem('M_upgrade') === null) {
-    //   this.viewType = '0';
-    // }
-    // sessionStorage.setItem('viewType', this.viewType);
-    // switch (this.viewType) {
-    //   case '0':
-    //     this.viewTitle = '帳號升級公告';
-    //     this.getViewData();
-    //     break;
-    //   case '1':
-    //     this.viewTitle = '帳號整併';
-    //     break;
-    //   case '2':
-    //     if (this.M_idToken !== '' && this.M_idToken !== 'undefined') {
-    //       this.onLoginOK();
-    //     } else {
-    //       this.getViewData();
-    //     }
-    //     break;
-    //   case '3':
-    //     if (this.M_idToken !== '' && this.M_idToken !== 'undefined') {
-    //       this.onLoginOK();
-    //     } else {
-    //       this.getViewData();
-    //     }
-    //     break;
-    //   default:
-    //     this.viewTitle = '';
-    //     this.getViewData();
-    //     break;
-    // }
+    this.appService.openBlock();
+    if (localStorage.getItem('M_upgrade') === null) {
+      this.viewType = '0';
+    }
+    sessionStorage.setItem('viewType', this.viewType);
+    switch (this.viewType) {
+      case '0':
+        this.viewTitle = '帳號升級公告';
+        this.getViewData();
+        break;
+      case '1':
+        this.viewTitle = '帳號整併';
+        break;
+      case '2':
+        if (this.M_idToken !== '' && this.M_idToken !== 'undefined') {
+          this.onLoginOK();
+        } else {
+          this.getViewData();
+        }
+        break;
+      case '3':
+        if (this.M_idToken !== '' && this.M_idToken !== 'undefined') {
+          this.onLoginOK();
+        } else {
+          this.getViewData();
+        }
+        break;
+      default:
+        this.viewTitle = '';
+        this.getViewData();
+        break;
+    }
   }
 
   getViewData() {

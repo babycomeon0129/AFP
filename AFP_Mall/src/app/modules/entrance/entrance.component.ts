@@ -288,7 +288,7 @@ export class EntranceComponent implements OnInit {
 
   ngOnInit() {
     /** 下方隱私權顯示與否(0顯示，1不顯示) */
-    this.cookieShow = localStorage.getItem('M_cookieShow') ? '1' : '0';
+    this.cookieShow = localStorage.getItem('M_show') ? '1' : '0';
     // 從route resolver取得首頁資料
     // this.route.data.subscribe((data: { homeData: Response_Home }) => {
     //   // 接資料
@@ -306,7 +306,9 @@ export class EntranceComponent implements OnInit {
   /** 下方隱私權顯示與否(0顯示，1不顯示) */
   cookieShowClick() {
     this.cookieShow = '1';
-    localStorage.setItem('M_cookieShow', '1');
+    this.oauthService.cookiesSet({
+      show: '1'
+    });
   }
   /** 讀取首頁上方資料（皆為廣告及會員資料，我的服務除外） */
   readUp(): void {
@@ -405,7 +407,7 @@ export class EntranceComponent implements OnInit {
     const nowTime = new Date().getFullYear().toString() + new Date().getMonth().toString() + new Date().getDate().toString();
     if (adTimeString !== nowTime) {
       this.oauthService.cookiesSet({
-        adTime: JSON.stringify(nowTime)
+        adTime: nowTime
       });
       this.adIndexTime = true;
       // 出現首頁廣告版面才禁止背景滑動
