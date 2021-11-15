@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { environment } from '@env/environment';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AppService } from '@app/app.service';
 import { NgForm } from '@angular/forms';
 import {
@@ -248,7 +248,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       this.existingAccount = false;
     } else {
       const request: Request_AFPReadMobile = {
-        // User_Code: sessionStorage.getItem('userCode'),
+        // User_Code: this.oauthService.cookiesGet('userCode').s,
         SelectMode: 2,
         UserAccount: this.registerRequest.AFPAccount
       };

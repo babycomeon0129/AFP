@@ -80,13 +80,13 @@ export class ProductDetailComponent implements OnInit {
               private cookieService: CookieService, private meta: Meta, private title: Title) {
     this.productCode = parseInt(this.route.snapshot.params.Product_Code, 10);
     this.productDirCode = parseInt(this.route.snapshot.params.ProductDir_Code, 10);
-    this.cartCode = Number(this.cookieService.get('cart_code'));
+    this.cartCode = Number(this.oauthService.cookiesGet('cart_code').c);
   }
 
   ngOnInit() {
     // 讀取商品詳細
     const request: Request_ECProductDetail = {
-      User_Code: sessionStorage.getItem('userCode'),
+      User_Code: this.oauthService.cookiesGet('userCode').s,
       Cart_Count: 0,
       SearchModel: {
         Product_Code: this.productCode,
@@ -289,7 +289,7 @@ export class ProductDetailComponent implements OnInit {
                     cart_code: data.AFP_Cart.Cart_Code.toString(),
                     page: location.href
                   });
-                  this.cartCode = Number(this.cookieService.get('cart_code'));
+                  this.cartCode = Number(this.oauthService.cookiesGet('cart_code').c);
                 }
                 // 把購物車商品數設到 cookie
                 this.oauthService.cookiesSet({

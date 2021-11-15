@@ -10,7 +10,7 @@ import { RouterOutlet } from '@angular/router';
 import { slideInAnimation } from './animations';
 import { filter } from 'rxjs/operators';
 import { Request_AFPThird, Response_AFPLogin } from './_models';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { backgroundClip } from 'html2canvas/dist/types/css/property-descriptors/background-clip';
 
 @Component({

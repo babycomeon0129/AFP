@@ -1,6 +1,6 @@
 import { environment } from '@env/environment';
 import { Component, OnInit } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { MessageModalComponent } from '../message-modal/message-modal.component';
 
 @Component({

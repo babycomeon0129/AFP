@@ -19,7 +19,7 @@ export class AuthUserGuard implements CanActivate {
       this.appService.logoutModal();
     } else {
       const request: Request_AuthUser = new Request_AuthUser();
-      // request.User_Code = sessionStorage.getItem('userCode');
+      // request.User_Code = this.oauthService.cookiesGet('userCode').s;
       // 登入驗證是否正確
       this.appService.toApi('Member', '1500', request).subscribe((data: any) => {
       });

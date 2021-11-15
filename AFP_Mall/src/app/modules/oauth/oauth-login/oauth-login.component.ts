@@ -5,7 +5,7 @@ import { OauthService, ResponseOauthApi, ViewConfig } from '@app/modules/oauth/o
 import { Component, ElementRef, OnInit, AfterViewInit } from '@angular/core';
 import { environment } from '@env/environment';
 import { AppJSInterfaceService } from '@app/app-jsinterface.service';
-import { BsModalService } from 'ngx-bootstrap';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { MessageModalComponent } from '@app/shared/modal/message-modal/message-modal.component';
 
 @Component({
@@ -260,7 +260,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     this.appService.readCart();
     if (this.appService.isApp === 1) {
       this.callApp.getLoginData(this.oauthService.cookiesGet('idToken').c,
-      this.cookieService.get('userCode'), this.cookieService.get('userName'));
+      this.oauthService.cookiesGet('userCode').c, this.oauthService.cookiesGet('userName').c);
     } else {
       this.appService.jumpUrl();
     }

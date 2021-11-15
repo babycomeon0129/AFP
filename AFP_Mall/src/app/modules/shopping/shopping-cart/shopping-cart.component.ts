@@ -43,8 +43,8 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.cartCode = Number(this.cookieService.get('cart_code'));
-    this.cartCount = Number(this.cookieService.get('cart_count_Mobii')) || 0;
+    this.cartCode = Number(this.oauthService.cookiesGet('cart_code').c);
+    this.cartCount = Number(this.oauthService.cookiesGet('cart_count_Mobii').c) || 0;
     this.showCartData();
   }
 

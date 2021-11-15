@@ -1,5 +1,5 @@
 import { OauthService } from '@app/modules/oauth/oauth.service';
-import { BsModalRef } from 'ngx-bootstrap';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
 import { AppService } from '@app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
@@ -288,6 +288,7 @@ export class EntranceComponent implements OnInit {
 
   ngOnInit() {
     /** 下方隱私權顯示與否(0顯示，1不顯示) */
+    console.log(this.oauthService.cookiesGet('show').c === '');
     this.cookieShow = (this.oauthService.cookiesGet('show').c === '') ? '0' : '1';
     // 從route resolver取得首頁資料
     // this.route.data.subscribe((data: { homeData: Response_Home }) => {
@@ -314,7 +315,7 @@ export class EntranceComponent implements OnInit {
   /** 讀取首頁上方資料（皆為廣告及會員資料，我的服務除外） */
   readUp(): void {
     const request: Request_Home = {
-      User_Code: sessionStorage.getItem('userCode')
+      User_Code: this.oauthService.cookiesGet('userCode').s
     };
     this.appService.openBlock();
     this.appService.toApi('Home', '1021', request).subscribe((data: Response_Home) => {
@@ -346,7 +347,7 @@ export class EntranceComponent implements OnInit {
   /** 讀取首頁下方資料（中間大廣告以下各區塊） */
   readDown(): void {
     const request: Request_Home = {
-      User_Code: sessionStorage.getItem('userCode')
+      User_Code: this.oauthService.cookiesGet('userCode').s
     };
     // 不使用loading spinner 讓進入首頁可先快速瀏覽上方
     this.appService.toApi('Home', '1022', request).subscribe((data: Response_Home) => {
@@ -405,7 +406,7 @@ export class EntranceComponent implements OnInit {
 
   /** 判斷首頁進場廣告開啟 */
   adIndexChenck(): void {
-    const adTime = this.cookieService.get('adTime') || null;
+    const adTime = this.oauthService.cookiesGet('adTime').c || null;
     // adTime轉字串adTimeString
     const adTimeString = JSON.parse(adTime);
     const nowTime = new Date().getFullYear().toString() + new Date().getMonth().toString() + new Date().getDate().toString();
@@ -568,7 +569,7 @@ export class EntranceComponent implements OnInit {
     this.activeTravelIndex = index;
 
     const request: Request_OtherInfo = {
-      User_Code: sessionStorage.getItem('userCode'),
+      User_Code: this.oauthService.cookiesGet('userCode').s,
       SelectMode: mode,
       SearchModel: {
         UserDefineCode: menuCode,

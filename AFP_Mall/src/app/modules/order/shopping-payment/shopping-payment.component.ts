@@ -55,13 +55,13 @@ export class ShoppingPaymentComponent implements OnInit {
     if (history.state.data !== undefined && sessionStorage.getItem('invoice') !== null) {
       const invoice: OrderInvoice = JSON.parse(sessionStorage.getItem('invoice'));
       const getPayment = new Request_GetPayment();
-      getPayment.User_Code = sessionStorage.getItem('userCode');
+      getPayment.User_Code = this.oauthService.cookiesGet('userCode').s;
       this.appService.toApi('EC', '1602', getPayment).subscribe((payWays: Response_GetPayment) => {
         this.payWays = payWays;
         this.reqData.OrderNo = history.state.data.OrderNo;
         this.reqData.UserVoucher_ID = history.state.data.UserVoucher_ID;
         // this.reqData.xEyes_CustomerInfo = sessionStorage.getItem('CustomerInfo');
-        this.reqData.User_Code = sessionStorage.getItem('userCode');
+        this.reqData.User_Code = this.oauthService.cookiesGet('userCode').s;
         this.reqData.InvoiceMode = invoice.invoiceMode;
         switch (invoice.invoiceMode) {
           case 2: { // 公司發票(三聯式)

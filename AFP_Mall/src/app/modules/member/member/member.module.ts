@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
-import { BsDatepickerModule } from 'ngx-bootstrap';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 import { MemberRoutingModule } from './member-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';

@@ -5,7 +5,7 @@ import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'ngx-useful-swiper';
 import { AgmMap } from '@agm/core';
 import { ModalService } from '@app/shared/modal/modal.service';
-import { BsModalRef } from 'ngx-bootstrap';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({

@@ -9,7 +9,7 @@ import { MemberService } from '@app/modules/member/member.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { layerAnimation } from '@app/animations';
 import { Meta, Title } from '@angular/platform-browser';
-import { BsModalService } from 'ngx-bootstrap';
+import { BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-cell-verification',
@@ -79,7 +79,7 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
 
   /** 送出驗證碼至手機 */
   sendVCode(): void {
-    // this.requestMobileVerify.User_Code = sessionStorage.getItem('userCode'),
+    // this.requestMobileVerify.User_Code = this.oauthService.cookiesGet('userCode').s,
     this.requestMobileVerify.SelectMode = 11;
     this.requestMobileVerify.VerifiedAction = this.toVerifyCell ? 11 : 3;
     this.appService.openBlock();
@@ -106,7 +106,7 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
 
   /** 立即驗證-驗證驗證碼 */
   verifyMobile(form: NgForm): void {
-    // this.requestMobileVerify.User_Code = sessionStorage.getItem('userCode'),
+    // this.requestMobileVerify.User_Code = this.oauthService.cookiesGet('userCode').s,
     this.requestMobileVerify.SelectMode = 21;
     this.requestMobileVerify.VerifiedAction = this.toVerifyCell ? 11 : 3;
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap';
+import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 import { ForgetModalComponent } from './forget-modal/forget-modal.component';
 import { FavoriteModalComponent } from './favorite-modal/favorite-modal.component';
 import { MessageModalComponent } from './message-modal/message-modal.component';

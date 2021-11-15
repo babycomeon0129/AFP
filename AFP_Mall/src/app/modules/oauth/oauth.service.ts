@@ -1,4 +1,3 @@
-import { AFP_UserFavourite } from './../member/_module-member';
 import { environment } from '@env/environment';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -6,7 +5,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, retry } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
-import { BsModalService } from 'ngx-bootstrap';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { MessageModalComponent } from '@app/shared/modal/message-modal/message-modal.component';
 
 declare var AppJSInterface: any;
@@ -38,13 +37,13 @@ export class OauthService {
 
     switch (location.hostname) {
       case 'sit.mobii.ai':
-        this.preName = 'sit';
+        this.preName = 'sit.';
         break;
       case 'www-uuat.mobii.ai':
-        this.preName = 'uuat';
+        this.preName = 'www-uuat.';
         break;
       case 'www-uat.mobii.ai':
-        this.preName = 'uat';
+        this.preName = 'www-uat.';
         break;
       default:
         // 預設正式
@@ -183,10 +182,11 @@ export class OauthService {
             environment.cookieDomain, environment.cookieSecure, 'Lax');
           // 子域塞cookie及session
           if (this.preName !== '') {
+            console.log(this.preName);
             sessionStorage.setItem(this.preName + item, cookieData[item]);
             this.cookieService.set(
               this.preName + item, cookieData[item], 90, '/',
-              this.preName + environment.cookieDomain, environment.cookieSecure, 'Lax'
+              location.hostname, environment.cookieSecure, 'Lax'
             );
           }
         }
@@ -194,6 +194,9 @@ export class OauthService {
         if (item === 'userName' || item === 'userCode') {
           sessionStorage.setItem(item, cookieData[item]);
           this.cookieService.set(item, cookieData[item], 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+          if (this.preName !== '') {
+            this.cookieService.set(item, cookieData[item], 90, '/', location.hostname, environment.cookieSecure, 'Lax');
+          }
         }
         if (item === 'userFavorites') {
           sessionStorage.setItem(item, data.userFavorites);
@@ -203,6 +206,9 @@ export class OauthService {
         if (item === 'data.cart_code' || item === 'cart_count_Mobii' ||
             item === 'pushCount' || item === 'adTime') {
           this.cookieService.set(item, cookieData[item], 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+          if (this.preName !== '') {
+            this.cookieService.set(item, cookieData[item], 90, '/', location.hostname, environment.cookieSecure, 'Lax');
+          }
         }
       }
     }
@@ -212,14 +218,16 @@ export class OauthService {
   cookiesGet(item: string) {
     let s = '';
     let c = '';
+    let name = '';
     // 子域不為空時，取子域的session及cookie
     if (this.preName !== '') {
-      s = sessionStorage.getItem(this.preName + item);
-      c = this.cookieService.get(this.preName + item);
+      name = this.preName + item;
     } else {
-      s = sessionStorage.getItem('M_' + item);
-      c = this.cookieService.get('M_' + item);
+      name = 'M_' + item;
     }
+    s = sessionStorage.getItem(name);
+    c = this.cookieService.get(name);
+    console.log(name, s, c);
     return {s, c};
   }
 
@@ -227,17 +235,19 @@ export class OauthService {
   cookiesDel(item: string) {
     console.log('cookiesDel', item);
     // session未設定為null, cookie未設定為''
+    const upgrade = (this.cookiesGet('upgrade').c).slice(0);
+    const show = (this.cookiesGet('show').c).slice(0);
     if (item === '/') {
       sessionStorage.clear();
       this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-      this.cookieService.deleteAll('/', this.preName + environment.cookieDomain, environment.cookieSecure, 'Lax');
+      this.cookieService.deleteAll('/', location.hostname , environment.cookieSecure, 'Lax');
+      if (upgrade === '1') { this.cookiesSet({upgrade: '1'}); }
+      if (show === '1') { this.cookiesSet({show: '1'}); }
     } else {
       sessionStorage.removeItem('M_' + item);
       sessionStorage.removeItem(this.preName + item);
-      localStorage.removeItem('M_' + item);
-      localStorage.removeItem(this.preName + item);
       this.cookieService.deleteAll(item, environment.cookieDomain, environment.cookieSecure, 'Lax');
-      this.cookieService.deleteAll(item, this.preName + environment.cookieDomain, environment.cookieSecure, 'Lax');
+      this.cookieService.deleteAll(item, location.hostname, environment.cookieSecure, 'Lax');
     }
   }
 

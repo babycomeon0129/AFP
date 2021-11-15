@@ -6,7 +6,7 @@ import { Location } from '@angular/common';
 import { Meta, Title } from '@angular/platform-browser';
 import { OauthService, ResponseOauthApi } from '@app/modules/oauth/oauth.service';
 import { MessageModalComponent } from '@app/shared/modal/message-modal/message-modal.component';
-import { BsModalService } from 'ngx-bootstrap';
+import { BsModalService } from 'ngx-bootstrap/modal';
 // APP的Interface
 declare var BindingSocialJSInterface: any;
 

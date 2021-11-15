@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AppService } from '@app/app.service';
 import { AFP_VerifiedInfo } from '@app/_models';
 import { MessageModalComponent } from '../message-modal/message-modal.component';

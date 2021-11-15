@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { SwiperOptions } from 'swiper';
 import { MemberService } from '@app/modules/member/member.service';
-import { BsModalService } from 'ngx-bootstrap';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { Session } from 'inspector';
 import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 import { CookieService } from 'ngx-cookie-service';

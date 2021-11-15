@@ -6,7 +6,7 @@ import {
   Response_APIModel, Request_MemberFavourite, Response_MemberFavourite, AFP_Voucher,
   Request_MemberUserVoucher, Response_MemberUserVoucher, Request_ECCart, Response_ECCart, Model_ShareData
 } from '@app/_models';
-import { BsModalService, ModalOptions } from 'ngx-bootstrap';
+import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { environment } from '@env/environment';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
@@ -37,7 +37,7 @@ export class AppService {
   /** App狀態 (登入1,登出2) */
   public appLoginType: string;
   /** 使用者暱稱 */
-  public userName = sessionStorage.getItem('userName') || null;
+  public userName = this.oauthService.cookiesGet('userName').s || null;
   /** 我的收藏物件陣列 */
   public userFavArr = [];
   /** 我的收藏編碼陣列 */
@@ -53,7 +53,7 @@ export class AppService {
   /** 當前訊息 */
   public currentMessage = new BehaviorSubject(null);
   /** 推播訊息數量 */
-  public pushCount = Number(this.cookieService.get('pushCount')) || 0;
+  public pushCount = Number(this.oauthService.cookiesGet('pushCount').c) || 0;
   /** GUID (推播使用) */
   public deviceCode = localStorage.getItem('M_DeviceCode') || null;
   /** firebase 推播 token */
@@ -178,7 +178,7 @@ export class AppService {
   onLogout(): void {
     // 登出紀錄
     const request = {
-      User_Code: sessionStorage.getItem('userCode')
+      User_Code: this.oauthService.cookiesGet('userCode').s
     };
     this.toApi_Logout('Home', '1109', request).subscribe((Data: any) => { });
     // APP登出導頁 (app且登入狀態下，方需登出)
@@ -286,8 +286,8 @@ export class AppService {
   /** 顯示我的收藏 */
   showFavorites(): void {
     // get favorite from session and turn it from string to json
-    if (sessionStorage.getItem('userFavorites') != null) {
-      this.userFavArr = JSON.parse(sessionStorage.getItem('userFavorites'));
+    if (this.oauthService.cookiesGet('userFavorites').s != null) {
+      this.userFavArr = JSON.parse(this.oauthService.cookiesGet('userFavorites').s);
       // reset userFavCodes array (after create/delete favorite)
       this.userFavCodes = [];
       // push all favorite codes to array
@@ -339,7 +339,7 @@ export class AppService {
     const request: Request_ECCart = {
       SelectMode: 4, // 固定讀取
       SearchModel: {
-        Cart_Code: Number(this.cookieService.get('cart_code'))
+        Cart_Code: Number(this.oauthService.cookiesGet('cart_code').c)
       },
     };
 
