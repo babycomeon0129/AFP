@@ -29,7 +29,7 @@ export class OauthService {
     UserInfoId: 0,
   };
   /** 登入憑證 */
-  public M_idToken = this.cookieService.get('M_idToken');
+  public M_idToken = this.cookiesGet('idToken').c;
   /** 現有域名前置 */
   private preName = '';
 
@@ -210,36 +210,46 @@ export class OauthService {
 
   /** 取得cookie */
   cookiesGet(item: string) {
-    console.log(item);
     let s = '';
     let c = '';
+    // 子域不為空時，取子域的session及cookie
     if (this.preName !== '') {
       s = sessionStorage.getItem(this.preName + item);
       c = this.cookieService.get(this.preName + item);
-      console.log('sessionStorage', sessionStorage.getItem(this.preName + item));
-      console.log('cookiesGet', this.cookieService.get(this.preName + item));
     } else {
       s = sessionStorage.getItem('M_' + item);
       c = this.cookieService.get('M_' + item);
-      console.log('sessionStorage', sessionStorage.getItem('M_' + item));
-      console.log('cookiesGet', this.cookieService.get('M_' + item));
     }
     return {s, c};
   }
 
   /** 刪除cookie */
   cookiesDel(item: string) {
-    console.log('cookieDel', item);
-    // cookie未設定時 === ''
+    console.log('cookiesDel', item);
+    // session未設定為null, cookie未設定為''
     if (item === '/') {
       sessionStorage.clear();
       this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-
+      this.cookieService.deleteAll('/', this.preName + environment.cookieDomain, environment.cookieSecure, 'Lax');
     } else {
-      sessionStorage.removeItem(item);
+      sessionStorage.removeItem('M_' + item);
+      sessionStorage.removeItem(this.preName + item);
+      localStorage.removeItem('M_' + item);
+      localStorage.removeItem(this.preName + item);
       this.cookieService.deleteAll(item, environment.cookieDomain, environment.cookieSecure, 'Lax');
+      this.cookieService.deleteAll(item, this.preName + environment.cookieDomain, environment.cookieSecure, 'Lax');
     }
   }
+
+  /** 清除Storage */
+  onClearStorage() {
+    sessionStorage.clear();
+    this.cookiesDel('/');
+    // this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+    this.cookiesDel('fromOriginUri');
+    this.cookiesDel('deviceType');
+  }
+
 
   /** 登入註冊用提示視窗 */
   msgModal(msg: any) {
@@ -259,14 +269,6 @@ export class OauthService {
     });
   }
 
-  /** 清除Storage */
-  onClearStorage() {
-    sessionStorage.clear();
-    this.cookiesDel('/');
-    // this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-    localStorage.removeItem('M_fromOriginUri');
-    localStorage.removeItem('M_deviceType');
-  }
 }
 
 

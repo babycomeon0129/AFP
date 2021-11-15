@@ -288,8 +288,7 @@ export class EntranceComponent implements OnInit {
 
   ngOnInit() {
     /** 下方隱私權顯示與否(0顯示，1不顯示) */
-    // this.cookieShow = this.oauthService.cookiesGet('M_show') ? '1' : '0';
-    console.log('show', this.oauthService.cookiesGet('show'));
+    this.cookieShow = (this.oauthService.cookiesGet('show').c === '') ? '0' : '1';
     // 從route resolver取得首頁資料
     // this.route.data.subscribe((data: { homeData: Response_Home }) => {
     //   // 接資料
@@ -663,7 +662,7 @@ export class EntranceComponent implements OnInit {
           {
             initialState:
             {
-              justkaUrl: url + '&J_idToken=' + this.cookieService.get('M_idToken')
+              justkaUrl: url + '&J_idToken=' + this.oauthService.cookiesGet('idToken').c
             }
           },
           this.bsModalRef);

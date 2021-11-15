@@ -94,7 +94,7 @@ export class AppService {
       xEyes_Y: (lat != null) ? lat.toString() : '',
       xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
       xEyes_DeviceCode: deviceCode === undefined ? '' : deviceCode,
-      Authorization: (this.cookieService.get('M_idToken') === '') ? '' : ('Bearer ' + this.cookieService.get('M_idToken')),
+      Authorization: (this.oauthService.cookiesGet('idToken').c === '') ? '' : ('Bearer ' + this.oauthService.cookiesGet('idToken').c),
     });
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
@@ -115,7 +115,7 @@ export class AppService {
                   page: location.href
                 });
               }
-              if (this.cookieService.get('M_idToken') !== toApiData.IdToken) {
+              if (this.oauthService.cookiesGet('idToken').c !== toApiData.IdToken) {
                 this.oauthService.cookiesSet({
                   idToken: toApiData.IdToken,
                   page: location.href
@@ -220,7 +220,7 @@ export class AppService {
       xEyes_X: (lng != null) ? lng.toString() : '',
       xEyes_Y: (lat != null) ? lat.toString() : '',
       xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
-      Authorization: (this.cookieService.get('M_idToken') === '') ? '' : ('Bearer ' + this.cookieService.get('M_idToken')),
+      Authorization: (this.oauthService.cookiesGet('idToken').c === '') ? '' : ('Bearer ' + this.oauthService.cookiesGet('idToken').c),
     });
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
@@ -304,7 +304,7 @@ export class AppService {
    * @param favCode 商品/商家/周邊/行程編碼
    */
   favToggle(favAction: number, favType: number, favCode?: number): void {
-    if (!this.cookieService.get('M_idToken')) {
+    if (!this.oauthService.cookiesGet('idToken').c) {
       this.logoutModal();
     } else {
       const request: Request_MemberFavourite = {
@@ -358,7 +358,7 @@ export class AppService {
    */
   onVoucher(voucher: AFP_Voucher): void {
     // 點擊兌換時先進行登入判斷
-    if (!this.cookieService.get('M_idToken')) {
+    if (!this.oauthService.cookiesGet('idToken').c) {
       this.logoutModal();
     } else {
       switch (voucher.Voucher_IsFreq) {
@@ -449,12 +449,12 @@ export class AppService {
 
   /** 打開JustKa iframe */
   showJustka(url: string): void {
-    if (!this.cookieService.get('M_idToken')) {
+    if (!this.oauthService.cookiesGet('idToken').c) {
       this.logoutModal();
     } else {
       this.bsModalService.show(JustkaModalComponent, {
         initialState: {
-          justkaUrl: url + '&J_idToken=' + this.cookieService.get('M_idToken')
+          justkaUrl: url + '&J_idToken=' + this.oauthService.cookiesGet('idToken').c
         }
       });
     }
@@ -578,8 +578,9 @@ export class AppService {
 
   /** 網頁跳轉(登入用，不會紀錄連結的歷史紀錄) */
   jumpUrl() {
-    const uri = (this.cookieService.check('M_fromOriginUri')) ?
-      '/' : this.cookieService.get('M_fromOriginUri');
+    const uri =
+      this.oauthService.cookiesGet('fromOriginUri').c === '' ?
+      '/' : this.oauthService.cookiesGet('fromOriginUri').c;
     if (uri.startsWith('https') || uri.startsWith('http')) {
       location.replace(uri);
     } else {

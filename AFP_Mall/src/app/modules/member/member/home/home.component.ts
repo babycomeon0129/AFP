@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.cookieService.get('M_idToken') !== '' && this.cookieService.get('M_idToken') !== 'undefined') {
+    if (this.oauthService.cookiesGet('idToken').c !== '' && this.oauthService.cookiesGet('idToken').c !== 'undefined') {
       this.appService.loginState = true;
       this.readIndexData();
       this.memberService.readProfileData();
@@ -70,7 +70,7 @@ export class HomeComponent implements OnInit {
 
   /** 讀取首頁資料 */
   readIndexData(): void {
-    if (this.cookieService.get('M_idToken') !== '' && this.cookieService.get('M_idToken') !== 'undefined') {
+    if (this.oauthService.cookiesGet('idToken').c !== '' && this.oauthService.cookiesGet('idToken').c !== 'undefined') {
       const request: Request_MemberIndex = {
         SelectMode: 4
       };

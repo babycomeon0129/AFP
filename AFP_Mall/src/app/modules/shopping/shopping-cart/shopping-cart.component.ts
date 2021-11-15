@@ -336,7 +336,7 @@ export class ShoppingCartComponent implements OnInit {
       this.modal.show('message', { initialState: { success: false, message: '還沒有選擇要結帳的商家及商品喔!', showType: 1 } });
     } else {
       // 若未登入，則跳出登入視窗
-      if (!this.cookieService.get('M_idToken')) {
+      if (!this.oauthService.cookiesGet('idToken').c) {
         this.appService.logoutModal();
       } else {
         // 已登入
