@@ -6,13 +6,13 @@
 export const environment = {
   production: false,
   // apiUrl: 'https://sit-afpapi.mobii.ai/api/',
-  apiUrl: 'https://afpapi-uuat.mobii.ai/api/',
-  loginUrl: 'https://login-uuat.mobii.ai/auth/api/v1/login',
-  tokenUrl: 'https://login-uuat.mobii.ai/auth/api/v1/token',
-  modifyUrl: 'https://login-uuat.mobii.ai/auth/api/v1/memberModify',
+  apiUrl: 'https://sit-afpapi.mobii.ai/api/',
+  loginUrl: 'https://sit-login.mobii.ai/auth/api/v1/login',
+  tokenUrl: 'https://sit-logint.mobii.ai/auth/api/v1/token',
+  modifyUrl: 'https://sit-login.mobii.ai/auth/api/v1/memberModify',
   FBApiKey: '349758176149496',
   GoogleApiKey: '260499247538-ctoucp9t09ufdpgqmd4ac368lfpgmorm.apps.googleusercontent.com',
-  cookieDomain: 'sit.mobii.ai',
+  cookieDomain: '.mobii.ai',
   cookieSecure: true,
   /** Apple登入redirectURI */
   AppleSignInURI: 'https://sit.mobii.ai',

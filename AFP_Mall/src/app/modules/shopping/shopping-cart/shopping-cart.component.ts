@@ -121,7 +121,8 @@ export class ShoppingCartComponent implements OnInit {
       }
       this.cartCount = data.Cart_Count;
       this.oauthService.cookiesSet({
-        count: JSON.stringify(this.cartCount)
+        cart_count_Mobii: JSON.stringify(this.cartCount),
+        page: location.href
       });
     });
   }
@@ -309,7 +310,8 @@ export class ShoppingCartComponent implements OnInit {
       // 更新購物車商品數
       this.cartCount = data.Cart_Count;
       this.oauthService.cookiesSet({
-        count: JSON.stringify(data.Cart_Count)
+        cart_count_Mobii: JSON.stringify(data.Cart_Count),
+        page: location.href
       });
       this.calcSubtotal();
     });

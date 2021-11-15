@@ -57,7 +57,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
     }
     // 將通知都視為已讀
     this.appService.pushCount = 0;
-    this.oauthService.cookieDel('pushCount');
+    this.oauthService.cookiesDel('pushCount');
   }
 
   /**

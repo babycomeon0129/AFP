@@ -288,7 +288,8 @@ export class EntranceComponent implements OnInit {
 
   ngOnInit() {
     /** 下方隱私權顯示與否(0顯示，1不顯示) */
-    this.cookieShow = localStorage.getItem('M_show') ? '1' : '0';
+    // this.cookieShow = this.oauthService.cookiesGet('M_show') ? '1' : '0';
+    console.log('show', this.oauthService.cookiesGet('show'));
     // 從route resolver取得首頁資料
     // this.route.data.subscribe((data: { homeData: Response_Home }) => {
     //   // 接資料
@@ -307,7 +308,8 @@ export class EntranceComponent implements OnInit {
   cookieShowClick() {
     this.cookieShow = '1';
     this.oauthService.cookiesSet({
-      show: '1'
+      show: '1',
+      page: location.href
     });
   }
   /** 讀取首頁上方資料（皆為廣告及會員資料，我的服務除外） */
@@ -321,10 +323,13 @@ export class EntranceComponent implements OnInit {
       this.JustKaUrl = data.JustKaUrl;
       // 會員資訊
       this.userPoint = data.TotalPoint;
-      this.oauthService.cookiesSet({
-        name: data.UserName
-      });
-      this.appService.userName = data.UserName;
+      if (data.UserName !== '') {
+        this.oauthService.cookiesSet({
+          userName: data.UserName,
+          page: location.href
+        });
+        this.appService.userName = data.UserName;
+      }
       this.userVoucherCount = data.VoucherCount;
       // 廣告
       this.adTop = data.ADImg_Top;
@@ -407,7 +412,8 @@ export class EntranceComponent implements OnInit {
     const nowTime = new Date().getFullYear().toString() + new Date().getMonth().toString() + new Date().getDate().toString();
     if (adTimeString !== nowTime) {
       this.oauthService.cookiesSet({
-        adTime: nowTime
+        adTime: nowTime,
+        page: location.href
       });
       this.adIndexTime = true;
       // 出現首頁廣告版面才禁止背景滑動

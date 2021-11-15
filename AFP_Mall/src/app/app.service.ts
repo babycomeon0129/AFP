@@ -111,12 +111,14 @@ export class AppService {
               if (this.idToken === null) {
                 this.idToken = toApiData.IdToken;
                 this.oauthService.cookiesSet({
-                  token: toApiData.IdToken
+                  idToken: toApiData.IdToken,
+                  page: location.href
                 });
               }
               if (this.cookieService.get('M_idToken') !== toApiData.IdToken) {
                 this.oauthService.cookiesSet({
-                  token: toApiData.IdToken
+                  idToken: toApiData.IdToken,
+                  page: location.href
                 });
               }
               this.loginState = true;
@@ -197,7 +199,7 @@ export class AppService {
     // 清除session、cookie、我的收藏資料，重置登入狀態及通知數量
     sessionStorage.clear();
     this.cookieService.deleteAll();
-    this.oauthService.cookieDel('/');
+    this.oauthService.cookiesDel('/');
     this.loginState = false;
     this.userLoggedIn = false;
     this.userFavCodes = [];
@@ -320,7 +322,8 @@ export class AppService {
       this.toApi('Member', '1511', request).subscribe((data: Response_MemberFavourite) => {
         // update favorites to session
         this.oauthService.cookiesSet({
-          favorite: JSON.stringify(data.List_UserFavourite)
+          userFavorites: JSON.stringify(data.List_UserFavourite),
+          page: location.href
         });
         // update favorites to array
         this.showFavorites();
@@ -342,7 +345,8 @@ export class AppService {
 
     this.toApi('EC', '1204', request).subscribe((data: Response_ECCart) => {
       this.oauthService.cookiesSet({
-        count: JSON.stringify(data.Cart_Count)
+        cart_count_Mobii: JSON.stringify(data.Cart_Count),
+        page: location.href
       });
     });
   }
@@ -480,7 +484,8 @@ export class AppService {
         this.currentMessage.next(payload);
         this.pushCount++;
         this.oauthService.cookiesSet({
-          pushCount: JSON.stringify(this.pushCount)
+          pushCount: JSON.stringify(this.pushCount),
+          page: location.href
         });
       });
   }

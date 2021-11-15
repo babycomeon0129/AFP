@@ -30,10 +30,29 @@ export class OauthService {
   };
   /** 登入憑證 */
   public M_idToken = this.cookieService.get('M_idToken');
+  /** 現有域名前置 */
+  private preName = '';
 
   constructor(private router: Router, private http: HttpClient, public cookieService: CookieService,
-              private bsModalService: BsModalService) {}
+              private bsModalService: BsModalService) {
 
+    switch (location.hostname) {
+      case 'sit.mobii.ai':
+        this.preName = 'sit';
+        break;
+      case 'www-uuat.mobii.ai':
+        this.preName = 'uuat';
+        break;
+      case 'www-uat.mobii.ai':
+        this.preName = 'uat';
+        break;
+      default:
+        // 預設正式
+        this.preName = '';
+        break;
+    }
+
+  }
 
   /** 「艾斯身份證別_登入1-1-3」呼叫APP跳出登入頁、Web返回頁儲存
    * App：原生點擊登入按鈕（帶queryParams：isApp,deviceType,deviceCode），統一由Web向艾斯識別驗證
@@ -146,69 +165,71 @@ export class OauthService {
   }
 
 
-  /** cookie設定 */
+  /** cookie設定
+   * 為避免域名不同導致錯誤，廣域.mobii.ai及本域都會存放
+   */
   cookiesSet(data: cookieDeclare) {
     console.log('1-3', data);
-    // const envArr = JSON.parse(JSON.stringify(environment.cookieDomain));
-    // // cookie未設定時 === ''
-    // for (const item of Object.keys(envArr)) {
-    //   console.log(envArr[item]);
-    // }
-    // 取得使用者資料後塞值
-    if (data.token !== undefined && data.token !== '') {
-      sessionStorage.setItem('M_idToken', data.token);
-      this.cookieService.set('M_idToken', data.token, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-    }
-    if (data.name !== undefined && data.name !== '') {
-      sessionStorage.setItem('userName', data.name);
-      this.cookieService.set('userName', data.name, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-    }
-    if (data.code !== undefined && data.code !== '') {
-      sessionStorage.setItem('userCode', data.code);
-      this.cookieService.set('userCode', data.code, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-    }
-    if (data.favorite !== undefined && data.favorite !== '') {
-      sessionStorage.setItem('userFavorites', data.favorite);
-    }
-    // 登入用
-    if (data.upgrade !== undefined && data.upgrade !== '') {
-      sessionStorage.setItem('M_upgrade', data.upgrade);
-      this.cookieService.set('M_upgrade', data.upgrade, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-    }
-    if (data.type !== undefined && data.type !== '') {
-      sessionStorage.setItem('M_deviceType', data.type);
-      this.cookieService.set('M_deviceType', data.type, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-    }
-    if (data.show !== undefined && data.show !== '') {
-      sessionStorage.setItem('M_show', data.show);
-      this.cookieService.set('M_show', data.show, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-    }
-    if (data.uri !== undefined && data.uri !== '') {
-      sessionStorage.setItem('M_fromOriginUri', data.uri);
-      this.cookieService.set('M_fromOriginUri', data.uri, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-      console.log(this.cookieService.get('M_fromOriginUri'));
-    }
-    // 購物車用
-    if (data.cart !== undefined && data.cart !== '') {
-      this.cookieService.set('cart_code', data.cart, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-    }
-    if (data.count !== undefined && data.count !== '') {
-      this.cookieService.set('cart_count_Mobii', data.count, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-    }
-    // 推播用pushCount
-    if (data.pushCount !== undefined && data.pushCount !== '') {
-      this.cookieService.set('pushCount', data.pushCount, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-    }
-    // 進場廣告用
-    if (data.adTime !== undefined && data.adTime !== '') {
-      this.cookieService.set('adTime', data.adTime, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-    }
 
+    const cookieData = JSON.parse(JSON.stringify(data));
+    for (const item of Object.keys(cookieData)) {
+      if (cookieData[item] !== undefined && cookieData[item] !== '') {
+        // 登入用
+        if (item === 'idToken' || item === 'show' || item === 'upgrade' ||
+            item === 'deviceType' || item === 'fromOriginUri') {
+          // .mobii.ai塞cookie及session
+          sessionStorage.setItem('M_' + item, cookieData[item]);
+          this.cookieService.set('M_' + item, cookieData[item], 90, '/',
+            environment.cookieDomain, environment.cookieSecure, 'Lax');
+          // 子域塞cookie及session
+          if (this.preName !== '') {
+            sessionStorage.setItem(this.preName + item, cookieData[item]);
+            this.cookieService.set(
+              this.preName + item, cookieData[item], 90, '/',
+              this.preName + environment.cookieDomain, environment.cookieSecure, 'Lax'
+            );
+          }
+        }
+        // 取得使用者資料後塞值
+        if (item === 'userName' || item === 'userCode') {
+          sessionStorage.setItem(item, cookieData[item]);
+          this.cookieService.set(item, cookieData[item], 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+        }
+        if (item === 'userFavorites') {
+          sessionStorage.setItem(item, data.userFavorites);
+        }
+        // 購物車用data.cart_code, cart_count_Mobii
+        // 推播用pushCount, 進場廣告用adTime
+        if (item === 'data.cart_code' || item === 'cart_count_Mobii' ||
+            item === 'pushCount' || item === 'adTime') {
+          this.cookieService.set(item, cookieData[item], 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+        }
+      }
+    }
+  }
+
+  /** 取得cookie */
+  cookiesGet(item: string) {
+    console.log(item);
+    let s = '';
+    let c = '';
+    if (this.preName !== '') {
+      s = sessionStorage.getItem(this.preName + item);
+      c = this.cookieService.get(this.preName + item);
+      console.log('sessionStorage', sessionStorage.getItem(this.preName + item));
+      console.log('cookiesGet', this.cookieService.get(this.preName + item));
+    } else {
+      s = sessionStorage.getItem('M_' + item);
+      c = this.cookieService.get('M_' + item);
+      console.log('sessionStorage', sessionStorage.getItem('M_' + item));
+      console.log('cookiesGet', this.cookieService.get('M_' + item));
+    }
+    return {s, c};
   }
 
   /** 刪除cookie */
-  cookieDel(item: string) {
-    console.log(item);
+  cookiesDel(item: string) {
+    console.log('cookieDel', item);
     // cookie未設定時 === ''
     if (item === '/') {
       sessionStorage.clear();
@@ -241,7 +262,7 @@ export class OauthService {
   /** 清除Storage */
   onClearStorage() {
     sessionStorage.clear();
-    this.cookieDel('/');
+    this.cookiesDel('/');
     // this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
     localStorage.removeItem('M_fromOriginUri');
     localStorage.removeItem('M_deviceType');
@@ -331,27 +352,29 @@ export class Res_IdTokenApi {
 
 export class cookieDeclare {
   /** 身份識別idToken */
-  token?: string;
+  idToken?: string;
   /** 使用者暱稱userName */
-  name?: string;
+  userName?: string;
   /** 使用者編碼userCode */
-  code?: string;
+  userCode?: string;
   /** 使用者收藏userFavorites */
-  favorite?: string;
+  userFavorites?: string;
   /** fromOriginUri(登入成功返回頁) */
-  uri?: string;
-  /** deviceType(0:web 1:android 2:ios) */
-  type?: string;
+  fromOriginUri?: string;
+  /** 裝置編碼(0:web 1:android 2:ios) */
+  deviceType?: string;
   /** 公告頁(1不顯示) */
   upgrade?: string;
   /** 首頁隱私權(1不顯示) */
   show?: string;
-  /** 購物車cart_code */
-  cart?: string;
-  /** 購物車cart_count_Mobii */
-  count?: string;
-  /** 推播pushCount */
+  /** 購物車 */
+  cart_code?: string;
+  /** 購物車 */
+  cart_count_Mobii?: string;
+  /** 推播 */
   pushCount?: string;
   /** 進場廣告 */
   adTime?: string;
+  /** 來源頁 */
+  page?: string;
 }

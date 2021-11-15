@@ -52,8 +52,9 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.appService.isApp = params.isApp;
         this.oauthService.loginRequest.deviceCode = params.deviceCode;
         this.oauthService.cookiesSet({
-          type: params.deviceType,
-          uri: '/'
+          deviceType: params.deviceType,
+          fromOriginUri: '/',
+          page: location.href
         });
       } else {
         console.log('1-2', typeof params.fromOriginUri !== 'undefined');
@@ -62,8 +63,9 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         if (typeof params.fromOriginUri !== 'undefined') {
           this.oauthService.loginRequest.fromOriginUri = params.fromOriginUri;
           this.oauthService.cookiesSet({
-            type: '0',
-            uri: params.fromOriginUri
+            deviceType: '0',
+            fromOriginUri: params.fromOriginUri,
+            page: location.href
           });
         }
         this.oauthService.loginRequest.deviceCode = localStorage.getItem('M_DeviceCode');
@@ -72,7 +74,8 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       if (typeof params.IdToken !== 'undefined' && params.IdToken !== null) {
         console.log('2');
         this.oauthService.cookiesSet({
-          token: params.IdToken
+          idToken: params.IdToken,
+          page: location.href
         });
       }
       /** 「艾斯身份證別_登入2-1」 艾斯身份識別登入成功後，由Redirect API取得grantCode及List_MultipleUser
@@ -213,10 +216,11 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
           const tokenData =  Object.assign(data);
           if (tokenData.errorCode === '996600001') {
             this.oauthService.cookiesSet({
-              token: tokenData.data.idToken,
-              name: tokenData.data.Customer_Name,
-              code: tokenData.data.Customer_Code,
-              favorite: JSON.stringify(tokenData.data.List_UserFavourite)
+              idToken: tokenData.data.idToken,
+              userName: tokenData.data.Customer_Name,
+              userCode: tokenData.data.Customer_Code,
+              userFavorites: JSON.stringify(tokenData.data.List_UserFavourite),
+              page: location.href
             });
             this.appService.userName = tokenData.data.Customer_Name;
             this.appService.loginState = true;

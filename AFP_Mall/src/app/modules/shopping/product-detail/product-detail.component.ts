@@ -123,7 +123,8 @@ export class ProductDetailComponent implements OnInit {
       // 更新購物車數量
       this.cartCount = data.Cart_Count;
       this.oauthService.cookiesSet({
-        count: JSON.stringify(data.Cart_Count)
+        cart_count_Mobii: JSON.stringify(data.Cart_Count),
+        page: location.href
       });
 
       // 預設選擇所有規格的第一個規格值
@@ -285,13 +286,15 @@ export class ProductDetailComponent implements OnInit {
                 // 若沒有購物車碼，則取得後端產生的並設在cookie裡
                 if (this.cartCode === 0) {
                   this.oauthService.cookiesSet({
-                    cart: data.AFP_Cart.Cart_Code.toString()
+                    cart_code: data.AFP_Cart.Cart_Code.toString(),
+                    page: location.href
                   });
                   this.cartCode = Number(this.cookieService.get('cart_code'));
                 }
                 // 把購物車商品數設到 cookie
                 this.oauthService.cookiesSet({
-                  count: JSON.stringify(data.Cart_Count)
+                  cart_count_Mobii: JSON.stringify(data.Cart_Count),
+                  page: location.href
                 });
                 this.cartCount = data.Cart_Count;
                 this.modal.show('message', { initialState: { success: true, message: '加入購物車成功!', showType: 1 } });

@@ -47,7 +47,8 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
       //  購物車編碼 (APP用)
       if (typeof params.cartCode !== 'undefined') {
         this.oauthService.cookiesSet({
-          cart: params.cartCode
+          cart_code: params.cartCode,
+          page: location.href
         });
       }
 
@@ -57,21 +58,25 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
         if (params.loginType === '1' && (typeof params.M_idToken !== 'undefined' && params.M_idToken !== null)) {
           // APP 為登入狀態則將該 webview 也同步為登入
           this.oauthService.cookiesSet({
-            token: params.M_idToken
+            idToken: params.M_idToken,
+            page: location.href
           });
           if (typeof params.userCode !== 'undefined') {
             this.oauthService.cookiesSet({
-              code: encodeURIComponent(params.userCode)
+              userCode: params.userCode,
+              page: location.href
             });
           }
           if (typeof params.userName !== 'undefined') {
             this.oauthService.cookiesSet({
-              code: encodeURIComponent(params.userName)
+              userName: params.userName,
+              page: location.href
             });
           }
-          if (typeof params.userName !== 'undefined') {
+          if (typeof params.userFavorites !== 'undefined') {
             this.oauthService.cookiesSet({
-              name: params.userName
+              userFavorites: encodeURIComponent(params.userFavorites),
+              page: location.href
             });
           }
           this.appService.userName = params.userName;

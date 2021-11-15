@@ -125,7 +125,8 @@ export class MyProfileComponent implements OnInit {
       this.memberService.readProfileData().then(() => {
         // 更新session 和 app.service 中的 userName 讓其他頁面名稱同步
         this.oauthService.cookiesSet({
-          name: this.memberService.userProfile.User_NickName
+          userName: this.memberService.userProfile.User_NickName,
+          page: location.href
         });
         this.appService.userName = this.memberService.userProfile.User_NickName;
       });

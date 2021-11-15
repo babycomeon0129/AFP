@@ -98,7 +98,8 @@ export class MemberFavoriteComponent implements OnInit {
         this.appService.toApi('Member', '1511', request).subscribe((data: Response_MemberFavourite) => {
           // update favorites in session
           this.oauthService.cookiesSet({
-            favorite: JSON.stringify(data.List_UserFavourite)
+            userFavorites: JSON.stringify(data.List_UserFavourite),
+            page: location.href
           });
           // get new favorites and push to array
           this.appService.showFavorites();
