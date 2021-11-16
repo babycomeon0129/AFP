@@ -63,11 +63,11 @@
                       [disabled]="!editMode || (UserBirth.pristine && memberService.userProfile?.UserProfile_Birthday !== null)"
                       [isDisabled]="!editMode || (UserBirth.pristine && memberService.userProfile?.UserProfile_Birthday !== null)"
                       bsDatepicker #dp="bsDatepicker"
-                      [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD', containerClass: 'theme-orange' }" [maxDate]="today"
+                      [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD', containerClass: 'theme-orange' }" [maxDate]="today"
                       [ngClass]="{'text-secondary': UserBirth.pristine && memberService.userProfile?.UserProfile_Birthday !== null,
                                   'warning-red': editMode && formProfile.submitted && UserBirth.invalid}"
                       type="text" placeholder="Datepicker" class="form-control" required
-                      [placeholder]="editMode? 'YYYY/MM/DD（設定後無法更改）' : ''" triggers="dblclick:click">
+                      [placeholder]="editMode? 'YYYY-MM-DD（設定後無法更改）' : ''" triggers="dblclick:click">
                     <div (click)="dp.toggle()" [attr.aria-expanded]="dp.isOpen"
                       [hidden]="!editMode || UserBirth.pristine && memberService.userProfile?.UserProfile_Birthday !== null"
                       class="input-group-append ml-2 icon-birth">
