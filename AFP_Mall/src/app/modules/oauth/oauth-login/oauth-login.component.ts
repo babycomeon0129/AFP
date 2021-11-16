@@ -116,7 +116,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     // 避免直接貼上，導回Login頁
-    if (this.oauthService.cookiesGet('fromOriginUri').c === '/Login') {
+    if (this.oauthService.cookiesGet('fromOriginUri').cookieVal === '/Login') {
       this.oauthService.cookiesDel('fromOriginUri');
     }
 
@@ -126,8 +126,8 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     //     '<div>idToken: ' + this.M_idToken + '</div>';
 
     this.appService.openBlock();
-    if (this.oauthService.cookiesGet('upgrade').c === '') {
-      console.log('>>>>>>>>>', this.oauthService.cookiesGet('upgrade').c === '');
+    if (this.oauthService.cookiesGet('upgrade').cookieVal === '') {
+      console.log('>>>>>>>>>', this.oauthService.cookiesGet('upgrade').cookieVal === '');
       this.viewType = '0';
     }
     sessionStorage.setItem('viewType', this.viewType);
@@ -171,7 +171,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       });
       /** 「艾斯身份證別_登入4-1-1」曾經登入成功過(沒有idToken)，需等待form渲染後，再至艾斯登入 */
       if (this.viewList.length > 0 && !this.M_idToken &&
-        this.oauthService.cookiesGet('upgrade').c === '1' &&
+        this.oauthService.cookiesGet('upgrade').cookieVal === '1' &&
         this.viewType === '2') {
         this.appService.openBlock();
         this.delaySubmit().then(() => {
@@ -194,7 +194,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     return new Promise(() => {
       setTimeout(() => {
         if (this.viewList.length > 0 && !this.M_idToken && this.viewType === '2' &&
-          this.oauthService.cookiesGet('upgrade').c === '1') {
+          this.oauthService.cookiesGet('upgrade').cookieVal === '1') {
           (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
         }
       }, 2000);

@@ -56,7 +56,7 @@ export class MyProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.oauthService.cookiesGet('idToken').c !== '' && this.oauthService.cookiesGet('idToken').c !== 'undefined') {
+    if (this.oauthService.cookiesGet('idToken').cookieVal !== '' && this.oauthService.cookiesGet('idToken').cookieVal !== 'undefined') {
       this.memberService.readProfileData();
       this.readThirdData();
     }

@@ -36,7 +36,7 @@ export class ForgetModalComponent implements OnDestroy {
       this.existingAccount = true;
     } else {
       const request: Request_AFPReadMobile = {
-        // User_Code: this.oauthService.cookiesGet('userCode').s,
+        // User_Code: this.oauthService.cookiesGet('userCode').sessionVal,
         SelectMode: 2,
         UserAccount: this.request.VerifiedInfo.VerifiedPhone
       };

@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.oauthService.cookiesGet('idToken').c !== '' && this.oauthService.cookiesGet('idToken').c !== 'undefined') {
+    if (this.oauthService.cookiesGet('idToken').cookieVal !== '' && this.oauthService.cookiesGet('idToken').cookieVal !== 'undefined') {
       this.appService.loginState = true;
       this.readIndexData();
       this.memberService.readProfileData();
@@ -71,7 +71,7 @@ export class HomeComponent implements OnInit {
 
   /** 讀取首頁資料 */
   readIndexData(): void {
-    if (this.oauthService.cookiesGet('idToken').c !== '' && this.oauthService.cookiesGet('idToken').c !== 'undefined') {
+    if (this.oauthService.cookiesGet('idToken').cookieVal !== '' && this.oauthService.cookiesGet('idToken').cookieVal !== 'undefined') {
       const request: Request_MemberIndex = {
         SelectMode: 4
       };

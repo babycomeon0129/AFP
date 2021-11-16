@@ -86,7 +86,7 @@ export class ProductDetailComponent implements OnInit {
   ngOnInit() {
     // 讀取商品詳細
     const request: Request_ECProductDetail = {
-      User_Code: this.oauthService.cookiesGet('userCode').s,
+      User_Code: this.oauthService.cookiesGet('userCode').sessionVal,
       Cart_Count: 0,
       SearchModel: {
         Product_Code: this.productCode,

@@ -28,7 +28,7 @@ export class MemberService {
 
   /** 讀取我的檔案（會員首頁、我的檔案、手機驗證皆會使用） */
   readProfileData() {
-    if (this.oauthService.cookiesGet('idToken').c !== '' && this.oauthService.cookiesGet('idToken').c !== 'undefined') {
+    if (this.oauthService.cookiesGet('idToken').cookieVal !== '' && this.oauthService.cookiesGet('idToken').cookieVal !== 'undefined') {
       const request: Request_MemberProfile = {
         SelectMode: 4
       };

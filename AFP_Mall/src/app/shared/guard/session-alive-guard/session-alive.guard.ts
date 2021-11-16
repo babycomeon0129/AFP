@@ -20,7 +20,7 @@ export class SessionAliveGuard implements CanActivate {
         // cookie有值: 將cookie資訊塞入session
         // cookie無值: 無動作
         // return true(都可繼續訪問)
-      // if (this.oauthService.cookiesGet('userCode').s === null || sessionStorage.getItem('CustomerInfo') === null) {
+      // if (this.oauthService.cookiesGet('userCode').sessionVal === null || sessionStorage.getItem('CustomerInfo') === null) {
       //   if (this.cookieService.get('userCode').length > 0 && this.cookieService.get('CustomerInfo').length > 0) {
       //     if (this.CheckUser(this.cookieService.get('userCode'), this.cookieService.get('CustomerInfo'))) {
       //       sessionStorage.setItem('userName', this.cookieService.get('userName'));
@@ -28,7 +28,7 @@ export class SessionAliveGuard implements CanActivate {
       //       sessionStorage.setItem('CustomerInfo', this.cookieService.get('CustomerInfo'));
       //       // sessionStorage.setItem('userFavorites', '');
       //       this.appService.loginState = true;
-      //       this.appService.userName = this.oauthService.cookiesGet('userName').s;
+      //       this.appService.userName = this.oauthService.cookiesGet('userName').sessionVal;
       //     }
       //   }
 

@@ -248,7 +248,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       this.existingAccount = false;
     } else {
       const request: Request_AFPReadMobile = {
-        // User_Code: this.oauthService.cookiesGet('userCode').s,
+        // User_Code: this.oauthService.cookiesGet('userCode').sessionVal,
         SelectMode: 2,
         UserAccount: this.registerRequest.AFPAccount
       };

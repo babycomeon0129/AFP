@@ -37,7 +37,7 @@ export class AppService {
   /** App狀態 (登入1,登出2) */
   public appLoginType: string;
   /** 使用者暱稱 */
-  public userName = this.oauthService.cookiesGet('userName').s || null;
+  public userName = this.oauthService.cookiesGet('userName').sessionVal || null;
   /** 我的收藏物件陣列 */
   public userFavArr = [];
   /** 我的收藏編碼陣列 */
@@ -92,7 +92,7 @@ export class AppService {
       xEyes_Y: (lat != null) ? lat.toString() : '',
       xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
       xEyes_DeviceCode: deviceCode === undefined ? '' : deviceCode,
-      Authorization: (this.oauthService.cookiesGet('idToken').c === '') ? '' : ('Bearer ' + this.oauthService.cookiesGet('idToken').c),
+      Authorization: (this.oauthService.cookiesGet('idToken').cookieVal === '') ? '' : ('Bearer ' + this.oauthService.cookiesGet('idToken').c),
     });
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
@@ -113,7 +113,7 @@ export class AppService {
                   page: location.href
                 });
               }
-              if (this.oauthService.cookiesGet('idToken').c !== toApiData.IdToken) {
+              if (this.oauthService.cookiesGet('idToken').cookieVal !== toApiData.IdToken) {
                 this.oauthService.cookiesSet({
                   idToken: toApiData.IdToken,
                   page: location.href
@@ -176,7 +176,7 @@ export class AppService {
   onLogout(): void {
     // 登出紀錄
     const request = {
-      User_Code: this.oauthService.cookiesGet('userCode').s
+      User_Code: this.oauthService.cookiesGet('userCode').sessionVal
     };
     this.toApi_Logout('Home', '1109', request).subscribe((Data: any) => { });
     // APP登出導頁 (app且登入狀態下，方需登出)
@@ -218,7 +218,7 @@ export class AppService {
       xEyes_X: (lng != null) ? lng.toString() : '',
       xEyes_Y: (lat != null) ? lat.toString() : '',
       xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
-      Authorization: (this.oauthService.cookiesGet('idToken').c === '') ? '' : ('Bearer ' + this.oauthService.cookiesGet('idToken').c),
+      Authorization: (this.oauthService.cookiesGet('idToken').cookieVal === '') ? '' : ('Bearer ' + this.oauthService.cookiesGet('idToken').c),
     });
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
@@ -284,8 +284,8 @@ export class AppService {
   /** 顯示我的收藏 */
   showFavorites(): void {
     // get favorite from session and turn it from string to json
-    if (this.oauthService.cookiesGet('userFavorites').s != null) {
-      this.userFavArr = JSON.parse(this.oauthService.cookiesGet('userFavorites').s);
+    if (this.oauthService.cookiesGet('userFavorites').sessionVal != null) {
+      this.userFavArr = JSON.parse(this.oauthService.cookiesGet('userFavorites').sessionVal);
       // reset userFavCodes array (after create/delete favorite)
       this.userFavCodes = [];
       // push all favorite codes to array
@@ -577,7 +577,7 @@ export class AppService {
   /** 網頁跳轉(登入用，不會紀錄連結的歷史紀錄) */
   jumpUrl() {
     const uri =
-      this.oauthService.cookiesGet('fromOriginUri').c === '' ?
+      this.oauthService.cookiesGet('fromOriginUri').cookieVal === '' ?
       '/' : this.oauthService.cookiesGet('fromOriginUri').c;
     if (uri.startsWith('https') || uri.startsWith('http')) {
       location.replace(uri);

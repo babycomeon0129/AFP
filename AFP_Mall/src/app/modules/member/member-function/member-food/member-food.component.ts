@@ -32,7 +32,7 @@ export class MemberFoodComponent implements OnInit {
       this.appService.logoutModal();
     } else {
       const request: Request_MemDeliveryOrder = {
-        User_Code: this.oauthService.cookiesGet('userCode').s
+        User_Code: this.oauthService.cookiesGet('userCode').sessionVal
       };
       this.appService.toApi('Member', '1521', request).subscribe((data: Response_MemDeliveryOrder) => {
         this.foodList = data.List_DeliveryOrder;

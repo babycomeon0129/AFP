@@ -99,7 +99,7 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
 
   ngOnInit() {
     /** 「艾斯身份證別_登入4-3」曾經登入成功過(有idToken)，重整頁面避免登入狀態遺失 */
-    if (this.oauthService.cookiesGet('idToken').c && this.appService.isApp !== 1) {
+    if (this.oauthService.cookiesGet('idToken').cookieVal && this.appService.isApp !== 1) {
       this.appService.loginState = true;
       this.appService.userLoggedIn = true;
     }
@@ -120,7 +120,7 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
     // TODO 點10下用
     // setInterval(() => {
     //   this.test = location.href + '    >>>> cookie idToken     ' +
-    //   this.oauthService.cookiesGet('idToken').c + '   >>>> loginState    ' +
+    //   this.oauthService.cookiesGet('idToken').cookieVal + '   >>>> loginState    ' +
     //   this.appService.loginState + '   >>>> isApp    ' +
     //   this.appService.isApp  ;
     // }, 3000);

@@ -28,7 +28,7 @@ export class OauthService {
     UserInfoId: 0,
   };
   /** 登入憑證 */
-  public M_idToken = this.cookiesGet('idToken').c;
+  public M_idToken = this.cookiesGet('idToken').cookieVal;
   /** 現有域名前置 */
   public preName = '';
 
@@ -176,42 +176,18 @@ export class OauthService {
     const cookieData = JSON.parse(JSON.stringify(data));
     for (const item of Object.keys(cookieData)) {
       if (cookieData[item] !== undefined && cookieData[item] !== '') {
-        // 登入用
-        if (item === 'idToken' || item === 'show' || item === 'upgrade' ||
-            item === 'deviceType' || item === 'fromOriginUri') {
-          if (this.preName !== '') {
-            // 子域塞cookie及session
-            sessionStorage.setItem(this.preName + item, cookieData[item]);
-            this.cookieService.set(
-              this.preName + item, cookieData[item], 90, '/',
-              location.hostname, environment.cookieSecure, 'Lax'
-            );
-          } else {
-            // .mobii.ai塞cookie及session
-            sessionStorage.setItem('M_' + item, cookieData[item]);
-            this.cookieService.set('M_' + item, cookieData[item], 90, '/',
-              environment.cookieDomain, environment.cookieSecure, 'Lax');
-          }
-        }
-        // 取得使用者資料後塞值
-        if (item === 'userName' || item === 'userCode') {
-          sessionStorage.setItem(item, cookieData[item]);
-          this.cookieService.set(item, cookieData[item], 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-          if (this.preName !== '') {
-            this.cookieService.set(item, cookieData[item], 90, '/', location.hostname, environment.cookieSecure, 'Lax');
-          }
-        }
-        if (item === 'userFavorites') {
-          sessionStorage.setItem(item, data.userFavorites);
-        }
-        // 購物車用cart_code, cart_count_Mobii
-        // 推播用pushCount, 進場廣告用adTime
-        if (item === 'cart_code' || item === 'cart_count_Mobii' ||
-            item === 'pushCount' || item === 'adTime') {
-          this.cookieService.set(item, cookieData[item], 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-          if (this.preName !== '') {
-            this.cookieService.set(item, cookieData[item], 90, '/', location.hostname, environment.cookieSecure, 'Lax');
-          }
+        if (this.preName !== '') {
+          // 子域塞cookie及session
+          sessionStorage.setItem(this.preName + item, cookieData[item]);
+          this.cookieService.set(
+            this.preName + item, cookieData[item], 90, '/',
+            location.hostname, environment.cookieSecure, 'Lax'
+          );
+        } else {
+          // .mobii.ai塞cookie及session
+          sessionStorage.setItem('M_' + item, cookieData[item]);
+          this.cookieService.set('M_' + item, cookieData[item], 90, '/',
+            environment.cookieDomain, environment.cookieSecure, 'Lax');
         }
       }
     }
@@ -220,19 +196,19 @@ export class OauthService {
   /** 取得cookie */
   cookiesGet(item: string) {
     this.getLocation();
-    let s = '';
-    let c = '';
-    let name = '';
+    let sessionVal = '';
+    let cookieVal = '';
+    let itemName = '';
     // 子域不為空時，取子域的session及cookie
     if (this.preName !== '') {
-      name = this.preName + item;
+      itemName = this.preName + item;
     } else {
-      name = 'M_' + item;
+      itemName = 'M_' + item;
     }
-    s = sessionStorage.getItem(name);
-    c = this.cookieService.get(name);
-    console.log(name, s, c);
-    return {s, c};
+    sessionVal = sessionStorage.getItem(itemName);
+    cookieVal = this.cookieService.get(itemName);
+    console.log(itemName, sessionVal, cookieVal);
+    return {sessionVal, cookieVal};
   }
 
   /** 刪除cookie */
@@ -240,8 +216,8 @@ export class OauthService {
     this.getLocation();
     console.log('cookiesDel', item);
     // session未設定為null, cookie未設定為''
-    const upgrade = (this.cookiesGet('upgrade').c).slice(0);
-    const show = (this.cookiesGet('show').c).slice(0);
+    const upgrade = (this.cookiesGet('upgrade').cookieVal).slice(0);
+    const show = (this.cookiesGet('show').cookieVal).slice(0);
     if (item === '/') {
       sessionStorage.clear();
       this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');

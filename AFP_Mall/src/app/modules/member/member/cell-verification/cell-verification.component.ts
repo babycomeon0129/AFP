@@ -79,7 +79,7 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
 
   /** 送出驗證碼至手機 */
   sendVCode(): void {
-    // this.requestMobileVerify.User_Code = this.oauthService.cookiesGet('userCode').s,
+    // this.requestMobileVerify.User_Code = this.oauthService.cookiesGet('userCode').sessionVal,
     this.requestMobileVerify.SelectMode = 11;
     this.requestMobileVerify.VerifiedAction = this.toVerifyCell ? 11 : 3;
     this.appService.openBlock();
@@ -106,7 +106,7 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
 
   /** 立即驗證-驗證驗證碼 */
   verifyMobile(form: NgForm): void {
-    // this.requestMobileVerify.User_Code = this.oauthService.cookiesGet('userCode').s,
+    // this.requestMobileVerify.User_Code = this.oauthService.cookiesGet('userCode').sessionVal,
     this.requestMobileVerify.SelectMode = 21;
     this.requestMobileVerify.VerifiedAction = this.toVerifyCell ? 11 : 3;
 
