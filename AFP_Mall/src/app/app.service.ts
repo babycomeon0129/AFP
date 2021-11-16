@@ -51,7 +51,7 @@ export class AppService {
   /** 當前訊息 */
   public currentMessage = new BehaviorSubject(null);
   /** 推播訊息數量 */
-  public pushCount = Number(this.oauthService.cookiesGet('pushCount').c) || 0;
+  public pushCount = Number(this.oauthService.cookiesGet('pushCount').cookieVal) || 0;
   /** GUID (推播使用) */
   public deviceCode = localStorage.getItem('M_DeviceCode') || null;
   /** firebase 推播 token */
@@ -92,7 +92,7 @@ export class AppService {
       xEyes_Y: (lat != null) ? lat.toString() : '',
       xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
       xEyes_DeviceCode: deviceCode === undefined ? '' : deviceCode,
-      Authorization: (this.oauthService.cookiesGet('idToken').cookieVal === '') ? '' : ('Bearer ' + this.oauthService.cookiesGet('idToken').c),
+      Authorization: (this.oauthService.cookiesGet('idToken').cookieVal === '') ? '' : ('Bearer ' + this.oauthService.cookiesGet('idToken').cookieVal),
     });
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
@@ -218,7 +218,7 @@ export class AppService {
       xEyes_X: (lng != null) ? lng.toString() : '',
       xEyes_Y: (lat != null) ? lat.toString() : '',
       xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
-      Authorization: (this.oauthService.cookiesGet('idToken').cookieVal === '') ? '' : ('Bearer ' + this.oauthService.cookiesGet('idToken').c),
+      Authorization: (this.oauthService.cookiesGet('idToken').cookieVal === '') ? '' : ('Bearer ' + this.oauthService.cookiesGet('idToken').cookieVal),
     });
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
@@ -302,7 +302,7 @@ export class AppService {
    * @param favCode 商品/商家/周邊/行程編碼
    */
   favToggle(favAction: number, favType: number, favCode?: number): void {
-    if (!this.oauthService.cookiesGet('idToken').c) {
+    if (!this.oauthService.cookiesGet('idToken').cookieVal) {
       this.logoutModal();
     } else {
       const request: Request_MemberFavourite = {
@@ -337,7 +337,7 @@ export class AppService {
     const request: Request_ECCart = {
       SelectMode: 4, // 固定讀取
       SearchModel: {
-        Cart_Code: Number(this.oauthService.cookiesGet('cart_code').c)
+        Cart_Code: Number(this.oauthService.cookiesGet('cart_code').cookieVal)
       },
     };
 
@@ -356,7 +356,7 @@ export class AppService {
    */
   onVoucher(voucher: AFP_Voucher): void {
     // 點擊兌換時先進行登入判斷
-    if (!this.oauthService.cookiesGet('idToken').c) {
+    if (!this.oauthService.cookiesGet('idToken').cookieVal) {
       this.logoutModal();
     } else {
       switch (voucher.Voucher_IsFreq) {
@@ -447,12 +447,12 @@ export class AppService {
 
   /** 打開JustKa iframe */
   showJustka(url: string): void {
-    if (!this.oauthService.cookiesGet('idToken').c) {
+    if (!this.oauthService.cookiesGet('idToken').cookieVal) {
       this.logoutModal();
     } else {
       this.bsModalService.show(JustkaModalComponent, {
         initialState: {
-          justkaUrl: url + '&J_idToken=' + this.oauthService.cookiesGet('idToken').c
+          justkaUrl: url + '&J_idToken=' + this.oauthService.cookiesGet('idToken').cookieVal
         }
       });
     }
@@ -578,7 +578,7 @@ export class AppService {
   jumpUrl() {
     const uri =
       this.oauthService.cookiesGet('fromOriginUri').cookieVal === '' ?
-      '/' : this.oauthService.cookiesGet('fromOriginUri').c;
+      '/' : this.oauthService.cookiesGet('fromOriginUri').cookieVal;
     if (uri.startsWith('https') || uri.startsWith('http')) {
       location.replace(uri);
     } else {
