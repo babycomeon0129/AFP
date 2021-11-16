@@ -44,10 +44,10 @@ export class OauthService {
         break;
       case 'localhost':
       case 'www-uuat.mobii.ai':
-        this.preName = 'www-uuat.';
+        this.preName = 'uuat.';
         break;
       case 'www-uat.mobii.ai':
-        this.preName = 'www-uat.';
+        this.preName = 'uat.';
         break;
       default:
         // 預設正式

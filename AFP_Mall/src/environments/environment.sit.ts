@@ -5,7 +5,6 @@
 
 export const environment = {
   production: false,
-  // apiUrl: 'https://sit-afpapi.mobii.ai/api/',
   apiUrl: 'https://sit-afpapi.mobii.ai/api/',
   loginUrl: 'https://sit-login.mobii.ai/auth/api/v1/login',
   tokenUrl: 'https://sit-logint.mobii.ai/auth/api/v1/token',
