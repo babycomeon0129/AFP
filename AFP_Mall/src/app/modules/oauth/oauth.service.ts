@@ -204,9 +204,9 @@ export class OauthService {
         if (item === 'userFavorites') {
           sessionStorage.setItem(item, data.userFavorites);
         }
-        // 購物車用data.cart_code, cart_count_Mobii
+        // 購物車用cart_code, cart_count_Mobii
         // 推播用pushCount, 進場廣告用adTime
-        if (item === 'data.cart_code' || item === 'cart_count_Mobii' ||
+        if (item === 'cart_code' || item === 'cart_count_Mobii' ||
             item === 'pushCount' || item === 'adTime') {
           this.cookieService.set(item, cookieData[item], 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
           if (this.preName !== '') {
