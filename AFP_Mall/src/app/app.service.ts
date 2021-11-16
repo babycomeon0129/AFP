@@ -202,7 +202,6 @@ export class AppService {
     this.userLoggedIn = false;
     this.userFavCodes = [];
     this.pushCount = 0;
-    this.oauthService.onClearStorage();
   }
 
   /** 登出用

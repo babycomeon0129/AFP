@@ -64,7 +64,7 @@ export class OauthService {
    * Web：登入按鈕帶入pathname，做為返回依據
    */
   loginPage(code: number, pathname: string): any {
-    this.onClearStorage();
+    this.onClearLogin();
     if (code === 1) {
       if (navigator.userAgent.match(/android/i)) {
         //  Android
@@ -170,8 +170,8 @@ export class OauthService {
   }
 
 
-  /** cookie設定
-   * 為避免域名不同導致錯誤，廣域.mobii.ai及本域都會存放
+  /** 「cookie,session管理_設定」
+   * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/mobiicookiesession
    */
   cookiesSet(data: cookieDeclare) {
     console.log('1-3', data);
@@ -196,7 +196,7 @@ export class OauthService {
     }
   }
 
-  /** 取得cookie */
+  /** 「cookie,session管理_取得」 */
   cookiesGet(item: string) {
     this.getLocation();
     let sessionVal = '';
@@ -214,7 +214,7 @@ export class OauthService {
     return {sessionVal, cookieVal};
   }
 
-  /** 刪除cookie */
+  /** 「cookie,session管理_刪除」 */
   cookiesDel(item: string) {
     this.getLocation();
     console.log('cookiesDel', item);
@@ -235,11 +235,8 @@ export class OauthService {
     if (show === '1') { this.cookiesSet({show: '1'}); }
   }
 
-  /** 清除Storage */
-  onClearStorage() {
-    // sessionStorage.clear();
-    // this.cookiesDel('/');
-    // this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+  /** 清除登入來源(非登出) */
+  onClearLogin() {
     this.cookiesDel('fromOriginUri');
     this.cookiesDel('deviceType');
   }
@@ -256,7 +253,7 @@ export class OauthService {
         leftBtnMsg: '我知道了',
         rightBtnMsg: '登入/註冊',
         rightBtnFn: () => {
-          this.onClearStorage();
+          this.onClearLogin();
           this.loginPage(0, location.pathname);
         }
       }
@@ -346,6 +343,7 @@ export class Res_IdTokenApi {
   List_UserFavourite: [];
 }
 
+/** 「cookie,session管理_現有參數」 */
 export class cookieDeclare {
   /** 身份識別idToken */
   idToken?: string;
@@ -363,7 +361,7 @@ export class cookieDeclare {
   upgrade?: string;
   /** 首頁隱私權(1不顯示) */
   show?: string;
-  /** 購物車編碼 (APP用) */
+  /** 購物車編碼(APP用) */
   cart_code?: string;
   /** 購物車 */
   cart_count_Mobii?: string;
@@ -371,6 +369,6 @@ export class cookieDeclare {
   pushCount?: string;
   /** 進場廣告 */
   adTime?: string;
-  /** 來源頁 */
+  /** 來源頁(除錯用) */
   page?: string;
 }
