@@ -53,7 +53,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.oauthService.loginRequest.deviceCode = params.deviceCode;
         this.oauthService.cookiesSet({
           deviceType: params.deviceType,
-          fromOriginUri: '/',
           page: location.href
         });
       } else {

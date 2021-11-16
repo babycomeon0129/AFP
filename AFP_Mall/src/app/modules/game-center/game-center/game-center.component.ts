@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Model_ShareData, AFP_ADImg, AFP_Game } from '@app/_models';
 import { AppService } from '@app/app.service';
@@ -22,7 +23,7 @@ export class GameCenterComponent implements OnInit {
   public selectedType = 0;
 
   constructor(public appService: AppService, public oauthService: OauthService,
-              private router: Router, public modal: ModalService,
+              private router: Router, public modal: ModalService, public location: Location,
               private meta: Meta, private title: Title, private activatedRoute: ActivatedRoute) {
     this.title.setTitle('遊戲 - Mobii!');
     this.meta.updateTag({

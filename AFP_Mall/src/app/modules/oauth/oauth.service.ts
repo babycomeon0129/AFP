@@ -30,12 +30,16 @@ export class OauthService {
   /** 登入憑證 */
   public M_idToken = this.cookiesGet('idToken').c;
   /** 現有域名前置 */
-  private preName = '';
+  public preName = '';
 
   constructor(private router: Router, private http: HttpClient, public cookieService: CookieService,
               private bsModalService: BsModalService) {
+  }
 
+  /** 取得域名前置 */
+  getLocation() {
     switch (location.hostname) {
+      case 'localhost':
       case 'sit.mobii.ai':
         this.preName = 'sit.';
         break;
@@ -50,9 +54,8 @@ export class OauthService {
         this.preName = '';
         break;
     }
-
+    return this.preName;
   }
-
   /** 「艾斯身份證別_登入1-1-3」呼叫APP跳出登入頁、Web返回頁儲存
    * App：原生點擊登入按鈕（帶queryParams：isApp,deviceType,deviceCode），統一由Web向艾斯識別驗證
    * Web：登入按鈕帶入pathname，做為返回依據
@@ -169,7 +172,7 @@ export class OauthService {
    */
   cookiesSet(data: cookieDeclare) {
     console.log('1-3', data);
-
+    this.getLocation();
     const cookieData = JSON.parse(JSON.stringify(data));
     for (const item of Object.keys(cookieData)) {
       if (cookieData[item] !== undefined && cookieData[item] !== '') {
@@ -182,7 +185,6 @@ export class OauthService {
             environment.cookieDomain, environment.cookieSecure, 'Lax');
           // 子域塞cookie及session
           if (this.preName !== '') {
-            console.log(this.preName);
             sessionStorage.setItem(this.preName + item, cookieData[item]);
             this.cookieService.set(
               this.preName + item, cookieData[item], 90, '/',
@@ -216,6 +218,7 @@ export class OauthService {
 
   /** 取得cookie */
   cookiesGet(item: string) {
+    this.getLocation();
     let s = '';
     let c = '';
     let name = '';
@@ -233,6 +236,7 @@ export class OauthService {
 
   /** 刪除cookie */
   cookiesDel(item: string) {
+    this.getLocation();
     console.log('cookiesDel', item);
     // session未設定為null, cookie未設定為''
     const upgrade = (this.cookiesGet('upgrade').c).slice(0);

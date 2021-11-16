@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
@@ -35,7 +36,7 @@ export class HomeComponent implements OnInit {
   };
 
   constructor(public appService: AppService, public oauthService: OauthService, private callApp: AppJSInterfaceService,
-              private router: Router, private modal: ModalService, private route: ActivatedRoute,
+              private router: Router, private modal: ModalService, private route: ActivatedRoute, public location: Location,
               public memberService: MemberService, private cookieService: CookieService) {
   }
 
