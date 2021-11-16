@@ -19,7 +19,7 @@ declare var $: any;
 })
 export class ShoppingPaymentComponent implements OnInit {
   /** 將idToken渲染至表單 */
-  public idToken = this.oauthService.cookiesGet('idToken').c;
+  public idToken = this.oauthService.cookiesGet('idToken').cookieVal;
   /** 同頁滑動切換 0:本頁 1:輸入卡號 */
   public layerTrig = 0;
   public apiUrl = environment.apiUrl;

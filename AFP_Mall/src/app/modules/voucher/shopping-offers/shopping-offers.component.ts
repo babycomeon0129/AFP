@@ -34,7 +34,7 @@ export class ShoppingOffersComponent implements OnInit {
     this.meta.updateTag({ content: '線上優惠專區 - Mobii!', property: 'og:title' });
     this.meta.updateTag({ content: 'Mobii! - 線上優惠專區。這裡會顯示 Mobii! 合作店家的優惠券內容，想要搶得店家的優惠，請先登入註冊 Mobii! 會員。', property: 'og:description' });
 
-    this.cartCount = Number(this.oauthService.cookiesGet('cart_count_Mobii').c);
+    this.cartCount = Number(this.oauthService.cookiesGet('cart_count_Mobii').cookieVal);
   }
 
   ngOnInit() {

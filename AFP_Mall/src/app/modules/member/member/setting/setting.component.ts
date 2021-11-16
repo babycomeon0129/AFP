@@ -42,7 +42,7 @@ export class SettingComponent implements OnInit {
 
   /** 「艾斯身份證別_密碼修改1」 */
   passwordUpdate() {
-    this.oauthService.toModifyEyes(this.appService.isApp, this.oauthService.cookiesGet('idToken').c)
+    this.oauthService.toModifyEyes(this.appService.isApp, this.oauthService.cookiesGet('idToken').cookieVal)
     .subscribe((data: string) => {
       if (data.indexOf('https') === 0) {
         location.href = data;

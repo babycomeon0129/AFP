@@ -80,7 +80,7 @@ export class ProductDetailComponent implements OnInit {
               private cookieService: CookieService, private meta: Meta, private title: Title) {
     this.productCode = parseInt(this.route.snapshot.params.Product_Code, 10);
     this.productDirCode = parseInt(this.route.snapshot.params.ProductDir_Code, 10);
-    this.cartCode = Number(this.oauthService.cookiesGet('cart_code').c);
+    this.cartCode = Number(this.oauthService.cookiesGet('cart_code').cookieVal);
   }
 
   ngOnInit() {
@@ -289,7 +289,7 @@ export class ProductDetailComponent implements OnInit {
                     cart_code: data.AFP_Cart.Cart_Code.toString(),
                     page: location.href
                   });
-                  this.cartCode = Number(this.oauthService.cookiesGet('cart_code').c);
+                  this.cartCode = Number(this.oauthService.cookiesGet('cart_code').cookieVal);
                 }
                 // 把購物車商品數設到 cookie
                 this.oauthService.cookiesSet({

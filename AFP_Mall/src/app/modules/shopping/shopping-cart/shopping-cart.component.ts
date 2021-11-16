@@ -43,8 +43,8 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.cartCode = Number(this.oauthService.cookiesGet('cart_code').c);
-    this.cartCount = Number(this.oauthService.cookiesGet('cart_count_Mobii').c) || 0;
+    this.cartCode = Number(this.oauthService.cookiesGet('cart_code').cookieVal);
+    this.cartCount = Number(this.oauthService.cookiesGet('cart_count_Mobii').cookieVal) || 0;
     this.showCartData();
   }
 
@@ -336,7 +336,7 @@ export class ShoppingCartComponent implements OnInit {
       this.modal.show('message', { initialState: { success: false, message: '還沒有選擇要結帳的商家及商品喔!', showType: 1 } });
     } else {
       // 若未登入，則跳出登入視窗
-      if (!this.oauthService.cookiesGet('idToken').c) {
+      if (!this.oauthService.cookiesGet('idToken').cookieVal) {
         this.appService.logoutModal();
       } else {
         // 已登入

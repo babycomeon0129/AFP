@@ -32,7 +32,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   /** 使用者grantCode */
   public grantCode = '';
   /** 登入憑證 */
-  public M_idToken = this.oauthService.cookiesGet('idToken').c;
+  public M_idToken = this.oauthService.cookiesGet('idToken').cookieVal;
   /** 「艾斯身份證別_登入」後端回傳資料 */
   public loginJsonData: object;
   // TODO 測試用
@@ -259,8 +259,8 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     this.appService.showFavorites();
     this.appService.readCart();
     if (this.appService.isApp === 1) {
-      this.callApp.getLoginData(this.oauthService.cookiesGet('idToken').c,
-      this.oauthService.cookiesGet('userCode').c, this.oauthService.cookiesGet('userName').c);
+      this.callApp.getLoginData(this.oauthService.cookiesGet('idToken').cookieVal,
+      this.oauthService.cookiesGet('userCode').cookieVal, this.oauthService.cookiesGet('userName').cookieVal);
     } else {
       this.appService.jumpUrl();
     }

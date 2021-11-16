@@ -663,7 +663,7 @@ export class EntranceComponent implements OnInit {
           {
             initialState:
             {
-              justkaUrl: url + '&J_idToken=' + this.oauthService.cookiesGet('idToken').c
+              justkaUrl: url + '&J_idToken=' + this.oauthService.cookiesGet('idToken').cookieVal
             }
           },
           this.bsModalRef);

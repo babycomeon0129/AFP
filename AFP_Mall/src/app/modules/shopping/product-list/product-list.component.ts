@@ -46,8 +46,8 @@ export class ProductListComponent implements OnInit {
 
   constructor(public appService: AppService, private route: ActivatedRoute, private cookieService: CookieService,
               private oauthService: OauthService, private meta: Meta, private title: Title) {
-    this.cartCode = Number(this.oauthService.cookiesGet('cart_code').c);
-    this.cartCount = Number(this.oauthService.cookiesGet('cart_count_Mobii').c);
+    this.cartCode = Number(this.oauthService.cookiesGet('cart_code').cookieVal);
+    this.cartCount = Number(this.oauthService.cookiesGet('cart_count_Mobii').cookieVal);
     this.dirCode = Number(this.route.snapshot.params.ProductDir_Code);
   }
 
