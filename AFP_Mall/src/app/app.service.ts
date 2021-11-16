@@ -46,8 +46,6 @@ export class AppService {
   public showAPPHint = true;
   /** 前一頁url */
   public prevUrl = '';
-  /** 當前url */
-  public pathnameUri: string;
   /** lazyload 的初始圖片 */
   public defaultImage = '/img/share/eee.jpg';
   /** 當前訊息 */

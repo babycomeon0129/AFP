@@ -113,7 +113,6 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
           this.callApp.appShowMobileFooter(false);
         }
         this.appService.prevUrl = event.url;  // 取得前一頁面url
-        this.appService.pathnameUri = location.pathname;  // 取得當前頁面pathname
       });
     this.detectOld();
     // this.appService.initPush();
