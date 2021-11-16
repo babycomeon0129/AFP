@@ -127,6 +127,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
     this.appService.openBlock();
     if (this.oauthService.cookiesGet('upgrade').c === '') {
+      console.log('>>>>>>>>>', this.oauthService.cookiesGet('upgrade').c === '');
       this.viewType = '0';
     }
     sessionStorage.setItem('viewType', this.viewType);

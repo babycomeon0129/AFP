@@ -179,17 +179,18 @@ export class OauthService {
         // 登入用
         if (item === 'idToken' || item === 'show' || item === 'upgrade' ||
             item === 'deviceType' || item === 'fromOriginUri') {
-          // .mobii.ai塞cookie及session
-          sessionStorage.setItem('M_' + item, cookieData[item]);
-          this.cookieService.set('M_' + item, cookieData[item], 90, '/',
-            environment.cookieDomain, environment.cookieSecure, 'Lax');
-          // 子域塞cookie及session
           if (this.preName !== '') {
+            // 子域塞cookie及session
             sessionStorage.setItem(this.preName + item, cookieData[item]);
             this.cookieService.set(
               this.preName + item, cookieData[item], 90, '/',
               location.hostname, environment.cookieSecure, 'Lax'
             );
+          } else {
+            // .mobii.ai塞cookie及session
+            sessionStorage.setItem('M_' + item, cookieData[item]);
+            this.cookieService.set('M_' + item, cookieData[item], 90, '/',
+              environment.cookieDomain, environment.cookieSecure, 'Lax');
           }
         }
         // 取得使用者資料後塞值
@@ -245,20 +246,20 @@ export class OauthService {
       sessionStorage.clear();
       this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       this.cookieService.deleteAll('/', location.hostname , environment.cookieSecure, 'Lax');
-      if (upgrade === '1') { this.cookiesSet({upgrade: '1'}); }
-      if (show === '1') { this.cookiesSet({show: '1'}); }
     } else {
       sessionStorage.removeItem('M_' + item);
       sessionStorage.removeItem(this.preName + item);
       this.cookieService.deleteAll(item, environment.cookieDomain, environment.cookieSecure, 'Lax');
       this.cookieService.deleteAll(item, location.hostname, environment.cookieSecure, 'Lax');
     }
+    if (upgrade === '1') { this.cookiesSet({upgrade: '1'}); }
+    if (show === '1') { this.cookiesSet({show: '1'}); }
   }
 
   /** 清除Storage */
   onClearStorage() {
-    sessionStorage.clear();
-    this.cookiesDel('/');
+    // sessionStorage.clear();
+    // this.cookiesDel('/');
     // this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
     this.cookiesDel('fromOriginUri');
     this.cookiesDel('deviceType');
