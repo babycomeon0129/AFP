@@ -45,10 +45,10 @@ export class OauthService {
       case 'localhost':
       // MOB-3762因sit掛掉，暫時將一頁式sit-events.mobii.ai設定uuat
       case 'sit-events.mobii.ai':
-      case 'events-uat.mobii.ai':
       case 'www-uuat.mobii.ai':
         this.preName = 'uuat.';
         break;
+      case 'events-uat.mobii.ai':
       case 'www-uat.mobii.ai':
         this.preName = 'uat.';
         break;
