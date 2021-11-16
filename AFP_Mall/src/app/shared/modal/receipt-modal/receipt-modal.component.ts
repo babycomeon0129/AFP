@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AFP_MemberOrder, AFP_ItemInfoPart } from '@app/_models';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import html2canvas from 'html2canvas';
-import * as jsPDF from 'jspdf';
+import jsPDF from 'jspdf';
 import { AppService } from '@app/app.service';
 
 
