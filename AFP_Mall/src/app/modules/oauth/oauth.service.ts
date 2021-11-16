@@ -40,9 +40,11 @@ export class OauthService {
   getLocation() {
     switch (location.hostname) {
       case 'sit.mobii.ai':
+      case 'sit-events.mobii.ai':
         this.preName = 'sit.';
         break;
       case 'localhost':
+      case 'events-uat.mobii.ai':
       case 'www-uuat.mobii.ai':
         this.preName = 'uuat.';
         break;
@@ -360,7 +362,7 @@ export class cookieDeclare {
   upgrade?: string;
   /** 首頁隱私權(1不顯示) */
   show?: string;
-  /** 購物車 */
+  /** 購物車編碼 (APP用) */
   cart_code?: string;
   /** 購物車 */
   cart_count_Mobii?: string;
