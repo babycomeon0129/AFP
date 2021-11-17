@@ -289,7 +289,6 @@ export class EntranceComponent implements OnInit {
 
   ngOnInit() {
     /** 下方隱私權顯示與否(0顯示，1不顯示) */
-    console.log(this.oauthService.cookiesGet('show').cookieVal === '');
     this.cookieShow = (this.oauthService.cookiesGet('show').cookieVal === '') ? '0' : '1';
     // 從route resolver取得首頁資料
     // this.route.data.subscribe((data: { homeData: Response_Home }) => {

@@ -43,17 +43,14 @@ export class OauthService {
         this.preName = 'sit.';
         break;
       case 'localhost':
-      // MOB-3762因sit掛掉，暫時將一頁式sit-events.mobii.ai設定uuat
-      case 'sit-events.mobii.ai':
       case 'www-uuat.mobii.ai':
         this.preName = 'uuat.';
         break;
-      case 'events-uat.mobii.ai':
       case 'www-uat.mobii.ai':
         this.preName = 'uat.';
         break;
       default:
-        // 預設正式
+        // 預設正式站、一頁式活動
         this.preName = '';
         break;
     }
@@ -174,7 +171,7 @@ export class OauthService {
    * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/mobiicookiesession
    */
   cookiesSet(data: cookieDeclare) {
-    console.log('1-3', data);
+    // console.log('cookiesSet', data);
     this.getLocation();
     const cookieData = JSON.parse(JSON.stringify(data));
     for (const item of Object.keys(cookieData)) {
@@ -186,6 +183,12 @@ export class OauthService {
             this.preName + item, cookieData[item], 90, '/',
             location.hostname, environment.cookieSecure, 'Lax'
           );
+          // 子域要另塞M_idToken，以便活動頁存取用
+          if (item === 'idToken') {
+            sessionStorage.setItem('M_' + item, cookieData[item]);
+            this.cookieService.set('M_' + item, cookieData[item], 90, '/',
+              environment.cookieDomain, environment.cookieSecure, 'Lax');
+          }
         } else {
           // .mobii.ai塞cookie及session
           sessionStorage.setItem('M_' + item, cookieData[item]);
@@ -196,7 +199,9 @@ export class OauthService {
     }
   }
 
-  /** 「cookie,session管理_取得」 */
+  /** 「cookie,session管理_取得」
+   * session未設定為null；cookie未設定為''
+   */
   cookiesGet(item: string) {
     this.getLocation();
     let sessionVal = '';
@@ -210,15 +215,14 @@ export class OauthService {
     }
     sessionVal = sessionStorage.getItem(itemName);
     cookieVal = this.cookieService.get(itemName);
-    console.log(itemName, sessionVal, cookieVal);
+    // console.log(itemName, sessionVal, cookieVal);
     return {sessionVal, cookieVal};
   }
 
   /** 「cookie,session管理_刪除」 */
   cookiesDel(item: string) {
+    // console.log('cookiesDel', item);
     this.getLocation();
-    console.log('cookiesDel', item);
-    // session未設定為null, cookie未設定為''
     const upgrade = (this.cookiesGet('upgrade').cookieVal).slice(0);
     const show = (this.cookiesGet('show').cookieVal).slice(0);
     if (item === '/') {

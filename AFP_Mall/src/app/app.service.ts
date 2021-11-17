@@ -98,7 +98,12 @@ export class AppService {
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
       .pipe(map((data: Response_APIModel) => {
         this.blockUI.stop();
-        // console.log(this.isApp, command, data);
+        // 除錯用
+        if (location.hostname.indexOf('localhost') === 0 ||
+          location.hostname.indexOf('sit') >= 0 ||
+          location.hostname.indexOf('uat') >= 0) {
+          console.log('isApp', this.isApp, command, data);
+        }
 
         switch (data.Base.Rtn_State) {
           case 1:

@@ -46,7 +46,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
       /** 「艾斯身份證別_登入1-1-2」接收queryParams */
       if (params.isApp === '1' && typeof params.deviceType !== 'undefined') {
-        console.log('1-1');
         /** 「艾斯身份證別_登入1-1-1b」 App (接收App queryParams：isApp, deviceType, deviceCode) */
         this.oauthService.loginRequest.deviceType = Number(params.deviceType);
         this.appService.isApp = params.isApp;
@@ -56,7 +55,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
           page: location.href
         });
       } else {
-        console.log('1-2', typeof params.fromOriginUri !== 'undefined');
         /** 「艾斯身份證別_登入1-1-1a」活動頁帶返回頁參數 */
         this.oauthService.loginRequest.deviceType = 0;
         if (typeof params.fromOriginUri !== 'undefined') {
@@ -71,7 +69,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       }
 
       if (typeof params.IdToken !== 'undefined' && params.IdToken !== null) {
-        console.log('2');
         this.oauthService.cookiesSet({
           idToken: params.IdToken,
           page: location.href
@@ -81,7 +78,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
        * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/20001-redirect-api-mobii
        */
       if (!this.M_idToken) {
-        console.log('3', this.viewType);
         if (typeof params.loginJson !== 'undefined' && JSON.parse(params.loginJson).errorCode === '996600001') {
           const loginJson = JSON.parse(params.loginJson);
           this.viewType = '2';
@@ -107,7 +103,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
       /** 「艾斯身份證別_忘記密碼1」Redirect API由後端取得艾斯導頁 */
       if (params.forgetPassword === 'true' && (this.M_idToken !== '' && this.M_idToken !== 'undefined')) {
-        console.log('4');
         this.onLoginOK();
       }
 
@@ -127,10 +122,8 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
     this.appService.openBlock();
     if (this.oauthService.cookiesGet('upgrade').cookieVal === '') {
-      console.log('>>>>>>>>>', this.oauthService.cookiesGet('upgrade').cookieVal === '');
       this.viewType = '0';
     }
-    sessionStorage.setItem('viewType', this.viewType);
     switch (this.viewType) {
       case '0':
         this.viewTitle = '帳號升級公告';
@@ -140,6 +133,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.viewTitle = '帳號整併';
         break;
       case '2':
+        this.appService.openBlock();
         if (this.M_idToken !== '' && this.M_idToken !== 'undefined') {
           this.onLoginOK();
         } else {

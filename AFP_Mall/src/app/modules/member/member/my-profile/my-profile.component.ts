@@ -110,9 +110,10 @@ export class MyProfileComponent implements OnInit {
   onProfileSubmit(form: NgForm): void {
     this.appService.openBlock();
     this.memberService.userProfile.SelectMode = 3;
-    console.log(moment(this.memberService.userProfile.UserProfile_Birthday).format('YYYY-MM-DD'));
+    // console.log(moment(this.memberService.userProfile.UserProfile_Birthday).format('YYYY-MM-DD'));
     if (this.memberService.userProfile.UserProfile_Birthday !== null) {
-      this.memberService.userProfile.UserProfile_Birthday = moment(this.memberService.userProfile.UserProfile_Birthday).format('YYYY-MM-DD');
+      this.memberService.userProfile.UserProfile_Birthday =
+        moment(this.memberService.userProfile.UserProfile_Birthday).format('YYYY-MM-DD');
         // if (this.memberService.userProfile.UserProfile_Birthday.getMonth() < new Date().getMonth()) {
         //   this.memberService.userProfile.UserProfile_Birthday =
         //     new Date(this.memberService.userProfile.UserProfile_Birthday.getTime() -
