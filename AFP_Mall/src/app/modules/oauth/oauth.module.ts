@@ -20,6 +20,9 @@ import { OauthLoginComponent } from './oauth-login/oauth-login.component';
     HttpClientModule,
     OauthRoutingModule
   ],
-  providers: [OauthService]
+  providers: [
+    HttpClientModule,
+    OauthService
+  ]
 })
 export class OauthModule { }

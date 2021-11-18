@@ -8,8 +8,9 @@ export class LinkifyPipe implements PipeTransform {
 
   /** 幫內文的網址自動加上超連結。
    *  內文如需自動補上連結，該連結必須『前後都加上半形空白』才可順利判斷。
-   *  不然會因為split(' ')斷錯導致<a>補到怪怪的地方 */
-  constructor(private _domSanitizer: DomSanitizer) { }
+   *  不然會因為split(' ')斷錯導致<a>補到怪怪的地方
+   */
+  constructor(public _domSanitizer?: DomSanitizer) { }
 
   transform(value: any, args?: any): any {
     return this._domSanitizer.bypassSecurityTrustHtml(this.stylize(value));

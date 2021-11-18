@@ -321,7 +321,7 @@
               "src/manifest.json"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles/style.scss"
             ],
             "scripts": []
           }

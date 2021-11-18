@@ -9,7 +9,7 @@ export class DigitOnlyDirective {
   private navigationKeys = ['Delete', 'Backspace', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight'];
   public inputElement: HTMLElement;
 
-  constructor(public el: ElementRef) {
+  constructor(public el?: ElementRef) {
     this.inputElement = el.nativeElement;
   }
 

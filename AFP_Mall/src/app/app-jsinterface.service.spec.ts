@@ -7,7 +7,7 @@ describe('AppJSInterfaceService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(AppJSInterfaceService);
+    service = TestBed.get(AppJSInterfaceService);
   });
 
   it('should be created', () => {

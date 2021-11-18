@@ -12,7 +12,7 @@ export class KeyControllerDirective implements OnChanges {
   /** 該屬性的內容 */
   @Input() keyValue: string;
 
-  constructor(private el: ElementRef) { }
+  constructor(public el?: ElementRef) { }
 
   ngOnChanges(simpleChanges: SimpleChanges): void {
     const elem = this.el.nativeElement as HTMLAnchorElement;
