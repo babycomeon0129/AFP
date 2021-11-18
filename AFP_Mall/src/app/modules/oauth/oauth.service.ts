@@ -116,8 +116,7 @@ export class OauthService {
   toTokenApi(req: RequestIdTokenApi): Observable<any> {
 
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json'
     });
     return this.http.post(environment.tokenUrl, JSON.stringify(this.grantRequest), { headers })
       .pipe(map((data: ResponseOauthApi) => {
@@ -307,7 +306,6 @@ export class OauthService {
   toApi_Logout(ctrl: string, command: string, request: any, lat: number = null, lng: number = null): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
       xEyes_Command: command,
       xEyes_X: (lng != null) ? lng.toString() : '',
       xEyes_Y: (lat != null) ? lat.toString() : '',
