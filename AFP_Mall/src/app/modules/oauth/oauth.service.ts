@@ -266,7 +266,11 @@ export class OauthService {
   }
 
 
-  /** 登出 */
+  /** 登出，由web統一發出登出請求
+   * 1.呼叫後端call api 1109紀錄登出狀態（後端處理艾斯登出API-46-112 logout）
+   * 2.若為APP則導頁至/ForApp/AppLogout，APP監聽到此頁，會清除Local資料
+   * 3.web清除session、cookie、重置登入狀態、我的收藏、通知
+   */
   onLogout(): void {
     // 登出紀錄
     const request = {
@@ -286,7 +290,7 @@ export class OauthService {
     const params = new URLSearchParams(url.search);
     const logout = params.get('logout');
     if (logout) {
-      this.router.navigate([location.pathname], {queryParams: {isApp: appVisit}});
+      this.router.navigate([location.pathname]);
     }
 
     // 清除session、cookie
