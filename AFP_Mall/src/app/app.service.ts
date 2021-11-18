@@ -177,60 +177,6 @@ export class AppService {
       }, catchError(() => null)));
   }
 
-  /** 登出 */
-  onLogout(): void {
-    // 登出紀錄
-    const request = {
-      User_Code: this.oauthService.cookiesGet('userCode').sessionVal
-    };
-    this.toApi_Logout('Home', '1109', request).subscribe((Data: any) => { });
-    // APP登出導頁 (app且登入狀態下，方需登出)
-    if (this.isApp === 1) {
-      if (this.appLoginType === '1') {
-        location.href = '/ForApp/AppLogout';
-      }
-    }
-
-    // web導頁(清除logout參數)
-    const url = new URL(location.href);
-    const params = new URLSearchParams(url.search);
-    const logout = params.get('logout');
-    if (logout) {
-      this.router.navigate([location.pathname], {queryParams: {isApp: this.isApp}});
-    }
-
-    // 清除session、cookie、我的收藏資料，重置登入狀態及通知數量
-    sessionStorage.clear();
-    this.cookieService.deleteAll();
-    this.oauthService.cookiesDel('/');
-    this.loginState = false;
-    this.userLoggedIn = false;
-    this.userFavCodes = [];
-    this.pushCount = 0;
-  }
-
-  /** 登出用
-   * @param ctrl 目標
-   * @param command 指令編碼
-   * @param request 傳送資料
-   */
-  toApi_Logout(ctrl: string, command: string, request: any, lat: number = null, lng: number = null): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      xEyes_Command: command,
-      xEyes_X: (lng != null) ? lng.toString() : '',
-      xEyes_Y: (lat != null) ? lat.toString() : '',
-      xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
-      Authorization: (this.oauthService.cookiesGet('idToken').cookieVal === '') ? '' : ('Bearer ' + this.oauthService.cookiesGet('idToken').cookieVal),
-    });
-
-    return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
-      .pipe(map((data: Response_APIModel) => {
-        return JSON.parse(data.Data);
-      }, catchError(() => null)));
-  }
-
   /** 登入註冊提示視窗 */
   logoutModal() {
     this.bsModalService.show(MessageModalComponent, {
@@ -243,7 +189,11 @@ export class AppService {
         rightBtnMsg: '登入/註冊',
         rightBtnFn: () => {
           if (this.loginState) {
-            this.onLogout();
+            this.loginState = false;
+            this.userLoggedIn = false;
+            this.userFavCodes = [];
+            this.pushCount = 0;
+            this.oauthService.onLogout();
           }
           this.oauthService.loginPage(this.isApp, location.pathname);
         }

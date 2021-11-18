@@ -7,6 +7,7 @@ import { catchError, map, retry } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { MessageModalComponent } from '@app/shared/modal/message-modal/message-modal.component';
+import { Response_APIModel } from '@app/_models';
 
 declare var AppJSInterface: any;
 @Injectable({
@@ -263,6 +264,59 @@ export class OauthService {
       }
     });
   }
+
+
+  /** 登出 */
+  onLogout(): void {
+    // 登出紀錄
+    const request = {
+      User_Code: this.cookiesGet('userCode').sessionVal
+    };
+    this.toApi_Logout('Home', '1109', request).subscribe((Data: any) => { });
+
+    // APP登出導頁
+    const appVisit =
+      (this.cookiesGet('deviceType').cookieVal === '') ? '0' : '1';
+    if (appVisit === '1') {
+      location.href = '/ForApp/AppLogout';
+    }
+
+    // web導頁(清除logout參數)
+    const url = new URL(location.href);
+    const params = new URLSearchParams(url.search);
+    const logout = params.get('logout');
+    if (logout) {
+      this.router.navigate([location.pathname], {queryParams: {isApp: appVisit}});
+    }
+
+    // 清除session、cookie
+    sessionStorage.clear();
+    this.cookieService.deleteAll();
+    this.cookiesDel('/');
+  }
+
+  /** 登出用
+   * @param ctrl 目標
+   * @param command 指令編碼
+   * @param request 傳送資料
+   */
+  toApi_Logout(ctrl: string, command: string, request: any, lat: number = null, lng: number = null): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      xEyes_Command: command,
+      xEyes_X: (lng != null) ? lng.toString() : '',
+      xEyes_Y: (lat != null) ? lat.toString() : '',
+      xEyes_DeviceType: (this.cookiesGet('deviceType').cookieVal === '') ? '0' : this.cookiesGet('deviceType').cookieVal,
+      Authorization: (this.cookiesGet('idToken').cookieVal === '') ? '' : ('Bearer ' + this.cookiesGet('idToken').cookieVal),
+    });
+
+    return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
+      .pipe(map((data: Response_APIModel) => {
+        return JSON.parse(data.Data);
+      }, catchError(() => null)));
+  }
+
 
 }
 

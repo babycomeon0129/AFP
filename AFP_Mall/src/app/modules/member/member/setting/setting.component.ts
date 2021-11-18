@@ -33,8 +33,13 @@ export class SettingComponent implements OnInit {
     window.open('https://mobii.ai/Official/about.html?utm_source=MobiiWeb&utm_medium=Footer', '_self');
   }
 
-  logout(): void {
-    this.appService.onLogout();
+  toLogout(): void {
+    // 清除session、cookie、我的收藏資料，重置登入狀態及通知數量
+    this.appService.loginState = false;
+    this.appService.userLoggedIn = false;
+    this.appService.userFavCodes = [];
+    this.appService.pushCount = 0;
+    this.oauthService.onLogout();
     if (this.appService.isApp === null || this.appService.isApp === 0) {
       this.location.back();
     }
