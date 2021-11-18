@@ -1,6 +1,6 @@
 import { environment } from '@env/environment';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, retry } from 'rxjs/operators';
@@ -34,7 +34,7 @@ export class OauthService {
   public preName = '';
 
   constructor(private router: Router, private http: HttpClient, public cookieService: CookieService,
-              private bsModalService: BsModalService) {
+              private bsModalService: BsModalService, private activatedRoute: ActivatedRoute) {
   }
 
   /** 取得域名前置 */
@@ -278,12 +278,12 @@ export class OauthService {
     };
     this.toApi_Logout('Home', '1109', request).subscribe((Data: any) => { });
 
-    // APP登出導頁
-    const appVisit =
-      (this.cookiesGet('deviceType').cookieVal === '') ? '0' : '1';
-    if (appVisit === '1') {
-      location.href = '/ForApp/AppLogout';
-    }
+    // APP登出導頁（取得queryParams參數isApp確定為app訪問才導頁）
+    this.activatedRoute.queryParams.subscribe(params => {
+      if (typeof params.isApp !== 'undefined' && params.isApp === '1') {
+        location.href = '/ForApp/AppLogout';
+      }
+    });
 
     // web導頁(清除logout參數)
     const url = new URL(location.href);

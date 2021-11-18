@@ -191,7 +191,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
           this.oauthService.cookiesGet('upgrade').cookieVal === '1') {
           (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
         }
-      }, 2000);
+      }, 1500);
     });
   }
 
