@@ -107,7 +107,7 @@ export class AppService {
 
         switch (data.Base.Rtn_State) {
           case 1:
-            /** 「艾斯身份證別_更新idToken」 */
+            /** 「艾斯身份識別_更新idToken」 */
             const toApiData = data;
             if (toApiData.IdToken && toApiData.IdToken !== null) {
               // 避免call api時，重複存M_idToken

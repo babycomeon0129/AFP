@@ -89,7 +89,7 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
         }
       }
 
-      /** 「艾斯身份證別_登出」變更密碼返回登出，並清除logout參數 */
+      /** 「艾斯身份識別_登出」變更密碼返回登出，並清除logout參數 */
       if (params.logout === 'true') {
         this.appService.loginState = false;
         this.appService.userLoggedIn = false;
@@ -102,7 +102,7 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngOnInit() {
-    /** 「艾斯身份證別_登入4-3」曾經登入成功過(有idToken)，重整頁面避免登入狀態遺失 */
+    /** 「艾斯身份識別_登入4-3」曾經登入成功過(有idToken)，重整頁面避免登入狀態遺失 */
     if (this.oauthService.cookiesGet('idToken').cookieVal && this.appService.isApp !== 1) {
       this.appService.loginState = true;
       this.appService.userLoggedIn = true;
