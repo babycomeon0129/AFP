@@ -6,6 +6,7 @@ import { OauthService } from '@app/modules/oauth/oauth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
+import { Request_MemberPoint, Response_MemberPoint } from '@app/modules/member/_module-member';
 
 @Component({
   selector: 'app-game-center',
@@ -21,6 +22,8 @@ export class GameCenterComponent implements OnInit {
   public showGameList: AFP_Game[] = [];
   /** 選擇TAG  0:一般會員, 1:綁卡會員 */
   public selectedType = 0;
+  /** 會員點數 Response */
+  public info: Response_MemberPoint = new Response_MemberPoint();
 
   constructor(public appService: AppService, public oauthService: OauthService,
               private router: Router, public modal: ModalService, public location: Location,
@@ -47,6 +50,17 @@ export class GameCenterComponent implements OnInit {
       this.gameList = data.List_Game;
       this.showGameList = this.gameList.filter(game => game.Game_ConditionType === 0);
     });
+
+    /** 會員點數 M point */
+    if (this.oauthService.cookiesGet('idToken').cookieVal) {
+      this.appService.openBlock();
+      const getInfo: Request_MemberPoint = {
+        SelectMode: 4
+      };
+      this.appService.toApi('Member', '1509', getInfo).subscribe((info: Response_MemberPoint) => {
+        this.info = info;
+      });
+    }
   }
 
   /** 前往遊戲
