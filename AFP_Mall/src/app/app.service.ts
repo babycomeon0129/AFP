@@ -189,6 +189,7 @@ export class AppService {
         rightBtnMsg: '登入/註冊',
         rightBtnFn: () => {
           if (this.loginState) {
+            // 清除session、cookie、我的收藏資料，重置登入狀態及通知數量
             this.loginState = false;
             this.userLoggedIn = false;
             this.userFavCodes = [];
