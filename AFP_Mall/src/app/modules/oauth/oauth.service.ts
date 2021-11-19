@@ -116,8 +116,7 @@ export class OauthService {
   toTokenApi(req: RequestIdTokenApi): Observable<any> {
 
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json'
     });
     return this.http.post(environment.tokenUrl, JSON.stringify(this.grantRequest), { headers })
       .pipe(map((data: ResponseOauthApi) => {
@@ -226,6 +225,7 @@ export class OauthService {
     this.getLocation();
     const upgrade = (this.cookiesGet('upgrade').cookieVal).slice(0);
     const show = (this.cookiesGet('show').cookieVal).slice(0);
+    const deviceType = (this.cookiesGet('deviceType').cookieVal).slice(0);
     if (item === '/') {
       sessionStorage.clear();
       this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
@@ -238,6 +238,7 @@ export class OauthService {
     }
     if (upgrade === '1') { this.cookiesSet({upgrade: '1'}); }
     if (show === '1') { this.cookiesSet({show: '1'}); }
+    if (deviceType > '0') { this.cookiesSet({appVisit: '1'}); }
   }
 
   /** 清除登入來源(非登出) */
@@ -278,19 +279,17 @@ export class OauthService {
     };
     this.toApi_Logout('Home', '1109', request).subscribe((Data: any) => { });
 
-    // APP登出導頁（取得queryParams參數isApp確定為app訪問才導頁）
-    this.activatedRoute.queryParams.subscribe(params => {
-      if (typeof params.isApp !== 'undefined' && params.isApp === '1') {
-        location.href = '/ForApp/AppLogout';
+    // APP登出導頁
+    if (this.cookiesGet('appVisit').sessionVal === '1') {
+      location.href = '/ForApp/AppLogout';
+    } else {
+      // web導頁(清除logout參數)
+      const url = new URL(location.href);
+      const params = new URLSearchParams(url.search);
+      const logout = params.get('logout');
+      if (logout) {
+        this.router.navigate([location.pathname]);
       }
-    });
-
-    // web導頁(清除logout參數)
-    const url = new URL(location.href);
-    const params = new URLSearchParams(url.search);
-    const logout = params.get('logout');
-    if (logout) {
-      this.router.navigate([location.pathname]);
     }
 
     // 清除session、cookie
@@ -307,7 +306,6 @@ export class OauthService {
   toApi_Logout(ctrl: string, command: string, request: any, lat: number = null, lng: number = null): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
       xEyes_Command: command,
       xEyes_X: (lng != null) ? lng.toString() : '',
       xEyes_Y: (lat != null) ? lat.toString() : '',
@@ -431,6 +429,8 @@ export class cookieDeclare {
   pushCount?: string;
   /** 進場廣告 */
   adTime?: string;
+  /** App訪問 */
+  appVisit?: string;
   /** 來源頁(除錯用) */
   page?: string;
 }
