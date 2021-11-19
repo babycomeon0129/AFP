@@ -46,7 +46,7 @@
     "ngx-masonry": "^1.1.4",
     "ngx-sortablejs": "^9.0.0",
     "ngx-useful-swiper": "9.0.0",
-    "node-sass": "^4.14.1",
+    "node-sass": "~4.14.1",
     "popper.js": "^1.16.1",
     "rxjs": "~6.4.0",
     "smoothscroll-polyfill": "^0.4.4",

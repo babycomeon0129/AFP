@@ -7,7 +7,7 @@ export const environment = {
   production: false,
   apiUrl: 'https://sit-afpapi.mobii.ai/api/',
   loginUrl: 'https://sit-login.mobii.ai/auth/api/v1/login',
-  tokenUrl: 'https://sit-logint.mobii.ai/auth/api/v1/token',
+  tokenUrl: 'https://sit-login.mobii.ai/auth/api/v1/token',
   modifyUrl: 'https://sit-login.mobii.ai/auth/api/v1/memberModify',
   FBApiKey: '349758176149496',
   GoogleApiKey: '260499247538-ctoucp9t09ufdpgqmd4ac368lfpgmorm.apps.googleusercontent.com',
