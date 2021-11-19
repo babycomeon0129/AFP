@@ -193,7 +193,7 @@ export class AppService {
             this.userLoggedIn = false;
             this.userFavCodes = [];
             this.pushCount = 0;
-            this.oauthService.onLogout();
+            this.oauthService.onLogout(this.isApp);
           }
           this.oauthService.loginPage(this.isApp, location.pathname);
         }

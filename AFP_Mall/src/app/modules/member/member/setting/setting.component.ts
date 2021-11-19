@@ -39,10 +39,7 @@ export class SettingComponent implements OnInit {
     this.appService.userLoggedIn = false;
     this.appService.userFavCodes = [];
     this.appService.pushCount = 0;
-    this.oauthService.onLogout();
-    if (this.appService.isApp === null || this.appService.isApp === 0) {
-      this.location.back();
-    }
+    this.oauthService.onLogout(this.appService.isApp);
   }
 
   /** 「艾斯身份識別_密碼修改1」 */

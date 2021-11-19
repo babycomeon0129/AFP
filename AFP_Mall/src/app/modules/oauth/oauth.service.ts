@@ -225,7 +225,6 @@ export class OauthService {
     this.getLocation();
     const upgrade = (this.cookiesGet('upgrade').cookieVal).slice(0);
     const show = (this.cookiesGet('show').cookieVal).slice(0);
-    const deviceType = (this.cookiesGet('deviceType').cookieVal).slice(0);
     if (item === '/') {
       sessionStorage.clear();
       this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
@@ -238,7 +237,6 @@ export class OauthService {
     }
     if (upgrade === '1') { this.cookiesSet({upgrade: '1'}); }
     if (show === '1') { this.cookiesSet({show: '1'}); }
-    if (deviceType > '0') { this.cookiesSet({appVisit: '1'}); }
   }
 
   /** 清除登入來源(非登出) */
@@ -272,7 +270,7 @@ export class OauthService {
    * 2.若為APP則導頁至/ForApp/AppLogout，APP監聽到此頁，會清除Local資料
    * 3.web清除session、cookie、重置登入狀態、我的收藏、通知
    */
-  onLogout(): void {
+  onLogout(appVisit: number): void {
     // 登出紀錄
     const request = {
       User_Code: this.cookiesGet('userCode').sessionVal
@@ -280,7 +278,7 @@ export class OauthService {
     this.toApi_Logout('Home', '1109', request).subscribe((Data: any) => { });
 
     // APP登出導頁
-    if (this.cookiesGet('appVisit').sessionVal === '1') {
+    if (appVisit === 1) {
       location.href = '/ForApp/AppLogout';
     } else {
       // web導頁(清除logout參數)
@@ -429,8 +427,6 @@ export class cookieDeclare {
   pushCount?: string;
   /** 進場廣告 */
   adTime?: string;
-  /** App訪問 */
-  appVisit?: string;
   /** 來源頁(除錯用) */
   page?: string;
 }
