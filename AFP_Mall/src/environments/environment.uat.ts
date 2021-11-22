@@ -1,9 +1,9 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://afpapi-uuat.mobii.ai/api/',
-  loginUrl: 'https://login-uat.mobii.ai/auth/api/v1/login',
-  tokenUrl: 'https://login-uat.mobii.ai/auth/api/v1/token',
-  modifyUrl: 'https://login-uat.mobii.ai/auth/api/v1/memberModify',
+  apiUrl: 'https://afpapi-uat.mobii.ai/api/',
+  loginUrl: 'https://uat-login.mobii.ai/auth/api/v1/login',
+  tokenUrl: 'https://uat-login.mobii.ai/auth/api/v1/token',
+  modifyUrl: 'https://uat-login.mobii.ai/auth/api/v1/memberModify',
   FBApiKey: '349758176149496',
   GoogleApiKey: '260499247538-ctoucp9t09ufdpgqmd4ac368lfpgmorm.apps.googleusercontent.com',
   cookieDomain: '.mobii.ai',
