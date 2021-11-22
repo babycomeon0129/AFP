@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { environment } from '@env/environment';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AppService } from '@app/app.service';
 import { NgForm } from '@angular/forms';
 import {
@@ -141,14 +141,14 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
     this.appService.openBlock();
     this.loginRequest.Cart_Count = Number(this.cookieService.get('cart_count'));
     this.appService.toApi('AFPAccount', '1104', this.loginRequest).subscribe((data: Response_AFPLogin) => {
-      sessionStorage.setItem('userName', data.Model_UserInfo.Customer_Name);
-      sessionStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
-      sessionStorage.setItem('CustomerInfo', data.Model_UserInfo.CustomerInfo);
-      sessionStorage.setItem('userFavorites', JSON.stringify(data.List_UserFavourite));
+      // sessionStorage.setItem('userName', data.Model_UserInfo.Customer_Name);
+      // sessionStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
+      // sessionStorage.setItem('CustomerInfo', data.Model_UserInfo.CustomerInfo);
+      // sessionStorage.setItem('userFavorites', JSON.stringify(data.List_UserFavourite));
 
-      this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-      this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-      this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+      // this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+      // this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+      // this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       this.appService.userName = data.Model_UserInfo.Customer_Name;
       this.appService.loginState = true;
       this.appService.userLoggedIn = true;
@@ -190,14 +190,14 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
   toThirdLogin(): void {
     this.appService.toApi('AFPAccount', '1105', this.thirdRequest).subscribe((data: Response_AFPLogin) => {
       // 塞Session
-      sessionStorage.setItem('userName', data.Model_UserInfo.Customer_Name);
-      sessionStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
-      sessionStorage.setItem('CustomerInfo', data.Model_UserInfo.CustomerInfo);
-      sessionStorage.setItem('userFavorites', JSON.stringify(data.List_UserFavourite));
-      this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-      this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-      this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-      this.cookieService.set('Mobii_ThirdLogin', 'true', 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+      // sessionStorage.setItem('userName', data.Model_UserInfo.Customer_Name);
+      // sessionStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
+      // sessionStorage.setItem('CustomerInfo', data.Model_UserInfo.CustomerInfo);
+      // sessionStorage.setItem('userFavorites', JSON.stringify(data.List_UserFavourite));
+      // this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+      // this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+      // this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+      // this.cookieService.set('Mobii_ThirdLogin', 'true', 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
       this.appService.userName = data.Model_UserInfo.Customer_Name;
       this.appService.loginState = true;
       this.appService.userLoggedIn = true;
@@ -248,7 +248,7 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
       this.existingAccount = false;
     } else {
       const request: Request_AFPReadMobile = {
-        // User_Code: sessionStorage.getItem('userCode'),
+        // User_Code: this.oauthService.cookiesGet('userCode').sessionVal,
         SelectMode: 2,
         UserAccount: this.registerRequest.AFPAccount
       };
@@ -264,16 +264,16 @@ export class LoginRegisterModalComponent implements OnInit, OnDestroy {
     this.appService.openBlock();
     this.appService.toApi('AFPAccount', '1101', this.registerRequest).subscribe((data: Response_AFPLogin) => {
       // 後端自動登入，前端直接接login response
-      sessionStorage.setItem('userName', data.Model_UserInfo.Customer_Name);
-      sessionStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
-      sessionStorage.setItem('CustomerInfo', data.Model_UserInfo.CustomerInfo);
+      // sessionStorage.setItem('userName', data.Model_UserInfo.Customer_Name);
+      // sessionStorage.setItem('userCode', data.Model_UserInfo.Customer_Code);
+      // sessionStorage.setItem('CustomerInfo', data.Model_UserInfo.CustomerInfo);
 
-      this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90, '/',
-        environment.cookieDomain, environment.cookieSecure, 'Lax');
-      this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90, '/',
-        environment.cookieDomain, environment.cookieSecure, 'Lax');
-      this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90, '/',
-        environment.cookieDomain, environment.cookieSecure, 'Lax');
+      // this.cookieService.set('userName', data.Model_UserInfo.Customer_Name, 90, '/',
+      //   environment.cookieDomain, environment.cookieSecure, 'Lax');
+      // this.cookieService.set('userCode', data.Model_UserInfo.Customer_Code, 90, '/',
+      //   environment.cookieDomain, environment.cookieSecure, 'Lax');
+      // this.cookieService.set('CustomerInfo', data.Model_UserInfo.CustomerInfo, 90, '/',
+      //   environment.cookieDomain, environment.cookieSecure, 'Lax');
       this.appService.userName = data.Model_UserInfo.Customer_Name;
       this.appService.loginState = true;
       this.appService.userLoggedIn = true;

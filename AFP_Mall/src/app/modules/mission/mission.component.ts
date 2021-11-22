@@ -45,8 +45,8 @@ export class MissionComponent implements OnInit {
   ngOnInit() {
     this.readData();
     // 為了APP再取一次userName（APP 登入頁為原生頁，因此 web 這邊登入後做的事在app webview中都沒有執行）
-    if (sessionStorage.getItem('userName') !== null) {
-      this.appService.userName = sessionStorage.getItem('userName');
+    if (this.oauthService.cookiesGet('userName').sessionVal !== null) {
+      this.appService.userName = this.oauthService.cookiesGet('userName').sessionVal;
     }
   }
 
@@ -128,9 +128,9 @@ export class MissionComponent implements OnInit {
         case 2: // 前往任務(進階任務)
           // 填寫意見表任務特別處理
           if (mission.Mission_CurrentURL.indexOf('/feedback/?') > 0) {
-            // const strUser = '?customerInfo=' + sessionStorage.getItem('CustomerInfo') + '&userCode=' + sessionStorage.getItem('userCode') + '&userName=' + sessionStorage.getItem('userName') + '&loginType=1';
+            // const strUser = '?customerInfo=' + sessionStorage.getItem('CustomerInfo') + '&userCode=' + this.oauthService.cookiesGet('userCode').sessionVal + '&userName=' + this.oauthService.cookiesGet('userName').sessionVal + '&loginType=1';
             // const device = { system: '', isApp: this.appService.isApp !== null ? strUser + '&isApp=1' : '' };
-            const strUser = '?M_idToken=' + sessionStorage.getItem('M_idToken') + '&userCode=' + sessionStorage.getItem('userCode') + '&userName=' + sessionStorage.getItem('userName') + '&loginType=1';
+            const strUser = '?M_idToken=' + this.oauthService.cookiesGet('idToken').sessionVal + '&userCode=' + this.oauthService.cookiesGet('userCode').sessionVal + '&userName=' + this.oauthService.cookiesGet('userName').sessionVal + '&loginType=1';
             const device = {
               system: '',
               // isApp: (this.appService.isApp !== null) ? strUser + '&isApp=1' : ''

@@ -28,7 +28,7 @@ export class MemberService {
 
   /** 讀取我的檔案（會員首頁、我的檔案、手機驗證皆會使用） */
   readProfileData() {
-    if (this.cookieService.get('M_idToken') !== '' && this.cookieService.get('M_idToken') !== 'undefined') {
+    if (this.oauthService.cookiesGet('idToken').cookieVal !== '' && this.oauthService.cookiesGet('idToken').cookieVal !== 'undefined') {
       const request: Request_MemberProfile = {
         SelectMode: 4
       };
@@ -40,7 +40,7 @@ export class MemberService {
             this.appService.userName = this.userProfile.User_NickName;
             // 解決ngx-bootstrap 套件日期減一天問題
             if (this.userProfile.UserProfile_Birthday !== null) {
-              this.userProfile.UserProfile_Birthday = new Date(this.userProfile.UserProfile_Birthday);
+              this.userProfile.UserProfile_Birthday = this.userProfile.UserProfile_Birthday;
             }
           }
           resolve(true);

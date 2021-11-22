@@ -21,7 +21,7 @@
           </div>
           <div class="align-self-center">
             <div *ngIf="appService.loginState===false" class="d-block">
-              <button type="button" class="btn white-outline-btn btw-small" (click)="oauthService.loginPage(appService.isApp, appService.pathnameUri)">登入/註冊<img
+              <button type="button" class="btn white-outline-btn btw-small" (click)="oauthService.loginPage(appService.isApp, location.path())">登入/註冊<img
                   src="../img/share/forward_w.png" class="h20"></button>
             </div>
             <div *ngIf="appService.loginState===true" class="small-80">哈囉！{{appService.userName}}</div>

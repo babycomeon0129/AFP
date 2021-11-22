@@ -80,13 +80,13 @@ export class ProductDetailComponent implements OnInit {
               private cookieService: CookieService, private meta: Meta, private title: Title) {
     this.productCode = parseInt(this.route.snapshot.params.Product_Code, 10);
     this.productDirCode = parseInt(this.route.snapshot.params.ProductDir_Code, 10);
-    this.cartCode = Number(this.cookieService.get('cart_code'));
+    this.cartCode = Number(this.oauthService.cookiesGet('cart_code').cookieVal);
   }
 
   ngOnInit() {
     // 讀取商品詳細
     const request: Request_ECProductDetail = {
-      User_Code: sessionStorage.getItem('userCode'),
+      User_Code: this.oauthService.cookiesGet('userCode').sessionVal,
       Cart_Count: 0,
       SearchModel: {
         Product_Code: this.productCode,
@@ -122,8 +122,10 @@ export class ProductDetailComponent implements OnInit {
 
       // 更新購物車數量
       this.cartCount = data.Cart_Count;
-      this.cookieService.set('cart_count_Mobii', data.Cart_Count.toString(), 90, '/', environment.cookieDomain,
-        environment.cookieSecure, 'Lax');
+      this.oauthService.cookiesSet({
+        cart_count_Mobii: JSON.stringify(data.Cart_Count),
+        page: location.href
+      });
 
       // 預設選擇所有規格的第一個規格值
       for (const attr of this.attrList) {
@@ -283,13 +285,17 @@ export class ProductDetailComponent implements OnInit {
               default: // 一般商品
                 // 若沒有購物車碼，則取得後端產生的並設在cookie裡
                 if (this.cartCode === 0) {
-                  this.cookieService.set('cart_code', data.AFP_Cart.Cart_Code.toString(), 90, '/', environment.cookieDomain,
-                    environment.cookieSecure, 'Lax');
-                  this.cartCode = Number(this.cookieService.get('cart_code'));
+                  this.oauthService.cookiesSet({
+                    cart_code: data.AFP_Cart.Cart_Code.toString(),
+                    page: location.href
+                  });
+                  this.cartCode = Number(this.oauthService.cookiesGet('cart_code').cookieVal);
                 }
                 // 把購物車商品數設到 cookie
-                this.cookieService.set('cart_count_Mobii', data.Cart_Count.toString(), 90, '/', environment.cookieDomain,
-                  environment.cookieSecure, 'Lax');
+                this.oauthService.cookiesSet({
+                  cart_count_Mobii: JSON.stringify(data.Cart_Count),
+                  page: location.href
+                });
                 this.cartCount = data.Cart_Count;
                 this.modal.show('message', { initialState: { success: true, message: '加入購物車成功!', showType: 1 } });
                 break;

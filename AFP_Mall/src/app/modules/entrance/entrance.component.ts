@@ -1,6 +1,8 @@
-import { BsModalRef } from 'ngx-bootstrap';
+
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
 import { AppService } from '@app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import {
   Response_Home, AFP_ADImg, Model_AreaJsonFile, AFP_Function, Model_TravelJsonFile,
@@ -278,7 +280,7 @@ export class EntranceComponent implements OnInit {
 
   constructor(public appService: AppService, public bsModalRef: BsModalRef, public modal: ModalService,
               private router: Router, private meta: Meta, private title: Title, private cookieService: CookieService,
-              public route: ActivatedRoute, private renderer2: Renderer2) {
+              public route: ActivatedRoute, private renderer2: Renderer2, private oauthService: OauthService) {
     this.title.setTitle('Mobii!｜綠色城市優惠平台');
     this.meta.updateTag({ name: 'description', content: '使用 Mobii! APP，讓你的移動總是驚喜。乘車、購物、美食、景點、旅行資訊全都包，使用就享點數回饋，每日登入再領 M Points，會員再享獨家彩蛋大禮包。先下載 Mobii APP 看看裡面有什麼好玩的吧？' });
     this.meta.updateTag({ content: 'Mobii!｜綠色城市優惠平台', property: 'og:title' });
@@ -287,7 +289,7 @@ export class EntranceComponent implements OnInit {
 
   ngOnInit() {
     /** 下方隱私權顯示與否(0顯示，1不顯示) */
-    this.cookieShow = localStorage.getItem('M_cookieShow') ? '1' : '0';
+    this.cookieShow = (this.oauthService.cookiesGet('show').cookieVal === '') ? '0' : '1';
     // 從route resolver取得首頁資料
     // this.route.data.subscribe((data: { homeData: Response_Home }) => {
     //   // 接資料
@@ -305,12 +307,15 @@ export class EntranceComponent implements OnInit {
   /** 下方隱私權顯示與否(0顯示，1不顯示) */
   cookieShowClick() {
     this.cookieShow = '1';
-    localStorage.setItem('M_cookieShow', '1');
+    this.oauthService.cookiesSet({
+      show: '1',
+      page: location.href
+    });
   }
   /** 讀取首頁上方資料（皆為廣告及會員資料，我的服務除外） */
   readUp(): void {
     const request: Request_Home = {
-      User_Code: sessionStorage.getItem('userCode')
+      User_Code: this.oauthService.cookiesGet('userCode').sessionVal
     };
     this.appService.openBlock();
     this.appService.toApi('Home', '1021', request).subscribe((data: Response_Home) => {
@@ -318,8 +323,13 @@ export class EntranceComponent implements OnInit {
       this.JustKaUrl = data.JustKaUrl;
       // 會員資訊
       this.userPoint = data.TotalPoint;
-      sessionStorage.setItem('userName', data.UserName);
-      this.appService.userName = data.UserName;
+      if (data.UserName !== '') {
+        this.oauthService.cookiesSet({
+          userName: data.UserName,
+          page: location.href
+        });
+        this.appService.userName = data.UserName;
+      }
       this.userVoucherCount = data.VoucherCount;
       // 廣告
       this.adTop = data.ADImg_Top;
@@ -337,7 +347,7 @@ export class EntranceComponent implements OnInit {
   /** 讀取首頁下方資料（中間大廣告以下各區塊） */
   readDown(): void {
     const request: Request_Home = {
-      User_Code: sessionStorage.getItem('userCode')
+      User_Code: this.oauthService.cookiesGet('userCode').sessionVal
     };
     // 不使用loading spinner 讓進入首頁可先快速瀏覽上方
     this.appService.toApi('Home', '1022', request).subscribe((data: Response_Home) => {
@@ -396,12 +406,15 @@ export class EntranceComponent implements OnInit {
 
   /** 判斷首頁進場廣告開啟 */
   adIndexChenck(): void {
-    const adTime = this.cookieService.get('adTime') || null;
+    const adTime = this.oauthService.cookiesGet('adTime').cookieVal || null;
     // adTime轉字串adTimeString
     const adTimeString = JSON.parse(adTime);
     const nowTime = new Date().getFullYear().toString() + new Date().getMonth().toString() + new Date().getDate().toString();
     if (adTimeString !== nowTime) {
-      this.cookieService.set('adTime', JSON.stringify(nowTime), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+      this.oauthService.cookiesSet({
+        adTime: nowTime,
+        page: location.href
+      });
       this.adIndexTime = true;
       // 出現首頁廣告版面才禁止背景滑動
       if (this.adIndex.length > 0 && this.appService.adIndexOpen) {
@@ -556,7 +569,7 @@ export class EntranceComponent implements OnInit {
     this.activeTravelIndex = index;
 
     const request: Request_OtherInfo = {
-      User_Code: sessionStorage.getItem('userCode'),
+      User_Code: this.oauthService.cookiesGet('userCode').sessionVal,
       SelectMode: mode,
       SearchModel: {
         UserDefineCode: menuCode,
@@ -650,7 +663,7 @@ export class EntranceComponent implements OnInit {
           {
             initialState:
             {
-              justkaUrl: url + '&J_idToken=' + this.cookieService.get('M_idToken')
+              justkaUrl: url + '&J_idToken=' + this.oauthService.cookiesGet('idToken').cookieVal
             }
           },
           this.bsModalRef);

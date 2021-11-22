@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppService } from '@app/app.service';
@@ -12,7 +13,8 @@ export class IndexHeaderComponent implements OnInit {
   /** 只在電腦版顯示 */
   @Input() forPc = false;
 
-  constructor(public appService: AppService, public oauthService: OauthService, private router: Router) { }
+  constructor(public appService: AppService, public oauthService: OauthService,
+              public location: Location, private router: Router) { }
 
   ngOnInit(): void {
   }

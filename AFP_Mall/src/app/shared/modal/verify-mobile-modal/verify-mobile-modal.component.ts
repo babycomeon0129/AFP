@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { BsModalRef } from 'ngx-bootstrap';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { AppService } from '@app/app.service';
 
 @Component({
@@ -20,7 +20,7 @@ export class VerifyMobileModalComponent implements OnInit {
   closeModal(): void {
     this.bsModalRef.hide();
     this.router.navigate(['/']);
-    this.appService.onLogout();
+    // this.appService.onLogout();
     // if (this.target != null && this.target.replace(/(^s*)|(s*$)/g, '').length !== 0) {
     //   this.router.navigate([this.target]);
     // }

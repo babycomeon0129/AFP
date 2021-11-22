@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AppService } from '@app/app.service';
 import { Response_AFPVerifyCode, Request_AFPVerifyCode, Request_AFPReadMobile, Response_AFPReadMobile } from '@app/_models';
 // import { LoginRegisterModalComponent } from '../login-register-modal/login-register-modal.component';
@@ -36,7 +36,7 @@ export class ForgetModalComponent implements OnDestroy {
       this.existingAccount = true;
     } else {
       const request: Request_AFPReadMobile = {
-        // User_Code: sessionStorage.getItem('userCode'),
+        // User_Code: this.oauthService.cookiesGet('userCode').sessionVal,
         SelectMode: 2,
         UserAccount: this.request.VerifiedInfo.VerifiedPhone
       };

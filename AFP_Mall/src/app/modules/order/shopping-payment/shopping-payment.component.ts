@@ -7,8 +7,8 @@ import { Model_ShareData, AFP_CSPayment, AFP_UserFavourite, OrderInvoice } from 
 import { NgForm } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation} from '@app/animations';
-import { CookieService } from 'ngx-cookie-service';
 import { HttpHeaders } from '@angular/common/http';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 declare var $: any;
 
 @Component({
@@ -18,7 +18,8 @@ declare var $: any;
   animations: [layerAnimation]
 })
 export class ShoppingPaymentComponent implements OnInit {
-  public idToken = this.cookieService.get('M_idToken');
+  /** 將idToken渲染至表單 */
+  public idToken = this.oauthService.cookiesGet('idToken').cookieVal;
   /** 同頁滑動切換 0:本頁 1:輸入卡號 */
   public layerTrig = 0;
   public apiUrl = environment.apiUrl;
@@ -43,7 +44,7 @@ export class ShoppingPaymentComponent implements OnInit {
   public maskCardCSC = { mask: [/\d/, /\d/, /\d/] };
 
   constructor(public appService: AppService, public modal: ModalService, private router: Router,
-              private cookieService: CookieService, private meta: Meta, private title: Title) {
+              public oauthService: OauthService, private meta: Meta, private title: Title) {
     this.title.setTitle('付款方式｜線上商城 - Mobii!');
     this.meta.updateTag({name : 'description', content: ''});
     this.meta.updateTag({content: '付款方式｜線上商城 - Mobii!', property: 'og:title'});
@@ -54,13 +55,13 @@ export class ShoppingPaymentComponent implements OnInit {
     if (history.state.data !== undefined && sessionStorage.getItem('invoice') !== null) {
       const invoice: OrderInvoice = JSON.parse(sessionStorage.getItem('invoice'));
       const getPayment = new Request_GetPayment();
-      getPayment.User_Code = sessionStorage.getItem('userCode');
+      getPayment.User_Code = this.oauthService.cookiesGet('userCode').sessionVal;
       this.appService.toApi('EC', '1602', getPayment).subscribe((payWays: Response_GetPayment) => {
         this.payWays = payWays;
         this.reqData.OrderNo = history.state.data.OrderNo;
         this.reqData.UserVoucher_ID = history.state.data.UserVoucher_ID;
         // this.reqData.xEyes_CustomerInfo = sessionStorage.getItem('CustomerInfo');
-        this.reqData.User_Code = sessionStorage.getItem('userCode');
+        this.reqData.User_Code = this.oauthService.cookiesGet('userCode').sessionVal;
         this.reqData.InvoiceMode = invoice.invoiceMode;
         switch (invoice.invoiceMode) {
           case 2: { // 公司發票(三聯式)

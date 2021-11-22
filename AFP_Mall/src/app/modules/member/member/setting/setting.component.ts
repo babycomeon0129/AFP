@@ -6,7 +6,7 @@ import { Location } from '@angular/common';
 import { Meta, Title } from '@angular/platform-browser';
 import { OauthService, ResponseOauthApi } from '@app/modules/oauth/oauth.service';
 import { MessageModalComponent } from '@app/shared/modal/message-modal/message-modal.component';
-import { BsModalService } from 'ngx-bootstrap';
+import { BsModalService } from 'ngx-bootstrap/modal';
 // APP的Interface
 declare var BindingSocialJSInterface: any;
 
@@ -33,16 +33,18 @@ export class SettingComponent implements OnInit {
     window.open('https://mobii.ai/Official/about.html?utm_source=MobiiWeb&utm_medium=Footer', '_self');
   }
 
-  logout(): void {
-    this.appService.onLogout();
-    if (this.appService.isApp === null || this.appService.isApp === 0) {
-      this.location.back();
-    }
+  toLogout(): void {
+    // 清除session、cookie、我的收藏資料，重置登入狀態及通知數量
+    this.appService.loginState = false;
+    this.appService.userLoggedIn = false;
+    this.appService.userFavCodes = [];
+    this.appService.pushCount = 0;
+    this.oauthService.onLogout(this.appService.isApp);
   }
 
-  /** 「艾斯身份證別_密碼修改1」 */
+  /** 「艾斯身份識別_密碼修改1」 */
   passwordUpdate() {
-    this.oauthService.toModifyEyes(this.appService.isApp, this.cookieService.get('M_idToken'))
+    this.oauthService.toModifyEyes(this.appService.isApp, this.oauthService.cookiesGet('idToken').cookieVal)
     .subscribe((data: string) => {
       if (data.indexOf('https') === 0) {
         location.href = data;

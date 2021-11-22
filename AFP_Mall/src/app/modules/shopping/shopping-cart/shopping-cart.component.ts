@@ -43,8 +43,8 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.cartCode = Number(this.cookieService.get('cart_code'));
-    this.cartCount = Number(this.cookieService.get('cart_count_Mobii')) || 0;
+    this.cartCode = Number(this.oauthService.cookiesGet('cart_code').cookieVal);
+    this.cartCount = Number(this.oauthService.cookiesGet('cart_count_Mobii').cookieVal) || 0;
     this.showCartData();
   }
 
@@ -120,7 +120,10 @@ export class ShoppingCartComponent implements OnInit {
         });
       }
       this.cartCount = data.Cart_Count;
-      this.cookieService.set('cart_count_Mobii', this.cartCount.toString(), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+      this.oauthService.cookiesSet({
+        cart_count_Mobii: JSON.stringify(this.cartCount),
+        page: location.href
+      });
     });
   }
 
@@ -306,8 +309,10 @@ export class ShoppingCartComponent implements OnInit {
       }
       // 更新購物車商品數
       this.cartCount = data.Cart_Count;
-      this.cookieService.set('cart_count_Mobii', data.Cart_Count.toString(), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-
+      this.oauthService.cookiesSet({
+        cart_count_Mobii: JSON.stringify(data.Cart_Count),
+        page: location.href
+      });
       this.calcSubtotal();
     });
   }
@@ -331,7 +336,7 @@ export class ShoppingCartComponent implements OnInit {
       this.modal.show('message', { initialState: { success: false, message: '還沒有選擇要結帳的商家及商品喔!', showType: 1 } });
     } else {
       // 若未登入，則跳出登入視窗
-      if (!this.cookieService.get('M_idToken')) {
+      if (!this.oauthService.cookiesGet('idToken').cookieVal) {
         this.appService.logoutModal();
       } else {
         // 已登入

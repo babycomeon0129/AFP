@@ -16,8 +16,13 @@
     </div>
   </header>
   <div>
-    <!-- M point -->
-    <app-m-point></app-m-point>
+    <!-- M point公用漸層顯示區塊 -->
+    <app-m-point
+      [totalPoing]="info.TotalPoint"
+      [daylinePoint]="info.DaylinePoint"
+      [dayline]="info.Dayline"
+      >
+    </app-m-point>
     <div class="p-3">
       <h6 class="py-2">遊戲館</h6>
       <div class="member-flex flex-coinbn">

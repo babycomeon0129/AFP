@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
@@ -7,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { SwiperOptions } from 'swiper';
 import { MemberService } from '@app/modules/member/member.service';
-import { BsModalService } from 'ngx-bootstrap';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { Session } from 'inspector';
 import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 import { CookieService } from 'ngx-cookie-service';
@@ -35,12 +36,12 @@ export class HomeComponent implements OnInit {
   };
 
   constructor(public appService: AppService, public oauthService: OauthService, private callApp: AppJSInterfaceService,
-              private router: Router, private modal: ModalService, private route: ActivatedRoute,
+              private router: Router, private modal: ModalService, private route: ActivatedRoute, public location: Location,
               public memberService: MemberService, private cookieService: CookieService) {
   }
 
   ngOnInit() {
-    if (this.cookieService.get('M_idToken') !== '' && this.cookieService.get('M_idToken') !== 'undefined') {
+    if (this.oauthService.cookiesGet('idToken').cookieVal !== '' && this.oauthService.cookiesGet('idToken').cookieVal !== 'undefined') {
       this.appService.loginState = true;
       this.readIndexData();
       this.memberService.readProfileData();
@@ -70,7 +71,7 @@ export class HomeComponent implements OnInit {
 
   /** 讀取首頁資料 */
   readIndexData(): void {
-    if (this.cookieService.get('M_idToken') !== '' && this.cookieService.get('M_idToken') !== 'undefined') {
+    if (this.oauthService.cookiesGet('idToken').cookieVal !== '' && this.oauthService.cookiesGet('idToken').cookieVal !== 'undefined') {
       const request: Request_MemberIndex = {
         SelectMode: 4
       };
@@ -115,6 +116,12 @@ export class HomeComponent implements OnInit {
    * @param pageCode 通知原生開啟頁面 0: 我的卡片 1: 我的車票 2: 我的點餐 3: 我的優惠券 4: 我的收藏 5: 我的訂單 6: M Point
    */
   pageRoute(page: string, pageCode: number): void {
+    // 未登入(跳提示)
+    if (!this.appService.loginState) {
+      this.oauthService.msgModal('請先登入');
+      return;
+    }
+    // 已登入
     if (page === '0') {
       this.modal.show('message',  { class: 'modal-dialog-centered',
       initialState: { success: true, message: '敬請期待!', showType: 1 } });

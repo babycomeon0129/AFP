@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AFP_MemberOrder, AFP_ItemInfoPart } from '@app/_models';
-import { BsModalRef } from 'ngx-bootstrap';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import html2canvas from 'html2canvas';
-import * as jsPDF from 'jspdf';
+import jsPDF from 'jspdf';
 import { AppService } from '@app/app.service';
 
 
@@ -42,8 +42,10 @@ export class ReceiptModalComponent implements OnInit {
       const w = canvas.width;
       const h = canvas.height;
       const imgData = canvas.toDataURL('image/PNG');
+      /** Jenkins建構失敗處理
+       * 原寫法const doc = new jsPDF('', 'pt', [595, 841]);
+       */
       const doc = new jsPDF('p', 'mm', 'a4');
-      /** const doc = new jsPDF('', 'pt', [595, 841]); */
       const contentWidth = doc.internal.pageSize.getWidth();
       const contentHeight = doc.internal.pageSize.getHeight();
       doc.addImage(imgData, 'PNG', 0, 0, contentWidth, contentHeight);

@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation} from '@app/animations';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 
 @Component({
   selector: 'app-product-list',
@@ -43,10 +44,10 @@ export class ProductListComponent implements OnInit {
   /** 同頁滑動切換 0:本頁 1:篩選清單 2: 商品分類 */
   public layerTrig = 0;
 
-  constructor(public appService: AppService, private route: ActivatedRoute, private cookieService: CookieService
-            , private meta: Meta, private title: Title) {
-    this.cartCode = Number(this.cookieService.get('cart_code'));
-    this.cartCount = Number(this.cookieService.get('cart_count_Mobii'));
+  constructor(public appService: AppService, private route: ActivatedRoute, private cookieService: CookieService,
+              private oauthService: OauthService, private meta: Meta, private title: Title) {
+    this.cartCode = Number(this.oauthService.cookiesGet('cart_code').cookieVal);
+    this.cartCount = Number(this.oauthService.cookiesGet('cart_count_Mobii').cookieVal);
     this.dirCode = Number(this.route.snapshot.params.ProductDir_Code);
   }
 

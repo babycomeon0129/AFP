@@ -5,7 +5,7 @@ import { OauthService } from '@app/modules/oauth/oauth.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
-import { ModalOptions } from 'ngx-bootstrap';
+import { ModalOptions } from 'ngx-bootstrap/modal';
 import { layerAnimation, layerAnimationUp } from '@app/animations';
 
 

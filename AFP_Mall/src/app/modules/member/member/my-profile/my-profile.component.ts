@@ -1,3 +1,4 @@
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -8,10 +9,8 @@ import { MemberService } from '@app/modules/member/member.service';
 import { layerAnimation, layerAnimationUp } from '@app/animations';
 import { Meta, Title } from '@angular/platform-browser';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
-import { environment } from '@env/environment';
-import { Response_MemberProfile, Request_MemberThird, Response_MemberThird,
-  AFP_UserThird } from '@app/modules/member/member/member.component';
-import { AppJSInterfaceService } from '@app/app-jsinterface.service';
+import { Response_MemberProfile, Request_MemberThird, Response_MemberThird } from '@app/modules/member/member/member.component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-my-profile',
@@ -48,8 +47,7 @@ export class MyProfileComponent implements OnInit {
   public LineThird: boolean;
 
   constructor(public appService: AppService, public modal: ModalService, public memberService: MemberService,
-              private meta: Meta, private title: Title, private localeService: BsLocaleService,
-              private callApp: AppJSInterfaceService, private cookieService: CookieService) {
+              private meta: Meta, private title: Title, private localeService: BsLocaleService, private oauthService: OauthService) {
     this.title.setTitle('我的檔案 - Mobii!');
     this.meta.updateTag({ name: 'description', content: '' });
     this.meta.updateTag({ content: '我的檔案 - Mobii!', property: 'og:title' });
@@ -58,7 +56,7 @@ export class MyProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.cookieService.get('M_idToken') !== '' && this.cookieService.get('M_idToken') !== 'undefined') {
+    if (this.oauthService.cookiesGet('idToken').cookieVal !== '' && this.oauthService.cookiesGet('idToken').cookieVal !== 'undefined') {
       this.memberService.readProfileData();
       this.readThirdData();
     }
@@ -112,20 +110,24 @@ export class MyProfileComponent implements OnInit {
   onProfileSubmit(form: NgForm): void {
     this.appService.openBlock();
     this.memberService.userProfile.SelectMode = 3;
+    // console.log(moment(this.memberService.userProfile.UserProfile_Birthday).format('YYYY-MM-DD'));
     if (this.memberService.userProfile.UserProfile_Birthday !== null) {
-        if (this.memberService.userProfile.UserProfile_Birthday.getMonth() < new Date().getMonth()) {
-          this.memberService.userProfile.UserProfile_Birthday =
-            new Date(this.memberService.userProfile.UserProfile_Birthday.getTime() -
-            this.memberService.userProfile.UserProfile_Birthday.getTimezoneOffset() * 60 * 1000);
-        }
+      this.memberService.userProfile.UserProfile_Birthday =
+        moment(this.memberService.userProfile.UserProfile_Birthday).format('YYYY-MM-DD');
+        // if (this.memberService.userProfile.UserProfile_Birthday.getMonth() < new Date().getMonth()) {
+        //   this.memberService.userProfile.UserProfile_Birthday =
+        //     new Date(this.memberService.userProfile.UserProfile_Birthday.getTime() -
+        //     this.memberService.userProfile.UserProfile_Birthday.getTimezoneOffset() * 60 * 1000);
+        // }
     }
     this.appService.toApi('Member', '1502', this.memberService.userProfile).subscribe((data: Response_MemberProfile) => {
       // 取得並顯示我的檔案資料
       this.memberService.readProfileData().then(() => {
         // 更新session 和 app.service 中的 userName 讓其他頁面名稱同步
-        sessionStorage.setItem('userName', this.memberService.userProfile.User_NickName);
-        this.cookieService.set('userName', this.memberService.userProfile.User_NickName, 90, '/',
-        environment.cookieDomain, environment.cookieSecure, 'Lax');
+        this.oauthService.cookiesSet({
+          userName: this.memberService.userProfile.User_NickName,
+          page: location.href
+        });
         this.appService.userName = this.memberService.userProfile.User_NickName;
       });
       this.editMode = false;

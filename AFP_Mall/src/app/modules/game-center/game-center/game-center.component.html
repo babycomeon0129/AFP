@@ -11,7 +11,7 @@
           <div class="title-name">遊戲館</div>
         </div>
         <div class="item two">
-          <button (click)="oauthService.loginPage(appService.isApp, appService.pathnameUri)" *ngIf="appService.loginState===false" type="button"
+          <button (click)="oauthService.loginPage(appService.isApp, location.path())" *ngIf="appService.loginState===false" type="button"
             class="m-topbox-item btn bluedk-outline-btn btw-small">
             登入/註冊
           </button>
@@ -20,8 +20,13 @@
     </div>
   </header>
   <main>
-    <!-- M point -->
-    <app-m-point></app-m-point>
+    <!-- M point公用漸層顯示區塊 -->
+    <app-m-point
+      [totalPoing]="info.TotalPoint"
+      [daylinePoint]="info.DaylinePoint"
+      [dayline]="info.Dayline"
+      >
+    </app-m-point>
     <!-- 廣告版位 -->
     <div *ngIf="imgTop?.ADImg_Img !== null" class="banner-box pt-3">
       <div class="swiper-container">

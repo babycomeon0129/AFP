@@ -10,7 +10,7 @@ import { RouterOutlet } from '@angular/router';
 import { slideInAnimation } from './animations';
 import { filter } from 'rxjs/operators';
 import { Request_AFPThird, Response_AFPLogin } from './_models';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { backgroundClip } from 'html2canvas/dist/types/css/property-descriptors/background-clip';
 
 @Component({
@@ -46,7 +46,10 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
 
       //  購物車編碼 (APP用)
       if (typeof params.cartCode !== 'undefined') {
-        this.cookieService.set('cart_code', params.cartCode, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+        this.oauthService.cookiesSet({
+          cart_code: params.cartCode,
+          page: location.href
+        });
       }
 
       // 任務用 & 我的用 (APP用)
@@ -54,13 +57,28 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
         this.appService.appLoginType = params.loginType;
         if (params.loginType === '1' && (typeof params.M_idToken !== 'undefined' && params.M_idToken !== null)) {
           // APP 為登入狀態則將該 webview 也同步為登入
-          this.cookieService.set('M_idToken', params.M_idToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-          if (typeof params.userCode !== 'undefined') { sessionStorage.setItem('userCode', encodeURIComponent(params.userCode)); }
-          if (typeof params.userName !== 'undefined') { sessionStorage.setItem('userName', params.userName); }
-          if (typeof params.userName !== 'undefined') { this.cookieService.set('userName', params.userName, 90, '/',
-              environment.cookieDomain, environment.cookieSecure, 'Lax'); }
-          if (typeof params.userCode !== 'undefined') { this.cookieService.set('userCode', encodeURIComponent(params.userCode), 90, '/',
-              environment.cookieDomain, environment.cookieSecure, 'Lax'); }
+          this.oauthService.cookiesSet({
+            idToken: params.M_idToken,
+            page: location.href
+          });
+          if (typeof params.userCode !== 'undefined') {
+            this.oauthService.cookiesSet({
+              userCode: params.userCode,
+              page: location.href
+            });
+          }
+          if (typeof params.userName !== 'undefined') {
+            this.oauthService.cookiesSet({
+              userName: params.userName,
+              page: location.href
+            });
+          }
+          if (typeof params.userFavorites !== 'undefined') {
+            this.oauthService.cookiesSet({
+              userFavorites: encodeURIComponent(params.userFavorites),
+              page: location.href
+            });
+          }
           this.appService.userName = params.userName;
           this.appService.loginState = true;
           this.appService.userLoggedIn = true;
@@ -71,17 +89,21 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
         }
       }
 
-      /** 「艾斯身份證別_登出」變更密碼返回登出，並清除logout參數 */
+      /** 「艾斯身份識別_登出」變更密碼返回登出，並清除logout參數 */
       if (params.logout === 'true') {
-        this.appService.onLogout();
+        this.appService.loginState = false;
+        this.appService.userLoggedIn = false;
+        this.appService.userFavCodes = [];
+        this.appService.pushCount = 0;
+        this.oauthService.onLogout(this.appService.isApp);
       }
     });
 
   }
 
   ngOnInit() {
-    /** 「艾斯身份證別_登入4-3」曾經登入成功過(有idToken)，重整頁面避免登入狀態遺失 */
-    if (this.cookieService.get('M_idToken') && this.appService.isApp !== 1) {
+    /** 「艾斯身份識別_登入4-3」曾經登入成功過(有idToken)，重整頁面避免登入狀態遺失 */
+    if (this.oauthService.cookiesGet('idToken').cookieVal && this.appService.isApp !== 1) {
       this.appService.loginState = true;
       this.appService.userLoggedIn = true;
     }
@@ -95,7 +117,6 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
           this.callApp.appShowMobileFooter(false);
         }
         this.appService.prevUrl = event.url;  // 取得前一頁面url
-        this.appService.pathnameUri = location.pathname;  // 取得當前頁面pathname
       });
     this.detectOld();
     // this.appService.initPush();
@@ -103,7 +124,7 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
     // TODO 點10下用
     // setInterval(() => {
     //   this.test = location.href + '    >>>> cookie idToken     ' +
-    //   this.cookieService.get('M_idToken') + '   >>>> loginState    ' +
+    //   this.oauthService.cookiesGet('idToken').cookieVal + '   >>>> loginState    ' +
     //   this.appService.loginState + '   >>>> isApp    ' +
     //   this.appService.isApp  ;
     // }, 3000);

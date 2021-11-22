@@ -1,3 +1,4 @@
+<block-ui>
 <div [@routeAnimations]="prepareRoute(outlet)">
 <!-- <div [@routeAnimations]="prepareRoute(outlet)" (click)="testCount = testCount + 1">
   <div class="for-app-debug-box"
@@ -8,8 +9,6 @@
   </div> -->
   <router-outlet id="routerView" #outlet="outlet"></router-outlet>
 </div>
-<block-ui>
-  <!-- Your app markup here -->
 </block-ui>
 
 <!-- 裝置版本過低提示 -->

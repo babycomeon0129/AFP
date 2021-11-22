@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { ModalModule, BsModalRef } from 'ngx-bootstrap';
+import { ModalModule, BsModalRef } from 'ngx-bootstrap/modal';
 import { AgmCoreModule } from '@agm/core';
 import { BlockUIModule } from 'ng-block-ui';
 import { NgxMasonryModule } from 'ngx-masonry';

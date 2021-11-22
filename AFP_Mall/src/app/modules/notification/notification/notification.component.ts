@@ -1,3 +1,4 @@
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppService } from '@app/app.service';
 import { Request_MemberMsg, Response_MemberMsg, AFP_MemberMsgTitle, AFP_IMessage } from '@app/_models';
@@ -29,7 +30,8 @@ export class NotificationComponent implements OnInit, OnDestroy {
   /** JustKaUrl網址初始 */
   public JustKaUrl = '';
 
-  constructor(public appService: AppService, private router: Router, private meta: Meta, private title: Title, private cookieService: CookieService) {
+  constructor(public appService: AppService, private oauthService: OauthService, private router: Router,
+              private meta: Meta, private title: Title, private cookieService: CookieService) {
     this.title.setTitle('通知 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 通知。如果你在 Mobii! 平台上購物，通知則會顯示你的訂單相關進度，包括商品的出貨狀態、送貨狀態。或者如果有未解的任務，Mobii! 平台亦會透過通知來提醒使用者相關訊息。' });
     this.meta.updateTag({ content: '通知 - Mobii!', property: 'og:title' });
@@ -55,7 +57,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
     }
     // 將通知都視為已讀
     this.appService.pushCount = 0;
-    this.cookieService.delete('pushCount', '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+    this.oauthService.cookiesDel('pushCount');
   }
 
   /**

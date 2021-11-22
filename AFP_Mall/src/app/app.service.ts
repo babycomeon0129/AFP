@@ -6,7 +6,7 @@ import {
   Response_APIModel, Request_MemberFavourite, Response_MemberFavourite, AFP_Voucher,
   Request_MemberUserVoucher, Response_MemberUserVoucher, Request_ECCart, Response_ECCart, Model_ShareData
 } from '@app/_models';
-import { BsModalService, ModalOptions } from 'ngx-bootstrap';
+import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { environment } from '@env/environment';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
@@ -37,7 +37,7 @@ export class AppService {
   /** App狀態 (登入1,登出2) */
   public appLoginType: string;
   /** 使用者暱稱 */
-  public userName = sessionStorage.getItem('userName') || null;
+  public userName = this.oauthService.cookiesGet('userName').sessionVal || null;
   /** 我的收藏物件陣列 */
   public userFavArr = [];
   /** 我的收藏編碼陣列 */
@@ -46,14 +46,12 @@ export class AppService {
   public showAPPHint = true;
   /** 前一頁url */
   public prevUrl = '';
-  /** 當前url */
-  public pathnameUri: string;
   /** lazyload 的初始圖片 */
   public defaultImage = '/img/share/eee.jpg';
   /** 當前訊息 */
   public currentMessage = new BehaviorSubject(null);
   /** 推播訊息數量 */
-  public pushCount = Number(this.cookieService.get('pushCount')) || 0;
+  public pushCount = Number(this.oauthService.cookiesGet('pushCount').cookieVal) || 0;
   /** GUID (推播使用) */
   public deviceCode = localStorage.getItem('M_DeviceCode') || null;
   /** firebase 推播 token */
@@ -88,32 +86,42 @@ export class AppService {
   toApi(ctrl: string, command: string, request: any, lat: number = null, lng: number = null, deviceCode?: string): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
       xEyes_Command: command,
       xEyes_X: (lng != null) ? lng.toString() : '',
       xEyes_Y: (lat != null) ? lat.toString() : '',
       xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
       xEyes_DeviceCode: deviceCode === undefined ? '' : deviceCode,
-      Authorization: (this.cookieService.get('M_idToken') === '') ? '' : ('Bearer ' + this.cookieService.get('M_idToken')),
+      Authorization: (this.oauthService.cookiesGet('idToken').cookieVal === '') ? '' : ('Bearer ' + this.oauthService.cookiesGet('idToken').cookieVal),
     });
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
       .pipe(map((data: Response_APIModel) => {
         this.blockUI.stop();
-        // console.log(this.isApp, command, data);
+        // 除錯用
+        if (location.hostname.indexOf('localhost') === 0 ||
+          location.hostname.indexOf('sit') >= 0 ||
+          location.hostname.indexOf('uat') >= 0) {
+          console.log('isApp', this.isApp, command, data);
+        }
 
         switch (data.Base.Rtn_State) {
           case 1:
-            /** 「艾斯身份證別_更新idToken」 */
+            /** 「艾斯身份識別_更新idToken」 */
             const toApiData = data;
             if (toApiData.IdToken && toApiData.IdToken !== null) {
               // 避免call api時，重複存M_idToken
               if (this.idToken === null) {
                 this.idToken = toApiData.IdToken;
-                this.cookieService.set('M_idToken', toApiData.IdToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+                this.oauthService.cookiesSet({
+                  idToken: toApiData.IdToken,
+                  page: location.href
+                });
               }
-              if (this.cookieService.get('M_idToken') !== toApiData.IdToken) {
-                this.cookieService.set('M_idToken', toApiData.IdToken, 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+              if (this.oauthService.cookiesGet('idToken').cookieVal !== toApiData.IdToken) {
+                this.oauthService.cookiesSet({
+                  idToken: toApiData.IdToken,
+                  page: location.href
+                });
               }
               this.loginState = true;
               this.userLoggedIn = true;
@@ -168,59 +176,6 @@ export class AppService {
       }, catchError(() => null)));
   }
 
-  /** 登出 */
-  onLogout(): void {
-    // 登出紀錄
-    const request = {
-      User_Code: sessionStorage.getItem('userCode')
-    };
-    this.toApi_Logout('Home', '1109', request).subscribe((Data: any) => { });
-    // APP登出導頁
-    if (this.isApp === 1 || this.appLoginType === '1') {
-      location.href = '/ForApp/AppLogout';
-    }
-
-    // web導頁(清除logout參數)
-    const url = new URL(location.href);
-    const params = new URLSearchParams(url.search);
-    const logout = params.get('logout');
-    if (logout) {
-      this.router.navigate([location.pathname], {queryParams: {isApp: this.isApp}});
-    }
-
-    // 清除session、cookie、我的收藏資料，重置登入狀態及通知數量
-    sessionStorage.clear();
-    this.cookieService.deleteAll();
-    this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
-    this.loginState = false;
-    this.userLoggedIn = false;
-    this.userFavCodes = [];
-    this.pushCount = 0;
-    this.oauthService.onClearStorage();
-  }
-
-  /** 登出用
-   * @param ctrl 目標
-   * @param command 指令編碼
-   * @param request 傳送資料
-   */
-  toApi_Logout(ctrl: string, command: string, request: any, lat: number = null, lng: number = null): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      xEyes_Command: command,
-      xEyes_X: (lng != null) ? lng.toString() : '',
-      xEyes_Y: (lat != null) ? lat.toString() : '',
-      xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
-      Authorization: (this.cookieService.get('M_idToken') === '') ? '' : ('Bearer ' + this.cookieService.get('M_idToken')),
-    });
-
-    return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
-      .pipe(map((data: Response_APIModel) => {
-        return JSON.parse(data.Data);
-      }, catchError(() => null)));
-  }
-
   /** 登入註冊提示視窗 */
   logoutModal() {
     this.bsModalService.show(MessageModalComponent, {
@@ -233,7 +188,12 @@ export class AppService {
         rightBtnMsg: '登入/註冊',
         rightBtnFn: () => {
           if (this.loginState) {
-            this.onLogout();
+            // 清除session、cookie、我的收藏資料，重置登入狀態及通知數量
+            this.loginState = false;
+            this.userLoggedIn = false;
+            this.userFavCodes = [];
+            this.pushCount = 0;
+            this.oauthService.onLogout(this.isApp);
           }
           this.oauthService.loginPage(this.isApp, location.pathname);
         }
@@ -278,8 +238,8 @@ export class AppService {
   /** 顯示我的收藏 */
   showFavorites(): void {
     // get favorite from session and turn it from string to json
-    if (sessionStorage.getItem('userFavorites') != null) {
-      this.userFavArr = JSON.parse(sessionStorage.getItem('userFavorites'));
+    if (this.oauthService.cookiesGet('userFavorites').sessionVal != null) {
+      this.userFavArr = JSON.parse(this.oauthService.cookiesGet('userFavorites').sessionVal);
       // reset userFavCodes array (after create/delete favorite)
       this.userFavCodes = [];
       // push all favorite codes to array
@@ -296,7 +256,7 @@ export class AppService {
    * @param favCode 商品/商家/周邊/行程編碼
    */
   favToggle(favAction: number, favType: number, favCode?: number): void {
-    if (!this.cookieService.get('M_idToken')) {
+    if (!this.oauthService.cookiesGet('idToken').cookieVal) {
       this.logoutModal();
     } else {
       const request: Request_MemberFavourite = {
@@ -313,7 +273,10 @@ export class AppService {
 
       this.toApi('Member', '1511', request).subscribe((data: Response_MemberFavourite) => {
         // update favorites to session
-        sessionStorage.setItem('userFavorites', JSON.stringify(data.List_UserFavourite));
+        this.oauthService.cookiesSet({
+          userFavorites: JSON.stringify(data.List_UserFavourite),
+          page: location.href
+        });
         // update favorites to array
         this.showFavorites();
         if (favAction === 1) {
@@ -328,13 +291,15 @@ export class AppService {
     const request: Request_ECCart = {
       SelectMode: 4, // 固定讀取
       SearchModel: {
-        Cart_Code: Number(this.cookieService.get('cart_code'))
+        Cart_Code: Number(this.oauthService.cookiesGet('cart_code').cookieVal)
       },
     };
 
     this.toApi('EC', '1204', request).subscribe((data: Response_ECCart) => {
-      this.cookieService.set('cart_count_Mobii', data.Cart_Count.toString(), 90, '/',
-                              environment.cookieDomain, environment.cookieSecure, 'Lax');
+      this.oauthService.cookiesSet({
+        cart_count_Mobii: JSON.stringify(data.Cart_Count),
+        page: location.href
+      });
     });
   }
 
@@ -345,7 +310,7 @@ export class AppService {
    */
   onVoucher(voucher: AFP_Voucher): void {
     // 點擊兌換時先進行登入判斷
-    if (!this.cookieService.get('M_idToken')) {
+    if (!this.oauthService.cookiesGet('idToken').cookieVal) {
       this.logoutModal();
     } else {
       switch (voucher.Voucher_IsFreq) {
@@ -436,12 +401,12 @@ export class AppService {
 
   /** 打開JustKa iframe */
   showJustka(url: string): void {
-    if (!this.cookieService.get('M_idToken')) {
+    if (!this.oauthService.cookiesGet('idToken').cookieVal) {
       this.logoutModal();
     } else {
       this.bsModalService.show(JustkaModalComponent, {
         initialState: {
-          justkaUrl: url + '&J_idToken=' + this.cookieService.get('M_idToken')
+          justkaUrl: url + '&J_idToken=' + this.oauthService.cookiesGet('idToken').cookieVal
         }
       });
     }
@@ -470,7 +435,10 @@ export class AppService {
         console.log('new message received. ', payload);
         this.currentMessage.next(payload);
         this.pushCount++;
-        this.cookieService.set('pushCount', this.pushCount.toString(), 90, '/', environment.cookieDomain, environment.cookieSecure, 'Lax');
+        this.oauthService.cookiesSet({
+          pushCount: JSON.stringify(this.pushCount),
+          page: location.href
+        });
       });
   }
 
@@ -562,9 +530,9 @@ export class AppService {
 
   /** 網頁跳轉(登入用，不會紀錄連結的歷史紀錄) */
   jumpUrl() {
-    const uri = (localStorage.getItem('M_fromOriginUri') !== null &&
-                localStorage.getItem('M_fromOriginUri') !== 'undefined')
-                ? localStorage.getItem('M_fromOriginUri') : '/' ;
+    const uri =
+      this.oauthService.cookiesGet('fromOriginUri').cookieVal === '' ?
+      '/' : this.oauthService.cookiesGet('fromOriginUri').cookieVal;
     if (uri.startsWith('https') || uri.startsWith('http')) {
       location.replace(uri);
     } else {

@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { BsModalRef } from 'ngx-bootstrap';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Request_MemberUserVoucher} from '@app/_models';
 import { NgForm } from '@angular/forms';
 import { AppService } from '@app/app.service';

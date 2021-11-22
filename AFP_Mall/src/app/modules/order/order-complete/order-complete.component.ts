@@ -1,3 +1,4 @@
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppService } from '@app/app.service';
@@ -22,7 +23,9 @@ export class OrderCompleteComponent implements OnInit {
   /** 訂單商品類型 1: 一般商品 21: 電子票券 */
   private orderType = 21;
 
-  constructor(private route: ActivatedRoute, public appService: AppService, private router: Router, private meta: Meta, private title: Title) {
+  constructor(private route: ActivatedRoute, public appService: AppService,
+              private router: Router, private oauthService: OauthService,
+              private meta: Meta, private title: Title) {
     this.title.setTitle('付款確認中｜線上商城 - Mobii!');
     this.meta.updateTag({ name: 'description', content: '' });
     this.meta.updateTag({ content: '付款確認中｜線上商城 - Mobii!', property: 'og:title' });
@@ -30,6 +33,9 @@ export class OrderCompleteComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.appService.isApp =
+    (this.oauthService.cookiesGet('deviceType').cookieVal > '0') ? 1 : null ;
+
     this.route.queryParams.subscribe(params => {
       if (params.PayOrderNo !== undefined) {
         this.PayOrderNo = Number(params.PayOrderNo);
@@ -51,17 +57,18 @@ export class OrderCompleteComponent implements OnInit {
 
     this.appService.toApi('Member', '1604', request).subscribe((data: Response_OrderComplete) => {
       this.ResponseModel = data;
-      this.appService.isApp = data.IsApp;
+      // this.appService.isApp = data.IsApp;
+      // 使用 web
+      // if (data.IsApp === 0) {
+      //   this.appService.isApp = null;
+      // }
+
       if (this.ResponseModel.Success) {
         this.title.setTitle('付款成功｜線上商城 - Mobii!');
         this.meta.updateTag({ content: '付款成功｜線上商城 - Mobii!', property: 'og:title' });
       } else {
         this.title.setTitle('付款失敗｜線上商城 - Mobii!');
         this.meta.updateTag({ content: '付款失敗｜線上商城 - Mobii!', property: 'og:title' });
-      }
-      // 使用 web
-      if (data.IsApp === 0) {
-        this.appService.isApp = null;
       }
     });
 
