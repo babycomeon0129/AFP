@@ -429,6 +429,8 @@ export class cookieDeclare {
   pushCount?: string;
   /** 進場廣告 */
   adTime?: string;
+  /** App訪問 */
+  appVisit?: string;
   /** 來源頁(除錯用) */
   page?: string;
 }

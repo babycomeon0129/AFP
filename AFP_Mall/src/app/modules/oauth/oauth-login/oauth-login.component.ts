@@ -115,11 +115,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       this.oauthService.cookiesDel('fromOriginUri');
     }
 
-    // TODO 測試用
-    // document.getElementById('loginRequest').innerHTML = this.temp +
-    //     '<div>loginState: ' + this.appService.loginState + '</div>' +
-    //     '<div>idToken: ' + this.M_idToken + '</div>';
-
     this.appService.openBlock();
     if (this.oauthService.cookiesGet('upgrade').cookieVal === '') {
       this.viewType = '0';

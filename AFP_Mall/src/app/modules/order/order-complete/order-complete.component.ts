@@ -34,7 +34,7 @@ export class OrderCompleteComponent implements OnInit {
 
   ngOnInit() {
     this.appService.isApp =
-    (this.oauthService.cookiesGet('deviceType').cookieVal > '0') ? 1 : null ;
+    (this.oauthService.cookiesGet('appVisit').cookieVal === '1') ? 1 : null ;
 
     this.route.queryParams.subscribe(params => {
       if (params.PayOrderNo !== undefined) {
@@ -70,6 +70,7 @@ export class OrderCompleteComponent implements OnInit {
         this.title.setTitle('付款失敗｜線上商城 - Mobii!');
         this.meta.updateTag({ content: '付款失敗｜線上商城 - Mobii!', property: 'og:title' });
       }
+
     });
 
     //  例外狀況處理（例: API沒回應）

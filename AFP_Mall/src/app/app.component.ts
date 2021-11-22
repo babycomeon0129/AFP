@@ -30,8 +30,8 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
   /** 第三方登入 request, 此處用於Line登入 */
   public thirdRequest: Request_AFPThird = new Request_AFPThird();
   /** 錯誤提示用 */
-  // public test: string;
-  // public testCount = 0;
+  public test: string;
+  public testCount = 0;
 
   constructor(private router: Router, public appService: AppService, private activatedRoute: ActivatedRoute, public modal: ModalService,
               public cookieService: CookieService, private differs: KeyValueDiffers, private callApp: AppJSInterfaceService,
@@ -42,6 +42,11 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
     this.activatedRoute.queryParams.subscribe(params => {
       if (this.appService.isApp == null && typeof params.isApp !== 'undefined') {
         this.appService.isApp = Number(params.isApp);
+        // 識別是否為App訪問，直至登出才會清除
+        if (params.isApp === '1') {
+          this.oauthService.getLocation();
+          this.oauthService.cookiesSet({appVisit: '1'});
+        }
       }
 
       //  購物車編碼 (APP用)
@@ -122,12 +127,14 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
     // this.appService.initPush();
 
     // TODO 點10下用
-    // setInterval(() => {
-    //   this.test = location.href + '    >>>> cookie idToken     ' +
-    //   this.oauthService.cookiesGet('idToken').cookieVal + '   >>>> loginState    ' +
-    //   this.appService.loginState + '   >>>> isApp    ' +
-    //   this.appService.isApp  ;
-    // }, 3000);
+    setInterval(() => {
+      this.test = location.href;
+    }, 1000);
+
+    // TODO 測試用
+    document.getElementById('loginRequest').innerHTML =
+        '<p>isApp: ' + this.appService.isApp + '</p>' +
+        '<p>deviceType: ' + this.oauthService.cookiesGet('deviceType').cookieVal + '</p>';
 
     /** JustKa登入偵聽 */
     window.addEventListener('message', (e) => {

@@ -1438,16 +1438,27 @@ img.nearbyimg{
 
 // app 內debug用
 .for-app-debug-box {
+  opacity: 0;
   position: fixed;
   z-index: 99999999;
-  background-color: #ffffff;
-  top: 10%;
-  height: 80vh;
-  width: 100%;
-  border: 1px solid #000;
-  overflow: scroll;
+  top: 40%;
+  left: 0;
+  color: rgba(229, 229, 229, 0.4);
+  cursor: help;
+  padding: 0.25em;
+  &:hover {
+    opacity: 1;
+  }
+  .test-box {
+    background-color: #fff;
+    width: 99vw;
+    color: #777;
+  }
   #loginRequest {
     padding: 10px;
     background-color: rgb(255, 255, 183);
+  }
+  &:hover {
+    box-shadow: #568EE3;
   }
 }
