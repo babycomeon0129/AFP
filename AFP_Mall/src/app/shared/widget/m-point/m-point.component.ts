@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppService } from '@app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-m-point',
   templateUrl: './m-point.component.html',
@@ -15,9 +16,11 @@ export class MPointComponent implements OnInit {
   @Input() daylinePoint: string;
   /** 即將到期時間 */
   @Input() dayline: string;
+  /** 點數紀錄顯示與否 */
+  @Input() pointShow: boolean;
 
-
-  constructor(public appService: AppService, public router: Router, public modal: ModalService) { }
+  constructor(public appService: AppService, public router: Router,
+              public modal: ModalService, public location: Location) { }
 
   ngOnInit() {
   }

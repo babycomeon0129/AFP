@@ -35,8 +35,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   public M_idToken = this.oauthService.cookiesGet('idToken').cookieVal;
   /** 「艾斯身份識別_登入」後端回傳資料 */
   public loginJsonData: object;
-  // TODO 測試用
-  // public temp: any;
 
   constructor(public appService: AppService, public oauthService: OauthService, private router: Router,
               public el: ElementRef, private activatedRoute: ActivatedRoute, public bsModalService: BsModalService,

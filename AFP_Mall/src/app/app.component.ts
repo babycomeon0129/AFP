@@ -136,9 +136,11 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
     }, 1000);
 
     // TODO 測試用
-    document.getElementById('loginRequest').innerHTML =
-        '<p>isApp: ' + this.appService.isApp + '</p>' +
-        '<p>deviceType: ' + this.oauthService.cookiesGet('deviceType').cookieVal + '</p>';
+    if (this.appService.isApp === 1 && this.oauthService.preName !=='') {
+      document.getElementById('loginRequest').innerHTML =
+      '<p>isApp: ' + this.appService.isApp + '</p>' +
+      '<p>deviceType: ' + this.oauthService.cookiesGet('deviceType').cookieVal + '</p>';
+    }
 
     /** JustKa登入偵聽 */
     // window.addEventListener('message', (e) => {

@@ -4,13 +4,13 @@
       <div class="coin-box">
         <div *ngIf="this.router.url.indexOf('MemberCoin') === -1" class="item title-name text-white">M Points
         </div>
-        <div class="flex-inline-between">
+        <div [ngClass]="{'flex-inline-between': pointShow, 'text-center':!pointShow}">
           <div class="coin-point">
             <img src="../img/share/mobiicoin_red.png" class="coinimg-m">
             <span class="coin-txt">{{totalPoing === undefined ? '－' : totalPoing |
               currency:'TWD':'':'1.0-2'}}</span>
           </div>
-          <div class="coin-history">
+          <div class="coin-history" *ngIf="pointShow">
             <button class="btn" (click)="goToMpointHistory()">
               點數紀錄
             </button>
