@@ -2,7 +2,7 @@
 <div [@routeAnimations]="prepareRoute(outlet)">
   <!-- App訪問用，僅測試站出現 -->
   <div class="for-app-debug-box" (click)="testCount = testCount + 1">
-    <div *ngIf="oauthService.cookiesGet('appVisit').cookieVal === '1' && oauthService.preName !== ''">
+    <div *ngIf="appService.isApp === 1 && oauthService.preName !== ''">
       <i class="material-icons help">&#xe887;</i>
       <div class="test-box" [hidden]="testCount < 10">
         <div id="loginRequest"></div>
