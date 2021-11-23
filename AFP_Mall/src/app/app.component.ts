@@ -29,6 +29,10 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
   private serviceDiffer: KeyValueDiffer<string, any>;
   /** 第三方登入 request, 此處用於Line登入 */
   public thirdRequest: Request_AFPThird = new Request_AFPThird();
+  /** 版本號 */
+  public enVersion = 'Ver. 1.3.4_';
+  /** 版本日期 */
+  public enVersionDate: string;
   /** 錯誤提示用 */
   public test: string;
   public testCount = 0;
@@ -137,10 +141,13 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
         '<p>deviceType: ' + this.oauthService.cookiesGet('deviceType').cookieVal + '</p>';
 
     /** JustKa登入偵聽 */
-    window.addEventListener('message', (e) => {
-      // console.log(e);
-    }, false);
+    // window.addEventListener('message', (e) => {
+    //   console.log(e);
+    // }, false);
 
+    /** 版本號 */
+    this.enVersion = this.enVersion + environment.releaseDate.getMonth() + environment.releaseDate.getDate();
+    this.enVersionDate = environment.releaseDate.toLocaleString();
   }
 
   /** 獲取這個 outlet 指令的值（透過 #outlet="outlet"），並根據當前活動路由的自訂資料返回一個表示動畫狀態的字串值。用此資料來控制各個路由之間該執行哪個轉場 */
