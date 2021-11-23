@@ -192,7 +192,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
       case 5:
         // 使用
         this.layerTrig = 1;
-        this.callApp.appShowBackButton(true);
+        this.callApp.appShowBackButton(false);
         this.checkWritenOff();
         break;
     }
