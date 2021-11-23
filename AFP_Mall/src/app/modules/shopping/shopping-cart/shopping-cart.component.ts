@@ -58,6 +58,7 @@ export class ShoppingCartComponent implements OnInit {
       }
     };
     this.appService.toApi('EC', '1204', request).subscribe((data: Response_ECCart) => {
+      this.appService.blockUI.stop();
       // 若在此頁登入：登入前若購物車有商品，則先清空購物車。
       // 將購物車更新為登入後的資料後，再將登入前有勾選的商家和商品勾選起來，再將登入前有更改數量的商品數量更新（都只變更前端資料）。
       if (this.cartList.length > 0) {
