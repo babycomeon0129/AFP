@@ -4,13 +4,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "start-preprod": "ng serve --preprod",
     "start-prod": "ng serve --prod",
     "build-sit": "ng build -c sit",
     "build-uat": "ng build -c uat",
     "build-uuat": "ng build -c uuat",
     "build-prod": "ng build --prod",
-    "build-preprod": "ng build -c preprod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
