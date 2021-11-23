@@ -286,7 +286,7 @@ export class OauthService {
       const params = new URLSearchParams(url.search);
       const logout = params.get('logout');
       if (logout) {
-        this.router.navigate(['location.pathname']);
+        this.router.navigate([location.pathname]);
       } else {
         this.router.navigate(['/Member']);
       }
