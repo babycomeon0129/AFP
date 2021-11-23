@@ -5,16 +5,16 @@
 export const environment = {
   production: false,
   // apiUrl: 'http://localhost:55254/api/',
-  apiUrl: 'https://afpapi-uuat.mobii.ai/api/',
-  loginUrl: 'https://login-uuat.mobii.ai/auth/api/v1/login',
-  tokenUrl: 'https://login-uuat.mobii.ai/auth/api/v1/token',
-  modifyUrl: 'https://login-uuat.mobii.ai/auth/api/v1/memberModify',
+  apiUrl: 'https://sit-afpapi.mobii.ai/api/',
+  loginUrl: 'https://sit-login.mobii.ai/auth/api/v1/login',
+  tokenUrl: 'https://sit-login.mobii.ai/auth/api/v1/token',
+  modifyUrl: 'https://sit-login.mobii.ai/auth/api/v1/memberModify',
   FBApiKey: '349758176149496',
   GoogleApiKey: '260499247538-ctoucp9t09ufdpgqmd4ac368lfpgmorm.apps.googleusercontent.com',
   cookieDomain: 'localhost',
   cookieSecure: false,
   /** Apple登入redirectURI */
-  AppleSignInURI: 'https://www-uat.mobii.ai',
+  AppleSignInURI: 'https://sit.mobii.ai',
   /** 是否啟用 service worker（for 推播服務） */
   swActivate: false,
   firebaseConfig: {

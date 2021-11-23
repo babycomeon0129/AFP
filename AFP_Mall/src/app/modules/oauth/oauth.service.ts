@@ -40,10 +40,10 @@ export class OauthService {
   /** 取得域名前置 */
   getLocation() {
     switch (location.hostname) {
+      case 'localhost':
       case 'sit.mobii.ai':
         this.preName = 'sit.';
         break;
-      case 'localhost':
       case 'www-uuat.mobii.ai':
         this.preName = 'uuat.';
         break;
