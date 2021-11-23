@@ -34,7 +34,7 @@ export class OrderCompleteComponent implements OnInit {
 
   ngOnInit() {
     this.appService.isApp =
-    (this.oauthService.cookiesGet('deviceType').cookieVal > '0') ? 1 : null ;
+    (this.oauthService.cookiesGet('appVisit').cookieVal === '1') ? 1 : null ;
 
     this.route.queryParams.subscribe(params => {
       if (params.PayOrderNo !== undefined) {

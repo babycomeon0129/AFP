@@ -42,6 +42,11 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
     this.activatedRoute.queryParams.subscribe(params => {
       if (this.appService.isApp == null && typeof params.isApp !== 'undefined') {
         this.appService.isApp = Number(params.isApp);
+        // 識別是否為App訪問，直至登出才會清除
+        if (params.isApp === '1') {
+          this.oauthService.getLocation();
+          this.oauthService.cookiesSet({appVisit: '1'});
+        }
       }
 
       //  購物車編碼 (APP用)
@@ -118,7 +123,6 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
         }
         this.appService.prevUrl = event.url;  // 取得前一頁面url
       });
-    this.oauthService.getLocation();
     this.detectOld();
     // this.appService.initPush();
 
