@@ -148,7 +148,7 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
     // }, false);
 
     /** 版本號 */
-    this.enVersion = this.enVersion + environment.releaseDate.getMonth() + environment.releaseDate.getDate();
+    this.enVersion = this.enVersion + (environment.releaseDate.getMonth()+1) + environment.releaseDate.getDate();
     this.enVersionDate = environment.releaseDate.toLocaleString();
   }
 
