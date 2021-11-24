@@ -1,6 +1,6 @@
-import { AppJSInterfaceService } from './app-jsinterface.service';
 import { Component, DoCheck, KeyValueDiffer, KeyValueDiffers, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, ResolveEnd } from '@angular/router';
+import { AppJSInterfaceService } from './app-jsinterface.service';
 import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
 import { ModalService } from '@app/shared/modal/modal.service';
@@ -9,6 +9,7 @@ import { RouterOutlet } from '@angular/router';
 import { slideInAnimation } from './animations';
 import { filter } from 'rxjs/operators';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { VersionInfo } from './version';
 
 @Component({
   selector: 'body',
@@ -25,8 +26,8 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
   /** 變化追蹤（登入狀態） */
   private serviceDiffer: KeyValueDiffer<string, any>;
   /** 版本號,版本日期 */
+  versionInfo = VersionInfo;
   public enVersion: string;
-  public enVersionDate: string;
   /** 錯誤提示用 */
   public test: string;
   public testCount = 0;
@@ -141,10 +142,12 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
     //   console.log(e);
     // }, false);
 
-    /** 版本號(上版時需自訂日期及版號) */
-    const rDate = new Date();
-    this.enVersion = 'Ver.1.3.5_' + (rDate.getMonth() + 1) + rDate.getDate();
-    this.enVersionDate = rDate.toLocaleString();
+    /** 版本號(上版時需在version.ts自訂日期及版號) */
+    const versionDate = new Date(this.versionInfo.date);
+    this.enVersion =
+      'Ver.' + this.versionInfo.ver + '_' +
+      (versionDate.getMonth() + 1) + versionDate.getDate() + ' | ' +
+      versionDate.toLocaleString();
   }
 
   /** 獲取這個 outlet 指令的值（透過 #outlet="outlet"），並根據當前活動路由的自訂資料返回一個表示動畫狀態的字串值。用此資料來控制各個路由之間該執行哪個轉場 */

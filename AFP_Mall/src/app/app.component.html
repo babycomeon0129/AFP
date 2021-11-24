@@ -14,9 +14,7 @@
     </div>
   </div>
 </div>
-<div hidden>
-  {{enVersion}} | {{enVersionDate}}
-</div>
+<div hidden>{{enVersion}}</div>
 <!-- 裝置版本過低提示 -->
 <div *ngIf="isOld && showOldHint && appService.isApp === null" class="sysmsgcontainer">
   <div class="container p-3 sysmsgbox">
