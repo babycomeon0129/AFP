@@ -39,7 +39,6 @@
             "styles": [
               "node_modules/bootstrap/scss/bootstrap.scss",
               "node_modules/ngx-bootstrap/datepicker/bs-datepicker.scss",
-              "node_modules/swiper/css/swiper.min.css",
               "node_modules/animate.css/animate.min.css",
               "src/styles/css.scss",
               "src/styles/style.scss"
@@ -52,8 +51,7 @@
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/popper.js/dist/umd/popper.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "node_modules/swiper/js/swiper.min.js"
+              "node_modules/bootstrap/dist/js/bootstrap.min.js"
             ]
           },
           "configurations": {

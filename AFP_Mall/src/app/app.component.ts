@@ -1,5 +1,4 @@
 import { AppJSInterfaceService } from './app-jsinterface.service';
-import { environment } from '@env/environment';
 import { Component, DoCheck, KeyValueDiffer, KeyValueDiffers, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, ResolveEnd } from '@angular/router';
 import { AppService } from '@app/app.service';
@@ -9,9 +8,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { RouterOutlet } from '@angular/router';
 import { slideInAnimation } from './animations';
 import { filter } from 'rxjs/operators';
-import { Request_AFPThird, Response_AFPLogin } from './_models';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { backgroundClip } from 'html2canvas/dist/types/css/property-descriptors/background-clip';
 
 @Component({
   selector: 'body',
@@ -27,11 +24,8 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
   public showOldHint = true;
   /** 變化追蹤（登入狀態） */
   private serviceDiffer: KeyValueDiffer<string, any>;
-  /** 第三方登入 request, 此處用於Line登入 */
-  public thirdRequest: Request_AFPThird = new Request_AFPThird();
-  /** 版本號 */
-  public enVersion = 'Ver. 1.3.4_';
-  /** 版本日期 */
+  /** 版本號,版本日期 */
+  public enVersion: string;
   public enVersionDate: string;
   /** 錯誤提示用 */
   public test: string;
@@ -147,9 +141,10 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
     //   console.log(e);
     // }, false);
 
-    /** 版本號 */
-    this.enVersion = this.enVersion + (environment.releaseDate.getMonth()+1) + environment.releaseDate.getDate();
-    this.enVersionDate = environment.releaseDate.toLocaleString();
+    /** 版本號(上版時需自訂日期及版號) */
+    const rDate = new Date();
+    this.enVersion = 'Ver.1.3.5_' + (rDate.getMonth() + 1) + rDate.getDate();
+    this.enVersionDate = rDate.toLocaleString();
   }
 
   /** 獲取這個 outlet 指令的值（透過 #outlet="outlet"），並根據當前活動路由的自訂資料返回一個表示動畫狀態的字串值。用此資料來控制各個路由之間該執行哪個轉場 */
