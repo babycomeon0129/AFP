@@ -1,5 +1,7 @@
-<block-ui>
 <div [@routeAnimations]="prepareRoute(outlet)">
+  <block-ui>
+    <router-outlet id="routerView" #outlet="outlet"></router-outlet>
+  </block-ui>
   <!-- App訪問用，僅測試站出現 -->
   <div class="for-app-debug-box" (click)="testCount = testCount + 1">
     <div *ngIf="appService.isApp === 1 && oauthService.preName !== ''">
@@ -11,10 +13,7 @@
       </div>
     </div>
   </div>
-  <router-outlet id="routerView" #outlet="outlet"></router-outlet>
 </div>
-</block-ui>
-
 <div hidden>
   {{enVersion}} | {{enVersionDate}}
 </div>

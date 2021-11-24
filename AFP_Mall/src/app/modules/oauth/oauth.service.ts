@@ -98,7 +98,7 @@ export class OauthService {
     formData.append('deviceType', req.deviceType.toString());
     formData.append('deviceCode', req.deviceCode);
     formData.append('fromOriginUri', req.fromOriginUri);
-    return this.http.post(environment.loginUrl, formData)
+    return this.http.post(environment.loginUrl + 'login', formData)
       .pipe(map((data: ResponseOauthLogin) => {
         switch (data.errorCode) {
           case '996600001':
@@ -118,7 +118,7 @@ export class OauthService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    return this.http.post(environment.tokenUrl, JSON.stringify(this.grantRequest), { headers })
+    return this.http.post(environment.loginUrl + 'token', JSON.stringify(this.grantRequest), { headers })
       .pipe(map((data: ResponseOauthApi) => {
         switch (data.errorCode) {
           case '996600001':
@@ -139,7 +139,7 @@ export class OauthService {
       const request = {
         isApp: (app !== undefined && app !== null) ? app : 0
       };
-      return this.http.post(environment.modifyUrl, request, { headers })
+      return this.http.post(environment.loginUrl + 'memberModify', request, { headers })
         .pipe(map((data: ResponseOauthApi) => {
           if (data.errorCode === '996600001') {
             return data.data;
@@ -264,6 +264,21 @@ export class OauthService {
     });
   }
 
+  /** 「艾斯身份識別_登出2」 */
+  oauthLogout(type: string, token: string): Observable<any>  {
+    const headers = new HttpHeaders({
+      Authorization:  'Bearer ' + token,
+    });
+    const request = {
+      DeviceType: (type !== '') ? Number(type) : 0
+    };
+    return this.http.post(environment.loginUrl + 'memberLogout', request, { headers })
+      .pipe(map((data: ResponseOauthApi) => {
+        if (data.errorCode === '996600001') {
+          return data.data;
+        }
+      }, catchError(this.handleError)));
+  }
 
   /** 登出，由web統一發出登出請求
    * 1.呼叫後端call api 1109紀錄登出狀態（後端處理艾斯登出API-46-112 logout）
@@ -272,10 +287,15 @@ export class OauthService {
    */
   onLogout(appVisit: number): void {
     // 登出紀錄
-    const request = {
-      User_Code: this.cookiesGet('userCode').sessionVal
-    };
-    this.toApi_Logout('Home', '1109', request).subscribe((Data: any) => { });
+    // const request = {
+    //   User_Code: this.cookiesGet('userCode').sessionVal
+    // };
+    // this.toApi_Logout('Home', '1109', request).subscribe((Data: any) => { });
+
+    /** 「艾斯身份識別_登出1」 */
+    this.oauthLogout(this.cookiesGet('deviceType').cookieVal, this.cookiesGet('idToken').cookieVal).subscribe((Data: any) => {
+      console.log(Data);
+    });
 
     // APP登出導頁
     if (appVisit === 1) {
@@ -303,22 +323,21 @@ export class OauthService {
    * @param command 指令編碼
    * @param request 傳送資料
    */
-  toApi_Logout(ctrl: string, command: string, request: any, lat: number = null, lng: number = null): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      xEyes_Command: command,
-      xEyes_X: (lng != null) ? lng.toString() : '',
-      xEyes_Y: (lat != null) ? lat.toString() : '',
-      xEyes_DeviceType: (this.cookiesGet('deviceType').cookieVal === '') ? '0' : this.cookiesGet('deviceType').cookieVal,
-      Authorization: (this.cookiesGet('idToken').cookieVal === '') ? '' : ('Bearer ' + this.cookiesGet('idToken').cookieVal),
-    });
+  // toApi_Logout(ctrl: string, command: string, request: any, lat: number = null, lng: number = null): Observable<any> {
+  //   const headers = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     xEyes_Command: command,
+  //     xEyes_X: (lng != null) ? lng.toString() : '',
+  //     xEyes_Y: (lat != null) ? lat.toString() : '',
+  //     xEyes_DeviceType: (this.cookiesGet('deviceType').cookieVal === '') ? '0' : this.cookiesGet('deviceType').cookieVal,
+  //     Authorization: (this.cookiesGet('idToken').cookieVal === '') ? '' : ('Bearer ' + this.cookiesGet('idToken').cookieVal),
+  //   });
 
-    return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
-      .pipe(map((data: Response_APIModel) => {
-        return JSON.parse(data.Data);
-      }, catchError(() => null)));
-  }
-
+  //   return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
+  //     .pipe(map((data: Response_APIModel) => {
+  //       return JSON.parse(data.Data);
+  //     }, catchError(() => null)));
+  // }
 
 }
 

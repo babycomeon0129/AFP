@@ -289,22 +289,24 @@
     </div> -->
   </main>
   <!-- 進場廣告 -->
-  <div class="enterbox" *ngIf="appService.adIndexOpen && adIndexTime && adIndex.length > 0">
-    <swiper class="enterswiper swiper-container" [config]="adIndexOption">
-      <button type="button" class="btn enterCloseBtn" (click)="adIndexClose()">
-        <img src="img/share/close.png"></button>
-      <div class="swiper-wrapper">
-        <div class="swiper-slide" *ngFor="let ad of adIndex">
-          <a href="{{ ad?.ADImg_URL }}" target="{{ ad?.ADImg_URLTarget }}">
-            <img src="{{ad.ADImg_Img}}">
-          </a>
+  <div *ngIf="appService.adIndexOpen && adIndexTime && adIndex.length > 0">
+    <div class="enterbox">
+      <swiper class="enterswiper swiper-container" [config]="adIndexOption">
+        <button type="button" class="btn enterCloseBtn" (click)="adIndexClose()">
+          <img src="img/share/close.png"></button>
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" *ngFor="let ad of adIndex">
+            <a href="{{ ad?.ADImg_URL }}" target="{{ ad?.ADImg_URLTarget }}">
+              <img src="{{ad.ADImg_Img}}">
+            </a>
+          </div>
         </div>
-      </div>
-      <div class="swiper-pagination"></div>
-      <!-- <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div> -->
-    </swiper>
-    <div class="modal-backdrop"></div>
+        <div class="swiper-pagination"></div>
+        <!-- <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div> -->
+      </swiper>
+      <div class="modal-backdrop"></div>
+    </div>
   </div>
 
   <div class="layerTrig" [@layerTrigger] *ngIf="layerTrig === 1">
