@@ -141,7 +141,7 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
     //   console.log(e);
     // }, false);
 
-    /** 版本號(上版時需在version.ts自訂日期及版號) */
+    /** 版本號(上版時需在環境配置檔，自訂日期及版號) */
     const versionDate = new Date(environment.versionDate);
     this.enVersion =
       'Ver.' + environment.version + '_' +
