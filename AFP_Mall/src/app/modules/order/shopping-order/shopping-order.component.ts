@@ -54,11 +54,13 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
   public checkOut = true;
   /** 同頁滑動切換 0: 原頁 1: 行政區選單 2: 縣市選單 3:愛心碼選單 4:新增地址 5: 選擇優惠券 6:寄送方式 7: 發票選取 */
   public layerTrig = 0;
-  /** 愛心碼 */
+  /** 愛心碼資料 */
   public donateList = DonateList;
+  /** 愛心碼文字篩選 */
   public searchDonate: string;
 
-  constructor(public appService: AppService, public modal: ModalService, private router: Router, private meta: Meta, private title: Title, public callApp: AppJSInterfaceService) {
+  constructor(public appService: AppService, public modal: ModalService, private router: Router,
+              private meta: Meta, private title: Title, public callApp: AppJSInterfaceService) {
     this.title.setTitle('確定訂單｜線上商城 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! 線上商城購物車 - 確認訂單。 如果你有在 Mobii! 平台購物，這裡就會看到你的訂單訊息。請登入註冊 Mobii! 帳號以看到完整內容。' });
     this.meta.updateTag({ content: '確定訂單｜線上商城 - Mobii!', property: 'og:title' });
@@ -90,7 +92,15 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
         this.checkout = data;
         // 進入結帳頁時，如商品改變價格，則跳出提醒用戶商品價格改變
         if (data.List_PriceChange !== null) {
-          this.modal.show('message', { initialState: { success: false, message: `提醒您，${data.List_PriceChange}價格變更了！`, showType: 1, checkBtnMsg: `我知道了` } });
+          this.modal.show('message',
+            { initialState:
+              {
+                success: false,
+                message: `提醒您，${data.List_PriceChange}價格變更了！`,
+                showType: 1,
+                checkBtnMsg: `我知道了`
+              }
+            });
         }
         // 帶入會員資訊 (姓名、手機、email)
         this.info.name = this.checkout.UserInfo_Name;
