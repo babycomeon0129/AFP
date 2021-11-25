@@ -269,13 +269,15 @@ export class OauthService {
     const headers = new HttpHeaders({
       Authorization:  'Bearer ' + token,
     });
-    const request = {
-      DeviceType: (type !== '') ? Number(type) : 0
-    };
-    return this.http.post(environment.loginUrl + 'memberLogout', request, { headers })
-      .pipe(map((data: ResponseOauthApi) => {
+    const reqType =  (type !== '') ? type : '0';
+    const formData = new FormData();
+    formData.append('deviceType', reqType);
+    return this.http.post(environment.loginUrl + 'memberLogout', formData, {headers})
+      .pipe(map((data: ResponseOauthLogin) => {
         if (data.errorCode === '996600001') {
           return data.data;
+        } else {
+          console.log('logout error', data.errorCode);
         }
       }, catchError(this.handleError)));
   }
