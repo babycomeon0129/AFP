@@ -91,7 +91,8 @@ export class AppService {
       xEyes_Y: (lat != null) ? lat.toString() : '',
       xEyes_DeviceType: (this.isApp != null) ? this.oauthService.loginRequest.deviceType.toString() : '0',
       xEyes_DeviceCode: deviceCode === undefined ? '' : deviceCode,
-      Authorization: (this.oauthService.cookiesGet('idToken').cookieVal === '') ? '' : ('Bearer ' + this.oauthService.cookiesGet('idToken').cookieVal),
+      Authorization: (this.oauthService.cookiesGet('idToken').cookieVal === '') ? '' :
+        ('Bearer ' + this.oauthService.cookiesGet('idToken').cookieVal),
     });
 
     return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })

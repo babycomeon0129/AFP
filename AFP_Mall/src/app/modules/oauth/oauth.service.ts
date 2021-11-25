@@ -288,16 +288,8 @@ export class OauthService {
    * 3.web清除session、cookie、重置登入狀態、我的收藏、通知
    */
   onLogout(appVisit: number): void {
-    // 登出紀錄
-    // const request = {
-    //   User_Code: this.cookiesGet('userCode').sessionVal
-    // };
-    // this.toApi_Logout('Home', '1109', request).subscribe((Data: any) => { });
-
     /** 「艾斯身份識別_登出1」 */
-    this.oauthLogout(this.cookiesGet('deviceType').cookieVal, this.cookiesGet('idToken').cookieVal).subscribe((Data: any) => {
-      console.log(Data);
-    });
+    this.oauthLogout(this.cookiesGet('deviceType').cookieVal, this.cookiesGet('idToken').cookieVal).subscribe((Data: any) => {});
 
     // APP登出導頁
     if (appVisit === 1) {
@@ -319,28 +311,6 @@ export class OauthService {
     this.cookieService.deleteAll();
     this.cookiesDel('/');
   }
-
-  /** 登出用
-   * @param ctrl 目標
-   * @param command 指令編碼
-   * @param request 傳送資料
-   */
-  // toApi_Logout(ctrl: string, command: string, request: any, lat: number = null, lng: number = null): Observable<any> {
-  //   const headers = new HttpHeaders({
-  //     'Content-Type': 'application/json',
-  //     xEyes_Command: command,
-  //     xEyes_X: (lng != null) ? lng.toString() : '',
-  //     xEyes_Y: (lat != null) ? lat.toString() : '',
-  //     xEyes_DeviceType: (this.cookiesGet('deviceType').cookieVal === '') ? '0' : this.cookiesGet('deviceType').cookieVal,
-  //     Authorization: (this.cookiesGet('idToken').cookieVal === '') ? '' : ('Bearer ' + this.cookiesGet('idToken').cookieVal),
-  //   });
-
-  //   return this.http.post(environment.apiUrl + ctrl, { Data: JSON.stringify(request) }, { headers })
-  //     .pipe(map((data: Response_APIModel) => {
-  //       return JSON.parse(data.Data);
-  //     }, catchError(() => null)));
-  // }
-
 }
 
 
