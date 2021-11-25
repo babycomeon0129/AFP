@@ -630,11 +630,13 @@
                 </div>
                 <div class="d-flex align-items-center auto-left">
                   <div class="item">
-                    <input type="text" inputmode="numeric" name="loveCode" placeholder="請輸入愛心碼" class="heartcode" appDigitOnly
+                    <input type="hidden" inputmode="numeric" name="loveCode" appDigitOnly
                       [(ngModel)]="info.preInvoice.loveCode">
                   </div>
                   <div class="item search-txt pl-2" (click)="layerTrig = 3">
-                    查詢<i class="material-icons">&#xe315;</i>
+                    <span *ngIf="!info.preInvoice.loveCode; else elseBlock">請選擇愛心碼</span>
+                    <ng-template #elseBlock>{{info.preInvoice.loveCode}}</ng-template>
+                    <i class="material-icons">&#xe315;</i>
                   </div>
                 </div>
               </li>
@@ -749,60 +751,47 @@
     </div>
   </div>
   <div class="modal-backdrop fade show container" *ngIf="layerTrig === 3"></div>
-  <div class="layerTrig Trigsort container" [@layerTrigger] *ngIf="layerTrig === 3">
+  <div class="layerTrig container" [@layerTrigger] *ngIf="layerTrig === 3">
     <!-- 愛心碼選單 -->
-    <div id="open-pagebox" class="hcode">
-      <div class="open-page-title flex-inline-between">
-        <div class="title-icon">
-          <button class="btn" (click)="layerTrig = 7">
-            <i class="material-icons">&#xe314;</i>
-          </button>
-        </div>
-        <div class="title-txt">
-          查詢愛心碼
-        </div>
-        <div class="title-txt">
+    <header>
+      <div class="header-secondary container linebt-row">
+        <div class="index-flex justify-content-between">
+          <div class="item two">
+            <div class="close-btn" (click)="layerTrig = 7">
+              <i class="material-icons">&#xe314;</i>
+            </div>
+          </div>
+          <div class="item three text-center">
+            <div class="title-name">查詢愛心碼</div>
+          </div>
+          <div class="item two text-right">
+            <div class="close-btn"></div>
+          </div>
         </div>
       </div>
-      <ul class="open-page-ul" id="queryhcode" (click)="layerTrig = 7">
-        <li class="flex-inline-between" value="119">
-          <div class="item">
-            社團法人台灣流浪動物希望協會
-          </div>
-          <div class="item">
-            119
-          </div>
-        </li>
-        <li class="flex-inline-between" value="0095">
-          <div class="item">
-            財團法人法鼓山文教基金會
-          </div>
-          <div class="item">
-            0095
+    </header>
+    <div>
+      <ul>
+        <li class="py-2">
+          <div class="s-bar-gray">
+            <div class="input-box border-radius5 d-flex">
+              <button class="btn"><i class="material-icons">&#xE8B6;</i></button>
+              <input type="text" name="search"
+                [(ngModel)]="searchDonate" autocomplete="off"
+                placeholder="請搜尋關鍵字" class="border-0 w-100">
+            </div>
           </div>
         </li>
-        <li class="flex-inline-between" value="172">
-          <div class="item">
-            流浪貓保護協會
-          </div>
-          <div class="item">
-            172
-          </div>
-        </li>
-        <li class="flex-inline-between" value="0528">
-          <div class="item">
-            中華民國流浪動物花園協會
-          </div>
-          <div class="item">
-            0528
-          </div>
-        </li>
-        <li class="flex-inline-between" value="529">
-          <div class="item">
-            社團法人高雄市關懷流浪動物協會
-          </div>
-          <div class="item">
-            529
+        <li class="bb-line px-3 py-2"
+          *ngFor="let donate of donateList | searchFilter:searchDonate; let i = index"
+          (click)="info.preInvoice.loveCode=donate.code;layerTrig = 7">
+          <div class="flex-inline-between">
+            <div class="item">
+              {{donate.name}}
+            </div>
+            <div class="item">
+              {{donate.code}}
+            </div>
           </div>
         </li>
       </ul>

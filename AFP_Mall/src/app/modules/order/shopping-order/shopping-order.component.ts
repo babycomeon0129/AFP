@@ -12,7 +12,7 @@ import { NgForm } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation } from '@app/animations';
 import { AppJSInterfaceService } from '@app/app-jsinterface.service';
-
+import { DonateList } from './donate';
 @Component({
   selector: 'app-shopping-order',
   templateUrl: './shopping-order.component.html',
@@ -54,6 +54,9 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
   public checkOut = true;
   /** 同頁滑動切換 0: 原頁 1: 行政區選單 2: 縣市選單 3:愛心碼選單 4:新增地址 5: 選擇優惠券 6:寄送方式 7: 發票選取 */
   public layerTrig = 0;
+  /** 愛心碼 */
+  public donateList = DonateList;
+  public searchDonate: string;
 
   constructor(public appService: AppService, public modal: ModalService, private router: Router, private meta: Meta, private title: Title, public callApp: AppJSInterfaceService) {
     this.title.setTitle('確定訂單｜線上商城 - Mobii!');
@@ -556,12 +559,11 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
         break;
       }
       case 3: { // 捐贈發票
-        if (this.info.preInvoice.loveCode.trim() === '') {
+        if (this.info.preInvoice.loveCode === '') {
           this.modal.show('message', { initialState: { success: false, message: '請輸入愛心碼', showType: 1 } });
         } else {
           this.info.invoice = this.info.preInvoice;
           // 去掉前後空白
-          this.info.invoice.loveCode = this.info.preInvoice.loveCode.trim();
           this.info.invoice.message = '發票捐贈 愛心碼:' + this.info.invoice.loveCode;
           this.layerTrig = 0;
         }
