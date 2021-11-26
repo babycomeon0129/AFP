@@ -39,12 +39,14 @@ import { SwiperPanesComponent } from './swiper/swiper-panes/swiper-panes.compone
 import { QRCodeModule } from 'angularx-qrcode';
 import { MPointComponent } from './widget/m-point/m-point.component';
 import { GoTopComponent } from './widget/go-top/go-top.component';
+import { NullHrefPipe } from './pipe/null-href-pipe/null-href.pipe';
 
 @NgModule({
   declarations: [
     SafePipe,
     ConvertPipe,
     TextFilterPipe,
+    NullHrefPipe,
     ForgetModalComponent,
     PasswordModalComponent,
     MessageModalComponent,
@@ -75,6 +77,7 @@ import { GoTopComponent } from './widget/go-top/go-top.component';
     ConvertPipe,
     TextFilterPipe,
     LinkifyPipe,
+    NullHrefPipe,
     ForgetModalComponent,
     PasswordModalComponent,
     MessageModalComponent,
