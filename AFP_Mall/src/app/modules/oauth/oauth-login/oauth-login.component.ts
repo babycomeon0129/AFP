@@ -225,7 +225,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
               this.callApp.getLoginData(tokenData.data.idToken, tokenData.data.Customer_Code, tokenData.data.Customer_Name);
             } else {
               // web登入成功導址
-              this.appService.jumpUrl();
+              this.appService.jumpUrl(this.oauthService.cookiesGet('fromOriginUri').cookieVal);
             }
           // } else {
           //   const content = `登入註冊失敗<br>錯誤代碼：${tokenData.errorCode}<br>請重新登入註冊`;
@@ -249,7 +249,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       this.callApp.getLoginData(this.oauthService.cookiesGet('idToken').cookieVal,
       this.oauthService.cookiesGet('userCode').cookieVal, this.oauthService.cookiesGet('userName').cookieVal);
     } else {
-      this.appService.jumpUrl();
+      this.appService.jumpUrl(this.oauthService.cookiesGet('fromOriginUri').cookieVal);
     }
   }
 

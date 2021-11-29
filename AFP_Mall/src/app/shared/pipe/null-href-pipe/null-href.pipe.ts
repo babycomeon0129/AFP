@@ -10,11 +10,13 @@ export class NullHrefPipe implements PipeTransform {
    * @returns 過濾後連結路徑
    */
   transform(url: string, page: string): any {
-    console.log(page);
     switch (url) {
       case 'null':
         // 避免404，a連結需無反應
-        return 'javascript:;';
+        return '#';
+      case '/':
+        // 當前頁若為首頁，a連結需無反應
+        return (page === '/') ? '#' : '/';
       default:
         return url;
     }
