@@ -99,11 +99,11 @@ export class AppService {
       .pipe(map((data: Response_APIModel) => {
         this.blockUI.stop();
         // 除錯用
-        if (location.hostname.indexOf('localhost') === 0 ||
-          location.hostname.indexOf('sit') >= 0 ||
-          location.hostname.indexOf('uat') >= 0) {
-          console.log('isApp', this.isApp, command, data);
-        }
+        // if (location.hostname.indexOf('localhost') === 0 ||
+        //   location.hostname.indexOf('sit') >= 0 ||
+        //   location.hostname.indexOf('uat') >= 0) {
+        //   console.log('isApp', this.isApp, command, data);
+        // }
 
         switch (data.Base.Rtn_State) {
           case 1:
@@ -433,7 +433,7 @@ export class AppService {
   receiveMessage(): void {
     this.angularFireMessaging.messages.subscribe(
       (payload) => {
-        console.log('new message received. ', payload);
+         // console.log('new message received. ', payload);
         this.currentMessage.next(payload);
         this.pushCount++;
         this.oauthService.cookiesSet({

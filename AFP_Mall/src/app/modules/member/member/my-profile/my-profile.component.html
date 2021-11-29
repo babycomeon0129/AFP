@@ -57,12 +57,18 @@
                 <div class="item">生日<span *ngIf="editMode" class="text-org">*</span></div>
                 <div class="item input-box">
                   <div class="input-group">
+                    <!-- 因生日無法修改，而目前ngx-bootstrap Datepicker 讀取API時間後顯示會有少一天的問題，故如已經新增生日，則隱藏Datepicker -->
+                    <input type="text" name="UserBirthEdit"  #UserBirthEdit="ngModel"
+                    [(ngModel)]="memberService.userProfile.UserProfile_Birthday" [readOnly]="!editMode">
+                    <!-- ngx-bootstrap Datepicker 版本，可編輯 -->
                     <input id="bdayinput" #UserBirth="ngModel" name="UserBirth"
+                      [hidden]="UserBirth.pristine && memberService.userProfile?.UserProfile_Birthday === null"
                       [ngModel]="memberService.userProfile.UserProfile_Birthday"
                       (ngModelChange)="memberService.userProfile.UserProfile_Birthday = $event"
                       [disabled]="!editMode || (UserBirth.pristine && memberService.userProfile?.UserProfile_Birthday !== null)"
                       [isDisabled]="!editMode || (UserBirth.pristine && memberService.userProfile?.UserProfile_Birthday !== null)"
                       bsDatepicker #dp="bsDatepicker"
+                      [hidden]="UserBirth.pristine && memberService.userProfile?.UserProfile_Birthday !== null"
                       [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD', containerClass: 'theme-orange' }" [maxDate]="today"
                       [ngClass]="{'text-secondary': UserBirth.pristine && memberService.userProfile?.UserProfile_Birthday !== null,
                                   'warning-red': editMode && formProfile.submitted && UserBirth.invalid}"

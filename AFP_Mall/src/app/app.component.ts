@@ -136,11 +136,6 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
       '<p>deviceType: ' + this.oauthService.cookiesGet('deviceType').cookieVal + '</p>';
     }
 
-    /** JustKa登入偵聽 */
-    // window.addEventListener('message', (e) => {
-    //   console.log(e);
-    // }, false);
-
     /** 版本號(上版時需在環境配置檔，自訂日期及版號) */
     const versionDate = new Date(environment.versionDate);
     this.enVersion =
