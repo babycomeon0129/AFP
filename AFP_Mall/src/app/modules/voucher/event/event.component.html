@@ -27,8 +27,7 @@
       <swiper class="shoppingkv swiper-container" [config]="adTop">
         <div class="swiper-wrapper">
           <div *ngFor="let cover of coverImg" class="swiper-slide">
-            <a [href]="(cover?.ADImg_URL === '/')? 'javascript:;' : cover.ADImg_URL" [target]="cover?.ADImg_URLTarget"
-              rel="noopener noreferrer">
+            <a [href]="cover?.ADImg_URL | nullHref : router.url" [target]="cover?.ADImg_URLTarget" rel="noopener noreferrer">
               <div [lazyLoad]="cover?.ADImg_Img" [defaultImage]="appService.defaultImage" class="kvbn-img"></div>
             </a>
           </div>

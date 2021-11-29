@@ -7,6 +7,7 @@ import { ConvertPipe } from './pipe/convert-pipe/convert.pipe';
 import { SafePipe } from './pipe/safe-pipe/safe.pipe';
 import { TextFilterPipe } from './pipe/text-filter-pipe/text-filter.pipe';
 import { LinkifyPipe } from './pipe/linkify-pipe/linkify.pipe';
+import { NullHrefPipe } from './pipe/null-href-pipe/null-href.pipe';
 // Directive
 import { DigitOnlyDirective } from './directive/digitonly-directive/digit-only.directive';
 import { KeyControllerDirective } from './directive/keycontroller-directive/key-controller.directive';
@@ -39,13 +40,13 @@ import { SwiperPanesComponent } from './swiper/swiper-panes/swiper-panes.compone
 import { QRCodeModule } from 'angularx-qrcode';
 import { MPointComponent } from './widget/m-point/m-point.component';
 import { GoTopComponent } from './widget/go-top/go-top.component';
-import { SearchFilterPipe } from './pipe/search-filter-pipe/search-filter.pipe';
 
 @NgModule({
   declarations: [
     SafePipe,
     ConvertPipe,
     TextFilterPipe,
+    NullHrefPipe,
     ForgetModalComponent,
     PasswordModalComponent,
     MessageModalComponent,
@@ -69,14 +70,14 @@ import { SearchFilterPipe } from './pipe/search-filter-pipe/search-filter.pipe';
     IndexHeaderComponent,
     MPointComponent,
     LinkifyPipe,
-    GoTopComponent,
-    SearchFilterPipe
+    GoTopComponent
   ],
   exports: [
     SafePipe,
     ConvertPipe,
     TextFilterPipe,
     LinkifyPipe,
+    NullHrefPipe,
     ForgetModalComponent,
     PasswordModalComponent,
     MessageModalComponent,
@@ -99,8 +100,7 @@ import { SearchFilterPipe } from './pipe/search-filter-pipe/search-filter.pipe';
     SwiperNavComponent,
     SwiperPanesComponent,
     MPointComponent,
-    GoTopComponent,
-    SearchFilterPipe
+    GoTopComponent
   ],
   imports: [
     CommonModule,

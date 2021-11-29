@@ -3,6 +3,7 @@ import { SwiperOptions } from 'swiper';
 import { AppService } from '@app/app.service';
 import { AFP_VouFlashSale, Request_ECVouFlashSale, Response_ECVouFlashSale, AFP_ADImg, AFP_Voucher } from '@app/_models';
 import { Meta, Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sales',
@@ -35,7 +36,7 @@ export class SalesComponent implements OnInit, OnDestroy {
     }
   };
 
-  constructor(public appService: AppService, private meta: Meta, private title: Title) {
+  constructor(public appService: AppService, private meta: Meta, private title: Title, public router: Router) {
     this.title.setTitle('限時搶購優惠 - Mobii!');
     this.meta.updateTag({name : 'description', content: 'Mobii! - 限時搶購優惠。這裡會顯示 Mobii! 合作店家的限時優惠，限時限量、要買要快，你還在猶豫的時候，東西可能就已經賣光了唷！'});
     this.meta.updateTag({content: '限時搶購優惠 - Mobii!', property: 'og:title'});

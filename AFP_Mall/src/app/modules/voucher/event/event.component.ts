@@ -6,6 +6,7 @@ import { SwiperOptions } from 'swiper';
 import { Meta, Title } from '@angular/platform-browser';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { layerAnimation, layerAnimationUp } from '@app/animations';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-event',
@@ -46,7 +47,8 @@ export class EventComponent implements OnInit {
   /** 同頁滑動切換 0:本頁 1:排序清單 */
   public layerTrig = 0;
 
-  constructor(public appService: AppService, private meta: Meta, private title: Title, private modal: ModalService, public location: Location) {
+  constructor(public appService: AppService, private meta: Meta, private title: Title,
+              private modal: ModalService, public location: Location, public router: Router) {
     this.title.setTitle('M幣商城 - Mobii!');
     this.meta.updateTag({name : 'description', content: 'Mobii! -M幣商城 Mobii! 點數兌換優惠券，想要搶得店家優惠，請先登入註冊 Mobii! 會員。'});
     this.meta.updateTag({content: '點數兌換 - Mobii!', property: 'og:title'});

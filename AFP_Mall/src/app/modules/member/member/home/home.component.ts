@@ -91,26 +91,6 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  /** 前往廣告
-   * @param ADImg 廣告
-   */
-  adRouter(ADImg: AFP_ADImg): void {
-    if (ADImg.ADImg_URL !== '/') {
-      if (ADImg.ADImg_URL.indexOf('http') !== -1) {
-        // 站外連結
-        window.open(ADImg.ADImg_URL, ADImg.ADImg_URLTarget);
-      } else {
-        // 站內連結
-        if (this.appService.isApp !== null) {
-          this.router.navigate([ADImg.ADImg_URL], { queryParams: { isApp: this.appService.isApp, showBack: true } });
-        } else {
-          // web
-          this.router.navigate([ADImg.ADImg_URL]);
-        }
-      }
-    }
-  }
-
   /** 前往主頁面(依是否登入判定)
    * @param page 頁面相對路徑（「敬請期待」傳'0'）
    * @param pageCode 通知原生開啟頁面 0: 我的卡片 1: 我的車票 2: 我的點餐 3: 我的優惠券 4: 我的收藏 5: 我的訂單 6: M Point
