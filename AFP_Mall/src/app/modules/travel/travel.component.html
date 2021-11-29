@@ -16,11 +16,7 @@
     <swiper class="swiper-container travel-banner" [config]="boxKV">
       <div class="swiper-wrapper">
         <div *ngFor="let item of ad20001" class="swiper-slide">
-          <a [href]="item.ADImg_URL" [target]="item.ADImg_URLTarget" *ngIf="item.ADImg_URL.indexOf('http') != -1"
-            rel="noopener noreferrer">
-            <img [lazyLoad]="item.ADImg_Img" [defaultImage]="appService.defaultImage">
-          </a>
-          <a [routerLink]="[item.ADImg_URL]" *ngIf="item.ADImg_URL.indexOf('http') == -1">
+          <a [href]="item.ADImg_URL | nullHref : router.url" [target]="item.ADImg_URLTarget" rel="noopener noreferrer">
             <img [lazyLoad]="item.ADImg_Img" [defaultImage]="appService.defaultImage">
           </a>
         </div>
@@ -57,9 +53,8 @@
           <div class="swiper-wrapper">
             <div class="swiper-slide" *ngFor="let item of ad20002">
               <div class="w-100">
-                <a [href]="item.ADImg_URL" [target]="item.ADImg_URLTarget" rel="noopener noreferrer">
+                <a [href]="item.ADImg_URL | nullHref : router.url" [target]="item.ADImg_URLTarget" rel="noopener noreferrer">
                   <div class="hot-img-top ">
-                    <!-- [target]="item.ADImg_URLTarget" -->
                     <div class="rwdimg-cover" [lazyLoad]="item.ADImg_Img" [defaultImage]="appService.defaultImage">
                     </div>
                   </div>
@@ -81,8 +76,8 @@
           <div class="swiper-wrapper">
             <div class="swiper-slide" *ngFor="let item of ad20003">
               <div class="w-100">
-                <a class="txt-line-clamp1 d-block" [href]="item.ADImg_URL" [target]="item.ADImg_URLTarget"
-                  rel="noopener noreferrer">
+                <a [href]="item.ADImg_URL | nullHref : router.url" [target]="item.ADImg_URLTarget"
+                  rel="noopener noreferrer" class="txt-line-clamp1 d-block">
                   <div class="topic-img-top">
                     <div class="rwdimg-cover h55" [lazyLoad]="item.ADImg_Img" [defaultImage]="appService.defaultImage">
                     </div>

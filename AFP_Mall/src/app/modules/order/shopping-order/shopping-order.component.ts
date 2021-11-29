@@ -12,7 +12,7 @@ import { NgForm } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation } from '@app/animations';
 import { AppJSInterfaceService } from '@app/app-jsinterface.service';
-
+import { LoveCodeList } from './loveCode';
 @Component({
   selector: 'app-shopping-order',
   templateUrl: './shopping-order.component.html',
@@ -54,8 +54,13 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
   public checkOut = true;
   /** 同頁滑動切換 0: 原頁 1: 行政區選單 2: 縣市選單 3:愛心碼選單 4:新增地址 5: 選擇優惠券 6:寄送方式 7: 發票選取 */
   public layerTrig = 0;
+  /** 愛心碼資料 */
+  public loveCodeList = LoveCodeList;
+  /** 愛心碼文字篩選 */
+  public searchLoveCode: string;
 
-  constructor(public appService: AppService, public modal: ModalService, private router: Router, private meta: Meta, private title: Title, public callApp: AppJSInterfaceService) {
+  constructor(public appService: AppService, public modal: ModalService, private router: Router,
+              private meta: Meta, private title: Title, public callApp: AppJSInterfaceService) {
     this.title.setTitle('確定訂單｜線上商城 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! 線上商城購物車 - 確認訂單。 如果你有在 Mobii! 平台購物，這裡就會看到你的訂單訊息。請登入註冊 Mobii! 帳號以看到完整內容。' });
     this.meta.updateTag({ content: '確定訂單｜線上商城 - Mobii!', property: 'og:title' });
@@ -87,7 +92,15 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
         this.checkout = data;
         // 進入結帳頁時，如商品改變價格，則跳出提醒用戶商品價格改變
         if (data.List_PriceChange !== null) {
-          this.modal.show('message', { initialState: { success: false, message: `提醒您，${data.List_PriceChange}價格變更了！`, showType: 1, checkBtnMsg: `我知道了` } });
+          this.modal.show('message',
+            { initialState:
+              {
+                success: false,
+                message: `提醒您，${data.List_PriceChange}價格變更了！`,
+                showType: 1,
+                checkBtnMsg: `我知道了`
+              }
+            });
         }
         // 帶入會員資訊 (姓名、手機、email)
         this.info.name = this.checkout.UserInfo_Name;
@@ -213,11 +226,10 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
         }
       });
       switch (voucher.Voucher_Type) {
-        case 1: { // 依照消費金額
+        case 1: // 依照消費金額
           result = this.validVoucher(voucher, productsAmount, productsAmount, productsQTY);
           break;
-        }
-        case 2: { // 依照運費金額
+        case 2: // 依照運費金額
           if (store.order.Order_ShippingAmount > 0) {
             result = this.validVoucher(voucher, store.order.Order_ShippingAmount, productsAmount, productsQTY);
           } else {
@@ -225,11 +237,9 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
             result.message = '沒有運費需要折抵,請選擇其他優惠券';
           }
           break;
-        }
-        case 11: { // 贈品
+        case 11: // 贈品
           result = this.validVoucher(voucher, productsAmount, productsAmount, productsQTY);
           break;
-        }
       }
       if (result.success) {
         store.preVoucher = voucher;
@@ -273,11 +283,10 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
     });
 
     switch (voucher.Voucher_Type) {
-      case 1: { // 依照消費金額
+      case 1: // 依照消費金額
         result = this.validVoucher(voucher, productsAmount, productsAmount, productsQTY);
         break;
-      }
-      case 2: { // 依照運費金額(折扣後最高的運費)
+      case 2: // 依照運費金額(折扣後最高的運費)
         if (topFreightStore) {
           const discount = topFreightStore.preVoucher.Voucher_Type === 2 ? topFreightStore.preVoucher.discount : 0;
           // 要計算的金額(運費折扣後)
@@ -295,11 +304,9 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
           result.message = '沒有運費需要折抵,請選擇其他優惠券';
         }
         break;
-      }
-      case 11: { // 贈品
+      case 11: // 贈品
         result = this.validVoucher(voucher, productsAmount, productsAmount, productsQTY);
         break;
-      }
     }
     if (result.success) {
       this.info.platform.preVoucher = voucher;
@@ -367,7 +374,7 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
           // 平台優惠券的優惠金額均分給各商店(訂單)
           if (this.info.platform.preVoucher.discount > 0) {
             switch (this.info.platform.preVoucher.Voucher_Type) {
-              case 1: { // 以消費金額優惠則將折扣均分至各訂單
+              case 1: // 以消費金額優惠則將折扣均分至各訂單
                 const average = this.info.platform.preVoucher.discount / this.info.stores.length;
                 const isFloat = String(average).indexOf('.') > -1;
                 const floor = Math.floor(average);
@@ -379,12 +386,10 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
                   store.order.Order_PlatChangeAmount = changeAmount;
                 });
                 break;
-              }
-              case 2: { // 以最高運費店家再折扣
+              case 2: // 以最高運費店家再折扣
                 this.info.platform.topFreightStore.order.Order_ChangeAmount += this.info.platform.preVoucher.discount;
                 this.info.platform.topFreightStore.order.Order_ChangeShippingAmount += this.info.platform.preVoucher.discount;
                 break;
-              }
             }
             this.info.platform.voucher = JSON.parse(JSON.stringify(this.info.platform.preVoucher));
             this.info.totalDiscount += this.info.platform.preVoucher.discount;
@@ -536,7 +541,7 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
   /** 確認電子發票資料 */
   confirmInvoice(): void {
     switch (this.info.preInvoice.invoiceMode) {
-      case 2: { // 公司發票(三聯式)
+      case 2: // 公司發票(三聯式)
         if (this.info.preInvoice.invoiceTitle.trim() === '' || this.info.preInvoice.invoiceTaxID.trim() === '') {
           this.modal.show('message', { initialState: { success: false, message: '請輸入發票抬頭名稱與統一編號', showType: 1 } });
         } else {
@@ -554,27 +559,23 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
           }
         }
         break;
-      }
-      case 3: { // 捐贈發票
-        if (this.info.preInvoice.loveCode.trim() === '') {
+      case 3: // 捐贈發票
+        if (this.info.preInvoice.loveCode === '') {
           this.modal.show('message', { initialState: { success: false, message: '請輸入愛心碼', showType: 1 } });
         } else {
           this.info.invoice = this.info.preInvoice;
           // 去掉前後空白
-          this.info.invoice.loveCode = this.info.preInvoice.loveCode.trim();
           this.info.invoice.message = '發票捐贈 愛心碼:' + this.info.invoice.loveCode;
           this.layerTrig = 0;
         }
         break;
-      }
-      case 4: { // 會員載具
+      case 4: // 會員載具
         this.info.invoice = this.info.preInvoice;
         this.info.invoice.carrierType = 3;
         this.info.invoice.message = '會員載具';
         this.layerTrig = 0;
         break;
-      }
-      case 5: { // 手機載具
+      case 5: // 手機載具
         if (this.info.preInvoice.carrierCode.trim() === '') {
           this.modal.show('message', { initialState: { success: false, message: '請輸入正確的手機條碼', showType: 1 } });
         } else {
@@ -591,11 +592,9 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
           }
         }
         break;
-      }
-      default: {
+      default:
         this.modal.show('message', { initialState: { success: false, message: '請選擇您所需要的發票樣式', showType: 1 } });
         break;
-      }
     }
   }
 
@@ -604,21 +603,19 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
    */
   recalculate(type?: string): void {
     switch (type) {
-      case 'discount': { // 重計折扣
+      case 'discount': // 重計折扣
         this.discount = 0;
         this.info.stores.forEach(store => {
           this.discount += store.preVoucher.discount;
         });
         this.discount += this.info.platform.preVoucher.discount;
         break;
-      }
-      case 'freight': { // 重計運費
+      case 'freight': // 重計運費
         this.info.totalFreight = 0;
         this.info.stores.forEach(store => {
           this.info.totalFreight += store.order.Order_ShippingAmount;
         });
         break;
-      }
     }
     this.info.payment = (this.info.total + this.info.totalFreight) - this.info.totalDiscount;
   }
@@ -634,32 +631,28 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
   validVoucher(voucher: OrderVoucher, amount: number, consumeAmount: number, quantity: number): any {
     let voucherLimit: AFP_VoucherLimit; // 依照尋找的限制條件
     switch (voucher.Voucher_CheckLimit) {
-      case 1: { // 依照消費金額
+      case 1: // 依照消費金額
         voucherLimit = voucher.List_VoucherLimit
           .find(x => (consumeAmount >= x.VoucherLimit_MinUnit || x.VoucherLimit_MinUnit === -1) &&
             (consumeAmount <= x.VoucherLimit_MaxUnit || x.VoucherLimit_MaxUnit === -1));
         break;
-      }
-      case 2: { // 依照消費件數
+      case 2: // 依照消費件數
         voucherLimit = voucher.List_VoucherLimit
           .find(x => (quantity >= x.VoucherLimit_MinUnit || x.VoucherLimit_MinUnit === -1) &&
             (quantity <= x.VoucherLimit_MaxUnit || x.VoucherLimit_MaxUnit === -1));
         break;
-      }
     }
 
     let discount: number;
     if (voucherLimit) {
       if (voucher.Voucher_Type < 11) {
         switch (voucher.Voucher_FeeType) {
-          case 1: { // 依照比率
+          case 1: // 依照比率
             discount = amount - Math.round(amount * (voucherLimit.VoucherLimit_Discount / 100)); break;
-          }
-          case 2: { // 依照固定金額
+          case 2: // 依照固定金額
             discount = amount - voucherLimit.VoucherLimit_Discount; // 驗證折扣後會不會變成負向金額
             discount = (discount < 0) ? amount : voucherLimit.VoucherLimit_Discount;
             break;
-          }
         }
       } else {
         //  贈品無折扣

@@ -6,6 +6,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { Meta, Title } from '@angular/platform-browser';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-shopping-offers',
@@ -28,7 +29,7 @@ export class ShoppingOffersComponent implements OnInit {
   };
 
   constructor(public appService: AppService, private oauthService: OauthService, private cookieService: CookieService,
-              private meta: Meta, private title: Title, private modal: ModalService) {
+              private meta: Meta, private title: Title, private modal: ModalService, public router: Router) {
     this.title.setTitle('線上優惠專區 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 線上優惠專區。這裡會顯示 Mobii! 合作店家的優惠券內容，想要搶得店家的優惠，請先登入註冊 Mobii! 會員。' });
     this.meta.updateTag({ content: '線上優惠專區 - Mobii!', property: 'og:title' });

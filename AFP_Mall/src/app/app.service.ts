@@ -530,16 +530,17 @@ export class AppService {
   }
 
   /** 網頁跳轉(登入用，不會紀錄連結的歷史紀錄) */
-  jumpUrl() {
-    const uri =
-      this.oauthService.cookiesGet('fromOriginUri').cookieVal === '' ?
-      '/' : this.oauthService.cookiesGet('fromOriginUri').cookieVal;
+  jumpUrl(uri: string) {
     if (uri.startsWith('https') || uri.startsWith('http')) {
       location.replace(uri);
     } else {
-      this.router.navigate([uri], {
-        relativeTo: this.route
-      });
+      if (uri === '' || uri === 'null') {
+        this.router.navigate(['/']);
+      } else {
+        this.router.navigate([uri], {
+          relativeTo: this.route
+        });
+      }
     }
   }
 }

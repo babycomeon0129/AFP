@@ -8,6 +8,7 @@ import { NgxMasonryOptions } from 'ngx-masonry';
 import { CookieService } from 'ngx-cookie-service';
 import { Meta, Title } from '@angular/platform-browser';
 import { OauthService } from '@app/modules/oauth/oauth.service';
+import { Router } from '@angular/router';
 
 @Component({
   templateUrl: './shopping.component.html',
@@ -80,7 +81,7 @@ export class ShoppingComponent implements OnInit {
     gutter: 12
   };
 
-  constructor(public appService: AppService, private oauthService: OauthService,
+  constructor(public appService: AppService, private oauthService: OauthService, public router: Router,
               public modal: ModalService, private cookieService: CookieService, private meta: Meta, private title: Title) {
     this.title.setTitle('線上商城 - Mobii!');
     this.meta.updateTag({name : 'description', content: '來 Mobii! 線上商城購物，產品多元多樣，美食、3C、母嬰、生活百貨、美妝⋯⋯琳瑯滿目，還有限時限量折扣優惠等你來搶。Mobii! 賣的就是跟別人要不一樣！'});

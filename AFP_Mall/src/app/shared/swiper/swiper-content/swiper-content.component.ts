@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { SwiperOptions } from 'swiper';
 
 @Component({
@@ -22,6 +23,8 @@ export class SwiperContentComponent implements OnInit {
   @Input() contBackground: string;
   /** swiper初始選項 */
   @Input() swiperOption: string ;
+
+  constructor(public router: Router) {}
 
   ngOnInit() {
   }

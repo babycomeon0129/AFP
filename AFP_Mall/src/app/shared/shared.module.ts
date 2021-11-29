@@ -7,6 +7,7 @@ import { ConvertPipe } from './pipe/convert-pipe/convert.pipe';
 import { SafePipe } from './pipe/safe-pipe/safe.pipe';
 import { TextFilterPipe } from './pipe/text-filter-pipe/text-filter.pipe';
 import { LinkifyPipe } from './pipe/linkify-pipe/linkify.pipe';
+import { NullHrefPipe } from './pipe/null-href-pipe/null-href.pipe';
 // Directive
 import { DigitOnlyDirective } from './directive/digitonly-directive/digit-only.directive';
 import { KeyControllerDirective } from './directive/keycontroller-directive/key-controller.directive';
@@ -45,6 +46,7 @@ import { GoTopComponent } from './widget/go-top/go-top.component';
     SafePipe,
     ConvertPipe,
     TextFilterPipe,
+    NullHrefPipe,
     ForgetModalComponent,
     PasswordModalComponent,
     MessageModalComponent,
@@ -75,6 +77,7 @@ import { GoTopComponent } from './widget/go-top/go-top.component';
     ConvertPipe,
     TextFilterPipe,
     LinkifyPipe,
+    NullHrefPipe,
     ForgetModalComponent,
     PasswordModalComponent,
     MessageModalComponent,
