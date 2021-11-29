@@ -1,4 +1,4 @@
-export interface Donate {
+export interface LoveCode {
   id: number;
   name: string;
   code: number;
@@ -7,7 +7,7 @@ export interface Donate {
   city: string;
 }
 
-export const DonateList = [
+export const LoveCodeList = [
   {
     id: 1,
     name: '社團法人台灣原鄉智慧農業科技發展協會',

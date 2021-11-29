@@ -777,13 +777,13 @@
             <div class="input-box border-radius5 d-flex">
               <button class="btn"><i class="material-icons">&#xE8B6;</i></button>
               <input type="text" name="search"
-                [(ngModel)]="searchDonate" autocomplete="off"
+                [(ngModel)]="searchLoveCode" autocomplete="off"
                 placeholder="請搜尋關鍵字" class="border-0 w-100">
             </div>
           </div>
         </li>
         <li class="bb-line px-3 py-2"
-          *ngFor="let donate of donateList | searchFilter:searchDonate; let i = index"
+          *ngFor="let donate of loveCodeList | searchFilter:searchLoveCode; let i = index"
           (click)="info.preInvoice.loveCode=donate.code;layerTrig = 7">
           <div class="flex-inline-between">
             <div class="item">
