@@ -44,7 +44,7 @@ export class MessageModalComponent implements OnInit {
   queryParams2: object;
 
   constructor(public bsModalRef: BsModalRef, private bsModal: BsModalService,
-              private router: Router) { }
+              public router: Router) { }
 
   ngOnInit() {
   }

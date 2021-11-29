@@ -63,7 +63,7 @@ export class MemberCardComponent implements OnInit {
   /** 卡片類型名稱 */
   public userFavouriteTypeName: string;
 
-  constructor(public appService: AppService, private oauthService: OauthService, public modal: ModalService, private router: Router,
+  constructor(public appService: AppService, private oauthService: OauthService, public modal: ModalService, public router: Router,
               private route: ActivatedRoute, private meta: Meta, private title: Title, private callApp: AppJSInterfaceService) {
     this.title.setTitle('我的卡片 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 我的卡片。你可以新增信用卡、悠遊卡或一卡通等卡片，並在 Mobii! APP 或網頁上，使用這些卡片來購物、支付或乘車。' });

@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
   };
 
   constructor(public appService: AppService, public oauthService: OauthService, private callApp: AppJSInterfaceService,
-              private router: Router, private modal: ModalService, private route: ActivatedRoute, public location: Location,
+              public router: Router, private modal: ModalService, private route: ActivatedRoute, public location: Location,
               public memberService: MemberService, private cookieService: CookieService) {
   }
 

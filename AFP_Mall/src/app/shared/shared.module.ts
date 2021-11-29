@@ -7,6 +7,7 @@ import { ConvertPipe } from './pipe/convert-pipe/convert.pipe';
 import { SafePipe } from './pipe/safe-pipe/safe.pipe';
 import { TextFilterPipe } from './pipe/text-filter-pipe/text-filter.pipe';
 import { LinkifyPipe } from './pipe/linkify-pipe/linkify.pipe';
+import { SearchFilterPipe } from './pipe/search-filter-pipe/search-filter.pipe';
 import { NullHrefPipe } from './pipe/null-href-pipe/null-href.pipe';
 // Directive
 import { DigitOnlyDirective } from './directive/digitonly-directive/digit-only.directive';
@@ -70,7 +71,8 @@ import { GoTopComponent } from './widget/go-top/go-top.component';
     IndexHeaderComponent,
     MPointComponent,
     LinkifyPipe,
-    GoTopComponent
+    GoTopComponent,
+    SearchFilterPipe
   ],
   exports: [
     SafePipe,
@@ -100,7 +102,8 @@ import { GoTopComponent } from './widget/go-top/go-top.component';
     SwiperNavComponent,
     SwiperPanesComponent,
     MPointComponent,
-    GoTopComponent
+    GoTopComponent,
+    SearchFilterPipe
   ],
   imports: [
     CommonModule,
