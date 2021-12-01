@@ -1,9 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Pipe({
   name: 'nullHref'
 })
 export class NullHrefPipe implements PipeTransform {
+
+  constructor(private sanitizer: DomSanitizer) {}
   /** a連結
    * @param url 連結路徑
    * @param page 當下所在頁面
@@ -11,14 +14,14 @@ export class NullHrefPipe implements PipeTransform {
    */
   transform(url: string, page: string): any {
     switch (url) {
-      case '':
       case null:
+      case '':
       case 'null':
         // 避免404，a連結需無反應
-        return '#';
+        return this.sanitizer.bypassSecurityTrustUrl('javascript:;');
       case '/':
         // 當前頁若為首頁，a連結需無反應
-        return (page === '/') ? '#' : '/';
+        return (page === '/') ? this.sanitizer.bypassSecurityTrustUrl('javascript:;') : '/';
       default:
         return url;
     }
