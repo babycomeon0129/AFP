@@ -40,7 +40,7 @@
         <div class="carousel-inner">
           <a *ngFor="let ad of adTop; let First = first"
             [href]="ad?.ADImg_URL | nullHref : router.url"
-            [target]="(ad?.ADImg_URL==='/' || ad?.ADImg_URL==='#' ||  ad?.ADImg_URL==='' || ad?.ADImg_URL===null) ? '_self' : ad?.ADImg_URLTarget"
+            [target]="ad?.ADImg_URLTarget | nullTarget : ad?.ADImg_URL : router.url"
             rel="noopener noreferrer" [ngClass]="{'active': First}" class="carousel-item">
             <img [src]="ad?.ADImg_Img" class="d-block w-100" alt="">
           </a>
@@ -299,7 +299,7 @@
         <div class="swiper-wrapper">
           <div class="swiper-slide" *ngFor="let ad of adIndex">
             <a [href]="ad?.ADImg_URL | nullHref : router.url"
-              [target]="(ad?.ADImg_URL==='/' || ad?.ADImg_URL==='#' ||  ad?.ADImg_URL==='' || ad?.ADImg_URL===null) ? '_self' : ad?.ADImg_URLTarget" rel="noopener noreferrer">
+              [target]="ad?.ADImg_URLTarget | nullTarget : ad?.ADImg_URL : router.url" rel="noopener noreferrer">
               <img src="{{ad.ADImg_Img}}">
             </a>
           </div>
