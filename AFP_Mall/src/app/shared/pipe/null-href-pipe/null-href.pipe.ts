@@ -12,6 +12,7 @@ export class NullHrefPipe implements PipeTransform {
   transform(url: string, page: string): any {
     switch (url) {
       case '':
+      case null:
       case 'null':
         // 避免404，a連結需無反應
         return '#';
