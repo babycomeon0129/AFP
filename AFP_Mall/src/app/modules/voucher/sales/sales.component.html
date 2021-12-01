@@ -25,7 +25,7 @@
       <swiper class="shoppingkv swiper-container" [config]="adTop">
         <div class="swiper-wrapper">
           <div *ngFor="let ad of adTopList" class="swiper-slide">
-            <a [href]="ad?.ADImg_URL | nullHref : router.url" [target]="ad?.ADImg_URLTarget" rel="noopener noreferrer">
+            <a [href]="ad?.ADImg_URL | nullHref : router.url" [target]="(ad?.ADImg_URL==='' || ad?.ADImg_URL==='#') ? '_self' : ad?.ADImg_URLTarget" rel="noopener noreferrer">
               <div [lazyLoad]="ad?.ADImg_Img" [defaultImage]="appService.defaultImage" class="kvbn-img"></div>
             </a>
           </div>

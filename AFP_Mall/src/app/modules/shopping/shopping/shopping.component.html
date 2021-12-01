@@ -28,7 +28,7 @@
       <swiper class="shoppingkv swiper-container" [config]="shoppingAdTop">
         <div class="swiper-wrapper">
           <a *ngFor="let ad of adImgTop;" class="swiper-slide"
-            [href]="ad?.ADImg_URL | nullHref : router.url" [target]="ad?.ADImg_URLTarget" rel="noopener noreferrer">
+            [href]="ad?.ADImg_URL | nullHref : router.url" [target]="(ad?.ADImg_URL==='' || ad?.ADImg_URL==='#') ? '_self' : ad?.ADImg_URLTarget" rel="noopener noreferrer">
             <div [lazyLoad]="ad?.ADImg_Img" [defaultImage]="appService.defaultImage" class="kvbn-img"></div>
           </a>
         </div>
@@ -53,7 +53,7 @@
       <swiper class="shopping-banner swiper-container" [config]="shoppingAd">
         <div class="swiper-wrapper">
           <a *ngFor="let ad of adImgActivity" class="swiper-slide"
-            [href]="ad?.ADImg_URL | nullHref : router.url" [target]="ad?.ADImg_URLTarget" rel="noopener noreferrer">
+            [href]="ad?.ADImg_URL | nullHref : router.url" [target]="(ad?.ADImg_URL==='' || ad?.ADImg_URL==='#') ? '_self' : ad?.ADImg_URLTarget" rel="noopener noreferrer">
             <div class="shopping-bn-imgbox">
               <div class="rwdimg-cover h37" [lazyLoad]="ad?.ADImg_Img" [defaultImage]="appService.defaultImage"></div>
             </div>
