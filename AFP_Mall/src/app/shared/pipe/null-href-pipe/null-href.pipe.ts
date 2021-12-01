@@ -14,6 +14,7 @@ export class NullHrefPipe implements PipeTransform {
       case 'null':
         // 避免404，a連結需無反應
         return '#';
+      case '':
       case '/':
         // 當前頁若為首頁，a連結需無反應
         return (page === '/') ? '#' : '/';
