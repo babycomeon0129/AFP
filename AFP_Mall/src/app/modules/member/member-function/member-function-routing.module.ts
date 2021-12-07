@@ -7,6 +7,7 @@ import { MemberCardComponent } from './member-card/member-card.component';
 import { MemberCardDetailComponent } from './member-card-detail/member-card-detail.component';
 import { MemberTicketComponent } from './member-ticket/member-ticket.component';
 import { MemberCoinComponent } from './member-coin/member-coin.component';
+import { CoinHistoryListComponent } from './coin-history-list/coin-history-list.component';
 import { MemberDiscountComponent } from './member-discount/member-discount.component';
 import { MemberFavoriteComponent } from './member-favorite/member-favorite.component';
 import { MemberOrderComponent } from './member-order/member-order.component';
@@ -20,7 +21,8 @@ const routes: Routes = [
   { path: 'MemberCardDetail/:UserFavourite_ID/:UserFavourite_TypeCode',
   component: MemberCardDetailComponent},
   { path: 'MemberTicket', component: MemberTicketComponent},
-  { path: 'MemberCoin', component: MemberCoinComponent},
+  { path: 'MemberCoin', component: MemberCoinComponent, data: {animation: 'MemberCoin'}},
+  { path: 'CoinHistoryList', component: CoinHistoryListComponent, data: {animation: 'CoinHistoryList'}},
   { path: 'MemberDiscount', component: MemberDiscountComponent, data: {animation: 'MemberDiscount'}},
   { path: 'MemberFavorite', component: MemberFavoriteComponent, data: {animation: 'MemberFavorite'}},
   { path: 'MemberOrder', component: MemberOrderComponent, data: {animation: 'MemberOrder'}},

@@ -7,7 +7,6 @@ import { catchError, map, retry } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { MessageModalComponent } from '@app/shared/modal/message-modal/message-modal.component';
-import { Response_APIModel } from '@app/_models';
 
 declare var AppJSInterface: any;
 @Injectable({
