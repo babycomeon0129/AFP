@@ -41,24 +41,6 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire';
 
 
-// 第三方登入 config
-// export function provideConfig() {
-//   const config = new AuthServiceConfig([
-//     {
-//       id: GoogleLoginProvider.PROVIDER_ID,
-//       provider: new GoogleLoginProvider(environment.GoogleApiKey),
-//       lazyLoad: true
-//     },
-//     {
-//       id: FacebookLoginProvider.PROVIDER_ID,
-//       provider: new FacebookLoginProvider(environment.FBApiKey),
-//       lazyLoad: true
-//     }
-//   ]);
-
-//   return config;
-// }
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -123,7 +105,8 @@ import { AngularFireModule } from '@angular/fire';
     //   useFactory: provideConfig
     // },
     // MessageModalComponent,
-    CookieService
+    CookieService,
+    { provide: 'googleTagManagerId', useValue: environment.GA }
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

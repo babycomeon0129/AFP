@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from '@app/app.service';
-import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Model_ShareData } from '@app/_models';
 import { NgForm } from '@angular/forms';
 import { ModalService } from '@app/shared/modal/modal.service';
@@ -22,7 +21,7 @@ export class PasswordUpdateComponent implements OnInit {
   /** 新密碼2是否可見 */
   public newPsw2Visible = false;
 
-  constructor(public appService: AppService, private oauthService: OauthService, public modal: ModalService, private location: Location,
+  constructor(public appService: AppService, public modal: ModalService, private location: Location,
               private meta: Meta, private title: Title) {
     this.title.setTitle('變更密碼 - Mobii!');
     this.meta.updateTag({ name: 'description', content: '' });

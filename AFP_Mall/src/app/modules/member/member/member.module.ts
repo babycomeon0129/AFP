@@ -18,7 +18,6 @@ import { MyProfileComponent } from './my-profile/my-profile.component';
 import { CellVerificationComponent } from './cell-verification/cell-verification.component';
 import { MyAddressComponent } from './my-address/my-address.component';
 import { MyPaymentComponent } from './my-payment/my-payment.component';
-import { ThirdBindingComponent } from './third-binding/third-binding.component';
 import { PasswordUpdateComponent } from './password-update/password-update.component';
 
 
@@ -31,8 +30,7 @@ import { PasswordUpdateComponent } from './password-update/password-update.compo
     CellVerificationComponent,
     MyAddressComponent,
     PasswordUpdateComponent,
-    MyPaymentComponent,
-    ThirdBindingComponent,
+    MyPaymentComponent
   ],
   exports: [
     HomeComponent,
@@ -41,8 +39,7 @@ import { PasswordUpdateComponent } from './password-update/password-update.compo
     CellVerificationComponent,
     MyAddressComponent,
     PasswordUpdateComponent,
-    MyPaymentComponent,
-    ThirdBindingComponent,
+    MyPaymentComponent
   ],
   imports: [
     CommonModule,

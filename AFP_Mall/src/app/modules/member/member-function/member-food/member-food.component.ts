@@ -3,7 +3,6 @@ import { Model_ShareData } from '@app/_models';
 import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Meta, Title } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-member-food',
@@ -16,7 +15,7 @@ export class MemberFoodComponent implements OnInit {
 
 
   constructor(public appService: AppService, private oauthService: OauthService,
-              private meta: Meta, private title: Title, private route: ActivatedRoute) {
+              private meta: Meta, private title: Title) {
     this.title.setTitle('我的點餐 - Mobii!');
     this.meta.updateTag({ name: 'description', content: '' });
     this.meta.updateTag({ content: '我的點餐 - Mobii!', property: 'og:title' });

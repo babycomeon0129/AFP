@@ -1,16 +1,14 @@
 import { Location } from '@angular/common';
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
+import { layerAnimation, layerAnimationUp } from '@app/animations';
 import { AppService } from '@app/app.service';
 import {
-  AFP_VouFlashSale, Request_ECVouFlashSale, Response_ECVouFlashSale,
-  AFP_ChannelVoucher, AFP_Voucher, Model_DictionaryShort
+  AFP_ChannelVoucher, AFP_Voucher, AFP_VouFlashSale, Model_DictionaryShort, Request_ECVouFlashSale, Response_ECVouFlashSale
 } from '@app/_models';
-import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'ngx-useful-swiper';
-import { ActivatedRoute } from '@angular/router';
-import { Meta, Title } from '@angular/platform-browser';
-import { ModalService } from '@app/shared/modal/modal.service';
-import { layerAnimation, layerAnimationUp } from '@app/animations';
+import { SwiperOptions } from 'swiper';
 
 @Component({
   selector: 'app-offers',
@@ -85,7 +83,7 @@ export class OffersComponent implements OnInit, OnDestroy {
   };
 
   constructor(public appService: AppService, private activatedRoute: ActivatedRoute,
-    private meta: Meta, private title: Title, private modal: ModalService, public location: Location) {
+    private meta: Meta, private title: Title, public location: Location) {
     this.title.setTitle('找優惠 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 找優惠。這裡會顯示 Mobii! 合作店家的優惠券，吃喝玩樂、食衣住行，你想得到、想不到的，都在 Mobii! 找優惠裡！' });
     this.meta.updateTag({ content: '找優惠 - Mobii!', property: 'og:title' });
