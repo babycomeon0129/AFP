@@ -168,8 +168,8 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /** 「艾斯身份識別_登入1-3」點擊登入註冊按鈕FORM POST給艾斯識別(M_upgrade:1 代表不再顯示公告頁) */
   onLoginEyes() {
-    /** 「艾斯身份識別_登入1-3」點擊登入註冊按鈕FORM POST給艾斯識別(M_upgrade:1 代表不再顯示公告頁) */
     this.oauthService.cookiesSet({
       upgrade: '1',
       page: location.href
@@ -177,6 +177,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
   }
 
+  /** 「艾斯身份識別_登入4-1-2」等待form渲染後，再至艾斯登入 */
   delaySubmit() {
     return new Promise(() => {
       setTimeout(() => {
