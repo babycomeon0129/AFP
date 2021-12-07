@@ -85,7 +85,7 @@ footer.for-pc{
   display: inline-block;
   bottom: 0;
   clear:both;
-  height: 170px;
+  min-height: 170px;
   @media (max-width: 767px) {
     display: none;
   }
