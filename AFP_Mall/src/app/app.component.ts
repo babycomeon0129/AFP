@@ -1,15 +1,15 @@
 import { environment } from '@env/environment';
 import { Component, DoCheck, KeyValueDiffer, KeyValueDiffers, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute, ResolveEnd } from '@angular/router';
+import { Router, ActivatedRoute, ResolveEnd, RouterOutlet } from '@angular/router';
 import { AppJSInterfaceService } from './app-jsinterface.service';
 import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { CookieService } from 'ngx-cookie-service';
-import { RouterOutlet } from '@angular/router';
 import { slideInAnimation } from './animations';
 import { filter } from 'rxjs/operators';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { GoogleTagManagerService } from 'angular-google-tag-manager';
 
 @Component({
   selector: 'body',
@@ -33,7 +33,7 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
 
   constructor(private router: Router, public appService: AppService, private activatedRoute: ActivatedRoute, public modal: ModalService,
               public cookieService: CookieService, private differs: KeyValueDiffers, private callApp: AppJSInterfaceService,
-              public oauthService: OauthService, public bsModalService: BsModalService) {
+              public oauthService: OauthService, public bsModalService: BsModalService, private gtmService: GoogleTagManagerService) {
     this.serviceDiffer = this.differs.find({}).create();
 
     // App訪問
@@ -120,6 +120,12 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
           this.callApp.appShowMobileFooter(false);
         }
         this.appService.prevUrl = event.url;  // 取得前一頁面url
+        // 追蹤每個頁面資訊，推送給GA
+        const gtmTag = {
+          event: 'page',
+          pageName: event.url
+        };
+        this.gtmService.pushTag(gtmTag);
       });
     this.detectOld();
     // this.appService.initPush();
@@ -140,8 +146,7 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
     const versionDate = new Date(environment.versionDate);
     this.enVersion =
       'Ver.' + environment.version + '_' +
-      ('0' + (versionDate.getMonth() + 1)).slice(-2) +
-      String(versionDate.getDate()).padStart(2, '0') + ' | ' +
+      (versionDate.getMonth() + 1) + versionDate.getDate() + ' | ' +
       versionDate.toLocaleString();
   }
 

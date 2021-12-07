@@ -5,8 +5,6 @@ import { Request_MemberMsg, Response_MemberMsg, AFP_MemberMsgTitle, AFP_IMessage
 import { Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 import { layerAnimation } from '@app/animations';
-import { CookieService } from 'ngx-cookie-service';
-import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-notification',
@@ -31,7 +29,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
   public JustKaUrl = '';
 
   constructor(public appService: AppService, private oauthService: OauthService, private router: Router,
-              private meta: Meta, private title: Title, private cookieService: CookieService) {
+              private meta: Meta, private title: Title) {
     this.title.setTitle('通知 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 通知。如果你在 Mobii! 平台上購物，通知則會顯示你的訂單相關進度，包括商品的出貨狀態、送貨狀態。或者如果有未解的任務，Mobii! 平台亦會透過通知來提醒使用者相關訊息。' });
     this.meta.updateTag({ content: '通知 - Mobii!', property: 'og:title' });

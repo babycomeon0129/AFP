@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Request_MemberUserVoucher, AFP_Voucher, Model_DictionaryShort, Response_MemberUserVoucher } from '@app/_models';
 import { AppService } from '@app/app.service';
-import { OauthService } from '@app/modules/oauth/oauth.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
@@ -47,8 +46,7 @@ export class MemberDiscountComponent implements OnInit {
   /** 同頁滑動切換 0:本頁 1:排序清單 */
   public layerTrig = 0;
 
-  constructor(public appService: AppService, private oauthService: OauthService,
-              public modal: ModalService, public router: Router, private route: ActivatedRoute,
+  constructor(public appService: AppService, public modal: ModalService, public router: Router, private route: ActivatedRoute,
               private meta: Meta, private title: Title) {
     this.title.setTitle('我的優惠券 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 我的優惠券。這裡會顯示 Mobii! 用戶領取的優惠券細節，店家、景點優惠券可以在 Mobii! APP首頁的找優惠發掘店家的優惠。' });

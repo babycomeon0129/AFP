@@ -1,7 +1,6 @@
-import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { AppService } from '@app/app.service';
 
 @Component({
   selector: 'app-verify-mobile-modal',
@@ -12,7 +11,7 @@ export class VerifyMobileModalComponent implements OnInit {
   /** 是否強制手機驗證 */
   public forceVerify = false;
 
-  constructor(public bsModalRef: BsModalRef, private router: Router, private appService: AppService) { }
+  constructor(public bsModalRef: BsModalRef, private router: Router) { }
 
   ngOnInit() {
   }

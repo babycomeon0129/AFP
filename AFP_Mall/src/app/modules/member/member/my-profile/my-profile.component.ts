@@ -1,5 +1,4 @@
 import { OauthService } from '@app/modules/oauth/oauth.service';
-import { CookieService } from 'ngx-cookie-service';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AppService } from '@app/app.service';

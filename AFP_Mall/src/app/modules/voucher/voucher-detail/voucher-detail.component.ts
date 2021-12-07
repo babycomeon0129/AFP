@@ -1,15 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import {
-  Model_ShareData, AFP_Voucher, AFP_UserVoucher, AFP_ECStore, Request_MemberUserVoucher,
-  Response_MemberUserVoucher, Request_MemberCheckStatus, Response_MemberCheckStatus
-} from '@app/_models';
-import { AppService } from '@app/app.service';
-import { OauthService } from '@app/modules/oauth/oauth.service';
-import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
-import { ModalService } from '@app/shared/modal/modal.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { layerAnimation } from '@app/animations';
 import { AppJSInterfaceService } from '@app/app-jsinterface.service';
+import { AppService } from '@app/app.service';
+import { ModalService } from '@app/shared/modal/modal.service';
+import { AFP_ECStore, AFP_UserVoucher, AFP_Voucher, Model_ShareData, Request_MemberCheckStatus, Request_MemberUserVoucher, Response_MemberCheckStatus, Response_MemberUserVoucher } from '@app/_models';
 
 @Component({
   selector: 'app-voucher-detail',
@@ -47,14 +43,10 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
   /** 同頁滑動切換 0:本頁 1:使用優惠券 */
   public layerTrig = 0;
 
-  constructor(public appService: AppService, private oauthService: OauthService, private route: ActivatedRoute, private router: Router,
+  constructor(public appService: AppService, private route: ActivatedRoute, private router: Router,
               public modal: ModalService, private meta: Meta, private title: Title, private callApp: AppJSInterfaceService) {
     this.voucherCode = this.route.snapshot.params.Voucher_Code;
-    if (this.voucherCode.toString().substring(0, 2) === '46') {
-      this.selectMode = 4;
-    } else {
-      this.selectMode = 5;
-    }
+    this.selectMode = this.voucherCode.toString().substring(0, 2) === '46' ? 4 : 5 ;
   }
 
   ngOnInit() {

@@ -5,8 +5,7 @@ import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'ngx-useful-swiper';
 import { AgmMap } from '@agm/core';
 import { ModalService } from '@app/shared/modal/modal.service';
-import { BsModalRef } from 'ngx-bootstrap/modal';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   // selector: 'app-explore-map',
@@ -54,7 +53,7 @@ export class ExploreMapComponent implements OnInit {
     }
   };
 
-  constructor(public appService: AppService, private modal: ModalService, private bsModalRef: BsModalRef, private route: ActivatedRoute) {
+  constructor(public appService: AppService, private modal: ModalService, private route: ActivatedRoute) {
     // 先抓網址傳參是否有目錄編碼，如果沒有則預設為0
     this.areaMenuCode = this.route.snapshot.queryParams.areaMenuCode === undefined ? 0 : Number(this.route.snapshot.queryParams.areaMenuCode);
   }

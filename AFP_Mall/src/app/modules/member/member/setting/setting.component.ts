@@ -1,14 +1,10 @@
 import { CookieService } from 'ngx-cookie-service';
 import { Component, OnInit } from '@angular/core';
 import { AppService } from '@app/app.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Meta, Title } from '@angular/platform-browser';
-import { OauthService, ResponseOauthApi } from '@app/modules/oauth/oauth.service';
-import { MessageModalComponent } from '@app/shared/modal/message-modal/message-modal.component';
-import { BsModalService } from 'ngx-bootstrap/modal';
-// APP的Interface
-declare var BindingSocialJSInterface: any;
+import { OauthService } from '@app/modules/oauth/oauth.service';
 
 @Component({
   selector: 'app-setting',
@@ -17,7 +13,7 @@ declare var BindingSocialJSInterface: any;
 })
 export class SettingComponent implements OnInit {
 
-  constructor(public appService: AppService, public route: ActivatedRoute, public location: Location, private router: Router,
+  constructor(public appService: AppService, public route: ActivatedRoute, public location: Location,
               private meta: Meta, private title: Title, private oauthService: OauthService, public cookieService: CookieService) {
     this.title.setTitle('帳號設定 - Mobii!');
     this.meta.updateTag({ name: 'description', content: '' });

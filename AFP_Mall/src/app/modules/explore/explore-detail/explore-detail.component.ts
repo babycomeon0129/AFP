@@ -1,6 +1,5 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { AppService } from '@app/app.service';
-import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Response_AreaDetail, AFP_ECStore, Model_ShareData, AFP_Voucher, AFP_Product, AFP_ECStoreLink } from '@app/_models';
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'ngx-useful-swiper';
@@ -69,8 +68,7 @@ export class ExploreDetailComponent implements OnInit {
   /** 同頁滑動切換 0:本頁 1:篩選清單 2:篩選-商品分類 3:更多推薦 */
   public layerTrig = 0;
 
-  constructor(public appService: AppService, private oauthService: OauthService,
-              private route: ActivatedRoute, private modal: ModalService,
+  constructor(public appService: AppService, private route: ActivatedRoute, private modal: ModalService,
               private meta: Meta, private title: Title ) {
     // 取得商家/景點編碼
     this.siteCode = Number(this.route.snapshot.params.ECStore_Code);

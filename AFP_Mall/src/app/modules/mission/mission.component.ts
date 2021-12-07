@@ -5,7 +5,6 @@ import { OauthService } from '@app/modules/oauth/oauth.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
-import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-mission',
@@ -25,12 +24,11 @@ export class MissionComponent implements OnInit {
   public listMission: AFP_Mission[] = [];
   /** 每日任務未完成數 */
   public dailyLeft = 0;
-  /** 第三方登入 (目前僅適用於Line) */
 
 
   constructor(public appService: AppService, public oauthService: OauthService,
               public modal: ModalService, private router: Router, private route: ActivatedRoute,
-              private meta: Meta, private title: Title, private cookieService: CookieService) {
+              private meta: Meta, private title: Title) {
     this.title.setTitle('任務 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 任務。這裡會顯示 Mobii! 用戶在 Mobii! 平台上的任務，包括每日登入、每日遊戲可以拿回饋點數 M Points，三不五時會更換使用者要完成的任務。請先登入註冊以開啟功能。' });
     this.meta.updateTag({ content: '任務 - Mobii!', property: 'og:title' });

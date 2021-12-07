@@ -8,6 +8,7 @@ export const environment = {
   GoogleApiKey: '260499247538-ctoucp9t09ufdpgqmd4ac368lfpgmorm.apps.googleusercontent.com',
   cookieDomain: '.mobii.ai',
   cookieSecure: true,
+  GA: 'GTM-N22PP3B',
   /** Apple登入redirectURI */
   AppleSignInURI: 'https://www-uat.mobii.ai',
   /** 是否啟用 service worker（for 推播服務） */

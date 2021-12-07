@@ -1,15 +1,13 @@
-import { environment } from '@env/environment';
 import { Component, OnInit } from '@angular/core';
-import { AppService } from '@app/app.service';
-import { ModalService } from '@app/shared/modal/modal.service';
-import { Router } from '@angular/router';
-import { Model_ShareData, AFP_CSPayment, AFP_UserFavourite, OrderInvoice } from '@app/_models';
 import { NgForm } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
-import { layerAnimation} from '@app/animations';
-import { HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { layerAnimation } from '@app/animations';
+import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
-declare var $: any;
+import { ModalService } from '@app/shared/modal/modal.service';
+import { AFP_CSPayment, AFP_UserFavourite, Model_ShareData, OrderInvoice } from '@app/_models';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-shopping-payment',

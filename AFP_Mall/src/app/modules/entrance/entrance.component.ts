@@ -10,8 +10,6 @@ import {
   AFP_ChannelVoucher, AFP_Product, Request_ECHome, Response_ECHome } from '@app/_models';
 import { SwiperOptions } from 'swiper';
 import { Router, ActivatedRoute } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
-import { environment } from '@env/environment';
 import { Meta, Title } from '@angular/platform-browser';
 import { SortablejsOptions } from 'ngx-sortablejs';
 import { layerAnimation } from '@app/animations';
@@ -279,7 +277,7 @@ export class EntranceComponent implements OnInit {
   public closeMsg = false;
 
   constructor(public appService: AppService, public bsModalRef: BsModalRef, public modal: ModalService,
-              public router: Router, private meta: Meta, private title: Title, private cookieService: CookieService,
+              public router: Router, private meta: Meta, private title: Title,
               public route: ActivatedRoute, private renderer2: Renderer2, private oauthService: OauthService) {
     this.title.setTitle('Mobii!｜綠色城市優惠平台');
     this.meta.updateTag({ name: 'description', content: '使用 Mobii! APP，讓你的移動總是驚喜。乘車、購物、美食、景點、旅行資訊全都包，使用就享點數回饋，每日登入再領 M Points，會員再享獨家彩蛋大禮包。先下載 Mobii APP 看看裡面有什麼好玩的吧？' });

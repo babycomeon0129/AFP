@@ -1,8 +1,7 @@
-import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Router } from '@angular/router';
-import { AFP_ADImg, AFP_VerifiedInfo } from '@app/_models';
+import { AFP_ADImg } from '@app/_models';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-message-modal',
@@ -43,8 +42,7 @@ export class MessageModalComponent implements OnInit {
   /** 網址傳參2 (連結跳轉須加上參數時使用，預設為雙顆按鈕時右邊按鈕的傳參) */
   queryParams2: object;
 
-  constructor(public bsModalRef: BsModalRef, private bsModal: BsModalService,
-              public router: Router) { }
+  constructor(public bsModalRef: BsModalRef, public router: Router) { }
 
   ngOnInit() {
   }

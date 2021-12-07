@@ -2,14 +2,12 @@ import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppService } from '@app/app.service';
-import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Request_AFPVerifyCode, Response_AFPVerifyCode } from '@app/_models';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { MemberService } from '@app/modules/member/member.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { layerAnimation } from '@app/animations';
 import { Meta, Title } from '@angular/platform-browser';
-import { BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-cell-verification',
@@ -36,7 +34,7 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
   /** 是否因強制驗證被導至此 */
   public toVerifyCell = false;
 
-  constructor(public appService: AppService, private oauthService: OauthService, private activatedRoute: ActivatedRoute,
+  constructor(public appService: AppService, private activatedRoute: ActivatedRoute,
               public memberService: MemberService, private modal: ModalService,
               public router: Router, private meta: Meta, private title: Title, public location: Location) {
     this.title.setTitle('手機驗證 - Mobii!');
