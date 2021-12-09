@@ -1,19 +1,18 @@
 
-import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
+import { layerAnimation } from '@app/animations';
 import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import {
-  Response_Home, AFP_ADImg, Model_AreaJsonFile, AFP_Function, Model_TravelJsonFile,
-  Model_ShareData, AFP_UserFavourite, Request_Home, AFP_ChannelProduct,
-  AFP_ChannelVoucher, AFP_Product, Request_ECHome, Response_ECHome } from '@app/_models';
-import { SwiperOptions } from 'swiper';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Meta, Title } from '@angular/platform-browser';
-import { SortablejsOptions } from 'ngx-sortablejs';
-import { layerAnimation } from '@app/animations';
+  AFP_ADImg, AFP_ChannelProduct,
+  AFP_ChannelVoucher, AFP_Function, AFP_Product, AFP_UserFavourite, Model_AreaJsonFile, Model_ShareData, Model_TravelJsonFile, Request_ECHome, Request_Home, Response_ECHome, Response_Home
+} from '@app/_models';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { NgxMasonryOptions } from 'ngx-masonry';
+import { SwiperOptions } from 'swiper';
 
 
 @Component({
@@ -216,55 +215,16 @@ export class EntranceComponent implements OnInit {
   public currentPage = 1;
   /** 目前頁數熱門商品瀑布流總頁數 */
   public totalPage: number;
-  /** 使用者服務-桌面版 */
-  public ft: AFP_Function[] = [];
-  /** 使用者服務-手機版上排 */
+  /** 使用者服務 */
   public ftTop: AFP_Function[] = [];
-  /** 使用者服務-手機版下排(原始) */
-  public ftBottom_org: AFP_Function[] = [];
-  /** 使用者服務-手機版下排 */
-  public ftBottom: AFP_Function[] = [];
-  /** 我的服務編輯狀態 */
-  public editFunction = false;
   /** 我的服務-所有服務清單 */
   public serviceList: AFP_NewFunction[] = [];
-  /** 我的服務-數量提醒最少4個 */
-  public noticeFour = false;
-  /** 我的服務-數量提醒最多9個 */
-  public noticeNine = false;
   /** 特賣商品 */
   public popProducts: AFP_ChannelProduct[] = [];
   /** 使用者擁有點數 */
   public userPoint: number;
   /** 使用者擁有優惠券數量 */
   public userVoucherCount: number;
-  /** 我的服務: 判斷是否被拖曳 */
-  public isMove = false;
-  /** 我的服務:拖曳功能options */
-  public options: SortablejsOptions = {
-    disabled: true,
-    handle: '#myService',
-    draggable: '.mysvc',
-    group: '.mysvc',
-    onStart: (evt) => {
-      evt.preventDefault();
-      evt.stopPropagation();
-    },
-    onMove: (evt) => {
-      evt.preventDefault();
-      evt.stopPropagation();
-      this.isMove = true;
-    },
-    onEnd: (evt) => {
-      evt.preventDefault();
-      evt.stopPropagation();
-      const code: number = parseInt(evt.item.dataset.code, 10);
-      const cat: number = parseInt(typeof evt.item.dataset.cat, 10);
-      const act: boolean = evt.item.dataset.cat === '1' ? true : false;
-      this.serviceClick(code, cat, act);
-      this.isMove = false;
-    }
-  };
   /** 關閉下載APP動畫控制 */
   public animationMoveUpOut = false;
   /** 當前所選本月旅遊主打頁籤索引 */
@@ -437,18 +397,6 @@ export class EntranceComponent implements OnInit {
     this.router.navigate(['/Voucher/Offers'], { queryParams: { search: searchText } });
   }
 
-  /** 我的服務編輯模式開啟 */
-  editOpen(): void {
-    this.editFunction = true;
-    this.options = { disabled: false };
-  }
-
-  /** 我的服務編輯模式關閉 */
-  editClose(): void {
-    this.editFunction = false;
-    this.options = { disabled: true };
-    this.ftBottom = this.ftBottom_org.concat();
-  }
 
   /** 首頁我的服務 */
   getHomeservice(): void {
@@ -459,95 +407,21 @@ export class EntranceComponent implements OnInit {
     };
 
     this.appService.toApi('Home', '1110', request).subscribe((data: Response_AFPUserService) => {
+      console.log(data);
       this.ftTop = data.List_NewFunction[0].Model_Function;
-      this.ftBottom_org = data.List_NewFunction[1].Model_Function;
-      this.ftBottom = this.ftBottom_org.concat();
-      this.ft = this.ftTop.concat(this.ftBottom);
-      this.serviceList = data.List_NewFunction.filter((item, index) => index > 1);
-      // 根據我的服務清單，修改下面更多服務的class狀態
-      const select = this.ftBottom.map(item => item.Function_Code);
-      this.serviceList.forEach(item => {
-        item.Model_Function.forEach(icon => {
-          if (select.findIndex(i => icon.Function_Code === i) === -1) {
-            icon.isAdd = true;
-          }
-        });
-      });
+      this.serviceList = data.List_NewFunction.filter((item, index) => index > 0);
 
       //  網頁不顯示app呼叫
       if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        this.ft.every((value, index) => {
+        this.ftTop.every((value, index) => {
           if (value.Function_URLTarget === '_app') {
-            this.ft.splice(index, 1);
+            this.ftTop.splice(index, 1);
             return false;
           }
           return true;
         });
       }
     });
-  }
-
-  /** 更多服務按鈕增減
-   * @param code function code
-   * @param cat  分類編碼
-   * @param action icon是否有效(如果純上架但無效，action = 0)
-   */
-  serviceClick(code: number, cat: number, action: boolean): void {
-    if (this.editFunction && action) {
-      this.noticeNine = this.ftBottom.length === 9;
-      this.noticeFour = this.ftBottom.length === 4;
-      // 判斷被點擊的ICON是否已經在我的服務內
-      const result = this.ftBottom.findIndex(item => item.Function_Code === code);
-      if (result > -1) {
-        // 已經在我的服務內，就將這個ICON移出我的服務
-        if (this.ftBottom.length > 4 && !this.isMove) {
-          this.ftBottom.splice(result, 1);
-          // 根據我的服務清單，修改下面更多服務的class狀態
-          this.serviceList.filter(item => item.CategaryCode === cat)[0].Model_Function.forEach(icon => {
-            if (icon.Function_Code === code) {
-              icon.isAdd = true;
-            }
-          });
-          this.noticeNine = false;
-        }
-      } else {
-        // 不在我的服務內，就在我的服務增加這個ICON
-        if (this.ftBottom.length < 9) {
-          const add = this.serviceList.filter(item => item.CategaryCode === cat)
-            .map(item => item.Model_Function)[0]
-            .filter(item => item.Function_Code === code)[0];
-          this.ftBottom.push(add);
-          // 根據我的服務清單，修改下面更多服務的class狀態
-          this.serviceList.filter(item => item.CategaryCode === cat)[0].Model_Function.forEach(icon => {
-            if (icon.Function_Code === code) {
-              icon.isAdd = false;
-            }
-          });
-          this.noticeFour = false;
-        }
-      }
-    }
-  }
-
-  /** 更新我的服務 */
-  updateUserService(): void {
-    this.editFunction = false;
-    // 將我的服務的function code 陣列result傳給後端
-    const result = this.ftBottom.map((item: AFP_Function) => item.Function_Code);
-    const request: Request_AFPUpdateUserService = {
-      Model_UserFavourite: null,
-      Model_UserFunction: result
-    };
-    const oring = this.ftBottom_org.map((item: AFP_Function) => item.Function_Code);
-    // 如果我的服務沒有修改，不送後端
-    if (oring.join('') !== result.join('')) {
-      this.appService.toApi('Home', '1108', request).subscribe((data: Response_AFPUpdateUserService) => {
-        if (data !== null) {
-          this.ftBottom_org = this.ftBottom.concat();
-        }
-      });
-
-    }
   }
 
   /** 取得「現領優惠券」、「特賣商品」頁籤資訊（點擊時）
