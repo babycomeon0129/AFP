@@ -4,11 +4,11 @@
   "scripts": {
     "ng": "ng",
     "start": "cp src/index-dev.html src/index.html && ng serve",
-    "start-prod": "ng serve --prod",
+    "start-prod": "cp src/index-prod.html src/index.html && ng serve --prod",
     "build-sit": "cp src/index-dev.html src/index.html && ng build -c sit",
     "build-uat": "cp src/index-dev.html src/index.html && ng build -c uat",
     "build-uuat": "cp src/index-dev.html src/index.html && ng build -c uuat",
-    "build-prod": "ng build --prod",
+    "build-prod": "cp src/index-prod.html src/index.html && ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
