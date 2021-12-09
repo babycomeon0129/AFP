@@ -1,17 +1,16 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
+import { SharedModule } from '@app/shared/shared.module';
 import { QRCodeModule } from 'angularx-qrcode';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
-import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
-import { SortablejsModule } from 'ngx-sortablejs';
 import { NgxMasonryModule } from 'ngx-masonry';
-
+import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 import { EntranceRoutingModule } from './entrance-routing.module';
-import { SharedModule } from '@app/shared/shared.module';
-
 import { EntranceComponent } from './entrance.component';
+
+
+
 
 @NgModule({
   declarations: [
@@ -25,7 +24,6 @@ import { EntranceComponent } from './entrance.component';
     LazyLoadImageModule,
     NgxUsefulSwiperModule,
     SharedModule,
-    SortablejsModule,
     NgxMasonryModule
   ],
   exports: [

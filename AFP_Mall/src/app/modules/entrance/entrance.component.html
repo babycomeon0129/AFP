@@ -30,11 +30,11 @@
     <!-- 手機版 上方banner -->
     <section class="mobii-bnbox">
       <div class="userbox mr-auto">
-        <div *ngIf="appService.loginState===true" class="txt-line-clamp1 user-hi">你好，{{appService.userName}}</div>
+        <div *ngIf="appService.loginState" class="txt-line-clamp1 user-hi">你好，{{appService.userName}}</div>
         <ul class="m-bnbox-item">
           <li class="txt-line-clamp1">
             <img src="img/share/mobiicoin.png" alt="" class="mr-1 h20">
-            <span class="user-mobii">{{appService.loginState===true ? (userPoint | currency: '':'':'1.0-0') :
+            <span class="user-mobii">{{appService.loginState ? (userPoint | currency: '':'':'1.0-0') :
               '--'}}</span>點
           </li>
         </ul>
@@ -59,10 +59,9 @@
           <div class="index-iconbox">
             <swiper class="index-icon " [config]="boxIcon">
               <div class="swiper-wrapper">
-                <div class="swiper-slide" *ngFor="let item of ft">
+                <div class="swiper-slide" *ngFor="let item of ftTop">
                   <div class="item">
-                    <a href="javascript:;" (click)="FunctionLink(item, false)"
-                      [ngClass]="{'disable' : item.Function_IsActive == 0}">
+                    <a (click)="FunctionLink(item, false)" [ngClass]="{'disable' : item.Function_IsActive == 0}">
                       <div class="img-box">
                         <img [src]="item?.Function_Icon" [alt]="item?.Function_Name">
                       </div>{{item.Function_Name}}
@@ -79,29 +78,16 @@
         <div class="for-mobile w-100">
           <div class="col-12 center-v">
             <div class="mainicon-link default-link">
-              <div *ngFor="let item of ftTop" class="link-item">
-                <a href="javascript:;" (click)="FunctionLink(item, false)">
-                  <div class="img-box">
-                    <img [src]="item?.Function_Icon" [alt]="[item?.Function_Name]">
-                  </div>
-                  <p>{{item.Function_Name}}</p>
-                </a>
-              </div>
-            </div>
-          </div>
-          <!-- 自訂連結 -->
-          <div class="col-12 center-v">
-            <div class="mainicon-link edit-link">
-              <div *ngFor="let item of ftBottom" class="link-item">
-                <a href="javascript:;" (click)="FunctionLink(item, false)">
+              <div *ngFor="let item of ftTop; let i = index;" class="link-item" [hidden]="ftTop.length > 15 ? i > 13 : i > 14">
+                <a (click)="FunctionLink(item, false)">
                   <div class="img-box">
                     <img [src]="item?.Function_Icon" [alt]="item?.Function_Name">
                   </div>
                   <p>{{item.Function_Name}}</p>
                 </a>
               </div>
-              <div class="link-item">
-                <a href="javascript:;" (click)="layerTrig = 1">
+              <div class="link-item" [hidden]="ftTop.length < 15">
+                <a (click)="layerTrig = 1">
                   <div class="img-box">
                     <img src="img/index/icons/category3_more.png" alt="">
                   </div>
@@ -189,7 +175,7 @@
           <div class="swiper-slide" *ngFor="let ad of adIndex">
             <a [href]="ad?.ADImg_URL | nullHref : router.url"
               [target]="ad?.ADImg_URLTarget | nullTarget : ad?.ADImg_URL : router.url" rel="noopener noreferrer">
-              <img src="{{ad.ADImg_Img}}">
+              <img [src]="ad.ADImg_Img">
             </a>
           </div>
         </div>

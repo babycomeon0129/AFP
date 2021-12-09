@@ -27,7 +27,6 @@ import { zhCnLocale } from 'ngx-bootstrap/locale';
 import { BsModalRef, ModalModule } from 'ngx-bootstrap/modal';
 import { CookieService } from 'ngx-cookie-service';
 import { NgxMasonryModule } from 'ngx-masonry';
-import { SortablejsModule } from 'ngx-sortablejs';
 import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 import { AppRoutingModule } from './app-routing.module';
 // Component
@@ -74,7 +73,7 @@ defineLocale('zh-cn', zhCnLocale);
       titleFontSize: '18',
       outerStrokeWidth: 2,
       innerStrokeWidth: 2,
-      backgroundPadding : 0,
+      backgroundPadding: 0,
       backgroundColor: '#fdebef',
       outerStrokeGradientStopColor: '#53a9ff',
       outerStrokeColor: '#FD5F00',
@@ -87,13 +86,12 @@ defineLocale('zh-cn', zhCnLocale);
     BrowserAnimationsModule,
     BsDatepickerModule.forRoot(),
     LazyLoadImageModule,
-    SortablejsModule,
     // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.swActivate })
     AngularFireDatabaseModule,
-      AngularFireAuthModule,
-      AngularFireMessagingModule,
-      AngularFireModule.initializeApp(environment.firebaseConfig),
-      CollapseModule.forRoot()
+    AngularFireAuthModule,
+    AngularFireMessagingModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    CollapseModule.forRoot()
   ],
   exports: [
     AppComponent

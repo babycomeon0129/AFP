@@ -42,13 +42,11 @@
     "ngx-bootstrap": "^5.2.0",
     "ngx-cookie-service": "^3.0.3",
     "ngx-masonry": "^1.1.4",
-    "ngx-sortablejs": "^9.0.0",
     "ngx-useful-swiper": "9.0.0",
     "node-sass": "~4.14.1",
     "popper.js": "^1.16.1",
     "rxjs": "~6.4.0",
     "smoothscroll-polyfill": "^0.4.4",
-    "sortablejs": "^1.10.2",
     "swiper": "^6.8.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"

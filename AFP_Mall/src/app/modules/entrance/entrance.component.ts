@@ -215,14 +215,8 @@ export class EntranceComponent implements OnInit {
   public currentPage = 1;
   /** 目前頁數熱門商品瀑布流總頁數 */
   public totalPage: number;
-  /** 使用者服務-桌面版 */
-  public ft: AFP_Function[] = [];
-  /** 使用者服務-手機版上排 */
+  /** 使用者服務 */
   public ftTop: AFP_Function[] = [];
-  /** 使用者服務-手機版下排(原始) */
-  public ftBottom_org: AFP_Function[] = [];
-  /** 使用者服務-手機版下排 */
-  public ftBottom: AFP_Function[] = [];
   /** 我的服務-所有服務清單 */
   public serviceList: AFP_NewFunction[] = [];
   /** 特賣商品 */
@@ -413,26 +407,15 @@ export class EntranceComponent implements OnInit {
     };
 
     this.appService.toApi('Home', '1110', request).subscribe((data: Response_AFPUserService) => {
+      console.log(data);
       this.ftTop = data.List_NewFunction[0].Model_Function;
-      this.ftBottom_org = data.List_NewFunction[1].Model_Function;
-      this.ftBottom = this.ftBottom_org.concat();
-      this.ft = this.ftTop.concat(this.ftBottom);
-      this.serviceList = data.List_NewFunction.filter((item, index) => index > 1);
-      // 根據我的服務清單，修改下面更多服務的class狀態
-      const select = this.ftBottom.map(item => item.Function_Code);
-      this.serviceList.forEach(item => {
-        item.Model_Function.forEach(icon => {
-          if (select.findIndex(i => icon.Function_Code === i) === -1) {
-            icon.isAdd = true;
-          }
-        });
-      });
+      this.serviceList = data.List_NewFunction.filter((item, index) => index > 0);
 
       //  網頁不顯示app呼叫
       if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        this.ft.every((value, index) => {
+        this.ftTop.every((value, index) => {
           if (value.Function_URLTarget === '_app') {
-            this.ft.splice(index, 1);
+            this.ftTop.splice(index, 1);
             return false;
           }
           return true;
