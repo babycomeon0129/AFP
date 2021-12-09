@@ -145,7 +145,8 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
     const versionDate = new Date(environment.versionDate);
     this.enVersion =
       'Ver.' + environment.version + '_' +
-      (versionDate.getMonth() + 1) + versionDate.getDate() + ' | ' +
+      ('0' + (versionDate.getMonth() + 1)).slice(-2) +
+      ('0' + versionDate.getDate()).slice(-2) + ' | ' +
       versionDate.toLocaleString();
   }
 
