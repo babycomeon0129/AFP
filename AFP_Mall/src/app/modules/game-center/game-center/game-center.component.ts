@@ -1,12 +1,12 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Model_ShareData, AFP_ADImg, AFP_Game } from '@app/_models';
 import { AppService } from '@app/app.service';
-import { Request_MemberPoint, Response_MemberPoint } from '@app/modules/member/_module-member';
 import { OauthService } from '@app/modules/oauth/oauth.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ModalService } from '@app/shared/modal/modal.service';
-import { AFP_ADImg, AFP_Game, Model_ShareData } from '@app/_models';
+import { Meta, Title } from '@angular/platform-browser';
+import { Request_MemberPoint, Response_MemberPoint } from '@app/modules/member/_module-member';
 
 @Component({
   selector: 'app-game-center',
@@ -59,7 +59,6 @@ export class GameCenterComponent implements OnInit {
       };
       this.appService.toApi('Member', '1509', getInfo).subscribe((info: Response_MemberPoint) => {
         this.info = info;
-        this.appService.blockUI.stop();
       });
     }
   }

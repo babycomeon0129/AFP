@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { layerAnimation } from '@app/animations';
 import { AppService } from '@app/app.service';
-import { Request_MemberPoint } from '@app/modules/member/_module-member';
 import { ModalService } from '@app/shared/modal/modal.service';
-import { AFP_ChannelVoucher, AFP_Game, AFP_UserPoint, AFP_Voucher } from '@app/_models';
 import { SwiperOptions } from 'swiper';
+import { AFP_Game, AFP_UserPoint, AFP_ChannelVoucher, AFP_Voucher } from '@app/_models';
+import { Request_MemberPoint } from '@app/modules/member/_module-member';
+import { Meta, Title } from '@angular/platform-browser';
+import { layerAnimation } from '@app/animations';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 
 @Component({
   selector: 'app-member-coin',
@@ -41,7 +42,7 @@ export class MemberCoinComponent implements OnInit {
   };
 
   constructor(public appService: AppService, public router: Router, public modal: ModalService,
-              private meta: Meta, private title: Title) {
+              private oauthService: OauthService, private meta: Meta, private title: Title) {
     this.title.setTitle('Mobii Point - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - M Points。這裡會顯示 Mobii! 用戶擁有的 M Points 點數與歷史使用紀錄。點數累積的方式包括每日登入、玩遊戲、購物、乘車等回饋。' });
     this.meta.updateTag({ content: 'Mobii Point - Mobii!', property: 'og:title' });
@@ -62,7 +63,6 @@ export class MemberCoinComponent implements OnInit {
       };
       this.appService.toApi('Member', '1509', getInfo).subscribe((info: Response_MemberPoint) => {
         this.info = info;
-        this.appService.blockUI.stop();
       });
     }
   }
