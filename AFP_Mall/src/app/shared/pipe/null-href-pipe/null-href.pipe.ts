@@ -6,7 +6,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class NullHrefPipe implements PipeTransform {
 
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor(protected sanitizer: DomSanitizer) {}
   /** a連結
    * @param url 連結路徑
    * @param page 當下所在頁面
