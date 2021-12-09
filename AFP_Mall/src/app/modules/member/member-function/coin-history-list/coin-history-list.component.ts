@@ -20,9 +20,15 @@ export class CoinHistoryListComponent implements OnInit {
   constructor(public appService: AppService, public router: Router) { }
 
   ngOnInit() {
+    /** 讀取點數紀錄 */
+    if (!this.appService.loginState) {
+      this.appService.logoutModal();
+    } else {
+      this.getHistory();
+    }
   }
 
-  /** 點數紀錄
+  /** 點數紀錄頁籤切換
    * pointType點數類型 0: 待入帳，1: 獲得，11: 已使用
    */
   getHistory(): void {
@@ -38,6 +44,7 @@ export class CoinHistoryListComponent implements OnInit {
       };
       this.appService.toApi('Member', '1509', getHistory).subscribe((point: Response_MemberPoint) => {
         this.pointHistory = point.List_UserPoint;
+        this.info = point;
       });
     }
   }
