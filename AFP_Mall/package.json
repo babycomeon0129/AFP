@@ -3,12 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "cp src/index-dev.html src/index.html && ng serve",
-    "start-prod": "cp src/index-prod.html src/index.html && ng serve --prod",
-    "build-sit": "cp src/index-dev.html src/index.html && ng build -c sit",
-    "build-uat": "cp src/index-dev.html src/index.html && ng build -c uat",
-    "build-uuat": "cp src/index-dev.html src/index.html && ng build -c uuat",
-    "build-prod": "cp src/index-prod.html src/index.html && ng build --prod",
+    "start": "rm src/index.html && cp src/index-dev.html src/index.html && ng serve",
+    "start-prod": "rm src/index.html && cp src/index-prod.html src/index.html && ng serve --prod",
+    "build-sit": "rm src/index.html && cp src/index-dev.html src/index.html && ng build -c sit",
+    "build-uat": "rm src/index.html && cp src/index-dev.html src/index.html && ng build -c uat",
+    "build-uuat": "rm src/index.html && cp src/index-dev.html src/index.html && ng build -c uuat",
+    "build-prod": "rm src/index.html && cp src/index-prod.html src/index.html && ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
