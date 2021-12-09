@@ -14,7 +14,7 @@
       <div class="member-info-box">
         <div class="info-box info-img">
           <div class="info-item">
-            <img src="https://picsum.photos/300/300?random=1">
+            <img [src]="(indexData?.User_Avatar)? indexData?.User_Avatar : 'https://picsum.photos/300/300?random=1'">
           </div>
         </div>
         <!-- 登入前 -->
@@ -28,10 +28,10 @@
         <div *ngIf="appService.loginState===true" class="flex-inline-between">
           <div class="info-box">
             <div class="info-item info-name">
-              {{ memberService.userProfile?.User_NickName }}
+              {{ indexData?.User_NickName }}
             </div>
             <div class="info-item info-country">
-              台灣
+              {{ indexData?.User_Country }}
             </div>
           </div>
           <div class="info-box">
@@ -40,7 +40,7 @@
               M Points
             </div>
             <div class="info-item info-coin">
-              {{memberService.userProfile?.UserPoint | currency: '':'':'1.0-2'}}
+              {{indexData?.UserInfo_Point | currency: '':'':'1.0-2'}}
             </div>
           </div>
         </div>

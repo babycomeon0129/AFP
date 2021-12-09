@@ -1,13 +1,12 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
-import { Model_ShareData, AFP_ADImg } from '@app/_models';
-import { ActivatedRoute, Router } from '@angular/router';
 import { ModalService } from '@app/shared/modal/modal.service';
+import { AFP_ADImg, Model_ShareData } from '@app/_models';
 import { SwiperOptions } from 'swiper';
-import { MemberService } from '@app/modules/member/member.service';
-import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 
 declare var AppJSInterface: any;
 
@@ -32,15 +31,13 @@ export class HomeComponent implements OnInit {
   };
 
   constructor(public appService: AppService, public oauthService: OauthService, private callApp: AppJSInterfaceService,
-              public router: Router, private modal: ModalService, private route: ActivatedRoute, public location: Location,
-              public memberService: MemberService) {
+              public router: Router, private modal: ModalService, private route: ActivatedRoute, public location: Location) {
   }
 
   ngOnInit() {
     if (this.oauthService.cookiesGet('idToken').cookieVal !== '' && this.oauthService.cookiesGet('idToken').cookieVal !== 'undefined') {
       this.appService.loginState = true;
       this.readIndexData();
-      this.memberService.readProfileData();
       if (this.appService.isApp === 1) {
         this.callApp.appShowMobileFooter(true);
       }
@@ -128,6 +125,12 @@ interface Request_MemberIndex extends Model_ShareData {
 class Response_MemberIndex extends Model_ShareData {
   /** 會員點數 */
   UserInfo_Point: number;
+  /** 會員手機國碼 */
+  User_Country: string;
+  /** 會員姓名 */
+  User_NickName: string;
+  /** 會員頭貼 */
+  User_Avatar: string;
   /** 廣告列表 11001 */
   ADImg_Mid: AFP_ADImg[];
   /** 廣告列表 11002 */
