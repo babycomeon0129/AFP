@@ -1,15 +1,14 @@
-import { environment } from '@env/environment';
-import { Component, DoCheck, KeyValueDiffer, KeyValueDiffers, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute, ResolveEnd, RouterOutlet } from '@angular/router';
-import { AppJSInterfaceService } from './app-jsinterface.service';
+import { Component, DoCheck, KeyValueDiffer, KeyValueDiffers, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, ResolveEnd, Router, RouterOutlet } from '@angular/router';
 import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
 import { ModalService } from '@app/shared/modal/modal.service';
-import { CookieService } from 'ngx-cookie-service';
-import { slideInAnimation } from './animations';
-import { filter } from 'rxjs/operators';
+import { environment } from '@env/environment';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { GoogleTagManagerService } from 'angular-google-tag-manager';
+import { CookieService } from 'ngx-cookie-service';
+import { filter } from 'rxjs/operators';
+import { slideInAnimation } from './animations';
+import { AppJSInterfaceService } from './app-jsinterface.service';
 
 @Component({
   selector: 'body',
@@ -33,7 +32,7 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
 
   constructor(private router: Router, public appService: AppService, private activatedRoute: ActivatedRoute, public modal: ModalService,
               public cookieService: CookieService, private differs: KeyValueDiffers, private callApp: AppJSInterfaceService,
-              public oauthService: OauthService, public bsModalService: BsModalService, private gtmService: GoogleTagManagerService) {
+              public oauthService: OauthService, public bsModalService: BsModalService) {
     this.serviceDiffer = this.differs.find({}).create();
 
     // App訪問
@@ -121,11 +120,11 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
         }
         this.appService.prevUrl = event.url;  // 取得前一頁面url
         // 追蹤每個頁面資訊，推送給GA
-        const gtmTag = {
-          event: 'page',
-          pageName: event.url
-        };
-        this.gtmService.pushTag(gtmTag);
+        // const gtmTag = {
+        //   event: 'page',
+        //   pageName: event.url
+        // };
+        // this.gtmService.pushTag(gtmTag);
       });
     this.detectOld();
     // this.appService.initPush();

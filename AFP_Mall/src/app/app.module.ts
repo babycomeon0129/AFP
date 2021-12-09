@@ -1,44 +1,44 @@
-import { environment } from '@env/environment';
-// Module
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
-import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { ModalModule, BsModalRef } from 'ngx-bootstrap/modal';
 import { AgmCoreModule } from '@agm/core';
-import { BlockUIModule } from 'ng-block-ui';
-import { NgxMasonryModule } from 'ngx-masonry';
-import { CookieService } from 'ngx-cookie-service';
-import { SharedModule } from './shared/shared.module';
-import { QRCodeModule } from 'angularx-qrcode';
-import { TextMaskModule } from 'angular2-text-mask';
-import { NgCircleProgressModule } from 'ng-circle-progress';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LazyLoadImageModule } from 'ng-lazyload-image';
-import { SortablejsModule } from 'ngx-sortablejs';
-
-// Member-MyProfile birthday datepicker
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-// Collapse
-import { CollapseModule } from 'ngx-bootstrap/collapse';
-import { defineLocale } from 'ngx-bootstrap/chronos';
-import { zhCnLocale } from 'ngx-bootstrap/locale';
-defineLocale('zh-cn', zhCnLocale);
-
-// Component
-import { AppComponent } from './app.component';
-// import { MessageModalComponent } from './shared/modal/message-modal/message-modal.component';
-import { Error404Component } from './modules/error404/error404.component';
-
+import { HttpClientModule } from '@angular/common/http';
+// Module
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
 // Service Worker
 // import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 // fireBase
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
-import { AngularFireAuthModule } from '@angular/fire/auth';
-import { AngularFireModule } from '@angular/fire';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { environment } from '@env/environment';
+import { TextMaskModule } from 'angular2-text-mask';
+import { QRCodeModule } from 'angularx-qrcode';
+import { BlockUIModule } from 'ng-block-ui';
+import { NgCircleProgressModule } from 'ng-circle-progress';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { defineLocale } from 'ngx-bootstrap/chronos';
+// Collapse
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+// Member-MyProfile birthday datepicker
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { zhCnLocale } from 'ngx-bootstrap/locale';
+import { BsModalRef, ModalModule } from 'ngx-bootstrap/modal';
+import { CookieService } from 'ngx-cookie-service';
+import { NgxMasonryModule } from 'ngx-masonry';
+import { SortablejsModule } from 'ngx-sortablejs';
+import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
+import { AppRoutingModule } from './app-routing.module';
+// Component
+import { AppComponent } from './app.component';
+// import { MessageModalComponent } from './shared/modal/message-modal/message-modal.component';
+import { Error404Component } from './modules/error404/error404.component';
+import { SharedModule } from './shared/shared.module';
+
+defineLocale('zh-cn', zhCnLocale);
+
+
 
 
 @NgModule({
@@ -105,8 +105,7 @@ import { AngularFireModule } from '@angular/fire';
     //   useFactory: provideConfig
     // },
     // MessageModalComponent,
-    CookieService,
-    { provide: 'googleTagManagerId', useValue: environment.GA }
+    CookieService
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
