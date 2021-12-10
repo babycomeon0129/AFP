@@ -365,8 +365,7 @@ export class EntranceComponent implements OnInit {
   /** 判斷首頁進場廣告開啟 */
   adIndexChenck(): void {
     const adTime = this.oauthService.cookiesGet('adTime').cookieVal || null;
-    // adTime轉字串adTimeString
-    const adTimeString = JSON.parse(adTime);
+    const adTimeString = adTime;
     const nowTime = new Date().getFullYear().toString() + new Date().getMonth().toString() + new Date().getDate().toString();
     if (adTimeString !== nowTime) {
       this.oauthService.cookiesSet({
