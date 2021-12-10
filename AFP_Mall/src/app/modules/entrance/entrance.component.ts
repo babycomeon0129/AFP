@@ -407,7 +407,6 @@ export class EntranceComponent implements OnInit {
     };
 
     this.appService.toApi('Home', '1110', request).subscribe((data: Response_AFPUserService) => {
-      console.log(data);
       this.ftTop = data.List_NewFunction[0].Model_Function;
       this.serviceList = data.List_NewFunction.filter((item, index) => index > 0);
 

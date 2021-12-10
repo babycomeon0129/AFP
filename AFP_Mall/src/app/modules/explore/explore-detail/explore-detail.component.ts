@@ -1,12 +1,12 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
-import { AppService } from '@app/app.service';
-import { Response_AreaDetail, AFP_ECStore, Model_ShareData, AFP_Voucher, AFP_Product, AFP_ECStoreLink } from '@app/_models';
-import { SwiperOptions } from 'swiper';
-import { SwiperComponent } from 'ngx-useful-swiper';
-import { ActivatedRoute } from '@angular/router';
-import { ModalService } from '@app/shared/modal/modal.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 import { layerAnimation } from '@app/animations';
+import { AppService } from '@app/app.service';
+import { ModalService } from '@app/shared/modal/modal.service';
+import { AFP_ECStore, AFP_ECStoreLink, AFP_Product, AFP_Voucher, Model_ShareData, Response_AreaDetail } from '@app/_models';
+import { SwiperComponent } from 'ngx-useful-swiper';
+import { SwiperOptions } from 'swiper';
 
 @Component({
   selector: 'app-explore-detail',
@@ -189,6 +189,7 @@ export class ExploreDetailComponent implements OnInit {
           break;
         }
       }
+      this.appService.blockUI.stop();
     });
   }
 
