@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "cp src/indexHtml/dev/index.html src/index.html && ng serve",
+    "start": "ng serve",
     "start-prod": "cp src/indexHtml/prod/index.html src/index.html && ng serve --prod",
-    "build-sit": "powershell -Command \"Copy-Item C:/Jenkins/workspace/eyesmedia-afp-mobii-ui-sit@tmp/AFP_Mall/src/indexHtml/dev/index.html C:/Jenkins/workspace/eyesmedia-afp-mobii-ui-sit@tmp/AFP_Mall/src/index.html && ng build -c sit\"",
+    "build-sit": "powershell -Command \"Copy-Item C:/Jenkins/workspace/eyesmedia-afp-mobii-ui-sit@tmp/AFP_Mall/src/indexHtml/dev/index.html C:/Jenkins/workspace/eyesmedia-afp-mobii-ui-sit@tmp/AFP_Mall/src/index.html -and ng build -c sit\"",
     "build-uat": "cp src/indexHtml/dev/index.html src/index.html && ng build -c uat",
     "build-uuat": "cp src/indexHtml/dev/index.html src/index.html && ng build -c uuat",
     "build-prod": "cp src/indexHtml/prod/index.html src/index.html && ng build --prod",
