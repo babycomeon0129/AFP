@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AppService } from '@app/app.service';
-import { Model_ShareData } from '@app/_models';
-import { ModalService } from '@app/shared/modal/modal.service';
+import { Meta, Title } from '@angular/platform-browser';
 import { Router, RouterOutlet } from '@angular/router';
 import { slideInAnimation } from '@app/animations';
-import { Meta, Title } from '@angular/platform-browser';
+import { AppService } from '@app/app.service';
+import { ModalService } from '@app/shared/modal/modal.service';
+import { Model_ShareData } from '@app/_models';
 
 @Component({
   selector: 'app-member',
@@ -48,12 +48,14 @@ export class Request_MemberProfile extends Model_ShareData {
 
 /** 會員中心我的檔案 - ResponseModel */
 export class Response_MemberProfile extends Model_ShareData {
-  /** 人員帳號 */
+  /** 會員帳號 */
   UserAccount?: string;
-  /** 暱稱 */
+  /** 會員暱稱 */
   User_NickName: string;
-  /** 人員姓名 */
+  /** 會員姓名 */
   UserProfile_Name?: string;
+  /** 會員頭貼 */
+  User_Avatar?: string;
   /** 生日 */
   UserProfile_Birthday?: string;
   /** E-Mail */
