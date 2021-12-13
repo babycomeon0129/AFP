@@ -226,11 +226,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
               // web登入成功導址
               this.appService.jumpUrl(this.oauthService.cookiesGet('fromOriginUri').cookieVal);
             }
-          // } else {
-          //   const content = `登入註冊失敗<br>錯誤代碼：${tokenData.errorCode}<br>請重新登入註冊`;
-          //   this.bsModalService.show(MessageModalComponent, {
-          //     class: 'modal-dialog-centered',
-          //     initialState: { success: true, message: content, showType: 2, checkBtnMsg: '我知道了' } });
           }
         });
       }
@@ -244,7 +239,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     this.appService.userLoggedIn = true;
     this.appService.showFavorites();
     this.appService.readCart();
-    if (this.appService.isApp === 1) {
+    if (this.appService.isApp === 1 || this.oauthService.cookiesGet('deviceType').cookieVal > '0') {
       this.callApp.getLoginData(this.oauthService.cookiesGet('idToken').cookieVal,
       this.oauthService.cookiesGet('userCode').cookieVal, this.oauthService.cookiesGet('userName').cookieVal);
     } else {
