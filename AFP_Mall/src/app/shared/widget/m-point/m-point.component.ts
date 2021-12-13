@@ -18,7 +18,7 @@ export class MPointComponent implements OnInit {
   /** 點數紀錄顯示與否 */
   @Input() pointShow: boolean;
 
-  constructor(public appService: AppService, public router: Router,public modal: ModalService) { }
+  constructor(public appService: AppService, public router: Router, public modal: ModalService) { }
 
   ngOnInit() {
   }
@@ -28,7 +28,7 @@ export class MPointComponent implements OnInit {
     if (!this.appService.loginState) {
       this.appService.logoutModal();
     } else {
-      this.router.navigate(['/MemberFunction/MemberCoin'], { queryParams: { coinHistory: 1, showBack: this.appService.showBack } });
+      this.router.navigate(['/MemberFunction/CoinHistoryList']);
     }
   }
 }

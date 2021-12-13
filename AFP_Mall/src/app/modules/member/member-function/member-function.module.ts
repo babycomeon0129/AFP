@@ -22,12 +22,14 @@ import { MemberOrderComponent } from './member-order/member-order.component';
 import { MemberTicketComponent } from './member-ticket/member-ticket.component';
 import { MyOrderDetailComponent } from './my-order-detail/my-order-detail.component';
 import { MemberCardDetailComponent } from './member-card-detail/member-card-detail.component';
+import { CoinHistoryListComponent } from './coin-history-list/coin-history-list.component';
 
 @NgModule({
   declarations: [
     MemberCardComponent,
     MemberTicketComponent,
     MemberCoinComponent,
+    CoinHistoryListComponent,
     MemberDiscountComponent,
     MemberFavoriteComponent,
     MemberOrderComponent,
@@ -41,6 +43,7 @@ import { MemberCardDetailComponent } from './member-card-detail/member-card-deta
     MemberCardComponent,
     MemberTicketComponent,
     MemberCoinComponent,
+    CoinHistoryListComponent,
     MemberDiscountComponent,
     MemberFavoriteComponent,
     MemberOrderComponent,

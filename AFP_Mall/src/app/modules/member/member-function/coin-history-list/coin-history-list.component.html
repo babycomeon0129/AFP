@@ -1,0 +1,83 @@
+<div class="wrap container">
+  <header>
+    <div class="header-secondary container">
+      <div class="index-flex justify-content-between">
+        <div class="item two">
+          <div class="close-btn">
+            <app-back-btn></app-back-btn>
+          </div>
+        </div>
+        <div class="item three text-center">
+          <div class="title-name">點數紀錄</div>
+        </div>
+        <div class="item two">
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="mycoinrecord">
+
+    <div class="lineargradient-purple">
+      <div class="text-white member-flex">
+        <div class="item three">
+          <h5><img src="../img/share/mobiicoin_red.png" class="coinimg-m">{{info.TotalPoint |
+            currency:'TWD':'':'1.0-2'}}</h5>
+          <p class="small-80">即將到期：{{info.DaylinePoint | currency:'TWD':'':'1.0-2'}}點（{{info.Dayline |
+            date:'yyyy/MM/dd'}}）</p>
+        </div>
+        <div class="item one coin-right">
+          <button class="btn" [routerLink]="['/Mission']" [queryParams]="{showBack: appService.showBack}">
+            賺取點數
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- tab content for record-->
+    <div class="afp-tab-box">
+      <div class="afp-tab mb-5">
+        <div class="nav-tabs-box mt-3">
+          <!-- Nav tabs -->
+          <ul class="nav-tab-list nav nav-tabs nav-line d-flex justify-content-around">
+            <li role="presentation" [ngClass]="{'active': pointType === 0}"
+              (click)="pointType = 0; getHistory();">
+              <a class="tablist-link" [ngClass]="{'active': pointType === 0}" role="tab">待入帳</a>
+            </li>
+            <li role="presentation" [ngClass]="{'active': pointType === 1}"
+              (click)="pointType = 1; getHistory();">
+              <a class="tablist-link" [ngClass]="{'active': pointType === 1}" role="tab">獲得紀錄</a>
+            </li>
+            <li role="presentation" [ngClass]="{'active': pointType === 11}"
+              (click)="pointType = 11; getHistory();">
+              <a class="tablist-link" [ngClass]="{'active': pointType === 11}" role="tab">使用紀錄</a>
+            </li>
+          </ul>
+        </div>
+        <!-- Tab panes -->
+        <div class="tab-content pt-2 mb-5">
+          <div *ngIf="pointHistory?.length > 0; else noMPointsBlock" class="tab-pane fade active show w-100">
+            <div *ngFor="let item of pointHistory" class="member-flex border-b p-3">
+              <div class="item three">
+                <div class="d-grid">
+                  <h6>{{item.UserPoint_Text}}</h6>
+                  <p class="text-muted small-80">{{(pointType === 0? '訂單編號：' : '') + item.UserPoint_SubText}}</p>
+                  <p class="text-muted small-80">{{item.UserPoint_Date | date:'yyyy/MM/dd HH:mm:ss'}}</p>
+                </div>
+              </div>
+              <div class="item one">
+                <p class="text-index text-right font-bold">{{item.UserPoint_AddQuantity |
+                  currency:'TWD':'':'1.0-2'}}
+                </p>
+              </div>
+            </div>
+          </div>
+          <ng-template #noMPointsBlock>
+            <div class="no-data">
+              <img src="img/member/no-mpoints.png" alt="no-points">
+              <p>Oops!<br>你目前還沒有任何點數喔！</p>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
