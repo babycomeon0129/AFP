@@ -1,8 +1,5 @@
-import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-
-import { SessionAliveGuard } from 'src/app/shared/guard/session-alive-guard/session-alive.guard';
-
+import { RouterModule, Routes } from '@angular/router';
 import { EventComponent } from './event/event.component';
 import { OffersComponent } from './offers/offers.component';
 import { SalesComponent } from './sales/sales.component';
@@ -14,8 +11,7 @@ const routes: Routes = [
   { path: 'Offers', component: OffersComponent },
   { path: 'Sales', component: SalesComponent },
   { path: 'ShoppingOffers', component: ShoppingOffersComponent },
-  { path: 'VoucherDetail/:Voucher_Code', canActivate: [SessionAliveGuard], component: VoucherDetailComponent },
-  // { path: 'VoucherDetail/:Voucher_Code', canActivate: [SessionAliveGuard], component: VoucherDetailComponent },
+  { path: 'VoucherDetail/:Voucher_Code', component: VoucherDetailComponent },
   { path: '', redirectTo: '/Shopping' }
 ];
 

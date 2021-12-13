@@ -1,17 +1,16 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { MemberComponent } from './member.component';
-import { HomeComponent } from './home/home.component';
-import { SettingComponent } from './setting/setting.component';
-import { MyProfileComponent } from './my-profile/my-profile.component';
+import { RouterModule, Routes } from '@angular/router';
 import { CellVerificationComponent } from './cell-verification/cell-verification.component';
+import { HomeComponent } from './home/home.component';
+import { MemberComponent } from './member.component';
 import { MyAddressComponent } from './my-address/my-address.component';
-import { PasswordUpdateComponent } from './password-update/password-update.component';
 import { MyPaymentComponent } from './my-payment/my-payment.component';
+import { MyProfileComponent } from './my-profile/my-profile.component';
+import { PasswordUpdateComponent } from './password-update/password-update.component';
+import { SettingComponent } from './setting/setting.component';
 
 const routes: Routes = [
   {
-    // path: '',  canActivate: [SessionAliveGuard], component: MemberComponent, children: [
     path: '', component: MemberComponent, children: [
       { path: '', component: HomeComponent, data: {animation: 'MemberHome'}  },
       { path: 'Setting', component: SettingComponent, data: {animation: 'Setting'} },
