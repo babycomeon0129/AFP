@@ -292,15 +292,25 @@ export class OauthService {
 
     // APP登出導頁
     if (appVisit === 1) {
+      this.cookiesSet({
+        logout: appVisit.toString() + ',' + location.href
+      });
       location.href = '/ForApp/AppLogout';
+      console.log('app logout');
     } else {
       // web導頁(清除logout參數)
       const url = new URL(location.href);
       const params = new URLSearchParams(url.search);
       const logout = params.get('logout');
       if (logout) {
+        this.cookiesSet({
+          logout: appVisit.toString() + ',web1 ' + location.href
+        });
         this.router.navigate([location.pathname]);
       } else {
+        this.cookiesSet({
+          logout: appVisit.toString() + ',web2' + location.href
+        });
         this.router.navigate(['/Member']);
       }
     }
@@ -421,6 +431,8 @@ export class cookieDeclare {
   adTime?: string;
   /** App訪問 */
   appVisit?: string;
+  /** 登出測試 */
+  logout?: string;
   /** 來源頁(除錯用) */
   page?: string;
 }
