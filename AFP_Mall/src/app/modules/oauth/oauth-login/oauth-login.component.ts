@@ -57,7 +57,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
           this.oauthService.loginRequest.fromOriginUri = params.fromOriginUri;
           this.oauthService.cookiesSet({
             deviceType: '0',
-            fromOriginUri: params.fromOriginUri,
+            fromOriginUri: (params.fromOriginUri !== '') ? params.fromOriginUri : '/',
             page: location.href
           });
         }
