@@ -7,7 +7,6 @@
     "start-prod": "cp src/indexHtml/prod/index.html src/index.html && ng serve --prod",
     "build-sit": "powershell -Command \"Copy-Item 'C:/Jenkins/workspace/eyesmedia-afp-mobii-ui-sit/AFP_Mall/src/indexHtml/dev/index.html' 'C:/Jenkins/workspace/eyesmedia-afp-mobii-ui-sit/AFP_Mall/src/index.html'\" && ng build -c sit",
     "build-uat": "powershell -Command \"Copy-Item 'C:/Jenkins/workspace/eyesmedia-afp-mobii-ui-uat/AFP_Mall/src/indexHtml/dev/index.html' 'C:/Jenkins/workspace/eyesmedia-afp-mobii-ui-uat/AFP_Mall/src/index.html'\" && ng build -c uat",
-    "build-uuat": "powershell -Command \"Copy-Item 'C:/Jenkins/workspace/eyesmedia-afp-mobii-ui-sit/AFP_Mall/src/indexHtml/dev/index.html' 'C:/Jenkins/workspace/eyesmedia-afp-mobii-ui-sit/AFP_Mall/src/index.html'\" && ng build -c uuat",
     "build-prod": "powershell -Command \"Copy-Item 'C:/Jenkins/workspace/eyesmedia-afp-mobii-ui/AFP_Mall/src/indexHtml/prod/index.html' 'C:/Jenkins/workspace/eyesmedia-afp-mobii-ui/AFP_Mall/src/index.html'\" && ng build -c --prod",
     "test": "ng test",
     "lint": "ng lint",

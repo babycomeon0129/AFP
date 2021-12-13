@@ -43,9 +43,6 @@ export class OauthService {
       case 'sit.mobii.ai':
         this.preName = 'sit.';
         break;
-      case 'www-uuat.mobii.ai':
-        this.preName = 'uuat.';
-        break;
       case 'www-uat.mobii.ai':
         this.preName = 'uat.';
         break;
