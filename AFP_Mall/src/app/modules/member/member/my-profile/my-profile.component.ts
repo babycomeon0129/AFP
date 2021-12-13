@@ -1,15 +1,15 @@
-import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AppService } from '@app/app.service';
-import { Model_ShareData, AFP_UserFavourite } from '@app/_models';
-import { ModalService } from '@app/shared/modal/modal.service';
-import { MemberService } from '@app/modules/member/member.service';
-import { layerAnimation, layerAnimationUp } from '@app/animations';
 import { Meta, Title } from '@angular/platform-browser';
-import { BsLocaleService } from 'ngx-bootstrap/datepicker';
-import { Response_MemberProfile, Request_MemberThird, Response_MemberThird } from '@app/modules/member/member/member.component';
+import { layerAnimation, layerAnimationUp } from '@app/animations';
+import { AppService } from '@app/app.service';
+import { MemberService } from '@app/modules/member/member.service';
+import { Request_MemberThird, Response_MemberProfile, Response_MemberThird } from '@app/modules/member/member/member.component';
+import { OauthService } from '@app/modules/oauth/oauth.service';
+import { ModalService } from '@app/shared/modal/modal.service';
+import { AFP_UserFavourite, Model_ShareData } from '@app/_models';
 import * as moment from 'moment';
+import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 
 @Component({
   selector: 'app-my-profile',
@@ -36,7 +36,8 @@ export class MyProfileComponent implements OnInit {
   public today: Date = new Date();
   /** 同頁滑動切換 0:本頁 1:開啟瀏覽檔案上傳  */
   public layerTrigUp = 0;
-
+  /** 會員頭貼 */
+  public userAvatar: string;
   /** 我的檔案資料 */
   public userProfile: Response_MemberProfile = new Response_MemberProfile();
   /** 第三方資訊 */
@@ -46,7 +47,7 @@ export class MyProfileComponent implements OnInit {
   public LineThird: boolean;
 
   constructor(public appService: AppService, public modal: ModalService, public memberService: MemberService,
-              private meta: Meta, private title: Title, private localeService: BsLocaleService, private oauthService: OauthService) {
+    private meta: Meta, private title: Title, private localeService: BsLocaleService, private oauthService: OauthService) {
     this.title.setTitle('我的檔案 - Mobii!');
     this.meta.updateTag({ name: 'description', content: '' });
     this.meta.updateTag({ content: '我的檔案 - Mobii!', property: 'og:title' });
@@ -113,15 +114,18 @@ export class MyProfileComponent implements OnInit {
     if (this.memberService.userProfile.UserProfile_Birthday !== null) {
       this.memberService.userProfile.UserProfile_Birthday =
         moment(this.memberService.userProfile.UserProfile_Birthday).format('YYYY-MM-DD');
-        // if (this.memberService.userProfile.UserProfile_Birthday.getMonth() < new Date().getMonth()) {
-        //   this.memberService.userProfile.UserProfile_Birthday =
-        //     new Date(this.memberService.userProfile.UserProfile_Birthday.getTime() -
-        //     this.memberService.userProfile.UserProfile_Birthday.getTimezoneOffset() * 60 * 1000);
-        // }
+      // if (this.memberService.userProfile.UserProfile_Birthday.getMonth() < new Date().getMonth()) {
+      //   this.memberService.userProfile.UserProfile_Birthday =
+      //     new Date(this.memberService.userProfile.UserProfile_Birthday.getTime() -
+      //     this.memberService.userProfile.UserProfile_Birthday.getTimezoneOffset() * 60 * 1000);
+      // }
     }
     this.appService.toApi('Member', '1502', this.memberService.userProfile).subscribe((data: Response_MemberProfile) => {
       // 取得並顯示我的檔案資料
       this.memberService.readProfileData().then(() => {
+        this.userAvatar =
+          (this.memberService.userProfile.User_Avatar || this.memberService.userProfile.User_Avatar !== null)
+            ? this.memberService.userProfile.User_Avatar : 'https://picsum.photos/300/300?random=1';
         // 更新session 和 app.service 中的 userName 讓其他頁面名稱同步
         this.oauthService.cookiesSet({
           userName: this.memberService.userProfile.User_NickName,
@@ -226,11 +230,11 @@ export class MyProfileComponent implements OnInit {
   /** 檔案上傳 */
   onFileSelected(event): void {
     // 避免部分瀏覽器沒有event.target選項(如IE6-8)
-    const filesEvent  = event.target ? event.target : event.srcElement;
+    const filesEvent = event.target ? event.target : event.srcElement;
     const fd = new FormData();
     // 圖片大小限制4MB
-    if (filesEvent.files.length > 0 ) {
-      if (filesEvent.files[0].size > 4194304 ) {
+    if (filesEvent.files.length > 0) {
+      if (filesEvent.files[0].size > 4194304) {
         this.modal.show('message', { initialState: { success: false, message: '圖片大小超過4MB，上傳失敗！', showType: 1 } });
       } else {
         fd.append('WebFile', filesEvent.files[0], filesEvent.files[0].name);

@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit {
 
       this.appService.toApi('Member', '1501', request).subscribe((data: Response_MemberIndex) => {
         this.indexData = data;
-        this.userAvatar = (data.User_Avatar) ? data.User_Avatar : 'https://picsum.photos/300/300?random=1';
+        this.userAvatar = (data.User_Avatar || data.User_Avatar !== null) ? data.User_Avatar : 'https://picsum.photos/300/300?random=1';
       });
     }
   }
