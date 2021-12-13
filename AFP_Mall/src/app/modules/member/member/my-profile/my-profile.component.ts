@@ -18,6 +18,8 @@ import { BsLocaleService } from 'ngx-bootstrap/datepicker';
   animations: [layerAnimation, layerAnimationUp]
 })
 export class MyProfileComponent implements OnInit {
+  /** 我的檔案資料原始 */
+  public userProfileOrigin: Response_MemberProfile = new Response_MemberProfile();
   /** 我的檔案編輯模式 */
   public editMode = false;
   /** 證件資料容器（護照/台胞證/學生證） */
@@ -47,7 +49,7 @@ export class MyProfileComponent implements OnInit {
   public LineThird: boolean;
 
   constructor(public appService: AppService, public modal: ModalService, public memberService: MemberService,
-    private meta: Meta, private title: Title, private localeService: BsLocaleService, private oauthService: OauthService) {
+              private meta: Meta, private title: Title, private localeService: BsLocaleService, private oauthService: OauthService) {
     this.title.setTitle('我的檔案 - Mobii!');
     this.meta.updateTag({ name: 'description', content: '' });
     this.meta.updateTag({ content: '我的檔案 - Mobii!', property: 'og:title' });
@@ -55,9 +57,16 @@ export class MyProfileComponent implements OnInit {
     this.localeService.use('zh-cn');
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.appService.openBlock();
     if (this.oauthService.cookiesGet('idToken').cookieVal !== '' && this.oauthService.cookiesGet('idToken').cookieVal !== 'undefined') {
-      this.memberService.readProfileData();
+      await this.memberService.readProfileData();
+      this.appService.blockUI.stop();
+      this.userProfileOrigin = this.memberService.userProfile;
+      this.userAvatar = (this.userProfileOrigin.User_Avatar &&
+        this.userProfileOrigin.User_Avatar !== null && this.userProfileOrigin.User_Avatar !== undefined)
+        ? this.userProfileOrigin.User_Avatar : this.userAvatar;
+      console.log(this.userProfileOrigin.User_Avatar);
       this.readThirdData();
     }
   }
@@ -123,9 +132,6 @@ export class MyProfileComponent implements OnInit {
     this.appService.toApi('Member', '1502', this.memberService.userProfile).subscribe((data: Response_MemberProfile) => {
       // 取得並顯示我的檔案資料
       this.memberService.readProfileData().then(() => {
-        this.userAvatar =
-          (this.memberService.userProfile.User_Avatar || this.memberService.userProfile.User_Avatar !== null)
-            ? this.memberService.userProfile.User_Avatar : this.userAvatar;
         // 更新session 和 app.service 中的 userName 讓其他頁面名稱同步
         this.oauthService.cookiesSet({
           userName: this.memberService.userProfile.User_NickName,

@@ -55,7 +55,9 @@ export class HomeComponent implements OnInit {
 
       this.appService.toApi('Member', '1501', request).subscribe((data: Response_MemberIndex) => {
         this.indexData = data;
-        this.userAvatar = (data.User_Avatar || data.User_Avatar !== null) ? data.User_Avatar : this.userAvatar;
+        this.userAvatar =
+          (data.User_Avatar && data.User_Avatar !== null && data.User_Avatar !== undefined)
+            ? data.User_Avatar : this.userAvatar;
       });
     }
   }
@@ -81,14 +83,16 @@ export class HomeComponent implements OnInit {
     }
     // 已登入
     if (page === '0') {
-      this.modal.show('message',  { class: 'modal-dialog-centered',
-      initialState: { success: true, message: '敬請期待!', showType: 1 } });
+      this.modal.show('message', {
+        class: 'modal-dialog-centered',
+        initialState: { success: true, message: '敬請期待!', showType: 1 }
+      });
     } else {
       switch (pageCode) {
         case 3:
         case 4:
           // 3: 我的優惠券 4: 我的收藏 皆為原生
-          this.appService.isApp === 1 ?　this.appShowMemberPage(pageCode) : this.routerForApp(page);
+          this.appService.isApp === 1 ? this.appShowMemberPage(pageCode) : this.routerForApp(page);
           break;
         default:
           this.routerForApp(page);
