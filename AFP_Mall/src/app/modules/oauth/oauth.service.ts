@@ -31,6 +31,8 @@ export class OauthService {
   public M_idToken = this.cookiesGet('idToken').cookieVal;
   /** 現有域名前置 */
   public preName = '';
+  /** app訪問 */
+  private appVisit = (this.cookiesGet('deviceType').cookieVal > '0') ? 1 : 0;
 
   constructor(private router: Router, private http: HttpClient, public cookieService: CookieService,
               private bsModalService: BsModalService) {
@@ -100,7 +102,7 @@ export class OauthService {
           case '996600001':
             return data.data;
           default:
-            this.msgModal(`登入逾時<br>錯誤代碼：${data.errorCode}<br>請重新登入註冊`);
+            this.msgModal(this.appVisit, `登入逾時<br>錯誤代碼：${data.errorCode}<br>請重新登入註冊`);
             break;
         }
       }, catchError(this.handleError)));
@@ -120,7 +122,7 @@ export class OauthService {
           case '996600001':
             return data;
           default:
-            this.msgModal('註冊失敗');
+            this.msgModal(this.appVisit, '註冊失敗');
             break;
         }
       }, catchError(this.handleError)));
@@ -142,7 +144,7 @@ export class OauthService {
           }
         }, catchError(this.handleError)));
     } else {
-      this.msgModal('請重新登入');
+      this.msgModal(this.appVisit, '請重新登入');
     }
   }
 
@@ -245,7 +247,7 @@ export class OauthService {
 
 
   /** 登入註冊用提示視窗 */
-  msgModal(msg: any) {
+  msgModal(isApp: number, msg: any) {
     this.bsModalService.show(MessageModalComponent, {
       class: 'modal-dialog-centered',
       initialState: {
@@ -256,7 +258,7 @@ export class OauthService {
         rightBtnMsg: '登入/註冊',
         rightBtnFn: () => {
           this.onClearLogin();
-          this.loginPage(0, location.pathname);
+          this.loginPage(isApp, location.pathname);
         }
       }
     });

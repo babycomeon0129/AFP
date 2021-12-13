@@ -78,7 +78,7 @@ export class HomeComponent implements OnInit {
   pageRoute(page: string, pageCode: number): void {
     // 未登入(跳提示)
     if (!this.appService.loginState) {
-      this.oauthService.msgModal('請先登入');
+      this.oauthService.msgModal(this.appService.isApp, '請先登入');
       return;
     }
     // 已登入
