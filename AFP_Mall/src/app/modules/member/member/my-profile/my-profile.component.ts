@@ -37,7 +37,7 @@ export class MyProfileComponent implements OnInit {
   /** 同頁滑動切換 0:本頁 1:開啟瀏覽檔案上傳  */
   public layerTrigUp = 0;
   /** 會員頭貼 */
-  public userAvatar: string;
+  public userAvatar = 'https://picsum.photos/300/300?random=1';
   /** 我的檔案資料 */
   public userProfile: Response_MemberProfile = new Response_MemberProfile();
   /** 第三方資訊 */
@@ -125,7 +125,7 @@ export class MyProfileComponent implements OnInit {
       this.memberService.readProfileData().then(() => {
         this.userAvatar =
           (this.memberService.userProfile.User_Avatar || this.memberService.userProfile.User_Avatar !== null)
-            ? this.memberService.userProfile.User_Avatar : 'https://picsum.photos/300/300?random=1';
+            ? this.memberService.userProfile.User_Avatar : this.userAvatar;
         // 更新session 和 app.service 中的 userName 讓其他頁面名稱同步
         this.oauthService.cookiesSet({
           userName: this.memberService.userProfile.User_NickName,

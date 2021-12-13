@@ -224,6 +224,7 @@ export class OauthService {
     this.getLocation();
     const upgrade = (this.cookiesGet('upgrade').cookieVal).slice(0);
     const show = (this.cookiesGet('show').cookieVal).slice(0);
+    const out = this.cookiesGet('logout').cookieVal;
     if (item === '/') {
       sessionStorage.clear();
       this.cookieService.deleteAll('/', environment.cookieDomain, environment.cookieSecure, 'Lax');
@@ -236,6 +237,7 @@ export class OauthService {
     }
     if (upgrade === '1') { this.cookiesSet({upgrade: '1'}); }
     if (show === '1') { this.cookiesSet({show: '1'}); }
+    this.cookiesSet({logout: out});
   }
 
   /** 清除登入來源(非登出) */
@@ -304,12 +306,12 @@ export class OauthService {
       const logout = params.get('logout');
       if (logout) {
         this.cookiesSet({
-          logout: appVisit.toString() + ',web1 ' + location.href
+          logout: appVisit + ',web1 ' + location.href
         });
         this.router.navigate([location.pathname]);
       } else {
         this.cookiesSet({
-          logout: appVisit.toString() + ',web2' + location.href
+          logout: appVisit + ',web2' + location.href
         });
         this.router.navigate(['/Member']);
       }
