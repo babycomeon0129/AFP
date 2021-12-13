@@ -28,7 +28,7 @@ export class MPointComponent implements OnInit {
     if (!this.appService.loginState) {
       this.appService.logoutModal();
     } else {
-      this.router.navigate(['/MemberFunction/CoinHistoryList']);
+      this.router.navigate(['/MemberFunction/CoinHistoryList'], { queryParams: { showBack: true}});
     }
   }
 }
