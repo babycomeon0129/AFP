@@ -29,6 +29,8 @@ export class HomeComponent implements OnInit {
       hide: true
     }
   };
+  /** 會員頭貼 */
+  public userAvatar: string;
 
   constructor(public appService: AppService, public oauthService: OauthService, private callApp: AppJSInterfaceService,
               public router: Router, private modal: ModalService, private route: ActivatedRoute, public location: Location) {
@@ -53,6 +55,7 @@ export class HomeComponent implements OnInit {
 
       this.appService.toApi('Member', '1501', request).subscribe((data: Response_MemberIndex) => {
         this.indexData = data;
+        this.userAvatar = (data.User_Avatar) ? data.User_Avatar : 'https://picsum.photos/300/300?random=1';
       });
     }
   }
