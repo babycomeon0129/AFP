@@ -1,28 +1,25 @@
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError, BehaviorSubject } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
-import {
-  Response_APIModel, Request_MemberFavourite, Response_MemberFavourite, AFP_Voucher,
-  Request_MemberUserVoucher, Response_MemberUserVoucher, Request_ECCart, Response_ECCart, Model_ShareData
-} from '@app/_models';
-import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
-import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { environment } from '@env/environment';
-import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 // import { SwPush } from '@angular/service-worker';
 // import firebase from 'firebase/app';
 // import 'firebase/messaging';
 // 推播
 import { AngularFireMessaging } from '@angular/fire/messaging';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { OauthService } from '@app/modules/oauth/oauth.service';
+import { AFP_Voucher, Model_ShareData, Request_ECCart, Request_MemberFavourite, Request_MemberUserVoucher, Response_APIModel, Response_ECCart, Response_MemberFavourite, Response_MemberUserVoucher } from '@app/_models';
+import { environment } from '@env/environment';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
+import { CookieService } from 'ngx-cookie-service';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { ConfirmModalComponent } from './shared/modal/confirm-modal/confirm-modal.component';
 // Component
 import { FavoriteModalComponent } from './shared/modal/favorite-modal/favorite-modal.component';
 import { JustkaModalComponent } from './shared/modal/justka-modal/justka-modal.component';
-import { MsgShareModalComponent } from './shared/modal/msg-share-modal/msg-share-modal.component';
 import { MessageModalComponent } from './shared/modal/message-modal/message-modal.component';
-import { ConfirmModalComponent } from './shared/modal/confirm-modal/confirm-modal.component';
-import { OauthService } from '@app/modules/oauth/oauth.service';
+import { MsgShareModalComponent } from './shared/modal/msg-share-modal/msg-share-modal.component';
 
 declare var AppJSInterface: any;
 
@@ -350,6 +347,12 @@ export class AppService {
             } else {
               window.open(voucher.Voucher_URL, voucher.Voucher_URLTarget);
             }
+          } else {
+            // 去商店網址 [Voucher_URL] 若空值未填，則預設為去店家詳情頁_所有商品分頁
+            const navigationExtras: NavigationExtras = {
+              queryParams: { showBack: this.route.snapshot.queryParams.showBack, navNo: 3 }
+            };
+            this.router.navigate(['/Explore/ExploreDetail', voucher.Voucher_ECStoreCode], navigationExtras);
           }
           break;
         case 5:
