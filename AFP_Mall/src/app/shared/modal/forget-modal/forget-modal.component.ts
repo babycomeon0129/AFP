@@ -2,7 +2,6 @@ import { Component, OnDestroy } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AppService } from '@app/app.service';
 import { Response_AFPVerifyCode, Request_AFPVerifyCode, Request_AFPReadMobile, Response_AFPReadMobile } from '@app/_models';
-// import { LoginRegisterModalComponent } from '../login-register-modal/login-register-modal.component';
 import { MessageModalComponent } from '../message-modal/message-modal.component';
 
 @Component({
@@ -85,7 +84,6 @@ export class ForgetModalComponent implements OnDestroy {
 
   /** 點擊返回 */
   goBackBtn(): void {
-    // this.bsModal.show(LoginRegisterModalComponent);
     this.bsModalRef.hide();
     clearInterval(this.vcodeCount);
 

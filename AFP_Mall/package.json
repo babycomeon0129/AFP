@@ -3,12 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "start-prod": "ng serve --prod",
-    "build-sit": "ng build -c sit",
-    "build-uat": "ng build -c uat",
-    "build-uuat": "ng build -c uuat",
-    "build-prod": "ng build --prod",
+    "start": "cp src/indexHtml/dev/index.html src/index.html && ng serve",
+    "start-prod": "cp src/indexHtml/prod/index.html src/index.html && ng serve --prod",
+    "build-sit": "powershell -Command \"Copy-Item 'C:/Jenkins/workspace/eyesmedia-afp-mobii-ui-sit/AFP_Mall/src/indexHtml/dev/index.html' 'C:/Jenkins/workspace/eyesmedia-afp-mobii-ui-sit/AFP_Mall/src/index.html'\" && ng build -c sit",
+    "build-uat": "powershell -Command \"Copy-Item 'C:/Jenkins/workspace/eyesmedia-afp-mobii-ui-sit/AFP_Mall/src/indexHtml/dev/index.html' 'C:/Jenkins/workspace/eyesmedia-afp-mobii-ui-sit/AFP_Mall/src/index.html'\" && ng build -c uat",
+    "build-uuat": "powershell -Command \"Copy-Item 'C:/Jenkins/workspace/eyesmedia-afp-mobii-ui-sit/AFP_Mall/src/indexHtml/dev/index.html' 'C:/Jenkins/workspace/eyesmedia-afp-mobii-ui-sit/AFP_Mall/src/index.html'\" && ng build -c uuat",
+    "build-prod": "powershell -Command \"Copy-Item 'C:/Jenkins/workspace/eyesmedia-afp-mobii-ui-sit/AFP_Mall/src/indexHtml/prod/index.html' 'C:/Jenkins/workspace/eyesmedia-afp-mobii-ui-sit/AFP_Mall/src/index.html'\" && ng build -c --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -42,13 +42,11 @@
     "ngx-bootstrap": "^5.2.0",
     "ngx-cookie-service": "^3.0.3",
     "ngx-masonry": "^1.1.4",
-    "ngx-sortablejs": "^9.0.0",
     "ngx-useful-swiper": "9.0.0",
     "node-sass": "~4.14.1",
     "popper.js": "^1.16.1",
     "rxjs": "~6.4.0",
     "smoothscroll-polyfill": "^0.4.4",
-    "sortablejs": "^1.10.2",
     "swiper": "^6.8.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
@@ -76,3 +74,4 @@
     "typescript": "~3.5.3"
   }
 }
+

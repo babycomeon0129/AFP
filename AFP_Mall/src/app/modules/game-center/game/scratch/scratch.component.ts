@@ -1,4 +1,3 @@
-import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, Input, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
@@ -53,7 +52,7 @@ export class ScratchComponent implements OnInit, AfterViewInit {
   /** 允許進行遊戲。需使用者點擊扣點確認視窗的「確認」才允許進行遊戲 */
   public goPlay = false;
 
-  constructor(public appService: AppService, public oauthService: OauthService, public modal: ModalService, private route: ActivatedRoute) {
+  constructor(public appService: AppService, public oauthService: OauthService, public modal: ModalService) {
   }
 
   ngOnInit() {

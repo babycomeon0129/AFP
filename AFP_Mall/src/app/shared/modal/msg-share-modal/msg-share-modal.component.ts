@@ -1,7 +1,6 @@
-import { environment } from '@env/environment';
 import { Component, OnInit } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { MessageModalComponent } from '../message-modal/message-modal.component';
+import { environment } from '@env/environment';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-msg-share-modal',
@@ -15,7 +14,7 @@ export class MsgShareModalComponent implements OnInit {
   sharedText: string;
   /** 訊息視窗切換 */
   subModal: number;
-  constructor(public bsModalRef: BsModalRef, private bsModal: BsModalService) {
+  constructor(public bsModalRef: BsModalRef) {
   }
 
   ngOnInit() {

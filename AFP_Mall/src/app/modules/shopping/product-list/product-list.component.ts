@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { AppService } from '@app/app.service';
-import { AFP_Product, AFP_UserDefine, Request_ECProductList, Response_ECProductList, AFP_Attribute,
-  AFP_AttributeValue } from '@app/_models';
-import { ActivatedRoute } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 import { Meta, Title } from '@angular/platform-browser';
-import { layerAnimation} from '@app/animations';
+import { ActivatedRoute } from '@angular/router';
+import { layerAnimation } from '@app/animations';
+import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
+import {
+  AFP_Attribute,
+  AFP_AttributeValue, AFP_Product, AFP_UserDefine, Request_ECProductList, Response_ECProductList
+} from '@app/_models';
 
 @Component({
   selector: 'app-product-list',
@@ -44,8 +45,7 @@ export class ProductListComponent implements OnInit {
   /** 同頁滑動切換 0:本頁 1:篩選清單 2: 商品分類 */
   public layerTrig = 0;
 
-  constructor(public appService: AppService, private route: ActivatedRoute, private cookieService: CookieService,
-              private oauthService: OauthService, private meta: Meta, private title: Title) {
+  constructor(public appService: AppService, private route: ActivatedRoute, private oauthService: OauthService, private meta: Meta, private title: Title) {
     this.cartCode = Number(this.oauthService.cookiesGet('cart_code').cookieVal);
     this.cartCount = Number(this.oauthService.cookiesGet('cart_count_Mobii').cookieVal);
     this.dirCode = Number(this.route.snapshot.params.ProductDir_Code);

@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
+import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { Observable } from 'rxjs';
-import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
-import { FavoriteModalComponent } from './favorite-modal/favorite-modal.component';
-import { MessageModalComponent } from './message-modal/message-modal.component';
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 import { CouponModalComponent } from './coupon-modal/coupon-modal.component';
+import { FavoriteModalComponent } from './favorite-modal/favorite-modal.component';
 import { JustkaModalComponent } from './justka-modal/justka-modal.component';
-import { ReceiptModalComponent } from './receipt-modal/receipt-modal.component';
+import { MessageModalComponent } from './message-modal/message-modal.component';
 import { MsgShareModalComponent } from './msg-share-modal/msg-share-modal.component';
-import { AppleModalComponent } from './apple-modal/apple-modal.component';
+import { ReceiptModalComponent } from './receipt-modal/receipt-modal.component';
 // import { PasswordModalComponent } from './password-modal/password-modal.component';
 // import { ForgetModalComponent } from './forget-modal/forget-modal.component';
 
@@ -63,10 +62,5 @@ export class ModalService {
   public addCoupon(options: ModalOptions): Observable<any> {
     const ModalRef =  this.bsModalService.show(CouponModalComponent, options);
     return ModalRef.content.couponResult;
-  }
-
-  public appleLogin(options: ModalOptions): Observable<any> {
-    const ModalRef =  this.bsModalService.show(AppleModalComponent, options);
-    return ModalRef.content.appleUser;
   }
 }

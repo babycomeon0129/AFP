@@ -1,12 +1,10 @@
-import { CookieService } from 'ngx-cookie-service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 import { AppService } from '@app/app.service';
 import { OauthService, ResponseOauthApi, ViewConfig } from '@app/modules/oauth/oauth.service';
-import { Component, ElementRef, OnInit, AfterViewInit } from '@angular/core';
-import { environment } from '@env/environment';
-import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { MessageModalComponent } from '@app/shared/modal/message-modal/message-modal.component';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-oauth-login',
@@ -36,7 +34,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   /** 「艾斯身份識別_登入」後端回傳資料 */
   public loginJsonData: object;
 
-  constructor(public appService: AppService, public oauthService: OauthService, private router: Router,
+  constructor(public appService: AppService, public oauthService: OauthService,
               public el: ElementRef, private activatedRoute: ActivatedRoute, public bsModalService: BsModalService,
               private callApp: AppJSInterfaceService, public cookieService: CookieService) {
 

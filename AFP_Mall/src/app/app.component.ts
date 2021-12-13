@@ -1,15 +1,14 @@
-import { environment } from '@env/environment';
-import { Component, DoCheck, KeyValueDiffer, KeyValueDiffers, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute, ResolveEnd } from '@angular/router';
-import { AppJSInterfaceService } from './app-jsinterface.service';
+import { Component, DoCheck, KeyValueDiffer, KeyValueDiffers, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, ResolveEnd, Router, RouterOutlet } from '@angular/router';
 import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
 import { ModalService } from '@app/shared/modal/modal.service';
+import { environment } from '@env/environment';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { CookieService } from 'ngx-cookie-service';
-import { RouterOutlet } from '@angular/router';
-import { slideInAnimation } from './animations';
 import { filter } from 'rxjs/operators';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { slideInAnimation } from './animations';
+import { AppJSInterfaceService } from './app-jsinterface.service';
 
 @Component({
   selector: 'body',
@@ -120,6 +119,12 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
           this.callApp.appShowMobileFooter(false);
         }
         this.appService.prevUrl = event.url;  // 取得前一頁面url
+        // 追蹤每個頁面資訊，推送給GA
+        // const gtmTag = {
+        //   event: 'page',
+        //   pageName: event.url
+        // };
+        // this.gtmService.pushTag(gtmTag);
       });
     this.detectOld();
     // this.appService.initPush();
@@ -141,7 +146,7 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
     this.enVersion =
       'Ver.' + environment.version + '_' +
       ('0' + (versionDate.getMonth() + 1)).slice(-2) +
-      String(versionDate.getDate()).padStart(2, '0') + ' | ' +
+      ('0' + versionDate.getDate()).slice(-2) + ' | ' +
       versionDate.toLocaleString();
   }
 

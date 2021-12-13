@@ -1,12 +1,10 @@
-import { environment } from '@env/environment';
 import { Component, OnInit } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Request_ECCart, Response_ECCart, AFP_Cart, CartStoreList, ProductInfo } from '@app/_models';
-import { CookieService } from 'ngx-cookie-service';
 import { ModalService } from '@app/shared/modal/modal.service';
-import { Meta, Title } from '@angular/platform-browser';
+import { AFP_Cart, CartStoreList, ProductInfo, Request_ECCart, Response_ECCart } from '@app/_models';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -34,8 +32,7 @@ export class ShoppingCartComponent implements OnInit {
   public nocartShow = false;
 
   constructor(public appService: AppService, private oauthService: OauthService,
-              public modal: ModalService, private cookieService: CookieService, private router: Router,
-              private route: ActivatedRoute, private meta: Meta, private title: Title) {
+              public modal: ModalService, private router: Router, private meta: Meta, private title: Title) {
     this.title.setTitle('購物車｜線上商城 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! 線上商城購物車。你是不是…還有商品在購物車裡忘了結帳？趕快結帳把購物車清空，賺取 Mobii! M Points 回饋點數吧！我 OK，你先買！' });
     this.meta.updateTag({ content: '購物車｜線上商城 - Mobii!', property: 'og:title' });

@@ -1,12 +1,12 @@
-import { environment } from '@env/environment';
-import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map, retry } from 'rxjs/operators';
-import { CookieService } from 'ngx-cookie-service';
-import { BsModalService } from 'ngx-bootstrap/modal';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { MessageModalComponent } from '@app/shared/modal/message-modal/message-modal.component';
+import { environment } from '@env/environment';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { CookieService } from 'ngx-cookie-service';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 declare var AppJSInterface: any;
 @Injectable({
@@ -33,7 +33,7 @@ export class OauthService {
   public preName = '';
 
   constructor(private router: Router, private http: HttpClient, public cookieService: CookieService,
-              private bsModalService: BsModalService, private activatedRoute: ActivatedRoute) {
+              private bsModalService: BsModalService) {
   }
 
   /** 取得域名前置 */

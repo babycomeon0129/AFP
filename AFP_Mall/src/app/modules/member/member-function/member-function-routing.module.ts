@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { SessionAliveGuard } from 'src/app/shared/guard/session-alive-guard/session-alive.guard';
-
 import { MemberCardComponent } from './member-card/member-card.component';
 import { MemberCardDetailComponent } from './member-card-detail/member-card-detail.component';
 import { MemberTicketComponent } from './member-ticket/member-ticket.component';
@@ -28,16 +26,6 @@ const routes: Routes = [
   { path: 'MemberOrder', component: MemberOrderComponent, data: {animation: 'MemberOrder'}},
   { path: 'MemberFood', component: MemberFoodComponent, data: {animation: 'MemberFood'}},
   { path: 'MyOrderDetail/:Order_TableNo', component: MyOrderDetailComponent },
-  // { path: 'MemberCard', canActivate: [SessionAliveGuard], component: MemberCardComponent, data: {animation: 'MemberCard'}},
-  // { path: 'MemberCardDetail/:UserFavourite_ID/:UserFavourite_TypeCode',
-  // canActivate: [SessionAliveGuard], component: MemberCardDetailComponent},
-  // { path: 'MemberTicket', canActivate: [SessionAliveGuard], component: MemberTicketComponent},
-  // { path: 'MemberCoin', canActivate: [SessionAliveGuard], component: MemberCoinComponent},
-  // { path: 'MemberDiscount', canActivate: [SessionAliveGuard], component: MemberDiscountComponent, data: {animation: 'MemberDiscount'}},
-  // { path: 'MemberFavorite', canActivate: [SessionAliveGuard], component: MemberFavoriteComponent, data: {animation: 'MemberFavorite'}},
-  // { path: 'MemberOrder', component: MemberOrderComponent, data: {animation: 'MemberOrder'}},
-  // { path: 'MemberFood', component: MemberFoodComponent, data: {animation: 'MemberFood'}},
-  // { path: 'MyOrderDetail/:Order_TableNo', canActivate: [SessionAliveGuard], component: MyOrderDetailComponent },
   { path: 'ETicketDetail/:UserTicket_Code', component: ETicketDetailComponent},
   { path: 'ETicketOrderDetail/:Order_TableNo', component: ETicketOrderDetailComponent},
   { path: '', redirectTo: '/Member'}

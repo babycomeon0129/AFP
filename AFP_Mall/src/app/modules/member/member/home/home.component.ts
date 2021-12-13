@@ -3,15 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Model_ShareData, AFP_ADImg } from '@app/_models';
-import { Request_MemberThird, Response_MemberThird } from '../member.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { SwiperOptions } from 'swiper';
 import { MemberService } from '@app/modules/member/member.service';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { Session } from 'inspector';
 import { AppJSInterfaceService } from '@app/app-jsinterface.service';
-import { CookieService } from 'ngx-cookie-service';
 
 declare var AppJSInterface: any;
 
@@ -37,7 +33,7 @@ export class HomeComponent implements OnInit {
 
   constructor(public appService: AppService, public oauthService: OauthService, private callApp: AppJSInterfaceService,
               public router: Router, private modal: ModalService, private route: ActivatedRoute, public location: Location,
-              public memberService: MemberService, private cookieService: CookieService) {
+              public memberService: MemberService) {
   }
 
   ngOnInit() {
@@ -49,24 +45,6 @@ export class HomeComponent implements OnInit {
         this.callApp.appShowMobileFooter(true);
       }
     }
-    //  第三方登入取得資料
-    // this.authService.authState.subscribe((user) => {
-    //   this.thirdUser = user;
-    //   if (this.thirdUser !== null && this.thirdClick) {
-    //     this.thirdClick = !this.thirdClick;
-    //     this.appService.openBlock();
-    //     // 社群帳號綁定
-    //     const request: Request_MemberThird = {
-    //       SelectMode: 1,
-    //       Mode: this.memberService.bindMode,
-    //       Token: this.thirdUser.id,
-    //       JsonData: JSON.stringify(this.thirdUser)
-    //     };
-    //     this.appService.toApi('Member', '1506', request).subscribe((data: Response_MemberThird) => {
-    //       this.memberService.readThirdData();
-    //     });
-    //   }
-    // });
   }
 
   /** 讀取首頁資料 */

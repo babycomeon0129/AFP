@@ -1,18 +1,13 @@
-import { environment } from '@env/environment';
-import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { layerAnimationUp } from '@app/animations';
 import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
-import {
-  Request_ECProductDetail, Response_ECProductDetail, AFP_Product, AFP_ECStore, AFP_Attribute, Request_ECCart,
-  Response_ECCart, AFP_Voucher, AFP_ProductImg, CartStoreList
-} from '@app/_models';
-import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 import { ModalService } from '@app/shared/modal/modal.service';
-import { SwiperOptions } from 'swiper';
-import { Meta, Title } from '@angular/platform-browser';
+import { AFP_Attribute, AFP_ECStore, AFP_Product, AFP_ProductImg, AFP_Voucher, CartStoreList, Request_ECCart, Request_ECProductDetail, Response_ECCart, Response_ECProductDetail } from '@app/_models';
 import smoothscroll from 'smoothscroll-polyfill';
-import { layerAnimationUp } from '@app/animations';
+import { SwiperOptions } from 'swiper';
 
 smoothscroll.polyfill(); // kick off the polyfill!
 
@@ -76,8 +71,7 @@ export class ProductDetailComponent implements OnInit {
   public layerTrigUp = 0;
 
   constructor(public appService: AppService, private oauthService: OauthService,
-              private router: Router, private route: ActivatedRoute, public modal: ModalService,
-              private cookieService: CookieService, private meta: Meta, private title: Title) {
+              private router: Router, private route: ActivatedRoute, public modal: ModalService, private meta: Meta, private title: Title) {
     this.productCode = parseInt(this.route.snapshot.params.Product_Code, 10);
     this.productDirCode = parseInt(this.route.snapshot.params.ProductDir_Code, 10);
     this.cartCode = Number(this.oauthService.cookiesGet('cart_code').cookieVal);

@@ -1,13 +1,12 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
-import { AppService } from '@app/app.service';
-import { OauthService } from '@app/modules/oauth/oauth.service';
-import { Response_AreaDetail, AFP_ECStore, Model_ShareData, AFP_Voucher, AFP_Product, AFP_ECStoreLink } from '@app/_models';
-import { SwiperOptions } from 'swiper';
-import { SwiperComponent } from 'ngx-useful-swiper';
-import { ActivatedRoute } from '@angular/router';
-import { ModalService } from '@app/shared/modal/modal.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 import { layerAnimation } from '@app/animations';
+import { AppService } from '@app/app.service';
+import { ModalService } from '@app/shared/modal/modal.service';
+import { AFP_ECStore, AFP_ECStoreLink, AFP_Product, AFP_Voucher, Model_ShareData, Response_AreaDetail } from '@app/_models';
+import { SwiperComponent } from 'ngx-useful-swiper';
+import { SwiperOptions } from 'swiper';
 
 @Component({
   selector: 'app-explore-detail',
@@ -69,8 +68,7 @@ export class ExploreDetailComponent implements OnInit {
   /** 同頁滑動切換 0:本頁 1:篩選清單 2:篩選-商品分類 3:更多推薦 */
   public layerTrig = 0;
 
-  constructor(public appService: AppService, private oauthService: OauthService,
-              private route: ActivatedRoute, private modal: ModalService,
+  constructor(public appService: AppService, private route: ActivatedRoute, private modal: ModalService,
               private meta: Meta, private title: Title ) {
     // 取得商家/景點編碼
     this.siteCode = Number(this.route.snapshot.params.ECStore_Code);
@@ -191,6 +189,7 @@ export class ExploreDetailComponent implements OnInit {
           break;
         }
       }
+      this.appService.blockUI.stop();
     });
   }
 

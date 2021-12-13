@@ -1,14 +1,12 @@
-import { Component, OnInit, HostListener } from '@angular/core';
-import { AppService } from '@app/app.service';
-import { ModalService } from '@app/shared/modal/modal.service';
-import { Response_ECHome, AFP_ADImg, AFP_Function, AFP_ChannelProduct, AFP_Product, AFP_ChannelVoucher,
-        Request_ECHome} from '@app/_models';
-import { SwiperOptions } from 'swiper';
-import { NgxMasonryOptions } from 'ngx-masonry';
-import { CookieService } from 'ngx-cookie-service';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { OauthService } from '@app/modules/oauth/oauth.service';
 import { Router } from '@angular/router';
+import { AppService } from '@app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
+import { ModalService } from '@app/shared/modal/modal.service';
+import { AFP_ADImg, AFP_ChannelProduct, AFP_ChannelVoucher, AFP_Function, AFP_Product, Request_ECHome, Response_ECHome } from '@app/_models';
+import { NgxMasonryOptions } from 'ngx-masonry';
+import { SwiperOptions } from 'swiper';
 
 @Component({
   templateUrl: './shopping.component.html',
@@ -82,7 +80,7 @@ export class ShoppingComponent implements OnInit {
   };
 
   constructor(public appService: AppService, private oauthService: OauthService, public router: Router,
-              public modal: ModalService, private cookieService: CookieService, private meta: Meta, private title: Title) {
+              public modal: ModalService, private meta: Meta, private title: Title) {
     this.title.setTitle('線上商城 - Mobii!');
     this.meta.updateTag({name : 'description', content: '來 Mobii! 線上商城購物，產品多元多樣，美食、3C、母嬰、生活百貨、美妝⋯⋯琳瑯滿目，還有限時限量折扣優惠等你來搶。Mobii! 賣的就是跟別人要不一樣！'});
     this.meta.updateTag({content: '線上商城 - Mobii!', property: 'og:title'});

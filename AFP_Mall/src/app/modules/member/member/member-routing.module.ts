@@ -8,8 +8,6 @@ import { CellVerificationComponent } from './cell-verification/cell-verification
 import { MyAddressComponent } from './my-address/my-address.component';
 import { PasswordUpdateComponent } from './password-update/password-update.component';
 import { MyPaymentComponent } from './my-payment/my-payment.component';
-import { ThirdBindingComponent } from './third-binding/third-binding.component';
-import { SessionAliveGuard } from '@app/shared/guard/session-alive-guard/session-alive.guard';
 
 const routes: Routes = [
   {
@@ -21,8 +19,7 @@ const routes: Routes = [
       { path: 'CellVerification', component: CellVerificationComponent, data: {animation: 'CellVerification'} },
       { path: 'MyAddress', component: MyAddressComponent, data: {animation: 'MyAddress'} },
       { path: 'MyPayment', component: MyPaymentComponent, data: {animation: 'MyPayment'} },
-      { path: 'PasswordUpdate', component: PasswordUpdateComponent, data: {animation: 'PasswordUpdate'} },
-      { path: 'ThirdBinding', component: ThirdBindingComponent, data: {animation: 'ThirdBinding'} }
+      { path: 'PasswordUpdate', component: PasswordUpdateComponent, data: {animation: 'PasswordUpdate'} }
     ]
   }
 ];

@@ -1,10 +1,8 @@
-import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Request_MemberOrder, Response_MemberOrder, AFP_MemberOrder } from '@app/_models';
 import { AppService } from '@app/app.service';
-import { OauthService } from '@app/modules/oauth/oauth.service';
 import { SwiperOptions } from 'swiper';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 import { MemberService } from '@app/modules/member/member.service';
 
@@ -31,8 +29,7 @@ export class MemberOrderComponent implements OnInit {
   };
 
 
-  constructor(public appService: AppService, private oauthService: OauthService, private router: Router, private route: ActivatedRoute,
-              private meta: Meta, private title: Title, public memberService: MemberService, private location: Location) {
+  constructor(public appService: AppService, private router: Router, private meta: Meta, private title: Title, public memberService: MemberService) {
     this.title.setTitle('我的訂單 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 我的訂單。這裡會顯示 Mobii! 用戶在 Mobii! 平台上購物的訂單，包括訂單出貨及收貨進度。請先登入註冊以開啟功能。' });
     this.meta.updateTag({ content: '我的訂單 - Mobii!', property: 'og:title' });
