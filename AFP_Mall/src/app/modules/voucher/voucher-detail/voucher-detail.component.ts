@@ -179,6 +179,12 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
           } else {
             window.open(voucher.Voucher_URL, voucher.Voucher_URLTarget);
           }
+        } else {
+          // 去商店網址 [Voucher_URL] 若空值未填，則預設為去店家詳情頁_所有商品分頁
+          const navigationExtras: NavigationExtras = {
+            queryParams: { showBack: this.route.snapshot.queryParams.showBack, navNo: 3 }
+          };
+          this.router.navigate(['/Explore/ExploreDetail', voucher.Voucher_ECStoreCode], navigationExtras);
         }
         break;
       case 5:

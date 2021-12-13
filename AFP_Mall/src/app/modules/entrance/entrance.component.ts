@@ -7,8 +7,8 @@ import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import {
-  AFP_ADImg, AFP_ChannelProduct,
-  AFP_ChannelVoucher, AFP_Function, AFP_Product, AFP_UserFavourite, Model_AreaJsonFile, Model_ShareData, Model_TravelJsonFile, Request_ECHome, Request_Home, Response_ECHome, Response_Home
+  AFP_ADImg, AFP_ChannelProduct, AFP_ChannelVoucher, AFP_Function, AFP_Product, AFP_UserFavourite,
+  Model_AreaJsonFile, Model_ShareData, Model_TravelJsonFile, Request_ECHome, Request_Home, Response_ECHome, Response_Home
 } from '@app/_models';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { NgxMasonryOptions } from 'ngx-masonry';
@@ -321,7 +321,7 @@ export class EntranceComponent implements OnInit {
   /** 讀取資料
    * @param action 執行動作：1 進入此頁，2 讀取分頁（近期熱門商品瀑布流）
    */
-   readhotProducts(action: number): void {
+  readhotProducts(action: number): void {
     const request: Request_ECHome = {
       // SelectMode 1:  讀取商城所有資料 2:只有熱門商品資料，用於熱門商品瀑布流
       SelectMode: 2,
@@ -353,10 +353,10 @@ export class EntranceComponent implements OnInit {
   /** 近期熱門商品瀑布流 */
   @HostListener('window: scroll', ['$event'])
   prodWaterfall(event: Event): void {
-    if ((Math.floor(window.scrollY + window.innerHeight) >= document.documentElement.offsetHeight - 1 )
-        && this.currentPage < this.totalPage) {
+    if ((Math.floor(window.scrollY + window.innerHeight) >= document.documentElement.offsetHeight - 1)
+      && this.currentPage < this.totalPage) {
       this.appService.openBlock();
-      this.currentPage ++;
+      this.currentPage++;
       this.readhotProducts(2);
     }
   }
@@ -365,8 +365,7 @@ export class EntranceComponent implements OnInit {
   /** 判斷首頁進場廣告開啟 */
   adIndexChenck(): void {
     const adTime = this.oauthService.cookiesGet('adTime').cookieVal || null;
-    // adTime轉字串adTimeString
-    const adTimeString = JSON.parse(adTime);
+    const adTimeString = adTime;
     const nowTime = new Date().getFullYear().toString() + new Date().getMonth().toString() + new Date().getDate().toString();
     if (adTimeString !== nowTime) {
       this.oauthService.cookiesSet({
@@ -407,7 +406,6 @@ export class EntranceComponent implements OnInit {
     };
 
     this.appService.toApi('Home', '1110', request).subscribe((data: Response_AFPUserService) => {
-      console.log(data);
       this.ftTop = data.List_NewFunction[0].Model_Function;
       this.serviceList = data.List_NewFunction.filter((item, index) => index > 0);
 
