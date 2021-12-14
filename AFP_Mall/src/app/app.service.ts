@@ -202,7 +202,7 @@ export class AppService {
             this.pushCount = 0;
             this.oauthService.onLogout(this.isApp);
           }
-          this.oauthService.loginPage(this.isApp, location.pathname + location.search);
+          this.oauthService.loginPage(this.isApp, location.href.replace(location.origin, ''));
         }
       }
     });
