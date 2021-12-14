@@ -38,7 +38,7 @@ export class SettingComponent implements OnInit {
     this.oauthService.onLogout(this.appService.isApp);
   }
 
-  /** 「艾斯身份識別_密碼修改1」 */
+  /** 「艾斯身份識別_變更密碼1」 */
   passwordUpdate() {
     this.oauthService.toModifyEyes(this.appService.isApp, this.oauthService.cookiesGet('idToken').cookieVal)
     .subscribe((data: string) => {
