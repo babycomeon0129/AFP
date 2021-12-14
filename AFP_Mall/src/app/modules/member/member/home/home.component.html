@@ -19,7 +19,7 @@
         </div>
         <!-- 登入前 -->
         <div *ngIf="appService.loginState===false">
-          <button (click)="oauthService.loginPage(appService.isApp, location.path())" type="button" class="btn white-outline-btn btw-small">
+          <button (click)="oauthService.loginPage(appService.isApp, backUri)" type="button" class="btn white-outline-btn btw-small">
             登入/註冊
             <img src="../img/share/forward_w.png" class="h20">
           </button>

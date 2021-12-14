@@ -260,7 +260,7 @@ export class OauthService {
         rightBtnMsg: '登入/註冊',
         rightBtnFn: () => {
           this.onClearLogin();
-          this.loginPage(isApp, location.pathname);
+          this.loginPage(isApp, location.pathname + location.search);
         }
       }
     });
