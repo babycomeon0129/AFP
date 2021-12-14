@@ -54,6 +54,7 @@ export class ShoppingCartComponent implements OnInit {
         Cart_Code: this.cartCode // 購物車Code
       }
     };
+    console.log(this.cartList);
     this.appService.toApi('EC', '1204', request).subscribe((data: Response_ECCart) => {
       this.appService.blockUI.stop();
       // 若在此頁登入：登入前若購物車有商品，則先清空購物車。
@@ -333,34 +334,34 @@ export class ShoppingCartComponent implements OnInit {
     if (this.selectedProductsList.length === 0 || this.selectedStoresList.length === 0) {
       this.modal.show('message', { initialState: { success: false, message: '還沒有選擇要結帳的商家及商品喔!', showType: 1 } });
     } else {
-      // 若未登入，則跳出登入視窗
-      if (!this.oauthService.cookiesGet('idToken').cookieVal) {
-        this.appService.logoutModal();
-      } else {
-        // 已登入
-        // (若有更動過的商品)更改商品數
-        if (this.productsToUpdate.length > 0) {
-          const request: Request_ECCart = {
-            SelectMode: 5, // 多筆更新
-            Cart_Count: this.cartCount,
-            SearchModel: {
-              Cart_Code: this.cartCode
-            },
-            AFP_Cart: {
-              Cart_Code: this.cartCode
-            },
-            List_Cart: this.productsToUpdate
-          };
+      // 未登入
+      // (若有更動過的商品)更改商品數
+      if (this.productsToUpdate.length > 0) {
+        const request: Request_ECCart = {
+          SelectMode: 5, // 多筆更新
+          Cart_Count: this.cartCount,
+          SearchModel: {
+            Cart_Code: this.cartCode
+          },
+          AFP_Cart: {
+            Cart_Code: this.cartCode
+          },
+          List_Cart: this.productsToUpdate
+        };
 
-          this.appService.toApi('EC', '1204', request).subscribe((data: Response_ECCart) => {
-            // 若失敗後端會回(可能是沒登入)
-            // 數量更新成功後前往結帳
-            this.router.navigate(['/Order/ShoppingOrder'], {
-              state: {
-                data: { checkoutList: this.cartList }
-              }
-            });
+        this.appService.toApi('EC', '1204', request).subscribe((data: Response_ECCart) => {
+          // 若失敗後端會回(可能是沒登入)
+          // 數量更新成功後前往結帳
+          this.router.navigate(['/Order/ShoppingOrder'], {
+            state: {
+              data: { checkoutList: this.cartList }
+            }
           });
+        });
+      } else {
+        // 若未登入，則跳出登入視窗
+        if (!this.oauthService.cookiesGet('idToken').cookieVal) {
+          this.appService.logoutModal();
         } else {
           // 直接前往結帳
           this.router.navigate(['/Order/ShoppingOrder'], {
