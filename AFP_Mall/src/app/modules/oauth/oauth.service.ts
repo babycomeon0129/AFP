@@ -294,7 +294,7 @@ export class OauthService {
     // APP登出導頁
     if (appVisit === 1) {
       this.cookiesSet({
-        logout: appVisit.toString() + ',' + location.href
+        logout: appVisit + ',' + location.href
       });
       location.href = '/ForApp/AppLogout';
       console.log('app logout');
