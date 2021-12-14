@@ -19,7 +19,7 @@ export class IndexHeaderComponent implements OnInit {
               public location: Location, private router: Router) { }
 
   ngOnInit() {
-    this.backUri = location.href.replace(location.origin, '');
+    this.backUri = encodeURI(location.href.replace(location.origin, ''));
   }
 
   /** 搜尋Bar，搜尋完畢後前往「找優惠」
