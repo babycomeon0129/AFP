@@ -1,13 +1,13 @@
 import { Location } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AppService } from '@app/app.service';
-import { Request_AFPVerifyCode, Response_AFPVerifyCode } from '@app/_models';
-import { ModalService } from '@app/shared/modal/modal.service';
-import { MemberService } from '@app/modules/member/member.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { layerAnimation } from '@app/animations';
 import { Meta, Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
+import { layerAnimation } from '@app/animations';
+import { AppService } from '@app/app.service';
+import { MemberService } from '@app/modules/member/member.service';
+import { ModalService } from '@app/shared/modal/modal.service';
+import { Request_AFPVerifyCode, Response_AFPVerifyCode } from '@app/_models';
 
 @Component({
   selector: 'app-cell-verification',
@@ -35,17 +35,17 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
   public toVerifyCell = false;
 
   constructor(public appService: AppService, private activatedRoute: ActivatedRoute,
-              public memberService: MemberService, private modal: ModalService,
-              public router: Router, private meta: Meta, private title: Title, public location: Location) {
+    public memberService: MemberService, private modal: ModalService,
+    public router: Router, private meta: Meta, private title: Title, public location: Location) {
     this.title.setTitle('手機驗證 - Mobii!');
-    this.meta.updateTag({name : 'description', content: ''});
-    this.meta.updateTag({content: '手機驗證 - Mobii!', property: 'og:title'});
-    this.meta.updateTag({content: '', property: 'og:description'});
+    this.meta.updateTag({ name: 'description', content: '' });
+    this.meta.updateTag({ content: '手機驗證 - Mobii!', property: 'og:title' });
+    this.meta.updateTag({ content: '', property: 'og:description' });
   }
 
   ngOnInit() {
     if (this.activatedRoute.snapshot.queryParams.toVerifyMobile !== undefined &&
-        this.activatedRoute.snapshot.queryParams.toVerifyMobile === 'true') {
+      this.activatedRoute.snapshot.queryParams.toVerifyMobile === 'true') {
       // 第三方登入後因強制驗證被導至此
       this.toVerifyCell = true;
       this.shownSection = 0;
@@ -109,12 +109,14 @@ export class CellVerificationComponent implements OnInit, OnDestroy {
     this.requestMobileVerify.VerifiedAction = this.toVerifyCell ? 11 : 3;
 
     this.appService.toApi('Member', '1112', this.requestMobileVerify).subscribe((data: Response_AFPVerifyCode) => {
-      this.modal.show('message', { class: 'modal-dialog-centered',
+      this.modal.show('message', {
+        class: 'modal-dialog-centered',
         initialState: {
           success: true,
           message: `手機認證成功！歡迎您盡情享受 Mobii! 獨家優惠`,
           showType: 1, checkBtnMsg: `確認`, checkBtnUrl: `/`
-        } });
+        }
+      });
       this.readCellNumber();
       // 清除重新傳送驗證碼倒數
       clearInterval(this.vcodeTimer);

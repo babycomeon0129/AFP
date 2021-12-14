@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AppService } from '@app/app.service';
-import { AFP_UserFavourite, AFP_UserReport, Request_MemberAddress, Response_MemberAddress } from '@app/_models';
 import { NgForm } from '@angular/forms';
-import { ModalService } from '@app/shared/modal/modal.service';
-import { layerAnimation } from '@app/animations';
 import { Meta, Title } from '@angular/platform-browser';
+import { layerAnimation } from '@app/animations';
+import { AppService } from '@app/app.service';
+import { ModalService } from '@app/shared/modal/modal.service';
+import { AFP_UserFavourite, AFP_UserReport, Request_MemberAddress, Response_MemberAddress } from '@app/_models';
 
 @Component({
   selector: 'app-my-address',
@@ -57,22 +57,16 @@ export class MyAddressComponent implements OnInit {
         // 地區、縣市、行政區
         if (this.UserReoprtList.length === 0) {
           this.UserReoprtList = data.AFP_UserReport;
-          for (const item of data.AFP_UserReport) {
-            if (item.UserReport_CategoryCode === 20) {
-              this.areaList.push(item);
-            } else if (item.UserReport_CategoryCode === 21) {
-              this.cityList.push(item);
-            } else if (item.UserReport_CategoryCode === 22) {
-              this.districtList.push(item);
-            }
-          }
+          this.areaList = this.UserReoprtList.filter( area => area.UserReport_CategoryCode === 20);
+          this.cityList = this.UserReoprtList.filter( area => area.UserReport_CategoryCode === 21);
+          this.districtList = this.UserReoprtList.filter( area => area.UserReport_CategoryCode === 22);
         }
       });
     }
   }
 
   /** 讀取地址詳細
-   * @param addressId 地址ID
+   * @param addressID 地址ID
    */
   onReadAddressDetail(addressID: number): void {
     if (!this.appService.loginState) {

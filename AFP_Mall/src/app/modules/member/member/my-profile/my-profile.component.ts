@@ -66,7 +66,6 @@ export class MyProfileComponent implements OnInit {
       this.userAvatar = (this.userProfileOrigin.User_Avatar &&
         this.userProfileOrigin.User_Avatar !== null && this.userProfileOrigin.User_Avatar !== undefined)
         ? this.userProfileOrigin.User_Avatar : this.userAvatar;
-      console.log(this.userProfileOrigin.User_Avatar);
       this.readThirdData();
     }
   }

@@ -59,6 +59,7 @@ export class OauthService {
    * App：原生點擊登入按鈕（帶queryParams：isApp,deviceType,deviceCode），統一由Web向艾斯識別驗證
    * Web：登入按鈕帶入pathname，做為返回依據
    */
+  // TODO:  code & pathname pathTemp @params備註
   loginPage(code: number, pathname: string): any {
     this.onClearLogin();
     if (code === 1) {
@@ -200,6 +201,7 @@ export class OauthService {
   /** 「cookie,session管理_取得」
    * session未設定為null；cookie未設定為''
    */
+  // TODO: sessionVal、cookieVal、itemName、sessionVal、cookieVal 補上註解
   cookiesGet(item: string) {
     this.getLocation();
     let sessionVal = '';

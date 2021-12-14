@@ -1,16 +1,16 @@
-import { Component, OnInit, AfterViewChecked } from '@angular/core';
-import { AppService } from '@app/app.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Request_MemberMsg, Response_MemberMsg, AFP_IMessage } from '@app/_models';
+import { Component, OnInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AppService } from '@app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
+import { AFP_IMessage, Request_MemberMsg, Response_MemberMsg } from '@app/_models';
 
 @Component({
   selector: 'app-notification-detail',
   templateUrl: './notification-detail.component.html',
   styleUrls: ['./notification-detail.scss']
 })
-export class NotificationDetailComponent implements OnInit, AfterViewChecked {
+export class NotificationDetailComponent implements OnInit {
   /** 訊息編碼 */
   public msgCode: number;
   /** 訊息詳情 */
@@ -83,26 +83,6 @@ export class NotificationDetailComponent implements OnInit, AfterViewChecked {
     } else {
       history.back();
     }
-  }
-
-  ngAfterViewChecked(): void {
-    // CKEditor 5內嵌影片顯示處理。如果抓到影片則不再執行videoShow()
-    if (!this.videoCheck) {
-      this.videoShow();
-    }
-
-  }
-
-  videoShow(): void {
-    const videoView = document.querySelectorAll('iframe[allowfullscreen]');
-    if (videoView[0] !== undefined) {
-      this.videoCheck = true;
-    }
-    videoView.forEach(video => {
-      video.attributes[1].nodeValue = '';
-      video.classList.add('ifrwd');
-    });
-
   }
 
 }

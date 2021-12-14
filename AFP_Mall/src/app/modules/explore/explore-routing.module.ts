@@ -4,6 +4,7 @@ import { ExploreDetailComponent } from './explore-detail/explore-detail.componen
 import { ExploreListComponent } from './explore-list/explore-list.component';
 import { ExploreMapComponent } from './explore-map/explore-map.component';
 
+
 const routes: Routes = [
   { path: 'ExploreMap', component: ExploreMapComponent },
   { path: 'ExploreList/:AreaMenu_Code', component: ExploreListComponent },

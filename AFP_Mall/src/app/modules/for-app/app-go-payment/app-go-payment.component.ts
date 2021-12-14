@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AppService } from '@app/app.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Request_ECCart, Response_ECCart } from '@app/_models';
 import { Meta, Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AppService } from '@app/app.service';
+import { Request_ECCart, Response_ECCart } from '@app/_models';
 
 @Component({
   selector: 'app-app-go-payment',
@@ -10,8 +10,10 @@ import { Meta, Title } from '@angular/platform-browser';
 })
 export class AppGoPaymentComponent implements OnInit {
 
-  public cartList = []; // 整理過後購物車資料(呈現)
-  private checkoutType = '1';  //  支付頁面 1 : 一般 2: 電子票卷
+  /** 整理過後購物車資料(呈現) */
+  public cartList = [];
+  /** 支付頁面 1 : 一般 2: 電子票卷 */
+  private checkoutType = '1';
 
   constructor(public appService: AppService, private router: Router, private activatedRoute: ActivatedRoute,
               private meta: Meta, private title: Title) {

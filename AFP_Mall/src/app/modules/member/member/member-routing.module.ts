@@ -6,7 +6,6 @@ import { MemberComponent } from './member.component';
 import { MyAddressComponent } from './my-address/my-address.component';
 import { MyPaymentComponent } from './my-payment/my-payment.component';
 import { MyProfileComponent } from './my-profile/my-profile.component';
-import { PasswordUpdateComponent } from './password-update/password-update.component';
 import { SettingComponent } from './setting/setting.component';
 
 const routes: Routes = [
@@ -17,8 +16,7 @@ const routes: Routes = [
       { path: 'MyProfile', component: MyProfileComponent, data: {animation: 'MyProfile'} },
       { path: 'CellVerification', component: CellVerificationComponent, data: {animation: 'CellVerification'} },
       { path: 'MyAddress', component: MyAddressComponent, data: {animation: 'MyAddress'} },
-      { path: 'MyPayment', component: MyPaymentComponent, data: {animation: 'MyPayment'} },
-      { path: 'PasswordUpdate', component: PasswordUpdateComponent, data: {animation: 'PasswordUpdate'} }
+      { path: 'MyPayment', component: MyPaymentComponent, data: {animation: 'MyPayment'} }
     ]
   }
 ];

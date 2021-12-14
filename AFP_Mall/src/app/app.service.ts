@@ -424,7 +424,12 @@ export class AppService {
           this.deviceCode = this.guid();
           localStorage.setItem('M_DeviceCode', this.deviceCode);
         }
-        this.toPushApi(token);
+        const fireBaseToken = localStorage.getItem('FireMessaging_token') || null ;
+        // 如果localStorage沒有存token或存放的token不是新版，更新token並傳給後端(api 1113)
+        if (fireBaseToken === null || fireBaseToken !== token) {
+          localStorage.setItem('FireMessaging_token', token);
+          this.toPushApi(token);
+        }
       },
       (err) => {
         console.error('Unable to get permission to notify.', err);

@@ -69,9 +69,9 @@ export class GameCenterComponent implements OnInit {
    * @param gameType 遊戲類型
    */
   goGame(gameCode: number, gameType: number): void {
-    this.activatedRoute.snapshot.queryParams.showBack === 'true' ?
-      this.router.navigate(['/GameCenter/Game', gameCode], { queryParams: { GameType: gameType, showBack: true } }) :
-      this.router.navigate(['/GameCenter/Game', gameCode], { queryParams: { GameType: gameType } });
+    // 是否顯示返回鍵
+    const isShowBack = this.activatedRoute.snapshot.queryParams.showBack === 'true';
+    this.router.navigate(['/GameCenter/Game', gameCode], { queryParams: { GameType: gameType, showBack: isShowBack } });
   }
 
 

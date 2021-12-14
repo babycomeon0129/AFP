@@ -1,10 +1,10 @@
-import { OauthService } from '@app/modules/oauth/oauth.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AppService } from '@app/app.service';
-import { Request_MemberMsg, Response_MemberMsg, AFP_MemberMsgTitle, AFP_IMessage } from '@app/_models';
-import { Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { layerAnimation } from '@app/animations';
+import { AppService } from '@app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
+import { AFP_IMessage, AFP_MemberMsgTitle, Request_MemberMsg, Response_MemberMsg } from '@app/_models';
 
 @Component({
   selector: 'app-notification',
@@ -91,7 +91,6 @@ export class NotificationComponent implements OnInit, OnDestroy {
         this.router.navigate(['/MemberFunction/MyOrderDetail', msg.IMessage_OrderNo]);
       }
     }
-    // TODO: [寫法]activeStatus 預設其實為undefined不是false
     msg.activeStatus = !msg.activeStatus;
   }
 

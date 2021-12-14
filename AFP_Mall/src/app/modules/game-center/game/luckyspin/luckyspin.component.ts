@@ -1,9 +1,9 @@
-import { Component, OnInit, Input, Output, AfterViewInit, Renderer2, EventEmitter } from '@angular/core';
-import { AppService } from '@app/app.service';
-import { Response_Games, Request_Games, AFP_GamePart } from '@app/_models';
-import { ModalService } from '@app/shared/modal/modal.service';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 import { layerAnimation, layerAnimationUp } from '@app/animations';
+import { AppService } from '@app/app.service';
+import { ModalService } from '@app/shared/modal/modal.service';
+import { AFP_GamePart, Request_Games, Response_Games } from '@app/_models';
 
 @Component({
   selector: 'app-luckyspin',
@@ -156,20 +156,17 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
   prizeResponse(): { msg: string; page: string } {
     if (this.prizeData !== undefined) {
       switch (this.prizeData.GamePart_Type) {
-        case 1:
-          // 點數
+        case 1: // 點數
           return {
             msg: '已發送至您的會員帳戶。',
             page: '/MemberFunction/MemberCoin',
           };
-        case 2:
-          // 優惠券
+        case 2: // 優惠券
           return {
             msg: '已發送至您的票券夾，請注意使用期限。',
             page: '/MemberFunction/MemberDiscount',
           };
-        case 3:
-          // 贈品
+        case 3: // 贈品
           return {
             msg: '中獎通知已發送至您的會員帳戶。',
             page: '/Notification/NotificationList',

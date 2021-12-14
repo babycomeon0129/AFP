@@ -1,10 +1,10 @@
-import { CookieService } from 'ngx-cookie-service';
-import { Component, OnInit } from '@angular/core';
-import { AppService } from '@app/app.service';
-import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
+import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-setting',
@@ -47,19 +47,5 @@ export class SettingComponent implements OnInit {
       }
     });
   }
-  /** 判斷是否為App，如果是則跳到App原生  */
-  // MOB-3425 前端隱藏
-  // goIf(): void {
-  //   if (this.appService.isApp === null) {
-  //     this.router.navigate(['/Member/ThirdBinding']);
-  //   } else {
-  //     if (navigator.userAgent.match(/android/i)) {
-  //       //  Android
-  //       BindingSocialJSInterface.goAppBindingSocialPage();
-  //     } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-  //       //  IOS
-  //       (window as any).webkit.messageHandlers.BindingSocialJSInterface.postMessage({ action: 'goAppBindingSocialPage' });
-  //     }
-  //   }
-  // }
+
 }

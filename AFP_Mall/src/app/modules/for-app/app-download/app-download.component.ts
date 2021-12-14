@@ -34,6 +34,7 @@ export class AppDownloadComponent implements OnInit {
     }
   }
 
+  /** 下載APP LINK */
   GoDownload(): void {
     location.href = this.UrlLink;
   }

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AppService } from '@app/app.service';
-import { Model_ShareData, AFP_UserFavourite } from '@app/_models';
-import { ModalService } from '@app/shared/modal/modal.service';
 import { layerAnimation } from '@app/animations';
+import { AppService } from '@app/app.service';
+import { ModalService } from '@app/shared/modal/modal.service';
+import { AFP_UserFavourite, Model_ShareData } from '@app/_models';
 
 @Component({
   selector: 'app-my-payment',
@@ -65,12 +65,7 @@ export class MyPaymentComponent implements OnInit {
 
   /** 變更預設信用卡 */
   toggleDefaultCard(): void  {
-    if (this.paymentDetail.UserFavourite_IsDefault === 1) {
-      this.paymentDetail.UserFavourite_IsDefault = 0;
-    } else {
-      this.paymentDetail.UserFavourite_IsDefault = 1;
-    }
-
+    this.paymentDetail.UserFavourite_IsDefault = this.paymentDetail.UserFavourite_IsDefault === 1 ? 0 : 1;
     const request: Request_MemberPaySetting = {
       SelectMode: 3,
       AFP_UserFavourite: {
