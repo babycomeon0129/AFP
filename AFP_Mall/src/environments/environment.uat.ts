@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
   version: '1.3.6',
-  versionDate: '2021/12/14 15:57:00',
+  versionDate: '2021/12/14 18:45:23',
   apiUrl: 'https://afpapi-uat.mobii.ai/api/',
   loginUrl: 'https://uat-login.mobii.ai/auth/api/v1/',
   FBApiKey: '349758176149496',

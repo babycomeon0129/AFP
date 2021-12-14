@@ -58,6 +58,8 @@ export class OauthService {
   /** 「艾斯身份識別_登入1-1-3」呼叫APP跳出登入頁、Web返回頁儲存
    * App：原生點擊登入按鈕（帶queryParams：isApp,deviceType,deviceCode），統一由Web向艾斯識別驗證
    * Web：登入按鈕帶入pathname，做為返回依據
+   * @param code isApp
+   * @param pathname 返回頁
    */
   loginPage(code: number, pathname: string): any {
     this.onClearLogin();
@@ -70,14 +72,13 @@ export class OauthService {
         (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'login' });
       }
     } else {
+      // pathTemp 返回頁變數，避免返回鍵導到404
       let pathTemp = '';
       switch (pathname) {
-        case 'undefined':
-          pathTemp = '/';
-          break;
+        case '':
         case '/':
-          pathTemp = '/';
-          break;
+        case 'null':
+        case 'undefined':
         case '/Login':
           pathTemp = '/';
           break;
@@ -258,7 +259,7 @@ export class OauthService {
         rightBtnMsg: '登入/註冊',
         rightBtnFn: () => {
           this.onClearLogin();
-          this.loginPage(isApp, location.href.replace(location.origin, ''));
+          this.loginPage(isApp, encodeURI(location.href.replace(location.origin, '')));
         }
       }
     });

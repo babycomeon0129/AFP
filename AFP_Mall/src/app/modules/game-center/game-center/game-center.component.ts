@@ -44,7 +44,7 @@ export class GameCenterComponent implements OnInit {
 
   ngOnInit() {
     this.appService.openBlock();
-    this.backUri = location.href.replace(location.origin, '');
+    this.backUri = encodeURI(location.href.replace(location.origin, ''));
     const request: Request_GameIndex = {
       SelectMode: 4
     };
