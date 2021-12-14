@@ -54,7 +54,6 @@ export class ShoppingCartComponent implements OnInit {
         Cart_Code: this.cartCode // 購物車Code
       }
     };
-    console.log(this.cartList);
     this.appService.toApi('EC', '1204', request).subscribe((data: Response_ECCart) => {
       this.appService.blockUI.stop();
       // 若在此頁登入：登入前若購物車有商品，則先清空購物車。
