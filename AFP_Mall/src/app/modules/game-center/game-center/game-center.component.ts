@@ -52,6 +52,7 @@ export class GameCenterComponent implements OnInit {
       this.imgTop = data.ADImg_Top;
       this.gameList = data.List_Game;
       this.showGameList = this.gameList.filter(game => game.Game_ConditionType === 0);
+      this.appService.blockUI.stop();
     });
 
     /** 會員點數 M point */
