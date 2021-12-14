@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.backUri = location.pathname + location.pathname;
+    this.backUri = location.href.replace(location.origin, '');
     if (this.oauthService.cookiesGet('idToken').cookieVal !== '' && this.oauthService.cookiesGet('idToken').cookieVal !== 'undefined') {
       this.appService.loginState = true;
       this.readIndexData();
