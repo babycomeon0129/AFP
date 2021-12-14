@@ -78,7 +78,7 @@
         <div class="for-mobile w-100">
           <div class="col-12 center-v">
             <div class="mainicon-link default-link">
-              <div *ngFor="let item of ftTop; let i = index;" class="link-item" [hidden]="ftTop.length > 15 ? i > 13 : i > 14">
+              <div *ngFor="let item of ftTop; let i = index;" class="link-item" [hidden]="ftTop.length > 16 ? i > 13 : i > 14">
                 <a (click)="FunctionLink(item, false)">
                   <div class="img-box">
                     <img [src]="item?.Function_Icon" [alt]="item?.Function_Name">
@@ -86,7 +86,7 @@
                   <p>{{item.Function_Name}}</p>
                 </a>
               </div>
-              <div class="link-item" [hidden]="ftTop.length < 15">
+              <div class="link-item" [hidden]="ftTop.length < 16">
                 <a (click)="layerTrig = 1">
                   <div class="img-box">
                     <img src="img/index/icons/category3_more.png" alt="">
