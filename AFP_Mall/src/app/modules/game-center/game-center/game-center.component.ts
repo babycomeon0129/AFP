@@ -24,6 +24,8 @@ export class GameCenterComponent implements OnInit {
   public selectedType = 0;
   /** 會員點數 Response */
   public info: Response_MemberPoint = new Response_MemberPoint();
+  /** 登入後返回頁面 */
+  public backUri: string;
 
   constructor(public appService: AppService, public oauthService: OauthService,
               private router: Router, public modal: ModalService, public location: Location,
@@ -42,6 +44,7 @@ export class GameCenterComponent implements OnInit {
 
   ngOnInit() {
     this.appService.openBlock();
+    this.backUri = location.pathname + location.search;
     const request: Request_GameIndex = {
       SelectMode: 4
     };

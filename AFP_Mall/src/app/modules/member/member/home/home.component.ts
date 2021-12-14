@@ -19,7 +19,8 @@ export class HomeComponent implements OnInit {
   // 第三方登入 User容器
   // thirdUser: SocialUser;
   thirdClick = false;
-
+  /** 登入後返回頁面 */
+  public backUri: string;
   /** 首頁資訊（廣告列表） */
   public indexData: Response_MemberIndex;
   /** 首頁下方廣告 swiper */
@@ -37,6 +38,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.backUri = location.pathname + location.pathname;
     if (this.oauthService.cookiesGet('idToken').cookieVal !== '' && this.oauthService.cookiesGet('idToken').cookieVal !== 'undefined') {
       this.appService.loginState = true;
       this.readIndexData();

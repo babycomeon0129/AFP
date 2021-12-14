@@ -7,7 +7,10 @@ import { Injectable } from '@angular/core';
 import { AngularFireMessaging } from '@angular/fire/messaging';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { OauthService } from '@app/modules/oauth/oauth.service';
-import { AFP_Voucher, Model_ShareData, Request_ECCart, Request_MemberFavourite, Request_MemberUserVoucher, Response_APIModel, Response_ECCart, Response_MemberFavourite, Response_MemberUserVoucher } from '@app/_models';
+import {
+  AFP_Voucher, Model_ShareData, Request_ECCart, Request_MemberFavourite, Request_MemberUserVoucher,
+  Response_APIModel, Response_ECCart, Response_MemberFavourite, Response_MemberUserVoucher
+} from '@app/_models';
 import { environment } from '@env/environment';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
@@ -126,8 +129,10 @@ export class AppService {
             }
             return JSON.parse(data.Data);
           case 9996: // 查無商品詳細頁資料
-            this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
-              initialState: { success: false, message: data.Base.Rtn_Message, showType: 2, checkBtnMsg: '確定', target: 'GoBack' } });
+            this.bsModalService.show(MessageModalComponent, {
+              class: 'modal-dialog-centered',
+              initialState: { success: false, message: data.Base.Rtn_Message, showType: 2, checkBtnMsg: '確定', target: 'GoBack' }
+            });
             break;
           case 9998: // user資料不完整，讓使用者登出
             this.logoutModal();
@@ -136,8 +141,10 @@ export class AppService {
             this.logoutModal();
             break;
           default: // 其他錯誤
-            this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
-              initialState: { success: false, message: data.Base.Rtn_Message, showType: 2, target: data.Base.Rtn_URL } });
+            this.bsModalService.show(MessageModalComponent, {
+              class: 'modal-dialog-centered',
+              initialState: { success: false, message: data.Base.Rtn_Message, showType: 2, target: data.Base.Rtn_URL }
+            });
             throw new Error('bad request');
         }
       }, catchError(this.handleError)));
@@ -166,8 +173,10 @@ export class AppService {
     return this.http.post(environment.apiUrl + ctrl, request, { headers })
       .pipe(map((data: Response_APIModel) => {
         if (data.Base.Rtn_State !== 1) {
-          this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
-            initialState: { success: false, message: data.Base.Rtn_Message, showType: 2, target: data.Base.Rtn_URL } });
+          this.bsModalService.show(MessageModalComponent, {
+            class: 'modal-dialog-centered',
+            initialState: { success: false, message: data.Base.Rtn_Message, showType: 2, target: data.Base.Rtn_URL }
+          });
           throw new Error('bad request');
         }
         return JSON.parse(data.Data);
@@ -180,7 +189,7 @@ export class AppService {
       class: 'modal-dialog-centered',
       initialState: {
         success: false,
-        message: '請先登入',
+        message: '請先登入!',
         showType: 5,
         leftBtnMsg: '我知道了',
         rightBtnMsg: '登入/註冊',
@@ -193,7 +202,7 @@ export class AppService {
             this.pushCount = 0;
             this.oauthService.onLogout(this.isApp);
           }
-          this.oauthService.loginPage(this.isApp, location.pathname);
+          this.oauthService.loginPage(this.isApp, location.pathname + location.search);
         }
       }
     });
@@ -327,8 +336,10 @@ export class AppService {
                 // 點選取消扣點
                 const content =
                   `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-failed.png"><p>兌換失敗！</p></div>`;
-                this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
-                  initialState: { success: true, message: content, showType: 1 } });
+                this.bsModalService.show(MessageModalComponent, {
+                  class: 'modal-dialog-centered',
+                  initialState: { success: true, message: content, showType: 1 }
+                });
               }
             });
           } else {
@@ -364,7 +375,7 @@ export class AppService {
           } else {
             code = voucher.Voucher_UserVoucherCode;
           }
-          this.router.navigate(['/Voucher/VoucherDetail', code], { queryParams: { showBack: this.showBack}});
+          this.router.navigate(['/Voucher/VoucherDetail', code], { queryParams: { showBack: this.showBack } });
           break;
       }
     }
@@ -396,9 +407,11 @@ export class AppService {
       // 如果是扣點才能兌換的優惠券，需跳兌換成功提示
       if (voucher.Voucher_DedPoint > 0) {
         const content =
-        `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-ok.png"><p>兌換成功！</p></div>`;
-        this.bsModalService.show(MessageModalComponent, { class: 'modal-dialog-centered',
-          initialState: { success: true, message: content, showType: 1 } });
+          `<div class="no-data no-transform"><img src="../../../../img/shopping/payment-ok.png"><p>兌換成功！</p></div>`;
+        this.bsModalService.show(MessageModalComponent, {
+          class: 'modal-dialog-centered',
+          initialState: { success: true, message: content, showType: 1 }
+        });
       }
     });
   }
@@ -436,7 +449,7 @@ export class AppService {
   receiveMessage(): void {
     this.angularFireMessaging.messages.subscribe(
       (payload) => {
-         // console.log('new message received. ', payload);
+        // console.log('new message received. ', payload);
         this.currentMessage.next(payload);
         this.pushCount++;
         this.oauthService.cookiesSet({

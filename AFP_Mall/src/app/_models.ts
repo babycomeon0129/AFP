@@ -1292,7 +1292,7 @@ export interface Request_MemberOrder extends Model_ShareData {
    * 2: 詳細查詢
    * 3: 確認收貨
    * 4: 發動客服單
-   * */
+   */
   SelectMode: number;
   /** 搜尋Model */
   SearchModel: Search_MemberOrder;
@@ -1744,10 +1744,10 @@ export interface Response_Games extends Model_ShareData {
   ADImg_Theme: AFP_ADImg[];
   /** 遊戲可遊玩狀態 0 : 不可遊玩(未完成綁卡等條件未完成) 1 : 可遊玩 */
   GameState: boolean;
-  /**遊戲類型 (目前只影響 畫面上 "玩一次消耗 x 點，尚可玩 y 次的" 顯示方式)
-    1 : 一般遊戲(未設遊玩條件或綁卡群的遊戲)
-    2 : 特殊遊戲(綁了任務的遊戲)
-  */
+  /** 遊戲類型 (目前只影響 畫面上 "玩一次消耗 x 點，尚可玩 y 次的" 顯示方式)
+   * 1 : 一般遊戲(未設遊玩條件或綁卡群的遊戲)
+   * 2 : 特殊遊戲(綁了任務的遊戲)
+   */
   GameType: number;
   /** 遊戲 Alert 資訊 */
   Model_AlertInfo: Model_AlertInfo;
@@ -1759,7 +1759,7 @@ export interface AFP_GamePart {
   GamePart_ID: number;
   /** 遊戲編號 */
   GamePart_GameCode: number;
-  /** 類型 1：點數 2：優惠卷 3：贈品*/
+  /** 類型 1：點數 2：優惠卷 3：贈品 */
   GamePart_Type: number;
   /** 項目ID */
   GamePart_ItemID: number;
@@ -2008,7 +2008,7 @@ export interface AFP_UserTicket {
   UserTicket_UniqueID: number;
   /** 退費金額 */
   UserTicket_RefundFee: number;
-  /** 票券狀態 0：未開通 1：已開通 2：已使用 9：已退票 99：已逾時*/
+  /** 票券狀態 0：未開通 1：已開通 2：已使用 9：已退票 99：已逾時 */
   UserTicket_UsedState: number;
   /** 開通日期 */
   UserTicket_OpenDate: Date;
@@ -2139,7 +2139,8 @@ export class Request_AFPVerifyCode extends Model_ShareData {
    * 2：忘記密碼 (SelectMode設定12)
    * 3：會員中心-手機認證
    * 11 : 第三方註冊
-   * 90 : 強制驗證 */
+   * 90 : 強制驗證
+   */
   VerifiedAction: number;
   /** 驗證資訊 */
   VerifiedInfo?: AFP_VerifiedInfo;

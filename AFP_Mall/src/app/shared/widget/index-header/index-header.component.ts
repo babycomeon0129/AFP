@@ -12,11 +12,14 @@ import { OauthService } from '@app/modules/oauth/oauth.service';
 export class IndexHeaderComponent implements OnInit {
   /** 只在電腦版顯示 */
   @Input() forPc = false;
+  /** 登入後返回頁面 */
+  public backUri: string;
 
   constructor(public appService: AppService, public oauthService: OauthService,
               public location: Location, private router: Router) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.backUri = location.pathname + location.search;
   }
 
   /** 搜尋Bar，搜尋完畢後前往「找優惠」
@@ -29,7 +32,7 @@ export class IndexHeaderComponent implements OnInit {
   /** 前往頁面前判斷登入狀態 */
   goTo() {
     if (!this.appService.loginState) {
-      this.oauthService.loginPage(this.appService.isApp, location.pathname);
+      this.oauthService.loginPage(this.appService.isApp, this.backUri);
     } else {
       this.router.navigate(['/Notification/NotificationList']);
     }
