@@ -278,6 +278,10 @@ export class OauthService {
         leftBtnMsg: '我知道了',
         rightBtnMsg: '登入/註冊',
         rightBtnFn: () => {
+          if (isApp) {
+            // app訪問，需先登出再登入
+            this.onLogout(isApp);
+          }
           this.onClearLogin();
           this.loginPage(isApp, encodeURI(location.href.replace(location.origin, '')));
         }
