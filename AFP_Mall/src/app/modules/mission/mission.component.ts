@@ -68,6 +68,7 @@ export class MissionComponent implements OnInit {
       // 額外丟出每日任務及每日任務未完成數，用以顯示畫面上的每日任務完成度
       this.dailyMission = this.allMission.filter(missionlist => missionlist.TabCode === 11)[0].List_Mission;
       this.dailyLeft = this.allMission.filter(missionlist => missionlist.TabCode === 11)[0].undoneMissionCount;
+      this.appService.blockUI.stop();
     });
   }
 
@@ -193,6 +194,7 @@ export class MissionComponent implements OnInit {
       if (mission.Mission_Value !== null) {
         this.userPoint += mission.Mission_Value;
       }
+      this.appService.blockUI.stop();
     });
   }
 
