@@ -148,9 +148,11 @@ export class OauthService {
           if (data.errorCode === '996600001') {
             return data.data;
           } else {
-            this.msgModal(this.appVisit, `變更密碼失敗<br>錯誤代碼：${data.errorCode}<br>請重新登入`);
+            this.msgModal(this.appVisit, '變更密碼失敗');
           }
         }, catchError(this.handleError)));
+    } else {
+      this.msgModal(this.appVisit, '請重新登入');
     }
   }
 
