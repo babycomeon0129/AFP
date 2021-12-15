@@ -42,7 +42,7 @@ export class SettingComponent implements OnInit {
   passwordUpdate() {
     this.oauthService.toModifyEyes(this.appService.isApp, this.oauthService.cookiesGet('idToken').cookieVal)
     .subscribe((data: string) => {
-      if (data !== undefined && data.indexOf('https') === 0) {
+      if (data.indexOf('https') === 0) {
         location.href = data;
       }
     });
