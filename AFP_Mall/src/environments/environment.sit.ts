@@ -6,7 +6,7 @@
 export const environment = {
   production: false,
   version: '1.3.6',
-  versionDate: '2021/12/15 11:48:46',
+  versionDate: '2021/12/15 16:31:43',
   apiUrl: 'https://sit-afpapi.mobii.ai/api/',
   loginUrl: 'https://sit-login.mobii.ai/auth/api/v1/',
   FBApiKey: '349758176149496',
