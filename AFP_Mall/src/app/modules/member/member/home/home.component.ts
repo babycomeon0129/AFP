@@ -69,7 +69,8 @@ export class HomeComponent implements OnInit {
     if (!this.appService.loginState) {
       this.appService.logoutModal();
     } else {
-      this.router.navigate(['/Member/Setting']);
+      this.router.navigate(['/Member/Setting'],
+      { queryParams: { isApp: this.appService.isApp }});
     }
   }
 
