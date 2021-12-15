@@ -300,7 +300,7 @@ export class AppService {
 
   /** 讀取購物車 (主要為更新數量) */
   readCart(): void {
-    if (this.oauthService.cookiesGet('cart_code').cookieVal) {
+    if (Number(this.oauthService.cookiesGet('cart_code').cookieVal)) {
       const request: Request_ECCart = {
         SelectMode: 4, // 固定讀取
         SearchModel: {
