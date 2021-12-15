@@ -335,14 +335,11 @@ export class ShoppingCartComponent implements OnInit {
     if (this.selectedProductsList.length === 0 || this.selectedStoresList.length === 0) {
       this.modal.show('message', { initialState: { success: false, message: '還沒有選擇要結帳的商家及商品喔!', showType: 1 } });
     } else {
-      // 購物車商品暫存localStorage避免登入後遺失
-      localStorage.setItem('cartList', JSON.stringify(this.cartList));
       // 若未登入，則跳出登入視窗
       if (!this.oauthService.cookiesGet('idToken').cookieVal) {
         this.appService.logoutModal();
       } else {
         // (若有更動過的商品)更改商品數
-        console.log(this.productsToUpdate.length);
         if (this.productsToUpdate.length > 0) {
           const request: Request_ECCart = {
             SelectMode: 5, // 多筆更新
@@ -357,10 +354,7 @@ export class ShoppingCartComponent implements OnInit {
           };
 
           this.appService.toApi('EC', '1204', request).subscribe((data: Response_ECCart) => {
-            // 若失敗後端會回(可能是沒登入),若在此頁登入則取localStorage的購物車資訊
-            if (this.oauthService.cookiesGet('page').cookieVal.indexOf('ShoppingCart') > -1 ) {
-              this.cartList = JSON.parse(localStorage.getItem('cartList'));
-            }
+            // 若失敗後端會回(可能是沒登入)
             // 數量更新成功後前往結帳
             this.router.navigate(['/Order/ShoppingOrder'], {
               state: {

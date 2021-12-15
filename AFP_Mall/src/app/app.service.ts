@@ -194,6 +194,11 @@ export class AppService {
         leftBtnMsg: '我知道了',
         rightBtnMsg: '登入/註冊',
         rightBtnFn: () => {
+          // 避免購物車遺失，需帶入返回網址
+          let uri = location.href;
+          if (uri.indexOf('ShoppingCart') > -1) {
+            uri = uri + '&cartCode=' + this.oauthService.cookiesGet('cart_code').cookieVal;
+          }
           if (this.loginState) {
             // 清除session、cookie、我的收藏資料，重置登入狀態及通知數量
             this.loginState = false;
@@ -202,7 +207,7 @@ export class AppService {
             this.pushCount = 0;
             this.oauthService.onLogout(this.isApp);
           }
-          this.oauthService.loginPage(this.isApp, encodeURI(location.href.replace(location.origin, '')));
+          this.oauthService.loginPage(this.isApp, encodeURI(uri.replace(location.origin, '')));
         }
       }
     });

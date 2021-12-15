@@ -60,8 +60,8 @@ export class OauthService {
    * Web：登入按鈕帶入pathname，做為返回依據
    * @param code isApp
    * @param pathname 返回頁
+   * @param pathTemp 返回頁變數
    */
-  // TODO:  code & pathname pathTemp @params備註
   loginPage(code: number, pathname: string): any {
     this.onClearLogin();
     if (code === 1) {
@@ -92,7 +92,11 @@ export class OauthService {
     }
   }
 
-  /** 「艾斯身份識別_登入1-2-2」取得AJAX資料並POST給後端，以便取得viewConfig資料  */
+  /** 「艾斯身份識別_登入1-2-2」取得AJAX資料並POST給後端，以便取得viewConfig資料
+   *  @param deviceType 裝置識別
+   *  @param deviceCode 裝置編碼
+   *  @param fromOriginUri的 返回頁
+   */
   toOauthRequest(req: RequestOauthLogin): Observable<any> {
     const formData = new FormData();
     formData.append('deviceType', req.deviceType.toString());
@@ -171,7 +175,6 @@ export class OauthService {
    * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/mobiicookiesession
    */
   cookiesSet(data: cookieDeclare) {
-    // console.log('cookiesSet', data);
     this.getLocation();
     const cookieData = JSON.parse(JSON.stringify(data));
     for (const item of Object.keys(cookieData)) {
@@ -201,8 +204,10 @@ export class OauthService {
 
   /** 「cookie,session管理_取得」
    * session未設定為null；cookie未設定為''
+   * @param sessionVal 將返回參數的session值
+   * @param cookieVal 將返回參數的cookie值
+   * @param itemName 欲取得的參數名稱
    */
-  // TODO: sessionVal、cookieVal、itemName、sessionVal、cookieVal 補上註解
   cookiesGet(item: string) {
     this.getLocation();
     let sessionVal = '';
@@ -220,9 +225,13 @@ export class OauthService {
     return {sessionVal, cookieVal};
   }
 
-  /** 「cookie,session管理_刪除」 */
+  /** 「cookie,session管理_刪除」
+   * @param item 刪除的參數名稱
+   * @param upgrade 登入公告頁hide
+   * @param show 下方隱私權hide
+   * @param out 登出狀態(除錯用)
+   */
   cookiesDel(item: string) {
-    // console.log('cookiesDel', item);
     this.getLocation();
     const upgrade = (this.cookiesGet('upgrade').cookieVal).slice(0);
     const show = (this.cookiesGet('show').cookieVal).slice(0);
@@ -249,7 +258,10 @@ export class OauthService {
   }
 
 
-  /** 登入註冊用提示視窗 */
+  /** 登入註冊用提示視窗
+   * @param isApp app訪問
+   * @param msg 提示文字
+   */
   msgModal(isApp: number, msg: any) {
     this.bsModalService.show(MessageModalComponent, {
       class: 'modal-dialog-centered',
@@ -267,7 +279,10 @@ export class OauthService {
     });
   }
 
-  /** 「艾斯身份識別_登出2」 */
+  /** 「艾斯身份識別_登出2」
+   * @param type 裝置識別
+   * @param token 會員識別idToken
+   */
   oauthLogout(type: string, token: string): Observable<any>  {
     const headers = new HttpHeaders({
       Authorization:  'Bearer ' + token,
@@ -289,6 +304,7 @@ export class OauthService {
    * 1.呼叫後端call api 1109紀錄登出狀態（後端處理艾斯登出API-46-112 logout）
    * 2.若為APP則導頁至/ForApp/AppLogout，APP監聽到此頁，會清除Local資料
    * 3.web清除session、cookie、重置登入狀態、我的收藏、通知
+   * @param appVisit app訪問
    */
   onLogout(appVisit: number): void {
     /** 「艾斯身份識別_登出1」 */
@@ -308,21 +324,21 @@ export class OauthService {
       const logout = params.get('logout');
       if (logout) {
         this.cookiesSet({
-          logout: appVisit + ',web1 ' + location.href
+          logout: appVisit + ',psw logout: ' + location.href
         });
         this.router.navigate([location.pathname]);
       } else {
         this.cookiesSet({
-          logout: appVisit + ',web2' + location.href
+          logout: appVisit + ',web logout: ' + location.href
         });
         this.router.navigate(['/Member']);
       }
     }
 
     // 清除session、cookie
+    this.cookiesDel('/');
     sessionStorage.clear();
     this.cookieService.deleteAll();
-    this.cookiesDel('/');
   }
 }
 
