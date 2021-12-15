@@ -300,19 +300,21 @@ export class AppService {
 
   /** 讀取購物車 (主要為更新數量) */
   readCart(): void {
-    const request: Request_ECCart = {
-      SelectMode: 4, // 固定讀取
-      SearchModel: {
-        Cart_Code: Number(this.oauthService.cookiesGet('cart_code').cookieVal)
-      },
-    };
+    if (this.oauthService.cookiesGet('cart_code').cookieVal) {
+      const request: Request_ECCart = {
+        SelectMode: 4, // 固定讀取
+        SearchModel: {
+          Cart_Code: Number(this.oauthService.cookiesGet('cart_code').cookieVal)
+        },
+      };
 
-    this.toApi('EC', '1204', request).subscribe((data: Response_ECCart) => {
-      this.oauthService.cookiesSet({
-        cart_count_Mobii: JSON.stringify(data.Cart_Count),
-        page: location.href
+      this.toApi('EC', '1204', request).subscribe((data: Response_ECCart) => {
+        this.oauthService.cookiesSet({
+          cart_count_Mobii: JSON.stringify(data.Cart_Count),
+          page: location.href
+        });
       });
-    });
+    }
   }
 
   /**
