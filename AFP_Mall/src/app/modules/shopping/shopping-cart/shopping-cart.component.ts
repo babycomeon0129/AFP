@@ -64,8 +64,10 @@ export class ShoppingCartComponent implements OnInit {
         this.nocartShow = true;
       }
       // 進入購物車頁時，如商品改變價格，則跳出提醒用戶商品價格改變
-      if(data.List_PriceChange !== null ) {
-        this.modal.show('message', { initialState: { success: false, message: `提醒您，${data.List_PriceChange}價格變更了！`, showType: 1, checkBtnMsg: `我知道了` } });
+      if (data.List_PriceChange !== null) {
+        this.modal.show('message', {
+          initialState: { success: false, message: `提醒您，${data.List_PriceChange}價格變更了！`, showType: 1, checkBtnMsg: `我知道了` }
+        });
       }
       // loop後端傳來的每樣商品資訊
       for (const store of data.List_Cart) {
@@ -333,34 +335,39 @@ export class ShoppingCartComponent implements OnInit {
     if (this.selectedProductsList.length === 0 || this.selectedStoresList.length === 0) {
       this.modal.show('message', { initialState: { success: false, message: '還沒有選擇要結帳的商家及商品喔!', showType: 1 } });
     } else {
-      // 未登入
-      // (若有更動過的商品)更改商品數
-      if (this.productsToUpdate.length > 0) {
-        const request: Request_ECCart = {
-          SelectMode: 5, // 多筆更新
-          Cart_Count: this.cartCount,
-          SearchModel: {
-            Cart_Code: this.cartCode
-          },
-          AFP_Cart: {
-            Cart_Code: this.cartCode
-          },
-          List_Cart: this.productsToUpdate
-        };
-
-        this.appService.toApi('EC', '1204', request).subscribe((data: Response_ECCart) => {
-          // 若失敗後端會回(可能是沒登入)
-          // 數量更新成功後前往結帳
-          this.router.navigate(['/Order/ShoppingOrder'], {
-            state: {
-              data: { checkoutList: this.cartList }
-            }
-          });
-        });
+      // 購物車商品暫存localStorage避免登入後遺失
+      localStorage.setItem('cartList', JSON.stringify(this.cartList));
+      // 若未登入，則跳出登入視窗
+      if (!this.oauthService.cookiesGet('idToken').cookieVal) {
+        this.appService.logoutModal();
       } else {
-        // 若未登入，則跳出登入視窗
-        if (!this.oauthService.cookiesGet('idToken').cookieVal) {
-          this.appService.logoutModal();
+        // (若有更動過的商品)更改商品數
+        console.log(this.productsToUpdate.length);
+        if (this.productsToUpdate.length > 0) {
+          const request: Request_ECCart = {
+            SelectMode: 5, // 多筆更新
+            Cart_Count: this.cartCount,
+            SearchModel: {
+              Cart_Code: this.cartCode
+            },
+            AFP_Cart: {
+              Cart_Code: this.cartCode
+            },
+            List_Cart: this.productsToUpdate
+          };
+
+          this.appService.toApi('EC', '1204', request).subscribe((data: Response_ECCart) => {
+            // 若失敗後端會回(可能是沒登入),若在此頁登入則取localStorage的購物車資訊
+            if (this.oauthService.cookiesGet('page').cookieVal.indexOf('ShoppingCart') > -1 ) {
+              this.cartList = JSON.parse(localStorage.getItem('cartList'));
+            }
+            // 數量更新成功後前往結帳
+            this.router.navigate(['/Order/ShoppingOrder'], {
+              state: {
+                data: { checkoutList: this.cartList }
+              }
+            });
+          });
         } else {
           // 直接前往結帳
           this.router.navigate(['/Order/ShoppingOrder'], {
