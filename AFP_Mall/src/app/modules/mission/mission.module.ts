@@ -9,10 +9,12 @@ import { MissionRoutingModule } from './mission-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 import { MissionComponent } from './mission.component';
+import { FeedbackComponent } from './feedback/feedback.component';
 
 @NgModule({
   declarations: [
-    MissionComponent
+    MissionComponent,
+    FeedbackComponent
   ],
   exports: [
     MissionComponent
