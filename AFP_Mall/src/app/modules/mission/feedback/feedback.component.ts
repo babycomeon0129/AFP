@@ -25,9 +25,9 @@ export class FeedbackComponent implements OnInit {
    * @param event 滑鼠事件
    */
   selectStar(starIndex: number, event: string) {
-    // 星星滑鼠移過選取
+    // 滑鼠移過星星時
     this.starHover = starIndex;
-    // 當滑鼠移開則未選取
+    // 滑鼠完全移開星星時
     if (event === 'mouseout' && starIndex === 0) {
       this.starHover = -1;
     }
@@ -41,6 +41,5 @@ export class FeedbackComponent implements OnInit {
         this.starHover = -1;
       }
     }
-    console.log(this.starHover);
   }
 }
