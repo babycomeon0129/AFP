@@ -146,7 +146,7 @@ export class OauthService {
       return this.http.post(environment.loginUrl + 'memberModify', request, { headers })
         .pipe(map((data: ResponseOauthApi) => {
           if (data === null) {
-            this.msgModal(this.appVisit, '變更密碼失敗');
+            return null;
           } else {
             if (data.errorCode === '996600001') {
               return data.data;
