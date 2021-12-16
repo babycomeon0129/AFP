@@ -151,7 +151,7 @@ export class OauthService {
             if (data.errorCode === '996600001') {
               return data.data;
             } else {
-              this.msgModal(this.appVisit, '變更密碼失敗');
+              return data.errorCode;
             }
           }
         }, catchError(this.handleError)));
@@ -278,7 +278,11 @@ export class OauthService {
         leftBtnMsg: '我知道了',
         rightBtnMsg: '登入/註冊',
         rightBtnFn: () => {
-          this.onClearLogin();
+          // 清除session、cookie
+          // this.onClearLogin();
+          this.cookiesDel('/');
+          sessionStorage.clear();
+          this.cookieService.deleteAll();
           this.loginPage(isApp, encodeURI(location.href.replace(location.origin, '')));
         }
       }

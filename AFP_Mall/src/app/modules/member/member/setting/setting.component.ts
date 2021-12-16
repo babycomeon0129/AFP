@@ -44,6 +44,10 @@ export class SettingComponent implements OnInit {
     .subscribe((data: string) => {
       if (data !== undefined && data.indexOf('https') === 0) {
         location.href = data;
+      } else {
+        if (data !== '996600001') {
+          this.appService.logoutModal('變更密碼失敗');
+        }
       }
     });
   }

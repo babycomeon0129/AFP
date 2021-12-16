@@ -183,8 +183,8 @@ export class AppService {
       }, catchError(() => null)));
   }
 
-  /** 登入註冊提示視窗 */
-  logoutModal() {
+  /** 登入註冊提示視窗(完全登出含app) */
+  logoutModal(msg?: string) {
     this.bsModalService.show(MessageModalComponent, {
       class: 'modal-dialog-centered',
       initialState: {
