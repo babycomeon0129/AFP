@@ -23,20 +23,12 @@
           </p>
         </h5>
         <div class="rank mb-2">
-          <div class="nowSelect">
-            <img src="../../../../img/mission/Star_1.png">
-          </div>
-          <div class="">
-            <img src="../../../../img/mission/Star_2.png">
-          </div>
-          <div class="">
-            <img src="../../../../img/mission/Star_2.png">
-          </div>
-          <div class="">
-            <img src="../../../../img/mission/Star_2.png">
-          </div>
-          <div class="">
-            <img src="../../../../img/mission/Star_2.png">
+          <div
+            (click)="selectStar(i, 'click')"
+            (mouseover)="selectStar(i, 'mouseover')"
+            (mouseout)="selectStar(i, 'mouseout')"
+            *ngFor="let item of star; let i = index" >
+            <img [class]="'S'+i" [src]="(starHover >= i || starSelect >= i) ? '../../../../img/mission/Star_1.png' : '../../../../img/mission/Star_2.png'">
           </div>
         </div>
         <h5 class="mb-1">
