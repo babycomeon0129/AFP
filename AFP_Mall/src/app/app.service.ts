@@ -184,7 +184,7 @@ export class AppService {
   }
 
   /** 登入註冊提示視窗(完全登出含app) */
-  logoutModal(msg?: string) {
+  logoutModal() {
     this.bsModalService.show(MessageModalComponent, {
       class: 'modal-dialog-centered',
       initialState: {
