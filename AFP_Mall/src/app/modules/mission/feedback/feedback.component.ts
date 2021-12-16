@@ -12,6 +12,8 @@ export class FeedbackComponent implements OnInit {
   public starHover: number;
   /** 選擇的星星數值 */
   public starSelect: number;
+  /** 意見回饋 */
+  public textareaLen = 0;
 
   constructor() {
   }
@@ -41,5 +43,8 @@ export class FeedbackComponent implements OnInit {
         this.starHover = -1;
       }
     }
+
+
+
   }
 }

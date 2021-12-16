@@ -36,9 +36,9 @@
             <span class="require">*</span>
           </p>
         </h5>
-        <textarea maxlength="256" placeholder="請說說他的優點或美中不足之處吧！限填 10~256 字">
-        </textarea>
-        <div class="mt-1"><span class="require">0</span> / 256
+        <textarea id="textareaFeedback" #textareaFeedback
+          rows="4" maxlength="256" placeholder="請說說他的優點或美中不足之處吧！限填 10~256 字"></textarea>
+        <div class="mt-1"><span class="require">{{textareaLen}}</span> / 256
         </div>
         <div class="upload mt-2 mb-2">
           <label><input type="file" accept=".png, .jpg" multiple="multiple" style="display: none;">
