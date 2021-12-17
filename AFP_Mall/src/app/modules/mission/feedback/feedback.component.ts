@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalService } from '@app/shared/modal/modal.service';
 
 @Component({
   selector: 'app-feedback',
@@ -14,8 +15,10 @@ export class FeedbackComponent implements OnInit {
   public starSelect: number;
   /** 意見回饋 */
   public textareaLen = 0;
+  /** 上傳檔案列表 */
+  public fileUploadList = [];
 
-  constructor() {
+  constructor(public modal: ModalService) {
   }
 
   ngOnInit() {
@@ -45,11 +48,51 @@ export class FeedbackComponent implements OnInit {
     }
   }
 
-  /** 輸入時統計字數
+  /** 文字框字數計算
    * @param event 事件目標textarea
    */
   onKeyEvent(event: any) {
-    return this.textareaLen = event.target.value.length;
+    // 避免部分瀏覽器沒有event.target選項(如IE6-8)
+    const el = event.target ? event.target : event.srcElement;
+    return this.textareaLen = el.value.length;
   }
 
+  /** 檔案上傳
+   * @param event 事件目標
+   */
+  onFileUpload(event: any): void {
+    // 避免部分瀏覽器沒有event.target選項(如IE6-8)
+    const filesEvent = event.target ? event.target : event.srcElement;
+
+    if (filesEvent.files.length > 0 && (filesEvent.files.length + this.fileUploadList.length <= 3) ) {
+
+      if (filesEvent.files.length === 1) {
+        // 上傳單一圖片，大小限制4MB
+        if (filesEvent.files[0].size > 4194304) {
+          this.modal.show('message', { initialState: { success: false, message: '圖片大小超過4MB，上傳失敗！', showType: 1 } });
+        } else {
+          this.fileUploadList.push(filesEvent.files[0].name);
+        }
+      } else {
+        // 上傳多個圖片this.fileUploadList.push(element);
+        for (const key in filesEvent.files) {
+          if (Object.prototype.hasOwnProperty.call(filesEvent.files, key)) {
+            const element = filesEvent.files[key];
+            this.fileUploadList.push(element.name);
+          }
+        }
+      }
+
+      // const tempList = Array.from(new Set(this.fileUploadList));
+      // this.fileUploadList = tempList;
+      console.log(this.fileUploadList);
+    } else {
+      // 最多上傳三個檔案
+      this.modal.show('message', { initialState: { success: false, message: '最多只能三個圖片', showType: 1 } });
+    }
+  }
+
+  delFileUploadItem(itemIndex: number) {
+    this.fileUploadList.splice(itemIndex, 1);
+  }
 }

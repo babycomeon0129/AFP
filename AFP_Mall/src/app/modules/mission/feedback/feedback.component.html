@@ -41,11 +41,25 @@
         <div class="mt-1"><span [ngClass]="{'require': textareaLen<11}">{{textareaLen}}</span> / 256
         </div>
         <div class="upload mt-2 mb-2">
-          <label><input type="file" accept=".png, .jpg" multiple="multiple" style="display: none;">
+          <label><input type="file" (change)="onFileUpload($event)" accept=".png, .jpg, .gif" multiple style="display: none;">
             <div><img src="../../../../img/mission/upload.png"> 上傳檔案
             </div>
           </label>
-          <span>最多上傳三個檔案，檔案類型：圖片檔</span>
+          <span>最多上傳三個檔案，檔案類型:圖片檔</span>
+        </div>
+        <div class="files">
+          <!-- 上傳檔案資訊 -->
+          <div class="uploadInfo" *ngFor="let item of fileUploadList; let i = index">
+            <div class="fileInfo">
+              <div>
+                <img src="../../../../img/mission/image.png">
+              </div>
+              <div class="fileName">{{item}}</div>
+              <div class="close" (click)="delFileUploadItem(i)">
+                <img src="../../../../img/mission/Close.png">
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
