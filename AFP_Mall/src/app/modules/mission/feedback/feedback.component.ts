@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./feedback.component.scss']
 })
 export class FeedbackComponent implements OnInit {
-  /** 星星陣列 */
+  /** 星星列表 */
   public star = [];
   /** 滑鼠移到的星星顆數值 */
   public starHover: number;
@@ -43,8 +43,13 @@ export class FeedbackComponent implements OnInit {
         this.starHover = -1;
       }
     }
-
-
-
   }
+
+  /** 輸入時統計字數
+   * @param event 事件目標textarea
+   */
+  onKeyEvent(event: any) {
+    return this.textareaLen = event.target.value.length;
+  }
+
 }
