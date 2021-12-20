@@ -15,8 +15,10 @@ export class FeedbackComponent implements OnInit {
   public starSelect: number;
   /** 意見回饋 */
   public textareaLen = 0;
-  /** 上傳檔案列表 */
+  /** 上傳檔案列表(僅檔案名稱) */
   public fileUploadList = [];
+  /** 上傳檔案列表(實際儲存資料) */
+  private fileUploadSaveList = [];
 
   constructor(public modal: ModalService) {
   }
@@ -64,35 +66,53 @@ export class FeedbackComponent implements OnInit {
     // 避免部分瀏覽器沒有event.target選項(如IE6-8)
     const filesEvent = event.target ? event.target : event.srcElement;
 
+    // 上傳檔案不為空且最多上傳三個檔案
     if (filesEvent.files.length > 0 && (filesEvent.files.length + this.fileUploadList.length <= 3) ) {
 
       if (filesEvent.files.length === 1) {
-        // 上傳單一圖片，大小限制4MB
+        // 上傳單一圖片
         if (filesEvent.files[0].size > 4194304) {
+          // 大小限制4MB
           this.modal.show('message', { initialState: { success: false, message: '圖片大小超過4MB，上傳失敗！', showType: 1 } });
         } else {
-          this.fileUploadList.push(filesEvent.files[0].name);
+          // 當上傳檔案裡已有待上傳檔案時，需先比對是否重覆
+          if (this.fileUploadSaveList.length > 0) {
+            const repeatFileUpload = this.fileUploadSaveList.filter(eachObj => eachObj.name === filesEvent.files[0].name);
+            if (repeatFileUpload.length === 0) {
+              this.fileUploadSaveList.push(filesEvent.files[0]);
+            }
+          } else {
+            this.fileUploadSaveList.push(filesEvent.files[0]);
+          }
         }
       } else {
-        // 上傳多個圖片this.fileUploadList.push(element);
+        // 上傳多個圖片
         for (const key in filesEvent.files) {
           if (Object.prototype.hasOwnProperty.call(filesEvent.files, key)) {
             const element = filesEvent.files[key];
-            this.fileUploadList.push(element.name);
+            // 當上傳檔案裡已有待上傳檔案時，需先比對是否重覆
+            if (this.fileUploadSaveList.length > 0) {
+              const repeatFileUpload = this.fileUploadSaveList.filter(eachObj => eachObj.name === element.name);
+              if (repeatFileUpload.length === 0) {
+                this.fileUploadSaveList.push(element);
+              }
+            } else {
+              this.fileUploadSaveList.push(element);
+            }
           }
         }
       }
-
-      // const tempList = Array.from(new Set(this.fileUploadList));
-      // this.fileUploadList = tempList;
-      console.log(this.fileUploadList);
+      this.fileUploadList = this.fileUploadSaveList.map(function(e) { return e.name; });
     } else {
       // 最多上傳三個檔案
       this.modal.show('message', { initialState: { success: false, message: '最多只能三個圖片', showType: 1 } });
     }
   }
-
+  /** 刪除上傳圖檔
+   * @param itemIndex 選取刪除的圖檔索引
+   */
   delFileUploadItem(itemIndex: number) {
     this.fileUploadList.splice(itemIndex, 1);
+    this.fileUploadSaveList.splice(itemIndex, 1);
   }
 }
