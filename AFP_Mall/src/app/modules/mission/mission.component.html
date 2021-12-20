@@ -51,7 +51,11 @@
             <ul class="nav-tab-list nav nav-tabs nav-line d-flex justify-content-around">
               <li *ngFor="let missiontab of allMission">
                 <a [routerLink]="['/Mission']"
-                  [queryParams]="{ tabNo: missiontab.TabCode, showBack: appService.showBack}" class="tablist-link"
+                  [queryParams]="{
+                    tabNo: missiontab.TabCode,
+                    showBack: appService.showBack,
+                    isApp: appService.isApp
+                  }" class="tablist-link"
                   [ngClass]="{'active': tabNo === missiontab.TabCode}">
                   {{ missiontab.TabName }}
                   <span class="badge badge-index" *ngIf="missiontab.undoneMissionCount > 0">

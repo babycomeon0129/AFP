@@ -8,11 +8,11 @@ import { ModalService } from '@app/shared/modal/modal.service';
 })
 export class FeedbackComponent implements OnInit {
   /** 星星列表 */
-  public star = [];
+  public star = Array(5).fill(5, 1, 5).map((x, i) => i);
   /** 滑鼠移到的星星顆數值 */
   public starHover: number;
   /** 選擇的星星數值 */
-  public starSelect: number;
+  public starSelect = -1;
   /** 意見回饋 */
   public textareaLen = 0;
   /** 上傳檔案列表(僅檔案名稱) */
@@ -24,7 +24,6 @@ export class FeedbackComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.star = Array(5).fill(5, 1, 5).map((x, i) => i);
   }
 
   /** 星星滑鼠移過動畫及選取
@@ -34,8 +33,8 @@ export class FeedbackComponent implements OnInit {
   selectStar(starIndex: number, event: string) {
     // 滑鼠移過星星時
     this.starHover = starIndex;
-    // 滑鼠完全移開星星時
-    if (event === 'mouseout' && starIndex === 0) {
+    // 滑鼠移開星星時
+    if (event === 'mouseout') {
       this.starHover = -1;
     }
     // 選取星星數值
@@ -56,7 +55,8 @@ export class FeedbackComponent implements OnInit {
   onKeyEvent(event: any) {
     // 避免部分瀏覽器沒有event.target選項(如IE6-8)
     const el = event.target ? event.target : event.srcElement;
-    return this.textareaLen = el.value.length;
+    this.textareaLen = event.target.value.length;
+    return this.textareaLen;
   }
 
   /** 檔案上傳
@@ -108,6 +108,7 @@ export class FeedbackComponent implements OnInit {
       this.modal.show('message', { initialState: { success: false, message: '最多只能三個圖片', showType: 1 } });
     }
   }
+
   /** 刪除上傳圖檔
    * @param itemIndex 選取刪除的圖檔索引
    */

@@ -14,62 +14,70 @@
       </div>
     </div>
   </header>
-  <main class="feedback">
-    <div class="container">
-      <div class="content">
-        <h5 class="mb-1">
-          <p>在 Mobii! 的使用體驗如何？
-            <span class="require">*</span>
-          </p>
-        </h5>
-        <div class="rank mb-2">
-          <div
-            (click)="selectStar(i, 'click')"
-            (mouseover)="selectStar(i, 'mouseover')"
-            (mouseout)="selectStar(i, 'mouseout')"
-            *ngFor="let item of star; let i = index" >
-            <img [src]="(starHover >= i || starSelect >= i) ? '../../../../img/mission/Star_1.png' : '../../../../img/mission/Star_2.png'">
-          </div>
-        </div>
-        <h5 class="mb-1">
-          <p>有什麼想告訴我們的嗎？
-            <span class="require">*</span>
-          </p>
-        </h5>
-        <textarea (keyup)="onKeyEvent($event)"
-          rows="4" maxlength="256" placeholder="請說說他的優點或美中不足之處吧！限填 10~256 字"></textarea>
-        <div class="mt-1"><span [ngClass]="{'require': textareaLen<11}">{{textareaLen}}</span> / 256
-        </div>
-        <div class="upload mt-2 mb-2">
-          <label><input type="file" (change)="onFileUpload($event)" accept=".png, .jpg, .gif" multiple style="display: none;">
-            <div><img src="../../../../img/mission/upload.png"> 上傳檔案
-            </div>
-          </label>
-          <span>最多上傳三個檔案，檔案類型:圖片檔</span>
-        </div>
-        <div class="files">
-          <!-- 上傳檔案資訊 -->
-          <div class="uploadInfo" *ngFor="let item of fileUploadList; let i = index">
-            <div class="fileInfo">
-              <div>
-                <img src="../../../../img/mission/image.png">
+  <main>
+    <form>
+      <div class="feedback">
+        <div class="container">
+          <div class="content">
+            <h5 class="mb-1">
+              <p>在 Mobii! 的使用體驗如何？
+                <span class="require">*</span>
+              </p>
+            </h5>
+            <div class="rank mb-2">
+              <div
+                (click)="selectStar(i, 'click')"
+                (mouseover)="selectStar(i, 'mouseover')"
+                (mouseout)="selectStar(i, 'mouseout')"
+                *ngFor="let item of star; let i = index" >
+                <img [src]="(starHover >= i || starSelect >= i) ? '../../../../img/mission/Star_1.png' : '../../../../img/mission/Star_2.png'">
               </div>
-              <div class="fileName">{{item}}</div>
-              <div class="close" (click)="delFileUploadItem(i)">
-                <img src="../../../../img/mission/Close.png">
+            </div>
+            <h5 class="mb-1">
+              <p>有什麼想告訴我們的嗎？
+                <span class="require">*</span>
+              </p>
+            </h5>
+            <textarea (keyup)="onKeyEvent($event)" (keypress)="onKeyEvent($event)"
+              rows="4" maxlength="256" placeholder="請說說他的優點或美中不足之處吧！限填 10~256 字"></textarea>
+            <div class="mt-1"><span [ngClass]="{'require': textareaLen<11}" [innerHtml]="textareaLen"></span> / 256
+            </div>
+            <div class="upload mt-2 mb-2">
+              <label><input type="file" (change)="onFileUpload($event)" accept=".png, .jpg, .gif" multiple style="display: none;">
+                <div><img src="../../../../img/mission/upload.png"> 上傳檔案
+                </div>
+              </label>
+              <span>最多上傳三個檔案，檔案類型:圖片檔</span>
+            </div>
+            <div class="files">
+              <!-- 上傳檔案資訊 -->
+              <div class="uploadInfo" *ngFor="let item of fileUploadList; let i = index">
+                <div class="fileInfo">
+                  <div>
+                    <img src="../../../../img/mission/image.png">
+                  </div>
+                  <div class="fileName">{{item}}</div>
+                  <div class="close" (click)="delFileUploadItem(i)">
+                    <img src="../../../../img/mission/Close.png">
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </main>
 
-  <footer class="shopping-cartfooter order-go-pay">
-    <div class="fixed-bottom container fixed-shadow">
-      <div class="p-3">
-        <button type="button" class="btn index-btn unable w-100 login-ok">送出</button>
-      </div>
-    </div>
-  </footer>
+      <footer class="shopping-cartfooter order-go-pay">
+        <div class="fixed-bottom container fixed-shadow">
+          <div class="p-3">
+            <button type="submit" [disabled]="textareaLen<11 || starSelect===-1"
+              [ngClass]="{'unable': textareaLen<11 || starSelect===-1}"
+              class="btn index-btn w-100">送出
+            </button>
+            <!-- <button type="button" class="w-100 btn index-btn" [ngClass]="{'unable': textareaLen<11}">送出</button> -->
+          </div>
+        </div>
+      </footer>
+    </form>
+  </main>
 </div>

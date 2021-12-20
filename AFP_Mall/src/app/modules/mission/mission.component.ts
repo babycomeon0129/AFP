@@ -5,6 +5,7 @@ import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Model_ShareData } from '@app/_models';
+import { environment } from './../../../environments/environment.sit';
 
 @Component({
   selector: 'app-mission',
@@ -24,7 +25,12 @@ export class MissionComponent implements OnInit {
   public listMission: AFP_Mission[] = [];
   /** 每日任務未完成數 */
   public dailyLeft = 0;
-
+  /** ios,安卓 mobii 版本號 */
+  public Mobii_version: string;
+  /** ios,安卓 手機作業系統版本 */
+  public Sdk_version: string;
+  /** ios 手機型號 */
+  public Mobile_device: string;
 
   constructor(public appService: AppService, public oauthService: OauthService,
               public modal: ModalService, private router: Router, private route: ActivatedRoute,
@@ -38,14 +44,22 @@ export class MissionComponent implements OnInit {
       // 根據url params的tabNo，賦予tabNo值。如果沒有url params沒有tabNo，則初始值11(每日任務)
       this.tabNo = typeof params.tabNo !== 'undefined' ? parseInt(params.tabNo, 10) : 11;
       this.tabChange();
+
+      // Mobii版本號與裝置作業版本
+      if (typeof params.isApp !== 'undefined') {
+        // app
+        if (typeof params.Mobii_version !== 'undefined') { this.Mobii_version = params.Mobii_version; }
+        if (typeof params.Sdk_version !== 'undefined') { this.Sdk_version = params.Sdk_version; }
+        if (typeof params.Mobile_device !== 'undefined') { this.Mobile_device = params.Mobile_device; }
+      } else {
+        // web
+        this.Mobii_version = environment.version;
+        this.Sdk_version = navigator.userAgent;
+      }
     });
   }
   ngOnInit() {
     this.readData();
-    // 為了APP再取一次userName（APP 登入頁為原生頁，因此 web 這邊登入後做的事在app webview中都沒有執行）
-    if (this.oauthService.cookiesGet('userName').sessionVal !== null) {
-      this.appService.userName = this.oauthService.cookiesGet('userName').sessionVal;
-    }
   }
 
   /** 讀取任務資料 */
@@ -127,15 +141,12 @@ export class MissionComponent implements OnInit {
         case 2: // 前往任務(進階任務)
           // 填寫意見表任務特別處理
           if (mission.Mission_CurrentURL.indexOf('/feedback/?') > 0) {
-            // const strUser = '?customerInfo=' + sessionStorage.getItem('CustomerInfo') + '&userCode=' + this.oauthService.cookiesGet('userCode').sessionVal + '&userName=' + this.oauthService.cookiesGet('userName').sessionVal + '&loginType=1';
-            // const device = { system: '', isApp: this.appService.isApp !== null ? strUser + '&isApp=1' : '' };
             const strUser = '?M_idToken=' + this.oauthService.cookiesGet('idToken').sessionVal + '&userCode=' + this.oauthService.cookiesGet('userCode').sessionVal + '&userName=' + this.oauthService.cookiesGet('userName').sessionVal + '&loginType=1';
             const device = {
               system: '',
-              // isApp: (this.appService.isApp !== null) ? strUser + '&isApp=1' : ''
               isApp: (this.appService.isApp === 1) ? strUser + '&isApp=1' : ''
             };
-            //  Justka特別處理
+            //  Justka特別處理(開webView)
             if (navigator.userAgent.match(/android/i)) {
               //  Android
               device.system = 'android';
@@ -150,6 +161,7 @@ export class MissionComponent implements OnInit {
 
             const query = encodeURIComponent(JSON.stringify(device)).replace(/"/g, '%22');
             mission.Mission_CurrentURL = mission.Mission_CurrentURL.replace('[a]', query);
+            console.log(mission.Mission_CurrentURL, mission.Mission_CurrentURLTarget);
             window.open(mission.Mission_CurrentURL, mission.Mission_CurrentURLTarget);
           } else {
             // 其他一般任務
