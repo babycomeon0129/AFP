@@ -15,7 +15,7 @@ import { environment } from './../../../environments/environment.sit';
 export class MissionComponent implements OnInit {
   /** 分頁代號 1:進階任務 11: 每日任務 14:綁卡任務 ，任務分頁可由後端新增，此為目前既有。 */
   public tabNo = 11;
-  /** M Pointss點數 */
+  /** M Points點數 */
   public userPoint: number;
   /** 所有任務列表 */
   public allMission: Mission_Info[] = [];
@@ -46,7 +46,7 @@ export class MissionComponent implements OnInit {
       this.tabChange();
 
       // Mobii版本號與裝置作業版本
-      if (typeof params.isApp !== 'undefined') {
+      if (typeof params.isApp !== 'undefined' && params.isApp === 1) {
         // app
         if (typeof params.Mobii_version !== 'undefined') { this.Mobii_version = params.Mobii_version; }
         if (typeof params.Sdk_version !== 'undefined') { this.Sdk_version = params.Sdk_version; }
@@ -110,7 +110,7 @@ export class MissionComponent implements OnInit {
   }
 
   /** 任務按鈕顯示文字（已做：未領-0, 已領-1； 未做/未完成-2：有url, 無url）
-   * @param state 任務狀態。目前任務系統為自動領取，用戶不需要手動領取了，後端不會respose 0 給前端。
+   * @param state 任務狀態。目前任務系統為自動領取，用戶不需要手動領取了，後端不會response 0 給前端。
    * @param url 當前任務網址
    */
   buttonText(state: number, url: string): string {
@@ -129,7 +129,21 @@ export class MissionComponent implements OnInit {
       }
     }
   }
-
+  buttonAction1(): void {
+    const uri = '/Mission/Feedback';
+    if (uri.indexOf('/Feedback') > 0) {
+      const uriParam = {
+        idToken: this.oauthService.cookiesGet('idToken').cookieVal,
+        Mobii_version: this.Mobii_version,
+        Sdk_version: this.Sdk_version,
+        Mobile_device: this.Mobile_device,
+        isApp: this.appService.isApp
+      };
+      this.router.navigate(['/Mission/Feedback'], {
+        state: { data: uriParam }
+      });
+    }
+  }
   /** 任務按鈕點擊行為
    * @param mission 單一項任務
    */
@@ -139,32 +153,19 @@ export class MissionComponent implements OnInit {
     } else {
       switch (mission.Mission_ClickState) {
         case 2: // 前往任務(進階任務)
-          // 填寫意見表任務特別處理
-          if (mission.Mission_CurrentURL.indexOf('/feedback/?') > 0) {
-            const strUser = '?M_idToken=' + this.oauthService.cookiesGet('idToken').sessionVal + '&userCode=' + this.oauthService.cookiesGet('userCode').sessionVal + '&userName=' + this.oauthService.cookiesGet('userName').sessionVal + '&loginType=1';
-            const device = {
-              system: '',
-              isApp: (this.appService.isApp === 1) ? strUser + '&isApp=1' : ''
+          // 意見回饋
+          if (mission.Mission_CurrentURL.indexOf('/Feedback') > 0) {
+            const uriParam = {
+              idToken: this.oauthService.cookiesGet('idToken').cookieVal,
+              Mobii_version: this.Mobii_version,
+              Sdk_version: this.Sdk_version,
+              Mobile_device: this.Mobile_device
             };
-            //  Justka特別處理(開webView)
-            if (navigator.userAgent.match(/android/i)) {
-              //  Android
-              device.system = 'android';
-              device.isApp = strUser + '&isApp=1';
-            } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-              //  IOS
-              device.system = 'iOs';
-              device.isApp = strUser + '&isApp=1';
-            } else {
-              device.system = 'web';
-            }
-
-            const query = encodeURIComponent(JSON.stringify(device)).replace(/"/g, '%22');
-            mission.Mission_CurrentURL = mission.Mission_CurrentURL.replace('[a]', query);
-            console.log(mission.Mission_CurrentURL, mission.Mission_CurrentURLTarget);
-            window.open(mission.Mission_CurrentURL, mission.Mission_CurrentURLTarget);
+            this.router.navigate(['/Mission/Feedback'], {
+              state: { data: uriParam },
+              queryParams: { isApp: this.appService.isApp }
+            });
           } else {
-            // 其他一般任務
             if (this.appService.isApp === 1) {
               // APP
               mission.Mission_CurrentURL = mission.Mission_CurrentURL + '?isApp=1';

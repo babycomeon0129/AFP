@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppService } from '@app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 
 @Component({
@@ -19,11 +20,29 @@ export class FeedbackComponent implements OnInit {
   public fileUploadList = [];
   /** 上傳檔案列表(實際儲存資料) */
   private fileUploadSaveList = [];
+  /** ios,安卓 mobii 版本號 */
+  private Mobii_version: string;
+  /** ios,安卓 手機作業系統版本 */
+  private Sdk_version: string;
+  /** ios 手機型號 */
+  private Mobile_device: string;
 
-  constructor(public modal: ModalService) {
+  constructor(public modal: ModalService, private appService: AppService) {
   }
 
   ngOnInit() {
+    if (!this.appService.loginState) {
+      this.appService.logoutModal();
+    } else {
+      if (history.state.data !== undefined) {
+        // 取得Mobii版本號與裝置作業版本
+        const stateData = JSON.parse(JSON.stringify(history.state.data));
+        this.Mobii_version = stateData.Mobii_version;
+        this.Sdk_version = stateData.Sdk_version;
+        this.Mobile_device = stateData.Mobii_device;
+        console.log(this.Mobii_version, this.Sdk_version, this.Mobile_device );
+      }
+    }
   }
 
   /** 星星滑鼠移過動畫及選取
