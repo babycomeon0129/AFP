@@ -15,7 +15,7 @@
     </div>
   </header>
   <main>
-    <form>
+    <form #formFeedback="ngForm" id="formFeedback" (ngSubmit)="formFeedback.form.valid && onFeedbackSubmit(formFeedback.value)">
       <div class="feedback">
         <div class="container">
           <div class="content">
@@ -70,11 +70,10 @@
       <footer class="shopping-cartfooter order-go-pay">
         <div class="fixed-bottom container fixed-shadow">
           <div class="p-3">
-            <button type="submit" [disabled]="textareaLen<11 || starSelect===-1"
+            <button  (click)="formFeedback.ngSubmit" form="formFeedback" [disabled]="textareaLen<11 || starSelect===-1"
               [ngClass]="{'unable': textareaLen<11 || starSelect===-1}"
               class="btn index-btn w-100">送出
             </button>
-            <!-- <button type="button" class="w-100 btn index-btn" [ngClass]="{'unable': textareaLen<11}">送出</button> -->
           </div>
         </div>
       </footer>

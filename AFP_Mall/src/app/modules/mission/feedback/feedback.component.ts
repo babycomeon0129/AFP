@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AppService } from '@app/app.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { ModalService } from '@app/shared/modal/modal.service';
-
 @Component({
   selector: 'app-feedback',
   templateUrl: './feedback.component.html',
@@ -14,20 +16,17 @@ export class FeedbackComponent implements OnInit {
   public starHover: number;
   /** 選擇的星星數值 */
   public starSelect = -1;
-  /** 意見回饋 */
+  /** 意見回饋長度 */
   public textareaLen = 0;
+  /** 意見回饋值 */
+  public textareaVal: string;
   /** 上傳檔案列表(僅檔案名稱) */
   public fileUploadList = [];
   /** 上傳檔案列表(實際儲存資料) */
   private fileUploadSaveList = [];
-  /** ios,安卓 mobii 版本號 */
-  private Mobii_version: string;
-  /** ios,安卓 手機作業系統版本 */
-  private Sdk_version: string;
-  /** ios 手機型號 */
-  private Mobile_device: string;
 
-  constructor(public modal: ModalService, private appService: AppService) {
+  constructor(public modal: ModalService, private oauthService: OauthService,
+              private router: Router, private appService: AppService) {
   }
 
   ngOnInit() {
@@ -37,10 +36,9 @@ export class FeedbackComponent implements OnInit {
       if (history.state.data !== undefined) {
         // 取得Mobii版本號與裝置作業版本
         const stateData = JSON.parse(JSON.stringify(history.state.data));
-        this.Mobii_version = stateData.Mobii_version;
-        this.Sdk_version = stateData.Sdk_version;
-        this.Mobile_device = stateData.Mobii_device;
-        console.log(this.Mobii_version, this.Sdk_version, this.Mobile_device );
+        if (stateData.Mobii_version !== undefined) { sessionStorage.setItem('Mobii_version', stateData.Mobii_version); }
+        if (stateData.Sdk_version !== undefined) { sessionStorage.setItem('Sdk_version', stateData.Sdk_version); }
+        if (stateData.Mobile_device !== undefined) { sessionStorage.setItem('Mobile_device', stateData.Mobile_device); }
       }
     }
   }
@@ -48,6 +46,7 @@ export class FeedbackComponent implements OnInit {
   /** 星星滑鼠移過動畫及選取
    * @param starIndex 星星索引(-1未選取)
    * @param event 滑鼠事件
+   * @param starSelect 選取星星數值
    */
   selectStar(starIndex: number, event: string) {
     // 滑鼠移過星星時
@@ -75,6 +74,7 @@ export class FeedbackComponent implements OnInit {
     // 避免部分瀏覽器沒有event.target選項(如IE6-8)
     const el = event.target ? event.target : event.srcElement;
     this.textareaLen = event.target.value.length;
+    this.textareaVal = event.target.value;
     return this.textareaLen;
   }
 
@@ -134,5 +134,34 @@ export class FeedbackComponent implements OnInit {
   delFileUploadItem(itemIndex: number) {
     this.fileUploadList.splice(itemIndex, 1);
     this.fileUploadSaveList.splice(itemIndex, 1);
+  }
+
+  /** 意見回饋submit */
+  onFeedbackSubmit(form: NgForm): void {
+    /** 意見回饋request
+     * @param idtoken 使用者識別
+     * @param rating 星星評等
+     * @param app_version ios,安卓 mobii 版本號
+     * @param device 裝置型態 0:Web 1:iOS 2:Android
+     * @param model_no ios 手機型號
+     * @param os_version ios,安卓,web 手機作業系統版本
+     * @param review 意見回饋文字框內容
+     * @param photo 上傳圖檔(最多三個)
+     */
+    const request = {
+      idtoken: this.oauthService.cookiesGet('idToken').cookieVal,
+      rating: this.starSelect + 1,
+      app_version: sessionStorage.getItem('Mobii_version'),
+      device: this.oauthService.cookiesGet('deviceType').cookieVal,
+      model_no: sessionStorage.getItem('Mobile_device'),
+      os_version: sessionStorage.getItem('Sdk_version'),
+      review: this.textareaVal,
+      photo: this.fileUploadSaveList
+    };
+    console.log(request);
+    this.appService.toApi('Feedback', '1901', request).subscribe((data) => {
+      console.log(data);
+      form.resetForm();
+    });
   }
 }

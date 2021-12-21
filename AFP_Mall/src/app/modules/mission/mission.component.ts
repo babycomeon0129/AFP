@@ -129,21 +129,7 @@ export class MissionComponent implements OnInit {
       }
     }
   }
-  buttonAction1(): void {
-    const uri = '/Mission/Feedback';
-    if (uri.indexOf('/Feedback') > 0) {
-      const uriParam = {
-        idToken: this.oauthService.cookiesGet('idToken').cookieVal,
-        Mobii_version: this.Mobii_version,
-        Sdk_version: this.Sdk_version,
-        Mobile_device: this.Mobile_device,
-        isApp: this.appService.isApp
-      };
-      this.router.navigate(['/Mission/Feedback'], {
-        state: { data: uriParam }
-      });
-    }
-  }
+
   /** 任務按鈕點擊行為
    * @param mission 單一項任務
    */
@@ -166,6 +152,7 @@ export class MissionComponent implements OnInit {
               queryParams: { isApp: this.appService.isApp }
             });
           } else {
+            // 一般任務
             if (this.appService.isApp === 1) {
               // APP
               mission.Mission_CurrentURL = mission.Mission_CurrentURL + '?isApp=1';

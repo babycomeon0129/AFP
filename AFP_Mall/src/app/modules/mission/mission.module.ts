@@ -1,15 +1,16 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-
-import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { NgCircleProgressModule } from 'ng-circle-progress';
-
-import { MissionRoutingModule } from './mission-routing.module';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { SharedModule } from 'src/app/shared/shared.module';
-
-import { MissionComponent } from './mission.component';
 import { FeedbackComponent } from './feedback/feedback.component';
+import { MissionRoutingModule } from './mission-routing.module';
+import { MissionComponent } from './mission.component';
+
+
+
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { FeedbackComponent } from './feedback/feedback.component';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     RouterModule,
     MissionRoutingModule,
     LazyLoadImageModule,
