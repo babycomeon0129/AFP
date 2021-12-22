@@ -90,19 +90,14 @@ export class FeedbackComponent implements OnInit {
 
       if (filesEvent.files.length === 1) {
         // 上傳單一圖片
-        if (filesEvent.files[0].size > 4194304) {
-          // 大小限制4MB
-          this.modal.show('message', { initialState: { success: false, message: '圖片大小超過4MB，上傳失敗！', showType: 1 } });
-        } else {
-          // 當上傳檔案裡已有待上傳檔案時，需先比對是否重覆
-          if (this.fileUploadSaveList.length > 0) {
-            const repeatFileUpload = this.fileUploadSaveList.filter(eachObj => eachObj.name === filesEvent.files[0].name);
-            if (repeatFileUpload.length === 0) {
-              this.fileUploadSaveList.push(filesEvent.files[0]);
-            }
-          } else {
+        // 當上傳檔案裡已有待上傳檔案時，需先比對是否重覆
+        if (this.fileUploadSaveList.length > 0) {
+          const repeatFileUpload = this.fileUploadSaveList.filter(eachObj => eachObj.name === filesEvent.files[0].name);
+          if (repeatFileUpload.length === 0) {
             this.fileUploadSaveList.push(filesEvent.files[0]);
           }
+        } else {
+          this.fileUploadSaveList.push(filesEvent.files[0]);
         }
       } else {
         // 上傳多個圖片
@@ -121,7 +116,7 @@ export class FeedbackComponent implements OnInit {
           }
         }
       }
-      this.fileUploadList = this.fileUploadSaveList.map(function(e) { return e.name; });
+      this.fileUploadList = this.fileUploadSaveList.map((e) => e.name);
     } else {
       // 最多上傳三個檔案
       this.modal.show('message', { initialState: { success: false, message: '最多只能三個圖片', showType: 1 } });
