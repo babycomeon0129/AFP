@@ -43,7 +43,10 @@
             <div class="mt-1"><span [ngClass]="{'require': textareaLen<11}" [innerHtml]="textareaLen"></span> / 256
             </div>
             <div class="upload mt-2 mb-2">
-              <label><input type="file" (change)="onFileUpload($event)" accept=".png, .jpg, .gif" multiple style="display: none;">
+              <input type="file" id="avatar" name="avatar"
+                (change)="onFileUpload($event)"
+                accept="image/*;capture=camera" multiple>
+              <label for="avatar">
                 <div><img src="../../../../img/mission/upload.png"> 上傳檔案
                 </div>
               </label>
