@@ -166,6 +166,7 @@ export class AppService {
       'Something bad happened; please try again later.' + error);
   }
 
+  /** 我的檔案證件上傳 */
   tofile(ctrl: string, request: any): Observable<any> {
     const headers = new HttpHeaders({
       xEyes_Command: '9901',
@@ -179,6 +180,14 @@ export class AppService {
           });
           throw new Error('bad request');
         }
+        return JSON.parse(data.Data);
+      }, catchError(() => null)));
+  }
+
+  /** formData給後端(意見回饋) */
+  toFormData(ctrl: string, headers: any, request: any): Observable<any> {
+    return this.http.post(environment.apiUrl + ctrl, request, { headers })
+      .pipe(map((data: Response_APIModel) => {
         return JSON.parse(data.Data);
       }, catchError(() => null)));
   }
