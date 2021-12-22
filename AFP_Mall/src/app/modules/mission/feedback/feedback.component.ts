@@ -1,3 +1,4 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -143,20 +144,44 @@ export class FeedbackComponent implements OnInit {
      * @param review 意見回饋文字框內容
      * @param photo 上傳圖檔(最多三個)
      */
-    const request = {
-      idtoken: this.oauthService.cookiesGet('idToken').cookieVal,
-      rating: this.starSelect + 1,
-      app_version: sessionStorage.getItem('Mobii_version'),
-      device: this.oauthService.cookiesGet('deviceType').cookieVal,
-      model_no: sessionStorage.getItem('Mobile_device'),
-      os_version: sessionStorage.getItem('Sdk_version'),
-      review: this.textareaVal,
-      photo: this.fileUploadSaveList
-    };
-    console.log(request);
-    this.appService.toApi('Feedback', '1901', request).subscribe((data) => {
+    // const request = {
+    //   idtoken: this.oauthService.cookiesGet('idToken').cookieVal,
+    //   rating: this.starSelect + 1,
+    //   app_version: sessionStorage.getItem('Mobii_version'),
+    //   device: this.oauthService.cookiesGet('deviceType').cookieVal,
+    //   model_no: sessionStorage.getItem('Mobile_device'),
+    //   os_version: sessionStorage.getItem('Sdk_version'),
+    //   review: this.textareaVal,
+    //   photo: this.fileUploadSaveList
+    // };
+
+    // console.log(request);
+    // this.appService.toApi('Feedback', '1901', request).subscribe((data) => {
+    //   console.log(data);
+    //   form.resetForm();
+    // });
+
+    const headers = new HttpHeaders({
+      Authorization:  'Bearer ' + this.oauthService.cookiesGet('idToken').cookieVal,
+      xEyes_Command: '1901',
+      'Content-Type': 'multipart/form-data'
+    });
+    const formData = new FormData();
+    formData.append('idtoken', this.oauthService.cookiesGet('idToken').cookieVal);
+    formData.append('rating', JSON.stringify(this.starSelect + 1));
+    formData.append('app_version', sessionStorage.getItem('Mobii_version'));
+    formData.append('device', this.oauthService.cookiesGet('deviceType').cookieVal);
+    formData.append('model_no', sessionStorage.getItem('Mobile_device'));
+    formData.append('os_version', sessionStorage.getItem('Sdk_version'));
+    formData.append('review', this.textareaVal);
+    for (const key in this.fileUploadSaveList) {
+      if (Object.prototype.hasOwnProperty.call(this.fileUploadSaveList, key)) {
+        const photoFile = this.fileUploadSaveList[key];
+        formData.append('photo', photoFile);
+      }
+    }
+    this.appService.toFormData('Feedback/CreateFeedbackAsync', headers, formData).subscribe((data) => {
       console.log(data);
-      form.resetForm();
     });
   }
 }
