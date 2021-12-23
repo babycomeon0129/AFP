@@ -155,7 +155,8 @@ export class MissionComponent implements OnInit {
             // 一般任務
             if (this.appService.isApp === 1) {
               // APP
-              mission.Mission_CurrentURL = mission.Mission_CurrentURL + '?isApp=1';
+              mission.Mission_CurrentURL = (mission.Mission_CurrentURL.indexOf('?') > 0)
+                ? mission.Mission_CurrentURL + '&isApp=1' : mission.Mission_CurrentURL + '?isApp=1';
               window.open(mission.Mission_CurrentURL, mission.Mission_CurrentURLTarget);
             } else {
               // web
