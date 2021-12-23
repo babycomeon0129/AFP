@@ -2313,3 +2313,12 @@ export interface AFP_QuestionContent {
   /** 控制答案清單是否展開，前端新增 true: 收合 false: 展開 */
   A_Collapse: boolean;
 }
+
+
+/** 表單傳送Response */
+export interface Response_FormData {
+  /** 訊息編碼 */
+  code: string;
+  /** 訊息描述 */
+  description: string;
+}
