@@ -163,8 +163,7 @@ export class FeedbackComponent implements OnInit {
 
     const headers = new HttpHeaders({
       Authorization:  'Bearer ' + this.oauthService.cookiesGet('idToken').cookieVal,
-      xEyes_Command: '1901',
-      'Content-Type': 'multipart/form-data'
+      xEyes_Command: '1901'
     });
     const formData = new FormData();
     formData.append('idtoken', this.oauthService.cookiesGet('idToken').cookieVal);
