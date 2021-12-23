@@ -156,8 +156,23 @@ export class MissionComponent implements OnInit {
             if (this.appService.isApp === 1) {
               // APP
               mission.Mission_CurrentURL = (mission.Mission_CurrentURL.indexOf('?') > 0)
-                ? mission.Mission_CurrentURL + '&isApp=1' : mission.Mission_CurrentURL + '?isApp=1';
-              window.open(mission.Mission_CurrentURL, mission.Mission_CurrentURLTarget);
+              ? mission.Mission_CurrentURL + '&isApp=1' : mission.Mission_CurrentURL + '?isApp=1';
+              if (mission.Mission_CurrentURL.indexOf('/Member') >= 0) {
+                // MOB-4035 「我的」相關頁內連，其他頁外開
+                const url = mission.Mission_CurrentURL;
+                if (url.indexOf('?') !== -1) {
+                  // 內連有帶參數
+                  const paramsAry = url.split('?')[1].split('&');
+                  const paramsItem = url.split('?')[1].replace(/&/g, ',').replace(/=/g, ':');
+                  this.router.navigate([mission.Mission_CurrentURL.split('?')[0]],
+                    { queryParams: {paramsItem} }
+                  );
+                } else {
+                  this.router.navigate([mission.Mission_CurrentURL]);
+                }
+              } else {
+                window.open(mission.Mission_CurrentURL, mission.Mission_CurrentURLTarget);
+              }
             } else {
               // web
               // TODO: 因後台任務路徑因營運需求有可能被塞入query params (ex: tabCode)，但router.navigate的query params需另外拆開放
