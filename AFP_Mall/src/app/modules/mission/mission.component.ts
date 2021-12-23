@@ -153,37 +153,27 @@ export class MissionComponent implements OnInit {
             });
           } else {
             // 一般任務
+            let url = mission.Mission_CurrentURL;
             if (this.appService.isApp === 1) {
-              // APP
-              mission.Mission_CurrentURL = (mission.Mission_CurrentURL.indexOf('?') > 0)
+              // APP 訪問加isApp
+              url = (mission.Mission_CurrentURL.indexOf('?') > 0)
               ? mission.Mission_CurrentURL + '&isApp=1' : mission.Mission_CurrentURL + '?isApp=1';
-              if (mission.Mission_CurrentURL.indexOf('/Member') >= 0) {
-                // MOB-4035 「我的」相關頁內連，其他頁外開
-                const url = mission.Mission_CurrentURL;
-                if (url.indexOf('?') !== -1) {
-                  // 內連有帶參數
-                  const paramsAry = url.split('?')[1].split('&');
-                  const paramsItem = url.split('?')[1].replace(/&/g, ',').replace(/=/g, ':');
-                  this.router.navigate([mission.Mission_CurrentURL.split('?')[0]],
-                    { queryParams: {paramsItem} }
-                  );
-                } else {
-                  this.router.navigate([mission.Mission_CurrentURL]);
-                }
+            }
+            // MOB-4035 「我的」相關頁內連，其他頁外開
+            if (url.indexOf('/Member') >= 0) {
+              if (url.indexOf('?') !== -1) {
+                // 內連有帶參數
+                const paramsItem = url.split('?')[1].replace(/&/g, ',').replace(/=/g, ':');
+                this.router.navigate([url.split('?')[0]],
+                  { queryParams: {paramsItem} }
+                );
               } else {
-                window.open(mission.Mission_CurrentURL, mission.Mission_CurrentURLTarget);
+                // 內連無參數
+                this.router.navigate([url]);
               }
             } else {
-              // web
-              // TODO: 因後台任務路徑因營運需求有可能被塞入query params (ex: tabCode)，但router.navigate的query params需另外拆開放
-              // ，否則redirect會有問題，因無法確認營運未來會放多少query params，故統一用window.open進行。
-              window.open(mission.Mission_CurrentURL, mission.Mission_CurrentURLTarget);
-              // 判斷前往連結為絕對／相對路徑（會影響有判斷如何回上一頁的地方）
-              // if (mission.Mission_CurrentURL.includes('http')) {
-              //   window.open(mission.Mission_CurrentURL, mission.Mission_CurrentURLTarget);
-              // } else {
-              //   this.router.navigate([mission.Mission_CurrentURL]);
-              // }
+              // 外連另開
+              window.open(url, mission.Mission_CurrentURLTarget);
             }
           }
           break;
