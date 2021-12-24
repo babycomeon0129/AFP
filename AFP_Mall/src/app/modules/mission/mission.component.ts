@@ -169,11 +169,11 @@ export class MissionComponent implements OnInit {
                 );
               } else {
                 // 內連無參數
-                this.router.navigate([url]);
+                this.router.navigate([mission.Mission_CurrentURL]);
               }
             } else {
               // 外連另開
-              window.open(url, mission.Mission_CurrentURLTarget);
+              window.open(mission.Mission_CurrentURL, mission.Mission_CurrentURLTarget);
             }
           }
           break;
