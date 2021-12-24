@@ -124,7 +124,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.viewTitle = '帳號整併';
         break;
       case '2':
-        this.appService.openBlock();
         if (this.M_idToken !== '' && this.M_idToken !== 'undefined') {
           this.onLoginOK();
         } else {
@@ -158,7 +157,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       if (this.viewList.length > 0 && !this.M_idToken &&
         this.oauthService.cookiesGet('upgrade').cookieVal === '1' &&
         this.viewType === '2') {
-        this.appService.openBlock();
         this.delaySubmit().then(() => {
           this.appService.blockUI.stop();
         });
