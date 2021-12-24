@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
 import { ModalService } from '@app/shared/modal/modal.service';
-import { Model_MissionDetail } from '@app/_models';
+import { Model_MissionInfo } from '@app/_models';
 @Component({
   selector: 'app-feedback',
   templateUrl: './feedback.component.html',
@@ -180,15 +180,23 @@ export class FeedbackComponent implements OnInit {
         formData.append('photo', photoFile);
       }
     }
-    this.appService.toFormData('Feedback/CreateFeedbackAsync', headers, formData).subscribe((data: Model_MissionDetail) => {
-      const reDirURL = data.Mission_ReDirURL;
-      if (reDirURL.indexOf('http') > -1) {
+    this.appService.toFormData('Feedback/CreateFeedbackAsync', headers, formData).subscribe((data: Model_MissionInfo) => {
+      const reDirURL = data.List_MissionDetail[0].Mission_ReDirURL;
+      console.log(reDirURL);
+      if (reDirURL === null) {
+        this.router.navigate(['/Mission']);
+      } else if (reDirURL.indexOf('http') > -1) {
         // 外開
         window.open(reDirURL);
       } else {
-        // 內連帶參數
-        const paramsItem = JSON.parse('{"' + decodeURI(reDirURL.split('?')[1]).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
-        this.router.navigate([reDirURL.split('?')[0]], { queryParams: paramsItem });
+        if (reDirURL.indexOf('?') === -1) {
+          // 內連不帶參數
+          this.router.navigate(['/Mission']);
+        } else {
+          // 內連帶參數
+          const paramsItem = JSON.parse('{"' + decodeURI(reDirURL.split('?')[1]).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
+          this.router.navigate([reDirURL.split('?')[0]], { queryParams: paramsItem });
+        }
       }
     });
   }
