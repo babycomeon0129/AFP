@@ -163,7 +163,7 @@ export class MissionComponent implements OnInit {
             if (url.indexOf('/Member') >= 0 && !(url.indexOf('MemberDiscount') > 0 || url.indexOf('MemberFavorite') > 0)) {
               if (url.indexOf('?') !== -1) {
                 // 內連有帶參數
-                const paramsItem = JSON.parse('{"' + decodeURI(location.href.split('?')[1]).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
+                const paramsItem = JSON.parse('{"' + decodeURI(url.split('?')[1]).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
                 this.router.navigate([url.split('?')[0]],
                   { queryParams: paramsItem}
                 );
