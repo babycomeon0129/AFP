@@ -73,6 +73,8 @@ export interface Model_MissionDetail {
   Mission_URLTitle: string;
   /** 下個任務網址 */
   Mission_URL: string;
+  /** 任務完成後返回網址 */
+  Mission_ReDirURL: string;
 }
 
 /** AFP 自定義參數 */
