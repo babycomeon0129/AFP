@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
 import { ModalService } from '@app/shared/modal/modal.service';
+import { Model_MissionDetail } from '@app/_models';
 @Component({
   selector: 'app-feedback',
   templateUrl: './feedback.component.html',
@@ -179,8 +180,16 @@ export class FeedbackComponent implements OnInit {
         formData.append('photo', photoFile);
       }
     }
-    this.appService.toFormData('Feedback/CreateFeedbackAsync', headers, formData).subscribe((data) => {
-      console.log(data);
+    this.appService.toFormData('Feedback/CreateFeedbackAsync', headers, formData).subscribe((data: Model_MissionDetail) => {
+      const reDirURL = data.Mission_ReDirURL;
+      if (reDirURL.startsWith('https') || reDirURL.startsWith('http')) {
+        // 外開
+        window.open(reDirURL);
+      } else {
+        // 內連帶參數
+        const paramsItem = JSON.parse('{"' + decodeURI(reDirURL.split('?')[1]).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
+        this.router.navigate([reDirURL.split('?')[0]], { queryParams: paramsItem });
+      }
     });
   }
 }

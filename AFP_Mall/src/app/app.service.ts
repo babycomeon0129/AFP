@@ -9,7 +9,7 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { OauthService } from '@app/modules/oauth/oauth.service';
 import {
   AFP_Voucher, Model_ShareData, Request_ECCart, Request_MemberFavourite, Request_MemberUserVoucher,
-  Response_APIModel, Response_ECCart, Response_FormData, Response_MemberFavourite, Response_MemberUserVoucher
+  Response_APIModel, Response_ECCart, Response_MemberFavourite, Response_MemberUserVoucher
 } from '@app/_models';
 import { environment } from '@env/environment';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
@@ -187,8 +187,8 @@ export class AppService {
   /** formData給後端(意見回饋) */
   toFormData(ctrl: string, headers: any, request: any): Observable<any> {
     return this.http.post(environment.apiUrl + ctrl, request, { headers })
-      .pipe(map((data: Response_FormData) => {
-        return JSON.parse(data.code);
+      .pipe(map((data: Response_APIModel) => {
+        return data.MissionInfo;
       }, catchError(() => null)));
   }
 
