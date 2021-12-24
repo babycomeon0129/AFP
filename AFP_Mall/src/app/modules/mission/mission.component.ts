@@ -160,12 +160,12 @@ export class MissionComponent implements OnInit {
               ? mission.Mission_CurrentURL + '&isApp=1' : mission.Mission_CurrentURL + '?isApp=1';
             }
             // MOB-4035 「我的」相關頁內連，其他頁外開(我的優惠券及我的收藏為原生)
-            if (url.indexOf('/Member') >= 0 && (url.indexOf('MemberDiscount') > 0 || url.indexOf('MemberFavorite') > 0)) {
+            if (url.indexOf('/Member') >= 0 && !(url.indexOf('MemberDiscount') > 0 || url.indexOf('MemberFavorite') > 0)) {
               if (url.indexOf('?') !== -1) {
                 // 內連有帶參數
-                const paramsItem = url.split('?')[1].replace(/&/g, ',').replace(/=/g, ':');
+                const paramsItem = JSON.parse('{"' + decodeURI(location.href.split('?')[1]).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
                 this.router.navigate([url.split('?')[0]],
-                  { queryParams: {paramsItem} }
+                  { queryParams: paramsItem}
                 );
               } else {
                 // 內連無參數
