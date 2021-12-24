@@ -182,7 +182,7 @@ export class FeedbackComponent implements OnInit {
     }
     this.appService.toFormData('Feedback/CreateFeedbackAsync', headers, formData).subscribe((data: Model_MissionDetail) => {
       const reDirURL = data.Mission_ReDirURL;
-      if (reDirURL.startsWith('https') || reDirURL.startsWith('http')) {
+      if (reDirURL.indexOf('http') > -1) {
         // 外開
         window.open(reDirURL);
       } else {
