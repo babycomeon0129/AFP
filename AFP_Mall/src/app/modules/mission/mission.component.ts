@@ -25,12 +25,6 @@ export class MissionComponent implements OnInit {
   public listMission: AFP_Mission[] = [];
   /** 每日任務未完成數 */
   public dailyLeft = 0;
-  /** ios,安卓 mobii 版本號 */
-  public Mobii_version: string;
-  /** ios,安卓 手機作業系統版本 */
-  public Sdk_version: string;
-  /** ios 手機型號 */
-  public Mobile_device: string;
 
   constructor(public appService: AppService, public oauthService: OauthService,
               public modal: ModalService, private router: Router, private route: ActivatedRoute,
@@ -48,13 +42,13 @@ export class MissionComponent implements OnInit {
       // Mobii版本號與裝置作業版本
       if (typeof params.isApp !== 'undefined' && params.isApp === 1) {
         // app
-        if (typeof params.Mobii_version !== 'undefined') { this.Mobii_version = params.Mobii_version; }
-        if (typeof params.Sdk_version !== 'undefined') { this.Sdk_version = params.Sdk_version; }
-        if (typeof params.Mobile_device !== 'undefined') { this.Mobile_device = params.Mobile_device; }
+        if (typeof params.Mobii_version !== 'undefined') { sessionStorage.setItem('Mobii_version', params.Mobii_version); }
+        if (typeof params.Sdk_version !== 'undefined') { sessionStorage.setItem('Sdk_version', params.Sdk_version); }
+        if (typeof params.Mobile_device !== 'undefined') { sessionStorage.setItem('Mobile_device', params.Mobile_device); }
       } else {
         // web
-        this.Mobii_version = environment.version;
-        this.Sdk_version = navigator.userAgent;
+        sessionStorage.setItem('Mobii_version', environment.version);
+        sessionStorage.setItem('Sdk_version', navigator.userAgent);
       }
     });
   }
@@ -143,9 +137,9 @@ export class MissionComponent implements OnInit {
           if (mission.Mission_CurrentURL.indexOf('/Feedback') > 0) {
             const uriParam = {
               idToken: this.oauthService.cookiesGet('idToken').cookieVal,
-              Mobii_version: this.Mobii_version,
-              Sdk_version: this.Sdk_version,
-              Mobile_device: this.Mobile_device
+              Mobii_version: sessionStorage.getItem('Mobii_version'),
+              Sdk_version: sessionStorage.getItem('Sdk_version'),
+              Mobile_device: sessionStorage.getItem('Mobile_device')
             };
             this.router.navigate(['/Mission/Feedback'], {
               state: { data: uriParam },
