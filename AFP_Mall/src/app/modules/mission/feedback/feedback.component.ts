@@ -156,11 +156,14 @@ export class FeedbackComponent implements OnInit {
     const formData = new FormData();
     formData.append('idtoken', this.oauthService.cookiesGet('idToken').cookieVal);
     formData.append('rating', JSON.stringify(this.starSelect + 1));
+    formData.append('review', this.textareaVal);
     formData.append('app_version', sessionStorage.getItem('Mobii_version'));
     formData.append('device', deviceType);
-    formData.append('model_no', sessionStorage.getItem('Mobile_device'));
     formData.append('os_version', decodeURIComponent(sessionStorage.getItem('Sdk_version')));
-    formData.append('review', this.textareaVal);
+    // 無IOS版本時，不用傳送
+    if (sessionStorage.getItem('Mobile_device')) {
+      formData.append('model_no', sessionStorage.getItem('Mobile_device'));
+    }
     for (const key in this.fileUploadSaveList) {
       if (Object.prototype.hasOwnProperty.call(this.fileUploadSaveList, key)) {
         const photoFile = this.fileUploadSaveList[key];
