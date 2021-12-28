@@ -39,7 +39,7 @@ export class FeedbackComponent implements OnInit {
         // 取得Mobii版本號與裝置作業版本
         const stateData = JSON.parse(JSON.stringify(history.state.data));
         if (stateData.Mobii_version !== undefined) { sessionStorage.setItem('Mobii_version', stateData.Mobii_version); }
-        if (stateData.Sdk_version !== undefined) { sessionStorage.setItem('Sdk_version', stateData.Sdk_version); }
+        if (stateData.Sdk_version !== undefined) { sessionStorage.setItem('Sdk_version', encodeURIComponent(stateData.Sdk_version)); }
         if (stateData.Mobile_device !== undefined) { sessionStorage.setItem('Mobile_device', stateData.Mobile_device); }
       }
     }
@@ -151,8 +151,8 @@ export class FeedbackComponent implements OnInit {
       xEyes_Command: '1901'
     });
     let deviceType = '0';
-    if (sessionStorage.getItem('Sdk_version').indexOf('iPhone') > -1) { deviceType = '2'; }
-    if (sessionStorage.getItem('Sdk_version').indexOf('Android') > -1) { deviceType = '1'; }
+    if (sessionStorage.getItem('Sdk_version').indexOf('iPhone') > -1) { deviceType = '1'; }
+    if (sessionStorage.getItem('Sdk_version').indexOf('Android') > -1) { deviceType = '2'; }
     const formData = new FormData();
     formData.append('idtoken', this.oauthService.cookiesGet('idToken').cookieVal);
     formData.append('rating', JSON.stringify(this.starSelect + 1));

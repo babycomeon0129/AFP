@@ -40,10 +40,10 @@ export class MissionComponent implements OnInit {
       this.tabChange();
 
       // Mobii版本號與裝置作業版本
-      if (typeof params.isApp !== 'undefined' && params.isApp === 1) {
+      if (typeof params.isApp !== 'undefined' && params.isApp === '1') {
         // app
         if (typeof params.Mobii_version !== 'undefined') { sessionStorage.setItem('Mobii_version', params.Mobii_version); }
-        if (typeof params.Sdk_version !== 'undefined') { sessionStorage.setItem('Sdk_version', params.Sdk_version); }
+        if (typeof params.Sdk_version !== 'undefined') { sessionStorage.setItem('Sdk_version', encodeURIComponent(params.Sdk_version)); }
         if (typeof params.Mobile_device !== 'undefined') { sessionStorage.setItem('Mobile_device', params.Mobile_device); }
       } else {
         // web
