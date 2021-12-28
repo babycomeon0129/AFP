@@ -445,7 +445,7 @@ export class cookieDeclare {
   userFavorites?: string;
   /** fromOriginUri(登入成功返回頁) */
   fromOriginUri?: string;
-  /** 裝置編碼(0:web 1:android 2:ios) */
+  /** 裝置編碼(0:Web 1:iOS 2:Android) */
   deviceType?: string;
   /** 公告頁(1不顯示) */
   upgrade?: string;
