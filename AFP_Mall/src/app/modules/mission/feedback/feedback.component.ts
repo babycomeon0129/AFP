@@ -151,15 +151,15 @@ export class FeedbackComponent implements OnInit {
       xEyes_Command: '1901'
     });
     let deviceType = '0';
-    if (sessionStorage.getItem('Sdk_version').indexOf('iPhone') > -1) { deviceType = '1'; }
-    if (sessionStorage.getItem('Sdk_version').indexOf('Android') > -1) { deviceType = '2'; }
+    if (sessionStorage.getItem('Mobile_device').indexOf('iPhone') > -1) { deviceType = '1'; }
+    if (sessionStorage.getItem('Sdk_version').indexOf('Aos') > -1) { deviceType = '2'; }
     const formData = new FormData();
     formData.append('idtoken', this.oauthService.cookiesGet('idToken').cookieVal);
     formData.append('rating', JSON.stringify(this.starSelect + 1));
     formData.append('app_version', sessionStorage.getItem('Mobii_version'));
     formData.append('device', deviceType);
     formData.append('model_no', sessionStorage.getItem('Mobile_device'));
-    formData.append('os_version', sessionStorage.getItem('Sdk_version'));
+    formData.append('os_version', decodeURIComponent(sessionStorage.getItem('Sdk_version')));
     formData.append('review', this.textareaVal);
     for (const key in this.fileUploadSaveList) {
       if (Object.prototype.hasOwnProperty.call(this.fileUploadSaveList, key)) {
