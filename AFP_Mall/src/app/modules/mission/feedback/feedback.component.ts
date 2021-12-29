@@ -26,6 +26,8 @@ export class FeedbackComponent implements OnInit {
   public fileUploadList = [];
   /** 上傳檔案列表(實際儲存資料) */
   private fileUploadSaveList = [];
+  /** 裝置代碼 0:Web 1:IOS 2:Android */
+  private deviceType = '0';
 
   constructor(public modal: ModalService, private oauthService: OauthService,
               private router: Router, private appService: AppService) {
@@ -36,11 +38,20 @@ export class FeedbackComponent implements OnInit {
       this.appService.logoutModal();
     } else {
       if (history.state.data !== undefined) {
+        console.log(history.state.data);
         // 取得Mobii版本號與裝置作業版本
         const stateData = JSON.parse(JSON.stringify(history.state.data));
-        if (stateData.Mobii_version !== undefined) { sessionStorage.setItem('Mobii_version', stateData.Mobii_version); }
-        if (stateData.Sdk_version !== undefined) { sessionStorage.setItem('Sdk_version', encodeURIComponent(stateData.Sdk_version)); }
-        if (stateData.Mobile_device !== undefined) { sessionStorage.setItem('Mobile_device', stateData.Mobile_device); }
+        if (stateData.Mobii_version !== null) {
+          sessionStorage.setItem('Mobii_version', stateData.Mobii_version);
+        }
+        if (stateData.Sdk_version !== null) {
+          sessionStorage.setItem('Sdk_version', encodeURIComponent(stateData.Sdk_version));
+          if (stateData.Sdk_version.indexOf('Aos') > -1) { this.deviceType = '2'; }
+        }
+        if (stateData.Mobile_device !== null) {
+          sessionStorage.setItem('Mobile_device', stateData.Mobile_device);
+          this.deviceType = '1';
+        }
       }
     }
   }
@@ -150,15 +161,12 @@ export class FeedbackComponent implements OnInit {
       Authorization:  'Bearer ' + this.oauthService.cookiesGet('idToken').cookieVal,
       xEyes_Command: '1901'
     });
-    let deviceType = '0';
-    if (sessionStorage.getItem('Mobile_device').indexOf('iPhone') > -1) { deviceType = '1'; }
-    if (sessionStorage.getItem('Sdk_version').indexOf('Aos') > -1) { deviceType = '2'; }
     const formData = new FormData();
     formData.append('idtoken', this.oauthService.cookiesGet('idToken').cookieVal);
     formData.append('rating', JSON.stringify(this.starSelect + 1));
     formData.append('review', this.textareaVal);
     formData.append('app_version', sessionStorage.getItem('Mobii_version'));
-    formData.append('device', deviceType);
+    formData.append('device', this.deviceType);
     formData.append('os_version', decodeURIComponent(sessionStorage.getItem('Sdk_version')));
     // 無IOS版本時，不用傳送
     if (sessionStorage.getItem('Mobile_device')) {
