@@ -38,7 +38,6 @@ export class FeedbackComponent implements OnInit {
       this.appService.logoutModal();
     } else {
       if (history.state.data !== undefined) {
-        console.log(history.state.data);
         // 取得Mobii版本號與裝置作業版本
         const stateData = JSON.parse(JSON.stringify(history.state.data));
         if (stateData.Mobii_version !== null) {
@@ -180,7 +179,6 @@ export class FeedbackComponent implements OnInit {
     }
     this.appService.toFormData('Feedback/CreateFeedbackAsync', headers, formData).subscribe((data: Model_MissionInfo) => {
       const reDirURL = data.List_MissionDetail[0].Mission_ReDirURL;
-      console.log(reDirURL);
       if (reDirURL === null) {
         this.router.navigate(['/Mission']);
       } else if (reDirURL.indexOf('http') > -1) {
