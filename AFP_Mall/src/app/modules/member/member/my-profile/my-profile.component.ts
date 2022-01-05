@@ -63,9 +63,8 @@ export class MyProfileComponent implements OnInit {
       await this.memberService.readProfileData();
       this.appService.blockUI.stop();
       this.userProfileOrigin = this.memberService.userProfile;
-      this.userAvatar = (this.userProfileOrigin.User_Avatar &&
-        this.userProfileOrigin.User_Avatar !== null && this.userProfileOrigin.User_Avatar !== undefined)
-        ? this.userProfileOrigin.User_Avatar : this.userAvatar;
+      this.userAvatar = (this.userProfileOrigin.User_Avatar == null || this.userProfileOrigin.User_Avatar === undefined)
+        ? this.userAvatar : this.userProfileOrigin.User_Avatar;
       this.readThirdData();
     }
   }
