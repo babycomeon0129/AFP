@@ -16,6 +16,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
   /** 頁面切換 0:帳號升級公告 1:帳號整併 2:未登入(無idToken) 3:已登入(有idToken) */
   public viewType = '2';
+  /** 升級公告頁標頭 */
   public viewTitle: string;
   /** 艾斯身份識別登入API uri */
   public AuthorizationUri: string;
@@ -31,7 +32,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   public grantCode = '';
   /** 登入憑證 */
   public M_idToken = this.oauthService.cookiesGet('idToken').cookieVal;
-  /** 「艾斯身份識別_登入」後端回傳資料 */
+  /** 艾斯身份識別後端回傳資料 */
   public loginJsonData: object;
 
   constructor(public appService: AppService, public oauthService: OauthService,
@@ -97,7 +98,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         }
       }
 
-      /** 「艾斯身份識別_忘記密碼1」Redirect API由後端取得艾斯導頁 */
+      /** 「艾斯身份識別_忘記密碼」Redirect API由後端直接導至艾斯，忘記密碼操作完後，再以新密碼重新登入 */
       if (params.forgetPassword === 'true' && (this.M_idToken !== '' && this.M_idToken !== 'undefined')) {
         this.onLoginOK();
       }

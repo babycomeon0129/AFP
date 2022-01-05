@@ -41,11 +41,12 @@ export class SettingComponent implements OnInit {
     this.oauthService.onLogout(this.appService.isApp);
   }
 
-  /** 「艾斯身份識別_變更密碼1」 */
+  /** 「艾斯身份識別_變更密碼1」取得isApp及idToken */
   passwordUpdate() {
     this.oauthService.toModifyEyes(this.appService.isApp, this.oauthService.cookiesGet('idToken').cookieVal)
     .subscribe((data: string) => {
-      if (data !== undefined && data.indexOf('https') === 0) {
+      /** 「艾斯身份識別_變更密碼3」變更密碼成功導址，失敗跳dialog */
+      if (data !== null && data.indexOf('https') === 0) {
         location.href = data;
       } else {
         if (data !== '996600001') {

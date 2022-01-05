@@ -134,7 +134,7 @@ export class OauthService {
       }, catchError(this.handleError)));
   }
 
-  /** 「艾斯身份識別_變更密碼2」 */
+  /** 「艾斯身份識別_變更密碼2」將idToken帶入headers，isApp帶入request，POST給後端(API-50001 memberModify) */
   toModifyEyes(app: number, token: string): Observable<any> {
     if (token) {
       const headers = new HttpHeaders({
@@ -145,7 +145,7 @@ export class OauthService {
       };
       return this.http.post(environment.loginUrl + 'memberModify', request, { headers })
         .pipe(map((data: ResponseOauthApi) => {
-          if (data === null) {
+          if (data == null) {
             return null;
           } else {
             if (data.errorCode === '996600001') {

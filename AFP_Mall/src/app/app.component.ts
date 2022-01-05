@@ -91,7 +91,7 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
         }
       }
 
-      /** 「艾斯身份識別_登出」變更密碼返回登出，並清除logout參數 */
+      /** 「艾斯身份識別_變更密碼4」變更密碼登出，並清除logout參數 */
       if (params.logout === 'true') {
         this.appService.loginState = false;
         this.appService.userLoggedIn = false;
