@@ -58,7 +58,7 @@ export class HomeComponent implements OnInit {
       this.appService.toApi('Member', '1501', request).subscribe((data: Response_MemberIndex) => {
         this.indexData = data;
         this.userAvatar =
-          (data.User_Avatar && data.User_Avatar == null && data.User_Avatar === undefined)
+          (data.User_Avatar && data.User_Avatar == null || data.User_Avatar === undefined)
             ? this.userAvatar : data.User_Avatar;
       });
     }

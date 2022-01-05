@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   version: '1.3.7',
-  versionDate: '2022/01/05 16:08:54',
+  versionDate: '2022/01/05 17:48:46',
   // apiUrl: 'http://localhost:55254/api/',
   apiUrl: 'https://sit-afpapi.mobii.ai/api/',
   loginUrl: 'https://sit-login.mobii.ai/auth/api/v1/',
