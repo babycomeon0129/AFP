@@ -39,7 +39,7 @@ export class MyProfileComponent implements OnInit {
   /** 同頁滑動切換 0:本頁 1:開啟瀏覽檔案上傳  */
   public layerTrigUp = 0;
   /** 會員頭貼 */
-  public userAvatar = 'https://picsum.photos/300/300?random=1';
+  public userAvatar = 'https://picsum.photos/300/300';
   /** 我的檔案資料 */
   public userProfile: Response_MemberProfile = new Response_MemberProfile();
   /** 第三方資訊 */

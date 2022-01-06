@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
     }
   };
   /** 會員頭貼 */
-  public userAvatar = 'https://picsum.photos/300/300?random=1';
+  public userAvatar = 'https://picsum.photos/300/300';
 
   constructor(public appService: AppService, public oauthService: OauthService, private callApp: AppJSInterfaceService,
               public router: Router, private modal: ModalService, private route: ActivatedRoute, public location: Location) {
