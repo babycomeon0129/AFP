@@ -57,9 +57,8 @@ export class HomeComponent implements OnInit {
 
       this.appService.toApi('Member', '1501', request).subscribe((data: Response_MemberIndex) => {
         this.indexData = JSON.parse(JSON.stringify(data));
-        console.log(this.indexData.User_Avatar);
         this.userAvatar =
-          (this.indexData.User_Avatar == null || this.indexData.User_Avatar === undefined)
+          (this.indexData.User_Avatar.indexOf('http') < 0)
             ? this.userAvatar : this.indexData.User_Avatar;
       });
     }
