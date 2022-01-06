@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
   /** 首頁資訊（廣告列表） */
   public indexData: Response_MemberIndex;
   /** 首頁下方廣告 swiper */
-  public botttomAd: SwiperOptions = {
+  public bottomAd: SwiperOptions = {
     scrollbar: {
       el: '.swiper-container .swiper-scrollbar',
       hide: true
