@@ -84,7 +84,7 @@
                   *ngIf="(addressDetail.touched || addressDetail.dirty) && !requestAddress.UserFavourite_Number1">縣市為必填</small>
               </div>
               <div class="item auto-left citydefault" (click)="layerTrig = 1">
-                {{requestAddress.UserFavourite_Number1 | convert:'UR': UserReoprtList:21}}
+                {{requestAddress.UserFavourite_Number1 | convert:'UR': UserReportList:21}}
                 <i class="material-icons">&#xe315;</i>
               </div>
             </li>
@@ -96,7 +96,7 @@
               </div>
               <div class="item auto-left distdefault" (click)="layerTrig =2">
                 {{requestAddress.UserFavourite_Number2 | convert:'UR':
-                UserReoprtList:22:21:requestAddress.UserFavourite_Number1}}<i class="material-icons">&#xe315;</i>
+                UserReportList:22:21:requestAddress.UserFavourite_Number1}}<i class="material-icons">&#xe315;</i>
               </div>
             </li>
             <li class="index-flex">

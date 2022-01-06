@@ -20,7 +20,7 @@ export class MyAddressComponent implements OnInit {
   /** 新增、修改地址 ngForm request */
   public requestAddress: AFP_UserFavourite = new AFP_UserFavourite();
   /** 縣市行政區資料集 */
-  public UserReoprtList: AFP_UserReport[] = [];
+  public UserReportList: AFP_UserReport[] = [];
   /** 地區列表 */
   public areaList: AFP_UserReport[] = [];
   /** 縣市列表 */
@@ -55,11 +55,11 @@ export class MyAddressComponent implements OnInit {
         // 地址列表
         this.userAddressList = data.List_UserFavourite;
         // 地區、縣市、行政區
-        if (this.UserReoprtList.length === 0) {
-          this.UserReoprtList = data.AFP_UserReport;
-          this.areaList = this.UserReoprtList.filter( area => area.UserReport_CategoryCode === 20);
-          this.cityList = this.UserReoprtList.filter( area => area.UserReport_CategoryCode === 21);
-          this.districtList = this.UserReoprtList.filter( area => area.UserReport_CategoryCode === 22);
+        if (this.UserReportList.length === 0) {
+          this.UserReportList = data.AFP_UserReport;
+          this.areaList = this.UserReportList.filter( area => area.UserReport_CategoryCode === 20);
+          this.cityList = this.UserReportList.filter( area => area.UserReport_CategoryCode === 21);
+          this.districtList = this.UserReportList.filter( area => area.UserReport_CategoryCode === 22);
         }
       });
     }
