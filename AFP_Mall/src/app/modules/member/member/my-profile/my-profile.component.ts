@@ -62,7 +62,7 @@ export class MyProfileComponent implements OnInit {
     if (this.oauthService.cookiesGet('idToken').cookieVal !== '' && this.oauthService.cookiesGet('idToken').cookieVal !== 'undefined') {
       await this.memberService.readProfileData();
       this.appService.blockUI.stop();
-      this.userProfileOrigin = this.memberService.userProfile;
+      this.userProfileOrigin = JSON.parse(JSON.stringify(this.memberService.userProfile));
       this.userAvatar = (this.userProfileOrigin.User_Avatar == null || this.userProfileOrigin.User_Avatar === undefined)
         ? this.userAvatar : this.userProfileOrigin.User_Avatar;
       this.readThirdData();

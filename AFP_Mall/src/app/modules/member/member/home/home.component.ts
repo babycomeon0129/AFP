@@ -56,10 +56,11 @@ export class HomeComponent implements OnInit {
       };
 
       this.appService.toApi('Member', '1501', request).subscribe((data: Response_MemberIndex) => {
-        this.indexData = data;
+        this.indexData = JSON.parse(JSON.stringify(data));
+        console.log(this.indexData.User_Avatar);
         this.userAvatar =
-          (data.User_Avatar && data.User_Avatar == null || data.User_Avatar === undefined)
-            ? this.userAvatar : data.User_Avatar;
+          (this.indexData.User_Avatar == null || this.indexData.User_Avatar === undefined)
+            ? this.userAvatar : this.indexData.User_Avatar;
       });
     }
   }

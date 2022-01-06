@@ -8,9 +8,9 @@ import { Request_MemberProfile, Response_MemberProfile } from './member/member.c
 export class MemberService {
   /** 我的檔案資料 */
   public userProfile: Response_MemberProfile = new Response_MemberProfile();
-  /** 標籤切換 (目前用於我的訂單[MemberOrde]  21: 電子票券 1: 購物商城 */
+  /** 標籤切換 (目前用於我的訂單[MemberOrder]  21: 電子票券 1: 購物商城 */
   public tabSwitch = 1;
-  /** 訂單狀態切換(目前用於我的訂單[MemberOrde]  1: 處理中 2: 待收貨 3:已完成 4:退貨 */
+  /** 訂單狀態切換(目前用於我的訂單[MemberOrder]  1: 處理中 2: 待收貨 3:已完成 4:退貨 */
   public statusSwitch = 1;
 
   constructor(private appService: AppService, private oauthService: OauthService) { }
