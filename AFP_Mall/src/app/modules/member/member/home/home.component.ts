@@ -3,9 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 import { AppService } from '@app/app.service';
+import { AFP_ADImg, Model_ShareData } from '@app/modules/member/_module-member';
 import { OauthService } from '@app/modules/oauth/oauth.service';
 import { ModalService } from '@app/shared/modal/modal.service';
-import { AFP_ADImg, Model_ShareData } from '@app/_models';
 import { SwiperOptions } from 'swiper';
 
 declare var AppJSInterface: any;
@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit {
   /** 讀取首頁資料 */
   readIndexData(): void {
     if (this.oauthService.cookiesGet('idToken').cookieVal !== '' && this.oauthService.cookiesGet('idToken').cookieVal !== 'undefined') {
-      const request: Request_MemberIndex = {
+      const request: Model_ShareData = {
         SelectMode: 4
       };
 
@@ -127,9 +127,6 @@ export class HomeComponent implements OnInit {
 
 }
 
-/** 會員中心首頁 - RequestModel */
-interface Request_MemberIndex extends Model_ShareData {
-}
 
 /** 會員中心首頁 - ResponseModel */
 class Response_MemberIndex extends Model_ShareData {
