@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
-
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { Error404Component } from './modules/error404/error404.component';
+
 
 
 const routes: Routes = [
   { path: '', loadChildren: () => import('./modules/entrance/entrance.module').then(m => m.EntranceModule), data: {animation: 'Home'}},
+  { path: 'null', loadChildren: () => import('./modules/oauth/oauth.module').then(m => m.OauthModule), data: {animation: 'Login'}},
   { path: 'Login', loadChildren: () => import('./modules/oauth/oauth.module').then(m => m.OauthModule), data: {animation: 'Login'}},
   { path: 'Explore', loadChildren: () => import('./modules/explore/explore.module').then(m => m.ExploreModule)},
   { path: 'Shopping', loadChildren: () => import('./modules/shopping/shopping.module').then(m => m.ShoppingModule)},

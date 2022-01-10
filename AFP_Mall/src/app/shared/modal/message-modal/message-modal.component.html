@@ -59,5 +59,6 @@
       </div>
     </div>
   </div>
-  <button type="button" class="btn close-modalbtn" data-dismiss="modal" (click)="bsModalRef.hide()"><img src="../img/share/close.png"></button>
+  <button type="button" class="btn close-modalbtn" data-dismiss="modal"
+    *ngIf="!static" (click)="bsModalRef.hide()"><img src="../img/share/close.png"></button>
 

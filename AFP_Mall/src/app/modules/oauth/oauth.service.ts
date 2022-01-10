@@ -80,6 +80,8 @@ export class OauthService {
         case '/':
         case 'null':
         case 'undefined':
+        case null:
+        case undefined:
         case '/Login':
           pathTemp = '/';
           break;
@@ -128,7 +130,32 @@ export class OauthService {
           case '996600001':
             return data;
           default:
-            this.msgModal(this.appVisit, '註冊失敗');
+            this.bsModalService.show(MessageModalComponent, {
+              class: 'modal-dialog-centered',
+              backdrop: 'static',
+              initialState: {
+                success: true,
+                static: true,
+                message: `登入失敗<br>錯誤代碼：${data.errorCode}<br>請重新登入註冊`,
+                showType: 2,
+                rightBtnMsg: '確定',
+                rightBtnFn: () => {
+                  const fromOriginUriCookie = this.cookiesGet('fromOriginUri').cookieVal;
+                  const prevUri = sessionStorage.getItem('prevUrl');
+                  if (fromOriginUriCookie) {
+                    // 返回前一頁，但不能返回Login頁，避免循環
+                    (prevUri.indexOf('Login') < 0) ? location.href = prevUri : this.router.navigate(['/']);
+                  } else {
+                    // 返回頁為根目錄時，檢查前一頁是否非本站，若非本站則導回該網站
+                    if (fromOriginUriCookie === '/') {
+                      location.href =
+                        (prevUri.indexOf(location.origin) > -1) ? fromOriginUriCookie : prevUri;
+                    }
+                  }
+                  this.onClearLogin();
+                }
+              }
+            });
             break;
         }
       }, catchError(this.handleError)));
@@ -261,6 +288,7 @@ export class OauthService {
   onClearLogin() {
     this.cookiesDel('fromOriginUri');
     this.cookiesDel('deviceType');
+    sessionStorage.removeItem('prevUrl');
   }
 
 
@@ -279,7 +307,6 @@ export class OauthService {
         rightBtnMsg: '登入/註冊',
         rightBtnFn: () => {
           // 清除session、cookie
-          // this.onClearLogin();
           this.cookiesDel('/');
           sessionStorage.clear();
           this.cookieService.deleteAll();

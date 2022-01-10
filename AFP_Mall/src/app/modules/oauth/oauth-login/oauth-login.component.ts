@@ -1,8 +1,9 @@
 import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 import { AppService } from '@app/app.service';
 import { OauthService, ResponseOauthApi, ViewConfig } from '@app/modules/oauth/oauth.service';
+import { MessageModalComponent } from '@app/shared/modal/message-modal/message-modal.component';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -32,15 +33,14 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   public grantCode = '';
   /** 登入憑證 */
   public M_idToken = this.oauthService.cookiesGet('idToken').cookieVal;
-  /** 艾斯身份識別後端回傳資料 */
-  public loginJsonData: object;
+  /** 後端是否回傳資料 */
+  public loginJsonHas = false;
 
-  constructor(public appService: AppService, public oauthService: OauthService,
+  constructor(public appService: AppService, public oauthService: OauthService, private router: Router,
               public el: ElementRef, private activatedRoute: ActivatedRoute, public bsModalService: BsModalService,
               private callApp: AppJSInterfaceService, public cookieService: CookieService) {
 
     this.activatedRoute.queryParams.subscribe(params => {
-
       /** 「艾斯身份識別_登入1-1-2」接收queryParams */
       if (params.isApp === '1' && typeof params.deviceType !== 'undefined') {
         /** 「艾斯身份識別_登入1-1-1b」 App (接收App queryParams：isApp, deviceType, deviceCode) */
@@ -75,24 +75,27 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
        * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/20001-redirect-api-mobii
        */
       if (!this.M_idToken) {
-        if (typeof params.loginJson !== 'undefined' && JSON.parse(params.loginJson).errorCode === '996600001') {
+        if (typeof params.loginJson !== 'undefined') {
           const loginJson = JSON.parse(params.loginJson);
           this.viewType = '2';
           this.appService.isApp = loginJson.data.isApp;
-          // 只能打一次，否則errorCode:609830001
-          if (loginJson.data.grantCode) {
-            this.grantCode = loginJson.data.grantCode;
-            /** 「艾斯身份識別_登入2-2」多重帳號頁面渲染
-             * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/30001-token-api-mobii
-             */
-            if (loginJson.data.List_MultipleUser) {
-              /** 「艾斯身份識別_登入2-2-1」有多重帳號時，使用者點擊取得idToken */
-              this.viewType = '1';
-              this.List_MultipleUser = loginJson.data.List_MultipleUser;
-              this.UserInfoId = loginJson.data.List_MultipleUser[0].UserInfoId;
-            } else {
-              /** 「艾斯身份識別_登入2-2-2」無多重帳號時，用grantCode取得idToken */
-              this.onGetToken(loginJson.data.grantCode, 0);
+          if (loginJson.errorCode.indexOf('996600001') > -1) {
+            this.loginJsonHas = true;
+            // 只能打一次，否則errorCode:609830001
+            if (loginJson.data.grantCode) {
+              this.grantCode = loginJson.data.grantCode;
+              /** 「艾斯身份識別_登入2-2」多重帳號頁面渲染
+               * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/30001-token-api-mobii
+               */
+              if (loginJson.data.List_MultipleUser) {
+                /** 「艾斯身份識別_登入2-2-1」有多重帳號時，使用者點擊取得idToken */
+                this.viewType = '1';
+                this.List_MultipleUser = loginJson.data.List_MultipleUser;
+                this.UserInfoId = loginJson.data.List_MultipleUser[0].UserInfoId;
+              } else {
+                /** 「艾斯身份識別_登入2-2-2」無多重帳號時，用grantCode取得idToken */
+                this.onGetToken(loginJson.data.grantCode, 0);
+              }
             }
           }
         }
@@ -107,11 +110,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    // 避免直接貼上，導回Login頁
-    if (this.oauthService.cookiesGet('fromOriginUri').cookieVal === '/Login') {
-      this.oauthService.cookiesDel('fromOriginUri');
-    }
-
+    sessionStorage.setItem('prevUrl', document.referrer);
     this.appService.openBlock();
     if (this.oauthService.cookiesGet('upgrade').cookieVal === '') {
       this.viewType = '0';
@@ -143,6 +142,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.getViewData();
         break;
     }
+    console.log(this.viewType);
   }
 
   getViewData() {
@@ -155,11 +155,42 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         return {name: key, value: val};
       });
       /** 「艾斯身份識別_登入4-1-1」曾經登入成功過(沒有idToken)，需等待form渲染後，再至艾斯登入 */
-      if (this.viewList.length > 0 && !this.M_idToken &&
+      if (this.viewList.length > 0 &&
+        !this.M_idToken &&
+        this.viewType === '2' &&
+        this.loginJsonHas === false &&
         this.oauthService.cookiesGet('upgrade').cookieVal === '1' &&
-        this.viewType === '2') {
+        this.oauthService.cookiesGet('fromOriginUri').cookieVal &&
+        location.pathname !== '/null') {
         this.delaySubmit().then(() => {
           this.appService.blockUI.stop();
+        });
+      } else {
+        this.bsModalService.show(MessageModalComponent, {
+          class: 'modal-dialog-centered',
+          backdrop: 'static',
+          initialState: {
+            success: true,
+            static: true,
+            message: '請重新登入',
+            showType: 2,
+            rightBtnMsg: '確定',
+            rightBtnFn: () => {
+              const fromOriginUriCookie = this.oauthService.cookiesGet('fromOriginUri').cookieVal;
+              const prevUri = sessionStorage.getItem('prevUrl');
+              if (fromOriginUriCookie) {
+                // 返回前一頁，但不能返回Login頁，避免循環
+                (prevUri.indexOf('Login') < 0) ? location.href = prevUri : this.router.navigate(['/']);
+              } else {
+                // 返回頁為根目錄時，檢查前一頁是否非本站，若非本站則導回該網站
+                if (fromOriginUriCookie === '/') {
+                  location.href =
+                    (prevUri.indexOf(location.origin) > -1) ? fromOriginUriCookie : prevUri;
+                }
+              }
+              this.oauthService.onClearLogin();
+            }
+          }
         });
       }
     });
@@ -188,6 +219,8 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
   /** 「艾斯身份識別_登入3-1」已登入過艾斯(未有idToken)，點擊過公告頁登入註冊按鈕(M_upgrade=1)，可取得idToken，則否讓使用者選完再取得idToken
    * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/20001-redirect-api-mobii
+   * @param code 後端驗證用grantCode
+   * @param uid 使用者id
    */
   onGetToken(code: string, uid: number) {
     // 禁止回上一頁(上一頁為艾斯及後端Redirect，故禁止返回)
@@ -203,27 +236,29 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.oauthService.grantRequest.UserInfoId = uid;
         /** 「艾斯身份識別_登入3-2-1」取得idToken */
         this.oauthService.toTokenApi(this.oauthService.grantRequest).subscribe((data: ResponseOauthApi) => {
-          const tokenData =  Object.assign(data);
-          if (tokenData.errorCode === '996600001') {
-            this.oauthService.cookiesSet({
-              idToken: tokenData.data.idToken,
-              userName: tokenData.data.Customer_Name,
-              userCode: tokenData.data.Customer_Code,
-              userFavorites: JSON.stringify(tokenData.data.List_UserFavourite),
-              page: location.href
-            });
-            this.appService.userName = tokenData.data.Customer_Name;
-            this.appService.loginState = true;
-            this.appService.userLoggedIn = true;
-            this.appService.showFavorites();
-            this.appService.readCart();
-            this.viewType = '3';
-            /** 「艾斯身份識別_登入3-2-3」裝置若為APP傳interface */
-            if (this.appService.isApp === 1) {
-              this.callApp.getLoginData(tokenData.data.idToken, tokenData.data.Customer_Code, tokenData.data.Customer_Name);
-            } else {
-              // web登入成功導址
-              this.appService.jumpUrl(this.oauthService.cookiesGet('fromOriginUri').cookieVal);
+          if (data) {
+            const tokenData =  Object.assign(data);
+            if (tokenData.errorCode === '996600001') {
+              this.oauthService.cookiesSet({
+                idToken: tokenData.data.idToken,
+                userName: tokenData.data.Customer_Name,
+                userCode: tokenData.data.Customer_Code,
+                userFavorites: JSON.stringify(tokenData.data.List_UserFavourite),
+                page: location.href
+              });
+              this.appService.userName = tokenData.data.Customer_Name;
+              this.appService.loginState = true;
+              this.appService.userLoggedIn = true;
+              this.appService.showFavorites();
+              this.appService.readCart();
+              this.viewType = '3';
+              /** 「艾斯身份識別_登入3-2-3」裝置若為APP傳interface */
+              if (this.appService.isApp === 1) {
+                this.callApp.getLoginData(tokenData.data.idToken, tokenData.data.Customer_Code, tokenData.data.Customer_Name);
+              } else {
+                // web登入成功導址
+                this.appService.jumpUrl(this.oauthService.cookiesGet('fromOriginUri').cookieVal);
+              }
             }
           }
         });
