@@ -142,7 +142,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.getViewData();
         break;
     }
-    console.log(this.viewType);
   }
 
   getViewData() {

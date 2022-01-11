@@ -45,9 +45,7 @@ export class MessageModalComponent implements OnInit {
 
   constructor(public bsModalRef: BsModalRef, public router: Router) { }
 
-  ngOnInit() {
-    console.log(this.bsModalRef);
-  }
+  ngOnInit() { }
 
   /** 點擊按鈕 (視窗只有單一按鈕的情況) */
   clickSingleBtn(): void {
