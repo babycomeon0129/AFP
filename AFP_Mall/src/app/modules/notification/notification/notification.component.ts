@@ -54,9 +54,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
       this.showCategoryList(history.state.data.cateName, history.state.data.cateCode);
     }
     // 將通知都視為已讀
-    this.appService.pushCount = 0;
     this.appService.alertStatus = false;
-    this.oauthService.cookiesDel('pushCount');
   }
 
   /**
