@@ -277,7 +277,8 @@ export class EntranceComponent implements OnInit {
     };
     this.appService.openBlock();
     this.appService.toApi('Home', '1021', request).subscribe((data: Response_Home) => {
-      console.log(data);
+      // 推播小紅點
+      this.appService.alertStatus = data.AlertStatus;
       // JustKa連結
       this.JustKaUrl = data.JustKaUrl;
       // 會員資訊

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { layerAnimation } from '@app/animations';
 import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
-import { AFP_IMessage, AFP_MemberMsgTitle, Request_MemberMsg, Response_MemberMsg } from '@app/_models';
+import { AFP_IMessage, AFP_MemberMsgTitle, Request_Home, Request_MemberMsg, Response_MemberMsg } from '@app/_models';
 
 @Component({
   selector: 'app-notification',
@@ -53,8 +53,14 @@ export class NotificationComponent implements OnInit, OnDestroy {
     if (history.state.data !== undefined) {
       this.showCategoryList(history.state.data.cateName, history.state.data.cateCode);
     }
-    // 將通知都視為已讀
-    this.appService.alertStatus = false;
+
+    // 將通知都視為已讀(通知後端小紅點不顯示)
+    const requestStatus: Request_Home = {
+      User_Code: null
+    };
+    this.appService.toApi('Home', '1031', requestStatus).subscribe(() => {
+      this.appService.alertStatus = false;
+    });
   }
 
   /**
