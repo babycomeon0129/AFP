@@ -52,6 +52,8 @@ export class AppService {
   public currentMessage = new BehaviorSubject(null);
   /** 推播訊息數量 */
   public pushCount = Number(this.oauthService.cookiesGet('pushCount').cookieVal) || 0;
+  /** 推播紅點顯示與否(false:不顯示, true:顯示) */
+  public alertStatus: boolean;
   /** GUID (推播使用) */
   public deviceCode = localStorage.getItem('M_DeviceCode') || null;
   /** firebase 推播 token */
@@ -214,6 +216,7 @@ export class AppService {
             this.userLoggedIn = false;
             this.userFavCodes = [];
             this.pushCount = 0;
+            this.alertStatus = false;
             this.oauthService.onLogout(this.isApp);
           }
           this.oauthService.loginPage(this.isApp, encodeURI(uri.replace(location.origin, '')));

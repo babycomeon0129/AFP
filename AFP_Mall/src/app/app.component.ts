@@ -97,6 +97,7 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
         this.appService.userLoggedIn = false;
         this.appService.userFavCodes = [];
         this.appService.pushCount = 0;
+        this.appService.alertStatus = false;
         this.oauthService.onLogout(this.appService.isApp);
       }
     });
