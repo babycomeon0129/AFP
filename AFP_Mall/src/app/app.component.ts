@@ -1,4 +1,4 @@
-import { Component, DoCheck, KeyValueDiffer, KeyValueDiffers, OnDestroy, OnInit } from '@angular/core';
+import { Component, KeyValueDiffer, KeyValueDiffers, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ResolveEnd, Router, RouterOutlet } from '@angular/router';
 import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
@@ -15,7 +15,7 @@ import { AppJSInterfaceService } from './app-jsinterface.service';
   templateUrl: './app.component.html',
   animations: [slideInAnimation]
 })
-export class AppComponent implements OnInit, DoCheck, OnDestroy {
+export class AppComponent implements OnInit, OnDestroy {
   /** 裝置系統或瀏覽器版本是否過舊 */
   public isOld: boolean;
   /** 需更新項目 */
@@ -220,26 +220,26 @@ export class AppComponent implements OnInit, DoCheck, OnDestroy {
     }
   }
 
-  ngDoCheck() {
-    const change = this.serviceDiffer.diff(this.appService);
-    if (change) {
-      change.forEachChangedItem(item => {
-        if (item.key === 'loginState' && item.currentValue && this.appService.userLoggedIn) {
-          // 登入時重新訪問目前頁面以讀取會員相關資料
-          this.router.routeReuseStrategy.shouldReuseRoute = () => false; // 判斷是否同一路由
-          this.router.onSameUrlNavigation = 'reload';
-          let url = this.router.url;
-          if (url.includes('?')) {
-            // 若url原有參數則帶著前往
-            url = url.split('?')[0];
-            this.router.navigate([url], { queryParams: this.activatedRoute.snapshot.queryParams });
-          } else {
-            this.router.navigate([url]);
-          }
-        }
-      });
-    }
-  }
+  // ngDoCheck() {
+  //   const change = this.serviceDiffer.diff(this.appService);
+  //   if (change) {
+  //     change.forEachChangedItem(item => {
+  //       if (item.key === 'loginState' && item.currentValue && this.appService.userLoggedIn) {
+  //         // 登入時重新訪問目前頁面以讀取會員相關資料
+  //         this.router.routeReuseStrategy.shouldReuseRoute = () => false; // 判斷是否同一路由
+  //         this.router.onSameUrlNavigation = 'reload';
+  //         let url = this.router.url;
+  //         if (url.includes('?')) {
+  //           // 若url原有參數則帶著前往
+  //           url = url.split('?')[0];
+  //           this.router.navigate([url], { queryParams: this.activatedRoute.snapshot.queryParams });
+  //         } else {
+  //           this.router.navigate([url]);
+  //         }
+  //       }
+  //     });
+  //   }
+  // }
 
   ngOnDestroy() {
     // 應用程式銷毀前，判斷是否有isApp，for App用
