@@ -50,8 +50,8 @@ export class AppService {
   public defaultImage = '/img/share/eee.jpg';
   /** 當前訊息 */
   public currentMessage = new BehaviorSubject(null);
-  /** 推播訊息數量 */
-  public pushCount = Number(this.oauthService.cookiesGet('pushCount').cookieVal) || 0;
+  /** 推播紅點顯示與否(false:不顯示, true:顯示) */
+  public alertStatus: boolean;
   /** GUID (推播使用) */
   public deviceCode = localStorage.getItem('M_DeviceCode') || null;
   /** firebase 推播 token */
@@ -213,7 +213,7 @@ export class AppService {
             this.loginState = false;
             this.userLoggedIn = false;
             this.userFavCodes = [];
-            this.pushCount = 0;
+            this.alertStatus = false;
             this.oauthService.onLogout(this.isApp);
           }
           this.oauthService.loginPage(this.isApp, encodeURI(uri.replace(location.origin, '')));
@@ -464,20 +464,6 @@ export class AppService {
         console.error('Unable to get permission to notify.', err);
       }
     );
-  }
-
-  /** 接收推播訊息 */
-  receiveMessage(): void {
-    this.angularFireMessaging.messages.subscribe(
-      (payload) => {
-        // console.log('new message received. ', payload);
-        this.currentMessage.next(payload);
-        this.pushCount++;
-        this.oauthService.cookiesSet({
-          pushCount: JSON.stringify(this.pushCount),
-          page: location.href
-        });
-      });
   }
 
   /** 推播-取得含device code的新消費者包 */

@@ -18,7 +18,7 @@
       </a>
       <a [routerLink]="['/Shopping']" class="bar-item" [ngClass]="{'active': currentUrl.indexOf('/Shopping') != -1}">
       <!-- <a (click)="goTo()" [ngClass]="{'active': currentUrl.indexOf('/Notification') != -1}" id="BearIcon" class="bar-item">
-        <ng-container *ngIf="appService.pushCount > 0">
+        <ng-container *ngIf="appService.alertStatus">
           <div class="more-dot"></div>
         </ng-container> -->
         <img class="default-img" src="img/index/tabbar/shopping.png" alt="">

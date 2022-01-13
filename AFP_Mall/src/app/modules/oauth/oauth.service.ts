@@ -455,8 +455,6 @@ export class cookieDeclare {
   cart_code?: string;
   /** 購物車 */
   cart_count_Mobii?: string;
-  /** 推播 */
-  pushCount?: string;
   /** 進場廣告 */
   adTime?: string;
   /** App訪問 */
