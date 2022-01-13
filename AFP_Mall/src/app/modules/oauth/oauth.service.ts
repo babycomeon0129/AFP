@@ -144,12 +144,12 @@ export class OauthService {
                   const prevUri = sessionStorage.getItem('prevUrl');
                   if (fromOriginUriCookie) {
                     // 返回前一頁，但不能返回Login頁，避免循環
-                    (prevUri.indexOf('Login') < 0) ? location.href = prevUri : this.router.navigate(['/']);
+                    (!prevUri.includes('Login')) ? location.href = prevUri : this.router.navigate(['/']);
                   } else {
                     // 返回頁為根目錄時，檢查前一頁是否非本站，若非本站則導回該網站
                     if (fromOriginUriCookie === '/') {
                       location.href =
-                        (prevUri.indexOf(location.origin) > -1) ? fromOriginUriCookie : prevUri;
+                        (prevUri.includes(location.origin)) ? fromOriginUriCookie : prevUri;
                     }
                   }
                   this.onClearLogin();

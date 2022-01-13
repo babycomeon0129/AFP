@@ -5,6 +5,7 @@ import { Error404Component } from './modules/error404/error404.component';
 
 
 const routes: Routes = [
+  // MOB-4103 避免登入因驗證轉跳或快取，導至null網址，故統一導到Login頁判斷，若未登入則跳出alert "請重新登入"
   { path: '', loadChildren: () => import('./modules/entrance/entrance.module').then(m => m.EntranceModule), data: {animation: 'Home'}},
   { path: 'null', loadChildren: () => import('./modules/oauth/oauth.module').then(m => m.OauthModule), data: {animation: 'Login'}},
   { path: 'Login', loadChildren: () => import('./modules/oauth/oauth.module').then(m => m.OauthModule), data: {animation: 'Login'}},
