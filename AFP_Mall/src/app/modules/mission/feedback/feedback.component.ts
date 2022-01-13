@@ -4,8 +4,10 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
+import { MessageModalComponent } from '@app/shared/modal/message-modal/message-modal.component';
 import { ModalService } from '@app/shared/modal/modal.service';
 import { Model_MissionInfo } from '@app/_models';
+import { BsModalService } from 'ngx-bootstrap/modal';
 @Component({
   selector: 'app-feedback',
   templateUrl: './feedback.component.html',
@@ -30,12 +32,26 @@ export class FeedbackComponent implements OnInit {
   private deviceType = '0';
 
   constructor(public modal: ModalService, private oauthService: OauthService,
-              private router: Router, private appService: AppService) {
+              private router: Router, private appService: AppService, private bsModalService: BsModalService) {
   }
 
   ngOnInit() {
     if (!this.appService.loginState) {
-      this.appService.logoutModal();
+      // 未登入alert
+      this.bsModalService.show(MessageModalComponent, {
+        class: 'modal-dialog-centered',
+        backdrop: 'static',
+        initialState: {
+          success: true,
+          static: true,
+          message: '請先登入!',
+          showType: 2,
+          rightBtnMsg: '登入/註冊',
+          rightBtnFn: () => {
+            this.oauthService.loginPage(this.appService.isApp, '/Mission/Feedback');
+          }
+        }
+      });
     } else {
       if (history.state.data !== undefined) {
         // 取得Mobii版本號與裝置作業版本
@@ -85,8 +101,8 @@ export class FeedbackComponent implements OnInit {
   onKeyEvent(event: any) {
     // 避免部分瀏覽器沒有event.target選項(如IE6-8)
     const el = event.target ? event.target : event.srcElement;
-    this.textareaLen = event.target.value.length;
-    this.textareaVal = event.target.value;
+    this.textareaLen = el.value.length;
+    this.textareaVal = el.value;
     return this.textareaLen;
   }
 
