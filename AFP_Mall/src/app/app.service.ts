@@ -554,7 +554,7 @@ export class AppService {
 
   /** 網頁跳轉(登入用，不會紀錄連結的歷史紀錄) */
   jumpUrl(uri: string) {
-    if (uri === '' || uri === 'null') {
+    if (uri === '' || uri === 'null' || uri === null || uri === undefined) {
       this.router.navigate(['/']);
     } else {
       location.replace(decodeURI(uri));

@@ -10,17 +10,18 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 export class MessageModalComponent implements OnInit {
   /** 1: 預設 2: 前往登入 3: 前往重設密碼 6: 左右按鈕內容、連結全客製化(視窗需要兩顆按鈕) 999: 核銷優惠券成功時(顯示一張廣告圖) */
   showType = 1;
+  /** 視窗文字內容顯示(視狀況設定) */
   success: boolean;
-  /** 視窗內容 */
+  /** 視窗內容(搭配success使用) */
   message: string;
+  /** 禁止點選其他區域關閉Modal視窗(搭配backdrop: 'static'使用) */
+  static: boolean;
   /** 前往連結。單顆按鈕的情況下，如果需要頁面跳轉，需設置。 如設定'GoBack'，則為「返回上一頁」。 */
   target: string;
   /** 視窗的小字提醒 */
   note: string;
   /** 廣告圖 */
   adImgList: AFP_ADImg[];
-  /** 重設密碼用 */
-  // VerifiedInfo: AFP_VerifiedInfo;
   /** 優惠券名稱 */
   voucherName: string;
   /** 確認按鈕內容 (視窗只有1顆確認按鈕時使用)，預設內容為「確定」，如需更換內容，須設置 */
@@ -44,8 +45,7 @@ export class MessageModalComponent implements OnInit {
 
   constructor(public bsModalRef: BsModalRef, public router: Router) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   /** 點擊按鈕 (視窗只有單一按鈕的情況) */
   clickSingleBtn(): void {

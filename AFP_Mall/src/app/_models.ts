@@ -1018,9 +1018,9 @@ export interface Request_GetUserVoucher extends Model_ShareData {
 
 /** 取得優惠卷 Response */
 export interface Response_GetUserVoucher extends Model_ShareData {
-  /** 使用者優惠卷 */
+  /** 使用者優惠卷(顯示用) */
   List_UserVoucher?: AFP_UserVoucher[];
-  /** 優惠卷 */
+  /** 優惠卷(判斷用) */
   List_Voucher?: AFP_Voucher[];
 }
 
