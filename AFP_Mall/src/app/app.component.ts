@@ -11,6 +11,7 @@ import { slideInAnimation } from './animations';
 import { AppJSInterfaceService } from './app-jsinterface.service';
 
 @Component({
+  // tslint:disable-next-line: component-selector
   selector: 'body',
   templateUrl: './app.component.html',
   animations: [slideInAnimation]
@@ -96,7 +97,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.appService.loginState = false;
         this.appService.userLoggedIn = false;
         this.appService.userFavCodes = [];
-        this.appService.pushCount = 0;
+        this.appService.alertStatus = false;
         this.oauthService.onLogout(this.appService.isApp);
       }
     });
@@ -110,7 +111,6 @@ export class AppComponent implements OnInit, OnDestroy {
       this.appService.userLoggedIn = true;
     }
     this.appService.getPushPermission();
-    this.appService.receiveMessage();
     // 當路由器成功完成路由的解析階段時，先通知app將footer關閉(開啟則靠app-mobile-footer通知開啟)
     this.router.events.pipe(filter(event => event instanceof ResolveEnd))
       .subscribe((event: ResolveEnd) => {
@@ -135,7 +135,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }, 1000);
 
     // TODO 測試用
-    if (this.appService.isApp === 1 && this.oauthService.preName !=='') {
+    if (this.appService.isApp === 1 && this.oauthService.preName !== '') {
       document.getElementById('loginRequest').innerHTML =
       '<p>isApp: ' + this.appService.isApp + '</p>' +
       '<p>deviceType: ' + this.oauthService.cookiesGet('deviceType').cookieVal + '</p>';
@@ -156,11 +156,11 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   /** 偵測裝置系統或瀏覽器版本是否過舊（根據Angular browser support）
-   * @property target 偵測目標
-   * @property type OS - 0, browser - 1
-   * @property condition 可從userAgent中找出該目標的條件
-   * @property matchRegex 陣列[目標及版本, 版本], parseInt()第[1]個項目後取得版本
-   * @property minVer 目前Angular支援該目標的最低版本
+   * @param target 偵測目標
+   * @param type OS - 0, browser - 1
+   * @param condition 可從userAgent中找出該目標的條件
+   * @param matchRegex 陣列[目標及版本, 版本], parseInt()第[1]個項目後取得版本
+   * @param minVer 目前Angular支援該目標的最低版本
    */
   detectOld(): void {
     const ua = navigator.userAgent;

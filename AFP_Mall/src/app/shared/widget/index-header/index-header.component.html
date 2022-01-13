@@ -37,7 +37,7 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="img/index/seemore.png" class="h48">
-              <ng-container *ngIf="appService.pushCount > 0">
+              <ng-container *ngIf="appService.alertStatus">
                 <div class="more-dot menu-dot"></div>
               </ng-container>
             </a>
@@ -45,7 +45,7 @@
               <li>
                 <a (click)="goTo()" [routerLink]="['/Notification']">
                   <img src="img/share/drop_notification.png" alt="">我的通知</a>
-                  <ng-container *ngIf="appService.pushCount > 0">
+                  <ng-container *ngIf="appService.alertStatus">
                     <div class="more-dot"></div>
                   </ng-container>
                 </li>

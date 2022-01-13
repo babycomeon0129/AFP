@@ -37,7 +37,7 @@ export class SettingComponent implements OnInit {
     this.appService.loginState = false;
     this.appService.userLoggedIn = false;
     this.appService.userFavCodes = [];
-    this.appService.pushCount = 0;
+    this.appService.alertStatus = false;
     this.oauthService.onLogout(this.appService.isApp);
   }
 
@@ -46,7 +46,7 @@ export class SettingComponent implements OnInit {
     this.oauthService.toModifyEyes(this.appService.isApp, this.oauthService.cookiesGet('idToken').cookieVal)
     .subscribe((data: string) => {
       /** 「艾斯身份識別_變更密碼3」變更密碼成功導址，失敗跳dialog */
-      if (data !== null && data.indexOf('https') === 0) {
+      if (data !== null && data.includes('https')) {
         location.href = data;
       } else {
         if (data !== '996600001') {
