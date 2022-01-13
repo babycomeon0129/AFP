@@ -85,8 +85,8 @@ export class FeedbackComponent implements OnInit {
   onKeyEvent(event: any) {
     // 避免部分瀏覽器沒有event.target選項(如IE6-8)
     const el = event.target ? event.target : event.srcElement;
-    this.textareaLen = event.target.value.length;
-    this.textareaVal = event.target.value;
+    this.textareaLen = el.value.length;
+    this.textareaVal = el.value;
     return this.textareaLen;
   }
 
