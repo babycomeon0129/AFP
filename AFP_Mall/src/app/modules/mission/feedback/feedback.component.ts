@@ -41,6 +41,7 @@ export class FeedbackComponent implements OnInit {
       this.bsModalService.show(MessageModalComponent, {
         class: 'modal-dialog-centered',
         backdrop: 'static',
+        keyboard: false,
         initialState: {
           success: true,
           static: true,

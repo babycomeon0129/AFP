@@ -43,7 +43,11 @@ export class MessageModalComponent implements OnInit {
   /** 網址傳參2 (連結跳轉須加上參數時使用，預設為雙顆按鈕時右邊按鈕的傳參) */
   queryParams2: object;
 
-  constructor(public bsModalRef: BsModalRef, public router: Router) { }
+  constructor(public bsModalRef: BsModalRef, public router: Router) {
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') { return; }
+    });
+  }
 
   ngOnInit() { }
 
