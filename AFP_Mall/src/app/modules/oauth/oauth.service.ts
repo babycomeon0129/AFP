@@ -133,6 +133,7 @@ export class OauthService {
             this.bsModalService.show(MessageModalComponent, {
               class: 'modal-dialog-centered',
               backdrop: 'static',
+              keyboard: false,
               initialState: {
                 success: true,
                 static: true,

@@ -168,6 +168,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.bsModalService.show(MessageModalComponent, {
           class: 'modal-dialog-centered',
           backdrop: 'static',
+          keyboard: false,
           initialState: {
             success: true,
             static: true,
