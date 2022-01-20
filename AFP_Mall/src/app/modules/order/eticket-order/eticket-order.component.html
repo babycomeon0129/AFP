@@ -244,15 +244,15 @@
                       <p class="can-use-title"><span>平台優惠券</span> 可選擇 <span>{{info.platform.vouchers.length}}</span> 張
                       </p>
                       <ul>
-                        <li class="checkedli" *ngFor="let voucher of info.platform.vouchers">
+                        <li class="checkedli" *ngFor="let voucher of userVouchersDom">
                           <div class="item rwdimgbox-80">
                             <div [lazyLoad]="voucher?.Voucher_Image" [defaultImage]="appService.defaultImage" class="rwdimg-cover">
                             </div>
                           </div>
                           <div class="item discount-text item-middle">
                             <p>{{voucher.Voucher_ExtName}}</p>
-                            <p>{{voucher.Voucher_UsedOnDate | date: 'yyyy/MM/dd'}} ~
-                              {{voucher.Voucher_UsedOffDate | date: 'yyyy/MM/dd'}}</p>
+                            <p>{{voucher.UserVoucher_UsedOnDate | date: 'yyyy/MM/dd'}} ~
+                              {{voucher.UserVoucher_UsedOffDate | date: 'yyyy/MM/dd'}}</p>
                           </div>
                           <label class="radio-box">
                             <div class="item">

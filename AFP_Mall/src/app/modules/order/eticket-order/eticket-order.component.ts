@@ -1,15 +1,11 @@
-import { Component, OnInit, HostListener } from '@angular/core';
-import {
-  Model_ShareData, AFP_Cart, AFP_ECStore, AFP_Product, AFP_Voucher, AFP_Order,
-  Request_GetUserVoucher, Response_GetUserVoucher, Request_CheckUserVoucher, Response_CheckUserVoucher,
-  AFP_UserVoucher, AFP_VoucherLimit, OrderVoucher, OrderInvoice, OrderStore, OrderPlatform
-} from '@app/_models';
-import { ModalService } from '@app/shared/modal/modal.service';
-import { Router } from '@angular/router';
-import { AppService } from '@app/app.service';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { layerAnimation,  layerAnimationUp} from '@app/animations';
+import { Router } from '@angular/router';
+import { layerAnimation, layerAnimationUp } from '@app/animations';
 import { AppJSInterfaceService } from '@app/app-jsinterface.service';
+import { AppService } from '@app/app.service';
+import { ModalService } from '@app/shared/modal/modal.service';
+import { AFP_Cart, AFP_ECStore, AFP_Order, AFP_Product, AFP_UserVoucher, AFP_Voucher, AFP_VoucherLimit, Model_ShareData, OrderInvoice, OrderPlatform, OrderStore, OrderVoucher, Request_CheckUserVoucher, Request_GetUserVoucher, Response_CheckUserVoucher, Response_GetUserVoucher } from '@app/_models';
 
 @Component({
   selector: 'app-eticket-order',
@@ -30,6 +26,8 @@ export class ETicketOrderComponent implements OnInit {
   public voucher: Response_GetUserVoucher;
   /** 優惠券整理資訊 */
   public userVouchers: AFP_UserVoucher[] = [];
+  /** 可使用的使用者優惠券(Dom用) */
+  public userVouchersDom = [];
   /** 同頁滑動切換 0: 原頁 1: 使用優惠券、折扣碼 3:收據選取 4: 愛心碼選單 */
   public layerTrig = 0;
 
@@ -89,11 +87,18 @@ export class ETicketOrderComponent implements OnInit {
             this.info.total += newStore.total;
           });
 
-          // 平台可使用的優惠券整理
+          // 平台可使用的優惠券整理(DOM顯示用List_UserVoucher的使用日期)
           this.info.platform.vouchers = voucher.List_Voucher
-            .filter(x => x.Voucher_UsedLimitType <= 2 && x.VoucherRange_Prod !== null);
+            .filter(ListVoucher => {
+              if (ListVoucher.Voucher_UsedLimitType <= 2 && ListVoucher.VoucherRange_Prod !== null) {
+                return voucher.List_UserVoucher.filter(ListUserVoucher => {
+                  if (ListUserVoucher.UserVoucher_VoucherCode === ListVoucher.Voucher_Code) {
+                    this.userVouchersDom.push(Object.assign({}, ListVoucher, ListUserVoucher));
+                  }
+                });
+              }
+            });
           if (this.info.platform.vouchers.length > 0) { this.info.visibleVouchers = true; }
-
           this.recalculate();
         });
       });
