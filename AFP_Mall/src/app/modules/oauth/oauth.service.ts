@@ -77,6 +77,7 @@ export class OauthService {
       let pathTemp = '';
       switch (pathname) {
         case '':
+        case '%2F':
         case '/':
         case 'null':
         case 'undefined':
