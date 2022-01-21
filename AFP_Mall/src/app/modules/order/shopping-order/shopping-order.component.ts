@@ -190,7 +190,6 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
   /** 開啟選擇優惠券頁面 */
   toChoiceVoucher(): void {
     // 還原優惠券選項
-    console.log(this.info.stores);
     this.info.stores.forEach(store => {
       store.preVoucher = JSON.parse(JSON.stringify(store.voucher));
     });
