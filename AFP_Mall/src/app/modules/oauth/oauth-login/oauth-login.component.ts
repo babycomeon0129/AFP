@@ -165,7 +165,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
           this.appService.blockUI.stop();
         });
       } else if (!this.oauthService.cookiesGet('fromOriginUri').cookieVal &&
-        this.viewType === '2') {
+        this.viewType === '2' && !this.oauthService.cookiesGet('idToken').cookieVal) {
         this.bsModalService.show(MessageModalComponent, {
           class: 'modal-dialog-centered',
           backdrop: 'static',
