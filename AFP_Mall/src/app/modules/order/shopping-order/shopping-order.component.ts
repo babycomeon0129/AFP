@@ -1,17 +1,12 @@
-import { Component, HostListener, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AppService } from '@app/app.service';
-import { ModalService } from '@app/shared/modal/modal.service';
-import {
-  Response_GetCheckout, Request_GetUserVoucher, Response_GetUserVoucher,
-  Request_CheckUserVoucher, Response_CheckUserVoucher, Request_MemberAddress, AFP_Cart, AFP_ECStore,
-  AFP_UserFavourite, AFP_UserVoucher, AFP_VoucherLimit, AFP_Order, Model_ShareData,
-  OrderVoucher, OrderInvoice, OrderStore, OrderPlatform
-} from '@app/_models';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { layerAnimation } from '@app/animations';
 import { AppJSInterfaceService } from '@app/app-jsinterface.service';
+import { AppService } from '@app/app.service';
+import { ModalService } from '@app/shared/modal/modal.service';
+import { AFP_Cart, AFP_ECStore, AFP_Order, AFP_UserFavourite, AFP_UserVoucher, AFP_VoucherLimit, Model_ShareData, OrderInvoice, OrderPlatform, OrderStore, OrderVoucher, Request_CheckUserVoucher, Request_GetUserVoucher, Request_MemberAddress, Response_CheckUserVoucher, Response_GetCheckout, Response_GetUserVoucher } from '@app/_models';
 import { LoveCodeList } from './loveCode';
 @Component({
   selector: 'app-shopping-order',
@@ -46,6 +41,8 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
   public storePickSelf: AFP_ECStore[] = [];
   /** 優惠券整理資訊 */
   public userVouchers: AFP_UserVoucher[] = [];
+  /** 可使用的使用者優惠券(Dom用) */
+  public userVouchersDom = [];
   /** 新增地址用 */
   public requestAddress: AFP_UserFavourite = new AFP_UserFavourite();
   /** 是否正在設定預設地址 (控制進入頁面正在設置時不呼叫layerTrig) */
@@ -156,11 +153,19 @@ export class ShoppingOrderComponent implements OnInit, AfterViewInit {
           this.settingAddress = false;
           // this.addressList = data.List_UserFavourite;
 
-          // 平台可使用的優惠券整理
+          // 平台可使用的優惠券整理(DOM顯示用List_UserVoucher的使用日期)
           this.info.platform.vouchers = voucher.List_Voucher
-            .filter(x => x.Voucher_UsedLimitType <= 2 && x.VoucherRange_Prod !== null);
+            .filter(ListVoucher => {
+              if (ListVoucher.Voucher_UsedLimitType <= 2 && ListVoucher.VoucherRange_Prod !== null) {
+                return voucher.List_UserVoucher.filter(ListUserVoucher => {
+                  if (ListUserVoucher.UserVoucher_VoucherCode === ListVoucher.Voucher_Code) {
+                    this.userVouchersDom.push(Object.assign({}, ListVoucher, ListUserVoucher));
+                  }
+                });
+              }
+            });
           if (this.info.platform.vouchers.length > 0) { this.info.visibleVouchers = true; }
-
+          // 計算各商店優惠金額及平台優惠金額
           this.recalculate();
         });
       });

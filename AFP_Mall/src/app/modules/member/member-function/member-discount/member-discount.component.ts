@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Request_MemberUserVoucher, AFP_Voucher, Model_DictionaryShort, Response_MemberUserVoucher } from '@app/_models';
+import { Meta, Title } from '@angular/platform-browser';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { layerAnimation, layerAnimationUp } from '@app/animations';
 import { AppService } from '@app/app.service';
 import { ModalService } from '@app/shared/modal/modal.service';
-import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
-import { Meta, Title } from '@angular/platform-browser';
+import { AFP_Voucher, Model_DictionaryShort, Request_MemberUserVoucher, Response_MemberUserVoucher } from '@app/_models';
 import { ModalOptions } from 'ngx-bootstrap/modal';
-import { layerAnimation, layerAnimationUp } from '@app/animations';
 
 
 @Component({
@@ -71,6 +71,8 @@ export class MemberDiscountComponent implements OnInit {
     };
 
     this.appService.toApi('Member', '1510', request).subscribe((data: Response_MemberUserVoucher) => {
+      // 讀取後端已整理過的使用者優惠券資訊List_UserVoucher (MOB-4107)
+      // Voucher_UsedOnDate及Voucher_UsedOffDate等同UserVoucher_UsedOnDate及UserVoucher_UsedOffDate
       this.voucherListOrig = data.List_UserVoucher;
       this.voucherList = this.voucherListOrig.concat();
       this.useType = data.List_UsedType;
