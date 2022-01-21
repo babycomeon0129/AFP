@@ -53,7 +53,6 @@ export class GameCenterComponent implements OnInit {
       this.gameList = data.List_Game;
       this.showGameList = this.gameList.filter(game => game.Game_ConditionType === 0);
       this.appService.blockUI.stop();
-      console.log(data);
     });
 
     /** 會員點數 M point */
