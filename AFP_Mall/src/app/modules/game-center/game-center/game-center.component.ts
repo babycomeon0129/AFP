@@ -53,6 +53,7 @@ export class GameCenterComponent implements OnInit {
       this.gameList = data.List_Game;
       this.showGameList = this.gameList.filter(game => game.Game_ConditionType === 0);
       this.appService.blockUI.stop();
+      console.log(data);
     });
 
     /** 會員點數 M point */
@@ -80,7 +81,7 @@ export class GameCenterComponent implements OnInit {
 
 
   /** 讀取TAG列表
-   * @param tabType 1:一般會員, 2:綁卡會員
+   * @param tabType 0:一般會員, 1:綁卡會員
    */
   onTabList(tabType: number): void {
     this.selectedType = tabType;
