@@ -164,7 +164,8 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.delaySubmit().then(() => {
           this.appService.blockUI.stop();
         });
-      } else if (!this.oauthService.cookiesGet('fromOriginUri').cookieVal) {
+      } else if (!this.oauthService.cookiesGet('fromOriginUri').cookieVal &&
+        this.viewType === '2') {
         this.bsModalService.show(MessageModalComponent, {
           class: 'modal-dialog-centered',
           backdrop: 'static',
