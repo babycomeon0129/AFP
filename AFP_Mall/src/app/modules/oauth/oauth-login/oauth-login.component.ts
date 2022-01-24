@@ -37,8 +37,8 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   public loginJsonHas = false;
 
   constructor(public appService: AppService, public oauthService: OauthService, private router: Router,
-              public el: ElementRef, private activatedRoute: ActivatedRoute, public bsModalService: BsModalService,
-              private callApp: AppJSInterfaceService, public cookieService: CookieService) {
+    public el: ElementRef, private activatedRoute: ActivatedRoute, public bsModalService: BsModalService,
+    private callApp: AppJSInterfaceService, public cookieService: CookieService) {
 
     this.activatedRoute.queryParams.subscribe(params => {
       /** 「艾斯身份識別_登入1-1-2」接收queryParams */
@@ -78,8 +78,9 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         if (typeof params.loginJson !== 'undefined') {
           const loginJson = JSON.parse(params.loginJson);
           this.viewType = '2';
-          this.appService.isApp = loginJson.data.isApp;
+          // 登入成功
           if (loginJson.errorCode.includes('996600001')) {
+            this.appService.isApp = loginJson.data.isApp;
             this.loginJsonHas = true;
             // 只能打一次，否則errorCode:609830001
             if (loginJson.data.grantCode) {
@@ -97,6 +98,38 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
                 this.onGetToken(loginJson.data.grantCode, 0);
               }
             }
+          }
+          // 登入失敗
+          if (this.viewType === '2' && (loginJson.errorCode.includes('609820003') ||
+            loginJson.errorCode.includes('609820002') || loginJson.errorCode.includes('609820001'))) {
+            this.bsModalService.show(MessageModalComponent, {
+              class: 'modal-dialog-centered',
+              backdrop: 'static',
+              keyboard: false,
+              initialState: {
+                success: true,
+                static: true,
+                message: '請重新登入....',
+                showType: 2,
+                rightBtnMsg: '確定',
+                rightBtnFn: () => {
+                  const fromOriginUriCookie = this.oauthService.cookiesGet('fromOriginUri').cookieVal;
+                  const prevUri = sessionStorage.getItem('prevUrl');
+                  if (fromOriginUriCookie) {
+                    // 返回前一頁，但不能返回Login頁，避免循環
+                    (!prevUri.includes('Login')) ? location.href = prevUri : this.router.navigate(['/']);
+                  } else {
+                    // 返回頁為根目錄時，檢查前一頁是否非本站，若非本站則導回該網站
+                    if (fromOriginUriCookie === '/' || fromOriginUriCookie === '') {
+                      console.log(fromOriginUriCookie, prevUri);
+                      location.href =
+                        (prevUri.includes(location.origin)) ? fromOriginUriCookie : prevUri;
+                    }
+                  }
+                  this.oauthService.onClearLogin();
+                }
+              }
+            });
           }
         }
       }
@@ -151,7 +184,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       this.viewData = Object.assign(data);
       this.AuthorizationUri = data.AuthorizationUri;
       this.viewList = Object.entries(data).map(([key, val]) => {
-        return {name: key, value: val};
+        return { name: key, value: val };
       });
       /** 「艾斯身份識別_登入4-1-1」曾經登入成功過(沒有idToken)，需等待form渲染後，再至艾斯登入 */
       if (this.viewList.length > 0 &&
@@ -163,35 +196,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         location.pathname !== '/null') {
         this.delaySubmit().then(() => {
           this.appService.blockUI.stop();
-        });
-      } else if (!this.oauthService.cookiesGet('fromOriginUri').cookieVal &&
-        this.viewType === '2' && !this.oauthService.cookiesGet('idToken').cookieVal) {
-        this.bsModalService.show(MessageModalComponent, {
-          class: 'modal-dialog-centered',
-          backdrop: 'static',
-          keyboard: false,
-          initialState: {
-            success: true,
-            static: true,
-            message: '請重新登入',
-            showType: 2,
-            rightBtnMsg: '確定',
-            rightBtnFn: () => {
-              const fromOriginUriCookie = this.oauthService.cookiesGet('fromOriginUri').cookieVal;
-              const prevUri = sessionStorage.getItem('prevUrl');
-              if (fromOriginUriCookie) {
-                // 返回前一頁，但不能返回Login頁，避免循環
-                (!prevUri.includes('Login')) ? location.href = prevUri : this.router.navigate(['/']);
-              } else {
-                // 返回頁為根目錄時，檢查前一頁是否非本站，若非本站則導回該網站
-                if (fromOriginUriCookie === '/') {
-                  location.href =
-                    (prevUri.includes(location.origin)) ? fromOriginUriCookie : prevUri;
-                }
-              }
-              this.oauthService.onClearLogin();
-            }
-          }
         });
       }
     });
@@ -238,7 +242,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         /** 「艾斯身份識別_登入3-2-1」取得idToken */
         this.oauthService.toTokenApi(this.oauthService.grantRequest).subscribe((data: ResponseOauthApi) => {
           if (data) {
-            const tokenData =  Object.assign(data);
+            const tokenData = Object.assign(data);
             if (tokenData.errorCode === '996600001') {
               this.oauthService.cookiesSet({
                 idToken: tokenData.data.idToken,
@@ -276,7 +280,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     this.appService.readCart();
     if (this.appService.isApp === 1 || this.oauthService.cookiesGet('deviceType').cookieVal > '0') {
       this.callApp.getLoginData(this.oauthService.cookiesGet('idToken').cookieVal,
-      this.oauthService.cookiesGet('userCode').cookieVal, this.oauthService.cookiesGet('userName').cookieVal);
+        this.oauthService.cookiesGet('userCode').cookieVal, this.oauthService.cookiesGet('userName').cookieVal);
     } else {
       this.appService.jumpUrl(this.oauthService.cookiesGet('fromOriginUri').cookieVal);
     }

@@ -149,7 +149,7 @@ export class OauthService {
                     (!prevUri.includes('Login')) ? location.href = prevUri : this.router.navigate(['/']);
                   } else {
                     // 返回頁為根目錄時，檢查前一頁是否非本站，若非本站則導回該網站
-                    if (fromOriginUriCookie === '/') {
+                    if (fromOriginUriCookie === '/' || fromOriginUriCookie === '') {
                       location.href =
                         (prevUri.includes(location.origin)) ? fromOriginUriCookie : prevUri;
                     }
