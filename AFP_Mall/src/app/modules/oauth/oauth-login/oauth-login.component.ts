@@ -121,7 +121,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
                   } else {
                     // 返回頁為根目錄時，檢查前一頁是否非本站，若非本站則導回該網站
                     if (fromOriginUriCookie === '/' || fromOriginUriCookie === '') {
-                      console.log(fromOriginUriCookie, prevUri);
                       location.href =
                         (prevUri.includes(location.origin)) ? fromOriginUriCookie : prevUri;
                     }
@@ -188,12 +187,11 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       });
       /** 「艾斯身份識別_登入4-1-1」曾經登入成功過(沒有idToken)，需等待form渲染後，再至艾斯登入 */
       if (this.viewList.length > 0 &&
-        !this.M_idToken &&
+        !this.appService.loginState &&
         this.viewType === '2' &&
         this.loginJsonHas === false &&
         this.oauthService.cookiesGet('upgrade').cookieVal === '1' &&
-        this.oauthService.cookiesGet('fromOriginUri').cookieVal &&
-        location.pathname !== '/null') {
+        !this.oauthService.cookiesGet('fromOriginUri').cookieVal) {
         this.delaySubmit().then(() => {
           this.appService.blockUI.stop();
         });
@@ -279,6 +277,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     this.appService.showFavorites();
     this.appService.readCart();
     if (this.appService.isApp === 1 || this.oauthService.cookiesGet('deviceType').cookieVal > '0') {
+      console.log(this.appService.isApp === 1 || this.oauthService.cookiesGet('deviceType').cookieVal > '0');
       this.callApp.getLoginData(this.oauthService.cookiesGet('idToken').cookieVal,
         this.oauthService.cookiesGet('userCode').cookieVal, this.oauthService.cookiesGet('userName').cookieVal);
     } else {

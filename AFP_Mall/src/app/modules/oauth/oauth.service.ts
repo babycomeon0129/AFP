@@ -332,7 +332,7 @@ export class OauthService {
     return this.http.post(environment.loginUrl + 'memberLogout', formData, {headers})
       .pipe(map((data: ResponseOauthLogin) => {
         if (data.errorCode === '996600001') {
-          return data.data;
+          return JSON.stringify(data.data);
         } else {
           console.log('logout error', data.errorCode);
         }
@@ -347,7 +347,7 @@ export class OauthService {
    */
   onLogout(appVisit: number): void {
     /** 「艾斯身份識別_登出1」 */
-    this.oauthLogout(this.cookiesGet('deviceType').cookieVal, this.cookiesGet('idToken').cookieVal).subscribe((Data: any) => {});
+    this.oauthLogout(this.cookiesGet('deviceType').cookieVal, this.cookiesGet('idToken').cookieVal).subscribe((Data: string) => {});
 
     // APP登出導頁
     if (appVisit === 1) {
