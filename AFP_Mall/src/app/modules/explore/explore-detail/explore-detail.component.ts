@@ -150,24 +150,23 @@ export class ExploreDetailComponent implements OnInit {
             this.siteInfo.ECStore_OpenTime = this.siteInfo.ECStore_OpenTime.replace(/(?:\r\n|\r|\n)/g, '<br/>');
           }
           this.branchList = data.List_ECStore;
-          // 顯示網站判定
+          // 點分店資訊時，需先清空先前的資訊再顯示分店網站連結資訊
           if (this.websitesArr.length > 0) {
-            // 點分店資訊時，需先清空先前的資訊再顯示分店網站連結資訊
             this.websitesArr = [];
-          } else {
-            if (data.Model_ECStore.ECStore_WebURL !== null && data.Model_ECStore.ECStore_WebURL.trim() !== '') {
-              console.log(this.websitesArr);
-              this.websitesArr.push({ siteName: '官方網站', siteUrl: data.Model_ECStore.ECStore_WebURL });
-            }
-            if (data.Model_ECStore.ECStore_FBURL !== null && data.Model_ECStore.ECStore_FBURL.trim() !== '') {
-              this.websitesArr.push({ siteName: 'Facebook', siteUrl: data.Model_ECStore.ECStore_FBURL });
-            }
-            if (data.Model_ECStore.ECStore_LineURL !== null && data.Model_ECStore.ECStore_LineURL.trim() !== '') {
-              this.websitesArr.push({ siteName: 'Line', siteUrl: data.Model_ECStore.ECStore_LineURL });
-            }
-            if (data.Model_ECStore.ECStore_IGURL !== null && data.Model_ECStore.ECStore_IGURL.trim() !== '') {
-              this.websitesArr.push({ siteName: 'Instagram', siteUrl: data.Model_ECStore.ECStore_IGURL });
-            }
+          }
+          // 顯示網站判定
+          if (data.Model_ECStore.ECStore_WebURL !== null && data.Model_ECStore.ECStore_WebURL.trim() !== '') {
+            console.log(this.websitesArr);
+            this.websitesArr.push({ siteName: '官方網站', siteUrl: data.Model_ECStore.ECStore_WebURL });
+          }
+          if (data.Model_ECStore.ECStore_FBURL !== null && data.Model_ECStore.ECStore_FBURL.trim() !== '') {
+            this.websitesArr.push({ siteName: 'Facebook', siteUrl: data.Model_ECStore.ECStore_FBURL });
+          }
+          if (data.Model_ECStore.ECStore_LineURL !== null && data.Model_ECStore.ECStore_LineURL.trim() !== '') {
+            this.websitesArr.push({ siteName: 'Line', siteUrl: data.Model_ECStore.ECStore_LineURL });
+          }
+          if (data.Model_ECStore.ECStore_IGURL !== null && data.Model_ECStore.ECStore_IGURL.trim() !== '') {
+            this.websitesArr.push({ siteName: 'Instagram', siteUrl: data.Model_ECStore.ECStore_IGURL });
           }
           // 確認類型後顯示類型文字、定義分享文字
           let typeText = '';
