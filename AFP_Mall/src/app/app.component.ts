@@ -115,7 +115,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.router.events.pipe(filter(event => event instanceof ResolveEnd))
       .subscribe((event: ResolveEnd) => {
         window.scrollTo(0, 0);
-        if (this.appService.isApp === 1) {
+        if (this.appService.isApp === 1 || this.oauthService.cookiesGet('deviceType').cookieVal > '0') {
           this.callApp.appShowMobileFooter(false);
         }
         this.appService.prevUrl = event.url;  // 取得前一頁面url
