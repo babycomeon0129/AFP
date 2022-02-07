@@ -71,7 +71,9 @@ export class MemberCardComponent implements OnInit {
     this.meta.updateTag({ content: 'Mobii! - 我的卡片。你可以新增信用卡、悠遊卡或一卡通等卡片，並在 Mobii! APP 或網頁上，使用這些卡片來購物、支付或乘車。', property: 'og:description' });
     /** 取得route.queryParams參數 */
     this.route.queryParams.subscribe(params => {
-      if (typeof params.layerParam !== 'undefined') { this.layerTrig = parseInt(params.layerParam, 10); }
+      if (typeof params.layerParam !== 'undefined') {
+        if (params.layerParam !== '') { this.layerTrig = parseInt(params.layerParam, 10); }
+      }
       if (typeof params.itemCode !== 'undefined') { this.cardItemCode = parseInt(params.itemCode, 10); }
       (this.cardItemCode === 1) ? this.cardNumberMinlength = 11 : this.cardNumberMinlength = 10;
     });

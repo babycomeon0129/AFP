@@ -271,44 +271,5 @@
       </div>
     </div>
   </div>
-  <!--榮民卡-->
-  <div class="layerTrig container" [@layerTrigger] *ngIf="layerTrig === 3">
-    <div>
-      <div class="title-box">
-        <div class="item icon-btn">
-          <button class="btn px-0" title="回上一頁" [routerLink]="['/MemberFunction/MemberCard']" [queryParams]="{showBack: true, itemCode: cardItemCode, layerParam: 0}">
-            <i class="material-icons">&#xe314;</i>
-          </button>
-        </div>
-        <div class="item title-name">Mobii! 榮民福利卡</div>
-        <div class="item icon-btn"></div>
-      </div>
-      <div class="addCertificate">
-        <form #formAddCertificate="ngForm" id="addcard">
-          <div class="item">
-            <ul>
-              <li class="bg-linear-gray">
-                <img src="../../../../../img/member/veterans.png" class="logo">
-              </li>
-              <li class="border-0">
-                <div class="veterans-info">
-                  <div>榮民證ID<span class="text-org">*</span></div>
-                  <div class="input-box">
-                    <input class="w-100 border-bottom-1" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="16"
-                    placeholder="請輸入" name="cardNumber" [(ngModel)]="inputModel.cardNumber" #cardNumber="ngModel"
-                    autofocus required>
-                  </div>
-                  <div class="py-5">
-                    <button type="submit" class="btn index-btn w-100"
-                    [ngClass]="{'unable': cardNumber.invalid}" [disabled]="cardNumber.invalid">立即綁定</button>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
 
 </div>
