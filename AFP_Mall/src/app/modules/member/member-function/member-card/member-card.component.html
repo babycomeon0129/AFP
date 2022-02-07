@@ -199,7 +199,7 @@
   <!--已綁定卡片-->
   <div class="layerTrig container" [@layerTrigger] *ngIf="layerTrig === 2">
     <div>
-      <div class="title-box">
+      <div class="title-box fixed-top container">
         <div class="item icon-btn">
           <button class="btn px-0" title="回上一頁" [routerLink]="['/MemberFunction/MemberCard']" [queryParams]="{showBack: true, itemCode: cardItemCode, layerParam: 0}">
             <i class="material-icons">&#xe314;</i><span>我的卡片</span>
@@ -208,7 +208,7 @@
         <div class="item title-name">已綁定的卡片</div>
         <div class="item icon-btn"></div>
       </div>
-      <div>
+      <div class="fixed-top-context">
         <div class="tied-card-list" *ngIf="cardListLen > 0; else elseBlock">
           <div class="tied-card-item" *ngFor="let card of cardList">
             <div class="d-flex" [routerLink]="['/MemberFunction/MemberCardDetail/', card.UserFavourite_ID, card.UserFavourite_TypeCode]">
@@ -310,5 +310,5 @@
       </div>
     </div>
   </div>
-</div>
 
+</div>
