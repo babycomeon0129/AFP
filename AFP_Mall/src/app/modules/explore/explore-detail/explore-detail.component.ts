@@ -157,6 +157,9 @@ export class ExploreDetailComponent implements OnInit {
           if (data.Model_ECStore.ECStore_FBURL !== null && data.Model_ECStore.ECStore_FBURL.trim() !== '') {
             this.websitesArr.push({ siteName: 'Facebook', siteUrl: data.Model_ECStore.ECStore_FBURL });
           }
+          if (data.Model_ECStore.ECStore_LineURL !== null && data.Model_ECStore.ECStore_LineURL.trim() !== '') {
+            this.websitesArr.push({ siteName: 'Line', siteUrl: data.Model_ECStore.ECStore_LineURL });
+          }
           if (data.Model_ECStore.ECStore_IGURL !== null && data.Model_ECStore.ECStore_IGURL.trim() !== '') {
             this.websitesArr.push({ siteName: 'Instagram', siteUrl: data.Model_ECStore.ECStore_IGURL });
           }
