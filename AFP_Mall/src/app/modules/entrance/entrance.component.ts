@@ -507,7 +507,9 @@ export class EntranceComponent implements OnInit {
 
   /** 立即下載APP */
   toDownloadAPP(): void {
-    location.href = 'mobii://';
+    if (this.appService.isApp === 1) {
+      location.href = 'mobii://';
+    }
     setTimeout(() => {
       if (document.visibilityState === 'visible') {
         // 未成功開啟APP則前往AppDownload被引導至平台下載
