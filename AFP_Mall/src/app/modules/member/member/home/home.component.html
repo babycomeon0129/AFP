@@ -14,12 +14,13 @@
       <div class="member-info-box">
         <div class="info-box info-img">
           <div class="info-item">
-            <img [src]="userAvatar">
+            <img [src]="userAvatar | Safe: 'resourceUrl'">
           </div>
         </div>
         <!-- 登入前 -->
         <div *ngIf="appService.loginState===false">
-          <button (click)="oauthService.loginPage(appService.isApp, backUri)" type="button" class="btn white-outline-btn btw-small">
+          <button (click)="oauthService.loginPage(appService.isApp, backUri)" type="button"
+            class="btn white-outline-btn btw-small">
             登入/註冊
             <img src="../img/share/forward_w.png" class="h20">
           </button>
@@ -106,14 +107,15 @@
               </div>
             </div>
             <!-- 下方廣告 ad banner -->
-            <div class="big-banner">
+            <div class="big-banner" *ngIf="indexData?.ADImg_Btm">
               <div class="pt-3">
                 <!-- Swiper -->
                 <swiper class="swiper-container" [config]="bottomAd">
                   <div class="swiper-wrapper">
                     <div *ngFor="let ad of indexData?.ADImg_Btm" class="swiper-slide">
                       <a [href]="ad?.ADImg_URL | nullHref : router.url"
-                        [target]="ad?.ADImg_URLTarget | nullTarget : ad?.ADImg_URL : router.url" rel="noopener noreferrer">
+                        [target]="ad?.ADImg_URLTarget | nullTarget : ad?.ADImg_URL : router.url"
+                        rel="noopener noreferrer">
                         <div class="rwdimg-cover h20 border-radius5" [lazyLoad]="ad?.ADImg_Img"
                           [defaultImage]="appService.defaultImage"></div>
                       </a>
@@ -126,6 +128,43 @@
             </div>
           </div>
 
+          <!-- 我的小幫手 -->
+          <div class="my-list-box mt-4">
+            <p class="text-index">我的小幫手</p>
+            <ul id="qa">
+              <li (click)="appService.goToLink('/Info/QA', '_self')">
+                <button class="btn px-0 w-100 text-left p-0">常見問題
+                  <span class="auto-left"><i class="material-icons">&#xe315;</i></span>
+                </button>
+              </li>
+              <li (click)="appService.goToLink('/Info/Return', '_self')">
+                <button class="btn px-0 w-100 text-left p-0">退貨流程
+                  <span class="auto-left"><i class="material-icons">&#xe315;</i></span>
+                </button>
+              </li>
+              <li (click)="appService.goToLink('/Info/MPoints', '_self')">
+                <button class="btn px-0 w-100 text-left p-0">點數說明
+                  <span class="auto-left"><i class="material-icons">&#xe315;</i></span>
+                </button>
+              </li>
+              <li (click)="appService.goToLink('/Info/Terms', '_self')">
+                <button class="btn px-0 w-100 text-left p-0">使用者規範
+                  <span class="auto-left"><i class="material-icons">&#xe315;</i></span>
+                </button>
+              </li>
+              <li (click)="appService.goToLink('/Info/Privacy', '_self')">
+                <button class="btn px-0 w-100 text-left p-0">隱私權政策
+                  <span class="auto-left"><i class="material-icons">&#xe315;</i></span>
+                </button>
+              </li>
+              <li (click)="appService.goToLink('https://mobii.ai/Official/about.html?utm_source=MobiiWeb&utm_medium=Footer', '_self')">
+                <button class="btn px-0 w-100 text-left p-0">關於
+                  <span class="auto-left"><i class="material-icons">&#xe315;</i></span>
+                </button>
+              </li>
+            </ul>
+            <div class="addheight"></div>
+          </div>
           <div class="addheight pb-5"></div>
         </div>
       </div>

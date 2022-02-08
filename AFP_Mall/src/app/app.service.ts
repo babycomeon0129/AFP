@@ -511,44 +511,39 @@ export class AppService {
     }
   }
 
-  /** 網頁跳轉（瀏覽器會紀錄連結的歷史紀錄） */
-  jumpHref(link: string, tag: string) {
-    switch (tag) {
-      case '_blank':
-        if (link.slice(0, 1) === '/') {
-          // blank需要絕對路徑
-          window.open(location.origin + link, tag);
-        } else {
-          window.open(link, tag);
-        }
-        break;
-      default:
-        if (link.startsWith('https') || link.startsWith('http')) {
+  /** 網頁跳轉（瀏覽器會紀錄連結的歷史紀錄）
+   * @param url 前往網址
+   * @param tag 連結的target
+   */
+   goToLink(url: string, tag: string): void {
+    if (tag === '_blank') {
+      // blank需要絕對路徑
+      (url.slice(0, 1) === '/') ?
+        window.open(location.origin + url, tag) :
+        window.open(url, tag);
+    } else {
+      // tag = _self
+      if (this.isApp === 1) {
+        // app訪問 a連結
+        location.href = url;
+      } else {
+        if (url.startsWith('https') || url.startsWith('http')) {
           // 絕對路徑
-          const openUrl = new URL(link);
+          const openUrl = new URL(url);
           if (openUrl.host !== location.host) {
-            location.href = link;
-          } else {
-            // 若絕對路徑為站內連結
-            if (link.includes('?')) {
-              // 若原有參數則帶著前往
-              const selfUrl = link.split('?')[0];
-              this.router.navigate([selfUrl], { queryParams: this.route.snapshot.queryParams });
-            } else {
-              this.router.navigate([link]);
-            }
+            location.href = url;
           }
         } else {
           // 相對路徑
-          if (link.includes('?')) {
+          if (url.includes('?')) {
             // 若原有參數則帶著前往
-            const selfUrl = link.split('?')[0];
+            const selfUrl = url.split('?')[0];
             this.router.navigate([selfUrl], { queryParams: this.route.snapshot.queryParams });
           } else {
-            this.router.navigate([link]);
+            this.router.navigate([url]);
           }
         }
-        break;
+      }
     }
   }
 
