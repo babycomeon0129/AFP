@@ -1,9 +1,9 @@
-import { Component, OnInit, Input, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { layerAnimation, layerAnimationUp } from '@app/animations';
 import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
-import { Response_Games, Request_Games, AFP_GamePart } from '@app/_models';
 import { ModalService } from '@app/shared/modal/modal.service';
-import { layerAnimation, layerAnimationUp } from '@app/animations';
+import { AFP_GamePart, Request_Games, Response_Games } from '@app/_models';
 
 @Component({
   selector: 'app-scratch',
@@ -121,7 +121,7 @@ export class ScratchComponent implements OnInit, AfterViewInit {
               this.modal
                 .confirm({
                   initialState: {
-                    message: `請確定是否扣除 Mobii! Points ${this.gameData.AFP_Game.Game_DedPoint} 點玩「${this.gameData.AFP_Game.Game_ExtName}」？`,
+                    message: `請確定是否扣除 Mobii! Points ${this.appService.toCurrency(this.gameData.AFP_Game.Game_DedPoint)} 點玩「${this.gameData.AFP_Game.Game_ExtName}」？`,
                   },
                 })
                 .subscribe((res) => {

@@ -80,7 +80,7 @@ export class LuckyspinComponent implements OnInit, AfterViewInit {
           this.modal
             .confirm({
               initialState: {
-                message: `請確定是否扣除 Mobii! Points ${this.gameData.AFP_Game.Game_DedPoint} 點玩「${this.gameData.AFP_Game.Game_ExtName}」？`,
+                message: `請確定是否扣除 Mobii! Points ${this.appService.toCurrency(this.gameData.AFP_Game.Game_DedPoint)} 點玩「${this.gameData.AFP_Game.Game_ExtName}」？`,
               },
             })
             .subscribe((res) => {

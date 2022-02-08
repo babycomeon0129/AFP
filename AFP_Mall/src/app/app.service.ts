@@ -342,7 +342,7 @@ export class AppService {
           if (voucher.Voucher_DedPoint > 0) {
             this.confirm({
               initialState: {
-                message: `請確定是否扣除 Mobii! Points ${voucher.Voucher_DedPoint} 點兌換「${voucher.Voucher_ExtName}」？`
+                message: `請確定是否扣除 Mobii! Points ${this.toCurrency(voucher.Voucher_DedPoint)} 點兌換「${voucher.Voucher_ExtName}」？`
               }
             }).subscribe(res => {
               // 點選確定扣點
@@ -395,6 +395,13 @@ export class AppService {
           break;
       }
     }
+  }
+
+  /** 千分位轉換 */
+  toCurrency(num: number) {
+    const parts = num.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
   }
 
   /** 確認視窗(爲解決循環依賴，僅提供appservice使用) */

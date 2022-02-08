@@ -115,7 +115,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
       if (voucher.Voucher_DedPoint > 0 && voucher.Voucher_IsFreq === 1) {
         this.modal.confirm({
           initialState: {
-            message: `請確定是否扣除 Mobii! Points ${voucher.Voucher_DedPoint} 點兌換「${voucher.Voucher_ExtName}」？`
+            message: `請確定是否扣除 Mobii! Points ${this.appService.toCurrency(voucher.Voucher_DedPoint)} 點兌換「${voucher.Voucher_ExtName}」？`
           }
         }).subscribe(res => {
           if (res) {
