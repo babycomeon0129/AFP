@@ -103,8 +103,8 @@
                   </button>
                   <div *ngIf="voucher.Voucher_DedPoint > 0" class="m-quantity small">
                     <img src="../img/share/mobiicoin_red.png" class="coinimg-m">
-                    {{voucher.Voucher_SpecialPoint > 0 ? voucher.Voucher_SpecialPoint : voucher.Voucher_DedPoint |
-                    currency: '':'':'1.0-2'}}
+                    {{(voucher.Voucher_SpecialPoint > 0 ?
+                      voucher.Voucher_SpecialPoint : voucher.Voucher_DedPoint) | currency: '':'':'1.0-2'}}
                   </div>
                 </div>
               </div>
