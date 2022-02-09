@@ -197,10 +197,10 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.loginJsonHas === false &&
         this.oauthService.cookiesGet('upgrade').cookieVal === '1' &&
         this.oauthService.cookiesGet('fromOriginUri').cookieVal) {
+        this.webViewTest = 'Ver:' + environment.version;
         this.delaySubmit().then((value) => {
           this.appService.blockUI.stop();
           console.log(value);
-          this.webViewTest = 'Ver:' + environment.version;
         });
       }
     });
@@ -219,8 +219,10 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   /** 「艾斯身份識別_登入4-1-2」等待form渲染後，再至艾斯登入 */
   delaySubmit() {
     return new Promise((resolve) => {
+      resolve('Success!');
+      this.webViewTest = 'Success!';
       setTimeout(() => {
-        resolve('Success!');
+        this.webViewTest = 'go to identity...';
         (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
       }, 1500);
     });
