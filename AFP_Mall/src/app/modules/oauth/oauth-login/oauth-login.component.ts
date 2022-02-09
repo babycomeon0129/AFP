@@ -199,6 +199,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.oauthService.cookiesGet('fromOriginUri').cookieVal) {
         this.delaySubmit().then(() => {
           this.appService.blockUI.stop();
+          this.webViewTest = 'Ver:' + environment.version;
         });
       }
     });
@@ -218,7 +219,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   delaySubmit() {
     return new Promise(() => {
       setTimeout(() => {
-        this.webViewTest = 'viewType: 2, Ver:' + environment.version + location.href;
         (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
       }, 1500);
     });
