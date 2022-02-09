@@ -195,12 +195,11 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         !this.appService.loginState &&
         this.viewType === '2' &&
         this.loginJsonHas === false &&
-        this.oauthService.cookiesGet('upgrade').cookieVal === '1' &&
-        this.oauthService.cookiesGet('fromOriginUri').cookieVal) {
+        this.oauthService.cookiesGet('upgrade').cookieVal === '1') {
         this.webViewTest = 'Ver:' + environment.version;
         this.delaySubmit().then((value) => {
           this.appService.blockUI.stop();
-          console.log(value);
+          console.log(this.appService.isApp, value);
         });
       }
     });
@@ -224,7 +223,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.webViewTest = 'go to identity...';
         (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
       }, 1500);
-      resolve(this.webViewTest + this.appService.isApp);
+      resolve(this.webViewTest);
     });
   }
 
