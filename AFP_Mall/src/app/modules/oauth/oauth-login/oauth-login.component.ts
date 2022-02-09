@@ -217,8 +217,9 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
   /** 「艾斯身份識別_登入4-1-2」等待form渲染後，再至艾斯登入 */
   delaySubmit() {
-    return new Promise(() => {
+    return new Promise((resolve) => {
       setTimeout(() => {
+        resolve('go to identity');
         (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
       }, 1500);
     });
