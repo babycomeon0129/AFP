@@ -36,8 +36,8 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   public M_idToken = this.oauthService.cookiesGet('idToken').cookieVal;
   /** 後端是否回傳資料 */
   public loginJsonHas = false;
-  /** 測試webViewTest是否正常(錯誤提示用 ) */
-  public webViewTest: string;
+  /** 測試webViewTest是否正常(提示用) */
+  public webViewTest = `Ver:${environment.version}_${this.appService.isApp}`;
   public testCount = 0;
 
 
@@ -196,10 +196,9 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         this.viewType === '2' &&
         this.loginJsonHas === false &&
         this.oauthService.cookiesGet('upgrade').cookieVal === '1') {
-        this.webViewTest = 'Ver:' + environment.version;
-        this.delaySubmit().then((value) => {
+        this.delaySubmit().then((msg) => {
           this.appService.blockUI.stop();
-          console.log(this.appService.isApp, value);
+          this.webViewTest = '' + msg;
         });
       }
     });
@@ -211,19 +210,16 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       upgrade: '1',
       page: location.href
     });
-    this.webViewTest = 'Ver:' + environment.version;
     (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
   }
 
   /** 「艾斯身份識別_登入4-1-2」等待form渲染後，再至艾斯登入 */
   delaySubmit() {
     return new Promise((resolve) => {
-      this.webViewTest = 'loading...';
       setTimeout(() => {
-        this.webViewTest = 'go to identity...';
+        resolve('go to identity...');
         (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
       }, 1500);
-      resolve(this.webViewTest);
     });
   }
 
