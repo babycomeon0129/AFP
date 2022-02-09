@@ -57,9 +57,9 @@
             <span class="loader loader-quart"></span>
           </div>
           <p>Logging...</p>
-          <p (click)="testCount = testCount + 1" *ngIf="appService.isApp === 1 && oauthService.preName !== ''">
+          <p *ngIf="appService.isApp === 1 && oauthService.preName !== ''">
             <!-- App訪問用，僅測試站出現 -->
-            <span class="web-view-test" [hidden]="testCount < 10 || testCount > 15">{{webViewTest}}</span>
+            <span class="web-view-test">{{webViewTest}}</span>
           </p>
         </div>
       </div>
