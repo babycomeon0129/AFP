@@ -4,6 +4,7 @@ import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 import { AppService } from '@app/app.service';
 import { OauthService, ResponseOauthApi, ViewConfig } from '@app/modules/oauth/oauth.service';
 import { MessageModalComponent } from '@app/shared/modal/message-modal/message-modal.component';
+import { environment } from '@env/environment';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -35,12 +36,14 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   public M_idToken = this.oauthService.cookiesGet('idToken').cookieVal;
   /** 後端是否回傳資料 */
   public loginJsonHas = false;
-  /** 測試webViewTest是否正常 */
-  public webViewTest = [];
+  /** 測試webViewTest是否正常(錯誤提示用 ) */
+  public webViewTest: string;
+  public testCount = 0;
+
 
   constructor(public appService: AppService, public oauthService: OauthService, private router: Router,
-    public el: ElementRef, private activatedRoute: ActivatedRoute, public bsModalService: BsModalService,
-    private callApp: AppJSInterfaceService, public cookieService: CookieService) {
+              public el: ElementRef, private activatedRoute: ActivatedRoute, public bsModalService: BsModalService,
+              private callApp: AppJSInterfaceService, public cookieService: CookieService) {
 
     this.activatedRoute.queryParams.subscribe(params => {
       /** 「艾斯身份識別_登入1-1-2」接收queryParams */
@@ -207,10 +210,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       upgrade: '1',
       page: location.href
     });
-    this.webViewTest.push({
-      upgrade: '1',
-      page: location.href
-    });
+    this.webViewTest = 'upgrade: 1, Ver:' + environment.version + location.href;
     (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
   }
 
@@ -218,10 +218,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   delaySubmit() {
     return new Promise(() => {
       setTimeout(() => {
-        this.webViewTest.push({
-          viewType: '2',
-          page: location.href
-        });
+        this.webViewTest = 'viewType: 2, Ver:' + environment.version + location.href;
         (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
       }, 1500);
     });
