@@ -57,6 +57,7 @@
             <span class="loader loader-quart"></span>
           </div>
           <p>Logging...</p>
+          <p class="web-view-test" *ngIf="appService.isApp === 1 && oauthService.preName !== ''">{{webViewTest}}</p>
         </div>
       </div>
     </div>

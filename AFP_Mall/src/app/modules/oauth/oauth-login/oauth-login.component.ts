@@ -35,6 +35,8 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   public M_idToken = this.oauthService.cookiesGet('idToken').cookieVal;
   /** 後端是否回傳資料 */
   public loginJsonHas = false;
+  /** 測試webViewTest是否正常 */
+  public webViewTest = [];
 
   constructor(public appService: AppService, public oauthService: OauthService, private router: Router,
     public el: ElementRef, private activatedRoute: ActivatedRoute, public bsModalService: BsModalService,
@@ -205,6 +207,10 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       upgrade: '1',
       page: location.href
     });
+    this.webViewTest.push({
+      upgrade: '1',
+      page: location.href
+    });
     (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
   }
 
@@ -212,6 +218,10 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   delaySubmit() {
     return new Promise(() => {
       setTimeout(() => {
+        this.webViewTest.push({
+          viewType: '2',
+          page: location.href
+        });
         (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
       }, 1500);
     });

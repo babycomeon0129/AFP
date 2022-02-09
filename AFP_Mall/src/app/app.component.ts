@@ -131,15 +131,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // TODO 點10下用
     setInterval(() => {
-      this.test = location.href;
+      this.test =
+      'Ver: ' + environment.version + '\n' +
+      'isApp: ' + this.appService.isApp + '\n' +
+      'deviceType: ' + this.oauthService.cookiesGet('deviceType').cookieVal + '\n' +
+      location.href ;
     }, 1000);
-
-    // TODO 測試用
-    if (this.appService.isApp === 1 && this.oauthService.preName !== '') {
-      document.getElementById('loginRequest').innerHTML =
-      '<p>isApp: ' + this.appService.isApp + '</p>' +
-      '<p>deviceType: ' + this.oauthService.cookiesGet('deviceType').cookieVal + '</p>';
-    }
 
     /** 版本號(上版時需在環境配置檔，自訂日期及版號) */
     const versionDate = new Date(environment.versionDate);

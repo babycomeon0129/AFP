@@ -7,7 +7,7 @@
     <div *ngIf="appService.isApp === 1 && oauthService.preName !== ''">
       <i class="material-icons help">&#xe887;</i>
       <div class="test-box" [hidden]="testCount < 10">
-        <div id="loginRequest"></div>
+        <div id="loginRequest" #loginRequest></div>
         <button (click)="testCount = 0">close</button>
         <div>{{test}}</div>
       </div>
