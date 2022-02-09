@@ -212,19 +212,19 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       upgrade: '1',
       page: location.href
     });
-    this.webViewTest = 'upgrade: 1, Ver:' + environment.version + location.href;
+    this.webViewTest = 'Ver:' + environment.version;
     (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
   }
 
   /** 「艾斯身份識別_登入4-1-2」等待form渲染後，再至艾斯登入 */
   delaySubmit() {
     return new Promise((resolve) => {
-      resolve('Success!');
-      this.webViewTest = 'Success!';
+      this.webViewTest = 'loading...';
       setTimeout(() => {
         this.webViewTest = 'go to identity...';
         (document.getElementById('oauthLoginForm') as HTMLFormElement).submit();
       }, 1500);
+      resolve(this.webViewTest + this.appService.isApp);
     });
   }
 
