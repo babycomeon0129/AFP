@@ -37,7 +37,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   /** 後端是否回傳資料 */
   public loginJsonHas = false;
   /** 測試webViewTest是否正常(提示用) */
-  public webViewTest = `Ver:${environment.version}_${this.appService.isApp}`;
+  public webViewTest = `Ver:${environment.version}_${this.appService.isApp === 1 ? 1 : 0}`;
   public testCount = 0;
 
 
