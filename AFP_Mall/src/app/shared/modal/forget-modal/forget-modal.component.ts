@@ -1,7 +1,8 @@
 import { Component, OnDestroy } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AppService } from '@app/app.service';
-import { Response_AFPVerifyCode, Request_AFPVerifyCode, Request_AFPReadMobile, Response_AFPReadMobile } from '@app/_models';
+import { Model_CustomerDetail } from '@app/modules/oauth/_module-oauth';
+import { Model_ShareData, Request_AFPVerifyCode, Response_AFPReadMobile, Response_AFPVerifyCode } from '@app/_models';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { MessageModalComponent } from '../message-modal/message-modal.component';
 
 @Component({
@@ -99,4 +100,12 @@ export class ForgetModalComponent implements OnDestroy {
     clearInterval(this.vcodeCount);
   }
 
+}
+
+/** 查詢會員手機號碼 RequestModel */
+export interface Request_AFPReadMobile extends Model_ShareData {
+  /** 消費者包資訊 */
+  CustomerDetail?: Model_CustomerDetail;
+  /** 使用者帳號(驗證帳號是否重複 */
+  UserAccount?: string;
 }

@@ -4,11 +4,10 @@ import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
 import { MessageModalComponent } from '@app/shared/modal/message-modal/message-modal.component';
-import { Model_CustomerDetail } from '@app/_models';
 import { environment } from '@env/environment';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { CookieService } from 'ngx-cookie-service';
-import { ApiResultEntity, Model_Authorize, RequestIdTokenApi, Response_AFPLogin } from '../_module-oauth';
+import { ApiResultEntity, Model_Authorize, Model_CustomerDetail, RequestIdTokenApi, Response_AFPLogin } from '../_module-oauth';
 
 @Component({
   selector: 'app-oauth-login',

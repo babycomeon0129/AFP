@@ -2185,42 +2185,6 @@ export interface AFP_VerifiedInfo {
   VerifiedCode?: string;
 }
 
-/** 查詢會員手機號碼 RequestModel */
-export interface Request_AFPReadMobile extends Model_ShareData {
-  /** 消費者包資訊 */
-  CustomerDetail?: Model_CustomerDetail;
-  /** 使用者帳號(驗證帳號是否重複 */
-  UserAccount?: string;
-}
-
-/** 消費者包 Model */
-export interface Model_CustomerDetail {
-  /** 使用者ID */
-  UserInfo_ID: number;
-  /** 使用者編碼 */
-  UserInfo_Code: number;
-  /** UUID */
-  UserInfo_UUID: string;
-  /** 外部編碼 */
-  UserInfo_ExtCode: string;
-  /** 使用者帳號 */
-  UserInfo_Account: string;
-  /** 使用者名稱 */
-  UserInfo_Name: string;
-  /** 帳號類型 */
-  UserInfo_Type: number;
-  /** 使用者GroupNo  */
-  UserInfo_GroupNo: number;
-  /** ID */
-  UserLoginState_ID: number;
-  /** APP裝置編碼 */
-  UserDevice_Code: number;
-  /** 裝置編碼 */
-  UserDevice_DeviceCode: string;
-  /** 手機號碼 */
-  UserProfile_Mobile: string;
-}
-
 export interface Response_AFPReadMobile {
   /** 新消費者包資訊(加密後),如有錯誤則回傳空值 */
   CustomerDetail: string;
