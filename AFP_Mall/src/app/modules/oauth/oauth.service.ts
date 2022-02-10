@@ -226,6 +226,12 @@ export class OauthService {
             sessionStorage.setItem('M_' + item, cookieData[item]);
             this.cookieService.set('M_' + item, cookieData[item], 90, '/',
               environment.cookieDomain, environment.cookieSecure, 'Lax');
+            // 子域SIT另塞idToken，以便localhost存取用
+            if (location.href.includes('sit.mobii.ai')) {
+              sessionStorage.setItem(this.preName + item, cookieData[item]);
+              this.cookieService.set(this.preName + item, cookieData[item], 90, '/',
+                'localhost', environment.cookieSecure, 'Lax');
+            }
           }
         } else {
           // .mobii.ai塞cookie及session
