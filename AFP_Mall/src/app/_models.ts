@@ -490,18 +490,6 @@ export interface AFP_ECStore {
   ECStore_TakeoutURL?: string;
 }
 
-/** 消費者包 Model */
-export interface Model_CustomerInfo {
-  /** 使用者名稱 */
-  Customer_Name?: string;
-  /** 使用者編碼 */
-  Customer_Code?: string;
-  /** 使用者資訊 */
-  CustomerInfo?: string;
-  /** UUID */
-  Customer_UUID?: string;
-}
-
 /** 自定義目錄 */
 export interface AFP_UserDefine {
   /** 目錄編碼 */
@@ -2118,14 +2106,6 @@ export class AFP_IMessage {
   IMessage_IsShowCTA: number;
   /** 顯示了解更多 */
   activeStatus: boolean;
-}
-
-/** 註冊 ResponseModel */
-export class Response_AFPLogin extends Model_ShareData {
-  /** 使用者編碼 */
-  Model_UserInfo?: Model_CustomerInfo;
-  /** 使用者-我的最愛 */
-  List_UserFavourite?: AFP_UserFavourite;
 }
 
 

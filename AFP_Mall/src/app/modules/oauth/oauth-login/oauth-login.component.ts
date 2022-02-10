@@ -2,11 +2,13 @@ import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 import { AppService } from '@app/app.service';
-import { OauthService, ResponseOauthApi, ViewConfig } from '@app/modules/oauth/oauth.service';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { MessageModalComponent } from '@app/shared/modal/message-modal/message-modal.component';
+import { Model_CustomerDetail } from '@app/_models';
 import { environment } from '@env/environment';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { CookieService } from 'ngx-cookie-service';
+import { ApiResultEntity, Model_Authorize, RequestIdTokenApi, Response_AFPLogin } from '../_module-oauth';
 
 @Component({
   selector: 'app-oauth-login',
@@ -23,11 +25,11 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   /** 艾斯身份識別登入API uri */
   public AuthorizationUri: string;
   /** 艾斯身份識別登入 列表 */
-  public viewData: ViewConfig[] = [];
+  public viewData: Model_Authorize[] = [];
   /** 艾斯身份識別登入 FormPost渲染 */
   public viewList = [];
   /** 多重帳號列表 */
-  public List_MultipleUser = [];
+  public List_MultipleUser:Model_CustomerDetail[] = [];
   /** 使用者UserInfoId */
   public UserInfoId: number;
   /** 使用者grantCode */
@@ -81,26 +83,25 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
        */
       if (!this.M_idToken) {
         if (typeof params.loginJson !== 'undefined') {
-          const loginJson = JSON.parse(params.loginJson);
+          const loginJson: Redirect_loginJson = JSON.parse(params.loginJson);
           this.viewType = '2';
           // 登入成功
           if (loginJson.errorCode.includes('996600001')) {
-            this.appService.isApp = loginJson.data.isApp;
             this.loginJsonHas = true;
             // 只能打一次，否則errorCode:609830001
-            if (loginJson.data.grantCode) {
-              this.grantCode = loginJson.data.grantCode;
+            if (loginJson.grantCode) {
+              this.grantCode = loginJson.grantCode;
               /** 「艾斯身份識別_登入2-2」多重帳號頁面渲染
                * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/30001-token-api-mobii
                */
-              if (loginJson.data.List_MultipleUser) {
+              if (loginJson.List_MultipleUser) {
                 /** 「艾斯身份識別_登入2-2-1」有多重帳號時，使用者點擊取得idToken */
                 this.viewType = '1';
-                this.List_MultipleUser = loginJson.data.List_MultipleUser;
-                this.UserInfoId = loginJson.data.List_MultipleUser[0].UserInfoId;
+                this.List_MultipleUser = JSON.parse(JSON.stringify(loginJson.List_MultipleUser));
+                this.UserInfoId = loginJson.List_MultipleUser[0].UserInfoId;
               } else {
                 /** 「艾斯身份識別_登入2-2-2」無多重帳號時，用grantCode取得idToken */
-                this.onGetToken(loginJson.data.grantCode, 0);
+                this.onGetToken(loginJson.grantCode, 0);
               }
             }
           }
@@ -183,7 +184,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
   getViewData() {
     /** 「艾斯身份識別_登入1-2-1」AJAX提供登入所需Request給後端，以便response取得後端提供的資料 */
-    this.oauthService.toOauthRequest(this.oauthService.loginRequest).subscribe((data: ViewConfig) => {
+    this.oauthService.toOauthRequest(this.oauthService.loginRequest).subscribe((data: Model_Authorize) => {
       /** 「艾斯身份識別_登入1-2-3」取得Response資料，讓Form渲染 */
       this.viewData = Object.assign(data);
       this.AuthorizationUri = data.AuthorizationUri;
@@ -238,21 +239,24 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     if (code && code !== '') {
       if (!this.M_idToken) {
         // grantCode只能使用一次，註冊Mobii會員
-        this.oauthService.grantRequest.grantCode = code;
-        this.oauthService.grantRequest.UserInfoId = uid;
+        const request:RequestIdTokenApi = {
+          grantCode: code,
+          UserInfoId: uid
+        }
         /** 「艾斯身份識別_登入3-2-1」取得idToken */
-        this.oauthService.toTokenApi(this.oauthService.grantRequest).subscribe((data: ResponseOauthApi) => {
+        this.oauthService.toTokenApi(request).subscribe((data: ApiResultEntity) => {
           if (data) {
-            const tokenData = Object.assign(data);
+            const tokenData:Response_AFPLogin = Object.assign(data);
             if (tokenData.errorCode === '996600001') {
               this.oauthService.cookiesSet({
-                idToken: tokenData.data.idToken,
-                userName: tokenData.data.Customer_Name,
-                userCode: tokenData.data.Customer_Code,
-                userFavorites: JSON.stringify(tokenData.data.List_UserFavourite),
+                idToken: tokenData.idToken,
+                userName: tokenData.Customer_Name,
+                userCode: tokenData.Customer_Code,
+                userId: tokenData.UserId,
+                userFavorites: JSON.stringify(tokenData.List_UserFavourite),
                 page: location.href
               });
-              this.appService.userName = tokenData.data.Customer_Name;
+              this.appService.userName = tokenData.Customer_Name;
               this.appService.loginState = true;
               this.appService.userLoggedIn = true;
               this.appService.showFavorites();
@@ -260,7 +264,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
               this.viewType = '3';
               /** 「艾斯身份識別_登入3-2-3」裝置若為APP傳interface */
               if (this.appService.isApp === 1) {
-                this.callApp.getLoginData(tokenData.data.idToken, tokenData.data.Customer_Code, tokenData.data.Customer_Name);
+                this.callApp.getLoginData(tokenData.idToken, tokenData.Customer_Code, tokenData.Customer_Name);
               } else {
                 // web登入成功導址
                 this.appService.jumpUrl(this.oauthService.cookiesGet('fromOriginUri').cookieVal);
@@ -295,3 +299,9 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
 
 }
 
+export interface Redirect_loginJson extends ApiResultEntity {
+  /** 後端驗證用，僅使用一次 */
+  grantCode: string;
+  /** 使用者ID */
+  List_MultipleUser: Model_CustomerDetail;
+}
