@@ -42,15 +42,9 @@ export class HomeComponent implements OnInit {
     if (this.oauthService.cookiesGet('idToken').cookieVal !== '' && this.oauthService.cookiesGet('idToken').cookieVal !== 'undefined') {
       this.appService.loginState = true;
       this.readIndexData();
-<<<<<<< HEAD
-      if (this.appService.isApp === 1) {
-        this.callApp.appShowMobileFooter(true);
-      }
-=======
     }
     if (this.appService.isApp === 1 || this.oauthService.cookiesGet('deviceType').cookieVal > '0') {
       this.callApp.appShowMobileFooter(true);
->>>>>>> ac7e6558 (MOB-4193 「帳號設定頁」我的小幫手資訊移到「我的」/member頁(FE))
     }
   }
 
