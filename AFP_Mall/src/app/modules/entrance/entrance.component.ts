@@ -215,10 +215,16 @@ export class EntranceComponent implements OnInit {
   public currentPage = 1;
   /** 目前頁數熱門商品瀑布流總頁數 */
   public totalPage: number;
+
   /** 使用者服務 */
   public ftTop: AFP_Function[] = [];
-  /** 我的服務-所有服務清單 */
+  /** 使用者服務 - 所有服務清單 */
   public serviceList: AFP_NewFunction[] = [];
+  /** 使用者服務 - 首頁 icon 顯示數量 */
+  public Icon_Quantity: number;
+  /** 使用者服務 - 啟用 icon 總數 */
+  public Total_Icon: number;
+
   /** 特賣商品 */
   public popProducts: AFP_ChannelProduct[] = [];
   /** 使用者擁有點數 */
@@ -229,7 +235,7 @@ export class EntranceComponent implements OnInit {
   public animationMoveUpOut = false;
   /** 當前所選本月旅遊主打頁籤索引 */
   public activeTravelIndex = 0;
-  /** 同頁滑動切換 0: 原頁 1: 我的服務 */
+  /** 同頁滑動切換 0: 原頁 1: 使用者服務 */
   public layerTrig = 0;
   /** 判斷 justKa客服modal 顯示與否 */
   public show = false;
@@ -237,8 +243,8 @@ export class EntranceComponent implements OnInit {
   public closeMsg = false;
 
   constructor(public appService: AppService, public bsModalRef: BsModalRef, public modal: ModalService,
-              public router: Router, private meta: Meta, private title: Title,
-              public route: ActivatedRoute, private renderer2: Renderer2, private oauthService: OauthService) {
+    public router: Router, private meta: Meta, private title: Title,
+    public route: ActivatedRoute, private renderer2: Renderer2, private oauthService: OauthService) {
     this.title.setTitle('Mobii!｜綠色城市優惠平台');
     this.meta.updateTag({ name: 'description', content: '使用 Mobii! APP，讓你的移動總是驚喜。乘車、購物、美食、景點、旅行資訊全都包，使用就享點數回饋，每日登入再領 M Points，會員再享獨家彩蛋大禮包。先下載 Mobii APP 看看裡面有什麼好玩的吧？' });
     this.meta.updateTag({ content: 'Mobii!｜綠色城市優惠平台', property: 'og:title' });
@@ -270,7 +276,7 @@ export class EntranceComponent implements OnInit {
       page: location.href
     });
   }
-  /** 讀取首頁上方資料（皆為廣告及會員資料，我的服務除外） */
+  /** 讀取首頁上方資料（皆為廣告及會員資料，使用者服務除外） */
   readUp(): void {
     const request: Request_Home = {
       User_Code: this.oauthService.cookiesGet('userCode').sessionVal
@@ -399,17 +405,20 @@ export class EntranceComponent implements OnInit {
   }
 
 
-  /** 首頁我的服務 */
+  /** 首頁使用者服務 */
   getHomeservice(): void {
     this.appService.openBlock();
     const request: Request_AFPUserService = {
-      // SelectMode 1 : 首頁 10 : 我的服務
+      // SelectMode 1 : 首頁 10 : 使用者服務
       SelectMode: 1
     };
 
     this.appService.toApi('Home', '1110', request).subscribe((data: Response_AFPUserService) => {
       this.ftTop = data.List_NewFunction[0].Model_Function;
       this.serviceList = data.List_NewFunction.filter((item, index) => index > 0);
+      this.Icon_Quantity = data.Icon_Quantity;
+      this.Total_Icon = data.Total_Icon;
+
 
       //  網頁不顯示app呼叫
       if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -554,13 +563,17 @@ class Response_AFPUserService extends Model_ShareData {
   Model_Function: AFP_Function[];
   /** 使用者收藏 - 舊版 */
   Model_UserFunction?: AFP_Function[];
-  /**使用者服務 - 新版
+  /** 使用者服務 - 新版
    *
    * 0: 系統服務
    * 1: 我的服務
    * 2+: 後台建置
    */
   List_NewFunction?: AFP_NewFunction[];
+  /** 使用者服務 - 首頁 icon 顯示數量 */
+  Icon_Quantity?: number;
+  /** 使用者服務 - 啟用 icon 總數 */
+  Total_Icon?: number;
 }
 
 /** 使用者服務 RequestModel */
