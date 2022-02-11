@@ -82,8 +82,12 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
        */
       if (!this.M_idToken) {
         if (typeof params.loginJson !== 'undefined') {
+          // const loginJson: ApiResultEntity = JSON.parse(JSON.stringify(params.loginJson));
           const loginJson: ApiResultEntity = JSON.parse(params.loginJson);
-          const redirectData: RedirectGrantCode = params.loginJson.data;
+
+          const redirectData: RedirectGrantCode = JSON.parse(JSON.stringify(loginJson.data));
+          console.log(redirectData);
+          console.log(redirectData.isApp === 1);
           this.viewType = '2';
           // 登入成功
           if (loginJson.errorCode.includes('996600001')) {
@@ -246,7 +250,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         };
         /** 「艾斯身份識別_登入3-2-1」取得idToken */
         this.oauthService.toTokenApi(request).subscribe((data: ApiResultEntity) => {
-          console.log(data);
           if (data) {
             const tokenData: Response_AFPLogin = Object.assign(data);
             if (tokenData.errorCode === '996600001') {

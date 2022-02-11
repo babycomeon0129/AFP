@@ -66,9 +66,9 @@ export interface RequestIdTokenApi {
   /** 使用者ID */
   UserInfoId: number;
 }
-export interface RedirectGrantCode extends ApiResultEntity {
+export interface RedirectGrantCode {
   /** 後端驗證用，僅使用一次 */
-  grantCode: string;
+  grantCode?: string;
   /** App訪問 */
   isApp?: number;
   /** 消費者包 */
