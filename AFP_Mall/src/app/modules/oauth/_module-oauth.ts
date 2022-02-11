@@ -66,6 +66,14 @@ export interface RequestIdTokenApi {
   /** 使用者ID */
   UserInfoId: number;
 }
+export interface RedirectGrantCode extends ApiResultEntity {
+  /** 後端驗證用，僅使用一次 */
+  grantCode: string;
+  /** App訪問 */
+  isApp?: number;
+  /** 使用者ID */
+  List_MultipleUser?: Model_CustomerDetail;
+}
 
 /** 消費者包 Model */
 export interface Model_CustomerDetail {

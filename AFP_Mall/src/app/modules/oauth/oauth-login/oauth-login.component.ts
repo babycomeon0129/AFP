@@ -82,31 +82,33 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
        */
       if (!this.M_idToken) {
         if (typeof params.loginJson !== 'undefined') {
-          const loginJson: Redirect_loginJson = JSON.parse(params.loginJson);
+          const loginJson: ApiResultEntity = JSON.parse(params.loginJson);
+          const redirectData = JSON.parse(JSON.stringify(loginJson.data));
           this.viewType = '2';
           // 登入成功
           if (loginJson.errorCode.includes('996600001')) {
+            if (redirectData.isApp) { this.appService.isApp = 1; }
             this.loginJsonHas = true;
             // 只能打一次，否則errorCode:609830001
-            if (loginJson.grantCode) {
-              this.grantCode = loginJson.grantCode;
+            if (redirectData.grantCode) {
+              this.grantCode = redirectData.grantCode;
               /** 「艾斯身份識別_登入2-2」多重帳號頁面渲染
                * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/30001-token-api-mobii
                */
-              if (loginJson.List_MultipleUser) {
+              if (redirectData.List_MultipleUser) {
                 /** 「艾斯身份識別_登入2-2-1」有多重帳號時，使用者點擊取得idToken */
                 this.viewType = '1';
-                this.List_MultipleUser = JSON.parse(JSON.stringify(loginJson.List_MultipleUser));
-                this.UserInfoId = loginJson.List_MultipleUser[0].UserInfoId;
+                this.List_MultipleUser = JSON.parse(JSON.stringify(redirectData.List_MultipleUser));
+                this.UserInfoId = redirectData.List_MultipleUser[0].UserInfoId;
               } else {
                 /** 「艾斯身份識別_登入2-2-2」無多重帳號時，用grantCode取得idToken */
-                this.onGetToken(loginJson.grantCode, 0);
+                this.onGetToken(redirectData.grantCode, 0);
               }
             }
           }
           // 登入失敗
           if (this.viewType === '2' && (loginJson.errorCode.includes('609820003') ||
-            loginJson.errorCode.includes('609820002') || loginJson.errorCode.includes('609820001'))) {
+          loginJson.errorCode.includes('609820002') || loginJson.errorCode.includes('609820001'))) {
             this.bsModalService.show(MessageModalComponent, {
               class: 'modal-dialog-centered',
               backdrop: 'static',
@@ -296,11 +298,4 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     this.appService.blockUI.stop();
   }
 
-}
-
-export interface Redirect_loginJson extends ApiResultEntity {
-  /** 後端驗證用，僅使用一次 */
-  grantCode: string;
-  /** 使用者ID */
-  List_MultipleUser: Model_CustomerDetail;
 }
