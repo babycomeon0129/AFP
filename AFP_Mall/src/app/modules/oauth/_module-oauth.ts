@@ -71,8 +71,26 @@ export interface RedirectGrantCode extends ApiResultEntity {
   grantCode: string;
   /** App訪問 */
   isApp?: number;
+  /** 消費者包 */
+  List_MultipleUser?: Redirect_MultipleUser;
+}
+export interface Redirect_MultipleUser {
+  /** 手機號碼 */
+  UserProfileMobile: string;
+  /** UUID */
+  UserInfoUuid: string;
   /** 使用者ID */
-  List_MultipleUser?: Model_CustomerDetail;
+  UserInfoId: number;
+  /** 使用者編碼 */
+  UserInfoCode: number;
+  /** 使用者點數 */
+  UserInfoPoint: number;
+  /** 使用者狀態 */
+  UserInfoState: number;
+  /** 使用者型態 */
+  UserInfoType: number;
+  /** 使用者登入時間 */
+  UserLoginStateLogInTime: string;
 }
 
 /** 消費者包 Model */

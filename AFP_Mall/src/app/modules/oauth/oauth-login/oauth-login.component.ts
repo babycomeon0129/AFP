@@ -7,7 +7,7 @@ import { MessageModalComponent } from '@app/shared/modal/message-modal/message-m
 import { environment } from '@env/environment';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { CookieService } from 'ngx-cookie-service';
-import { ApiResultEntity, Model_Authorize, Model_CustomerDetail, RequestIdTokenApi, Response_AFPLogin } from '../_module-oauth';
+import { ApiResultEntity, Model_Authorize, Redirect_MultipleUser, RequestIdTokenApi, Response_AFPLogin } from '../_module-oauth';
 
 @Component({
   selector: 'app-oauth-login',
@@ -28,7 +28,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
   /** 艾斯身份識別登入 FormPost渲染 */
   public viewList = [];
   /** 多重帳號列表 */
-  public List_MultipleUser:Model_CustomerDetail[] = [];
+  public List_MultipleUser: Redirect_MultipleUser[] = [];
   /** 使用者UserInfoId */
   public UserInfoId: number;
   /** 使用者grantCode */
@@ -99,7 +99,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
                 /** 「艾斯身份識別_登入2-2-1」有多重帳號時，使用者點擊取得idToken */
                 this.viewType = '1';
                 this.List_MultipleUser = JSON.parse(JSON.stringify(redirectData.List_MultipleUser));
-                this.UserInfoId = redirectData.List_MultipleUser[0].UserInfoId;
+                this.UserInfoId = redirectData.List_MultipleUser[0].UserInfo_ID;
               } else {
                 /** 「艾斯身份識別_登入2-2-2」無多重帳號時，用grantCode取得idToken */
                 this.onGetToken(redirectData.grantCode, 0);
