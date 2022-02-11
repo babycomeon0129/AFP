@@ -130,7 +130,7 @@ export class OauthService {
       .pipe(map((data: ApiResultEntity) => {
         switch (data.errorCode) {
           case '996600001':
-            return data;
+            return JSON.parse(JSON.stringify(data));
           default:
             this.bsModalService.show(MessageModalComponent, {
               class: 'modal-dialog-centered',

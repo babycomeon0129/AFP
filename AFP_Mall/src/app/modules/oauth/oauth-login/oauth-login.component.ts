@@ -84,10 +84,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         if (typeof params.loginJson !== 'undefined') {
           // const loginJson: ApiResultEntity = JSON.parse(JSON.stringify(params.loginJson));
           const loginJson: ApiResultEntity = JSON.parse(params.loginJson);
-
           const redirectData: RedirectGrantCode = JSON.parse(JSON.stringify(loginJson.data));
-          console.log(redirectData);
-          console.log(redirectData.isApp === 1);
           this.viewType = '2';
           // 登入成功
           if (loginJson.errorCode.includes('996600001')) {
@@ -248,11 +245,13 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
           grantCode: code,
           UserInfoId: uid
         };
-        /** 「艾斯身份識別_登入3-2-1」取得idToken */
+        /** 「艾斯身份識別_登入3-2-1」取得idToken
+         * https://bookstack.eyesmedia.com.tw/books/mobii-x/page/30001-token-api-mobii
+         */
         this.oauthService.toTokenApi(request).subscribe((data: ApiResultEntity) => {
           if (data) {
-            const tokenData: Response_AFPLogin = Object.assign(data);
-            if (tokenData.errorCode === '996600001') {
+            const tokenData: Response_AFPLogin = JSON.parse(JSON.stringify(data.data));
+            if (data.errorCode === '996600001') {
               this.oauthService.cookiesSet({
                 idToken: tokenData.idToken,
                 userName: tokenData.Customer_Name,
