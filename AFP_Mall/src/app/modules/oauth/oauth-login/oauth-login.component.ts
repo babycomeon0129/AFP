@@ -240,10 +240,10 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     if (code && code !== '') {
       if (!this.M_idToken) {
         // grantCode只能使用一次，註冊Mobii會員
-        const request:RequestIdTokenApi = {
+        const request: RequestIdTokenApi = {
           grantCode: code,
           UserInfoId: uid
-        }
+        };
         /** 「艾斯身份識別_登入3-2-1」取得idToken */
         this.oauthService.toTokenApi(request).subscribe((data: ApiResultEntity) => {
           if (data) {

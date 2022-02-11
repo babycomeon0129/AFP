@@ -126,7 +126,7 @@ export class OauthService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    return this.http.post(environment.loginUrl + 'token', JSON.stringify(this.grantRequest), { headers })
+    return this.http.post(environment.loginUrl + 'token', JSON.stringify(req), { headers })
       .pipe(map((data: ApiResultEntity) => {
         switch (data.errorCode) {
           case '996600001':
