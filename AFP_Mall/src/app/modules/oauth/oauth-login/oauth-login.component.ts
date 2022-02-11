@@ -7,7 +7,7 @@ import { MessageModalComponent } from '@app/shared/modal/message-modal/message-m
 import { environment } from '@env/environment';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { CookieService } from 'ngx-cookie-service';
-import { ApiResultEntity, Model_Authorize, Redirect_MultipleUser, RequestIdTokenApi, Response_AFPLogin } from '../_module-oauth';
+import { ApiResultEntity, Model_Authorize, RedirectGrantCode, Redirect_MultipleUser, RequestIdTokenApi, Response_AFPLogin } from '../_module-oauth';
 
 @Component({
   selector: 'app-oauth-login',
@@ -83,11 +83,11 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
       if (!this.M_idToken) {
         if (typeof params.loginJson !== 'undefined') {
           const loginJson: ApiResultEntity = JSON.parse(params.loginJson);
-          const redirectData = JSON.parse(JSON.stringify(loginJson.data));
+          const redirectData: RedirectGrantCode = params.loginJson.data;
           this.viewType = '2';
           // 登入成功
           if (loginJson.errorCode.includes('996600001')) {
-            if (redirectData.isApp) { this.appService.isApp = 1; }
+            if (redirectData.isApp === 1) { this.appService.isApp = 1; }
             this.loginJsonHas = true;
             // 只能打一次，否則errorCode:609830001
             if (redirectData.grantCode) {
@@ -246,8 +246,9 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
         };
         /** 「艾斯身份識別_登入3-2-1」取得idToken */
         this.oauthService.toTokenApi(request).subscribe((data: ApiResultEntity) => {
+          console.log(data);
           if (data) {
-            const tokenData:Response_AFPLogin = Object.assign(data);
+            const tokenData: Response_AFPLogin = Object.assign(data);
             if (tokenData.errorCode === '996600001') {
               this.oauthService.cookiesSet({
                 idToken: tokenData.idToken,
