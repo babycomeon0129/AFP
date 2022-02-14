@@ -1,4 +1,4 @@
-<div *ngIf="appService.isApp === null || appService.isApp === 0">
+<div *ngIf="appService.isApp == null || appService.isApp === 0">
   <footer id="footmb" class="mobile-footer for-mobile container">
     <div class="menu-bar">
       <a [routerLink]="['/']" class="bar-item" [ngClass]="{'active': currentUrl=='/'}">
