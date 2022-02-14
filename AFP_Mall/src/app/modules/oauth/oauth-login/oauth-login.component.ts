@@ -266,6 +266,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
               this.appService.showFavorites();
               this.appService.readCart();
               this.viewType = '3';
+              this.webViewTest = 'Success';
               /** 「艾斯身份識別_登入3-2-3」裝置若為APP傳interface */
               if (this.appService.isApp === 1) {
                 this.callApp.getLoginData(tokenData.idToken, tokenData.Customer_Code, tokenData.Customer_Name);

@@ -1,5 +1,5 @@
 <div class="wrap container">
-  <header *ngIf="viewType !== '2'">
+  <header *ngIf="viewType === '0' || viewType === '1'">
       <div class="header-secondary container linebt-row">
           <div class="index-flex justify-content-between">
               <div class="item two">
@@ -51,7 +51,7 @@
           </li>
         </ul>
       </div>
-      <div *ngIf="viewType === '2'">
+      <div *ngIf="viewType === '2' || viewType === '3'">
         <div class="loading-box">
           <div class="loading-img">
             <span class="loader loader-quart"></span>
