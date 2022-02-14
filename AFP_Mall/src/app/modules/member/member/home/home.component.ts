@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit {
     if (this.oauthService.cookiesGet('idToken').cookieVal !== '' && this.oauthService.cookiesGet('idToken').cookieVal !== 'undefined') {
       this.appService.loginState = true;
       this.readIndexData();
-      if (this.appService.isApp === 1) {
+      if (this.appService.isApp === 1 || this.oauthService.cookiesGet('deviceType').cookieVal > '0') {
         this.callApp.appShowMobileFooter(true);
       }
     }

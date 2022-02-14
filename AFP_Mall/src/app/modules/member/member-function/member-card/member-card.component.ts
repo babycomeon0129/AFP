@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { AppService } from '@app/app.service';
-import { ModalService } from '@app/shared/modal/modal.service';
-import { Router, ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { AFP_UserFavourite, AFP_UserReport, AFP_ADImg,
-         Request_MemberMyCard, Response_MemberMyCard } from '@app/modules/member/_module-member';
 import { Meta, Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 import { layerAnimation } from '@app/animations';
 import { AppJSInterfaceService } from '@app/app-jsinterface.service';
+import { AppService } from '@app/app.service';
+import { AFP_ADImg, AFP_UserFavourite, AFP_UserReport, Request_MemberMyCard, Response_MemberMyCard } from '@app/modules/member/_module-member';
+import { ModalService } from '@app/shared/modal/modal.service';
+import { OauthService } from './../../../oauth/oauth.service';
 
 @Component({
   selector: 'app-member-card',
@@ -63,7 +63,7 @@ export class MemberCardComponent implements OnInit {
   /** 卡片類型名稱 */
   public userFavouriteTypeName: string;
 
-  constructor(public appService: AppService, public modal: ModalService, public router: Router,
+  constructor(public appService: AppService, private oauthService: OauthService, public modal: ModalService, public router: Router,
               private route: ActivatedRoute, private meta: Meta, private title: Title, private callApp: AppJSInterfaceService) {
     this.title.setTitle('我的卡片 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 我的卡片。你可以新增信用卡、悠遊卡或一卡通等卡片，並在 Mobii! APP 或網頁上，使用這些卡片來購物、支付或乘車。' });
@@ -71,7 +71,9 @@ export class MemberCardComponent implements OnInit {
     this.meta.updateTag({ content: 'Mobii! - 我的卡片。你可以新增信用卡、悠遊卡或一卡通等卡片，並在 Mobii! APP 或網頁上，使用這些卡片來購物、支付或乘車。', property: 'og:description' });
     /** 取得route.queryParams參數 */
     this.route.queryParams.subscribe(params => {
-      if (typeof params.layerParam !== 'undefined') { this.layerTrig = parseInt(params.layerParam, 10); }
+      if (typeof params.layerParam !== 'undefined') {
+        if (params.layerParam !== '') { this.layerTrig = parseInt(params.layerParam, 10); }
+      }
       if (typeof params.itemCode !== 'undefined') { this.cardItemCode = parseInt(params.itemCode, 10); }
       (this.cardItemCode === 1) ? this.cardNumberMinlength = 11 : this.cardNumberMinlength = 10;
     });
@@ -79,7 +81,9 @@ export class MemberCardComponent implements OnInit {
 
   ngOnInit() {
     this.readCardList();
-    this.callApp.appShowMobileFooter(false);
+    if (this.appService.isApp === 1 || this.oauthService.cookiesGet('deviceType').cookieVal > '0') {
+      this.callApp.appShowMobileFooter(false);
+    }
   }
 
   /** 讀取卡片列表 */
