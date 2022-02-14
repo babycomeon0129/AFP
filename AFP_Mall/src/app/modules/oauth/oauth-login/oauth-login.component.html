@@ -1,5 +1,5 @@
 <div class="wrap container">
-  <header *ngIf="viewType !== '2'">
+  <header *ngIf="viewType === '0' || viewType === '1'">
       <div class="header-secondary container linebt-row">
           <div class="index-flex justify-content-between">
               <div class="item two">
@@ -44,14 +44,14 @@
                 <div class="p-3">
                   UUID：{{item.UserInfoUuid}}<br>
                   目前點數：{{item.UserInfoPoint}}<br>
-                  <div *ngIf="item.UserLoginStateLoginTime">上次登入時間：{{item.UserLoginStateLoginTime}}<br></div>
+                  <div *ngIf="item.UserLoginStateLogInTime">上次登入時間：{{item.UserLoginStateLogInTime}}<br></div>
                 </div>
               </label>
             </div>
           </li>
         </ul>
       </div>
-      <div *ngIf="viewType === '2'">
+      <div *ngIf="viewType === '2' || viewType === '3'">
         <div class="loading-box">
           <div class="loading-img">
             <span class="loader loader-quart"></span>

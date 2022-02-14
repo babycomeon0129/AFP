@@ -490,18 +490,6 @@ export interface AFP_ECStore {
   ECStore_TakeoutURL?: string;
 }
 
-/** 消費者包 Model */
-export interface Model_CustomerInfo {
-  /** 使用者名稱 */
-  Customer_Name?: string;
-  /** 使用者編碼 */
-  Customer_Code?: string;
-  /** 使用者資訊 */
-  CustomerInfo?: string;
-  /** UUID */
-  Customer_UUID?: string;
-}
-
 /** 自定義目錄 */
 export interface AFP_UserDefine {
   /** 目錄編碼 */
@@ -2120,14 +2108,6 @@ export class AFP_IMessage {
   activeStatus: boolean;
 }
 
-/** 註冊 ResponseModel */
-export class Response_AFPLogin extends Model_ShareData {
-  /** 使用者編碼 */
-  Model_UserInfo?: Model_CustomerInfo;
-  /** 使用者-我的最愛 */
-  List_UserFavourite?: AFP_UserFavourite;
-}
-
 
 /** 驗證碼處理 ResponseModel */
 export class Response_AFPVerifyCode extends Model_ShareData {
@@ -2203,42 +2183,6 @@ export interface AFP_VerifiedInfo {
    * Response時 : 空
    */
   VerifiedCode?: string;
-}
-
-/** 查詢會員手機號碼 RequestModel */
-export interface Request_AFPReadMobile extends Model_ShareData {
-  /** 消費者包資訊 */
-  CustomerDetail?: Model_CustomerDetail;
-  /** 使用者帳號(驗證帳號是否重複 */
-  UserAccount?: string;
-}
-
-/** 消費者包 Model */
-export interface Model_CustomerDetail {
-  /** 使用者ID */
-  UserInfo_ID: number;
-  /** 使用者編碼 */
-  UserInfo_Code: number;
-  /** UUID */
-  UserInfo_UUID: string;
-  /** 外部編碼 */
-  UserInfo_ExtCode: string;
-  /** 使用者帳號 */
-  UserInfo_Account: string;
-  /** 使用者名稱 */
-  UserInfo_Name: string;
-  /** 帳號類型 */
-  UserInfo_Type: number;
-  /** 使用者GroupNo  */
-  UserInfo_GroupNo: number;
-  /** ID */
-  UserLoginState_ID: number;
-  /** APP裝置編碼 */
-  UserDevice_Code: number;
-  /** 裝置編碼 */
-  UserDevice_DeviceCode: string;
-  /** 手機號碼 */
-  UserProfile_Mobile: string;
 }
 
 export interface Response_AFPReadMobile {

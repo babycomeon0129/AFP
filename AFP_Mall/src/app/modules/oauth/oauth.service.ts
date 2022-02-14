@@ -7,6 +7,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { ApiResultEntity, cookieDeclare, Model_OAuthFlow, RequestIdTokenApi } from './_module-oauth';
 
 declare var AppJSInterface: any;
 @Injectable({
@@ -100,13 +101,13 @@ export class OauthService {
    *  @param deviceCode 裝置編碼
    *  @param fromOriginUri的 返回頁
    */
-  toOauthRequest(req: RequestOauthLogin): Observable<any> {
+  toOauthRequest(req: Model_OAuthFlow): Observable<any> {
     const formData = new FormData();
     formData.append('deviceType', req.deviceType.toString());
     formData.append('deviceCode', req.deviceCode);
     formData.append('fromOriginUri', req.fromOriginUri);
     return this.http.post(environment.loginUrl + 'login', formData)
-      .pipe(map((data: ResponseOauthLogin) => {
+      .pipe(map((data: ApiResultEntity) => {
         switch (data.errorCode) {
           case '996600001':
             return data.data;
@@ -125,11 +126,11 @@ export class OauthService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    return this.http.post(environment.loginUrl + 'token', JSON.stringify(this.grantRequest), { headers })
-      .pipe(map((data: ResponseOauthApi) => {
+    return this.http.post(environment.loginUrl + 'token', JSON.stringify(req), { headers })
+      .pipe(map((data: ApiResultEntity) => {
         switch (data.errorCode) {
           case '996600001':
-            return data;
+            return JSON.parse(JSON.stringify(data));
           default:
             this.bsModalService.show(MessageModalComponent, {
               class: 'modal-dialog-centered',
@@ -173,7 +174,7 @@ export class OauthService {
         isApp: (app !== undefined && app !== null) ? app : 0
       };
       return this.http.post(environment.loginUrl + 'memberModify', request, { headers })
-        .pipe(map((data: ResponseOauthApi) => {
+        .pipe(map((data: ApiResultEntity) => {
           if (data == null) {
             return null;
           } else {
@@ -330,7 +331,7 @@ export class OauthService {
     const formData = new FormData();
     formData.append('deviceType', reqType);
     return this.http.post(environment.loginUrl + 'memberLogout', formData, {headers})
-      .pipe(map((data: ResponseOauthLogin) => {
+      .pipe(map((data: ApiResultEntity) => {
         if (data.errorCode === '996600001') {
           return JSON.stringify(data.data);
         } else {
@@ -381,115 +382,3 @@ export class OauthService {
   }
 }
 
-
-/** 登入 API Request interface
- * https://bookstack.eyesmedia.com.tw/books/mobii-x/chapter/api
- */
-
-export interface RequestOauthLogin {
-  deviceType: number;
-  deviceCode: string;
-  fromOriginUri: string;
-}
-
-export interface ResponseOauthLogin {
-  messageId: string;
-  errorCode: string;
-  errorDesc: string;
-  messageDatetime: string;
-  data: Res_ViewConfig[];
-}
-export class Res_ViewConfig {
-  AuthorizationUri: string;
-  accountId: string;
-  clientId: string;
-  state: string;
-  scope: string;
-  redirectUri: string;
-  homeUri: string;
-  responseType: string;
-  viewConfig: string;
-}
-
-export interface ResponseEyes {
-  code?: string;
-  state: string;
-  messageId: string;
-  messageDatetime: string;
-  error?: string;
-  errorDescription?: string;
-  data?: [];
-}
-export interface ViewConfig {
-  AuthorizationUri: string;
-  accountId: string;
-  clientId: string;
-  state: string;
-  scope: string;
-  redirectUri: string;
-  homeUri: string;
-  responseType: string;
-  viewConfig: string;
-}
-
-export interface ResponseLoginJson {
-  messageId: string;
-  errorCode: string;
-  errorDesc: string;
-  messageDatetime: string;
-  data: {
-    grantCode: string;
-    UserInfoId: number;
-  };
-}
-
-export interface RequestIdTokenApi {
-  grantCode: string;
-  UserInfoId: number;
-}
-export interface ResponseOauthApi {
-  messageId: string;
-  errorCode: string;
-  errorDesc: string;
-  messageDatetime: string;
-  data: string;
-}
-export class Res_IdTokenApi {
-  idToken: string;
-  Customer_Name: string;
-  Customer_Code: string;
-  Customer_UUID: string;
-  List_UserFavourite: [];
-}
-
-/** 「cookie,session管理_現有參數」 */
-export class cookieDeclare {
-  /** 身份識別idToken */
-  idToken?: string;
-  /** 使用者暱稱userName */
-  userName?: string;
-  /** 使用者編碼userCode */
-  userCode?: string;
-  /** 使用者收藏userFavorites */
-  userFavorites?: string;
-  /** fromOriginUri(登入成功返回頁) */
-  fromOriginUri?: string;
-  /** 裝置編碼(0:Web 1:iOS 2:Android) */
-  deviceType?: string;
-  /** 公告頁(1不顯示) */
-  upgrade?: string;
-  /** 首頁隱私權(1不顯示) */
-  show?: string;
-  /** 購物車編碼(APP用) */
-  cart_code?: string;
-  /** 購物車 */
-  cart_count_Mobii?: string;
-  /** 進場廣告 */
-  adTime?: string;
-  /** App訪問 */
-  appVisit?: string;
-  /** 登出測試 */
-  logout?: string;
-  /** 來源頁(除錯用) */
-  page?: string;
-}
