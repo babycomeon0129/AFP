@@ -111,6 +111,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.appService.userLoggedIn = true;
     }
     this.appService.getPushPermission();
+    this.appService.receiveMessage();
     // 當路由器成功完成路由的解析階段時，先通知app將footer關閉(開啟則靠app-mobile-footer通知開啟)
     this.router.events.pipe(filter(event => event instanceof ResolveEnd))
       .subscribe((event: ResolveEnd) => {
