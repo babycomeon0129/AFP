@@ -104,7 +104,7 @@ export class AppService {
         //   location.hostname.indexOf('uat') >= 0) {
         //   console.log('isApp', this.isApp, command, data);
         // }
-        console.log(command, data);
+
         // 當未存userId時，需存入cookie
         if (!this.cookieService.get('UserId')) {
           if (data.CustomerDetail != null) {

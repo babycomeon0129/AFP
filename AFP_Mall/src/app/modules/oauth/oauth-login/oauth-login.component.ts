@@ -289,7 +289,6 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
     this.appService.showFavorites();
     this.appService.readCart();
     if (this.appService.isApp === 1 || this.oauthService.cookiesGet('deviceType').cookieVal > '0') {
-      console.log(this.appService.isApp === 1 || this.oauthService.cookiesGet('deviceType').cookieVal > '0');
       this.callApp.getLoginData(this.oauthService.cookiesGet('idToken').cookieVal,
         this.oauthService.cookiesGet('userCode').cookieVal, this.oauthService.cookiesGet('userName').cookieVal);
     } else {

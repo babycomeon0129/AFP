@@ -156,7 +156,6 @@ export class ExploreDetailComponent implements OnInit {
           }
           // 顯示網站判定
           if (data.Model_ECStore.ECStore_WebURL !== null && data.Model_ECStore.ECStore_WebURL.trim() !== '') {
-            console.log(this.websitesArr);
             this.websitesArr.push({ siteName: '官方網站', siteUrl: data.Model_ECStore.ECStore_WebURL });
           }
           if (data.Model_ECStore.ECStore_FBURL !== null && data.Model_ECStore.ECStore_FBURL.trim() !== '') {
