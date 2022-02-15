@@ -14,6 +14,11 @@
   <!-- Google Tag Manager(for dev)-->
   <script>
     (function (w, d, s, l, i) { w[l] = w[l] || []; w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' }); var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f); })(window, document, 'script', 'dataLayer', 'GTM-N22PP3B');
+    // 讀取cookie
+    const allCookies = document.cookie;
+    const cookieArry = allCookies.split('; ').filter(cookie => cookie.split('=')[0] === 'UserId')[0] || null;
+    const UserId = cookieArry !== null ? cookieArry.split('=')[1] : null;
+    gtag('set', { 'user_id': UserId });
   </script>
   <!-- End Google Tag Manager -->
   <title>Mobii!莫比</title>
