@@ -65,21 +65,25 @@ export class SalesComponent implements OnInit, OnDestroy {
   /** 限時搶購倒數 */
   saleCountdown(): void {
     const saleEndTime = new Date(this.activity.VouFlashSale_OfflineDate).getTime();
-    this.countdown = setInterval(() => {
-      const currentTime = new Date().getTime();
-      this.distance = saleEndTime - currentTime;
-      // 計算剩餘時分秒
-      const days = Math.floor(this.distance / (1000 * 60 * 60 * 24));
-      this.minutes = Math.floor((this.distance % (1000 * 60 * 60)) / (1000 * 60));
-      this.seconds = Math.floor((this.distance % (1000 * 60)) / 1000);
-      this.hours = Math.floor((this.distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)) + days * 24;
-      // 顯示
-      if (this.distance === 0) {
-        clearInterval(this.countdown);
-        // call api to update voucher points below
-        this.readData();
-      }
-    }, 1000);
+    const nowTime = new Date().getTime();
+    // 防呆，避免後端回傳的VouFlashSale_OfflineDate異常導致無限saleCountdown()與readData()迴圈
+    if (saleEndTime > nowTime) {
+      this.countdown = setInterval(() => {
+        const currentTime = new Date().getTime();
+        this.distance = saleEndTime - currentTime;
+        // 計算剩餘時分秒
+        const days = Math.floor(this.distance / (1000 * 60 * 60 * 24));
+        this.minutes = Math.floor((this.distance % (1000 * 60 * 60)) / (1000 * 60));
+        this.seconds = Math.floor((this.distance % (1000 * 60)) / 1000);
+        this.hours = Math.floor((this.distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)) + days * 24;
+        // 顯示
+        if (this.distance === 0) {
+          clearInterval(this.countdown);
+          // call api to update voucher points below
+          this.readData();
+        }
+      }, 1000);
+    }
   }
 
   ngOnDestroy(): void {
