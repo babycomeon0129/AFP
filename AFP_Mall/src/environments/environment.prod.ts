@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   version: '1.3.9',
-  versionDate: '2022/02/14 11:46:21',
+  versionDate: '2022/02/15 09:54:12',
   // apiUrl: 'https://afpapi.mobii.ai/api/',
   apiUrl: 'https://afpapiv2.mobii.ai/api/',
   loginUrl: 'https://login.mobii.ai/auth/api/v1/',
