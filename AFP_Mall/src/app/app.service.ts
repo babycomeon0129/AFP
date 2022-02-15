@@ -76,11 +76,13 @@ export class AppService {
               private angularFireMessaging: AngularFireMessaging, private oauthService: OauthService) {
     // firebase message設置。這裡在幹嘛我也不是很懂
     // 詳：https://stackoverflow.com/questions/61244212/fcm-messaging-issue
-    this.angularFireMessaging.messages.subscribe(
-      (_messaging: AngularFireMessaging) => {
-        _messaging.onMessage = _messaging.onMessage.bind(_messaging);
-        _messaging.onTokenRefresh = _messaging.onTokenRefresh.bind(_messaging);
-      });
+    if (navigator.userAgent.toLowerCase().includes('chrome') || !navigator.userAgent.toLowerCase().includes('safari')) {
+      this.angularFireMessaging.messages.subscribe(
+        (_messaging: AngularFireMessaging) => {
+          _messaging.onMessage = _messaging.onMessage.bind(_messaging);
+          _messaging.onTokenRefresh = _messaging.onTokenRefresh.bind(_messaging);
+        });
+    }
   }
 
   toApi(ctrl: string, command: string, request: any, lat: number = null, lng: number = null, deviceCode?: string): Observable<any> {
@@ -462,23 +464,36 @@ export class AppService {
 
   /** 向firebase message 請求token */
   getPushPermission(): void {
-    this.angularFireMessaging.requestToken.subscribe(
-      (token) => {
-        if (this.deviceCode === null) {
-          this.deviceCode = this.guid();
-          localStorage.setItem('M_DeviceCode', this.deviceCode);
+    if (navigator.userAgent.toLowerCase().includes('chrome') || !navigator.userAgent.toLowerCase().includes('safari')) {
+      this.angularFireMessaging.requestToken.subscribe(
+        (token) => {
+          if (this.deviceCode === null) {
+            this.deviceCode = this.guid();
+            localStorage.setItem('M_DeviceCode', this.deviceCode);
+          }
+          const fireBaseToken = localStorage.getItem('FireMessaging_token') || null ;
+          // 如果localStorage沒有存token或存放的token不是新版，更新token並傳給後端(api 1113)
+          if (fireBaseToken === null || fireBaseToken !== token) {
+            localStorage.setItem('FireMessaging_token', token);
+            this.toPushApi(token);
+          }
+        },
+        (err) => {
+          console.error('Unable to get permission to notify.', err);
         }
-        const fireBaseToken = localStorage.getItem('FireMessaging_token') || null ;
-        // 如果localStorage沒有存token或存放的token不是新版，更新token並傳給後端(api 1113)
-        if (fireBaseToken === null || fireBaseToken !== token) {
-          localStorage.setItem('FireMessaging_token', token);
-          this.toPushApi(token);
-        }
-      },
-      (err) => {
-        console.error('Unable to get permission to notify.', err);
-      }
-    );
+      );
+    }
+  }
+
+  /** 接收推播訊息 */
+  receiveMessage() {
+    if (navigator.userAgent.toLowerCase().includes('chrome') || !navigator.userAgent.toLowerCase().includes('safari')) {
+      this.angularFireMessaging.messages.subscribe(
+        (payload) => {
+          // console.log('Message received. ', payload);
+          this.currentMessage.next(payload);
+        });
+    }
   }
 
   /** 推播-取得含device code的新消費者包 */
