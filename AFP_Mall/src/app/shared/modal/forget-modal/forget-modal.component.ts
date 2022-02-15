@@ -1,7 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { AppService } from '@app/app.service';
-import { Model_CustomerDetail } from '@app/modules/oauth/_module-oauth';
-import { Model_ShareData, Request_AFPVerifyCode, Response_AFPReadMobile, Response_AFPVerifyCode } from '@app/_models';
+import { Model_CustomerDetail, Model_ShareData, Request_AFPVerifyCode, Response_AFPReadMobile, Response_AFPVerifyCode } from '@app/_models';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { MessageModalComponent } from '../message-modal/message-modal.component';
 

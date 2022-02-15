@@ -217,11 +217,20 @@ export class OauthService {
       if (cookieData[item] !== undefined && cookieData[item] !== '') {
         if (this.preName !== '') {
           // 子域塞cookie及session
-          sessionStorage.setItem(this.preName + item, cookieData[item]);
-          this.cookieService.set(
-            this.preName + item, cookieData[item], 90, '/',
-            location.hostname, environment.cookieSecure, 'Lax'
-          );
+          if (item === 'UserId') {
+            // userId(GA用)，不分環境以便活動頁存取用
+            sessionStorage.setItem(item, cookieData[item]);
+            this.cookieService.set(
+              item, cookieData[item], 90, '/',
+              location.hostname, environment.cookieSecure, 'Lax'
+            );
+          } else {
+            sessionStorage.setItem(this.preName + item, cookieData[item]);
+            this.cookieService.set(
+              this.preName + item, cookieData[item], 90, '/',
+              location.hostname, environment.cookieSecure, 'Lax'
+            );
+          }
           // 子域要另塞M_idToken，以便活動頁存取用
           if (item === 'idToken') {
             sessionStorage.setItem('M_' + item, cookieData[item]);
