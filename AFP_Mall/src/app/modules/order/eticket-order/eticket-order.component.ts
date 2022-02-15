@@ -546,13 +546,13 @@ export class ETicketOrderComponent implements OnInit {
 
 }
 
-/** 取得電子票卷結帳所需資訊 */
+/** 取得電子票券結帳所需資訊 */
 interface Request_GetTCheckout extends Model_ShareData {
   /** 購物車資訊 */
   List_Cart: AFP_Cart[];
 }
 
-/** 取得電子票卷結帳所需資訊 Response */
+/** 取得電子票券結帳所需資訊 Response */
 interface Response_GetTCheckout extends Model_ShareData {
   /** 結帳商家 */
   List_ECStore: AFP_ECStore[];
@@ -604,7 +604,7 @@ class OrderInfo {
 interface Request_CreateTOrder extends Model_ShareData {
   /** 訂單資訊 */
   List_Order: AFP_Order[];
-  /** 使用者優惠卷資訊 */
+  /** 使用者優惠券資訊 */
   List_UserVoucher: AFP_UserVoucher[];
   /** 購物車資訊 */
   List_Cart: AFP_Cart[];
@@ -614,6 +614,6 @@ interface Request_CreateTOrder extends Model_ShareData {
 interface Response_CreateTOrder extends Model_ShareData {
   /** 訂單編號 [多個逗號區隔] */
   OrderNo: string;
-  /** 平台優惠卷ID [使用者優惠卷ID] */
+  /** 平台優惠券ID [使用者優惠券ID] */
   UserVoucher_ID: number;
 }
