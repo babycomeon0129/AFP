@@ -256,7 +256,7 @@ export class OauthLoginComponent implements OnInit, AfterViewInit {
                 idToken: tokenData.idToken,
                 userName: tokenData.Customer_Name,
                 userCode: tokenData.Customer_Code,
-                userId: tokenData.UserId,
+                UserId: tokenData.UserId,
                 userFavorites: JSON.stringify(tokenData.List_UserFavourite),
                 page: location.href
               });

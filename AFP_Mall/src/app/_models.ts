@@ -22,6 +22,37 @@ export interface Response_APIModel {
   Verification?: Model_Verification;
   /** 登入認證 */
   IdToken?: string;
+  /** 消費者包 */
+  CustomerDetail?: Model_CustomerDetail;
+}
+/** 消費者包 Model */
+export interface Model_CustomerDetail {
+  /** 使用者ID */
+  UserInfo_ID: number;
+  /** 使用者編碼 */
+  UserInfo_Code: number;
+  /** UUID */
+  UserInfo_UUID: string;
+  /** 外部編碼 */
+  UserInfo_ExtCode: string;
+  /** 使用者帳號 */
+  UserInfo_Account: string;
+  /** 使用者名稱 */
+  UserInfo_Name: string;
+  /** 帳號類型 */
+  UserInfo_Type: number;
+  /** 使用者GroupNo  */
+  UserInfo_GroupNo: number;
+  /** ID */
+  UserLoginState_ID: number;
+  /** APP裝置編碼 */
+  UserDevice_Code: number;
+  /** 裝置編碼 */
+  UserDevice_DeviceCode: string;
+  /** 手機號碼 */
+  UserProfile_Mobile: string;
+  /** 艾斯ID */
+  UserId: string;
 }
 
 /** 驗證Model */
