@@ -10,6 +10,16 @@ export interface Search_ConsHome {
   IndexDelivery_Code?: number;
 }
 
+/** 瀑布流option */
+export interface waterFallOption {
+  /** 目前頁數 */
+  currentPage: number;
+  /** 總頁數 */
+  totalPage: number;
+  /** 瀑布流是否正在call api */
+  isLoad: boolean;
+}
+
 /** WebAPI ResponseModel */
 export interface Response_APIModel {
   /** 共用傳遞模組 */

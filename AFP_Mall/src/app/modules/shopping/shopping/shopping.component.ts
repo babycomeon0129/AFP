@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { AppService } from '@app/app.service';
 import { OauthService } from '@app/modules/oauth/oauth.service';
 import { ModalService } from '@app/shared/modal/modal.service';
-import { AFP_ADImg, AFP_ChannelProduct, AFP_ChannelVoucher, AFP_Function, AFP_Product, Request_ECHome, Response_ECHome } from '@app/_models';
+import { AFP_ADImg, AFP_ChannelProduct, AFP_ChannelVoucher, AFP_Function, AFP_Product, Request_ECHome, Response_ECHome, waterFallOption } from '@app/_models';
 import { NgxMasonryOptions } from 'ngx-masonry';
 import { SwiperOptions } from 'swiper';
 
@@ -13,10 +13,12 @@ import { SwiperOptions } from 'swiper';
   styleUrls: ['./shopping.scss']
 })
 export class ShoppingComponent implements OnInit {
-  /** 目前頁數 */
-  public currentPage = 1;
-  /** 總頁數 */
-  public totalPage: number;
+  /** 瀑布流控制項目 */
+  private waterFallOption: waterFallOption = {
+    currentPage: 1,
+    totalPage: 0,
+    isLoad: false
+  };
   /** 置頂廣告 */
   public adImgTop: AFP_ADImg[];
   /** 活動廣告（中間） */
@@ -37,7 +39,7 @@ export class ShoppingComponent implements OnInit {
   public shoppingAdTop: SwiperOptions = {
     slidesPerView: 1,
     autoplay: {
-        delay: 3000,
+      delay: 3000,
     }
   };
 
@@ -46,7 +48,7 @@ export class ShoppingComponent implements OnInit {
     spaceBetween: 0,
     slidesPerView: 5,
     slidesPerColumn: 2,
-    slidesPerColumnFill : 'row',
+    slidesPerColumnFill: 'row',
     slidesPerGroup: 5,
     loop: true
   };
@@ -80,11 +82,11 @@ export class ShoppingComponent implements OnInit {
   };
 
   constructor(public appService: AppService, private oauthService: OauthService, public router: Router,
-              public modal: ModalService, private meta: Meta, private title: Title) {
+    public modal: ModalService, private meta: Meta, private title: Title) {
     this.title.setTitle('線上商城 - Mobii!');
-    this.meta.updateTag({name : 'description', content: '來 Mobii! 線上商城購物，產品多元多樣，美食、3C、母嬰、生活百貨、美妝⋯⋯琳瑯滿目，還有限時限量折扣優惠等你來搶。Mobii! 賣的就是跟別人要不一樣！'});
-    this.meta.updateTag({content: '線上商城 - Mobii!', property: 'og:title'});
-    this.meta.updateTag({content: '來 Mobii! 線上商城購物，產品多元多樣，美食、3C、母嬰、生活百貨、美妝⋯⋯琳瑯滿目，還有限時限量折扣優惠等你來搶。Mobii! 賣的就是跟別人要不一樣！', property: 'og:description'});
+    this.meta.updateTag({ name: 'description', content: '來 Mobii! 線上商城購物，產品多元多樣，美食、3C、母嬰、生活百貨、美妝⋯⋯琳瑯滿目，還有限時限量折扣優惠等你來搶。Mobii! 賣的就是跟別人要不一樣！' });
+    this.meta.updateTag({ content: '線上商城 - Mobii!', property: 'og:title' });
+    this.meta.updateTag({ content: '來 Mobii! 線上商城購物，產品多元多樣，美食、3C、母嬰、生活百貨、美妝⋯⋯琳瑯滿目，還有限時限量折扣優惠等你來搶。Mobii! 賣的就是跟別人要不一樣！', property: 'og:description' });
 
     this.cartCode = Number(this.oauthService.cookiesGet('cart_code').cookieVal);
     this.cartCount = Number(this.oauthService.cookiesGet('cart_count_Mobii').cookieVal);
@@ -104,7 +106,7 @@ export class ShoppingComponent implements OnInit {
       SelectMode: action !== 3 ? 1 : 2,
       Cart_Count: this.cartCount,
       Model_BasePage: {
-        Model_Page: this.currentPage
+        Model_Page: this.waterFallOption.currentPage
       },
       SearchModel: {
         IndexVoucher_Code: 1111114, // 此區塊專用頻道，只會有一個目錄，目錄下只有２張優惠券
@@ -121,7 +123,7 @@ export class ShoppingComponent implements OnInit {
           this.channelProducts = data.List_ProductData;
           this.hotProducts = data.List_HotProduct;
           this.functions = data.List_Function;
-          this.totalPage = data.Model_BaseResponse.Model_TotalPage;
+          this.waterFallOption.totalPage = data.Model_BaseResponse.Model_TotalPage;
           this.voucherList = data.List_VoucherData;
           break;
         case 2:
@@ -131,6 +133,7 @@ export class ShoppingComponent implements OnInit {
           for (const hotProduct of data.List_HotProduct) {
             this.hotProducts.push(hotProduct);
           }
+          this.waterFallOption.isLoad = false;
           break;
       }
     });
@@ -139,11 +142,23 @@ export class ShoppingComponent implements OnInit {
   /** 近期熱門商品瀑布流 */
   @HostListener('window: scroll', ['$event'])
   prodWaterfall(event: Event) {
-    if ((Math.floor(window.scrollY + window.innerHeight) >= document.documentElement.offsetHeight -1 ) && this.currentPage < this.totalPage) {
-      this.appService.openBlock();
-      this.currentPage += 1;
-      this.readData(3);
+    // 是否到底部
+    const IS_BOTTOM = document.documentElement.scrollHeight - document.documentElement.scrollTop <= document.documentElement.clientHeight;
+    if (IS_BOTTOM) {
+      if (!this.waterFallOption.isLoad) {
+        this.waterFallOption.currentPage++;
+        if (this.waterFallOption.currentPage <= this.waterFallOption.totalPage) {
+          this.waterFallOption.isLoad = true;
+          this.appService.openBlock();
+          this.readData(3);
+        }
+      }
     }
+    // if ((Math.floor(window.scrollY + window.innerHeight) >= document.documentElement.offsetHeight -1 ) && this.currentPage < this.totalPage) {
+    //   this.appService.openBlock();
+    //   this.currentPage += 1;
+    //   this.readData(3);
+    // }
   }
 
 }

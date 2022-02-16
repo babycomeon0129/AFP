@@ -8,7 +8,7 @@ import { OauthService } from '@app/modules/oauth/oauth.service';
 import { ModalService } from '@app/shared/modal/modal.service';
 import {
   AFP_ADImg, AFP_ChannelProduct, AFP_ChannelVoucher, AFP_Function, AFP_Product, AFP_UserFavourite,
-  Model_AreaJsonFile, Model_ShareData, Model_TravelJsonFile, Request_ECHome, Request_Home, Response_ECHome, Response_Home
+  Model_AreaJsonFile, Model_ShareData, Model_TravelJsonFile, Request_ECHome, Request_Home, Response_ECHome, Response_Home, waterFallOption
 } from '@app/_models';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { NgxMasonryOptions } from 'ngx-masonry';
@@ -217,11 +217,6 @@ export class EntranceComponent implements OnInit {
     totalPage: 0,
     isLoad: false
   };
-  /** 目前頁數熱門商品瀑布流頁數 */
-  // public currentPage = 1;
-  // /** 目前頁數熱門商品瀑布流總頁數 */
-  // public totalPage: number;
-
   /** 使用者服務 */
   public ftTop: AFP_Function[] = [];
   /** 使用者服務 - 所有服務清單 */
@@ -641,14 +636,4 @@ interface Search_OtherInfo {
   UserDefineCode: number;
   /** 商品頻道編號 */
   IndexChannel_Code?: number;
-}
-
-/** 瀑布流option */
-interface waterFallOption {
-  /** 目前頁數 */
-  currentPage: number;
-  /** 總頁數 */
-  totalPage: number;
-  /** 瀑布流是否正在call api */
-  isLoad: boolean;
 }
