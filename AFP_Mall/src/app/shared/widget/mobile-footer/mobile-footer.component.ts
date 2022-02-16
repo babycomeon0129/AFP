@@ -24,10 +24,6 @@ export class MobileFooterComponent implements OnInit {
 
   ngOnInit() {
     this.currentUrl = this.router.url;
-    // 初始時告訴app開啟footer
-    if (this.appService.isApp === 1 || this.oauthService.cookiesGet('deviceType').cookieVal > '0') {
-      this.callApp.appShowMobileFooter(true);
-    }
   }
 
 }
