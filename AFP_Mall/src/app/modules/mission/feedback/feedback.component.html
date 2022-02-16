@@ -40,9 +40,9 @@
                 <span class="require">*</span>
               </p>
             </h5>
-              <!-- 可以輸入中文，中文標點符號；英文a-zA-Z,符號[~!@#$%^&*()_+=\-`\[\]{}';:".,<>/?\|]；數字0-9 -->
+              <!-- 去除換行 -->
               <textarea
-              onkeyup="value=value.replace(/[^\w\u4E00-\u9FA5\u0021-\u002F\u003A-\u0040\u005B-\u0060\u007B-\u007E\u3000\u3001-\u303F\uFF01-\uFF5E]/g, '')"
+              onkeyup="value=value.replace(/\r\n|\n/g, '')"
               (keyup)="onKeyEvent($event)"
               oncontextmenu="return false"
               rows="4" maxlength="256"
