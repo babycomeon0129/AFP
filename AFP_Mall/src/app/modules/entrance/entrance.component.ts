@@ -211,10 +211,16 @@ export class EntranceComponent implements OnInit {
   public nowVoucher: AFP_ChannelVoucher[] = [];
   /** 近期熱門商品 */
   public hotProducts: AFP_Product[];
+  /** 瀑布流控制項目 */
+  private waterFallOption: waterFallOption = {
+    currentPage: 1,
+    totalPage: 0,
+    isLoad: false
+  };
   /** 目前頁數熱門商品瀑布流頁數 */
-  public currentPage = 1;
-  /** 目前頁數熱門商品瀑布流總頁數 */
-  public totalPage: number;
+  // public currentPage = 1;
+  // /** 目前頁數熱門商品瀑布流總頁數 */
+  // public totalPage: number;
 
   /** 使用者服務 */
   public ftTop: AFP_Function[] = [];
@@ -335,7 +341,7 @@ export class EntranceComponent implements OnInit {
       SelectMode: 2,
       Cart_Count: 0,
       Model_BasePage: {
-        Model_Page: this.currentPage
+        Model_Page: this.waterFallOption.currentPage
       },
       SearchModel: {
         IndexChannel_Code: 31000001,
@@ -347,12 +353,13 @@ export class EntranceComponent implements OnInit {
       switch (action) {
         case 1:
           this.hotProducts = data.List_HotProduct;
-          this.totalPage = data.Model_BaseResponse.Model_TotalPage;
+          this.waterFallOption.totalPage = data.Model_BaseResponse.Model_TotalPage;
           break;
         case 2:
           for (const hotProduct of data.List_HotProduct) {
             this.hotProducts.push(hotProduct);
           }
+          this.waterFallOption.isLoad = false;
           break;
       }
     });
@@ -361,12 +368,24 @@ export class EntranceComponent implements OnInit {
   /** 近期熱門商品瀑布流 */
   @HostListener('window: scroll', ['$event'])
   prodWaterfall(event: Event): void {
-    if ((Math.floor(window.scrollY + window.innerHeight) >= document.documentElement.offsetHeight - 1)
-      && this.currentPage < this.totalPage) {
-      this.appService.openBlock();
-      this.currentPage++;
-      this.readhotProducts(2);
+    // 是否到底部
+    const IS_BOTTOM = document.documentElement.scrollHeight - document.documentElement.scrollTop <= document.documentElement.clientHeight;
+    if(IS_BOTTOM) {
+      if (!this.waterFallOption.isLoad) {
+        this.waterFallOption.currentPage++;
+        if (this.waterFallOption.currentPage <= this.waterFallOption.totalPage) {
+          this.waterFallOption.isLoad = true;
+          this.appService.openBlock();
+          this.readhotProducts(2);
+        }
+      }
     }
+    // if ((Math.floor(window.scrollY + window.innerHeight) >= document.documentElement.offsetHeight - 1)
+    //   && this.currentPage < this.totalPage) {
+    //   this.appService.openBlock();
+    //   this.currentPage++;
+    //   this.readhotProducts(2);
+    // }
   }
 
 
@@ -622,4 +641,14 @@ interface Search_OtherInfo {
   UserDefineCode: number;
   /** 商品頻道編號 */
   IndexChannel_Code?: number;
+}
+
+/** 瀑布流option */
+interface waterFallOption {
+  /** 目前頁數 */
+  currentPage: number;
+  /** 總頁數 */
+  totalPage: number;
+  /** 瀑布流是否正在call api */
+  isLoad: boolean;
 }
