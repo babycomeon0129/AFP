@@ -1,11 +1,11 @@
-import { Location } from '@angular/common';
+import { ActivatedRoute} from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { AppService } from '@app/app.service';
+import { Request_MemberQuestion, Response_MemberQuestion, AFP_QuestionCategory, AFP_QuestionContent } from '@app/_models';
 import { Meta, Title } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
 import { layerAnimation } from '@app/animations';
 import { AppJSInterfaceService } from '@app/app-jsinterface.service';
-import { AppService } from '@app/app.service';
-import { AFP_QuestionCategory, AFP_QuestionContent, Request_MemberQuestion, Response_MemberQuestion } from '@app/_models';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-qa',
@@ -149,7 +149,6 @@ export class QAComponent implements OnInit {
   /** 若從APP登入頁進入則按回上一頁時APP把此頁關掉 */
   backIf(): void {
     if (this.fromAppLogin) {
-      this.callApp.appShowMobileFooter(true);
       this.callApp.appWebViewClose();
     } else {
       this.location.back();

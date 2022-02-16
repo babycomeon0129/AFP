@@ -1,9 +1,9 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
-import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 import { AppService } from '@app/app.service';
 import { Request_MemberQuestion, Response_MemberQuestion } from '@app/_models';
+import { Meta, Title } from '@angular/platform-browser';
+import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 
 @Component({
   selector: 'app-mpoints',
@@ -50,7 +50,6 @@ export class MPointsComponent implements OnInit {
   /** 若從APP登入頁進入則按回上一頁時APP把此頁關掉 */
   backIf(): void {
     if (this.fromAppLogin) {
-      this.callApp.appShowMobileFooter(true);
       this.callApp.appWebViewClose();
     } else {
       this.location.back();
