@@ -23,13 +23,11 @@ export class AppDownloadComponent implements OnInit {
     if (navigator.userAgent.match(/android/i)) {
       //  Android
       this.DeviceType = 1;
-      this.appService.isApp = 1;
       this.UrlLink = 'https://play.google.com/store/apps/details?id=com.eyesmedia.afp';
       this.GoDownload();
     } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
       //  IOS
       this.DeviceType = 2;
-      this.appService.isApp = 1;
       this.UrlLink = 'https://itunes.apple.com/app/id1512321552';
       this.GoDownload();
     }
