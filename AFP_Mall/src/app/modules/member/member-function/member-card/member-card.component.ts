@@ -5,9 +5,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { layerAnimation } from '@app/animations';
 import { AppJSInterfaceService } from '@app/app-jsinterface.service';
 import { AppService } from '@app/app.service';
-import { AFP_ADImg, AFP_UserFavourite, AFP_UserReport, Request_MemberMyCard, Response_MemberMyCard } from '@app/modules/member/_module-member';
+import {
+  AFP_ADImg, AFP_UserFavourite, AFP_UserReport,
+  Request_MemberMyCard, Response_MemberMyCard
+} from '@app/modules/member/_module-member';
+import { OauthService } from '@app/modules/oauth/oauth.service';
 import { ModalService } from '@app/shared/modal/modal.service';
-import { OauthService } from './../../../oauth/oauth.service';
 
 @Component({
   selector: 'app-member-card',

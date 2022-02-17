@@ -43,9 +43,6 @@ export class HomeComponent implements OnInit {
       this.appService.loginState = true;
       this.readIndexData();
     }
-    if (this.appService.isApp === 1 || this.oauthService.cookiesGet('deviceType').cookieVal > '0') {
-      this.callApp.appShowMobileFooter(true);
-    }
   }
 
   /** 讀取首頁資料 */
