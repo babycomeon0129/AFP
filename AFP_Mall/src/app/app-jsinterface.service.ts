@@ -16,12 +16,16 @@ export class AppJSInterfaceService {
    * @param isOpen true: 開 , false: 關
    */
    appShowMobileFooter(isOpen: boolean): void {
-    if (navigator.userAgent.match(/android/i)) {
-      //  Android
-      AppJSInterface.showBottomBar(isOpen);
-    } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-      //  IOS
-      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showBottomBar', isShow: isOpen });
+    if (this.appService.isApp === 1) {
+      if (navigator.userAgent.match(/android/i)) {
+        //  Android
+        console.log('AOS', this.appService.isApp, isOpen);
+        AppJSInterface.showBottomBar(isOpen);
+      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+        //  IOS
+        console.log('IOS', this.appService.isApp, isOpen);
+        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showBottomBar', isShow: isOpen });
+      }
     }
   }
 

@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { AppService } from '@app/app.service';
-import { ModalService } from '@app/shared/modal/modal.service';
-import { Router, ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { AFP_UserFavourite, AFP_UserReport, AFP_ADImg,
-         Request_MemberMyCard, Response_MemberMyCard } from '@app/modules/member/_module-member';
 import { Meta, Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 import { layerAnimation } from '@app/animations';
 import { AppJSInterfaceService } from '@app/app-jsinterface.service';
+import { AppService } from '@app/app.service';
+import { AFP_ADImg, AFP_UserFavourite, AFP_UserReport, Request_MemberMyCard, Response_MemberMyCard } from '@app/modules/member/_module-member';
+import { ModalService } from '@app/shared/modal/modal.service';
 
 @Component({
   selector: 'app-member-card',
