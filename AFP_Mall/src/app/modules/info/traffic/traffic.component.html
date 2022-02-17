@@ -3,7 +3,7 @@
     <div class="header-secondary container linebt-row">
         <div class="index-flex justify-content-between">
             <div class="item two">
-                <div class="close-btn" onclick="history.back();" data-toggle="tooltip" data-placement="bottom" title="回上一頁" [hidden]="(appService.isApp !== null && appService.isApp !== 0)">
+                <div class="close-btn" onclick="history.back();callApp.appShowMobileFooter(true);" data-toggle="tooltip" data-placement="bottom" title="回上一頁" [hidden]="(appService.isApp !== null && appService.isApp !== 0)">
                     <i class="material-icons">&#xe314;</i>
                 </div>
             </div>

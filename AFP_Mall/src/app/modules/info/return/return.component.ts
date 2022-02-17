@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { AppService } from '@app/app.service';
-import { Request_MemberQuestion, Response_MemberQuestion } from '@app/_models';
+import { Component, OnInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { AppJSInterfaceService } from '@app/app-jsinterface.service';
+import { AppService } from '@app/app.service';
+import { Request_MemberQuestion, Response_MemberQuestion } from '@app/_models';
 
 @Component({
   selector: 'app-return',
@@ -18,7 +18,7 @@ export class ReturnComponent implements OnInit {
   /** 是否從APP登入頁進入（若從APP登入頁進入則按回上一頁時APP把此頁關掉） */
   public fromAppLogin = false;
 
-  constructor(public appService: AppService, private meta: Meta, private title: Title, private location: Location, private callApp: AppJSInterfaceService) {
+  constructor(public appService: AppService, private meta: Meta, private title: Title, private location: Location, public callApp: AppJSInterfaceService) {
     this.title.setTitle('退貨流程 - Mobii!');
     this.meta.updateTag({ name: 'description', content: 'Mobii! - 退貨流程。描述Mobii! 平台針對商品進行退貨，以及如何處理後續例如款項退回、商品寄回等細節項目。' });
     this.meta.updateTag({ content: '退貨流程 - Mobii!', property: 'og:title' });
