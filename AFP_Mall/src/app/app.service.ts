@@ -555,7 +555,7 @@ export class AppService {
       // tag = _self
       if (this.isApp === 1) {
         // app訪問 a連結
-        location.href = url;
+        location.href = url + '?isApp=1';
       } else {
         if (url.startsWith('https') || url.startsWith('http')) {
           // 絕對路徑
