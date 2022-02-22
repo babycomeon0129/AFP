@@ -53,7 +53,7 @@
                       <div class="item one">手機號碼<span style="color: red;">*</span></div>
                       <div class="item three">
                           <input type="tel" class="form-control" placeholder="請輸入" name="consumerPhone" #consumerPhone="ngModel"
-                          [(ngModel)]="info.phone" required pattern="^09\d{8}$" maxlength="10">
+                          [(ngModel)]="info.phone" pattern="[0-9]*" appDigitOnly required>
                           <!-- pattern同時驗證了maxlength因此下方錯誤提示只使用pattern判斷 -->
                           <small class="d-flex justify-content-end text-danger"
                             *ngIf="(consumerPhone.pristine && consumerPhone.errors?.pattern) ||

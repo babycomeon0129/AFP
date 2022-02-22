@@ -46,7 +46,7 @@
             </div>
             <div class="item two auto-left">
               <input type="tel" #Vphone="ngModel" name="Vphone" class="form-control" id="Vphone" placeholder="請輸入"
-                pattern="^09\d{8}$" [(ngModel)]="deliveryForm.RecMobile" appDigitOnly maxlength="10" required>
+               [(ngModel)]="deliveryForm.RecMobile" pattern="[0-9]*" appDigitOnly required>
             </div>
           </li>
           <li>
