@@ -927,6 +927,7 @@ button.open-page {
   position: fixed;
   overflow-x: hidden;
   overflow-y: auto;
+  -webkit-overflow-scrolling: auto;
   background-color: #fff;
   min-height: 100vh;
   height: 100%;

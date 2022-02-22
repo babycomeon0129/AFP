@@ -187,7 +187,7 @@
   background: $gray-light5;
   height: -webkit-fit-content;
   height: 100%;
-  min-height: calc(100vh - 74px);
+  min-height: 100vh;
   padding: 1em 1em 4em 1em;
   .tied-card-item {
     margin-bottom: 1em;
@@ -302,4 +302,7 @@
 }
 .fixed-top-context {
   padding-top: 74px;
+}
+.layerTrig {
+  position: relative;
 }

@@ -1,84 +1,86 @@
 <div class="wrap container bg-white">
   <!--我的卡片1-->
-  <header>
-    <div class="header-secondary container">
-      <div class="index-flex justify-content-between">
-        <div class="item two">
-          <div class="close-btn">
-            <button type="button" class="btn" [routerLink]="['/Member']" title="回上一頁">
-              <i class="material-icons">&#xe314;</i><span>我的</span>
-            </button>
+  <div *ngIf="layerTrig === 0">
+    <header>
+      <div class="header-secondary container">
+        <div class="index-flex justify-content-between">
+          <div class="item two">
+            <div class="close-btn">
+              <button type="button" class="btn" [routerLink]="['/Member']" title="回上一頁">
+                <i class="material-icons">&#xe314;</i><span>我的</span>
+              </button>
+            </div>
           </div>
-        </div>
-        <div class="item three text-center">
-          <div class="title-name">我的卡片</div>
-        </div>
-        <div class="item two">
+          <div class="item three text-center">
+            <div class="title-name">我的卡片</div>
+          </div>
+          <div class="item two">
+          </div>
         </div>
       </div>
-    </div>
-  </header>
-  <main>
-    <div>
-      <div class="my-info-box border-bottom-0">
-        <div class="py-3 text-bluedk">
-          <p class="font-bold text-center pt-3 pb-1">現在就綁定卡片吧！</p>
-          <p class="text-muted">快綁定指定卡片，有一堆好禮優惠可以拿喔~</p>
-        </div>
-        <!-- 一般綁卡 -->
-        <div class="my-card-box">
-          <div class="p-2">
-            <p class="font-bold">一般綁卡</p>
+    </header>
+    <main>
+      <div>
+        <div class="my-info-box border-bottom-0">
+          <div class="py-3 text-bluedk">
+            <p class="font-bold text-center pt-3 pb-1">現在就綁定卡片吧！</p>
+            <p class="text-muted">快綁定指定卡片，有一堆好禮優惠可以拿喔~</p>
           </div>
-          <div class="row">
-            <div class="col-6" *ngFor="let cardGeneral of cardGeneralList">
-              <div *ngIf="cardGeneral.UserReport_IsShow !== 0">
-                <div class="mycard-container">
-                  <button class="btn-card" [disabled]="cardGeneral.UserReport_State === 0"
-                  [routerLink]="['/MemberFunction/MemberCard']" [queryParams]="{showBack: true, itemCode: cardGeneral.UserReport_ItemCode, layerParam: 1}">
-                    <div class="card-img-box">
-                      <img class="img-icon" src="../img/member/my_ipass_icon.png" [hidden]="cardGeneral.UserReport_ItemCode === 11">
-                      <img class="img-icon" src="../img/member/my_easycard_icon.png" [hidden]="cardGeneral.UserReport_ItemCode === 1">
-                      <img class="img-plus" src="../img/member/plus.png">
-                      <div class="img-txt">
-                        {{ cardGeneral.UserReport_ItemCode === 1 ? '一卡通/一卡通聯名卡' : '悠遊卡'}}
+          <!-- 一般綁卡 -->
+          <div class="my-card-box">
+            <div class="p-2">
+              <p class="font-bold">一般綁卡</p>
+            </div>
+            <div class="row">
+              <div class="col-6" *ngFor="let cardGeneral of cardGeneralList">
+                <div *ngIf="cardGeneral.UserReport_IsShow !== 0">
+                  <div class="mycard-container">
+                    <button class="btn-card" [disabled]="cardGeneral.UserReport_State === 0"
+                    [routerLink]="['/MemberFunction/MemberCard']" [queryParams]="{showBack: true, itemCode: cardGeneral.UserReport_ItemCode, layerParam: 1}">
+                      <div class="card-img-box">
+                        <img class="img-icon" src="../img/member/my_ipass_icon.png" [hidden]="cardGeneral.UserReport_ItemCode === 11">
+                        <img class="img-icon" src="../img/member/my_easycard_icon.png" [hidden]="cardGeneral.UserReport_ItemCode === 1">
+                        <img class="img-plus" src="../img/member/plus.png">
+                        <div class="img-txt">
+                          {{ cardGeneral.UserReport_ItemCode === 1 ? '一卡通/一卡通聯名卡' : '悠遊卡'}}
+                        </div>
                       </div>
-                    </div>
-                  </button>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <!-- 特殊綁卡(廣告版位) -->
-        <div class="my-card-box" *ngIf="cardADList.length > 0">
-          <div class="p-2">
-            <p class="font-bold">專區</p>
-          </div>
-          <div class="p-0">
-            <div class="row w-100">
-              <div class="col-6" *ngFor="let cardImg of cardADList">
-                <div class="mycard-container">
-                  <a [href]="cardImg?.ADImg_URL | nullHref : router.url"
-                    [target]="cardImg?.ADImg_URLTarget | nullTarget : cardImg?.ADImg_URL : router.url" rel="noopener noreferrer">
-                    <div class="card-img-box">
-                      <div class="rwdimg h60" [lazyLoad]="cardImg.ADImg_Img" [defaultImage]="appService.defaultImage"></div>
-                    </div>
-                  </a>
+          <!-- 特殊綁卡(廣告版位) -->
+          <div class="my-card-box" *ngIf="cardADList.length > 0">
+            <div class="p-2">
+              <p class="font-bold">專區</p>
+            </div>
+            <div class="p-0">
+              <div class="row w-100">
+                <div class="col-6" *ngFor="let cardImg of cardADList">
+                  <div class="mycard-container">
+                    <a [href]="cardImg?.ADImg_URL | nullHref : router.url"
+                      [target]="cardImg?.ADImg_URLTarget | nullTarget : cardImg?.ADImg_URL : router.url" rel="noopener noreferrer">
+                      <div class="card-img-box">
+                        <div class="rwdimg h60" [lazyLoad]="cardImg.ADImg_Img" [defaultImage]="appService.defaultImage"></div>
+                      </div>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <!-- 已綁定的卡片 -->
-        <div class="card-fixed-bottom tied" [hidden]="layerTrig !== 0">
-          <a class="btn-tied-card" [routerLink]="['/MemberFunction/MemberCard']" [queryParams]="{showBack: true, itemCode: cardItemCode, layerParam: 2}">
-            已綁定的卡片<i class="material-icons">&#xe315;</i>
-          </a>
+          <!-- 已綁定的卡片 -->
+          <div class="card-fixed-bottom tied" [hidden]="layerTrig !== 0">
+            <a class="btn-tied-card" [routerLink]="['/MemberFunction/MemberCard']" [queryParams]="{showBack: true, itemCode: cardItemCode, layerParam: 2}">
+              已綁定的卡片<i class="material-icons">&#xe315;</i>
+            </a>
+          </div>
         </div>
       </div>
-    </div>
-  </main>
+    </main>
+  </div>
 
   <!--新增卡片-->
   <div class="layerTrig container" [@layerTrigger] *ngIf="layerTrig === 1">
