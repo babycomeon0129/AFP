@@ -20,11 +20,9 @@ export class AppJSInterfaceService {
     if (this.appService.isApp === 1) {
       if (this.ua.match(/android/i)) {
         //  Android
-        console.log('AOS', this.appService.isApp, isOpen);
         AppJSInterface.showBottomBar(isOpen);
       } else if (this.ua.match(/(iphone|ipad|ipod);?/i)) {
         //  IOS
-        console.log('IOS', this.appService.isApp, isOpen);
         (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showBottomBar', isShow: isOpen });
       }
     }
