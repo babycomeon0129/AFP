@@ -131,7 +131,7 @@ export class AppComponent implements OnInit, OnDestroy {
     // TODO 點10下用
     setInterval(() => {
       this.test =
-      'Ver: ' + environment.version + '\n' +
+      'Ver: ' + environment.version + '_' + environment.versionDate + '\n' +
       'isApp: ' + this.appService.isApp + '\n' +
       'deviceType: ' + this.oauthService.cookiesGet('deviceType').cookieVal + '\n' +
       location.href ;
