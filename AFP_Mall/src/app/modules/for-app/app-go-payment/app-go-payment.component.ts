@@ -12,7 +12,7 @@ export class AppGoPaymentComponent implements OnInit {
 
   /** 整理過後購物車資料(呈現) */
   public cartList = [];
-  /** 支付頁面 1 : 一般 2: 電子票卷 */
+  /** 支付頁面 1 : 一般 2: 電子票券 */
   private checkoutType = '1';
 
   constructor(public appService: AppService, private router: Router, private activatedRoute: ActivatedRoute,

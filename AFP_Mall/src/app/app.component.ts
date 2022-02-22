@@ -111,13 +111,12 @@ export class AppComponent implements OnInit, OnDestroy {
       this.appService.userLoggedIn = true;
     }
     this.appService.getPushPermission();
+    this.appService.receiveMessage();
     // 當路由器成功完成路由的解析階段時，先通知app將footer關閉(開啟則靠app-mobile-footer通知開啟)
     this.router.events.pipe(filter(event => event instanceof ResolveEnd))
       .subscribe((event: ResolveEnd) => {
         window.scrollTo(0, 0);
-        if (this.appService.isApp === 1) {
-          this.callApp.appShowMobileFooter(false);
-        }
+        this.callApp.appShowMobileFooter(false);
         this.appService.prevUrl = event.url;  // 取得前一頁面url
         // 追蹤每個頁面資訊，推送給GA
         // const gtmTag = {
@@ -160,13 +159,13 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param minVer 目前Angular支援該目標的最低版本
    */
   detectOld(): void {
-    const ua = navigator.userAgent;
+    const ua = navigator.userAgent.toLowerCase();
     const targetList = [
       {
         target: 'iOS',
         type: 0,
-        condition: ua.match(/iPhone|iPad|iPod/i) !== null,
-        matchRegex: ua.match(/OS\s([0-9\.]*)/i),
+        condition: ua.match(/iphone|ipad|ipod/i) !== null,
+        matchRegex: ua.match(/os\s([0-9\.]*)/i),
         minVer: 12
       },
       {
@@ -179,29 +178,29 @@ export class AppComponent implements OnInit, OnDestroy {
       {
         target: 'Chrome',
         type: 1,
-        condition: ua.includes('Chrome') && !ua.includes('Edg'),
-        matchRegex: ua.match(/Chrome\/([0-9]+)\./),
+        condition: ua.includes('chrome') && !ua.includes('edg'),
+        matchRegex: ua.match(/chrome\/([0-9]+)\./),
         minVer: 86
       },
       {
         target: 'Firefox',
         type: 1,
-        condition: ua.includes('Firefox'),
-        matchRegex: ua.match(/Firefox\/([0-9]+)\./),
+        condition: ua.includes('firefox'),
+        matchRegex: ua.match(/firefox\/([0-9]+)\./),
         minVer: 83
       },
       {
-        target: 'Edge',
+        target: 'edge',
         type: 1,
-        condition: ua.includes('Edg'),
-        matchRegex: ua.match(/Edg\/([0-9]+)\./),
+        condition: ua.includes('edg'),
+        matchRegex: ua.match(/edg\/([0-9]+)\./),
         minVer: 86
       },
       {
         target: 'Safari',
         type: 1,
-        condition: ua.includes('Safari') && !ua.includes('Chrome'),
-        matchRegex: ua.match(/Safari\/([0-9]+)\./),
+        condition: ua.includes('safari') && !ua.includes('chrome'),
+        matchRegex: ua.match(/safari\/([0-9]+)\./),
         minVer: 13
       }
     ];

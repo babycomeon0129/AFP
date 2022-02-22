@@ -115,7 +115,7 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
       if (voucher.Voucher_DedPoint > 0 && voucher.Voucher_IsFreq === 1) {
         this.modal.confirm({
           initialState: {
-            message: `請確定是否扣除 Mobii! Points ${voucher.Voucher_DedPoint} 點兌換「${voucher.Voucher_ExtName}」？`
+            message: `請確定是否扣除 Mobii! Points ${this.appService.toCurrency(voucher.Voucher_DedPoint)} 點兌換「${voucher.Voucher_ExtName}」？`
           }
         }).subscribe(res => {
           if (res) {
@@ -272,27 +272,27 @@ export class VoucherDetailComponent implements OnInit, OnDestroy {
 
 }
 
-/** 優惠卷詳細 RequestModel */
+/** 優惠券詳細 RequestModel */
 interface Request_ECVoucherDetail extends Model_ShareData {
   /** 搜尋Model */
   SearchModel: Search_ECVoucherDetail;
 }
 
-/** 優惠卷詳細 SearchModel */
+/** 優惠券詳細 SearchModel */
 interface Search_ECVoucherDetail {
-  /** 優惠卷Code */
+  /** 優惠券Code */
   Voucher_Code?: number;
-  /** 使用者優惠卷Code */
+  /** 使用者優惠券Code */
   UserVoucher_Code?: number;
 }
 
-/** 優惠卷詳細 Responsedel */
+/** 優惠券詳細 Responsedel */
 interface Response_ECVoucherDetail extends Model_ShareData {
-  /** 優惠卷 */
+  /** 優惠券 */
   AFP_Voucher: AFP_Voucher;
-  /** 使用者優惠卷 */
+  /** 使用者優惠券 */
   AFP_UserVoucher: AFP_UserVoucher;
-  /** 優惠卷 - 線下商家 */
+  /** 優惠券 - 線下商家 */
   List_ECStore: AFP_ECStore[];
 }
 

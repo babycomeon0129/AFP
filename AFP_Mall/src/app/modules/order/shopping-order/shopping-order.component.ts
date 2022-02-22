@@ -830,7 +830,7 @@ class OrderInfo {
 class Request_CreateOrder extends Model_ShareData {
   /** 訂單資訊 */
   List_Order: AFP_Order[];
-  /** 使用者優惠卷資訊 */
+  /** 使用者優惠券資訊 */
   List_UserVoucher: AFP_UserVoucher[];
   /** 購物車資訊 */
   List_Cart: AFP_Cart[];
@@ -839,7 +839,7 @@ class Request_CreateOrder extends Model_ShareData {
 class Response_CreateOrder extends Model_ShareData {
   /** 訂單編號 [多個逗號區隔] */
   OrderNo: string;
-  /** 平台優惠卷ID [使用者優惠卷ID] */
+  /** 平台優惠券ID [使用者優惠券ID] */
   UserVoucher_ID?: number;
   /** 下架商品清單 */
   List_DiscontinuedProducts?: string;

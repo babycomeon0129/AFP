@@ -264,7 +264,7 @@ export class Request_MemberPoint extends Model_ShareData {
 export class Search_MemberPoint {
   /** 點數類型 0: 待入賬，1: 獲得，11: 已使用 */
   UserPoint_Type?: number;
-  /** 優惠卷頻道編碼 */
+  /** 優惠券頻道編碼 */
   VouChannel_Code?: number;
 }
 

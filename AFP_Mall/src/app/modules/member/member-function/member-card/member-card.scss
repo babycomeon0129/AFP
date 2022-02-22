@@ -185,8 +185,10 @@
 /** 已綁定卡片 */
 .tied-card-list {
   background: $gray-light5;
-  height: calc(100vh - 74px);
-  padding: 1em;
+  height: -webkit-fit-content;
+  height: 100%;
+  min-height: calc(100vh - 74px);
+  padding: 1em 1em 4em 1em;
   .tied-card-item {
     margin-bottom: 1em;
     padding: 1em;
@@ -295,41 +297,9 @@
   }
 }
 
-/** 榮民卡 */
-.addCertificate {
-  .bg-linear-gray {
-    width: 100%;
-    padding: 2em;
-    text-align: center;
-    justify-content: center;
-    background: -webkit-linear-gradient(top, #fbfdfd, #eaeaea);
-    background: -o-linear-gradient(bottom, #fbfdfd, #eaeaea);
-    background: -moz-linear-gradient(bottom, #fbfdfd, #eaeaea);
-    background: linear-gradient(to bottom, #fbfdfd, #eaeaea);
-  }
-  img.logo {
-    margin-top: 1.5em;
-    margin-bottom: 1.5em;
-    width: 240px;
-    height: 240px;
-    @media (max-width: 767px) {
-      width: 120px;
-      height: 120px;
-    }
-  }
-  .veterans-info {
-    width: 100%;
-    padding: 1.5em;
-    line-height: 2.5em;
-    div {
-      width: 100%;
-    }
-    .input-box input[type='text'] {
-      text-align: left;
-      border-top: 0;
-      border-left: 0;
-      border-right: 0;
-      border-bottom: 1px solid #ccc;
-    }
-  }
+.title-box.fixed-top {
+  background-color: white;
+}
+.fixed-top-context {
+  padding-top: 74px;
 }

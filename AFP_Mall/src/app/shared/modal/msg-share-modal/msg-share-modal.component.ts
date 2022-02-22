@@ -19,7 +19,8 @@ export class MsgShareModalComponent implements OnInit {
 
   ngOnInit() {
     this.subModal = 0;
-    this.pageUrl = decodeURI(location.href);
+    this.pageUrl = decodeURI(location.href).split('?')[0];
+    this.sharedText = this.sharedText.replace(/[<>&'":]/g, '');
   }
 
   /**

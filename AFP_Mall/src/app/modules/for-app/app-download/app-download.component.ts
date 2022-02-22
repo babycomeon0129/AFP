@@ -13,7 +13,6 @@ export class AppDownloadComponent implements OnInit {
   /** 裝置類型 1 安卓 2 ios */
   public DeviceType = 1;
   constructor(public appService: AppService) {
-    this.appService.isApp = 1;
     this.Show();
   }
 

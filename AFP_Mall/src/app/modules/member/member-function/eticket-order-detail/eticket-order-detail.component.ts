@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AppService } from '@app/app.service';
-import { Request_MemberOrder, Response_MemberOrder, AFP_MemberOrder, AFP_ECStore, AFP_ItemInfoPart, AFP_Voucher,
-          Model_ShareData, AFP_Services, Request_MemberServices, Response_MemberServices } from '@app/_models';
-import { ModalService } from '@app/shared/modal/modal.service';
 import { Meta, Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 import { layerAnimation } from '@app/animations';
+import { AppService } from '@app/app.service';
+import { ModalService } from '@app/shared/modal/modal.service';
+import {
+    AFP_ECStore, AFP_ItemInfoPart, AFP_MemberOrder, AFP_Services, AFP_Voucher,
+    Model_ShareData, Request_MemberOrder, Request_MemberServices, Response_MemberOrder, Response_MemberServices
+} from '@app/_models';
 
 @Component({
   selector: 'app-eticket-order-detail',
@@ -127,19 +129,19 @@ export class ETicketOrderDetailComponent implements OnInit {
 
 }
 
-/** 電子票卷退票 RequestModel */
+/** 電子票券退票 RequestModel */
 interface Request_MemberTicketRefund extends Model_ShareData {
   /** SearchModel */
   SearchModel: Search_MemberTicketRefund;
 }
 
-/** 電子票卷退票 RequestModel  SearchModel */
+/** 電子票券退票 RequestModel  SearchModel */
 interface Search_MemberTicketRefund {
   /** 訂單編號 */
   Order_TableNo: number;
 }
 
-/** 電子票卷退票 ResponseModel */
+/** 電子票券退票 ResponseModel */
 class Response_MemberTicketRefund extends Model_ShareData {
   constructor() {
     super();

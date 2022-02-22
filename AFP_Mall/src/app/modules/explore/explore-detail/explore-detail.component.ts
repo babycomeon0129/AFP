@@ -156,7 +156,6 @@ export class ExploreDetailComponent implements OnInit {
           }
           // 顯示網站判定
           if (data.Model_ECStore.ECStore_WebURL !== null && data.Model_ECStore.ECStore_WebURL.trim() !== '') {
-            console.log(this.websitesArr);
             this.websitesArr.push({ siteName: '官方網站', siteUrl: data.Model_ECStore.ECStore_WebURL });
           }
           if (data.Model_ECStore.ECStore_FBURL !== null && data.Model_ECStore.ECStore_FBURL.trim() !== '') {
@@ -245,6 +244,6 @@ interface Request_AreaDetail extends Model_ShareData {
 interface Search_AreaDetail {
   /** 電商編碼 */
   ECStore_Code: number;
-  /** 書籤Index  1:商家介紹  2: 優惠卷 3: 線上商城 */
+  /** 書籤Index  1:商家介紹  2: 優惠券 3: 線上商城 */
   TabIndex: number;
 }

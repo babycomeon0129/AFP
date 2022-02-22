@@ -9,6 +9,7 @@ declare var AppJSInterface: any;
 export class AppJSInterfaceService {
   AppJSInterface: any;
 
+  private ua = navigator.userAgent.toLowerCase();
 
   constructor(private appService: AppService) { }
 
@@ -16,12 +17,14 @@ export class AppJSInterfaceService {
    * @param isOpen true: 開 , false: 關
    */
    appShowMobileFooter(isOpen: boolean): void {
-    if (navigator.userAgent.match(/android/i)) {
-      //  Android
-      AppJSInterface.showBottomBar(isOpen);
-    } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
-      //  IOS
-      (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showBottomBar', isShow: isOpen });
+    if (this.appService.isApp === 1) {
+      if (this.ua.match(/android/i)) {
+        //  Android
+        AppJSInterface.showBottomBar(isOpen);
+      } else if (this.ua.match(/(iphone|ipad|ipod);?/i)) {
+        //  IOS
+        (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showBottomBar', isShow: isOpen });
+      }
     }
   }
 
@@ -30,10 +33,10 @@ export class AppJSInterfaceService {
    */
    appShowBackButton(isShowBt: boolean): void {
     if (this.appService.isApp === 1) {
-      if (navigator.userAgent.match(/android/i)) {
+      if (this.ua.match(/android/i)) {
         // Android
         AppJSInterface.showBackButton(isShowBt);
-      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+      } else if (this.ua.match(/(iphone|ipad|ipod);?/i)) {
         // IOS
         (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showBackButton', isShow: isShowBt });
       }
@@ -45,10 +48,10 @@ export class AppJSInterfaceService {
    */
   appWebViewbutton(isOpen: boolean): void {
     if (this.appService.isApp === 1) {
-      if (navigator.userAgent.match(/android/i)) {
+      if (this.ua.match(/android/i)) {
         //  Android
         AppJSInterface.showCloseButton(isOpen);
-      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+      } else if (this.ua.match(/(iphone|ipad|ipod);?/i)) {
         //  IOS
         (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'showCloseButton', isShow: isOpen });
       }
@@ -58,10 +61,10 @@ export class AppJSInterfaceService {
   /** 通知App關閉web view */
   appWebViewClose(): void {
     if (this.appService.isApp === 1) {
-      if (navigator.userAgent.match(/android/i)) {
+      if (this.ua.match(/android/i)) {
         //  Android
         AppJSInterface.back();
-      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+      } else if (this.ua.match(/(iphone|ipad|ipod);?/i)) {
         //  IOS
         (window as any).webkit.messageHandlers.AppJSInterface.postMessage({ action: 'back' });
       }
@@ -73,10 +76,10 @@ export class AppJSInterfaceService {
    */
   goAppExploreDetail(code: number): void {
     if (this.appService.isApp === 1) {
-      if (navigator.userAgent.match(/android/i)) {
+      if (this.ua.match(/android/i)) {
         //  Android
         AppJSInterface.goAppExploreDetail(code);
-      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+      } else if (this.ua.match(/(iphone|ipad|ipod);?/i)) {
         //  IOS
         (window as any).webkit.messageHandlers.AppJSInterface
         .postMessage({ action: 'goAppExploreDetail', storeId: code });
@@ -87,10 +90,10 @@ export class AppJSInterfaceService {
   /** 如果是app，開啟產品資訊頁時導到原生產品資訊頁 */
   goAppShoppingDetail(code: number, code1: number): void {
     if (this.appService.isApp === 1) {
-      if (navigator.userAgent.match(/android/i)) {
+      if (this.ua.match(/android/i)) {
         //  Android
         AppJSInterface.goAppShoppingDetail(code, code1);
-      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+      } else if (this.ua.match(/(iphone|ipad|ipod);?/i)) {
         //  IOS
         (window as any).webkit.messageHandlers.AppJSInterface
         .postMessage({ action: 'goAppShoppingDetail', productId: code, userDefineCode: code1 });
@@ -103,10 +106,10 @@ export class AppJSInterfaceService {
    */
    getLoginData(userInfo: string, code: string, name: string): void {
     if (this.appService.isApp === 1) {
-      if (navigator.userAgent.match(/android/i)) {
+      if (this.ua.match(/android/i)) {
         //  Android
         AppJSInterface.getLoginData(userInfo, code, name);
-      } else if (navigator.userAgent.match(/(iphone|ipad|ipod);?/i)) {
+      } else if (this.ua.match(/(iphone|ipad|ipod);?/i)) {
         //  IOS
         if ((window as any).webkit) {
           if ((window as any).webkit.messageHandlers) {

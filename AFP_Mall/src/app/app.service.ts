@@ -76,11 +76,13 @@ export class AppService {
               private angularFireMessaging: AngularFireMessaging, private oauthService: OauthService) {
     // firebase message設置。這裡在幹嘛我也不是很懂
     // 詳：https://stackoverflow.com/questions/61244212/fcm-messaging-issue
-    this.angularFireMessaging.messages.subscribe(
-      (_messaging: AngularFireMessaging) => {
-        _messaging.onMessage = _messaging.onMessage.bind(_messaging);
-        _messaging.onTokenRefresh = _messaging.onTokenRefresh.bind(_messaging);
-      });
+    if (navigator.userAgent.toLowerCase().includes('chrome') || !navigator.userAgent.toLowerCase().includes('safari')) {
+      this.angularFireMessaging.messages.subscribe(
+        (_messaging: AngularFireMessaging) => {
+          _messaging.onMessage = _messaging.onMessage.bind(_messaging);
+          _messaging.onTokenRefresh = _messaging.onTokenRefresh.bind(_messaging);
+        });
+    }
   }
 
   toApi(ctrl: string, command: string, request: any, lat: number = null, lng: number = null, deviceCode?: string): Observable<any> {
@@ -105,6 +107,14 @@ export class AppService {
         //   console.log('isApp', this.isApp, command, data);
         // }
 
+        // 當未存userId時，需存入cookie
+        if (!this.cookieService.get('UserId')) {
+          if (data.CustomerDetail != null) {
+            this.oauthService.cookiesSet({
+              UserId: data.CustomerDetail.UserId
+            });
+          }
+        }
         switch (data.Base.Rtn_State) {
           case 1:
             /** 「艾斯身份識別_更新idToken」 */
@@ -342,7 +352,7 @@ export class AppService {
           if (voucher.Voucher_DedPoint > 0) {
             this.confirm({
               initialState: {
-                message: `請確定是否扣除 Mobii! Points ${voucher.Voucher_DedPoint} 點兌換「${voucher.Voucher_ExtName}」？`
+                message: `請確定是否扣除 Mobii! Points ${this.toCurrency(voucher.Voucher_DedPoint)} 點兌換「${voucher.Voucher_ExtName}」？`
               }
             }).subscribe(res => {
               // 點選確定扣點
@@ -397,6 +407,13 @@ export class AppService {
     }
   }
 
+  /** 千分位轉換 */
+  toCurrency(num: number) {
+    const parts = num.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+  }
+
   /** 確認視窗(爲解決循環依賴，僅提供appservice使用) */
   confirm(options: ModalOptions): Observable<any> {
     const ModalRef = this.bsModalService.show(ConfirmModalComponent, options);
@@ -447,23 +464,36 @@ export class AppService {
 
   /** 向firebase message 請求token */
   getPushPermission(): void {
-    this.angularFireMessaging.requestToken.subscribe(
-      (token) => {
-        if (this.deviceCode === null) {
-          this.deviceCode = this.guid();
-          localStorage.setItem('M_DeviceCode', this.deviceCode);
+    if (navigator.userAgent.toLowerCase().includes('chrome') || !navigator.userAgent.toLowerCase().includes('safari')) {
+      this.angularFireMessaging.requestToken.subscribe(
+        (token) => {
+          if (this.deviceCode === null) {
+            this.deviceCode = this.guid();
+            localStorage.setItem('M_DeviceCode', this.deviceCode);
+          }
+          const fireBaseToken = localStorage.getItem('FireMessaging_token') || null ;
+          // 如果localStorage沒有存token或存放的token不是新版，更新token並傳給後端(api 1113)
+          if (fireBaseToken === null || fireBaseToken !== token) {
+            localStorage.setItem('FireMessaging_token', token);
+            this.toPushApi(token);
+          }
+        },
+        (err) => {
+          console.error('Unable to get permission to notify.', err);
         }
-        const fireBaseToken = localStorage.getItem('FireMessaging_token') || null ;
-        // 如果localStorage沒有存token或存放的token不是新版，更新token並傳給後端(api 1113)
-        if (fireBaseToken === null || fireBaseToken !== token) {
-          localStorage.setItem('FireMessaging_token', token);
-          this.toPushApi(token);
-        }
-      },
-      (err) => {
-        console.error('Unable to get permission to notify.', err);
-      }
-    );
+      );
+    }
+  }
+
+  /** 接收推播訊息 */
+  receiveMessage() {
+    if (navigator.userAgent.toLowerCase().includes('chrome') || !navigator.userAgent.toLowerCase().includes('safari')) {
+      this.angularFireMessaging.messages.subscribe(
+        (payload) => {
+          // console.log('Message received. ', payload);
+          this.currentMessage.next(payload);
+        });
+    }
   }
 
   /** 推播-取得含device code的新消費者包 */
@@ -511,44 +541,39 @@ export class AppService {
     }
   }
 
-  /** 網頁跳轉（瀏覽器會紀錄連結的歷史紀錄） */
-  jumpHref(link: string, tag: string) {
-    switch (tag) {
-      case '_blank':
-        if (link.slice(0, 1) === '/') {
-          // blank需要絕對路徑
-          window.open(location.origin + link, tag);
-        } else {
-          window.open(link, tag);
-        }
-        break;
-      default:
-        if (link.startsWith('https') || link.startsWith('http')) {
+  /** 網頁跳轉（瀏覽器會紀錄連結的歷史紀錄）
+   * @param url 前往網址
+   * @param tag 連結的target
+   */
+   goToLink(url: string, tag: string): void {
+    if (tag === '_blank') {
+      // blank需要絕對路徑
+      (url.slice(0, 1) === '/') ?
+        window.open(location.origin + url, tag) :
+        window.open(url, tag);
+    } else {
+      // tag = _self
+      if (this.isApp === 1) {
+        // app訪問 a連結
+        location.href = url + '?isApp=1';
+      } else {
+        if (url.startsWith('https') || url.startsWith('http')) {
           // 絕對路徑
-          const openUrl = new URL(link);
+          const openUrl = new URL(url);
           if (openUrl.host !== location.host) {
-            location.href = link;
-          } else {
-            // 若絕對路徑為站內連結
-            if (link.includes('?')) {
-              // 若原有參數則帶著前往
-              const selfUrl = link.split('?')[0];
-              this.router.navigate([selfUrl], { queryParams: this.route.snapshot.queryParams });
-            } else {
-              this.router.navigate([link]);
-            }
+            location.href = url;
           }
         } else {
           // 相對路徑
-          if (link.includes('?')) {
+          if (url.includes('?')) {
             // 若原有參數則帶著前往
-            const selfUrl = link.split('?')[0];
+            const selfUrl = url.split('?')[0];
             this.router.navigate([selfUrl], { queryParams: this.route.snapshot.queryParams });
           } else {
-            this.router.navigate([link]);
+            this.router.navigate([url]);
           }
         }
-        break;
+      }
     }
   }
 

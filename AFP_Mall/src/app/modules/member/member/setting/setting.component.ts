@@ -27,11 +27,6 @@ export class SettingComponent implements OnInit {
   ngOnInit() {
   }
 
-  /** 前往關於我 */
-  goToAbout(): void {
-    window.open('https://mobii.ai/Official/about.html?utm_source=MobiiWeb&utm_medium=Footer', '_self');
-  }
-
   toLogout(): void {
     // 清除session、cookie、我的收藏資料，重置登入狀態及通知數量
     this.appService.loginState = false;
