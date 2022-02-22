@@ -560,7 +560,12 @@ export class AppService {
       } else {
         if (url.startsWith('https') || url.startsWith('http')) {
           // 絕對路徑
-          location.href = url;
+          const openUrl = new URL(url);
+          if (openUrl.host !== location.host) {
+            window.open(url, '_self');
+          } else {
+            location.href = url;
+          }
         } else {
           // 相對路徑
           if (url.includes('?')) {
