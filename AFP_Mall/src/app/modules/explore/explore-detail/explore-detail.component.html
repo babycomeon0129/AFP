@@ -59,21 +59,21 @@
                     class="rwdimg-cover rounded-circle">
                   </div>
                 </div>
-                <div class="store-title">
+                <div class="store-title w-100">
                   <small class="text-index small-80">{{siteInfo?.ECStore_TypeName}}
                     <span *ngIf="siteInfo?.ECStore_Type !== 1000" class="text-muted small-70">
                       • {{siteInfo?.ECStore_Distance | currency: '':'':'1.0-0'}} m
                     </span>
+                    <div *ngIf="siteInfo?.ECStore_Type < 2000 && this.JustKaUrl !== null" class="item one">
+                      <button (click)="appService.showJustka(this.JustKaUrl)" type="button" class="btn shopping-store-btn">
+                        <img src="../../../../img/callcar/category_chat.png" class="h20">
+                        <span>聯絡店家</span>
+                      </button>
+                    </div>
                   </small>
                   <p>{{siteInfo?.ECStore_ShowName}}</p>
                 </div>
               </div>
-            </div>
-            <div *ngIf="siteInfo?.ECStore_Type < 2000 && this.JustKaUrl !== null" class="item one align-self-end">
-              <button (click)="appService.showJustka(this.JustKaUrl)" type="button" class="btn shopping-store-btn">
-                <img src="../../../../img/callcar/category_chat.png" class="h20">
-                <span>聯絡店家</span>
-              </button>
             </div>
           </div>
           <div class="referral-box" *ngIf="ecstoreLink.length > 0">
