@@ -30,8 +30,8 @@
         </div>
         <div class="col-12 pb-3">
           <input type="tel" placeholder="請輸入註冊時使用的手機號碼" id="vphone" name="AFPAccount" #AFPAccount="ngModel"
-            (input)="checkAccount()" [ngClass]="{'bb-org': AFPAccount.touched && AFPAccount.invalid}" appDigitOnly maxlength="10"
-            [(ngModel)]="request.VerifiedInfo.VerifiedPhone" pattern="^09\d{8}$" class="text-left" required>
+            (input)="checkAccount()" [ngClass]="{'bb-org': AFPAccount.touched && AFPAccount.invalid}" appDigitOnly
+            [(ngModel)]="request.VerifiedInfo.VerifiedPhone" class="text-left" pattern="[0-9]*" appDigitOnly required>
           <div class="small-warning pl-0 warningNote visible">
             <span *ngIf="AFPAccount.touched && AFPAccount.invalid">格式錯誤，請重新輸入</span></div>
           <div class="small-warning pl-0 warningNote visible">

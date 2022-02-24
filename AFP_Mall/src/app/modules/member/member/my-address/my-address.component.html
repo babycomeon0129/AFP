@@ -74,7 +74,7 @@
               </div>
               <div class="item auto-left">
                 <input type="text" placeholder="請輸入" name="addressMobile" #addressMobile="ngModel"
-                  [(ngModel)]="requestAddress.UserFavourite_Text2" required pattern="^09\d{8}$" maxlength="10">
+                  [(ngModel)]="requestAddress.UserFavourite_Text2" required  pattern="[0-9]*" appDigitOnly>
               </div>
             </li>
             <li>

@@ -37,7 +37,7 @@
             <div class="col-12 pb-3">
                 <input type="tel" appDigitOnly name="MobileVerify" #MobileVerify="ngModel" [(ngModel)]="requestMobileVerify.VerifiedInfo.VerifiedPhone"
                 [ngClass]="{'bb-org': MobileVerify.touched && MobileVerify.invalid}" class="text-left"
-                placeholder="例：0912345678" pattern="^09\d{8}$" maxlength="10" required id="vphone">
+                placeholder="例：0912345678"  pattern="[0-9]*" appDigitOnly required id="vphone">
                 <div *ngIf="MobileVerify.touched && MobileVerify.invalid" class="small-warning pl-0 warningNote"><span>格式錯誤，請重新輸入</span></div>
             </div>
             <div class="col-12 text-left">

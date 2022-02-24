@@ -138,8 +138,8 @@
                 <div class="d-flex w-100">
                   <div class="item">卡片號碼<span class="text-org">*</span></div>
                   <div class="item input-box">
-                    <input type="text" inputmode="numeric" pattern="[0-9]*" [minlength]="cardNumberMinlength" maxlength="16" name="cardNumber" placeholder="請輸入"
-                    [(ngModel)]="inputModel.cardNumber" #cardNumber="ngModel" appDigitOnly autofocus required>
+                    <input type="text" inputmode="numeric" [minlength]="cardNumberMinlength" maxlength="16" name="cardNumber" placeholder="請輸入"
+                    [(ngModel)]="inputModel.cardNumber" #cardNumber="ngModel" autofocus pattern="[0-9]*" appDigitOnly required>
                   </div>
                 </div>
                 <div class="small-warning text-right">
