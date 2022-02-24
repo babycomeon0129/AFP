@@ -522,11 +522,12 @@ export class AppService {
   /** 分享功能
    * @param sharedContent 分享內容文案
    * @param APPShareUrl APP分享時使用的url（直接抓當前url在APP中會帶入使用者相關資訊因此不使用）
+   * @param msgCode 分享活動頁面的該頁面活動編碼（目前僅限於活動頁分享，用於計算分享次數）
    */
-  shareContent(sharedContent: string, APPShareUrl: string): void {
+  shareContent(sharedContent: string, APPShareUrl: string, msgCodeValue?: number): void {
     if (this.isApp === null) {
       // web
-      this.bsModalService.show(MsgShareModalComponent, { initialState: { sharedText: sharedContent } });
+      this.bsModalService.show(MsgShareModalComponent, { initialState: { sharedText: sharedContent, msgCode: msgCodeValue } });
     } else {
       // APP: 呼叫APP分享功能
       if (navigator.userAgent.match(/android/i)) {

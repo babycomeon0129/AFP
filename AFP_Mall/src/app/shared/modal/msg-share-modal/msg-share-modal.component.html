@@ -8,28 +8,28 @@
     <div class="mb-5">
       <h6 class="dataTit p-2">分享給好友</h6>
       <!-- fb post -->
-      <a href="https://www.facebook.com/sharer.php?display=popup&amp;u={{pageUrl}}&amp;quote={{sharedText}}">
+      <a href="https://www.facebook.com/sharer.php?display=popup&amp;u={{pageUrl}}&amp;quote={{sharedText}}" (click)="shareTimes()">
         <button class="btn bg-fb border-radius30 small-80 w-80 text-white m-2" type="button"><img
             src="../img/share/facebook-w.png" class="h24 mx-2">用 Facebook 分享</button>
       </a>
       <!-- fb messenger for PC -->
       <a href="http://www.facebook.com/dialog/send?app_id={{FBAppID}}&amp;link={{pageUrl}}&amp;redirect_uri={{pageUrl}}"
-        class="d-none d-lg-block">
+        class="d-none d-lg-block" (click)="shareTimes()">
         <button class="btn bg-mess border-radius30 small-80 w-80 text-white m-2" type="button"><img
             src="../img/share/messenger-w.png" class="h24 mx-2">用 Messenger 傳送</button>
       </a>
       <!-- fb messenger for mobile -->
-      <a [href]="'fb-messenger://share/?link=' + pageUrl | Safe: 'url'" class="d-lg-none">
+      <a [href]="'fb-messenger://share/?link=' + pageUrl | Safe: 'url'" class="d-lg-none" (click)="shareTimes()">
         <button class="btn bg-mess border-radius30 small-80 w-80 text-white m-2" type="button"><img
             src="../img/share/messenger-w.png" class="h24 mx-2">用 Messenger 傳送</button>
       </a>
       <!-- LINE -->
-      <a [href]="'https://line.me/R/share?text=' + sharedText + pageUrl">
+      <a [href]="'https://line.me/R/share?text=' + sharedText + pageUrl" (click)="shareTimes()">
         <button class="btn bg-line border-radius30 small-80 w-80 text-white m-2" type="button">
           <img src="../img/share/line-w.png" class="h24 mx-2">用 LINE 傳送</button>
       </a>
       <!-- 複製網址 -->
-      <button class="btn bg-eee border-radius30 small-80 w-80 text-bluedk m-2" type="button" (click)="onCopyUrl();"><img
+      <button class="btn bg-eee border-radius30 small-80 w-80 text-bluedk m-2" type="button" (click)="onCopyUrl();shareTimes()"><img
           src="../img/share/copyicon-s.png" class="h24 mx-2">複製連結</button>
     </div>
   </div>

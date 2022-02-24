@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AppService } from '@app/app.service';
+import { Request_MemberMsg, Response_MemberMsg } from '@app/_models';
 import { environment } from '@env/environment';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 
@@ -14,7 +17,9 @@ export class MsgShareModalComponent implements OnInit {
   sharedText: string;
   /** 訊息視窗切換 */
   subModal: number;
-  constructor(public bsModalRef: BsModalRef) {
+  /** 分享活動頁面的該頁面活動編碼（目前僅限於活動頁分享，用於計算分享次數） */
+  msgCode: number;
+  constructor(public bsModalRef: BsModalRef, private appService: AppService, private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit() {
@@ -69,6 +74,20 @@ export class MsgShareModalComponent implements OnInit {
     document.body.removeChild(el);
     this.subModal = 1;
     // this.bsModal.show(MessageModalComponent,{ initialState: { success: true, message: '已複製網址!', showType: 1 } });
+  }
+
+  /** 計算活動頁分享次數 */
+  shareTimes(): void {
+    // 只在活動詳細頁作用
+    if (this.router.url.includes('NotificationDetail')) {
+      const request: Request_MemberMsg = {
+        SelectMode: 7,
+        SearchModel: {
+          Message_Code: this.msgCode
+        }
+      }
+      this.appService.toApi('Member', '1517', request).subscribe((data: Response_MemberMsg) => {});
+    }
   }
 
   /** 取得設備iOS版本
