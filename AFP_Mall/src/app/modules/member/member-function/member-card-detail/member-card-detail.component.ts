@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { BsModalRef } from 'ngx-bootstrap/modal';
-import { ModalService } from '@app/shared/modal/modal.service';
-import { AFP_UserFavourite, Request_MemberMyCard, Response_MemberMyCard } from '@app/modules/member/_module-member';
 import { NgForm } from '@angular/forms';
-import { AppService } from '@app/app.service';
-import { Router, ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AppService } from '@app/app.service';
+import { AFP_UserFavourite, CardGroup_List, Request_MemberMyCard, Response_MemberMyCard } from '@app/modules/member/_module-member';
+import { ModalService } from '@app/shared/modal/modal.service';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-member-card-detail',
@@ -15,8 +15,10 @@ import { Meta, Title } from '@angular/platform-browser';
 export class MemberCardDetailComponent implements OnInit {
   /** 修改卡片 ngForm request */
   public requestCard: AFP_UserFavourite = new AFP_UserFavourite();
-  /** 卡片群組列表篩選連結不為空 */
-  public cardGroupList = [];
+  /** 卡片群組列表 */
+  public cardGroupList: CardGroup_List[] = [];
+  /** 卡片群組列表 篩選連結不為空 */
+  public cardGroupList_Link: CardGroup_List[] = [];
   /** 卡片群組名稱 */
   public cardGroupName: string;
   /** 卡片群組縮圖預設 */
@@ -33,6 +35,8 @@ export class MemberCardDetailComponent implements OnInit {
   public userFavouriteTypeCode: string;
   /** 卡片類型名稱 */
   public userFavouriteTypeName: string;
+  /** 是否顯示刪除按鈕 0:隱藏, 1:顯示 */
+  public CardGroup_UnbindFlag: number = null;
 
   constructor(public appService: AppService, public modal: ModalService, public bsModalRef: BsModalRef,
               private meta: Meta, private title: Title, private route: ActivatedRoute, private router: Router) {
@@ -87,9 +91,12 @@ export class MemberCardDetailComponent implements OnInit {
             {queryParams: {showBack: true, itemCode: this.userFavouriteTypeCode, layerParam: 2}});
         }
         this.requestCard = data.AFP_UserFavourite;
+        console.log(this.requestCard);
         if (this.requestCard.CardGroup_List !== null) {
+          this.cardGroupList = this.requestCard.CardGroup_List;
           this.cardGroupName = this.requestCard.CardGroup_List[0].CardGroup_Name;
           this.cardGroupImg = this.requestCard.CardGroup_List[0].CardGroup_Img;
+          this.CardGroup_UnbindFlag = this.requestCard.CardGroup_List[0].CardGroup_UnbindFlag;
         } else {
           data.AFP_UserReport.forEach(item => {
             if (item.UserReport_ItemCode === parseInt(this.userFavouriteTypeCode, 10)) {
@@ -104,7 +111,8 @@ export class MemberCardDetailComponent implements OnInit {
           });
         }
         if (this.requestCard.CardGroup_List !== null) {
-          this.cardGroupList = this.requestCard.CardGroup_List.filter(item => (item.CardGroup_Link !== null && item.CardGroup_State === 0));
+          this.cardGroupList_Link = this.requestCard.CardGroup_List
+            .filter(item => (item.CardGroup_Link !== null && item.CardGroup_State === 0));
         }
       });
     }

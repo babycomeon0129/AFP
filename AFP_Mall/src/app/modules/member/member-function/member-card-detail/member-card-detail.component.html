@@ -27,7 +27,7 @@
             <li class="bg-linear-gray">
                 <button type="button" class="btn card-delete">
                   <div class="img-logo" [lazyLoad]="cardGroupImg" [defaultImage]="cardGroupImgDef">
-                    <div *ngIf="requestCard.UserFavourite_TypeCode !== 12" (click)="btnDel()">
+                    <div *ngIf="cardGroupList.length === 0 || CardGroup_UnbindFlag === 1" (click)="btnDel()">
                       <img src="../../img/member/delete.png" class="img-del">
                     </div>
                   </div>
@@ -51,8 +51,8 @@
             <li class="card-line-height">
               <div class="item">卡片群組<span class="text-org">*</span></div>
               <div class="item">
-                <div class="tied-card-tag" *ngIf="requestCard.CardGroup_List !== null">
-                  <span class="special-card" *ngFor="let item of requestCard.CardGroup_List">
+                <div class="tied-card-tag">
+                  <span class="special-card" *ngFor="let item of cardGroupList">
                       {{item.CardGroup_Name}}
                   </span>
                 </div>
@@ -68,21 +68,21 @@
             </li>
           </ul>
         </div>
-        <div class="item pb-5" *ngIf="(cardGroupList.length !== 0 && requestCard.CardGroup_List !== null)">
-          <a [href]="cardGroupList[0].CardGroup_Link| Safe: 'url'" rel="noopener noreferrer"
-            class="group-link" *ngIf="cardGroupList.length === 1">
+        <div class="item pb-5" *ngIf="(cardGroupList_Link.length > 0)">
+          <a [href]="cardGroupList_Link[0].CardGroup_Link| Safe: 'url'" rel="noopener noreferrer"
+            class="group-link" *ngIf="cardGroupList_Link.length === 1">
             <p class="item">會員限定優惠
               <i class="material-icons">&#xe315;</i>
             </p>
           </a>
-          <div class="group-link" *ngIf="cardGroupList.length > 1" (click)="this.cardGroupLink = !this.cardGroupLink">
+          <div class="group-link" *ngIf="cardGroupList_Link.length > 1" (click)="this.cardGroupLink = !this.cardGroupLink">
             <p class="item">會員限定優惠
               <i [ngClass]="{'material-icons': true, 'up': cardGroupLink}">&#xe313;</i>
             </p>
           </div>
           <div class="group-link-box" *ngIf="cardGroupLink">
             <div class="row">
-              <div class="col-4 col-sm-4 col-md-3 col-xl-2" *ngFor="let groupItem of cardGroupList">
+              <div class="col-4 col-sm-4 col-md-3 col-xl-2" *ngFor="let groupItem of cardGroupList_Link">
                 <a [href]="groupItem.CardGroup_Link | Safe: 'url'" rel="noopener noreferrer">
                   <div class="img-logo" [lazyLoad]="groupItem.CardGroup_Thumbnail" [defaultImage]="cardGroupThumbnailDef"></div>
                   <p class="txt-line-clamp1">{{groupItem.CardGroup_Name}}</p>

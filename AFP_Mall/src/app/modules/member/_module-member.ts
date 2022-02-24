@@ -231,6 +231,8 @@ export interface CardGroup_List {
   CardGroup_VarParamA?: string;
   /** 字串備用欄位 */
   CardGroup_VarParamB?: string;
+  /** 是否顯示刪除按鈕 0:隱藏, 1:顯示 */
+  CardGroup_UnbindFlag?: number;
 }
 
 
