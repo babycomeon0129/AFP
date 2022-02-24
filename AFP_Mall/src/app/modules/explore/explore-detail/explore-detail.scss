@@ -176,6 +176,11 @@
       .store-title {
         font-weight: bold;
         font-size: 1.1em;
+        .text-index {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+        }
       }
     }
     .shopping-store-btn {
